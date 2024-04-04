@@ -32,7 +32,7 @@ export default async function AdminProducts() {
           }}
         />
       </Toolbar>
-      <ProductList />
+      <ProductList isVendor />
     </>
   );
 }

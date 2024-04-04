@@ -48,16 +48,22 @@ const LabelStyle = styled(Typography)(({ theme }) => ({
 export default function ProductForm({
   categories,
   currentProduct,
-
   categoryLoading = false,
   isInitialized = false,
-  brands
+  brands,
+  isVendor
 }) {
   const router = useRouter();
   const [loading, setloading] = React.useState(false);
   const { mutate, isLoading: updateLoading } = useMutation(
     currentProduct ? 'update' : 'new',
-    currentProduct ? api.updateProduct : api.newProduct,
+    currentProduct
+      ? isVendor
+        ? api.updateVendorProduct
+        : api.updateProduct
+      : isVendor
+        ? api.createVendorProduct
+        : api.newProduct,
     {
       onSuccess: (data) => {
         toast.success(data.message);
@@ -747,6 +753,7 @@ ProductForm.propTypes = {
   }),
   categoryLoading: PropTypes.bool,
   isInitialized: PropTypes.bool,
+  isVendor: PropTypes.bool,
   brands: PropTypes.arrayOf(
     PropTypes.shape({
       _id: PropTypes.string.isRequired,

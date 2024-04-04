@@ -26,7 +26,7 @@ const TABLE_HEAD = [
   { id: '', label: 'Actions', alignRight: true }
 ];
 
-export default function AdminProducts({ brands, categories }) {
+export default function AdminProducts({ brands, categories, isVendor }) {
   const searchParams = useSearchParams();
   const pageParam = searchParams.get('page');
   const searchParam = searchParams.get('search');
@@ -36,7 +36,7 @@ export default function AdminProducts({ brands, categories }) {
 
   const { data, isLoading } = useQuery(
     ['admin-products', apicall, searchParam, pageParam],
-    () => api.getAdminProducts(+pageParam || 1, searchParam || ''),
+    () => api[isVendor ? 'getVendorProducts' : 'getAdminProducts'](+pageParam || 1, searchParam || ''),
     {
       onError: (err) => toast.error(err.response.data.message || 'Something went wrong!')
     }
@@ -79,5 +79,6 @@ export default function AdminProducts({ brands, categories }) {
 }
 AdminProducts.propTypes = {
   brands: PropTypes.array.isRequired,
-  categories: PropTypes.array.isRequired
+  categories: PropTypes.array.isRequired,
+  isVendor: PropTypes.boolean
 };

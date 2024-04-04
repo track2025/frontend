@@ -206,8 +206,8 @@ export default function Sidebar({ handleDrawerClose, handleDrawerOpen, open }) {
                   display: 'block',
                   borderRadius: '8px',
                   border: `1px solid transparent`,
-                  ...((pathname.split('/')?.length > 3 ? '/dashboard/' + pathname.split('/')[2] : active) ===
-                    '/dashboard' + item.slug &&
+                  ...((pathname.split('/')?.length > 3 ? '/vendor/' + pathname.split('/')[2] : active) ===
+                    '/vendor' + item.slug &&
                     initial && {
                       bgcolor: (theme) => alpha(theme.palette.primary.main, 0.2),
                       border: (theme) => `1px solid ${theme.palette.primary.main}`,
@@ -221,8 +221,8 @@ export default function Sidebar({ handleDrawerClose, handleDrawerOpen, open }) {
                 <Tooltip title={open ? '' : item.title} placement="left" arrow leaveDelay={200}>
                   <ListItemButton
                     onClick={() => {
-                      setActive('/dashboard' + item.slug);
-                      router.push('/dashboard' + item.slug);
+                      setActive('/vendor' + item.slug);
+                      router.push('/vendor' + item.slug);
                       isMobile && handleDrawerClose();
                     }}
                     sx={{

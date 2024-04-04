@@ -54,7 +54,13 @@ export default function ProductRow({ isLoading, row, handleClickOpen }) {
                 }
               }}
             >
-              <BlurImage alt={row?.name} src={row?.images[0]?.url} layout="fill" objectFit="cover" />
+              <BlurImage
+                alt={row?.name}
+                blurDataURL={row?.image.blurDataURL}
+                src={row?.image.url}
+                layout="fill"
+                objectFit="cover"
+              />
             </Box>
           )}
           <Typography variant="subtitle2" noWrap>
@@ -133,7 +139,7 @@ export default function ProductRow({ isLoading, row, handleClickOpen }) {
               </IconButton>
             </Link>
             <Tooltip title="Edit">
-              <IconButton onClick={() => router.push(`/dashboard/products/${row.slug}`)}>
+              <IconButton onClick={() => router.push(`/vendor/products/${row.slug}`)}>
                 <MdEdit />
               </IconButton>
             </Tooltip>

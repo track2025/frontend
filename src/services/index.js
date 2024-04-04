@@ -50,6 +50,11 @@ export const getProductBySlug = async (slug) => {
   const { data } = await http.get(`/products/${slug}`);
   return data;
 };
+export const getVendorProductBySlug = async (slug) => {
+  const { data } = await http.get(`/vendor/products/${slug}`);
+  return data;
+};
+
 export const getProductReviews = async (pid) => {
   const { data } = await http.get(`/reviews/${pid}`);
   return data;
@@ -268,6 +273,10 @@ export const getAdminProducts = async (page, search) => {
   const { data: response } = await http.get(`/admin/products?search=${search}&page=${page}`);
   return response;
 };
+export const getVendorProducts = async (page, search) => {
+  const { data: response } = await http.get(`/vendor/products?search=${search}&page=${page}`);
+  return response;
+};
 export const deleteProduct = async (slug) => {
   const { data: response } = await http.delete(`/admin/products/${slug}`);
   return response;
@@ -278,6 +287,14 @@ export const newProduct = async (payload) => {
 };
 export const updateProduct = async ({ currentSlug, ...payload }) => {
   const { data: response } = await http.put(`/admin/products/${currentSlug}`, payload);
+  return response;
+};
+export const createVendorProduct = async (payload) => {
+  const { data: response } = await http.post(`/vendor/products`, payload);
+  return response;
+};
+export const updateVendorProduct = async ({ currentSlug, ...payload }) => {
+  const { data: response } = await http.put(`/vendor/products/${currentSlug}`, payload);
   return response;
 };
 

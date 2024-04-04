@@ -33,7 +33,7 @@ export default async function page({ params }) {
           ]}
         />
       </Toolbar>
-      <EditProduct brands={brands} categories={categories} slug={params.slug} />
+      <EditProduct brands={brands} categories={categories} slug={params.slug} isVendor />
     </div>
   );
 }

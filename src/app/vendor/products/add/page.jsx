@@ -34,7 +34,7 @@ export default async function page() {
           ]}
         />
       </Toolbar>
-      <AddProduct brands={brands} categories={categories} />
+      <AddProduct brands={brands} categories={categories} isVendor />
     </div>
   );
 }

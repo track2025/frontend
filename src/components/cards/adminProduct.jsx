@@ -80,13 +80,17 @@ export default function AdminProductCard({ item, isLoading, handleClickOpen }) {
           <Stack direction="row" alignItems="center" spacing={2}>
             {isLoading ? (
               <Skeleton variant="rectangular" width={56} height={56} sx={{ borderRadius: 1 }} />
-            ) : Boolean(item.images[0]?.url) ? (
-              <ThumbImgStyle>
-                <BlurImage priority fill alt={item?.name} src={item?.images[0]?.url} objectFit="cover" />
-              </ThumbImgStyle>
             ) : (
-              // <ThumbImgStyle alt={item?.name} src={item?.cover} />
-              <Avatar>{item.name.slice(0, 1)}</Avatar>
+              <ThumbImgStyle>
+                <BlurImage
+                  priority
+                  fill
+                  alt={item?.name}
+                  blurDataURL={item?.image.blurDataURL}
+                  src={item?.image.url}
+                  objectFit="cover"
+                />
+              </ThumbImgStyle>
             )}
             <Stack spacing={0.3}>
               <Typography noWrap variant="h6" lineHeight={1.3}>
