@@ -27,7 +27,7 @@ export default async function AdminProducts() {
             }
           ]}
           action={{
-            href: `/dashboard/products/add`,
+            href: `/vendor/products/add`,
             title: 'Add Product'
           }}
         />
