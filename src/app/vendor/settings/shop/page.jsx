@@ -1,16 +1,15 @@
 import React from 'react';
-
-// components
-import ProductList from 'src/components/_admin/products/productList';
+// Components
 import Toolbar from 'src/components/_admin/toolbar';
+import ShopSettingMain from 'src/components/_admin/vendor/settings/shopSettings';
 import HeaderBreadcrumbs from 'src/components/headerBreadcrumbs';
 // Meta information
 export const metadata = {
-  title: 'Products - Nextall',
+  title: 'Categories - Nextall',
   applicationName: 'Nextall',
   authors: 'Nextall'
 };
-export default async function AdminProducts() {
+export default function ShopSetting() {
   return (
     <>
       <Toolbar>
@@ -23,16 +22,16 @@ export default async function AdminProducts() {
               href: '/'
             },
             {
-              name: 'Products'
+              name: 'Settings',
+              href: '/dashboard/settings'
+            },
+            {
+              name: 'Shop Settings'
             }
           ]}
-          action={{
-            href: `/vendor/products/add`,
-            title: 'Add Product'
-          }}
         />
       </Toolbar>
-      <ProductList isVendor />
+      <ShopSettingMain />
     </>
   );
 }

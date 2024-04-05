@@ -57,7 +57,7 @@ export default function AdminProducts({ brands, categories, isVendor }) {
           onClose={handleClose}
           id={id}
           apicall={setApicall}
-          endPoint="deleteProduct"
+          endPoint={isVendor ? 'deleteVendorProduct' : 'deleteProduct'}
           type={'Product deleted'}
           deleteMessage={
             'Are you really sure you want to remove this product? Just making sure before we go ahead with it.'

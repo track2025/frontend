@@ -13,7 +13,7 @@ import { capitalize } from 'lodash';
 import { uniqueId } from 'lodash';
 // icons ;
 import { MdEdit, MdDelete } from 'react-icons/md';
-
+import { useRouter } from 'next/navigation';
 const RootStyle = styled(Paper)(({ theme }) => ({
   padding: '10px 10px 10px 16px',
   marginBottom: '0.5rem',
@@ -73,6 +73,7 @@ const ThumbImgStyle = styled(Box)(({ theme }) => ({
 
 export default function AdminProductCard({ item, isLoading, handleClickOpen }) {
   const theme = useTheme();
+  const router = useRouter();
   return (
     <RootStyle key={uniqueId()}>
       <Grid container alignItems="center">
@@ -147,11 +148,11 @@ export default function AdminProductCard({ item, isLoading, handleClickOpen }) {
                 <IconButton
                   className="btn-phone"
                   size="small"
-                  onClick={() => router.push(`/dashboard/products/${item?.slug}`)}
+                  onClick={() => router.push(`/vendor/products/${item?.slug}`)}
                 >
                   <MdEdit size={20} />
                 </IconButton>
-                <IconButton className="btn-phone" size="small" onClick={!isLoading && handleClickOpen(item._id)}>
+                <IconButton className="btn-phone" size="small" onClick={handleClickOpen(item.slug)}>
                   <MdDelete size={20} />
                 </IconButton>
               </Stack>

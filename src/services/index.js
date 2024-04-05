@@ -281,6 +281,10 @@ export const deleteProduct = async (slug) => {
   const { data: response } = await http.delete(`/admin/products/${slug}`);
   return response;
 };
+export const deleteVendorProduct = async (slug) => {
+  const { data: response } = await http.delete(`/vendor/products/${slug}`);
+  return response;
+};
 export const newProduct = async (payload) => {
   const { data: response } = await http.post(`/admin/products`, payload);
   return response;

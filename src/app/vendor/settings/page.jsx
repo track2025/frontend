@@ -24,6 +24,10 @@ export default function page() {
               name: 'Settings'
             }
           ]}
+          action={{
+            href: `/vendor/settings/shop`,
+            title: 'Shop Setting'
+          }}
         />
       </Toolbar>
       <AccountGeneral />
