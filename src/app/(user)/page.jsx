@@ -19,7 +19,7 @@ export default async function IndexPage() {
     <>
       <Hero />
       <TopBanners />
-      <Container fixed>
+      <Container maxWidth="xl">
         <Categories />
         <ShopComponent />
         <Suspense>
@@ -27,7 +27,7 @@ export default async function IndexPage() {
         </Suspense>
       </Container>
       <Banner />
-      <Container fixed>
+      <Container maxWidth="xl">
         <Suspense>
           <BestSeller />
         </Suspense>

@@ -15,19 +15,18 @@ export default function ShopCard({ ...props }) {
 
   return (
     <Card>
-      {isLoading ? (
-        <Skeleton
-          variant="circular"
-          sx={{
-            position: 'absolute',
-            height: '100%',
-            width: '100%'
-          }}
-        />
-      ) : (
-        <CardActionArea className="card-action-area" component={Link} href={`${baseUrl + shop?.slug}`}>
-          <CardContent>
-            <Stack direction="row" alignItems="center" spacing={3}>
+      <CardActionArea className="card-action-area" component={Link} href={`${baseUrl + shop?.slug}`}>
+        <CardContent>
+          <Stack direction="row" alignItems="center" spacing={3}>
+            {isLoading ? (
+              <Skeleton
+                variant="circular"
+                sx={{
+                  height: 72,
+                  width: 72
+                }}
+              />
+            ) : (
               <Box
                 sx={{
                   position: 'relative',
@@ -57,43 +56,43 @@ export default function ShopCard({ ...props }) {
                   sizes={'50vw'}
                 />
               </Box>
-              <Box>
-                <Typography
-                  {...(!isLoading && {
-                    component: Link,
-                    href: baseUrl + shop.slug
-                  })}
-                  color="text.primary"
-                  variant="h6"
-                  textAlign="center"
-                  noWrap
-                  className="title"
-                  sx={{ textTransform: 'capitalize' }}
-                >
-                  {isLoading ? <Skeleton variant="text" width={100} /> : shop?.title}
-                </Typography>
-                <Typography
-                  color="text.secondary"
-                  variant="body2"
-                  textAlign="center"
-                  noWrap
-                  className="title"
-                  sx={{ textTransform: 'capitalize', display: 'flex', alignItems: 'center' }}
-                >
-                  {isLoading ? (
-                    <Skeleton variant="text" width={100} />
-                  ) : (
-                    <>
-                      <IoLocationOutline />{' '}
-                      {shop?.address.streetAddress + ', ' + shop?.address.city + ', ' + shop?.address.country}
-                    </>
-                  )}
-                </Typography>
-              </Box>
-            </Stack>
-          </CardContent>
-        </CardActionArea>
-      )}
+            )}
+            <Box>
+              <Typography
+                {...(!isLoading && {
+                  component: Link,
+                  href: baseUrl + shop.slug
+                })}
+                color="text.primary"
+                variant="h6"
+                textAlign="center"
+                noWrap
+                className="title"
+                sx={{ textTransform: 'capitalize' }}
+              >
+                {isLoading ? <Skeleton variant="text" width={100} /> : shop?.title}
+              </Typography>
+              <Typography
+                color="text.secondary"
+                variant="body2"
+                textAlign="center"
+                noWrap
+                className="title"
+                sx={{ textTransform: 'capitalize', display: 'flex', alignItems: 'center' }}
+              >
+                {isLoading ? (
+                  <Skeleton variant="text" width={100} />
+                ) : (
+                  <>
+                    <IoLocationOutline />{' '}
+                    {shop?.address.streetAddress + ', ' + shop?.address.city + ', ' + shop?.address.country}
+                  </>
+                )}
+              </Typography>
+            </Box>
+          </Stack>
+        </CardContent>
+      </CardActionArea>
     </Card>
   );
 }
