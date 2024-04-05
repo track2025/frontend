@@ -234,6 +234,11 @@ export const homeCategroies = async () => {
   const { data } = await http.get(`/home/categories`);
   return data;
 };
+export const getHomeShops = async () => {
+  const { data } = await http.get(`/shops?limit=9`);
+  return data;
+};
+
 export const getBestSellingProducts = async () => {
   const { data } = await http.get(`/home/products/best-selling`);
   return data;
@@ -387,6 +392,7 @@ export const paymentIntents = async (amount) => {
   return data;
 };
 
+
 // shop
 export const shopSetting = async (payload) => {
   const { data } = await http.post(`/vendor/shops`, payload);
@@ -395,5 +401,7 @@ export const shopSetting = async (payload) => {
 
 export const updateShop = async ({ currentSid, ...payload }) => {
   const { data } = await http.put(`/vendor/shops/${currentSid}`, payload);
+
+
   return data;
 };
