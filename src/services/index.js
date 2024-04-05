@@ -382,3 +382,8 @@ export const paymentIntents = async (amount) => {
   });
   return data;
 };
+// shops
+export const getAllShops = async () => {
+  const { data } = await http.get(`/shops`);
+  return data;
+};
