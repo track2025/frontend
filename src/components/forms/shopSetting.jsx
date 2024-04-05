@@ -48,10 +48,11 @@ const LabelStyle = styled(Typography)(({ theme }) => ({
 
 const STATUS_OPTIONS = ['active', 'deactive'];
 
-export default function ShopSettingFrom({ data: currentCategory, isLoading: categoryLoading }) {
+export default function ShopSettingFrom({ data: currentSid, isLoading: categoryLoading }) {
   const router = useRouter();
 
   const [state, setstate] = useState({
+    logoLoading: false,
     loading: false,
     name: '',
     search: '',
@@ -59,17 +60,16 @@ export default function ShopSettingFrom({ data: currentCategory, isLoading: cate
   });
 
   const { mutate, isLoading } = useMutation(
-    currentCategory ? 'update' : 'new',
-    currentCategory ? api.updateCategory : api.addCategory,
+    currentSid ? 'update' : 'new',
+    currentSid ? api.updateShop : api.shopSetting,
     {
-      ...(currentCategory && {
-        enabled: Boolean(currentCategory)
+      ...(currentSid && {
+        enabled: Boolean(currentSid)
       }),
       retry: false,
       onSuccess: (data) => {
         toast.success(data.message);
-
-        router.push('/dashboard/categories');
+        // router.push('/dashboard/categories');
       },
       onError: (error) => {
         toast.error(error.response.data.message);
@@ -81,7 +81,7 @@ export default function ShopSettingFrom({ data: currentCategory, isLoading: cate
       toast.error(error.response.data.message);
     }
   });
-  const NewCategorySchema = Yup.object().shape({
+  const ShopSettingScema = Yup.object().shape({
     title: Yup.string().required('title is required'),
     cover: Yup.mixed().required('Cover is required'),
     logo: Yup.mixed().required('logo is required'),
@@ -90,47 +90,102 @@ export default function ShopSettingFrom({ data: currentCategory, isLoading: cate
     metaTitle: Yup.string().required('Meta title is required'),
     metaDescription: Yup.string().required('Meta description is required'),
     phone: Yup.string().required('Phone Number is required'),
-    holderName: Yup.string().required('Holder Name is required'),
-    holderEmail: Yup.string().required('Holder email is required'),
-    bankName: Yup.string().required('Bank name is required'),
-    AccountNo: Yup.string().required('Account No is required')
+    paymentInfo: Yup.object().shape({
+      holderName: Yup.string().required('Holder Name is required'),
+      holderEmail: Yup.string().required('Holder email is required'),
+      bankName: Yup.string().required('Bank name is required'),
+      AccountNo: Yup.number().required('Account No is required')
+    }),
+    address: Yup.object().shape({
+      country: Yup.string().required('Country is required'),
+      city: Yup.string().required('City is required'),
+      state: Yup.string().required('State is required'),
+      streetAddress: Yup.string().required('Street Address is required')
+    })
   });
 
   const formik = useFormik({
     initialValues: {
-      title: currentCategory?.title || '',
-      metaTitle: currentCategory?.metaTitle || '',
-      cover: currentCategory?.cover || null,
-      logo: currentCategory?.logo || null,
-      description: currentCategory?.description || '',
-      metaDescription: currentCategory?.metaDescription || '',
-      file: currentCategory?.cover || '',
-      slug: currentCategory?.slug || '',
-      phone: currentCategory?.phone || '',
-      holderName: currentCategory?.holderName || '',
-      holderEmail: currentCategory?.holderEmail || '',
-      bankName: currentCategory?.bankName || '',
-      AccountNo: currentCategory?.AccountNo || ''
+      title: currentSid?.title || '',
+      metaTitle: currentSid?.metaTitle || '',
+      cover: currentSid?.cover || null,
+      logo: currentSid?.logo || null,
+      description: currentSid?.description || '',
+      metaDescription: currentSid?.metaDescription || '',
+      file: currentSid?.cover || '',
+      slug: currentSid?.slug || '',
+      phone: currentSid?.phone || Number,
+      paymentInfo: {
+        holderName: currentSid?.holderName || '',
+        holderEmail: currentSid?.holderEmail || '',
+        bankName: currentSid?.bankName || '',
+        AccountNo: currentSid?.AccountNo || Number
+      },
+      address: {
+        country: currentSid?.address.country || '',
+        city: currentSid?.address.city || '',
+        state: currentSid?.address.state || '',
+        streetAddress: currentSid?.address.streetAddress || ''
+      }
     },
     enableReinitialize: true,
-    validationSchema: NewCategorySchema,
+    validationSchema: ShopSettingScema,
     onSubmit: async (values) => {
       const { ...rest } = values;
+      // console.log(...rest, 'reset');
       try {
         mutate({
           ...rest,
-          ...(currentCategory && {
-            currentSlug: currentCategory.slug
+          ...(currentSid && {
+            currentSlug: currentSid.slug
           })
         });
       } catch (error) {
         console.error(error);
       }
+      console.log(values, 'values');
+      alert('done');
     }
   });
   const { errors, values, touched, handleSubmit, setFieldValue, getFieldProps } = formik;
-
-  const handleDrop = async (acceptedFiles) => {
+  // handle drop logo
+  const handleDropLogo = async (acceptedFiles) => {
+    setstate({ ...state, loading: 2 });
+    const file = acceptedFiles[0];
+    if (file) {
+      Object.assign(file, {
+        preview: URL.createObjectURL(file)
+      });
+    }
+    setFieldValue('file', file);
+    const formData = new FormData();
+    formData.append('file', file);
+    formData.append('upload_preset', 'my-uploads');
+    const config = {
+      onUploadProgress: (progressEvent) => {
+        const { loaded, total } = progressEvent;
+        const percentage = Math.floor((loaded * 100) / total);
+        setstate({ ...state, logoLoading: percentage });
+      }
+    };
+    await axios
+      .post(`https://api.cloudinary.com/v1_1/${process.env.CLOUDINARY_CLOUD_NAME}/image/upload`, formData, config)
+      .then(({ data }) => {
+        setFieldValue('logo', {
+          _id: data.public_id,
+          url: data.secure_url
+        });
+        setstate({ ...state, loading: false });
+      })
+      .then(() => {
+        // if (values.file) {
+        //   deleteMutate(values.logo._id);
+        // }
+        setstate({ ...state, loading: false });
+      });
+  };
+  // handle drop cover
+  const handleDropCover = async (acceptedFiles) => {
     setstate({ ...state, loading: 2 });
     const file = acceptedFiles[0];
     if (file) {
@@ -159,13 +214,12 @@ export default function ShopSettingFrom({ data: currentCategory, isLoading: cate
         setstate({ ...state, loading: false });
       })
       .then(() => {
-        if (values.file) {
-          deleteMutate(values.cover._id);
-        }
+        // if (values.file) {
+        //   deleteMutate(values.cover._id);
+        // }
         setstate({ ...state, loading: false });
       });
   };
-
   const handleTitleChange = (event) => {
     const title = event.target.value;
     const slug = title
@@ -206,11 +260,11 @@ export default function ShopSettingFrom({ data: currentCategory, isLoading: cate
                       <UploadSingleFile
                         id="file"
                         file={values.logo}
-                        onDrop={handleDrop}
+                        onDrop={handleDropLogo}
                         error={Boolean(touched.logo && errors.logo)}
                         category
                         accept="image/*"
-                        loading={state.loading}
+                        loading={state.logoLoading}
                       />
                     )}
                     {touched.logo && errors.logo && (
@@ -355,17 +409,17 @@ export default function ShopSettingFrom({ data: currentCategory, isLoading: cate
                   ) : (
                     <UploadSingleFile
                       id="file"
-                      file={values.logo}
-                      onDrop={handleDrop}
-                      error={Boolean(touched.logo && errors.logo)}
+                      file={values.cover}
+                      onDrop={handleDropCover}
+                      error={Boolean(touched.cover && errors.cover)}
                       category
                       accept="image/*"
                       loading={state.loading}
                     />
                   )}
-                  {touched.logo && errors.logo && (
+                  {touched.cover && errors.cover && (
                     <FormHelperText error sx={{ px: 2, mx: 0 }}>
-                      {touched.logo && errors.logo}
+                      {touched.cover && errors.cover}
                     </FormHelperText>
                   )}
                 </Box>{' '}
@@ -381,7 +435,7 @@ export default function ShopSettingFrom({ data: currentCategory, isLoading: cate
               >
                 <Stack spacing={3}>
                   <Card sx={{ p: 3 }}>
-                    <Stack spacing={3}>
+                    <Stack spacing={2}>
                       <div>
                         {categoryLoading ? (
                           <Skeleton variant="text" width={150} />
@@ -396,9 +450,9 @@ export default function ShopSettingFrom({ data: currentCategory, isLoading: cate
                           <TextField
                             id="holder-name"
                             fullWidth
-                            {...getFieldProps('holderName')}
-                            error={Boolean(touched.holderName && errors.holderName)}
-                            helperText={touched.holderName && errors.holderName}
+                            {...getFieldProps('paymentInfo.holderName')}
+                            error={Boolean(touched.paymentInfo?.holderName && errors.paymentInfo?.holderName)}
+                            helperText={touched.paymentInfo?.holderName && errors.paymentInfo?.holderName}
                           />
                         )}
                       </div>
@@ -416,9 +470,9 @@ export default function ShopSettingFrom({ data: currentCategory, isLoading: cate
                           <TextField
                             id="holder-email"
                             fullWidth
-                            {...getFieldProps('holderEmail')}
-                            error={Boolean(touched.holderEmail && errors.holderEmail)}
-                            helperText={touched.holderEmail && errors.holderEmail}
+                            {...getFieldProps('paymentInfo.holderEmail')}
+                            error={Boolean(touched.paymentInfo?.holderEmail && errors.paymentInfo?.holderEmail)}
+                            helperText={touched.paymentInfo?.holderEmail && errors.paymentInfo?.holderEmail}
                           />
                         )}
                       </div>
@@ -436,9 +490,9 @@ export default function ShopSettingFrom({ data: currentCategory, isLoading: cate
                           <TextField
                             id="bank-name"
                             fullWidth
-                            {...getFieldProps('bankName')}
-                            error={Boolean(touched.bankName && errors.bankName)}
-                            helperText={touched.bankName && errors.bankName}
+                            {...getFieldProps('paymentInfo.bankName')}
+                            error={Boolean(touched.paymentInfo?.bankName && errors.paymentInfo?.bankName)}
+                            helperText={touched.paymentInfo?.bankName && errors.paymentInfo?.bankName}
                           />
                         )}
                       </div>
@@ -456,12 +510,113 @@ export default function ShopSettingFrom({ data: currentCategory, isLoading: cate
                           <TextField
                             id="account-number"
                             fullWidth
-                            {...getFieldProps('AccountNo')}
-                            error={Boolean(touched.AccountNo && errors.AccountNo)}
-                            helperText={touched.AccountNo && errors.AccountNo}
+                            {...getFieldProps('paymentInfo.AccountNo')}
+                            error={Boolean(touched.paymentInfo?.AccountNo && errors.paymentInfo?.AccountNo)}
+                            helperText={touched.paymentInfo?.AccountNo && errors.paymentInfo?.AccountNo}
                           />
                         )}
                       </div>
+                      <div>
+                        {categoryLoading ? (
+                          <Skeleton variant="text" width={150} />
+                        ) : (
+                          <LabelStyle component={'label'} htmlFor="phone">
+                            Phone Number
+                          </LabelStyle>
+                        )}
+                        {categoryLoading ? (
+                          <Skeleton variant="rectangular" width="100%" height={240} />
+                        ) : (
+                          <TextField
+                            id="phone"
+                            fullWidth
+                            {...getFieldProps('phone')}
+                            error={Boolean(touched.phone && errors.phone)}
+                            helperText={touched.phone && errors.phone}
+                          />
+                        )}
+                      </div>
+                      <div>
+                        {categoryLoading ? (
+                          <Skeleton variant="text" width={150} />
+                        ) : (
+                          <LabelStyle component={'label'} htmlFor="country">
+                            Country
+                          </LabelStyle>
+                        )}
+                        {categoryLoading ? (
+                          <Skeleton variant="rectangular" width="100%" height={240} />
+                        ) : (
+                          <TextField
+                            id="country"
+                            fullWidth
+                            {...getFieldProps('address.country')}
+                            error={Boolean(touched.address?.country && errors.address?.country)}
+                            helperText={touched.address?.country && errors.address?.country}
+                          />
+                        )}
+                      </div>
+                      <div>
+                        {categoryLoading ? (
+                          <Skeleton variant="text" width={150} />
+                        ) : (
+                          <LabelStyle component={'label'} htmlFor="city">
+                            City
+                          </LabelStyle>
+                        )}
+                        {categoryLoading ? (
+                          <Skeleton variant="rectangular" width="100%" height={240} />
+                        ) : (
+                          <TextField
+                            id="city"
+                            fullWidth
+                            {...getFieldProps('address.city')}
+                            error={Boolean(touched.address?.city && errors.address?.city)}
+                            helperText={touched.address?.city && errors.address?.city}
+                          />
+                        )}
+                      </div>
+                      <div>
+                        {categoryLoading ? (
+                          <Skeleton variant="text" width={150} />
+                        ) : (
+                          <LabelStyle component={'label'} htmlFor="state">
+                            State
+                          </LabelStyle>
+                        )}
+                        {categoryLoading ? (
+                          <Skeleton variant="rectangular" width="100%" height={240} />
+                        ) : (
+                          <TextField
+                            id="state"
+                            fullWidth
+                            {...getFieldProps('address.state')}
+                            error={Boolean(touched.address?.state && errors.address?.state)}
+                            helperText={touched.address?.state && errors.address?.state}
+                          />
+                        )}
+                      </div>
+                      <div>
+                        {categoryLoading ? (
+                          <Skeleton variant="text" width={150} />
+                        ) : (
+                          <LabelStyle component={'label'} htmlFor="streetAddress">
+                            Street Address
+                          </LabelStyle>
+                        )}
+                        {categoryLoading ? (
+                          <Skeleton variant="rectangular" width="100%" height={240} />
+                        ) : (
+                          <TextField
+                            id="streetAddress"
+                            fullWidth
+                            {...getFieldProps('address.streetAddress')}
+                            error={Boolean(touched.address?.streetAddress && errors.address?.streetAddress)}
+                            helperText={touched.address?.streetAddress && errors.address?.streetAddress}
+                          />
+                        )}
+                      </div>
+
                       {/* <FormControl fullWidth sx={{ select: { textTransform: 'capitalize' } }}>
                         {categoryLoading ? (
                           <Skeleton variant="text" width={70} />
@@ -505,7 +660,7 @@ export default function ShopSettingFrom({ data: currentCategory, isLoading: cate
                       loading={isLoading}
                       sx={{ ml: 'auto', mt: 3 }}
                     >
-                      {currentCategory ? 'Edit Category' : 'Create Category'}
+                      {currentSid ? 'Edit Shop' : 'Save'}
                     </LoadingButton>
                   )}
                 </Stack>
