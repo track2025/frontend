@@ -5,7 +5,7 @@ import ShopSettingMain from 'src/components/_admin/vendor/settings/shopSettings'
 import HeaderBreadcrumbs from 'src/components/headerBreadcrumbs';
 // Meta information
 export const metadata = {
-  title: 'Categories - Nextall',
+  title: 'Shop Setting - Nextall',
   applicationName: 'Nextall',
   authors: 'Nextall'
 };
@@ -23,7 +23,7 @@ export default function ShopSetting() {
             },
             {
               name: 'Settings',
-              href: '/dashboard/settings'
+              href: '/vendor/settings'
             },
             {
               name: 'Shop Settings'

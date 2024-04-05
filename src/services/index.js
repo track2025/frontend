@@ -386,3 +386,14 @@ export const paymentIntents = async (amount) => {
   });
   return data;
 };
+
+// shop
+export const shopSetting = async (payload) => {
+  const { data } = await http.post(`/vendor/shops`, payload);
+  return data;
+};
+
+export const updateShop = async ({ currentSid, ...payload }) => {
+  const { data } = await http.put(`/vendor/shops/${currentSid}`, payload);
+  return data;
+};
