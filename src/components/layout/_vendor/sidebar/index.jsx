@@ -17,6 +17,7 @@ import { FaRegBuilding } from 'react-icons/fa';
 import { TbCategory2 } from 'react-icons/tb';
 import { BsShop } from 'react-icons/bs';
 import { BsCart3 } from 'react-icons/bs';
+import { HiOutlineShoppingBag } from 'react-icons/hi2';
 
 import { IoSettingsOutline } from 'react-icons/io5';
 import { HiOutlineCurrencyDollar } from 'react-icons/hi2';
@@ -34,7 +35,14 @@ export const navlinks = [
     icon: <LuLayoutDashboard />
   },
   {
-    id: 4,
+    id: 2,
+    title: 'Shop',
+    slug: '/settings/shop',
+    icon: <HiOutlineShoppingBag />,
+    isSearch: false
+  },
+  {
+    id: 3,
     title: 'Products',
     slug: '/products',
     icon: <BsShop />,
@@ -42,7 +50,7 @@ export const navlinks = [
   },
 
   {
-    id: 5,
+    id: 4,
     title: 'Orders',
     slug: '/orders',
     icon: <BsCart3 />,
@@ -55,9 +63,8 @@ export const navlinks = [
     icon: <HiOutlineCurrencyDollar />,
     isSearch: true
   },
-
   {
-    id: 9,
+    id: 6,
     title: 'Settings',
     slug: '/settings',
     icon: <IoSettingsOutline />,
