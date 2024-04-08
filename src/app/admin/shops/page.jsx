@@ -1,7 +1,7 @@
 import React from 'react';
 
 // components
-import ProductList from 'src/components/_admin/products/productList';
+import ShopList from 'src/components/_admin/shops/shopList';
 import Toolbar from 'src/components/_admin/toolbar';
 import HeaderBreadcrumbs from 'src/components/headerBreadcrumbs';
 // Meta information
@@ -16,23 +16,23 @@ export default async function AdminProducts() {
       <Toolbar>
         <HeaderBreadcrumbs
           admin
-          heading="Products List"
+          heading="Shops"
           links={[
             {
               name: 'Dashboard',
               href: '/'
             },
             {
-              name: 'Products'
+              name: 'Shops'
             }
           ]}
           action={{
-            href: `/dashboard/products/add`,
-            title: 'Add Product'
+            href: `/dashboard/shops/add`,
+            title: 'Add Shop'
           }}
         />
       </Toolbar>
-      <ProductList />
+      <ShopList />
     </>
   );
 }

@@ -56,8 +56,8 @@ export default function ProductRow({ isLoading, row, handleClickOpen }) {
             >
               <BlurImage
                 alt={row?.name}
-                blurDataURL={row?.logo.blurDataURL}
-                src={row?.logo.url}
+                blurDataURL={row?.image.blurDataURL}
+                src={row?.image.url}
                 layout="fill"
                 objectFit="cover"
               />
@@ -69,8 +69,8 @@ export default function ProductRow({ isLoading, row, handleClickOpen }) {
         </Box>
       </TableCell>
       {/* <TableCell>
-        <Skeleton variant="text" />
-      </TableCell> */}
+          <Skeleton variant="text" />
+        </TableCell> */}
       <TableCell>{isLoading ? <Skeleton variant="text" /> : <>{fDateShort(row?.createdAt, enUS)}</>}</TableCell>
       <TableCell>
         {isLoading ? (
@@ -93,7 +93,10 @@ export default function ProductRow({ isLoading, row, handleClickOpen }) {
                 'primary.dark'
             }}
           >
-            {row?.status}
+            {(row?.available < 1 && 'Out of stock') ||
+              (row?.available < 20 && 'Low stock') ||
+              (row?.available >= 20 && 'In stock') ||
+              (!row?.available && 'Out of stock')}
           </Label>
         )}
       </TableCell>
@@ -106,21 +109,21 @@ export default function ProductRow({ isLoading, row, handleClickOpen }) {
       </TableCell>
       <TableCell>{isLoading ? <Skeleton variant="text" /> : fCurrency(row?.priceSale || row?.price)}</TableCell>
       {/* <TableCell>
-        {isLoading ? (
-          <Skeleton variant="text" />
-        ) : (
-          <Switch
-            {...label}
-            defaultChecked={row.isFeatured}
-            onChange={() => {
-              mutate({
-                isFeatured: !row.isFeatured,
-                id: row._id,
-              });
-            }}
-          />
-        )}
-      </TableCell> */}
+          {isLoading ? (
+            <Skeleton variant="text" />
+          ) : (
+            <Switch
+              {...label}
+              defaultChecked={row.isFeatured}
+              onChange={() => {
+                mutate({
+                  isFeatured: !row.isFeatured,
+                  id: row._id,
+                });
+              }}
+            />
+          )}
+        </TableCell> */}
       <TableCell align="right">
         {isLoading ? (
           <Stack direction="row" justifyContent="flex-end">
@@ -155,13 +158,13 @@ ProductRow.propTypes = {
   isLoading: PropTypes.bool.isRequired,
   row: PropTypes.shape({
     name: PropTypes.string.isRequired,
-    images: PropTypes.arrayOf(
+    logo: PropTypes.arrayOf(
       PropTypes.shape({
         url: PropTypes.string.isRequired
       })
     ).isRequired,
     createdAt: PropTypes.instanceOf(Date).isRequired,
-    available: PropTypes.number,
+    products: PropTypes.number,
     averageRating: PropTypes.number.isRequired,
     priceSale: PropTypes.number,
     price: PropTypes.number.isRequired,

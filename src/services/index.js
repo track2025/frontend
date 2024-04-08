@@ -273,6 +273,11 @@ export const getAdminProducts = async (page, search) => {
   const { data: response } = await http.get(`/admin/products?search=${search}&page=${page}`);
   return response;
 };
+export const getShopsByAdmin = async (page, search) => {
+  const { data: response } = await http.get(`/admin/shops?search=${search}&page=${page}`);
+  return response;
+};
+
 export const getVendorProducts = async (page, search) => {
   const { data: response } = await http.get(`/vendor/products?search=${search}&page=${page}`);
   return response;
