@@ -53,7 +53,7 @@ export default function ShopComponent() {
               color="primary"
               endIcon={<IoIosArrowForward />}
               component={NextLink}
-              href={`/products?top=-1`}
+              href={`/shops`}
               sx={{
                 mt: 3,
                 ml: 'auto',

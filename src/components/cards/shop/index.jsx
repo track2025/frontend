@@ -11,7 +11,7 @@ import { IoLocationOutline } from 'react-icons/io5';
 
 export default function ShopCard({ ...props }) {
   const { shop, isLoading } = props;
-  const baseUrl = '/products/';
+  const baseUrl = '/shops/';
 
   return (
     <Card>
