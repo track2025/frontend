@@ -1,10 +1,10 @@
 import React from 'react';
 import ShopSettingFrom from 'src/components/forms/shopSetting';
 
-export default function ShopSettingMain() {
+export default function ShopSettingMain({ data, isLoading }) {
   return (
     <div>
-      <ShopSettingFrom />
+      <ShopSettingFrom isLoading={isLoading} data={data} />
     </div>
   );
 }

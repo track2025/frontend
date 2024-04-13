@@ -56,65 +56,64 @@ export default function ProductRow({ isLoading, row, handleClickOpen }) {
             >
               <BlurImage
                 alt={row?.name}
-                blurDataURL={row?.image.blurDataURL}
-                src={row?.image.url}
+                blurDataURL={row?.logo.blurDataURL}
+                src={row?.logo.url}
                 layout="fill"
                 objectFit="cover"
               />
             </Box>
           )}
           <Typography variant="subtitle2" noWrap>
-            {isLoading ? <Skeleton variant="text" width={120} sx={{ ml: 1 }} /> : row?.name}
+            {isLoading ? <Skeleton variant="text" width={120} sx={{ ml: 1 }} /> : row?.title}
           </Typography>
         </Box>
       </TableCell>
       {/* <TableCell>
-        <Skeleton variant="text" />
-      </TableCell> */}
-      <TableCell>{isLoading ? <Skeleton variant="text" /> : <>{fDateShort(row?.createdAt, enUS)}</>}</TableCell>
+          <Skeleton variant="text" />
+        </TableCell> */}
+      <TableCell>{isLoading ? <Skeleton variant="text" /> : <>{row.products.length || '-'}</>}</TableCell>
+      {/* {fDateShort(row?.createdAt, enUS)} */}
+      <TableCell align="left">
+        {isLoading ? <Skeleton variant="text" /> : `${row.vendor.firstName} ${row.vendor.lastName}`}
+      </TableCell>
+
+      <TableCell>
+        {isLoading ? <Skeleton variant="text" /> : row.approved ? fDateShort(row?.approvedAt, enUS) : 'Not approved'}
+      </TableCell>
+      {/* <TableCell>
+          {isLoading ? (
+            <Skeleton variant="text" />
+          ) : (
+            <Switch
+              {...label}
+              defaultChecked={row.isFeatured}
+              onChange={() => {
+                mutate({
+                  isFeatured: !row.isFeatured,
+                  id: row._id,
+                });
+              }}
+            />
+          )}
+        </TableCell> */}
       <TableCell>
         {isLoading ? (
           <Skeleton variant="text" />
         ) : (
           <Label
-            variant={'filled'}
-            color={
-              (row?.available < 1 && 'error') ||
-              (row?.available < 20 && 'warning') ||
-              (row?.available >= 20 && 'success') ||
-              'primary'
-            }
+            variant="filled"
+            sx={{
+              bgcolor:
+                row?.status === 'pending' ? 'info.light' : row?.status === 'pending' ? 'success.light' : 'error.light',
+              color:
+                row?.status === 'pending' ? 'info.dark' : row?.status === 'pending' ? 'success.dark' : 'error.dark',
+              textTransform: 'capitalize'
+            }}
           >
-            {(row?.available < 1 && 'Out of stock') ||
-              (row?.available < 20 && 'Low stock') ||
-              (row?.available >= 20 && 'In stock')}
+            {row?.status}
           </Label>
         )}
       </TableCell>
-      <TableCell align="left">
-        {isLoading ? (
-          <Skeleton variant="text" />
-        ) : (
-          <Rating name="text-feedback" size="small" value={row?.averageRating || 0} readOnly precision={0.5} />
-        )}
-      </TableCell>
-      <TableCell>{isLoading ? <Skeleton variant="text" /> : fCurrency(row?.priceSale || row?.price)}</TableCell>
-      {/* <TableCell>
-        {isLoading ? (
-          <Skeleton variant="text" />
-        ) : (
-          <Switch
-            {...label}
-            defaultChecked={row.isFeatured}
-            onChange={() => {
-              mutate({
-                isFeatured: !row.isFeatured,
-                id: row._id,
-              });
-            }}
-          />
-        )}
-      </TableCell> */}
       <TableCell align="right">
         {isLoading ? (
           <Stack direction="row" justifyContent="flex-end">
@@ -124,13 +123,13 @@ export default function ProductRow({ isLoading, row, handleClickOpen }) {
           </Stack>
         ) : (
           <Stack direction="row" justifyContent="flex-end">
-            <Link target="_blank" href={`/product/${row.slug}`}>
+            <Link href={`/admin/shops/${row.slug}`}>
               <IconButton>
                 <IoEye />
               </IconButton>
             </Link>
             <Tooltip title="Edit">
-              <IconButton onClick={() => router.push(`/vendor/products/${row.slug}`)}>
+              <IconButton onClick={() => router.push(`/admin/shops/edit/${row.slug}`)}>
                 <MdEdit />
               </IconButton>
             </Tooltip>
@@ -149,13 +148,13 @@ ProductRow.propTypes = {
   isLoading: PropTypes.bool.isRequired,
   row: PropTypes.shape({
     name: PropTypes.string.isRequired,
-    images: PropTypes.arrayOf(
+    logo: PropTypes.arrayOf(
       PropTypes.shape({
         url: PropTypes.string.isRequired
       })
     ).isRequired,
     createdAt: PropTypes.instanceOf(Date).isRequired,
-    available: PropTypes.number,
+    products: PropTypes.number,
     averageRating: PropTypes.number.isRequired,
     priceSale: PropTypes.number,
     price: PropTypes.number.isRequired,

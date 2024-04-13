@@ -54,6 +54,10 @@ export const getVendorProductBySlug = async (slug) => {
   const { data } = await http.get(`/vendor/products/${slug}`);
   return data;
 };
+export const getVendorShop = async () => {
+  const { data } = await http.get(`/vendor/shop`);
+  return data;
+};
 
 export const getProductReviews = async (pid) => {
   const { data } = await http.get(`/reviews/${pid}`);
@@ -278,6 +282,11 @@ export const getAdminProducts = async (page, search) => {
   const { data: response } = await http.get(`/admin/products?search=${search}&page=${page}`);
   return response;
 };
+export const getShopsByAdmin = async (page, search) => {
+  const { data: response } = await http.get(`/admin/shops?search=${search}&page=${page}`);
+  return response;
+};
+
 export const getVendorProducts = async (page, search) => {
   const { data: response } = await http.get(`/vendor/products?search=${search}&page=${page}`);
   return response;
@@ -309,8 +318,12 @@ export const updateVendorProduct = async ({ currentSlug, ...payload }) => {
 
 // orders
 
-export const getOrders = async (page, search) => {
+export const getOrdersByAdmin = async (page, search) => {
   const { data } = await http.get(`/admin/orders?search=${search}&page=${page}`);
+  return data;
+};
+export const getOrdersByVendor = async (page, search) => {
+  const { data } = await http.get(`/vendor/orders?search=${search}&page=${page}`);
   return data;
 };
 export const getOrderByAdmin = async (id) => {
@@ -392,16 +405,14 @@ export const paymentIntents = async (amount) => {
   return data;
 };
 
-
 // shop
-export const shopSetting = async (payload) => {
+export const addShop = async (payload) => {
   const { data } = await http.post(`/vendor/shops`, payload);
   return data;
 };
 
-export const updateShop = async ({ currentSid, ...payload }) => {
-  const { data } = await http.put(`/vendor/shops/${currentSid}`, payload);
-
+export const updateShop = async ({ currentSlug, ...payload }) => {
+  const { data } = await http.put(`/vendor/shops/${currentSlug}`, payload);
 
   return data;
 };

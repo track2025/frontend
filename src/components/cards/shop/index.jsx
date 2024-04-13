@@ -43,25 +43,25 @@ export default function ShopCard({ ...props }) {
                   }
                 }}
               >
-                <Image
+                {/* <Image
                   alt="shop"
-                  src={shop?.cover?.url}
+                  src={shop?.logo?.url}
                   placeholder="blur"
-                  blurDataURL={shop?.cover?.blurDataURL}
+                  blurDataURL={shop?.logo?.blurDataURL}
                   layout="fill"
                   objectFit="cover"
                   static
                   draggable="false"
                   quality={5}
                   sizes={'50vw'}
-                />
+                /> */}
               </Box>
             )}
             <Box>
               <Typography
                 {...(!isLoading && {
                   component: Link,
-                  href: baseUrl + shop.slug
+                  href: baseUrl + shop?.slug
                 })}
                 color="text.primary"
                 variant="h6"
