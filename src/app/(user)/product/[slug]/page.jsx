@@ -97,7 +97,7 @@ export default async function ProductDetail({ params: { slug } }) {
           </Suspense>
           <ProductAdditionalInfo />
           <Suspense fallback={<></>}>
-            <RelatedProductsCarousel id={data._id} category={category.slug} />
+            <RelatedProductsCarousel id={data._id} category={category?.slug} />
           </Suspense>
         </>
       </Container>

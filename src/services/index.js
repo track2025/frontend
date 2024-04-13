@@ -17,6 +17,21 @@ export const getProducts = async (query = '') => {
   const { data } = await http.get(`/products${query}`);
   return data;
 };
+export const getProductsByCategory = async (query = '', category) => {
+  const { data } = await http.get(`/category/products/${category}${query}`);
+  return data;
+};
+
+export const getProductsBySubCategory = async (query = '', subcategory) => {
+  const { data } = await http.get(`/subcategory/products/${subcategory}${query}`);
+  return data;
+};
+
+export const getProductsByShop = async (query = '', shop) => {
+  const { data } = await http.get(`/shop/products/${shop}${query}`);
+  return data;
+};
+
 export const getAllProducts = async () => {
   const { data } = await http.get(`/products/all`);
   return data;
@@ -26,15 +41,19 @@ export const getAllFilters = async () => {
   return data;
 };
 export const getFiltersByCategory = async (category) => {
-  const { data } = await http.get(`filters/${category}`);
+  const { data } = await http.get(`/filters/${category}`);
   return data;
 };
 export const getFiltersBySubCategory = async (category, subcategory) => {
-  const { data } = await http.get(`filters/${category}/${subcategory}`);
+  const { data } = await http.get(`/filters/${category}/${subcategory}`);
   return data;
 };
 export const getNewProducts = async () => {
   const { data } = await http.get(`/products/new`);
+  return data;
+};
+export const getFiltersByShop = async (shop) => {
+  const { data } = await http.get(`/filters/${shop}`);
   return data;
 };
 

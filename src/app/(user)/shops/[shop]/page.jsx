@@ -65,10 +65,10 @@ export default async function Listing({ params }) {
                 display: { xs: 'none', md: 'block' }
               }}
             >
-              <Filter fetchFilters={'getFiltersByShop'} category={shopData} pathname={`${shop}`} />
+              <Filter fetchFilters={'getFiltersByShop'} shop={shopData} pathname={`${shop}`} />
             </Grid>
             <Grid item md={9} xs={12}>
-              <ProductList category={shopData} fetchFilters={'getFiltersByShop'} />
+              <ProductList shop={shopData} fetchFilters={'getFiltersByShop'} />
             </Grid>
           </Grid>
         </Container>

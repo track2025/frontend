@@ -65,7 +65,7 @@ export default async function Listing({ params }) {
                 display: { xs: 'none', md: 'block' }
               }}
             >
-              <Filter fetchFilters={'getFiltersByCategory'} category={categoryData} pathname={`${category}`} />
+              <Filter pathname={`${category}`} />
             </Grid>
             <Grid item md={9} xs={12}>
               <ProductList category={categoryData} fetchFilters={'getFiltersByCategory'} />
