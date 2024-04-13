@@ -56,8 +56,8 @@ export default function ProductRow({ isLoading, row, handleClickOpen }) {
             >
               <BlurImage
                 alt={row?.name}
-                blurDataURL={row?.logo.blurDataURL}
-                src={row?.logo.url}
+                blurDataURL={row?.image.blurDataURL}
+                src={row?.image.url}
                 layout="fill"
                 objectFit="cover"
               />
@@ -77,23 +77,17 @@ export default function ProductRow({ isLoading, row, handleClickOpen }) {
           <Skeleton variant="text" />
         ) : (
           <Label
-            variant="filled"
-            sx={{
-              bgcolor:
-                !row?.available ||
-                (row?.available < 1 && 'error.light') ||
-                (row?.available < 20 && 'warning.light') ||
-                (row?.available >= 20 && 'success.light') ||
-                'primary.light',
-              color:
-                !row?.available ||
-                (row?.available < 1 && 'error.dark') ||
-                (row?.available < 20 && 'warning.dark') ||
-                (row?.available >= 20 && 'success.dark') ||
-                'primary.dark'
-            }}
+            variant={'filled'}
+            color={
+              (row?.available < 1 && 'error') ||
+              (row?.available < 20 && 'warning') ||
+              (row?.available >= 20 && 'success') ||
+              'primary'
+            }
           >
-            {row?.status}
+            {(row?.available < 1 && 'Out of stock') ||
+              (row?.available < 20 && 'Low stock') ||
+              (row?.available >= 20 && 'In stock')}
           </Label>
         )}
       </TableCell>

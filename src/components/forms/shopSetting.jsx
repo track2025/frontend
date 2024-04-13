@@ -48,7 +48,7 @@ const LabelStyle = styled(Typography)(({ theme }) => ({
 
 const STATUS_OPTIONS = ['active', 'deactive'];
 
-export default function ShopSettingFrom({ data: currentSid, isLoading: categoryLoading }) {
+export default function ShopSettingFrom({ data: currentShop, isLoading: categoryLoading }) {
   const router = useRouter();
 
   const [state, setstate] = useState({
@@ -60,15 +60,15 @@ export default function ShopSettingFrom({ data: currentSid, isLoading: categoryL
   });
 
   const { mutate, isLoading } = useMutation(
-    currentSid ? 'update' : 'new',
-    currentSid ? api.updateShop : api.shopSetting,
+    currentShop ? 'update' : 'new',
+    currentShop ? api.updateShop : api.addShop,
     {
-      ...(currentSid && {
-        enabled: Boolean(currentSid)
+      ...(currentShop && {
+        enabled: Boolean(currentShop)
       }),
       retry: false,
       onSuccess: (data) => {
-        toast.success(data.message);
+        toast.success(currentShop ? data.message : 'Shop is under review!');
         // router.push('/dashboard/categories');
       },
       onError: (error) => {
@@ -103,29 +103,29 @@ export default function ShopSettingFrom({ data: currentSid, isLoading: categoryL
       streetAddress: Yup.string().required('Street Address is required')
     })
   });
-
+  console.log(currentShop, 'currentShop');
   const formik = useFormik({
     initialValues: {
-      title: currentSid?.title || '',
-      metaTitle: currentSid?.metaTitle || '',
-      cover: currentSid?.cover || null,
-      logo: currentSid?.logo || null,
-      description: currentSid?.description || '',
-      metaDescription: currentSid?.metaDescription || '',
-      file: currentSid?.cover || '',
-      slug: currentSid?.slug || '',
-      phone: currentSid?.phone || Number,
+      title: currentShop?.title || '',
+      metaTitle: currentShop?.metaTitle || '',
+      cover: currentShop?.cover || null,
+      logo: currentShop?.logo || null,
+      description: currentShop?.description || '',
+      metaDescription: currentShop?.metaDescription || '',
+      file: currentShop?.cover || '',
+      slug: currentShop?.slug || '',
+      phone: currentShop?.phone || Number,
       paymentInfo: {
-        holderName: currentSid?.holderName || '',
-        holderEmail: currentSid?.holderEmail || '',
-        bankName: currentSid?.bankName || '',
-        AccountNo: currentSid?.AccountNo || Number
+        holderName: currentShop?.paymentInfo?.holderName || '',
+        holderEmail: currentShop?.paymentInfo?.holderEmail || '',
+        bankName: currentShop?.paymentInfo?.bankName || '',
+        AccountNo: currentShop?.paymentInfo?.AccountNo || Number
       },
       address: {
-        country: currentSid?.address.country || '',
-        city: currentSid?.address.city || '',
-        state: currentSid?.address.state || '',
-        streetAddress: currentSid?.address.streetAddress || ''
+        country: currentShop?.address.country || '',
+        city: currentShop?.address.city || '',
+        state: currentShop?.address.state || '',
+        streetAddress: currentShop?.address.streetAddress || ''
       }
     },
     enableReinitialize: true,
@@ -136,15 +136,13 @@ export default function ShopSettingFrom({ data: currentSid, isLoading: categoryL
       try {
         mutate({
           ...rest,
-          ...(currentSid && {
-            currentSlug: currentSid.slug
+          ...(currentShop && {
+            currentSlug: currentShop.slug
           })
         });
       } catch (error) {
         console.error(error);
       }
-      console.log(values, 'values');
-      alert('done');
     }
   });
   const { errors, values, touched, handleSubmit, setFieldValue, getFieldProps } = formik;
@@ -660,7 +658,7 @@ export default function ShopSettingFrom({ data: currentSid, isLoading: categoryL
                       loading={isLoading}
                       sx={{ ml: 'auto', mt: 3 }}
                     >
-                      {currentSid ? 'Edit Shop' : 'Save'}
+                      {currentShop ? 'Edit Shop' : 'Save'}
                     </LoadingButton>
                   )}
                 </Stack>

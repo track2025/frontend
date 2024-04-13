@@ -11,6 +11,7 @@ import Table from 'src/components/table/table';
 import OrderList from 'src/components/table/rows/orderList';
 import OrderListCard from 'src/components/cards/OrderList';
 import DeleteDialog from 'src/components/dialog/delete';
+import PropTypes from 'prop-types';
 // mui
 import { Dialog } from '@mui/material';
 const TABLE_HEAD = [
@@ -21,14 +22,14 @@ const TABLE_HEAD = [
   { id: 'createdAt', label: 'Date', alignRight: false, sort: true },
   { id: '', label: 'actions', alignRight: true }
 ];
-export default function OrdersAdminList() {
+export default function OrdersAdminList({ isVendor }) {
   const searchParams = useSearchParams();
   const pageParam = searchParams.get('page');
   const searchParam = searchParams.get('search');
   const [apicall, setApicall] = useState(false);
   const { data, isLoading: loadingList } = useQuery(
     ['orders', apicall, pageParam, searchParam],
-    () => api.getOrders(+pageParam || 1, searchParam || ''),
+    () => api[isVendor ? 'getOrdersByVendor' : 'getOrdersByAdmin'](+pageParam || 1, searchParam || ''),
     {
       onError: (err) => toast.error(err.response.data.message || 'Something went wrong!')
     }
@@ -69,3 +70,6 @@ export default function OrdersAdminList() {
     </>
   );
 }
+OrdersAdminList.propTypes = {
+  isVendor: PropTypes.boolean
+};
