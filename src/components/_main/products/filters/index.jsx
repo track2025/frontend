@@ -26,16 +26,17 @@ Filter.propTypes = {
   onClose: PropTypes.func.isRequired,
   fetchFilters: PropTypes.string.isRequired,
   pathname: PropTypes.string.isRequired,
+  shop: PropTypes.object,
   category: PropTypes.object,
   subCategory: PropTypes.object
 };
 
 export default function Filter({ ...props }) {
-  const { isMobile, onClose, pathname, fetchFilters, category, subCategory } = props;
-
+  const { isMobile, onClose, pathname, fetchFilters, category, shop, subCategory } = props;
+  console.log(shop, fetchFilters, 'shop123');
   const router = useRouter();
-  const { data, isLoading } = useQuery(['get-filters' + category || '' + 'subCategory'], () =>
-    api[fetchFilters](category?.slug || '', subCategory?.slug || '')
+  const { data, isLoading } = useQuery(['get-filters' + shop || '' + category || '' + 'subCategory'], () =>
+    api[fetchFilters](shop?.slug || '', category?.slug || '', subCategory?.slug || '')
   );
   const filters = data?.data;
   return (
