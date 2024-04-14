@@ -416,3 +416,11 @@ export const updateShop = async ({ currentSlug, ...payload }) => {
 
   return data;
 };
+
+// shops
+
+export const getShopDetailsByAdmin = async (slug) => {
+  const { data } = await http.get(`/admin/shops/${slug}`);
+
+  return data;
+};
