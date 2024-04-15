@@ -27,7 +27,7 @@ export default function page() {
           ]}
         />
       </Toolbar>
-      <OrdersList />
+      <OrdersList isVendor />
     </div>
   );
 }

@@ -30,26 +30,34 @@ const sortData = [
   { title: 'Oldest', key: 'date', value: 1 },
   { title: 'Newest', key: 'date', value: -1 }
 ];
-const getSearchParams = (searchParams, category, subCategory) => {
-  if (category) {
-    return searchParams.toString().length
-      ? '?' + searchParams.toString() + `&category=${category.slug}`
-      : `?category=${category.slug}`;
-  }
-  if (subCategory) {
-    return searchParams.toString().length
-      ? '?' + searchParams.toString() + `&subCategory=${subCategory.slug}`
-      : `?subCategory=${subCategory.slug}`;
-  } else {
-    return searchParams.toString().length ? '?' + searchParams.toString() : '';
-  }
+const getSearchParams = (searchParams) => {
+  return searchParams.toString().length ? '?' + searchParams.toString() : '';
 };
-export default function ProductListing({ category, subCategory, fetchFilters }) {
+export default function ProductListing({ category, subCategory, shop, fetchFilters }) {
   const searchParams = useSearchParams();
   const { data, isLoading } = useQuery(
-    ['products' + category || subCategory ? '-with-category' : '', searchParams.toString(), category, subCategory],
-    () => api.getProducts(getSearchParams(searchParams, category, subCategory))
+    [
+      'products' + category || subCategory ? '-with-category' : '',
+      searchParams.toString(),
+      category,
+      subCategory,
+      shop
+    ],
+    () =>
+      api[
+        category
+          ? 'getProductsByCategory'
+          : subCategory
+            ? 'getProductsBySubCategory'
+            : shop
+              ? 'getProductsByShop'
+              : 'getProducts'
+      ](
+        getSearchParams(searchParams),
+        shop ? shop?.slug : category ? category?.slug : subCategory ? subCategory?.slug : ''
+      )
   );
+  console.log(subCategory, 'subCategory');
 
   const isMobile = useMediaQuery('(max-width:900px)');
   return (
@@ -58,6 +66,7 @@ export default function ProductListing({ category, subCategory, fetchFilters }) 
         sortData={sortData}
         productData={data}
         category={subCategory?.parentCategory || category}
+        shop={shop}
         subCategory={subCategory}
         fetchFilters={fetchFilters}
         isLoading={isLoading}

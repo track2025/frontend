@@ -19,11 +19,15 @@ import { useQuery } from 'react-query';
 // api
 import * as api from 'src/services';
 
-export default function Dashboard() {
-  const { data: dashboard, isLoading } = useQuery('dashboard-analytics', api.dashboardAnalytics, {
-    refetchInterval: 10000,
-    onError: (error) => toast.error(error.message || 'Something went wrong!')
-  });
+export default function Dashboard({ isVendor }) {
+  const { data: dashboard, isLoading } = useQuery(
+    'dashboard-analytics',
+    api[isVendor ? 'vendorAnalytics' : 'dashboardAnalytics'],
+    {
+      refetchInterval: 10000,
+      onError: (error) => toast.error(error.message || 'Something went wrong!')
+    }
+  );
   const data = dashboard?.data || {};
   const daily_earning = data?.dailyEarning;
   const daily_orders = data?.dailyOrders;

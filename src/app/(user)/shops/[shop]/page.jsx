@@ -20,39 +20,39 @@ export async function generateMetadata({ params }) {
   );
   // const images = category.images.map((img) => img.url);
   return {
-    title: response.metaTitle,
-    description: response.metaDescription,
-    title: response.name,
-    openGraph: {
-      images: [response.cover.url]
-    }
+    // title: response.metaTitle,
+    // description: response.metaDescription,
+    // title: response.name
+    // openGraph: {
+    //   images: [response.cover.url]
+    // }
   };
 }
 
 export default async function Listing({ params }) {
-  const { category } = params;
-  const response = await fetch(process.env.BASE_URL + '/api/category-title/' + category).then((res) => res.json());
+  const { shop } = params;
+  const response = await fetch(process.env.BASE_URL + '/api/shop-title/' + shop).then((res) => res.json());
   if (!response) {
     notFound();
   }
-  const { data: categoryData } = response;
+  const { data: shopData } = response;
   return (
     <Box>
       <Box sx={{ bgcolor: 'background.default' }}>
         <Container fixed>
           <HeaderBreadcrumbs
-            heading={categoryData?.name}
+            heading={shopData?.title}
             links={[
               {
                 name: 'Home',
                 href: '/'
               },
               {
-                name: 'Products',
-                href: '/products'
+                name: 'Shops',
+                href: '/shops'
               },
               {
-                name: categoryData?.name
+                name: shopData?.title
               }
             ]}
           />
@@ -65,10 +65,10 @@ export default async function Listing({ params }) {
                 display: { xs: 'none', md: 'block' }
               }}
             >
-              <Filter pathname={`${category}`} />
+              <Filter fetchFilters={'getFiltersByShop'} shop={shopData} pathname={`${shop}`} />
             </Grid>
             <Grid item md={9} xs={12}>
-              <ProductList category={categoryData} fetchFilters={'getFiltersByCategory'} />
+              <ProductList shop={shopData} fetchFilters={'getFiltersByShop'} />
             </Grid>
           </Grid>
         </Container>

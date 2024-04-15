@@ -126,6 +126,7 @@ export default function ProductDetailsSumary({ ...props }) {
             sku: product.sku,
             color: colorSelected,
             size: sizeSelected,
+            shop: product.shop,
             image: product?.images[0].url,
             quantity: values.quantity,
             price: product.priceSale === 0 ? product.price : product.priceSale,
@@ -150,7 +151,7 @@ export default function ProductDetailsSumary({ ...props }) {
       pid: product._id,
       sku: product.sku,
       color: colorSelected,
-
+      shop: product.shop,
       image: product?.images[0].url,
       size: sizeSelected,
       quantity: values.quantity,

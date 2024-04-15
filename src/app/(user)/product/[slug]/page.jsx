@@ -35,7 +35,9 @@ export async function generateMetadata({ params }) {
 }
 
 export default async function ProductDetail({ params: { slug } }) {
-  const response = await fetch(process.env.BASE_URL + '/api/products/' + slug).then((res) => res.json());
+  const response = await fetch(process.env.BASE_URL + '/api/products/' + slug, { cache: 'no-store' }).then((res) =>
+    res.json()
+  );
   if (!response) {
     notFound();
   }
@@ -95,7 +97,7 @@ export default async function ProductDetail({ params: { slug } }) {
           </Suspense>
           <ProductAdditionalInfo />
           <Suspense fallback={<></>}>
-            <RelatedProductsCarousel id={data._id} category={category.slug} />
+            <RelatedProductsCarousel id={data._id} category={category?.slug} />
           </Suspense>
         </>
       </Container>

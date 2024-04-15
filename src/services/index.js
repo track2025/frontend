@@ -17,6 +17,21 @@ export const getProducts = async (query = '') => {
   const { data } = await http.get(`/products${query}`);
   return data;
 };
+export const getProductsByCategory = async (query = '', category) => {
+  const { data } = await http.get(`/category/products/${category}${query}`);
+  return data;
+};
+
+export const getProductsBySubCategory = async (query = '', subcategory) => {
+  const { data } = await http.get(`/subcategory/products/${subcategory}${query}`);
+  return data;
+};
+
+export const getProductsByShop = async (query = '', shop) => {
+  const { data } = await http.get(`/shop/products/${shop}${query}`);
+  return data;
+};
+
 export const getAllProducts = async () => {
   const { data } = await http.get(`/products/all`);
   return data;
@@ -26,15 +41,19 @@ export const getAllFilters = async () => {
   return data;
 };
 export const getFiltersByCategory = async (category) => {
-  const { data } = await http.get(`filters/${category}`);
+  const { data } = await http.get(`/filters/${category}`);
   return data;
 };
 export const getFiltersBySubCategory = async (category, subcategory) => {
-  const { data } = await http.get(`filters/${category}/${subcategory}`);
+  const { data } = await http.get(`/filters/${category}/${subcategory}`);
   return data;
 };
 export const getNewProducts = async () => {
   const { data } = await http.get(`/products/new`);
+  return data;
+};
+export const getFiltersByShop = async (shop) => {
+  const { data } = await http.get(`/filters/${shop}`);
   return data;
 };
 
@@ -52,6 +71,10 @@ export const getProductBySlug = async (slug) => {
 };
 export const getVendorProductBySlug = async (slug) => {
   const { data } = await http.get(`/vendor/products/${slug}`);
+  return data;
+};
+export const getVendorShop = async () => {
+  const { data } = await http.get(`/vendor/shop`);
   return data;
 };
 
@@ -173,6 +196,11 @@ export const dashboardAnalytics = async () => {
   const { data } = await http.get(`/admin/dashboard-analytics`);
   return data;
 };
+export const vendorAnalytics = async () => {
+  const { data } = await http.get(`/vendor/dashboard-analytics`);
+  return data;
+};
+
 export const getNotification = async (page) => {
   const { data } = await http.get(`/admin/notifications?limit=${page}`, {});
   return data;
@@ -314,8 +342,12 @@ export const updateVendorProduct = async ({ currentSlug, ...payload }) => {
 
 // orders
 
-export const getOrders = async (page, search) => {
+export const getOrdersByAdmin = async (page, search) => {
   const { data } = await http.get(`/admin/orders?search=${search}&page=${page}`);
+  return data;
+};
+export const getOrdersByVendor = async (page, search) => {
+  const { data } = await http.get(`/vendor/orders?search=${search}&page=${page}`);
   return data;
 };
 export const getOrderByAdmin = async (id) => {
@@ -397,16 +429,22 @@ export const paymentIntents = async (amount) => {
   return data;
 };
 
-
 // shop
-export const shopSetting = async (payload) => {
+export const addShop = async (payload) => {
   const { data } = await http.post(`/vendor/shops`, payload);
   return data;
 };
 
-export const updateShop = async ({ currentSid, ...payload }) => {
-  const { data } = await http.put(`/vendor/shops/${currentSid}`, payload);
+export const updateShop = async ({ currentSlug, ...payload }) => {
+  const { data } = await http.put(`/vendor/shops/${currentSlug}`, payload);
 
+  return data;
+};
+
+// shops
+
+export const getShopDetailsByAdmin = async (slug) => {
+  const { data } = await http.get(`/admin/shops/${slug}`);
 
   return data;
 };

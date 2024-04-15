@@ -60,8 +60,22 @@ export default function ShopProductCard({ ...props }) {
       toast.error(t(message ? t('common:' + JSON.parse(message)) : t('common:something-wrong')));
     }
   });
-  const { slug, name, images, price, colors, status, priceSale, totalRating, likes, sizes, sku, totalReview, _id } =
-    !loading && product;
+  const {
+    slug,
+    name,
+    images,
+    price,
+    colors,
+    status,
+    priceSale,
+    totalRating,
+    likes,
+    sizes,
+    sku,
+    totalReview,
+    _id,
+    shop
+  } = !loading && product;
   const linkTo = category ? '/categories/abc' : `/product/${slug ? slug : ''}`;
 
   const onAddCart = () => {
@@ -73,6 +87,7 @@ export default function ShopProductCard({ ...props }) {
         sku: sku,
         color: colors[0],
         size: sizes[0],
+        shop: shop,
         price: price,
         images: images,
         priceSale: priceSale !== 0 ? priceSale : price,

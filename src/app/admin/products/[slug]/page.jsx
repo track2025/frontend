@@ -6,7 +6,7 @@ import * as api from 'src/services';
 export default async function page({ params }) {
   const data1 = await api.getAllCategories();
   const data2 = await api.getAllBrands();
-  if (!data1 && data2) {
+  if (!data1 && !data2) {
     notFound();
   }
   const { data: categories } = data1;

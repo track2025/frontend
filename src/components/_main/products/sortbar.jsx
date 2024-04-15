@@ -19,7 +19,7 @@ const Filter = dynamic(() => import('src/components/_main/products/filters'), {
   loading: () => <Skeleton variant="rounded" width={'100%'} height={185} />
 });
 
-export default function SortBar({ fetchFilters, productData, isLoading, sortData, category, subCategory }) {
+export default function SortBar({ fetchFilters, productData, shop, isLoading, sortData, category, subCategory }) {
   // filterData
   const router = useRouter();
   const pathname = usePathname();
@@ -207,6 +207,7 @@ export default function SortBar({ fetchFilters, productData, isLoading, sortData
         <Filter
           category={category}
           subCategory={subCategory}
+          shop={shop}
           fetchFilters={fetchFilters}
           pathname="/products"
           isMobile
