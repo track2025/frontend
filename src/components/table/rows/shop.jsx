@@ -80,6 +80,32 @@ export default function ProductRow({ isLoading, row, handleClickOpen }) {
       <TableCell>
         {isLoading ? <Skeleton variant="text" /> : row.approved ? fDateShort(row?.approvedAt, enUS) : 'Not approved'}
       </TableCell>
+      <TableCell>{isLoading ? <Skeleton variant="text" /> : fCurrency(row?.priceSale || row?.price)}</TableCell>
+      <TableCell>
+        {isLoading ? (
+          <Skeleton variant="text" />
+        ) : (
+          <Label
+            variant="filled"
+            sx={{
+              bgcolor:
+                !row?.available ||
+                (row?.available < 1 && 'error.light') ||
+                (row?.available < 20 && 'warning.light') ||
+                (row?.available >= 20 && 'success.light') ||
+                'primary.light',
+              color:
+                !row?.available ||
+                (row?.available < 1 && 'error.dark') ||
+                (row?.available < 20 && 'warning.dark') ||
+                (row?.available >= 20 && 'success.dark') ||
+                'primary.dark'
+            }}
+          >
+            {row?.status}
+          </Label>
+        )}
+      </TableCell>
       {/* <TableCell>
           {isLoading ? (
             <Skeleton variant="text" />
