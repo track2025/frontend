@@ -196,6 +196,11 @@ export const dashboardAnalytics = async () => {
   const { data } = await http.get(`/admin/dashboard-analytics`);
   return data;
 };
+export const vendorAnalytics = async () => {
+  const { data } = await http.get(`/vendor/dashboard-analytics`);
+  return data;
+};
+
 export const getNotification = async (page) => {
   const { data } = await http.get(`/admin/notifications?limit=${page}`, {});
   return data;
@@ -432,6 +437,14 @@ export const addShop = async (payload) => {
 
 export const updateShop = async ({ currentSlug, ...payload }) => {
   const { data } = await http.put(`/vendor/shops/${currentSlug}`, payload);
+
+  return data;
+};
+
+// shops
+
+export const getShopDetailsByAdmin = async (slug) => {
+  const { data } = await http.get(`/admin/shops/${slug}`);
 
   return data;
 };
