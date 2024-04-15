@@ -196,6 +196,11 @@ export const dashboardAnalytics = async () => {
   const { data } = await http.get(`/admin/dashboard-analytics`);
   return data;
 };
+export const vendorAnalytics = async () => {
+  const { data } = await http.get(`/vendor/dashboard-analytics`);
+  return data;
+};
+
 export const getNotification = async (page) => {
   const { data } = await http.get(`/admin/notifications?limit=${page}`, {});
   return data;
