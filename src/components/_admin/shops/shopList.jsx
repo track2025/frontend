@@ -40,7 +40,7 @@ export default function AdminProducts({ brands, categories, isVendor }) {
       onError: (err) => toast.error(err.response.data.message || 'Something went wrong!')
     }
   );
-
+  console.log(data, 'data123');
   const handleClickOpen = (prop) => () => {
     setId(prop);
     setOpen(true);
