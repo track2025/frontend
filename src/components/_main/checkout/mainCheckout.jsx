@@ -72,7 +72,6 @@ const CheckoutMain = () => {
   const stripe = useStripe();
   const { mutate, isLoading } = useMutation('order', api.placeOrder, {
     onSuccess: (data) => {
-      console.log(data, 'data');
       debugger;
       toast.success('Order placed!');
       setProcessingTo(false);

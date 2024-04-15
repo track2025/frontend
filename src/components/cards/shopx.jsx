@@ -50,7 +50,7 @@ export default function ShopProductCard({ ...props }) {
       dispatch(setWishlist(data.data));
     },
     onError: (err) => {
-      setLoopading(false);
+      setLoading(false);
       const message = JSON.stringify(err.response.data.message);
       toast.error(t(message ? t('common:' + JSON.parse(message)) : t('common:something-wrong')));
     }

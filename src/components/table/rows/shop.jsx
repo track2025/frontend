@@ -57,6 +57,7 @@ export default function ProductRow({ isLoading, row, handleClickOpen }) {
               <BlurImage
                 alt={row?.name}
                 blurDataURL={row?.logo.blurDataURL}
+                placeholder="blur"
                 src={row?.logo.url}
                 layout="fill"
                 objectFit="cover"
@@ -81,7 +82,7 @@ export default function ProductRow({ isLoading, row, handleClickOpen }) {
         {isLoading ? <Skeleton variant="text" /> : row.approved ? fDateShort(row?.approvedAt, enUS) : 'Not approved'}
       </TableCell>
       <TableCell>{isLoading ? <Skeleton variant="text" /> : fCurrency(row?.priceSale || row?.price)}</TableCell>
-      <TableCell>
+      {/* <TableCell>
         {isLoading ? (
           <Skeleton variant="text" />
         ) : (
@@ -105,7 +106,7 @@ export default function ProductRow({ isLoading, row, handleClickOpen }) {
             {row?.status}
           </Label>
         )}
-      </TableCell>
+      </TableCell> */}
       {/* <TableCell>
           {isLoading ? (
             <Skeleton variant="text" />
