@@ -20,6 +20,7 @@ const TABLE_HEAD = [
   { id: 'name', label: 'Shop', alignRight: false, sort: true },
   { id: 'products', label: 'products', alignRight: false, sort: true },
   { id: 'owner', label: 'Owner', alignRight: false, sort: true },
+  { id: 'orders', label: 'orders', alignRight: false, sort: true },
   { id: 'registered', label: 'Registered', alignRight: false, sort: true },
   { id: 'status', label: 'Status', alignRight: false, sort: false },
   { id: '', label: 'Actions', alignRight: true }
