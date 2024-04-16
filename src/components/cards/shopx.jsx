@@ -31,8 +31,8 @@ import { FaRegStar } from 'react-icons/fa';
 import ColorPreviewGroup from 'src/components/colorPreviewGroup';
 const ProductDetailsDialog = dynamic(() => import('../dialog/productDetails'));
 export default function ShopProductCard({ ...props }) {
-  const { product, loading } = props;
-
+  const { item: product, isLoading: loading } = props;
+  console.log(loading, product, 'isLoading');
   const [open, setOpen] = useState(false);
   const theme = useTheme();
   const router = useRouter();
@@ -50,13 +50,13 @@ export default function ShopProductCard({ ...props }) {
       dispatch(setWishlist(data.data));
     },
     onError: (err) => {
-      setLoopading(false);
+      setLoading(false);
       const message = JSON.stringify(err.response.data.message);
       toast.error(t(message ? t('common:' + JSON.parse(message)) : t('common:something-wrong')));
     }
   });
 
-  const { name, slug, image, _id, averageRating } = !loading && product;
+  const { title, slug, logo, _id, averageRating } = !loading && product;
   const linkTo = `/product/${slug ? slug : ''}`;
 
   const onClickWishList = async (event) => {
@@ -74,6 +74,7 @@ export default function ShopProductCard({ ...props }) {
     <Card
       sx={{
         display: 'block',
+        my: 3,
         boxShadow:
           theme.palette.mode === 'light' ? '0 6px 16px rgba(145, 158, 171, 25%)' : '0 6px 16px rgb(5 6 6 / 25%)',
         '&:hover': {
@@ -132,13 +133,13 @@ export default function ShopProductCard({ ...props }) {
           ) : (
             <Box component={Link} href={linkTo}>
               <BlurImage
-                alt={name}
-                src={image.url}
+                alt={title}
+                src={logo.url}
                 fill
                 draggable="false"
                 objectFit="cover"
                 placeholder="blur"
-                blurDataURL={image?.blurDataURL}
+                blurDataURL={logo?.blurDataURL}
                 // quality={15}
               />
             </Box>
@@ -174,7 +175,7 @@ export default function ShopProductCard({ ...props }) {
             variant={'subtitle1'}
             noWrap
           >
-            {loading ? <Skeleton variant="text" width={120} /> : name}
+            {loading ? <Skeleton variant="text" width={120} /> : title}
           </Typography>
         </Box>
         <Stack direction="row" alignItems="center" justifyContent="space-between" spacing={1}>
@@ -195,11 +196,7 @@ export default function ShopProductCard({ ...props }) {
               </>
             )}
           </Typography>
-          {loading ? (
-            <Skeleton variant="text" width={72} />
-          ) : (
-            <ColorPreviewGroup limit={3} colors={product?.colors} sx={{ minWidth: 72 }} />
-          )}
+          {/* {loading ? <Skeleton variant="text" width={72} /> : <ColorPreviewGroup sx={{ minWidth: 72 }} />} */}
         </Stack>
 
         <Stack spacing={0.5} direction="row" justifyContent={'space-between'} alignItems="center">

@@ -43,7 +43,7 @@ export default function ShopCard({ ...props }) {
                   }
                 }}
               >
-                {/* <Image
+                <Image
                   alt="shop"
                   src={shop?.logo?.url}
                   placeholder="blur"
@@ -54,7 +54,7 @@ export default function ShopCard({ ...props }) {
                   draggable="false"
                   quality={5}
                   sizes={'50vw'}
-                /> */}
+                />
               </Box>
             )}
             <Box>

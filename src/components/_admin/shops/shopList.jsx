@@ -11,7 +11,7 @@ import { useQuery } from 'react-query';
 import { Dialog } from '@mui/material';
 import DeleteDialog from 'src/components/dialog/delete';
 import Table from 'src/components/table/table';
-import ShopCard from 'src/components/cards/shop';
+import ShopCard from 'src/components/cards/shopx';
 import Shop from 'src/components/table/rows/shop';
 import { useSearchParams } from 'next/navigation';
 import PropTypes from 'prop-types';
@@ -20,6 +20,7 @@ const TABLE_HEAD = [
   { id: 'name', label: 'Shop', alignRight: false, sort: true },
   { id: 'products', label: 'products', alignRight: false, sort: true },
   { id: 'owner', label: 'Owner', alignRight: false, sort: true },
+  { id: 'orders', label: 'orders', alignRight: false, sort: true },
   { id: 'registered', label: 'Registered', alignRight: false, sort: true },
   { id: 'status', label: 'Status', alignRight: false, sort: false },
   { id: '', label: 'Actions', alignRight: true }
@@ -40,7 +41,7 @@ export default function AdminProducts({ brands, categories, isVendor }) {
       onError: (err) => toast.error(err.response.data.message || 'Something went wrong!')
     }
   );
-
+  console.log(data, 'data123');
   const handleClickOpen = (prop) => () => {
     setId(prop);
     setOpen(true);
