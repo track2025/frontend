@@ -17,6 +17,7 @@ import { LuLayoutDashboard } from 'react-icons/lu';
 
 import { SlHome } from 'react-icons/sl';
 import { TbUserSquareRounded } from 'react-icons/tb';
+import { CiShop } from 'react-icons/ci';
 
 // styles
 import RootStyled from './styled';
@@ -90,7 +91,19 @@ export default function UserList({ ...props }) {
           </ListItemIcon>
           Vendor Dashboard
         </MenuItem>
-      ) : null}
+      ) : (
+        <MenuItem
+          onClick={() => {
+            router.push('/create-shop');
+            setOpen(false);
+          }}
+        >
+          <ListItemIcon className="menu-icon">
+            <CiShop />
+          </ListItemIcon>
+          Become a seller
+        </MenuItem>
+      )}
       <MenuItem
         onClick={() => {
           setOpen(false);

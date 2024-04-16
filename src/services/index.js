@@ -448,3 +448,16 @@ export const getShopDetailsByAdmin = async (slug) => {
 
   return data;
 };
+
+export const addShopByUser = async (payload) => {
+  const { data } = await http.post(`/shops`, {
+    ...payload
+  });
+
+  return data;
+};
+export const getShopByUser = async () => {
+  const { data } = await http.get(`/user/shop`);
+
+  return data;
+};
