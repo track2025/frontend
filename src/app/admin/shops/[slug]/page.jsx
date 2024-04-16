@@ -11,7 +11,7 @@ export default function page({ params: { slug } }) {
     <div>
       {/* {JSON.stringify(data)} */}
       <ShopDetailCover data={data?.data} isLoading={isLoading} />
-      <ShopDetail />
+      <ShopDetail data={data} />
     </div>
   );
 }
