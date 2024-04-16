@@ -448,3 +448,13 @@ export const getShopDetailsByAdmin = async (slug) => {
 
   return data;
 };
+export const addAdminShop = async (payload) => {
+  const { data } = await http.post(`/admin/shops`, payload);
+  return data;
+};
+
+export const updateAdminShop = async ({ currentSlug, ...payload }) => {
+  const { data } = await http.put(`/admin/shops/${currentSlug}`, payload);
+
+  return data;
+};
