@@ -34,10 +34,10 @@ const Search = dynamic(() => import('src/components/dialog/search'), {
   ssr: false,
   loading: () => <Skeleton variant="circular" width={40} height={40} />
 });
-const UserSelect = dynamic(() => import('src/components/select/userSelect'), {
-  ssr: false,
-  loading: () => <Skeleton variant="circular" width={50} height={50} />
-});
+// const UserSelect = dynamic(() => import('src/components/select/userSelect'), {
+//   ssr: false,
+//   loading: () => <Skeleton variant="circular" width={50} height={50} />
+// });
 const AdminDialog = dynamic(() => import('src/components/dialog/admin'));
 const Skeletons = () => {
   return (
@@ -97,10 +97,11 @@ export default function Navbar({ isAuth }) {
 
           <Stack gap={0.1} direction="row" alignItems={'center'}>
             <Search />
-            <CartWidget checkout={checkout} />
+
             <WishlistPopover isAuth={isAuth} />
             <SettingMode />
-            <UserSelect />
+            <CartWidget checkout={checkout} />
+            {/* <UserSelect /> */}
           </Stack>
         </Toolbar>
       </AppBar>

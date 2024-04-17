@@ -5,7 +5,7 @@ import { Box } from '@mui/material';
 import Navbar from 'src/components/layout/_main/navbar';
 import Footer from 'src/components/layout/_main/footer';
 import { cookies } from 'next/headers';
-
+import Topbar from 'src/components/layout/_main/topbar';
 // Meta information
 export const metadata = {
   title: 'Nextall E-commerce Script | Your Gateway to Seamless Shopping and Secure Transactions',
@@ -28,6 +28,7 @@ export default async function RootLayout({ children }) {
 
   return (
     <>
+      <Topbar />
       <Navbar isAuth={hasCookie} />
       {children}
       <Box sx={{ py: { xs: 5, md: 3 } }} />

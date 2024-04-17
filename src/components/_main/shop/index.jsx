@@ -1,5 +1,5 @@
 'use client';
-import React from 'react';
+import React, { useEffect } from 'react';
 import ShopForm from 'src/components/forms/user-shop';
 import { Typography, Skeleton } from '@mui/material';
 import * as api from 'src/services';
@@ -7,22 +7,29 @@ import * as api from 'src/services';
 import { useQuery } from 'react-query';
 import toast from 'react-hot-toast';
 import { useRouter } from 'next-nprogress-bar';
+import { useDispatch, useSelector } from 'react-redux';
+import { updateStatus } from 'src/lib/redux/slices/user';
 export default function ShopSettingMain() {
   const router = useRouter();
+  const dispatch = useDispatch();
+  const { user } = useSelector((state) => state.user);
   const { data, isLoading } = useQuery(['get-shop-by-user'], () => api.getShopByUser(), {
     onSuccess: (res) => {
-      if (res.data.status === 'approved') {
-        toast.success('Welcome, Your shop is approved!');
-        router.push('/vendor/dashboard');
-      }
-      if (res.data.status === 'not approved') {
-        toast.error('apologize, Your shop is not approved!');
-      }
-      if (res.data.status === 'canceled') {
-        toast.error('apologize, Your shop is not approved!');
-      }
-      if (res.data.status === 'closed') {
-        toast.error('Welcome, Your shop is closed!');
+      if (res.data) {
+        if (res.data.status === 'approved') {
+          toast.success('Welcome, Your shop is approved!');
+          dispatch(updateStatus('vendor'));
+          router.push('/vendor/dashboard');
+        }
+        if (res.data.status === 'not approved') {
+          toast.error('apologize, Your shop is not approved!');
+        }
+        if (res.data.status === 'canceled') {
+          toast.error('apologize, Your shop is not approved!');
+        }
+        if (res.data.status === 'closed') {
+          toast.error('Welcome, Your shop is closed!');
+        }
       }
     },
 
@@ -31,6 +38,12 @@ export default function ShopSettingMain() {
       router.push('/');
     }
   });
+  useEffect(() => {
+    if (!user?.isVerified) {
+      router.push('/');
+      toast.error('Verify your email!');
+    }
+  }, []);
 
   return (
     <div>

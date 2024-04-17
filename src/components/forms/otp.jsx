@@ -3,6 +3,7 @@ import React from 'react';
 
 // next component
 import { useRouter } from 'next-nprogress-bar';
+import { useSearchParams } from 'next/navigation';
 // api
 import * as api from 'src/services';
 import { useMutation } from 'react-query';
@@ -78,6 +79,8 @@ const renderer = ({ minutes, seconds }) => {
 export default function VerifyOTPForm() {
   const router = useRouter();
   const theme = useTheme();
+  const searchParam = useSearchParams();
+  const redirect = searchParam.get('redirect');
   const { user } = useSelector((state) => state.user);
   const [loading, setLoading] = React.useState(false);
   const [resendLoading, setResendLoading] = React.useState(false);
@@ -93,7 +96,7 @@ export default function VerifyOTPForm() {
     retry: false,
     onSuccess: async () => {
       setLoading(false);
-      router.push('/');
+      router.push(redirect || `/`);
     },
     onError: () => {
       toast.error('Invalid OTP.');
