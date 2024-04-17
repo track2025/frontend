@@ -213,7 +213,7 @@ export default function ProductsCarousel({ ...props }) {
               display: page === 0 ? 'none' : 'flex',
               position: 'absolute',
               transform: 'translateY(-50%)',
-              left: '-1.8%',
+              left: '-1.5%',
               top: '40%',
               transition: 'all 0.2s ease-in-out',
               zIndex: 11
@@ -231,7 +231,7 @@ export default function ProductsCarousel({ ...props }) {
             sx={{
               display: totalSlides - 1 === page ? 'none' : 'flex',
               transform: 'translateY(-50%)',
-              right: '-1.8%',
+              right: '-1.5%',
               top: '40%',
               transition: 'all 0.2s ease-in-out',
               position: 'absolute',
