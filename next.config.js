@@ -1,6 +1,6 @@
-const withBundleAnalyzer = require('@next/bundle-analyzer')({
-  enabled: process.env.ANALYZE === 'true'
-});
+// const withBundleAnalyzer = require('@next/bundle-analyzer')({
+//   enabled: process.env.ANALYZE === 'true'
+// });
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   reactStrictMode: true,
@@ -9,7 +9,6 @@ const nextConfig = {
     config.resolve.fallback = { fs: false };
     return config;
   },
-  // swcMinify: false,
 
   env: {
     BASE_URL: process.env.BASE_URL,
@@ -26,4 +25,4 @@ const nextConfig = {
   }
 };
 
-module.exports = withBundleAnalyzer(nextConfig);
+module.exports = nextConfig;

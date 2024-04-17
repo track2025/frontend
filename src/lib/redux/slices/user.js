@@ -30,6 +30,9 @@ const slice = createSlice({
     },
     setInitialize(state) {
       state.isInitialized = true;
+    },
+    updateStatus(state, action) {
+      state.user.status = action.payload;
     }
   }
 });
@@ -38,6 +41,6 @@ const slice = createSlice({
 export default slice.reducer;
 
 // Actions
-export const { setLogin, setLogout, setCount, setInitialize } = slice.actions;
+export const { setLogin, setLogout, setCount, setInitialize, updateStatus } = slice.actions;
 
 // ----------------------------------------------------------------------
