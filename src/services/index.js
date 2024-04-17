@@ -458,6 +458,15 @@ export const addShopByUser = async (payload) => {
 };
 export const getShopByUser = async () => {
   const { data } = await http.get(`/user/shop`);
+  return data;
+};
+export const addAdminShop = async (payload) => {
+  const { data } = await http.post(`/admin/shops`, payload);
+  return data;
+};
+
+export const updateAdminShop = async ({ currentSlug, ...payload }) => {
+  const { data } = await http.put(`/admin/shops/${currentSlug}`, payload);
 
   return data;
 };

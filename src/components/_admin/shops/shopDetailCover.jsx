@@ -8,6 +8,8 @@ import PropTypes from 'prop-types';
 import Image from 'next/image';
 import { BiMap } from 'react-icons/bi';
 import { IoCall } from 'react-icons/io5';
+import { fDateShort } from 'src/utils/formatTime';
+import { MdVerified } from 'react-icons/md';
 
 const RootStyle = styled(Card)(({ theme }) => ({
   marginBottom: theme.spacing(3),
@@ -88,7 +90,8 @@ export default function ShopDetailCover({ data, isLoading }) {
           position: 'absolute',
           bottom: 0,
           width: '100%',
-          bgcolor: 'background.paper'
+          bgcolor: 'background.paper',
+          minHeight: `48px !important`
         }}
       >
         <Stack
@@ -104,10 +107,16 @@ export default function ShopDetailCover({ data, isLoading }) {
           }}
         >
           <Stack direction="row" alignItems="center" justifyContent="end" spacing={1}>
+            <MdVerified color="#3F95FE" />
+            <Typography variant="body2">
+              {isLoading ? <Skeleton variant="text" width={200} /> : fDateShort(data?.createdAt)}
+            </Typography>
+          </Stack>
+          <Stack direction="row" alignItems="center" justifyContent="end" spacing={1}>
             <BiMap />
-            <Typography variant="body1">
+            <Typography variant="body2">
               {isLoading ? (
-                <Skeleton variant="text" />
+                <Skeleton variant="text" width={200} />
               ) : (
                 data?.address?.streetAddress +
                 ' ' +
@@ -121,7 +130,7 @@ export default function ShopDetailCover({ data, isLoading }) {
           </Stack>
           <Stack direction="row" alignItems="center" justifyContent="end" spacing={1}>
             <IoCall />
-            <Typography variant="body1">{isLoading ? <Skeleton variant="text" /> : data?.phone}</Typography>
+            <Typography variant="body2">{isLoading ? <Skeleton variant="text" width={200} /> : data?.phone}</Typography>
           </Stack>
         </Stack>
       </Toolbar>
