@@ -33,6 +33,8 @@ import { Form, FormikProvider, useFormik } from 'formik';
 // api
 import * as api from 'src/services';
 import PropTypes from 'prop-types';
+// countries
+import countries from 'src/components/_main/checkout/countries.json';
 
 AdminShopForm.propTypes = {
   data: PropTypes.object,
@@ -86,10 +88,14 @@ export default function AdminShopForm({ data: currentShop, isLoading: shopLoadin
     cover: Yup.mixed().required('Cover is required'),
     logo: Yup.mixed().required('logo is required'),
     slug: Yup.string().required('Slug is required'),
-    message: Yup.string()
-      .min(10, 'Message must be at least 10 words')
-      .max(50, 'Message must be at most 50 words')
-      .required('Message is required'),
+    message:
+      currentShop &&
+      (currentShop.status === 'cancel' || currentShop.status === 'closed' || currentShop.status === 'action required')
+        ? Yup.string()
+            .min(10, 'Message must be at least 10 words')
+            .max(50, 'Message must be at most 50 words')
+            .required('Message is required')
+        : Yup.string().nullable().notRequired(), // No validation if message is not required
     description: Yup.string().required('Description is required'),
     metaTitle: Yup.string().required('Meta title is required'),
     metaDescription: Yup.string().required('Meta description is required'),
@@ -116,9 +122,15 @@ export default function AdminShopForm({ data: currentShop, isLoading: shopLoadin
       logo: currentShop?.logo || null,
       description: currentShop?.description || '',
       metaDescription: currentShop?.metaDescription || '',
-      status: currentShop?.status || STATUS_OPTIONS[0],
-      message: currentShop?.message || '',
-      file: currentShop?.cover || '',
+      ...(currentShop && {
+        status: currentShop ? currentShop.status : STATUS_OPTIONS[0], // Only include message if currentShop exists
+        message:
+          currentShop.status === 'cancel' || currentShop.status === 'closed' || currentShop.status === 'action required'
+            ? currentShop.message
+            : ''
+      }),
+      fileLogo: currentShop?.logo || '',
+      fileCover: currentShop?.cover || '',
       slug: currentShop?.slug || '',
       phone: currentShop?.phone || Number,
       paymentInfo: {
@@ -128,7 +140,7 @@ export default function AdminShopForm({ data: currentShop, isLoading: shopLoadin
         AccountNo: currentShop?.paymentInfo?.AccountNo || Number
       },
       address: {
-        country: currentShop?.address.country || '',
+        country: currentShop?.address.country || 'Andorra',
         city: currentShop?.address.city || '',
         state: currentShop?.address.state || '',
         streetAddress: currentShop?.address.streetAddress || ''
@@ -138,17 +150,16 @@ export default function AdminShopForm({ data: currentShop, isLoading: shopLoadin
     validationSchema: ShopSettingScema,
     onSubmit: async (values) => {
       const { ...rest } = values;
-      console.log(...rest, 'reset');
-      //   try {
-      //     mutate({
-      //       ...rest,
-      //       ...(currentShop && {
-      //         currentSlug: currentShop.slug
-      //       })
-      //     });
-      //   } catch (error) {
-      //     console.error(error);
-      //   }
+      try {
+        mutate({
+          ...rest,
+          ...(currentShop && {
+            currentSlug: currentShop.slug
+          })
+        });
+      } catch (error) {
+        console.error(error);
+      }
     }
   });
   const { errors, values, touched, handleSubmit, setFieldValue, getFieldProps } = formik;
@@ -182,9 +193,9 @@ export default function AdminShopForm({ data: currentShop, isLoading: shopLoadin
         setstate({ ...state, loading: false });
       })
       .then(() => {
-        // if (values.file) {
-        //   deleteMutate(values.logo._id);
-        // }
+        if (values?.fileLogo) {
+          deleteMutate(values.logo._id);
+        }
         setstate({ ...state, loading: false });
       });
   };
@@ -218,7 +229,7 @@ export default function AdminShopForm({ data: currentShop, isLoading: shopLoadin
         setstate({ ...state, loading: false });
       })
       .then(() => {
-        if (values.file) {
+        if (values.fileCover) {
           deleteMutate(values.cover._id);
         }
         setstate({ ...state, loading: false });
@@ -239,7 +250,7 @@ export default function AdminShopForm({ data: currentShop, isLoading: shopLoadin
       setFieldValue('message', ''); // Set message to empty string
     }
   }, [values.status]);
-  console.log(values, 'dsadsad');
+
   return (
     <Box position="relative">
       <FormikProvider value={formik}>
@@ -269,7 +280,7 @@ export default function AdminShopForm({ data: currentShop, isLoading: shopLoadin
                       <Skeleton variant="rectangular" width="100%" height={225} />
                     ) : (
                       <UploadSingleFile
-                        id="file"
+                        id="fileLogo"
                         file={values.logo}
                         onDrop={handleDropLogo}
                         error={Boolean(touched.logo && errors.logo)}
@@ -419,7 +430,7 @@ export default function AdminShopForm({ data: currentShop, isLoading: shopLoadin
                     <Skeleton variant="rectangular" width="100%" height={225} />
                   ) : (
                     <UploadSingleFile
-                      id="file"
+                      id="fileCover"
                       file={values.cover}
                       onDrop={handleDropCover}
                       error={Boolean(touched.cover && errors.cover)}
@@ -559,12 +570,20 @@ export default function AdminShopForm({ data: currentShop, isLoading: shopLoadin
                           <Skeleton variant="rectangular" width="100%" height={240} />
                         ) : (
                           <TextField
-                            id="country"
+                            select
                             fullWidth
+                            placeholder="Country"
                             {...getFieldProps('address.country')}
-                            error={Boolean(touched.address?.country && errors.address?.country)}
-                            helperText={touched.address?.country && errors.address?.country}
-                          />
+                            SelectProps={{ native: true }}
+                            error={Boolean(touched?.address?.country && errors?.address?.country)}
+                            helperText={touched?.address?.country && errors?.address?.country}
+                          >
+                            {countries.map((option) => (
+                              <option key={option.code} value={option.label}>
+                                {option.label}
+                              </option>
+                            ))}
+                          </TextField>
                         )}
                       </div>
                       <div>
@@ -627,63 +646,66 @@ export default function AdminShopForm({ data: currentShop, isLoading: shopLoadin
                           />
                         )}
                       </div>
-
-                      <FormControl fullWidth sx={{ select: { textTransform: 'capitalize' } }}>
-                        {shopLoading ? (
-                          <Skeleton variant="text" width={70} />
-                        ) : (
-                          <LabelStyle component={'label'} htmlFor="status">
-                            {'Status'}
-                          </LabelStyle>
-                        )}
-                        {shopLoading ? (
-                          <Skeleton variant="rectangular" width="100%" height={56} />
-                        ) : (
-                          <Select
-                            id="status"
-                            native
-                            {...getFieldProps('status')}
-                            error={Boolean(touched.status && errors.status)}
-                          >
-                            <option value="" style={{ display: 'none' }} />
-                            {STATUS_OPTIONS.map((status) => (
-                              <option key={status} value={status}>
-                                {status}
-                              </option>
-                            ))}
-                          </Select>
-                        )}
-                        {touched.status && errors.status && (
-                          <FormHelperText error sx={{ px: 2, mx: 0 }}>
-                            {touched.status && errors.status}
-                          </FormHelperText>
-                        )}
-                      </FormControl>
-                      {(values.status === 'cancel' ||
-                        values.status === 'closed' ||
-                        values.status === 'action required') && (
-                        <div>
-                          {shopLoading ? (
-                            <Skeleton variant="text" width={150} />
-                          ) : (
-                            <LabelStyle component={'label'} htmlFor="message">
-                              Message
-                            </LabelStyle>
+                      {currentShop && (
+                        <Stack spacing={2}>
+                          <FormControl fullWidth sx={{ select: { textTransform: 'capitalize' } }}>
+                            {shopLoading ? (
+                              <Skeleton variant="text" width={70} />
+                            ) : (
+                              <LabelStyle component={'label'} htmlFor="status">
+                                {'Status'}
+                              </LabelStyle>
+                            )}
+                            {shopLoading ? (
+                              <Skeleton variant="rectangular" width="100%" height={56} />
+                            ) : (
+                              <Select
+                                id="status"
+                                native
+                                {...getFieldProps('status')}
+                                error={Boolean(touched.status && errors.status)}
+                              >
+                                <option value="" style={{ display: 'none' }} />
+                                {STATUS_OPTIONS.map((status) => (
+                                  <option key={status} value={status}>
+                                    {status}
+                                  </option>
+                                ))}
+                              </Select>
+                            )}
+                            {touched.status && errors.status && (
+                              <FormHelperText error sx={{ px: 2, mx: 0 }}>
+                                {touched.status && errors.status}
+                              </FormHelperText>
+                            )}
+                          </FormControl>
+                          {(values.status === 'cancel' ||
+                            values.status === 'closed' ||
+                            values.status === 'action required') && (
+                            <div>
+                              {shopLoading ? (
+                                <Skeleton variant="text" width={150} />
+                              ) : (
+                                <LabelStyle component={'label'} htmlFor="message">
+                                  Message
+                                </LabelStyle>
+                              )}
+                              {shopLoading ? (
+                                <Skeleton variant="rectangular" width="100%" height={240} />
+                              ) : (
+                                <TextField
+                                  id="message"
+                                  fullWidth
+                                  {...getFieldProps('message')}
+                                  error={Boolean(touched.message && errors.message)}
+                                  helperText={touched.message && errors.message}
+                                  rows={4}
+                                  multiline
+                                />
+                              )}
+                            </div>
                           )}
-                          {shopLoading ? (
-                            <Skeleton variant="rectangular" width="100%" height={240} />
-                          ) : (
-                            <TextField
-                              id="message"
-                              fullWidth
-                              {...getFieldProps('message')}
-                              error={Boolean(touched.message && errors.message)}
-                              helperText={touched.message && errors.message}
-                              rows={4}
-                              multiline
-                            />
-                          )}
-                        </div>
+                        </Stack>
                       )}
                     </Stack>
                   </Card>
