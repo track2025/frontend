@@ -7,6 +7,7 @@ import { useSearchParams } from 'next/navigation';
 // api
 import * as api from 'src/services';
 import { useMutation } from 'react-query';
+import { verifyUser } from 'src/lib/redux/slices/user';
 // toast
 import { toast } from 'react-hot-toast';
 // mui Component
@@ -15,7 +16,7 @@ import { LoadingButton } from '@mui/lab';
 // react component
 import OtpInput from 'react-otp-input';
 import Countdown from 'react-countdown';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { useTheme } from '@mui/material/styles';
 // Renderer callback with condition
 const renderer = ({ minutes, seconds }) => {
@@ -79,6 +80,7 @@ const renderer = ({ minutes, seconds }) => {
 export default function VerifyOTPForm() {
   const router = useRouter();
   const theme = useTheme();
+  const dispatch = useDispatch();
   const searchParam = useSearchParams();
   const redirect = searchParam.get('redirect');
   const { user } = useSelector((state) => state.user);
@@ -96,6 +98,7 @@ export default function VerifyOTPForm() {
     retry: false,
     onSuccess: async () => {
       setLoading(false);
+      dispatch(verifyUser());
       router.push(redirect || `/`);
     },
     onError: () => {

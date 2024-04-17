@@ -1,7 +1,17 @@
+'use client';
 import { Container } from '@mui/material';
-import React from 'react';
-import ShopForm from 'src/components/_main/shop';
-export default function page() {
+import React, { useEffect } from 'react';
+import ShopForm from 'src/components/forms/user-shop';
+import { useSelector } from 'react-redux';
+import { useRouter } from 'next-nprogress-bar';
+export default function Page() {
+  const { user } = useSelector((state) => state.user);
+  const router = useRouter();
+  useEffect(() => {
+    if (user.role === 'vendor') {
+      router.push('/vendor/dashboard');
+    }
+  }, []);
   return (
     <Container fixed>
       <ShopForm />

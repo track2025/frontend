@@ -1,6 +1,6 @@
 'use client';
 import React, { useEffect } from 'react';
-import ShopForm from 'src/components/forms/user-shop';
+import ShopForm from 'src/components/forms/shopSetting';
 import { Typography, Skeleton } from '@mui/material';
 import * as api from 'src/services';
 // usequery
