@@ -8,8 +8,8 @@ export default function Page() {
   const { user } = useSelector((state) => state.user);
   const router = useRouter();
   useEffect(() => {
-    if (user.role === 'vendor') {
-      router.push('/vendor/dashboard');
+    if (user.role === 'vendor' || user.role.includes('admin')) {
+      router.push('/');
     }
   }, []);
   return (

@@ -2,32 +2,12 @@
 import { Box } from '@mui/material';
 import Grid from '@mui/material/Grid';
 import Container from '@mui/material/Container';
+import ShopDetailCover from 'src/components/_admin/shops/shopDetailCover';
 
 // components
 import Filter from 'src/components/_main/products/filters';
 import HeaderBreadcrumbs from 'src/components/headerBreadcrumbs';
 import ProductList from 'src/components/_main/products';
-export async function generateStaticParams() {
-  const { data } = await fetch(process.env.BASE_URL + '/api/categories-slugs').then((res) => res.json());
-  return data?.map((cat) => ({
-    category: cat.slug
-  }));
-}
-
-export async function generateMetadata({ params }) {
-  const { data: response } = await fetch(process.env.BASE_URL + '/api/categories/' + params.category).then((res) =>
-    res.json()
-  );
-  // const images = category.images.map((img) => img.url);
-  return {
-    // title: response.metaTitle,
-    // description: response.metaDescription,
-    // title: response.name
-    // openGraph: {
-    //   images: [response.cover.url]
-    // }
-  };
-}
 
 export default async function Listing({ params }) {
   const { shop } = params;
@@ -36,6 +16,7 @@ export default async function Listing({ params }) {
     notFound();
   }
   const { data: shopData } = response;
+  // console.log(shopData, 'shopData');
   return (
     <Box>
       <Box sx={{ bgcolor: 'background.default' }}>
@@ -56,6 +37,9 @@ export default async function Listing({ params }) {
               }
             ]}
           />
+          <Box mt={3}>
+            <ShopDetailCover data={shopData} isLoading={false} />
+          </Box>
           <Grid container spacing={3}>
             <Grid
               item
