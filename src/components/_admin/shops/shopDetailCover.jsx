@@ -49,8 +49,8 @@ export default function ShopDetailCover({ data, isLoading }) {
       <Image
         src={data?.cover?.url}
         alt={data?.title}
-        // placeholder="blur"
-        // blurDataURL={data?.cover?.blurDataURL}
+        placeholder="blur"
+        blurDataURL={data?.cover?.blurDataURL}
         objectFit="cover"
         fill
       />
@@ -58,14 +58,16 @@ export default function ShopDetailCover({ data, isLoading }) {
         <Container fixed>
           <InfoStyle>
             <MyAvatar
-              data={{ cover: data?.logo?.url, fullName: data?.firstName }}
+              data={{ cover: data?.logo?.url, fullName: data?.title }}
               sx={{
                 mx: 'auto',
                 borderWidth: 2,
                 borderStyle: 'solid',
                 borderColor: 'common.white',
                 width: { xs: 80, md: 128 },
-                height: { xs: 80, md: 128 }
+                height: { xs: 80, md: 128 },
+                boxShadow:
+                  'inset 0px 10px 32px -4px rgba(19, 25, 39, 0.10),inset 0px 6px 14px -6px rgba(19, 25, 39, 0.12)'
               }}
             />
             <Box
@@ -144,8 +146,12 @@ ShopDetailCover.propTypes = {
     cover: PropTypes.shape({
       url: PropTypes.string.isRequired
     }),
-    firstName: PropTypes.string.isRequired,
-    lastName: PropTypes.string.isRequired,
+    logo: PropTypes.shape({
+      url: PropTypes.string.isRequired
+    }),
+
+    title: PropTypes.string.isRequired,
+    description: PropTypes.string.isRequired,
     email: PropTypes.string.isRequired
   }).isRequired,
   isLoading: PropTypes.bool.isRequired

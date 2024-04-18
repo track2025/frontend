@@ -27,7 +27,7 @@ const WishlistPopover = dynamic(() => import('src/components/popover/wislist'), 
   loading: () => <Skeleton variant="circular" width={40} height={40} />
 });
 const CartWidget = dynamic(() => import('src/components/cartWidget'), {
-  loading: () => <Skeleton variant="circular" width={40} height={40} />
+  loading: () => <Skeleton variant="rounded" width={86} height={41} />
 });
 
 const Search = dynamic(() => import('src/components/dialog/search'), {
