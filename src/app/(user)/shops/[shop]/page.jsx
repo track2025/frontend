@@ -21,7 +21,7 @@ export default async function Listing({ params }) {
     <Box>
       <Box sx={{ bgcolor: 'background.default' }}>
         <Container fixed>
-          <HeaderBreadcrumbs
+          {/* <HeaderBreadcrumbs
             heading={shopData?.title}
             links={[
               {
@@ -36,9 +36,9 @@ export default async function Listing({ params }) {
                 name: shopData?.title
               }
             ]}
-          />
+          /> */}
           <Box mt={3}>
-            <ShopDetailCover data={shopData} isLoading={false} />
+            <ShopDetailCover isUser data={shopData} isLoading={false} />
           </Box>
           <Grid container spacing={3}>
             <Grid
