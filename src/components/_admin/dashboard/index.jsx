@@ -41,16 +41,19 @@ export default function Dashboard({ isVendor }) {
   return (
     <Box>
       <Grid container spacing={3}>
-        <Grid item xs={12} sm={6} md={3}>
+        <Grid item xs={12} sm={6} md={isVendor ? 4 : 3}>
           <DailyEaring data={daily_earning} isLoading={isLoading} />
         </Grid>
-        <Grid item xs={12} sm={6} md={3}>
+        <Grid item xs={12} sm={6} md={isVendor ? 4 : 3}>
           <DailyOrders data={daily_orders} isLoading={isLoading} />
         </Grid>
-        <Grid item xs={12} sm={6} md={3}>
-          <SignupUsers data={daily_users} isLoading={isLoading} />
-        </Grid>
-        <Grid item xs={12} sm={6} md={3}>
+        {!isVendor && (
+          <Grid item xs={12} sm={6} md={isVendor ? 4 : 3}>
+            <SignupUsers data={daily_users} isLoading={isLoading} />
+          </Grid>
+        )}
+
+        <Grid item xs={12} sm={isVendor ? 12 : 6} md={isVendor ? 4 : 3}>
           <TotalProducts data={totalProducts} isLoading={isLoading} />
         </Grid>
         <Grid item xs={12} md={7} lg={7}>

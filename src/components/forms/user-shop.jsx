@@ -66,7 +66,7 @@ export default function CreateShopSettingFrom() {
     onSuccess: (data) => {
       toast.success('Shop is under review!');
       dispatch(updateUserRole());
-      router.push('/vendor/orders');
+      router.push('/vendor/dashboard');
     },
     onError: (error) => {
       toast.error(error.response.data.message);
@@ -231,12 +231,12 @@ export default function CreateShopSettingFrom() {
                       <LabelStyle variant="body1" component={'label'} color="text.primary">
                         Logo
                       </LabelStyle>
-                      <Skeleton variant="text" width={150} />
+
                       <LabelStyle component={'label'} htmlFor="file">
                         <span>512 * 512</span>
                       </LabelStyle>
                     </Stack>
-                    <Skeleton variant="rectangular" width="100%" height={225} />
+
                     <UploadSingleFile
                       id="file"
                       file={values.logo}
@@ -255,11 +255,10 @@ export default function CreateShopSettingFrom() {
                   </Box>
                   <Box sx={{ width: '100%' }}>
                     <div>
-                      <Skeleton variant="text" width={140} />
                       <LabelStyle component={'label'} htmlFor="title">
                         Title
                       </LabelStyle>
-                      <Skeleton variant="rectangular" width="100%" height={56} />
+
                       <TextField
                         id="title"
                         fullWidth
@@ -271,12 +270,11 @@ export default function CreateShopSettingFrom() {
                       />
                     </div>
                     <div>
-                      <Skeleton variant="text" width={70} />
                       <LabelStyle component={'label'} htmlFor="slug">
                         {' '}
                         {'Slug'}
                       </LabelStyle>
-                      <Skeleton variant="rectangular" width="100%" height={56} />
+
                       <TextField
                         fullWidth
                         id="slug"
@@ -286,11 +284,10 @@ export default function CreateShopSettingFrom() {
                       />
                     </div>
                     <div>
-                      <Skeleton variant="text" width={100} />
                       <LabelStyle component={'label'} htmlFor="meta-title">
                         {'Meta Title'}
                       </LabelStyle>
-                      <Skeleton variant="rectangular" width="100%" height={56} />
+
                       <TextField
                         id="meta-title"
                         fullWidth
@@ -303,12 +300,11 @@ export default function CreateShopSettingFrom() {
                 </Stack>
                 <Stack mt={3} spacing={3} direction="row" flexGrow="wrap">
                   <Box sx={{ width: '100%' }}>
-                    <Skeleton variant="text" width={100} />
                     <LabelStyle component={'label'} htmlFor="description">
                       {' '}
                       {'Description'}{' '}
                     </LabelStyle>
-                    <Skeleton variant="rectangular" width="100%" height={240} />
+
                     <TextField
                       fullWidth
                       id="description"
@@ -320,14 +316,10 @@ export default function CreateShopSettingFrom() {
                     />
                   </Box>
                   <Box sx={{ width: '100%' }}>
-                    <Skeleton variant="text" width={150} />
-
                     <LabelStyle component={'label'} htmlFor="meta-description">
                       {' '}
                       {'Meta Description'}{' '}
                     </LabelStyle>
-
-                    <Skeleton variant="rectangular" width="100%" height={240} />
 
                     <TextField
                       id="meta-description"
@@ -342,20 +334,14 @@ export default function CreateShopSettingFrom() {
                 </Stack>
                 <Box mt={3}>
                   <Stack direction="row" justifyContent="space-between">
-                    <Skeleton variant="text" width={150} />
-
                     <LabelStyle variant="body1" component={'label'} color="text.primary">
                       Cover
                     </LabelStyle>
-
-                    <Skeleton variant="text" width={150} />
 
                     <LabelStyle component={'label'} htmlFor="file">
                       <span>990 * 300</span>
                     </LabelStyle>
                   </Stack>
-
-                  <Skeleton variant="rectangular" width="100%" height={225} />
 
                   <UploadSingleFile
                     id="file"
@@ -387,13 +373,9 @@ export default function CreateShopSettingFrom() {
                   <Card sx={{ p: 3 }}>
                     <Stack spacing={2}>
                       <div>
-                        <Skeleton variant="text" width={150} />
-
                         <LabelStyle component={'label'} htmlFor="holder-name">
                           Holder Name
                         </LabelStyle>
-
-                        <Skeleton variant="rectangular" width="100%" height={240} />
 
                         <TextField
                           id="holder-name"
@@ -404,13 +386,9 @@ export default function CreateShopSettingFrom() {
                         />
                       </div>
                       <div>
-                        <Skeleton variant="text" width={150} />
-
                         <LabelStyle component={'label'} htmlFor="holder-email">
                           Holder Email
                         </LabelStyle>
-
-                        <Skeleton variant="rectangular" width="100%" height={240} />
 
                         <TextField
                           id="holder-email"
@@ -421,13 +399,9 @@ export default function CreateShopSettingFrom() {
                         />
                       </div>
                       <div>
-                        <Skeleton variant="text" width={150} />
-
                         <LabelStyle component={'label'} htmlFor="bank-name">
                           Bank Name
                         </LabelStyle>
-
-                        <Skeleton variant="rectangular" width="100%" height={240} />
 
                         <TextField
                           id="bank-name"
@@ -438,13 +412,9 @@ export default function CreateShopSettingFrom() {
                         />
                       </div>
                       <div>
-                        <Skeleton variant="text" width={150} />
-
                         <LabelStyle component={'label'} htmlFor="account-number">
                           Account Number
                         </LabelStyle>
-
-                        <Skeleton variant="rectangular" width="100%" height={240} />
 
                         <TextField
                           id="account-number"
@@ -455,13 +425,9 @@ export default function CreateShopSettingFrom() {
                         />
                       </div>
                       <div>
-                        <Skeleton variant="text" width={150} />
-
                         <LabelStyle component={'label'} htmlFor="phone">
                           Phone Number
                         </LabelStyle>
-
-                        <Skeleton variant="rectangular" width="100%" height={240} />
 
                         <TextField
                           id="phone"
@@ -472,11 +438,10 @@ export default function CreateShopSettingFrom() {
                         />
                       </div>
                       <div>
-                        <Skeleton variant="text" width={150} />
                         <LabelStyle component={'label'} htmlFor="country">
                           Country
                         </LabelStyle>
-                        <Skeleton variant="rectangular" width="100%" height={240} />
+
                         <TextField
                           id="country"
                           fullWidth
@@ -486,13 +451,9 @@ export default function CreateShopSettingFrom() {
                         />
                       </div>
                       <div>
-                        <Skeleton variant="text" width={150} />
-
                         <LabelStyle component={'label'} htmlFor="city">
                           City
                         </LabelStyle>
-
-                        <Skeleton variant="rectangular" width="100%" height={240} />
 
                         <TextField
                           id="city"
@@ -503,13 +464,9 @@ export default function CreateShopSettingFrom() {
                         />
                       </div>
                       <div>
-                        <Skeleton variant="text" width={150} />
-
                         <LabelStyle component={'label'} htmlFor="state">
                           State
                         </LabelStyle>
-
-                        <Skeleton variant="rectangular" width="100%" height={240} />
 
                         <TextField
                           id="state"
@@ -520,11 +477,9 @@ export default function CreateShopSettingFrom() {
                         />
                       </div>
                       <div>
-                        <Skeleton variant="text" width={150} />
                         <LabelStyle component={'label'} htmlFor="streetAddress">
                           Street Address
                         </LabelStyle>
-                        <Skeleton variant="rectangular" width="100%" height={240} />
 
                         <TextField
                           id="streetAddress"
@@ -536,8 +491,6 @@ export default function CreateShopSettingFrom() {
                       </div>
                     </Stack>
                   </Card>
-
-                  <Skeleton variant="rectangular" width="100%" height={56} />
 
                   <LoadingButton
                     type="submit"
