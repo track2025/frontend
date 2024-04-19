@@ -4,16 +4,17 @@ import React from 'react';
 // toast
 import toast from 'react-hot-toast';
 // components
-import DailyEaring from 'src/components/_admin/dashboard/dailyEarning';
-import SignupUsers from 'src/components/_admin/dashboard/signupUsers';
-import TotalProducts from 'src/components/_admin/dashboard/totalProducts';
-import DailyOrders from 'src/components/_admin/dashboard/dailyOrders';
+import DashboardCard from 'src/components/_admin/dashboard/dashboardCard';
+import LowStockProducts from 'src/components/_admin/dashboard/lowStockProducts';
+// icon
+import { FaFileInvoiceDollar } from 'react-icons/fa6';
+import { BsClipboard2DataFill } from 'react-icons/bs';
 import OrderChart from 'src/components/charts/Order';
 import SalesChart from 'src/components/charts/Sales';
 import IncomeChart from 'src/components/charts/Income';
 import BestSelling from './bestSelling';
 // mui
-import { Grid, Box } from '@mui/material';
+import { Grid, Box, Typography, Card } from '@mui/material';
 // react-query
 import { useQuery } from 'react-query';
 // api
@@ -31,30 +32,95 @@ export default function Dashboard({ isVendor }) {
   const data = dashboard?.data || {};
   const daily_earning = data?.dailyEarning;
   const daily_orders = data?.dailyOrders;
-  const daily_users = data?.users;
+  const daily_users = data?.totalUsers;
   const totalProducts = data?.totalProducts;
   const sales_report = data?.salesReport;
   const income_report = data?.incomeReport;
   const orders_report = data?.ordersReport;
   const bestSellingProducts = data?.bestSellingProducts;
+  const totalVendors = data?.totalVendors;
+  const totalShops = data?.totalShops;
+  const totalPendingOrders = data?.totalPendingOrders;
+  const totalReturnOrders = data?.totalReturnOrders;
 
   return (
     <Box>
       <Grid container spacing={3}>
         <Grid item xs={12} sm={6} md={isVendor ? 4 : 3}>
-          <DailyEaring data={daily_earning} isLoading={isLoading} />
+          <DashboardCard
+            color="primary"
+            isAmount
+            icon={<FaFileInvoiceDollar size={24} />}
+            title="Daily Earning"
+            value={daily_earning}
+            isLoading={isLoading}
+          />
         </Grid>
         <Grid item xs={12} sm={6} md={isVendor ? 4 : 3}>
-          <DailyOrders data={daily_orders} isLoading={isLoading} />
+          <DashboardCard
+            color="secondary"
+            title="Daily Orders"
+            value={daily_orders}
+            icon={<BsClipboard2DataFill size={24} />}
+            isLoading={isLoading}
+          />
         </Grid>
         {!isVendor && (
           <Grid item xs={12} sm={6} md={isVendor ? 4 : 3}>
-            <SignupUsers data={daily_users} isLoading={isLoading} />
+            <DashboardCard
+              color="warning"
+              title="Daily Users"
+              value={daily_users}
+              icon={<BsClipboard2DataFill size={24} />}
+              isLoading={isLoading}
+            />
           </Grid>
         )}
 
         <Grid item xs={12} sm={isVendor ? 12 : 6} md={isVendor ? 4 : 3}>
-          <TotalProducts data={totalProducts} isLoading={isLoading} />
+          <DashboardCard
+            color="error"
+            title="Total Products"
+            value={totalProducts}
+            icon={<BsClipboard2DataFill size={24} />}
+            isLoading={isLoading}
+          />
+        </Grid>
+        <Grid item xs={12} sm={isVendor ? 12 : 6} md={isVendor ? 4 : 3}>
+          <DashboardCard
+            color="success"
+            title="Total Vendors"
+            value={totalVendors}
+            icon={<BsClipboard2DataFill size={24} />}
+            isLoading={isLoading}
+          />
+        </Grid>
+        <Grid item xs={12} sm={isVendor ? 12 : 6} md={isVendor ? 4 : 3}>
+          <DashboardCard
+            color="info"
+            title="Total Shop"
+            value={totalShops}
+            icon={<BsClipboard2DataFill size={24} />}
+            isLoading={isLoading}
+          />
+        </Grid>
+        <Grid item xs={12} sm={isVendor ? 12 : 6} md={isVendor ? 4 : 3}>
+          <DashboardCard
+            color="#01838F"
+            title="Pending Orders"
+            value={totalPendingOrders}
+            icon={<BsClipboard2DataFill size={24} />}
+            isLoading={isLoading}
+          />
+        </Grid>
+        <Grid item xs={12} sm={isVendor ? 12 : 6} md={isVendor ? 4 : 3}>
+          <DashboardCard
+            color="#AFB42B"
+            title="Retruned Orders"
+            value={totalReturnOrders}
+            icon={<BsClipboard2DataFill size={24} />}
+            isLoading={isLoading}
+          />
         </Grid>
         <Grid item xs={12} md={7} lg={7}>
           <SalesChart data={sales_report} isLoading={isLoading} />
@@ -67,6 +133,14 @@ export default function Dashboard({ isVendor }) {
         </Grid>
         <Grid item xs={12} md={8} lg={8}>
           <IncomeChart data={income_report} isLoading={isLoading} />
+        </Grid>
+        <Grid item xs={12}>
+          <Card>
+            <Typography variant="h6" color="text.primary" px={2} py={2}>
+              Low Stock Products
+            </Typography>
+            <LowStockProducts />
+          </Card>
         </Grid>
       </Grid>
     </Box>
