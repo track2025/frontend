@@ -20,14 +20,14 @@ export default function Categories() {
           links={[
             {
               name: 'Dashboard',
-              href: '/'
+              href: '/admin'
             },
             {
               name: 'Sub Categories'
             }
           ]}
           action={{
-            href: `/dashboard/sub-categories/add`,
+            href: `/admin/sub-categories/add`,
             title: 'Add Sub Category'
           }}
         />

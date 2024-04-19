@@ -13,11 +13,11 @@ export default function page({ params }) {
           links={[
             {
               name: 'Dashboard',
-              href: '/'
+              href: '/admin'
             },
             {
               name: 'Users',
-              href: '/dashboard/users'
+              href: '/admin/users'
             },
             {
               name: 'Users details'
