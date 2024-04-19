@@ -12,11 +12,11 @@ export default function page() {
           links={[
             {
               name: 'Dashboard',
-              href: '/'
+              href: '/admin'
             },
             {
               name: 'Coupon code',
-              href: '/dashboard/coupon-code'
+              href: '/admin/coupon-code'
             },
             {
               name: 'Add coupon code'

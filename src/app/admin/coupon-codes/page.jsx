@@ -74,14 +74,14 @@ export default function Catgeories() {
           links={[
             {
               name: 'Dashboard',
-              href: '/'
+              href: '/admin'
             },
             {
               name: 'Coupon codes'
             }
           ]}
           action={{
-            href: `/dashboard/coupon-codes/add`,
+            href: `/admin/coupon-codes/add`,
             title: 'Add Coupon code'
           }}
         />

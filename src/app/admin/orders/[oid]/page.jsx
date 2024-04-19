@@ -32,11 +32,11 @@ export default function Page({ params }) {
           links={[
             {
               name: 'Dashboard',
-              href: '/dashboard'
+              href: '/admin'
             },
             {
               name: 'Orders',
-              href: '/dashboard/orders'
+              href: '/admin/orders'
             },
             {
               name: 'Order details',

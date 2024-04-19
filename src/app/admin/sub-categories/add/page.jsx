@@ -19,11 +19,11 @@ export default async function page() {
           links={[
             {
               name: 'Dashboard',
-              href: '/'
+              href: '/admin'
             },
             {
               name: 'Sub Categories',
-              href: '/dashboard/sub-categories'
+              href: '/admin/sub-categories'
             },
             {
               name: 'Add Sub Category'

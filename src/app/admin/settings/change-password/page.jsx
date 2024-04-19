@@ -13,11 +13,11 @@ export default function page() {
           links={[
             {
               name: 'Dashboard',
-              href: '/'
+              href: '/admin'
             },
             {
               name: 'Settings',
-              href: '/dashboard/settings'
+              href: '/admin/settings'
             },
             {
               name: 'Change Password'

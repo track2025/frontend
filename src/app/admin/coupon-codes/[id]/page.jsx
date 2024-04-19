@@ -28,11 +28,11 @@ export default function Page({ params }) {
           links={[
             {
               name: 'Dashboard',
-              href: '/'
+              href: '/admin'
             },
             {
               name: 'Brands',
-              href: '/dashboard/brands'
+              href: '/admin/brands'
             },
             {
               name: 'Edit Coupon'

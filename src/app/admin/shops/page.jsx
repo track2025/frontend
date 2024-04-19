@@ -20,7 +20,7 @@ export default async function AdminProducts() {
           links={[
             {
               name: 'Dashboard',
-              href: '/'
+              href: '/admin'
             },
             {
               name: 'Shops'
