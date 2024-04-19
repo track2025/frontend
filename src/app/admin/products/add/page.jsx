@@ -22,11 +22,11 @@ export default async function page() {
           links={[
             {
               name: 'Dashboard',
-              href: '/'
+              href: '/admin'
             },
             {
               name: 'Products',
-              href: '/dashboard/products'
+              href: '/admin/products'
             },
             {
               name: 'Add Product'

@@ -32,7 +32,7 @@ export const navlinks = [
   {
     id: 1,
     title: 'Dashboard',
-    slug: '',
+    slug: '/dashboard',
     icon: <LuLayoutDashboard />
   },
   {

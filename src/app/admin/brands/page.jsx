@@ -21,15 +21,15 @@ export default function Brands() {
           heading="Brands List"
           links={[
             {
-              name: 'Dashboard',
-              href: '/'
+              name: 'Admin Dashboard',
+              href: '/admin'
             },
             {
               name: 'Brands'
             }
           ]}
           action={{
-            href: `/dashboard/brands/add`,
+            href: `/admin/brands/add`,
             title: 'Add brand'
           }}
         />

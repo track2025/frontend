@@ -20,11 +20,11 @@ export default function page() {
           links={[
             {
               name: 'Dashboard',
-              href: '/'
+              href: '/admin'
             },
             {
               name: 'Categories',
-              href: '/dashboard/categories'
+              href: '/admin/categories'
             },
             {
               name: 'Add Category'
