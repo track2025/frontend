@@ -15,8 +15,8 @@ import PropTypes from 'prop-types';
 // mui
 import { Dialog, Typography } from '@mui/material';
 const TABLE_HEAD = [
-  { id: 'name', label: 'Shop', alignRight: false },
-  { id: 'items', label: 'items', alignRight: false, sort: true },
+  //   { id: 'name', label: 'Shop', alignRight: false },
+  { id: 'items', label: 'Sale', alignRight: false, sort: true },
   { id: 'total', label: 'Amount', alignRight: false, sort: true },
   { id: 'createdAt', label: 'Created', alignRight: false },
   { id: 'commission', label: 'commission', alignRight: false, sort: true },
@@ -24,18 +24,22 @@ const TABLE_HEAD = [
   { id: 'status', label: 'status', alignRight: false, sort: true },
   { id: '', label: 'actions', alignRight: true }
 ];
-export default function ShopIcomeList({ isVendor }) {
-  const searchParams = useSearchParams();
-  const pageParam = searchParams.get('page');
-  const searchParam = searchParams.get('search');
+export default function ShopIcomeList({ IncomeData }) {
+  //   const searchParams = useSearchParams();
+  //   const pageParam = searchParams.get('page');
+  //   const searchParam = searchParams.get('search');
   const [apicall, setApicall] = useState(false);
-  const { data, isLoading: loadingList } = useQuery(
-    ['orders', apicall, pageParam, searchParam],
-    () => api[isVendor ? 'getOrdersByVendor' : 'getOrdersByAdmin'](+pageParam || 1, searchParam || ''),
-    {
-      onError: (err) => toast.error(err.response.data.message || 'Something went wrong!')
-    }
-  );
+  //   const { data, isLoading: loadingList } = useQuery(
+  //     ['income', apicall, pageParam, searchParam],
+  //     () => api[isVendor ? 'getOrdersByVendor' : 'getIncomeByShop'](+pageParam || 1, searchParam || ''),
+  //     {
+  //       onError: (err) => toast.error(err.response.data.message || 'Something went wrong!')
+  //     }
+  //   );
+  const { data, isLoading: loadingList } = useQuery(['income', apicall], () => api['getIncomeByShop'](IncomeData), {
+    onError: (err) => toast.error(err.response.data.message || 'Something went wrong!')
+  });
+
   const [open, setOpen] = useState(false);
 
   const [id, setId] = useState(null);
@@ -50,6 +54,7 @@ export default function ShopIcomeList({ isVendor }) {
   };
 
   const isLoading = loadingList;
+  console.log(data, 'IncomeData');
   return (
     <>
       <Typography variant="h5" color="text.primary" my={2}>
@@ -69,7 +74,7 @@ export default function ShopIcomeList({ isVendor }) {
         data={data}
         isLoading={isLoading}
         row={IncomeList}
-        mobileRow={IncomeListCard}
+        // mobileRow={IncomeListCard}
         handleClickOpen={handleClickOpen}
       />
     </>

@@ -50,41 +50,9 @@ export default function IncomeList({ isLoading, row, isUser }) {
   const router = useRouter();
   return (
     <TableRow hover key={Math.random()}>
-      <TableCell component="th" scope="row">
-        <Box
-          sx={{
-            display: 'flex',
-            alignItems: 'center',
-            gap: 2
-          }}
-        >
-          {isLoading ? (
-            <Skeleton variant="rectangular" width={50} height={50} sx={{ borderRadius: 1 }} />
-          ) : (
-            <ThumbImgStyle>
-              <BlurImage
-                priority
-                fill
-                alt={row.items[0]?.name}
-                src={row.items[0].cover || row.items[0]?.imageUrl}
-                objectFit="cover"
-              />
-            </ThumbImgStyle>
-          )}
-          <Typography variant="subtitle2" noWrap>
-            {isLoading ? (
-              <Skeleton variant="text" width={120} sx={{ ml: 1 }} />
-            ) : !isUser ? (
-              row.user.firstName + ' ' + row.user.lastName
-            ) : (
-              row.items[0]?.name
-            )}
-          </Typography>
-        </Box>
-      </TableCell>
-      <TableCell>{isLoading ? <Skeleton variant="text" /> : row.items.length}</TableCell>
-      <TableCell>{isLoading ? <Skeleton variant="text" /> : fCurrency(row.total)}</TableCell>
-      <TableCell>{isLoading ? <Skeleton variant="text" /> : <> {fDateShort(row.createdAt)} </>}</TableCell>
+      <TableCell>{isLoading ? <Skeleton variant="text" /> : row.orders.length}</TableCell>
+      <TableCell>{isLoading ? <Skeleton variant="text" /> : fCurrency(row.totalIncome)}</TableCell>
+      <TableCell>{isLoading ? <Skeleton variant="text" /> : <> {row.orders[0].month} </>}</TableCell>
       <TableCell>{isLoading ? <Skeleton variant="text" /> : '20%'}</TableCell>
       <TableCell>{isLoading ? <Skeleton variant="text" /> : 'Cash'}</TableCell>
       <TableCell>
@@ -100,7 +68,8 @@ export default function IncomeList({ isLoading, row, isUser }) {
               'error'
             }
           >
-            {row.status}
+            Pending
+            {/* {row.status} */}
           </Label>
         )}
       </TableCell>
