@@ -17,6 +17,7 @@ export const getProducts = async (query = '') => {
   const { data } = await http.get(`/products${query}`);
   return data;
 };
+
 export const getProductsByCategory = async (query = '', category) => {
   const { data } = await http.get(`/category/products/${category}${query}`);
   return data;
@@ -306,6 +307,12 @@ export const getAdminProducts = async (page, search) => {
   const { data: response } = await http.get(`/admin/products?search=${search}&page=${page}`);
   return response;
 };
+
+export const getAdminLowStockProducts = async (page) => {
+  const { data: response } = await http.get(`/admin/low-stock-products?page=${page}`);
+  return response;
+};
+
 export const getShopsByAdmin = async (page, search) => {
   const { data: response } = await http.get(`/admin/shops?search=${search}&page=${page}`);
   return response;

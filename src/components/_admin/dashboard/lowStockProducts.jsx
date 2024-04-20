@@ -14,7 +14,6 @@ import Table from 'src/components/table/table';
 import ProductCard from 'src/components/cards/adminProduct';
 import Product from 'src/components/table/rows/product';
 import { useSearchParams } from 'next/navigation';
-import PropTypes from 'prop-types';
 
 const TABLE_HEAD = [
   { id: 'name', label: 'Product', alignRight: false, sort: true },
@@ -22,21 +21,19 @@ const TABLE_HEAD = [
   { id: 'inventoryType', label: 'Status', alignRight: false, sort: false },
   { id: 'rating', label: 'Rating', alignRight: false, sort: true },
   { id: 'price', label: 'Price', alignRight: false, sort: true },
-
   { id: '', label: 'Actions', alignRight: true }
 ];
 
-export default function AdminProducts({ brands, categories, isVendor }) {
+export default function AdminProducts({ isVendor }) {
   const searchParams = useSearchParams();
   const pageParam = searchParams.get('page');
-  const searchParam = searchParams.get('search');
   const [open, setOpen] = useState(false);
   const [apicall, setApicall] = useState(false);
   const [id, setId] = useState(null);
 
   const { data, isLoading } = useQuery(
-    ['admin-products', apicall, searchParam, pageParam],
-    () => api[isVendor ? 'getVendorProducts' : 'getAdminProducts'](+pageParam || 1, searchParam || ''),
+    ['admin-products', apicall, pageParam],
+    () => api.getAdminLowStockProducts(+pageParam || 1),
     {
       onError: (err) => toast.error(err.response.data.message || 'Something went wrong!')
     }
@@ -65,20 +62,15 @@ export default function AdminProducts({ brands, categories, isVendor }) {
         />
       </Dialog>
       <Table
+        isDashboard
         headData={TABLE_HEAD}
         data={data}
         mobileRow={ProductCard}
         isLoading={isLoading}
         row={Product}
         handleClickOpen={handleClickOpen}
-        brands={brands}
-        categories={categories}
+        isVendor={isVendor}
       />
     </>
   );
 }
-AdminProducts.propTypes = {
-  brands: PropTypes.array.isRequired,
-  categories: PropTypes.array.isRequired,
-  isVendor: PropTypes.boolean
-};

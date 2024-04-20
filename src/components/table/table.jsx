@@ -26,12 +26,13 @@ CustomTable.propTypes = {
     totalPages: PropTypes.number.isRequired
   }).isRequired,
   isLoading: PropTypes.bool.isRequired,
+  isDashboard: PropTypes.bool,
   mobileRow: PropTypes.elementType,
   row: PropTypes.elementType.isRequired
 };
 
 export default function CustomTable({ ...props }) {
-  const { headData, data, isLoading, mobileRow, row, ...rest } = props;
+  const { headData, data, isLoading, mobileRow, isDashboard, row, ...rest } = props;
   const Component = row;
   const CardComponent = mobileRow;
   return (
@@ -42,8 +43,8 @@ export default function CustomTable({ ...props }) {
         </Card>
       ) : (
         <>
-          <Card sx={{ display: { md: 'block', xs: 'none' } }}>
-            <TableContainer>
+          {isDashboard ? (
+            <TableContainer sx={{ display: { md: 'block', xs: 'none' } }}>
               <Table size="small">
                 <TableHead headData={headData} />
                 <TableBody>
@@ -53,11 +54,31 @@ export default function CustomTable({ ...props }) {
                 </TableBody>
               </Table>
             </TableContainer>
-          </Card>
+          ) : (
+            <Card sx={{ display: { md: 'block', xs: 'none' } }}>
+              <TableContainer>
+                <Table size="small">
+                  <TableHead headData={headData} />
+                  <TableBody>
+                    {(isLoading ? Array.from(new Array(6)) : data?.data).map((item) => {
+                      return <Component key={Math.random()} row={item} isLoading={isLoading} {...rest} />;
+                    })}
+                  </TableBody>
+                </Table>
+              </TableContainer>
+            </Card>
+          )}
+
           {mobileRow && (
             <Box sx={{ display: { md: 'none', xs: 'block' } }}>
               {(isLoading ? Array.from(new Array(6)) : data?.data).map((row) => (
-                <CardComponent key={Math.random()} item={row} isLoading={isLoading} {...rest} />
+                <CardComponent
+                  key={Math.random()}
+                  item={row}
+                  isDashboard={isDashboard}
+                  isLoading={isLoading}
+                  {...rest}
+                />
               ))}
             </Box>
           )}

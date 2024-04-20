@@ -16,10 +16,7 @@ import { MdEdit, MdDelete } from 'react-icons/md';
 import { useRouter } from 'next/navigation';
 const RootStyle = styled(Paper)(({ theme }) => ({
   padding: '10px 10px 10px 16px',
-  marginBottom: '0.5rem',
   backgroundColor: theme.palette.background.paper,
-  border: '1px solid ' + theme.palette.divider,
-  borderRadius: 4,
   '& .name': {
     fontWeight: 600,
     color: theme.palette.info.main
@@ -71,11 +68,28 @@ const ThumbImgStyle = styled(Box)(({ theme }) => ({
   overflow: 'hidden'
 }));
 
-export default function AdminProductCard({ item, isLoading, handleClickOpen }) {
+export default function AdminProductCard({ item, isLoading, handleClickOpen, isDashboard }) {
   const theme = useTheme();
   const router = useRouter();
+  console.log(isDashboard, 'asdasd');
   return (
-    <RootStyle key={uniqueId()}>
+    <RootStyle
+      key={uniqueId()}
+      sx={{
+        ...(isDashboard
+          ? {
+              mb: 0,
+              borderRadius: 0,
+              borderBottom: '1px solid ' + theme.palette.divider,
+              boxShadow: 'none'
+            }
+          : {
+              mb: '0.5rem',
+              border: '1px solid ' + theme.palette.divider,
+              borderRadius: '4px'
+            })
+      }}
+    >
       <Grid container alignItems="center">
         <Grid item md={8} sm={8} xs={8}>
           <Stack direction="row" alignItems="center" spacing={2}>
@@ -181,5 +195,6 @@ AdminProductCard.propTypes = {
     _id: PropTypes.string
   }),
   isLoading: PropTypes.bool,
+  isDashboard: PropTypes.bool,
   handleClickOpen: PropTypes.func
 };
