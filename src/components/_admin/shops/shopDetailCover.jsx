@@ -54,8 +54,8 @@ export default function ShopDetailCover({ data, isLoading, isUser }) {
       <Image
         src={data?.cover?.url}
         alt={data?.title}
-        placeholder="blur"
-        blurDataURL={data?.cover?.blurDataURL}
+        // placeholder="blur"
+        // blurDataURL={data?.cover?.blurDataURL}
         objectFit="cover"
         fill
       />
@@ -129,7 +129,7 @@ export default function ShopDetailCover({ data, isLoading, isUser }) {
           <Stack direction="row" alignItems="center" justifyContent="end" spacing={1}>
             <MdVerified color="#3F95FE" />
             <Typography variant="body2">
-              {isLoading ? <Skeleton variant="text" width={200} /> : fDateShort(data?.createdAt)}
+              {isLoading ? <Skeleton variant="text" width={80} /> : fDateShort(data?.createdAt)}
             </Typography>
           </Stack>
           {!isUser && (
@@ -138,7 +138,7 @@ export default function ShopDetailCover({ data, isLoading, isUser }) {
                 <BiMap />
                 <Typography variant="body2">
                   {isLoading ? (
-                    <Skeleton variant="text" width={200} />
+                    <Skeleton variant="text" width={100} />
                   ) : (
                     data?.address?.streetAddress +
                     ' ' +
@@ -153,7 +153,7 @@ export default function ShopDetailCover({ data, isLoading, isUser }) {
               <Stack direction="row" alignItems="center" justifyContent="end" spacing={1}>
                 <IoCall />
                 <Typography variant="body2">
-                  {isLoading ? <Skeleton variant="text" width={200} /> : data?.phone}
+                  {isLoading ? <Skeleton variant="text" width={100} /> : data?.phone}
                 </Typography>
               </Stack>
             </>

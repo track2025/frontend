@@ -29,12 +29,20 @@ export default function AdminProducts({ brands, categories, isVendor }) {
   const searchParams = useSearchParams();
   const pageParam = searchParams.get('page');
   const searchParam = searchParams.get('search');
+  const categoryParam = searchParams.get('category');
+  const statusParam = searchParams.get('status');
   const [open, setOpen] = useState(false);
   const [apicall, setApicall] = useState(false);
   const [id, setId] = useState(null);
   const { data, isLoading } = useQuery(
-    ['admin-products', apicall, searchParam, pageParam],
-    () => api[isVendor ? 'getVendorProducts' : 'getAdminProducts'](+pageParam || 1, searchParam || ''),
+    ['admin-products', apicall, searchParam, pageParam, categoryParam, statusParam],
+    () =>
+      api[isVendor ? 'getVendorProducts' : 'getAdminProducts'](
+        +pageParam || 1,
+        searchParam || '',
+        statusParam || '',
+        categoryParam || ''
+      ),
     {
       onError: (err) => toast.error(err.response.data.message || 'Something went wrong!')
     }
