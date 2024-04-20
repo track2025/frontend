@@ -1,8 +1,7 @@
-'use client';
 import React, { useState, useCallback } from 'react';
 // next
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
-import { TextField, Button, Popover, Stack } from '@mui/material';
+import { TextField, Stack } from '@mui/material';
 
 const STATUS_OPTIONS = ['sale', 'new', 'regular', 'disabled'];
 
@@ -10,39 +9,46 @@ export default function ProductFilter({ categories }) {
   const router = useRouter();
   const searchParams = useSearchParams();
   const pathname = usePathname();
-  const filterParam = searchParams.get('filter');
-  console.log(categories, 'categories');
-  // filter
-  const [selectedfilter, setSelectedfilter] = useState(filterParam || STATUS_OPTIONS[0]);
 
-  const handlefilterChange = (event) => {
-    setSelectedfilter(event.target.value);
-    router.push(`${pathname}?${createQueryString('filter', event.target.value)}`);
-    console.log('Selected filter:', event.target.value);
+  const [selectedFilter, setSelectedFilter] = useState({
+    category: searchParams.get('category') || categories[0].slug,
+    status: searchParams.get('status') || STATUS_OPTIONS[0]
+  });
+
+  const handleFilterChange = (event) => {
+    const { name, value } = event.target;
+    setSelectedFilter({ ...selectedFilter, [name]: value });
+
+    const updatedParams = new URLSearchParams(searchParams);
+    updatedParams.set(name, value);
+    router.push(`${pathname}?${updatedParams.toString()}`);
+
+    console.log('Selected filter:', selectedFilter);
   };
 
-  const createQueryString = useCallback(
-    (name, value) => {
-      const params = new URLSearchParams(searchParams);
-      params.set(name, value);
+  // const createQueryString = useCallback(
+  //   (name, value) => {
+  //     const params = new URLSearchParams(searchParams);
+  //     params.set(name, value);
+  //     return params.toString();
+  //   },
+  //   [searchParams]
+  // );
 
-      return params.toString();
-    },
-    [searchParams]
-  );
   return (
     <>
       <Stack spacing={2} direction="row" alignItems="center">
         <TextField
           select
           size="small"
-          placeholder="filter"
-          value={selectedfilter}
+          placeholder="Category"
+          value={selectedFilter.category}
+          name="category" // Add name attribute
           SelectProps={{ native: true }}
-          onChange={handlefilterChange}
+          onChange={handleFilterChange}
         >
           {categories.map((option) => (
-            <option key={option} value={option.slug}>
+            <option key={option.slug} value={option.slug}>
               {option.name}
             </option>
           ))}
@@ -50,10 +56,11 @@ export default function ProductFilter({ categories }) {
         <TextField
           select
           size="small"
-          placeholder="filter"
-          value={selectedfilter}
+          placeholder="Status"
+          value={selectedFilter.status}
+          name="status" // Add name attribute
           SelectProps={{ native: true }}
-          onChange={handlefilterChange}
+          onChange={handleFilterChange}
         >
           {STATUS_OPTIONS.map((option) => (
             <option key={option} value={option}>
