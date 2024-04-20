@@ -147,7 +147,7 @@ export default function AccountGeneral() {
 
   React.useEffect(() => {
     if (!pathname.includes('dashboard') && adminUser?.role.includes('admin')) {
-      router.push('/dashboard/settings');
+      router.push('/admin/settings');
       toast("Admin can't access this page.", {
         duration: 6000
       });
