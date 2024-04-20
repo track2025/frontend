@@ -26,6 +26,7 @@ import PropTypes from 'prop-types';
 
 // const label = { inputProps: { 'aria-label': 'Switch demo' } };
 export default function ProductRow({ isLoading, row, handleClickOpen }) {
+  console.log(row, 'product row');
   const router = useRouter();
   return (
     <TableRow hover key={Math.random()}>
