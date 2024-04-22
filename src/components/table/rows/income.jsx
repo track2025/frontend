@@ -9,7 +9,7 @@ import { MdEdit } from 'react-icons/md';
 import { useRouter } from 'next-nprogress-bar';
 // utils
 import { fCurrency } from 'src/utils/formatNumber';
-
+import { fDateShort } from 'src/utils/formatTime';
 import PropTypes from 'prop-types';
 
 IncomeList.propTypes = {
@@ -64,27 +64,17 @@ export default function IncomeList({ isLoading, row, isUser }) {
           <Label
             variant={theme.palette.mode === 'light' ? 'ghost' : 'filled'}
             color={
-              (row?.status === 'delivered' && 'success') ||
-              (row?.status === 'ontheway' && 'warning') ||
+              (row?.status === 'paid' && 'success') ||
+              (row?.status === 'hold' && 'error') ||
               (row?.status === 'pending' && 'info') ||
               'error'
             }
           >
-            Pending
-            {/* {row.status} */}
+            {row.status}
           </Label>
         )}
       </TableCell>
-      <TableCell>
-        {isLoading ? (
-          <Skeleton variant="text" />
-        ) : (
-          <>
-            {' '}
-            {getMonthName(row.orders[0].month)} {row.orders[0].year}{' '}
-          </>
-        )}
-      </TableCell>
+      <TableCell>{isLoading ? <Skeleton variant="text" /> : <>{fDateShort(row.date).slice(3)}</>}</TableCell>
       <TableCell align="right">
         <Stack direction="row" justifyContent="flex-end">
           {isLoading ? (
