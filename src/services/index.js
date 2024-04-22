@@ -482,7 +482,15 @@ export const getIncomeByShop = async (slug) => {
 
   return data;
 };
+
+// payouts
+export const getPayoutsByAdmin = async () => {
+  const { data } = await http.get(`/admin/payouts`);
+  return data;
+};
+
 export const getIncomeDetailsByAdmin = async (pid) => {
   const { data } = await http.get(`/admin/payments/${pid}`);
+
   return data;
 };
