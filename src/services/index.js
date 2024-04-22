@@ -477,3 +477,8 @@ export const updateAdminShop = async ({ currentSlug, ...payload }) => {
 
   return data;
 };
+export const getIncomeByShop = async (slug) => {
+  const { data } = await http.get(`/vendor/shops/${slug}/income`);
+
+  return data;
+};
