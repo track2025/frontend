@@ -1,9 +1,8 @@
 import React from 'react';
 // mui
 import { useTheme, styled } from '@mui/material/styles';
-import { Box, TableRow, Skeleton, TableCell, Typography, Stack, IconButton, Tooltip } from '@mui/material';
+import { Box, TableRow, Skeleton, TableCell, Stack, IconButton, Tooltip } from '@mui/material';
 // components
-import { IoEye } from 'react-icons/io5';
 import Label from 'src/components/label';
 import { MdEdit } from 'react-icons/md';
 import { useRouter } from 'next-nprogress-bar';
@@ -81,7 +80,7 @@ export default function IncomeList({ isLoading, row, isUser }) {
             <Skeleton variant="circular" width={34} height={34} sx={{ mr: 1 }} />
           ) : (
             <Tooltip title="Edit">
-              <IconButton onClick={() => router.push(`/dashboard/orders/${row._id}`)}>
+              <IconButton onClick={() => router.push(`/admin/shops/${row.shop}/payments/${row._id}`)}>
                 <MdEdit />
               </IconButton>
             </Tooltip>
