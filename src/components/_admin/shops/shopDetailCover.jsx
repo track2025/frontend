@@ -126,12 +126,15 @@ export default function ShopDetailCover({ data, isLoading, isUser }) {
             }
           }}
         >
-          <Stack direction="row" alignItems="center" justifyContent="end" spacing={1}>
-            <MdVerified color="#3F95FE" />
-            <Typography variant="body2">
-              {isLoading ? <Skeleton variant="text" width={80} /> : fDateShort(data?.createdAt)}
-            </Typography>
-          </Stack>
+          {data?.approved ? (
+            <Stack direction="row" alignItems="center" justifyContent="end" spacing={1}>
+              <MdVerified color="#3F95FE" />
+              <Typography variant="body2">
+                {isLoading ? <Skeleton variant="text" width={80} /> : fDateShort(data?.approvedAt)}
+              </Typography>
+            </Stack>
+          ) : null}
+
           {!isUser && (
             <>
               <Stack direction="row" alignItems="center" justifyContent="end" spacing={1}>

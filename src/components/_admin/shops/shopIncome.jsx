@@ -17,11 +17,11 @@ import { Dialog, Typography } from '@mui/material';
 const TABLE_HEAD = [
   //   { id: 'name', label: 'Shop', alignRight: false },
   { id: 'items', label: 'Sale', alignRight: false, sort: true },
-  { id: 'total', label: 'Amount', alignRight: false, sort: true },
-  { id: 'createdAt', label: 'Created', alignRight: false },
+  { id: 'earning', label: 'Total Income', alignRight: false, sort: true },
   { id: 'commission', label: 'commission', alignRight: false, sort: true },
-  { id: 'payment', label: 'payment method', alignRight: false, sort: true },
+
   { id: 'status', label: 'status', alignRight: false, sort: true },
+  { id: 'createdAt', label: 'Created', alignRight: false },
   { id: '', label: 'actions', alignRight: true }
 ];
 export default function ShopIcomeList({ IncomeData }) {
@@ -54,7 +54,6 @@ export default function ShopIcomeList({ IncomeData }) {
   };
 
   const isLoading = loadingList;
-  console.log(data, 'IncomeData');
   return (
     <>
       <Typography variant="h5" color="text.primary" my={2}>

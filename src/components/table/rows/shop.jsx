@@ -7,12 +7,11 @@ import {
   Typography,
   Stack,
   IconButton,
-  Rating,
+  Avatar,
   Tooltip,
   Link
 } from '@mui/material';
 // redux
-import { fCurrency } from 'src/utils/formatNumber';
 import { fDateShort } from 'src/utils/formatTime';
 // components
 import Label from 'src/components/label';
@@ -23,8 +22,7 @@ import { enUS } from 'date-fns/locale';
 import { useRouter } from 'next-nprogress-bar';
 import BlurImage from 'src/components/blurImage';
 import PropTypes from 'prop-types';
-
-// const label = { inputProps: { 'aria-label': 'Switch demo' } };
+import BlurImageAvatar from 'src/components/avatar';
 export default function ProductRow({ isLoading, row, handleClickOpen }) {
   const router = useRouter();
   return (
@@ -69,20 +67,34 @@ export default function ProductRow({ isLoading, row, handleClickOpen }) {
           </Typography>
         </Box>
       </TableCell>
-      {/* <TableCell>
-          <Skeleton variant="text" />
-        </TableCell> */}
-      <TableCell>{isLoading ? <Skeleton variant="text" /> : <>{row.products.length || '-'}</>}</TableCell>
-      {/* {fDateShort(row?.createdAt, enUS)} */}
       <TableCell align="left">
-        {isLoading ? <Skeleton variant="text" /> : `${row.vendor.firstName} ${row.vendor.lastName}`}
+        <Box
+          sx={{
+            display: 'flex',
+            alignItems: 'center',
+            gap: 1
+          }}
+        >
+          {isLoading ? (
+            <Skeleton variant="rectangular" width={50} height={50} sx={{ borderRadius: 1 }} />
+          ) : row.vendor?.cover ? (
+            <BlurImageAvatar
+              priority
+              alt={row.vendor.firstName}
+              src={row?.vendor.cover?.url}
+              blurDaraURL={row?.vendor.cover?.blurDaraURL}
+              layout="fill"
+              objectFit="cover"
+            />
+          ) : (
+            <Avatar size="small">{row.vendor.firstName.toUpperCase().slice(0, 1)}</Avatar>
+          )}
+          {isLoading ? <Skeleton variant="text" width={100} /> : `${row.vendor.firstName} ${row.vendor.lastName}`}
+        </Box>
       </TableCell>
+      <TableCell>{isLoading ? <Skeleton variant="text" /> : <>{row.products.length || 0}</>}</TableCell>
 
       <TableCell>
-        {isLoading ? <Skeleton variant="text" /> : row.approved ? fDateShort(row?.approvedAt, enUS) : 'Not approved'}
-      </TableCell>
-      <TableCell>{isLoading ? <Skeleton variant="text" /> : fCurrency(row?.priceSale || row?.price)}</TableCell>
-      {/* <TableCell>
         {isLoading ? (
           <Skeleton variant="text" />
         ) : (
@@ -90,50 +102,21 @@ export default function ProductRow({ isLoading, row, handleClickOpen }) {
             variant="filled"
             sx={{
               bgcolor:
-                !row?.available ||
-                (row?.available < 1 && 'error.light') ||
-                (row?.available < 20 && 'warning.light') ||
-                (row?.available >= 20 && 'success.light') ||
-                'primary.light',
+                row?.status === 'approved'
+                  ? 'success.light'
+                  : row?.status === 'pending'
+                    ? 'info.light'
+                    : row?.status === 'rejected' || row?.status === 'blocked'
+                      ? 'error.light'
+                      : 'warning.light',
               color:
-                !row?.available ||
-                (row?.available < 1 && 'error.dark') ||
-                (row?.available < 20 && 'warning.dark') ||
-                (row?.available >= 20 && 'success.dark') ||
-                'primary.dark'
-            }}
-          >
-            {row?.status}
-          </Label>
-        )}
-      </TableCell> */}
-      {/* <TableCell>
-          {isLoading ? (
-            <Skeleton variant="text" />
-          ) : (
-            <Switch
-              {...label}
-              defaultChecked={row.isFeatured}
-              onChange={() => {
-                mutate({
-                  isFeatured: !row.isFeatured,
-                  id: row._id,
-                });
-              }}
-            />
-          )}
-        </TableCell> */}
-      <TableCell>
-        {isLoading ? (
-          <Skeleton variant="text" />
-        ) : (
-          <Label
-            variant="filled"
-            sx={{
-              bgcolor:
-                row?.status === 'pending' ? 'info.light' : row?.status === 'pending' ? 'success.light' : 'error.light',
-              color:
-                row?.status === 'pending' ? 'info.dark' : row?.status === 'pending' ? 'success.dark' : 'error.dark',
+                row?.status === 'approved'
+                  ? 'success.dark'
+                  : row?.status === 'pending'
+                    ? 'info.dark'
+                    : row?.status === 'rejected' || row?.status === 'blocked'
+                      ? 'error.dark'
+                      : 'warning.dark',
               textTransform: 'capitalize'
             }}
           >
@@ -141,6 +124,10 @@ export default function ProductRow({ isLoading, row, handleClickOpen }) {
           </Label>
         )}
       </TableCell>
+      <TableCell>
+        {isLoading ? <Skeleton variant="text" /> : row.approved ? fDateShort(row?.approvedAt, enUS) : 'Not approved'}
+      </TableCell>
+
       <TableCell align="right">
         {isLoading ? (
           <Stack direction="row" justifyContent="flex-end">

@@ -5,8 +5,7 @@ import { Box, TableRow, Skeleton, TableCell, Typography, Stack, IconButton, Tool
 // components
 import { IoEye } from 'react-icons/io5';
 import Label from 'src/components/label';
-import BlurImage from 'src/components/blurImage';
-import { fDateShort } from 'src/utils/formatTime';
+import { MdEdit } from 'react-icons/md';
 import { useRouter } from 'next-nprogress-bar';
 // utils
 import { fCurrency } from 'src/utils/formatNumber';
@@ -45,6 +44,10 @@ const ThumbImgStyle = styled(Box)(({ theme }) => ({
   position: 'relative',
   overflow: 'hidden'
 }));
+function getMonthName(monthNumber) {
+  const monthNames = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+  return monthNames[monthNumber];
+}
 export default function IncomeList({ isLoading, row, isUser }) {
   const theme = useTheme();
   const router = useRouter();
@@ -52,9 +55,8 @@ export default function IncomeList({ isLoading, row, isUser }) {
     <TableRow hover key={Math.random()}>
       <TableCell>{isLoading ? <Skeleton variant="text" /> : row.orders.length}</TableCell>
       <TableCell>{isLoading ? <Skeleton variant="text" /> : fCurrency(row.totalIncome)}</TableCell>
-      <TableCell>{isLoading ? <Skeleton variant="text" /> : <> {row.orders[0].month} </>}</TableCell>
+
       <TableCell>{isLoading ? <Skeleton variant="text" /> : '20%'}</TableCell>
-      <TableCell>{isLoading ? <Skeleton variant="text" /> : 'Cash'}</TableCell>
       <TableCell>
         {isLoading ? (
           <Skeleton variant="text" />
@@ -73,14 +75,24 @@ export default function IncomeList({ isLoading, row, isUser }) {
           </Label>
         )}
       </TableCell>
+      <TableCell>
+        {isLoading ? (
+          <Skeleton variant="text" />
+        ) : (
+          <>
+            {' '}
+            {getMonthName(row.orders[0].month)} {row.orders[0].year}{' '}
+          </>
+        )}
+      </TableCell>
       <TableCell align="right">
         <Stack direction="row" justifyContent="flex-end">
           {isLoading ? (
             <Skeleton variant="circular" width={34} height={34} sx={{ mr: 1 }} />
           ) : (
-            <Tooltip title="Preview">
+            <Tooltip title="Edit">
               <IconButton onClick={() => router.push(`/dashboard/orders/${row._id}`)}>
-                <IoEye />
+                <MdEdit />
               </IconButton>
             </Tooltip>
           )}

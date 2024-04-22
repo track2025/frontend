@@ -83,6 +83,8 @@ export default function OrderList({ isLoading, row, isUser }) {
         </Box>
       </TableCell>
 
+      <TableCell>{isLoading ? <Skeleton variant="text" /> : fCurrency(row.total)}</TableCell>
+      <TableCell>{isLoading ? <Skeleton variant="text" /> : row.items.length}</TableCell>
       <TableCell>
         {isLoading ? (
           <Skeleton variant="text" />
@@ -100,9 +102,8 @@ export default function OrderList({ isLoading, row, isUser }) {
           </Label>
         )}
       </TableCell>
-      <TableCell>{isLoading ? <Skeleton variant="text" /> : fCurrency(row.total)}</TableCell>
-      <TableCell>{isLoading ? <Skeleton variant="text" /> : row.items.length}</TableCell>
       <TableCell>{isLoading ? <Skeleton variant="text" /> : <> {fDateShort(row.createdAt)} </>}</TableCell>
+
       <TableCell align="right">
         <Stack direction="row" justifyContent="flex-end">
           {isLoading ? (

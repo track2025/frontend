@@ -5,18 +5,19 @@ import { FaGifts } from 'react-icons/fa6';
 import { HiOutlineClipboardList } from 'react-icons/hi';
 import { TbChartArrowsVertical } from 'react-icons/tb';
 import { FaWallet } from 'react-icons/fa6';
+import { fCurrency } from 'src/utils/formatNumber';
 
 export default function ShopDetail({ data }) {
   const theme = useTheme();
   const dataMain = [
     {
-      name: 'Total Earning',
+      name: 'Total Income',
       items: data?.totalEarningsAfterCommission,
       color: theme.palette.error.main,
       icon: <FaWallet size={30} />
     },
     {
-      name: 'Admin Commission Rate',
+      name: 'Total Commission',
       items: data?.totalCommission,
       color: theme.palette.success.main,
       icon: <TbChartArrowsVertical size={30} />
@@ -30,7 +31,7 @@ export default function ShopDetail({ data }) {
     },
 
     {
-      name: 'Total Product',
+      name: 'Total Products',
       items: data?.totalProducts,
       color: theme.palette.primary.main,
       icon: <FaGifts size={30} />
@@ -45,8 +46,12 @@ export default function ShopDetail({ data }) {
             <CardContent>
               <Stack direction="row" alignItems="center" justifyContent="space-between">
                 <Stack>
-                  <Typography variant="h6">{v.items}</Typography>
-                  <Typography variant="subtitle1">{v.name}</Typography>
+                  <Typography variant="h4">
+                    {v.name === 'Total Income' || v.name === 'Total Commission' ? fCurrency(v.items) : v.items}
+                  </Typography>
+                  <Typography variant="subtitle1" color="text.secondary">
+                    {v.name}
+                  </Typography>
                 </Stack>
                 <Box
                   sx={{
