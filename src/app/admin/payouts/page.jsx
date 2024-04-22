@@ -2,7 +2,7 @@ import React from 'react';
 // Components
 import Toolbar from 'src/components/_admin/toolbar';
 import HeaderBreadcrumbs from 'src/components/headerBreadcrumbs';
-import OrdersList from 'src/components/_admin/orders/ordersList';
+import PayoutsList from 'src/components/_admin/payouts';
 // Meta information
 export const metadata = {
   title: 'Payouts - Nextall',
@@ -27,7 +27,7 @@ export default function page() {
           ]}
         />
       </Toolbar>
-      <OrdersList />
+      <PayoutsList />
     </div>
   );
 }
