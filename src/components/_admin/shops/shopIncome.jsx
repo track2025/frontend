@@ -9,14 +9,16 @@ import toast from 'react-hot-toast';
 // components
 import Table from 'src/components/table/table';
 import IncomeList from 'src/components/table/rows/income';
-import IncomeListCard from 'src/components/cards/incomeList';
-import DeleteDialog from 'src/components/dialog/delete';
+// import IncomeListCard from 'src/components/cards/incomeList';
+// import DeleteDialog from 'src/components/dialog/delete';
 import PropTypes from 'prop-types';
 // mui
-import { Dialog, Typography } from '@mui/material';
+import { Typography } from '@mui/material';
+import EditPaymentDialog from 'src/components/dialog/editPayment';
 const TABLE_HEAD = [
   //   { id: 'name', label: 'Shop', alignRight: false },
   { id: 'items', label: 'Sale', alignRight: false, sort: true },
+  { id: 'total', label: 'Total', alignRight: false, sort: true },
   { id: 'earning', label: 'Total Income', alignRight: false, sort: true },
   { id: 'commission', label: 'commission', alignRight: false, sort: true },
 
@@ -24,34 +26,19 @@ const TABLE_HEAD = [
   { id: 'createdAt', label: 'Created', alignRight: false },
   { id: '', label: 'actions', alignRight: true }
 ];
-export default function ShopIcomeList({ IncomeData }) {
-  //   const searchParams = useSearchParams();
-  //   const pageParam = searchParams.get('page');
-  //   const searchParam = searchParams.get('search');
-  const [apicall, setApicall] = useState(false);
-  //   const { data, isLoading: loadingList } = useQuery(
-  //     ['income', apicall, pageParam, searchParam],
-  //     () => api[isVendor ? 'getOrdersByVendor' : 'getIncomeByShop'](+pageParam || 1, searchParam || ''),
-  //     {
-  //       onError: (err) => toast.error(err.response.data.message || 'Something went wrong!')
-  //     }
-  //   );
-  const { data, isLoading: loadingList } = useQuery(['income', apicall], () => api['getIncomeByShop'](IncomeData), {
-    onError: (err) => toast.error(err.response.data.message || 'Something went wrong!')
-  });
-
-  const [open, setOpen] = useState(false);
-
-  const [id, setId] = useState(null);
-
-  const handleClickOpen = (props) => () => {
-    setId(props);
-    setOpen(true);
-  };
-
-  const handleClose = () => {
-    setOpen(false);
-  };
+export default function ShopIcomeList({ IncomeData, onUpdatePayment }) {
+  const searchParams = useSearchParams();
+  const pageParam = searchParams.get('page');
+  const [payment, setPayment] = useState(null);
+  const [count, setCount] = useState(0);
+  const { data, isLoading: loadingList } = useQuery(
+    ['income', pageParam, count],
+    () => api.getIncomeByShop(IncomeData, pageParam),
+    {
+      onSuccess: () => onUpdatePayment(),
+      onError: (err) => toast.error(err.response.data.message || 'Something went wrong!')
+    }
+  );
 
   const isLoading = loadingList;
   return (
@@ -59,22 +46,20 @@ export default function ShopIcomeList({ IncomeData }) {
       <Typography variant="h5" color="text.primary" my={2}>
         Income
       </Typography>
-      <Dialog onClose={handleClose} open={open} maxWidth={'xs'}>
-        <DeleteDialog
-          onClose={handleClose}
-          id={id}
-          apicall={setApicall}
-          endPoint="deleteOrder"
-          type={'Order deleted'}
-        />
-      </Dialog>
+
       <Table
         headData={TABLE_HEAD}
         data={data}
         isLoading={isLoading}
         row={IncomeList}
         // mobileRow={IncomeListCard}
-        handleClickOpen={handleClickOpen}
+        handleClickOpen={(v) => setPayment(v)}
+      />
+      <EditPaymentDialog
+        handleClose={(v) => setPayment(null)}
+        open={Boolean(payment)}
+        data={payment}
+        setCount={setCount}
       />
     </>
   );

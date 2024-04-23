@@ -477,12 +477,16 @@ export const updateAdminShop = async ({ currentSlug, ...payload }) => {
 
   return data;
 };
-export const getIncomeByShop = async (slug) => {
-  const { data } = await http.get(`/vendor/shops/${slug}/income`);
+export const getIncomeByShop = async (slug, page) => {
+  const { data } = await http.get(`/admin/shops/${slug}/income?page=${page || 1}`);
 
   return data;
 };
-export const getIncomeDetailsByAdmin = async (pid) => {
-  const { data } = await http.get(`/admin/payments/${pid}`);
+export const getIncomeDetailsByAdmin = async (pid, page) => {
+  const { data } = await http.get(`/admin/payments/${pid}?page=${page || 1}`);
+  return data;
+};
+export const editPayment = async ({ pid, ...payload }) => {
+  const { data } = await http.put(`/admin/payments/${pid}`, { ...payload });
   return data;
 };
