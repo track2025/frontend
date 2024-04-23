@@ -490,3 +490,8 @@ export const editPayment = async ({ pid, ...payload }) => {
   const { data } = await http.put(`/admin/payments/${pid}`, { ...payload });
   return data;
 };
+// payouts
+export const getPayoutsByAdmin = async () => {
+  const { data } = await http.get(`/admin/payouts`);
+  return data;
+};
