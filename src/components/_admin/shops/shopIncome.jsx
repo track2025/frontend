@@ -9,7 +9,7 @@ import toast from 'react-hot-toast';
 // components
 import Table from 'src/components/table/table';
 import IncomeList from 'src/components/table/rows/income';
-// import IncomeListCard from 'src/components/cards/incomeList';
+import IcomeListData from 'src/components/cards/icomeListData';
 // import DeleteDialog from 'src/components/dialog/delete';
 import PropTypes from 'prop-types';
 // mui
@@ -53,7 +53,7 @@ export default function ShopIcomeList({ slug, onUpdatePayment, isVendor }) {
         data={data}
         isLoading={isLoading}
         row={IncomeList}
-        // mobileRow={IncomeListCard}
+        mobileRow={IcomeListData}
         handleClickOpen={(v) => setPayment(v)}
         isVendor={isVendor}
       />
