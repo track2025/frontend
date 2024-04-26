@@ -69,7 +69,7 @@ export default function Dashboard({ isVendor }) {
           <Grid item xs={12} sm={6} md={isVendor ? 4 : 3}>
             <DashboardCard
               color="warning"
-              title="Daily Users"
+              title="Total Users"
               value={daily_users}
               icon={<BsClipboard2DataFill size={24} />}
               isLoading={isLoading}

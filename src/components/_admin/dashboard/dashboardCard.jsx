@@ -39,10 +39,11 @@ export default function DailyEaring({ title, value, isLoading, isAmount, icon, c
         <Button
           sx={{
             display: 'block',
-            minWidth: 50,
+            minWidth: 54,
             lineHeight: 0,
-            minHeight: 50,
+            minHeight: 54,
             padding: 0,
+            borderRadius: '50%',
             background: (theme) => alpha(isHex ? color : theme.palette[color].main, 0.9) + '!important'
           }}
           variant="contained"

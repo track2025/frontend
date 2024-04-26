@@ -1,9 +1,10 @@
-import { Box, Card, CardContent, Grid, Stack, Typography, Skeleton } from '@mui/material';
+import { Box, Card, CardContent, Grid, Stack, Typography, Skeleton, IconButton, Tooltip } from '@mui/material';
+import { truncate } from 'lodash';
 import React from 'react';
 // icons
-
+import { MdEdit } from 'react-icons/md';
 import { fCurrency } from 'src/utils/formatNumber';
-
+import Label from 'src/components/label';
 export default function ShopDetail({ data, isLoading }) {
   return (
     <Grid container spacing={3}>
@@ -13,15 +14,30 @@ export default function ShopDetail({ data, isLoading }) {
             <CardContent>
               <Stack direction="row" alignItems="center" justifyContent="space-between">
                 <Stack>
-                  <Typography variant="h4">
-                    {isLoading ? (
-                      <Skeleton variant="text" width={80} />
-                    ) : v.name === 'Total Income' || v.name === 'Total Commission' ? (
-                      fCurrency(v.items)
+                  {/* lineHeight={1.7} */}
+                  <Stack direction="row" gap={1} alignItems="center">
+                    <Typography variant="h4">
+                      {isLoading ? (
+                        <Skeleton variant="text" width={80} />
+                      ) : v.name === 'Total Income' || v.name === 'Total Commission' ? (
+                        fCurrency(v.items)
+                      ) : (
+                        v.items
+                      )}
+                    </Typography>
+                    {v.name === 'Last Month Income' ? (
+                      isLoading ? (
+                        <Skeleton variant="text" width={50} />
+                      ) : (
+                        <Label variant={'filled'} color={true ? 'success' : 'error'}>
+                          Pending
+                        </Label>
+                      )
                     ) : (
-                      v.items
+                      ''
                     )}
-                  </Typography>
+                  </Stack>
+
                   <Typography variant="subtitle1" color="text.secondary">
                     {isLoading ? <Skeleton variant="text" width={120} /> : v.name}
                   </Typography>

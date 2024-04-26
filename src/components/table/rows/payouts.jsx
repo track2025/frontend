@@ -1,18 +1,18 @@
 import React from 'react';
 // mui
 import { useTheme, styled } from '@mui/material/styles';
-import { Box, TableRow, Skeleton, TableCell, Typography, Stack, IconButton, Tooltip } from '@mui/material';
+import { Box, TableRow, Skeleton, TableCell, Stack, IconButton, Tooltip } from '@mui/material';
 // components
-import { IoEye } from 'react-icons/io5';
 import Label from 'src/components/label';
 import { MdEdit } from 'react-icons/md';
+import { IoEye } from 'react-icons/io5';
 import { useRouter } from 'next-nprogress-bar';
 // utils
 import { fCurrency } from 'src/utils/formatNumber';
 import { fDateShort } from 'src/utils/formatTime';
 import PropTypes from 'prop-types';
 
-PayoutsListRow.propTypes = {
+IncomeList.propTypes = {
   isLoading: PropTypes.bool.isRequired,
   row: PropTypes.shape({
     items: PropTypes.arrayOf(
@@ -35,28 +35,16 @@ PayoutsListRow.propTypes = {
   isUser: PropTypes.bool.isRequired
 };
 
-const ThumbImgStyle = styled(Box)(({ theme }) => ({
-  width: 50,
-  height: 50,
-  objectFit: 'cover',
-  border: '1px solid ' + theme.palette.divider,
-  borderRadius: theme.shape.borderRadiusSm,
-  position: 'relative',
-  overflow: 'hidden'
-}));
-function getMonthName(monthNumber) {
-  const monthNames = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
-  return monthNames[monthNumber];
-}
-export default function PayoutsListRow({ isLoading, row, isUser }) {
+export default function IncomeList({ isLoading, row, handleClickOpen }) {
   const theme = useTheme();
   const router = useRouter();
   return (
     <TableRow hover key={Math.random()}>
       <TableCell>{isLoading ? <Skeleton variant="text" /> : row.orders.length}</TableCell>
+      <TableCell>{isLoading ? <Skeleton variant="text" /> : fCurrency(row.total)}</TableCell>
       <TableCell>{isLoading ? <Skeleton variant="text" /> : fCurrency(row.totalIncome)}</TableCell>
 
-      <TableCell>{isLoading ? <Skeleton variant="text" /> : '20%'}</TableCell>
+      <TableCell>{isLoading ? <Skeleton variant="text" /> : fCurrency(row.totalCommission)}</TableCell>
       <TableCell>
         {isLoading ? (
           <Skeleton variant="text" />
@@ -81,8 +69,17 @@ export default function PayoutsListRow({ isLoading, row, isUser }) {
             <Skeleton variant="circular" width={34} height={34} sx={{ mr: 1 }} />
           ) : (
             <Tooltip title="Edit">
-              <IconButton onClick={() => router.push(`/dashboard/orders/${row._id}`)}>
+              <IconButton onClick={() => handleClickOpen(row)}>
                 <MdEdit />
+              </IconButton>
+            </Tooltip>
+          )}
+          {isLoading ? (
+            <Skeleton variant="circular" width={34} height={34} sx={{ mr: 1 }} />
+          ) : (
+            <Tooltip title="Edit">
+              <IconButton onClick={() => router.push(`/admin/payments/${row._id}`)}>
+                <IoEye />
               </IconButton>
             </Tooltip>
           )}

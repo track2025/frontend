@@ -41,6 +41,7 @@ export default function ShopIcomeList({ IncomeData, onUpdatePayment }) {
   );
 
   const isLoading = loadingList;
+
   return (
     <>
       <Typography variant="h5" color="text.primary" my={2}>

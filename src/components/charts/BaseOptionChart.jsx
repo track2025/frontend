@@ -130,8 +130,8 @@ export default function BaseOptionChart(value) {
     plotOptions: {
       // Bar
       bar: {
-        columnWidth: '28%',
-        borderRadius: 4
+        columnWidth: '60%',
+        borderRadius: 3
       },
       // Pie + Donut
       pie: {

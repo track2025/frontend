@@ -21,7 +21,7 @@ import toast from 'react-hot-toast';
 export default function FormDialog({ open, handleClose, data, setCount }) {
   const [status, setStatus] = useState(data?.status || 'pending');
 
-  const { mutate, isLoading } = useMutation(api.editPayment, {
+  const { mutate, isLoading } = useMutation(api[data?._id ? 'editPayment' : 'createPayment'], {
     onSuccess: () => {
       toast.success('updated');
       setCount((prev) => prev + 1);
@@ -47,7 +47,13 @@ export default function FormDialog({ open, handleClose, data, setCount }) {
             const formData = new FormData(event.currentTarget);
             const formJson = Object.fromEntries(formData.entries());
             console.log(formJson);
-            await mutate({ ...formJson, pid: data._id });
+            await mutate({
+              ...formJson,
+              shop: data.shop,
+              orders: data.orders,
+              date: data?.date,
+              pid: data?._id || null
+            });
           }
         }}
       >

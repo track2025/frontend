@@ -71,7 +71,7 @@ export default function page({ params: { pid } }) {
   return (
     <div>
       <ShopDetailCover data={data?.shop} isLoading={isLoading} />
-      <ShopDetail data={dataMain} />
+      <ShopDetail data={dataMain} isLoading={isLoading} />
       <br />
       <Table
         headData={TABLE_HEAD}
