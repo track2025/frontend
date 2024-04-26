@@ -31,18 +31,12 @@ export const navlinks = [
   {
     id: 1,
     title: 'Dashboard',
-    slug: '',
+    slug: '/dashboard',
     icon: <LuLayoutDashboard />
   },
+
   {
     id: 2,
-    title: 'Shop',
-    slug: '/settings/shop',
-    icon: <HiOutlineShoppingBag />,
-    isSearch: false
-  },
-  {
-    id: 3,
     title: 'Products',
     slug: '/products',
     icon: <BsShop />,
@@ -50,21 +44,21 @@ export const navlinks = [
   },
 
   {
-    id: 4,
+    id: 3,
     title: 'Orders',
     slug: '/orders',
     icon: <BsCart3 />,
     isSearch: true
   },
   {
-    id: 5,
-    title: 'Income',
-    slug: '/income',
-    icon: <HiOutlineCurrencyDollar />,
-    isSearch: true
+    id: 4,
+    title: 'Shop',
+    slug: '/shop',
+    icon: <HiOutlineShoppingBag />,
+    isSearch: false
   },
   {
-    id: 6,
+    id: 5,
     title: 'Settings',
     slug: '/settings',
     icon: <IoSettingsOutline />,

@@ -2,10 +2,10 @@ import * as React from 'react';
 // mui
 import { Box } from '@mui/material';
 // components
-import Navbar from 'src/components/layout/_main/navbar';
-import Footer from 'src/components/layout/_main/footer';
+import Navbar from 'src/layout/_main/navbar';
+import Footer from 'src/layout/_main/footer';
 import { cookies } from 'next/headers';
-import Topbar from 'src/components/layout/_main/topbar';
+import Topbar from 'src/layout/_main/topbar';
 // Meta information
 export const metadata = {
   title: 'Nextall E-commerce Script | Your Gateway to Seamless Shopping and Secure Transactions',

@@ -26,14 +26,14 @@ const TABLE_HEAD = [
   { id: 'createdAt', label: 'Created', alignRight: false },
   { id: '', label: 'actions', alignRight: true }
 ];
-export default function ShopIcomeList({ IncomeData, onUpdatePayment }) {
+export default function ShopIcomeList({ slug, onUpdatePayment, isVendor }) {
   const searchParams = useSearchParams();
   const pageParam = searchParams.get('page');
   const [payment, setPayment] = useState(null);
   const [count, setCount] = useState(0);
   const { data, isLoading: loadingList } = useQuery(
     ['income', pageParam, count],
-    () => api.getIncomeByShop(IncomeData, pageParam),
+    () => api[isVendor ? 'getIncomeByVendor' : 'getIncomeByShop'](slug, pageParam),
     {
       onSuccess: () => onUpdatePayment(),
       onError: (err) => toast.error(err.response.data.message || 'Something went wrong!')
@@ -45,7 +45,7 @@ export default function ShopIcomeList({ IncomeData, onUpdatePayment }) {
   return (
     <>
       <Typography variant="h5" color="text.primary" my={2}>
-        Income
+        Income Report
       </Typography>
 
       <Table
@@ -55,7 +55,9 @@ export default function ShopIcomeList({ IncomeData, onUpdatePayment }) {
         row={IncomeList}
         // mobileRow={IncomeListCard}
         handleClickOpen={(v) => setPayment(v)}
+        isVendor={isVendor}
       />
+
       <EditPaymentDialog
         handleClose={(v) => setPayment(null)}
         open={Boolean(payment)}

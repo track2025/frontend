@@ -21,7 +21,7 @@ import { FaUser } from 'react-icons/fa6';
 import { useSelector } from 'react-redux';
 
 // config
-import config from 'src/components/layout/_main/config.json';
+import config from 'src/layout/_main/config.json';
 
 // styles
 import RootStyled from './styled';

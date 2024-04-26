@@ -46,7 +46,7 @@ export default function Dashboard({ isVendor }) {
   return (
     <Box>
       <Grid container spacing={3}>
-        <Grid item xs={12} sm={6} md={isVendor ? 4 : 3}>
+        <Grid item xs={12} sm={6} md={3}>
           <DashboardCard
             color="primary"
             isAmount
@@ -56,7 +56,7 @@ export default function Dashboard({ isVendor }) {
             isLoading={isLoading}
           />
         </Grid>
-        <Grid item xs={12} sm={6} md={isVendor ? 4 : 3}>
+        <Grid item xs={12} sm={6} md={3}>
           <DashboardCard
             color="secondary"
             title="Daily Orders"
@@ -66,7 +66,7 @@ export default function Dashboard({ isVendor }) {
           />
         </Grid>
         {!isVendor && (
-          <Grid item xs={12} sm={6} md={isVendor ? 4 : 3}>
+          <Grid item xs={12} sm={6} md={3}>
             <DashboardCard
               color="warning"
               title="Total Users"
@@ -77,7 +77,7 @@ export default function Dashboard({ isVendor }) {
           </Grid>
         )}
 
-        <Grid item xs={12} sm={isVendor ? 12 : 6} md={isVendor ? 4 : 3}>
+        <Grid item xs={12} sm={isVendor ? 12 : 6} md={3}>
           <DashboardCard
             color="error"
             title="Total Products"
@@ -86,25 +86,30 @@ export default function Dashboard({ isVendor }) {
             isLoading={isLoading}
           />
         </Grid>
-        <Grid item xs={12} sm={isVendor ? 12 : 6} md={isVendor ? 4 : 3}>
-          <DashboardCard
-            color="success"
-            title="Total Vendors"
-            value={totalVendors}
-            icon={<BsClipboard2DataFill size={24} />}
-            isLoading={isLoading}
-          />
-        </Grid>
-        <Grid item xs={12} sm={isVendor ? 12 : 6} md={isVendor ? 4 : 3}>
-          <DashboardCard
-            color="info"
-            title="Total Shop"
-            value={totalShops}
-            icon={<BsClipboard2DataFill size={24} />}
-            isLoading={isLoading}
-          />
-        </Grid>
-        <Grid item xs={12} sm={isVendor ? 12 : 6} md={isVendor ? 4 : 3}>
+        {!isVendor && (
+          <Grid item xs={12} sm={isVendor ? 12 : 6} md={3}>
+            <DashboardCard
+              color="success"
+              title="Total Vendors"
+              value={totalVendors}
+              icon={<BsClipboard2DataFill size={24} />}
+              isLoading={isLoading}
+            />
+          </Grid>
+        )}
+        {!isVendor && (
+          <Grid item xs={12} sm={isVendor ? 12 : 6} md={3}>
+            <DashboardCard
+              color="info"
+              title="Total Shop"
+              value={totalShops}
+              icon={<BsClipboard2DataFill size={24} />}
+              isLoading={isLoading}
+            />
+          </Grid>
+        )}
+
+        <Grid item xs={12} sm={isVendor ? 12 : 6} md={3}>
           <DashboardCard
             color="#01838F"
             title="Pending Orders"
@@ -113,15 +118,18 @@ export default function Dashboard({ isVendor }) {
             isLoading={isLoading}
           />
         </Grid>
-        <Grid item xs={12} sm={isVendor ? 12 : 6} md={isVendor ? 4 : 3}>
-          <DashboardCard
-            color="#AFB42B"
-            title="Retruned Orders"
-            value={totalReturnOrders}
-            icon={<BsClipboard2DataFill size={24} />}
-            isLoading={isLoading}
-          />
-        </Grid>
+        {!isVendor && (
+          <Grid item xs={12} sm={isVendor ? 12 : 6} md={3}>
+            <DashboardCard
+              color="#AFB42B"
+              title="Retruned Orders"
+              value={totalReturnOrders}
+              icon={<BsClipboard2DataFill size={24} />}
+              isLoading={isLoading}
+            />
+          </Grid>
+        )}
+
         <Grid item xs={12} md={7} lg={7}>
           <SalesChart data={sales_report} isLoading={isLoading} />
         </Grid>
@@ -139,7 +147,7 @@ export default function Dashboard({ isVendor }) {
             <Typography variant="h6" color="text.primary" px={2} py={2}>
               Low Stock Products
             </Typography>
-            <LowStockProducts />
+            <LowStockProducts isVendor={isVendor} />
           </Card>
         </Grid>
       </Grid>

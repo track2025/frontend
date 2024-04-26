@@ -36,7 +36,7 @@ IncomeList.propTypes = {
   isUser: PropTypes.bool.isRequired
 };
 
-export default function IncomeList({ isLoading, row, handleClickOpen, isPayout }) {
+export default function IncomeList({ isLoading, row, handleClickOpen, isPayout, isVendor }) {
   const theme = useTheme();
   const router = useRouter();
   return (
@@ -105,22 +105,25 @@ export default function IncomeList({ isLoading, row, handleClickOpen, isPayout }
         )}
       </TableCell>
       <TableCell>{isLoading ? <Skeleton variant="text" /> : <>{fDateShort(row.date).slice(3)}</>}</TableCell>
+
       <TableCell align="right">
         <Stack direction="row" justifyContent="flex-end">
           {isLoading ? (
             <Skeleton variant="circular" width={34} height={34} sx={{ mr: 1 }} />
           ) : row?.thisMonth ? null : (
-            <Tooltip title="Edit">
-              <IconButton onClick={() => handleClickOpen(row)}>
-                <MdEdit />
-              </IconButton>
-            </Tooltip>
+            !isVendor && (
+              <Tooltip title="Edit">
+                <IconButton onClick={() => handleClickOpen(row)}>
+                  <MdEdit />
+                </IconButton>
+              </Tooltip>
+            )
           )}
           {isLoading ? (
             <Skeleton variant="circular" width={34} height={34} sx={{ mr: 1 }} />
           ) : row?._id ? (
             <Tooltip title="Preview">
-              <IconButton onClick={() => router.push(`/admin/payments/${row._id}`)}>
+              <IconButton onClick={() => router.push(`/${isVendor ? 'vendor' : 'admin'}/payments/${row._id}`)}>
                 <IoEye />
               </IconButton>
             </Tooltip>

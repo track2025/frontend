@@ -68,7 +68,6 @@ export default function Topbar({ open, handleDrawerOpen, handleDrawerClose }) {
         </Stack>
         <Stack direction="row" alignItems="center" gap={1}>
           <SettingMode isAdmin />
-          <NotificationsPopover />
           <UserSelect />
         </Stack>
       </Toolbar>

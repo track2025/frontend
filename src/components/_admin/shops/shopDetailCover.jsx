@@ -51,14 +51,17 @@ const CoverImgStyle = styled('div')({
 export default function ShopDetailCover({ data, isLoading, isUser }) {
   return (
     <RootStyle>
-      <Image
-        src={data?.cover?.url}
-        alt={data?.title}
-        // placeholder="blur"
-        // blurDataURL={data?.cover?.blurDataURL}
-        objectFit="cover"
-        fill
-      />
+      {!isLoading && (
+        <Image
+          src={data?.cover?.url}
+          alt={data?.title}
+          // placeholder="blur"
+          // blurDataURL={data?.cover?.blurDataURL}
+          objectFit="cover"
+          fill
+        />
+      )}
+
       <div>
         <Container fixed>
           <InfoStyle>

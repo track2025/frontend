@@ -33,7 +33,7 @@ export default function AdminProducts({ isVendor }) {
 
   const { data, isLoading } = useQuery(
     ['admin-products', apicall, pageParam],
-    () => api.getAdminLowStockProducts(+pageParam || 1),
+    () => api[isVendor ? 'getVendorLowStockProducts' : 'getAdminLowStockProducts'](+pageParam || 1),
     {
       onError: (err) => toast.error(err.response.data.message || 'Something went wrong!')
     }

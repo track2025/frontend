@@ -48,7 +48,7 @@ export default function page({ params: { slug } }) {
       {/* {JSON.stringify(data)} */}
       <ShopDetailCover data={data?.data} isLoading={isLoading} />
       <ShopDetail data={dataMain} isLoading={isLoading} />
-      <ShopIcomeList IncomeData={slug} onUpdatePayment={() => setCount((prev) => prev + 1)} count={count} />
+      <ShopIcomeList slug={slug} onUpdatePayment={() => setCount((prev) => prev + 1)} count={count} />
     </div>
   );
 }
