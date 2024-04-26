@@ -11,6 +11,7 @@ export default function Page() {
     if (user.role === 'vendor' || user.role.includes('admin')) {
       router.push('/');
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   return (
     <Container fixed>

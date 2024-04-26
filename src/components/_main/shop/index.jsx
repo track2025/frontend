@@ -43,6 +43,7 @@ export default function ShopSettingMain() {
       router.push('/');
       toast.error('Verify your email!');
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (

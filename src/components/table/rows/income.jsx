@@ -1,6 +1,6 @@
 import React from 'react';
 // mui
-import { useTheme, styled } from '@mui/material/styles';
+import { useTheme } from '@mui/material/styles';
 import { Box, TableRow, Skeleton, TableCell, Stack, IconButton, Tooltip, Typography } from '@mui/material';
 // components
 import Label from 'src/components/label';
@@ -29,14 +29,23 @@ IncomeList.propTypes = {
       lastName: PropTypes.string.isRequired
     }),
     createdAt: PropTypes.instanceOf(Date).isRequired,
+    date: PropTypes.instanceOf(Date).isRequired,
     status: PropTypes.oneOf(['delivered', 'ontheway', 'pending']).isRequired,
     total: PropTypes.number.isRequired,
+    shop: PropTypes.object.isRequired,
+    orders: PropTypes.array.isRequired,
+    totalIncome: PropTypes.number.isRequired,
+    totalCommission: PropTypes.number.isRequired,
+    name: PropTypes.string.isRequired,
+    thisMonth: PropTypes.bool,
     _id: PropTypes.string.isRequired
   }).isRequired,
-  isUser: PropTypes.bool.isRequired
+  handleClickOpen: PropTypes.func,
+  isPayout: PropTypes.bool,
+  isVendor: PropTypes.bool
 };
 
-export default function IncomeList({ isLoading, row, handleClickOpen, isPayout }) {
+export default function IncomeList({ isLoading, row, handleClickOpen, isPayout, isVendor }) {
   const theme = useTheme();
   const router = useRouter();
   return (
@@ -105,22 +114,25 @@ export default function IncomeList({ isLoading, row, handleClickOpen, isPayout }
         )}
       </TableCell>
       <TableCell>{isLoading ? <Skeleton variant="text" /> : <>{fDateShort(row.date).slice(3)}</>}</TableCell>
+
       <TableCell align="right">
         <Stack direction="row" justifyContent="flex-end">
           {isLoading ? (
             <Skeleton variant="circular" width={34} height={34} sx={{ mr: 1 }} />
           ) : row?.thisMonth ? null : (
-            <Tooltip title="Edit">
-              <IconButton onClick={() => handleClickOpen(row)}>
-                <MdEdit />
-              </IconButton>
-            </Tooltip>
+            !isVendor && (
+              <Tooltip title="Edit">
+                <IconButton onClick={() => handleClickOpen(row)}>
+                  <MdEdit />
+                </IconButton>
+              </Tooltip>
+            )
           )}
           {isLoading ? (
             <Skeleton variant="circular" width={34} height={34} sx={{ mr: 1 }} />
           ) : row?._id ? (
             <Tooltip title="Preview">
-              <IconButton onClick={() => router.push(`/admin/payments/${row._id}`)}>
+              <IconButton onClick={() => router.push(`/${isVendor ? 'vendor' : 'admin'}/payments/${row._id}`)}>
                 <IoEye />
               </IconButton>
             </Tooltip>

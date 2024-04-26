@@ -312,6 +312,10 @@ export const getAdminLowStockProducts = async (page) => {
   const { data: response } = await http.get(`/admin/low-stock-products?page=${page}`);
   return response;
 };
+export const getVendorLowStockProducts = async (page) => {
+  const { data: response } = await http.get(`/vendor/low-stock-products?page=${page}`);
+  return response;
+};
 
 export const getShopsByAdmin = async (page, search) => {
   const { data: response } = await http.get(`/admin/shops?search=${search}&page=${page}`);
@@ -455,6 +459,11 @@ export const getShopDetailsByAdmin = async (slug) => {
 
   return data;
 };
+export const getShopDetailsByVendor = async () => {
+  const { data } = await http.get(`/vendor/shop/stats`);
+
+  return data;
+};
 
 export const addShopByUser = async (payload) => {
   const { data } = await http.post(`/shops`, {
@@ -482,6 +491,12 @@ export const getIncomeByShop = async (slug, page) => {
 
   return data;
 };
+export const getIncomeByVendor = async (slug, page) => {
+  const { data } = await http.get(`/vendor/shops/income?page=${page || 1}`);
+
+  return data;
+};
+
 export const getIncomeDetailsByAdmin = async (pid, page) => {
   const { data } = await http.get(`/admin/payments/${pid}?page=${page || 1}`);
   return data;

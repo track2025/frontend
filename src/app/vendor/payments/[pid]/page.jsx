@@ -27,8 +27,9 @@ const TABLE_HEAD = [
 ];
 
 Page.propTypes = {
-  params: PropTypes.object
+  params: PropTypes.object.isRequired
 };
+
 export default function Page({ params: { pid } }) {
   const theme = useTheme();
   const searchParams = useSearchParams();

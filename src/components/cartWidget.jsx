@@ -1,5 +1,5 @@
 // mui
-import { alpha, Badge, CardActionArea, IconButton, Stack, Typography } from '@mui/material';
+import { Badge, CardActionArea, IconButton, Stack, Typography } from '@mui/material';
 import { HiOutlineShoppingBag } from 'react-icons/hi2';
 
 // react

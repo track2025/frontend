@@ -11,7 +11,6 @@ import Table from 'src/components/table/table';
 import PayoutsListRow from 'src/components/table/rows/income';
 // import IncomeListCard from 'src/components/cards/incomeList';
 
-import PropTypes from 'prop-types';
 // mui
 import EditPaymentDialog from 'src/components/dialog/editPayment';
 const TABLE_HEAD = [
@@ -51,7 +50,7 @@ export default function PayoutsList() {
         isPayout
       />
       <EditPaymentDialog
-        handleClose={(v) => setPayment(null)}
+        handleClose={() => setPayment(null)}
         open={Boolean(payment)}
         data={payment}
         setCount={setCount}
@@ -59,6 +58,3 @@ export default function PayoutsList() {
     </>
   );
 }
-PayoutsList.propTypes = {
-  isVendor: PropTypes.boolean
-};

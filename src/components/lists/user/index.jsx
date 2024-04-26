@@ -28,12 +28,11 @@ import PropTypes from 'prop-types';
 UserList.propTypes = {
   openUser: PropTypes.bool.isRequired,
   user: PropTypes.object.isRequired,
-  setOpen: PropTypes.func.isRequired,
-  isAuthenticated: PropTypes.bool.isRequired
+  setOpen: PropTypes.func.isRequired
 };
 
 export default function UserList({ ...props }) {
-  const { openUser, user, setOpen, isAuthenticated } = props;
+  const { openUser, user, setOpen } = props;
   const pathname = usePathname();
   const router = useRouter();
   const dispatch = useDispatch();

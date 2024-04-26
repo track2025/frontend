@@ -14,7 +14,7 @@ import Table from 'src/components/table/table';
 import ProductCard from 'src/components/cards/adminProduct';
 import Product from 'src/components/table/rows/product';
 import { useSearchParams } from 'next/navigation';
-
+import PropTypes from 'prop-types';
 const TABLE_HEAD = [
   { id: 'name', label: 'Product', alignRight: false, sort: true },
   { id: 'createdAt', label: 'Date', alignRight: false, sort: true },
@@ -24,6 +24,9 @@ const TABLE_HEAD = [
   { id: '', label: 'Actions', alignRight: true }
 ];
 
+AdminProducts.propTypes = {
+  isVendor: PropTypes.bool
+};
 export default function AdminProducts({ isVendor }) {
   const searchParams = useSearchParams();
   const pageParam = searchParams.get('page');
@@ -33,7 +36,7 @@ export default function AdminProducts({ isVendor }) {
 
   const { data, isLoading } = useQuery(
     ['admin-products', apicall, pageParam],
-    () => api.getAdminLowStockProducts(+pageParam || 1),
+    () => api[isVendor ? 'getVendorLowStockProducts' : 'getAdminLowStockProducts'](+pageParam || 1),
     {
       onError: (err) => toast.error(err.response.data.message || 'Something went wrong!')
     }

@@ -1,10 +1,12 @@
-import React, { useState, useCallback } from 'react';
+import React, { useState } from 'react';
 // next
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import { TextField, Stack } from '@mui/material';
-
+import PropTypes from 'prop-types';
 const STATUS_OPTIONS = ['sale', 'new', 'regular', 'disabled'];
-
+ProductFilter.propTypes = {
+  categories: PropTypes.array.isRequired
+};
 export default function ProductFilter({ categories }) {
   const router = useRouter();
   const searchParams = useSearchParams();

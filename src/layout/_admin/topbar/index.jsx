@@ -12,13 +12,12 @@ import NotificationsPopover from './NotificationPopover';
 // icons
 import { RxHamburgerMenu } from 'react-icons/rx';
 // next
-import { usePathname } from 'next/navigation';
 import dynamic from 'next/dynamic';
 
 // components
 import MainLogo from 'src/components/mainLogo';
-import { navlinks } from '../sidebar';
-import Search from 'src/components/search';
+
+// import Search from 'src/components/search';
 const UserSelect = dynamic(() => import('src/components/select/userSelect'), {
   ssr: false,
   loading: () => <Skeleton variant="circular" width={50} height={50} />
@@ -43,11 +42,9 @@ const AppBar = styled(MuiAppBar, {
 
 export default function Topbar({ open, handleDrawerOpen, handleDrawerClose }) {
   const theme = useTheme();
-  const pathname = usePathname();
-  const filtered = navlinks.filter((v) => '/dashboard' + v.slug === pathname);
-  const isActive = filtered;
+
   const isMobile = useMediaQuery(theme.breakpoints.down('md'));
-  const isSearch = Boolean(isActive[0]?.isSearch);
+  // const isSearch = Boolean(isActive[0]?.isSearch);
   return (
     <AppBar position="fixed" open={open} sx={{ borderRadius: 0, boxShadow: 'none', zIndex: 999 }}>
       <Toolbar sx={{ justifyContent: 'space-between' }}>
@@ -64,7 +61,7 @@ export default function Topbar({ open, handleDrawerOpen, handleDrawerClose }) {
             <RxHamburgerMenu size={20} />
           </IconButton>
           {!isMobile && <MainLogo />}
-          {isSearch && <Search />}
+          {/* {isSearch && <Search />} */}
         </Stack>
         <Stack direction="row" alignItems="center" gap={1}>
           <SettingMode isAdmin />

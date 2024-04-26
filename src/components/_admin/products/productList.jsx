@@ -72,7 +72,7 @@ export default function AdminProducts({ brands, categories, isVendor }) {
       </Dialog>
       <Stack spacing={2} direction="row" alignItems="center" justifyContent="space-between" mb={2}>
         <Search />
-        <ProductFilter categories={categories} />
+        {!isVendor && <ProductFilter categories={categories} />}
       </Stack>
       <Table
         headData={TABLE_HEAD}
@@ -81,8 +81,8 @@ export default function AdminProducts({ brands, categories, isVendor }) {
         isLoading={isLoading}
         row={Product}
         handleClickOpen={handleClickOpen}
-        brands={brands}
-        categories={categories}
+        brands={isVendor ? [] : brands}
+        categories={isVendor ? [] : categories}
       />
     </>
   );

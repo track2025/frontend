@@ -1,7 +1,7 @@
 import React from 'react';
 // mui
-import { useTheme, styled } from '@mui/material/styles';
-import { Box, TableRow, Skeleton, TableCell, Stack, IconButton, Tooltip } from '@mui/material';
+import { useTheme } from '@mui/material/styles';
+import { TableRow, Skeleton, TableCell, Stack, IconButton, Tooltip } from '@mui/material';
 // components
 import Label from 'src/components/label';
 import { MdEdit } from 'react-icons/md';
@@ -28,11 +28,15 @@ IncomeList.propTypes = {
       lastName: PropTypes.string.isRequired
     }),
     createdAt: PropTypes.instanceOf(Date).isRequired,
+    date: PropTypes.instanceOf(Date).isRequired,
     status: PropTypes.oneOf(['delivered', 'ontheway', 'pending']).isRequired,
     total: PropTypes.number.isRequired,
+    orders: PropTypes.array.isRequired,
+    totalIncome: PropTypes.number.isRequired,
+    totalCommission: PropTypes.number.isRequired,
     _id: PropTypes.string.isRequired
   }).isRequired,
-  isUser: PropTypes.bool.isRequired
+  handleClickOpen: PropTypes.func
 };
 
 export default function IncomeList({ isLoading, row, handleClickOpen }) {

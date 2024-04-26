@@ -17,7 +17,24 @@ import { useMutation } from 'react-query';
 import * as api from 'src/services';
 // toast
 import toast from 'react-hot-toast';
-
+import PropTypes from 'prop-types';
+FormDialog.propTypes = {
+  open: PropTypes.bool.isRequired,
+  handleClose: PropTypes.func,
+  data: PropTypes.shape({
+    _id: PropTypes.string, // Optional for edit scenario
+    shop: PropTypes.string.isRequired,
+    orders: PropTypes.array.isRequired,
+    date: PropTypes.string.isRequired,
+    total: PropTypes.number.isRequired,
+    totalIncome: PropTypes.number.isRequired,
+    totalCommission: PropTypes.number.isRequired,
+    status: PropTypes.oneOf(['pending', 'paid', 'hold']).isRequired,
+    paidAt: PropTypes.string, // Optional for paid status
+    tip: PropTypes.number // Optional
+  }),
+  setCount: PropTypes.func
+};
 export default function FormDialog({ open, handleClose, data, setCount }) {
   const [status, setStatus] = useState(data?.status || 'pending');
 
@@ -66,7 +83,6 @@ export default function FormDialog({ open, handleClose, data, setCount }) {
           <Stack gap={2} mt={4}>
             <Stack gap={2} direction="row">
               <TextField
-                autoFocus
                 required
                 id="total"
                 name="total"

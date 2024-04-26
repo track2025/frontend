@@ -6,19 +6,7 @@ import { useDispatch } from 'react-redux';
 // mui
 import { styled } from '@mui/material/styles';
 import { LoadingButton } from '@mui/lab';
-import {
-  Card,
-  Stack,
-  TextField,
-  Typography,
-  Box,
-  Select,
-  FormControl,
-  FormHelperText,
-  Grid,
-  Skeleton,
-  Paper
-} from '@mui/material';
+import { Card, Stack, TextField, Typography, Box, FormHelperText, Grid } from '@mui/material';
 // components
 import UploadSingleFile from 'src/components/upload/UploadSingleFile';
 // next
@@ -47,8 +35,6 @@ const LabelStyle = styled(Typography)(({ theme }) => ({
   lineHeight: 2.5
 }));
 
-const STATUS_OPTIONS = ['active', 'deactive'];
-
 export default function CreateShopSettingFrom() {
   const router = useRouter();
   const dispatch = useDispatch();
@@ -63,7 +49,7 @@ export default function CreateShopSettingFrom() {
 
   const { mutate, isLoading } = useMutation('new-user-shop', api.addShopByUser, {
     retry: false,
-    onSuccess: (data) => {
+    onSuccess: () => {
       toast.success('Shop is under review!');
       dispatch(updateUserRole());
       router.push('/vendor/dashboard');
@@ -123,6 +109,7 @@ export default function CreateShopSettingFrom() {
     validationSchema: ShopSettingScema,
     onSubmit: async (values) => {
       const { file, ...rest } = values;
+      console.log(file, '');
       try {
         mutate({
           ...rest

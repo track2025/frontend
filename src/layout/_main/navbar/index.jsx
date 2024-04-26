@@ -12,12 +12,12 @@ import { Toolbar, Skeleton, Stack, AppBar, useMediaQuery } from '@mui/material';
 import { useSelector } from 'react-redux';
 
 // config
-import config from 'src/components/layout/_main/config.json';
+import config from 'src/layout/_main/config.json';
 import MainLogo from 'src/components/mainLogo';
 import * as api from 'src/services';
 // usequery
 import { useQuery } from 'react-query';
-const MobileBar = dynamic(() => import('src/components/layout/_main/mobileBar'));
+const MobileBar = dynamic(() => import('src/layout/_main/mobileBar'));
 
 // dynamic import components
 const SettingMode = dynamic(() => import('src/components/settings/themeModeSetting'), {

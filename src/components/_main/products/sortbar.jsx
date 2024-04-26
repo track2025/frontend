@@ -224,5 +224,6 @@ SortBar.propTypes = {
   sortData: PropTypes.array.isRequired,
   category: PropTypes.object.isRequired,
   subCategory: PropTypes.object.isRequired,
-  isLoading: PropTypes.bool.isRequired
+  isLoading: PropTypes.bool.isRequired,
+  shop: PropTypes.object
 };
