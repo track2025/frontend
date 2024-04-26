@@ -7,7 +7,6 @@ import HeaderBreadcrumbs from 'src/components/headerBreadcrumbs';
 import * as api from 'src/services';
 // usequery
 import { useQuery } from 'react-query';
-import toast from 'react-hot-toast';
 // Meta information
 // export const metadata = {
 //   title: 'Shop Setting - Nextall',
@@ -17,7 +16,7 @@ import toast from 'react-hot-toast';
 
 export default function ShopSetting() {
   const { data, isLoading } = useQuery(['get-vendor-dhop'], () => api.getVendorShop(), {
-    retry:false
+    retry: false
   });
   return (
     <>

@@ -16,7 +16,8 @@ import SortBar from './sortbar';
 ProductListing.propTypes = {
   category: PropTypes.object,
   fetchFilters: PropTypes.string.isRequired,
-  subCategory: PropTypes.object
+  subCategory: PropTypes.object,
+  shop: PropTypes.object
 };
 // components
 const Pagination = dynamic(() => import('src/components/pagination'));

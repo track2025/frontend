@@ -28,11 +28,9 @@ import { GoEye } from 'react-icons/go';
 import { IoIosHeart } from 'react-icons/io';
 import dynamic from 'next/dynamic';
 import { FaRegStar } from 'react-icons/fa';
-import ColorPreviewGroup from 'src/components/colorPreviewGroup';
 const ProductDetailsDialog = dynamic(() => import('../dialog/productDetails'));
 export default function ShopProductCard({ ...props }) {
   const { item: product, isLoading: loading } = props;
-  console.log(loading, product, 'isLoading');
   const [open, setOpen] = useState(false);
   const theme = useTheme();
   const router = useRouter();
@@ -276,18 +274,21 @@ export default function ShopProductCard({ ...props }) {
   );
 }
 ShopProductCard.propTypes = {
-  product: PropTypes.shape({
+  item: PropTypes.shape({
     _id: PropTypes.string.isRequired,
-    name: PropTypes.string.isRequired,
+    title: PropTypes.string.isRequired,
     slug: PropTypes.string,
     sku: PropTypes.string,
     status: PropTypes.string,
-    image: PropTypes.object.isRequired,
+    logo: PropTypes.shape({
+      url: PropTypes.string.isRequired,
+      blurDataURL: PropTypes.string // optional
+    }).isRequired,
     price: PropTypes.number.isRequired,
     priceSale: PropTypes.number,
-    available: PropTypes.number,
-    colors: PropTypes.array,
+    available: PropTypes.number.isRequired,
+    colors: PropTypes.arrayOf(PropTypes.string),
     averageRating: PropTypes.number
-  }),
-  loading: PropTypes.bool.isRequired
+  }).isRequired,
+  isLoading: PropTypes.bool.isRequired
 };

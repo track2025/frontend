@@ -104,6 +104,12 @@ ShopCard.propTypes = {
       url: PropTypes.string.isRequired,
       blurDataURL: PropTypes.string.isRequired
     }),
-    name: PropTypes.string.isRequired
+    logo: PropTypes.shape({
+      url: PropTypes.string.isRequired,
+      blurDataURL: PropTypes.string.isRequired
+    }),
+
+    title: PropTypes.string.isRequired,
+    address: PropTypes.object.isRequired
   }).isRequired
 };

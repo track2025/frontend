@@ -12,12 +12,11 @@ import NotificationsPopover from './NotificationPopover';
 // icons
 import { RxHamburgerMenu } from 'react-icons/rx';
 // next
-import { usePathname } from 'next/navigation';
 import dynamic from 'next/dynamic';
 
 // components
 import MainLogo from 'src/components/mainLogo';
-import { navlinks } from '../sidebar';
+
 // import Search from 'src/components/search';
 const UserSelect = dynamic(() => import('src/components/select/userSelect'), {
   ssr: false,
@@ -43,9 +42,7 @@ const AppBar = styled(MuiAppBar, {
 
 export default function Topbar({ open, handleDrawerOpen, handleDrawerClose }) {
   const theme = useTheme();
-  const pathname = usePathname();
-  // const filtered = navlinks.filter((v) => '/admin' + v.slug === pathname);
-  // const isActive = filtered;
+
   const isMobile = useMediaQuery(theme.breakpoints.down('md'));
   // const isSearch = Boolean(isActive[0]?.isSearch);
   return (

@@ -15,8 +15,7 @@ import {
   FormControl,
   FormHelperText,
   Grid,
-  Skeleton,
-  Paper
+  Skeleton
 } from '@mui/material';
 // components
 import UploadSingleFile from 'src/components/upload/UploadSingleFile';
@@ -249,6 +248,7 @@ export default function AdminShopForm({ data: currentShop, isLoading: shopLoadin
     if (values.status === 'approved' || values.status === 'pending' || values.status === 'in review') {
       setFieldValue('message', ''); // Set message to empty string
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [values.status]);
 
   return (

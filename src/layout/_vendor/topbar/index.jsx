@@ -8,7 +8,6 @@ import Toolbar from '@mui/material/Toolbar';
 import IconButton from '@mui/material/IconButton';
 import Skeleton from '@mui/material/Skeleton';
 import Stack from '@mui/material/Stack';
-import NotificationsPopover from './NotificationPopover';
 // icons
 import { RxHamburgerMenu } from 'react-icons/rx';
 // next

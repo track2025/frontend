@@ -59,7 +59,7 @@ export default function ShopIcomeList({ slug, onUpdatePayment, isVendor }) {
       />
 
       <EditPaymentDialog
-        handleClose={(v) => setPayment(null)}
+        handleClose={() => setPayment(null)}
         open={Boolean(payment)}
         data={payment}
         setCount={setCount}
@@ -68,5 +68,7 @@ export default function ShopIcomeList({ slug, onUpdatePayment, isVendor }) {
   );
 }
 ShopIcomeList.propTypes = {
-  isVendor: PropTypes.boolean
+  isVendor: PropTypes.boolean,
+  slug: PropTypes.string,
+  onUpdatePayment: PropTypes.func
 };

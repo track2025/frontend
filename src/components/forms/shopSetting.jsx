@@ -5,23 +5,9 @@ import { useMutation } from 'react-query';
 // mui
 import { styled } from '@mui/material/styles';
 import { LoadingButton } from '@mui/lab';
-import {
-  Card,
-  Stack,
-  TextField,
-  Typography,
-  Box,
-  Select,
-  FormControl,
-  FormHelperText,
-  Grid,
-  Skeleton,
-  Paper
-} from '@mui/material';
+import { Card, Stack, TextField, Typography, Box, FormHelperText, Grid, Skeleton } from '@mui/material';
 // components
 import UploadSingleFile from 'src/components/upload/UploadSingleFile';
-// next
-import { useRouter } from 'next/navigation';
 // yup
 import * as Yup from 'yup';
 // axios
@@ -46,11 +32,7 @@ const LabelStyle = styled(Typography)(({ theme }) => ({
   lineHeight: 2.5
 }));
 
-const STATUS_OPTIONS = ['active', 'deactive'];
-
 export default function ShopSettingFrom({ data: currentShop, isLoading: categoryLoading }) {
-  const router = useRouter();
-
   const [state, setstate] = useState({
     logoLoading: false,
     loading: false,
@@ -76,11 +58,11 @@ export default function ShopSettingFrom({ data: currentShop, isLoading: category
       }
     }
   );
-  const { mutate: deleteMutate } = useMutation(api.singleDeleteFile, {
-    onError: (error) => {
-      toast.error(error.response.data.message);
-    }
-  });
+  // const { mutate: deleteMutate } = useMutation(api.singleDeleteFile, {
+  //   onError: (error) => {
+  //     toast.error(error.response.data.message);
+  //   }
+  // });
   const ShopSettingScema = Yup.object().shape({
     title: Yup.string().required('title is required'),
     cover: Yup.mixed().required('Cover is required'),

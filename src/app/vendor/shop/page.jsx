@@ -10,10 +10,10 @@ import { HiOutlineClipboardList } from 'react-icons/hi';
 import { TbChartArrowsVertical } from 'react-icons/tb';
 import { FaWallet } from 'react-icons/fa6';
 import { useTheme } from '@mui/material';
-export default function page({ params: { slug } }) {
+export default function Page() {
   const theme = useTheme();
-  const [count, setCount] = React.useState(0);
-  const { data, isLoading } = useQuery(['shop-by-vendor', count], () => api.getShopDetailsByVendor());
+
+  const { data, isLoading } = useQuery(['shop-by-vendor'], () => api.getShopDetailsByVendor());
 
   const dataMain = [
     {
@@ -47,12 +47,7 @@ export default function page({ params: { slug } }) {
     <div>
       <ShopDetailCover data={data?.data} isLoading={isLoading} />
       <ShopDetail data={dataMain} isLoading={isLoading} />
-      <ShopIcomeList
-        IncomeData={dataMain?.slug}
-        isVendor
-        onUpdatePayment={() => console.log('clicked')}
-        count={count}
-      />
+      <ShopIcomeList IncomeData={dataMain?.slug} isVendor onUpdatePayment={() => console.log('clicked')} count={0} />
     </div>
   );
 }

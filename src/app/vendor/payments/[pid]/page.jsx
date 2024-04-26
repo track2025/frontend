@@ -16,7 +16,7 @@ import { TbChartArrowsVertical } from 'react-icons/tb';
 import { GrStatusGood } from 'react-icons/gr';
 import { GrStatusUnknown } from 'react-icons/gr';
 import { CiNoWaitingSign } from 'react-icons/ci';
-
+import PropTypes from 'prop-types';
 const TABLE_HEAD = [
   { id: 'name', label: 'User', alignRight: false },
   { id: 'total', label: 'Total', alignRight: false, sort: true },
@@ -25,7 +25,12 @@ const TABLE_HEAD = [
   { id: 'createdAt', label: 'Date', alignRight: false, sort: true },
   { id: '', label: 'actions', alignRight: true }
 ];
-export default function page({ params: { pid } }) {
+
+Page.propTypes = {
+  params: PropTypes.object.isRequired
+};
+
+export default function Page({ params: { pid } }) {
   const theme = useTheme();
   const searchParams = useSearchParams();
   const pageParam = searchParams.get('page');

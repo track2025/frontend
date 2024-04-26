@@ -10,7 +10,12 @@ import { HiOutlineClipboardList } from 'react-icons/hi';
 import { TbChartArrowsVertical } from 'react-icons/tb';
 import { FaWallet } from 'react-icons/fa6';
 import { useTheme } from '@mui/material';
-export default function page({ params: { slug } }) {
+import PropTypes from 'prop-types';
+Page.propTypes = {
+  params: PropTypes.object.isRequired
+};
+
+export default function Page({ params: { slug } }) {
   const theme = useTheme();
   const [count, setCount] = React.useState(0);
   const { data, isLoading } = useQuery(['shop-by-admin', count], () => api.getShopDetailsByAdmin(slug));

@@ -181,8 +181,13 @@ ShopDetailCover.propTypes = {
     }),
 
     title: PropTypes.string.isRequired,
+    approved: PropTypes.bool,
+    approvedAt: PropTypes.bool,
+    address: PropTypes.object.isRequired,
+    phone: PropTypes.any,
     description: PropTypes.string.isRequired,
     email: PropTypes.string.isRequired
   }).isRequired,
-  isLoading: PropTypes.bool.isRequired
+  isLoading: PropTypes.bool.isRequired,
+  isUser: PropTypes.bool
 };

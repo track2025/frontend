@@ -6,7 +6,6 @@ import ShopDetailCover from 'src/components/_admin/shops/shopDetailCover';
 
 // components
 import Filter from 'src/components/_main/products/filters';
-import HeaderBreadcrumbs from 'src/components/headerBreadcrumbs';
 import ProductList from 'src/components/_main/products';
 
 export default async function Listing({ params }) {

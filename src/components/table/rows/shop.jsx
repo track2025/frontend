@@ -172,7 +172,12 @@ ProductRow.propTypes = {
     averageRating: PropTypes.number.isRequired,
     priceSale: PropTypes.number,
     price: PropTypes.number.isRequired,
-    slug: PropTypes.string.isRequired
+    slug: PropTypes.string.isRequired,
+    title: PropTypes.string.isRequired,
+    vendor: PropTypes.object.isRequired,
+    status: PropTypes.object.isRequired,
+    approved: PropTypes.bool.isRequired,
+    approvedAt: PropTypes.string.isRequired
   }).isRequired,
   handleClickOpen: PropTypes.func.isRequired
 };

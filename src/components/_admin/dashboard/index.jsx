@@ -19,7 +19,10 @@ import { Grid, Box, Typography, Card } from '@mui/material';
 import { useQuery } from 'react-query';
 // api
 import * as api from 'src/services';
-
+import PropTypes from 'prop-types';
+Dashboard.propTypes = {
+  isVendor: PropTypes.bool
+};
 export default function Dashboard({ isVendor }) {
   const { data: dashboard, isLoading } = useQuery(
     'dashboard-analytics',

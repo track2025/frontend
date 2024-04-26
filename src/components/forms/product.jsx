@@ -68,7 +68,7 @@ export default function ProductForm({
       onSuccess: (data) => {
         toast.success(data.message);
 
-        router.push((isVendor ? "/vendor":"/admin") + '/products');
+        router.push((isVendor ? '/vendor' : '/admin') + '/products');
       },
       onError: (error) => {
         toast.error(error.response.data.message);

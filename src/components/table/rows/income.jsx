@@ -1,6 +1,6 @@
 import React from 'react';
 // mui
-import { useTheme, styled } from '@mui/material/styles';
+import { useTheme } from '@mui/material/styles';
 import { Box, TableRow, Skeleton, TableCell, Stack, IconButton, Tooltip, Typography } from '@mui/material';
 // components
 import Label from 'src/components/label';
@@ -29,11 +29,20 @@ IncomeList.propTypes = {
       lastName: PropTypes.string.isRequired
     }),
     createdAt: PropTypes.instanceOf(Date).isRequired,
+    date: PropTypes.instanceOf(Date).isRequired,
     status: PropTypes.oneOf(['delivered', 'ontheway', 'pending']).isRequired,
     total: PropTypes.number.isRequired,
+    shop: PropTypes.object.isRequired,
+    orders: PropTypes.array.isRequired,
+    totalIncome: PropTypes.number.isRequired,
+    totalCommission: PropTypes.number.isRequired,
+    name: PropTypes.string.isRequired,
+    thisMonth: PropTypes.bool,
     _id: PropTypes.string.isRequired
   }).isRequired,
-  isUser: PropTypes.bool.isRequired
+  handleClickOpen: PropTypes.func,
+  isPayout: PropTypes.bool,
+  isVendor: PropTypes.bool
 };
 
 export default function IncomeList({ isLoading, row, handleClickOpen, isPayout, isVendor }) {

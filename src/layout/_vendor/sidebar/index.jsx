@@ -13,14 +13,11 @@ import ListItemText from '@mui/material/ListItemText';
 // icons
 import { IoIosArrowBack, IoIosArrowForward } from 'react-icons/io';
 import { LuLayoutDashboard } from 'react-icons/lu';
-import { FaRegBuilding } from 'react-icons/fa';
-import { TbCategory2 } from 'react-icons/tb';
 import { BsShop } from 'react-icons/bs';
 import { BsCart3 } from 'react-icons/bs';
 import { HiOutlineShoppingBag } from 'react-icons/hi2';
 
 import { IoSettingsOutline } from 'react-icons/io5';
-import { HiOutlineCurrencyDollar } from 'react-icons/hi2';
 
 // next
 import { usePathname } from 'next/navigation';

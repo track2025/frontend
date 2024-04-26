@@ -1,10 +1,14 @@
-import { Box, Card, CardContent, Grid, Stack, Typography, Skeleton, IconButton, Tooltip } from '@mui/material';
-import { truncate } from 'lodash';
+import { Box, Card, CardContent, Grid, Stack, Typography, Skeleton } from '@mui/material';
+
 import React from 'react';
 // icons
-import { MdEdit } from 'react-icons/md';
 import { fCurrency } from 'src/utils/formatNumber';
 import Label from 'src/components/label';
+import PropTypes from 'prop-types';
+ShopDetail.propTypes = {
+  data: PropTypes.array.isRequired,
+  isLoading: PropTypes.bool.isRequired
+};
 export default function ShopDetail({ data, isLoading }) {
   return (
     <Grid container spacing={3}>

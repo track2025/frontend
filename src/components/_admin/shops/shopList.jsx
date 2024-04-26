@@ -25,7 +25,7 @@ const TABLE_HEAD = [
   { id: '', label: 'Actions', alignRight: true }
 ];
 
-export default function AdminProducts({ brands, categories, isVendor }) {
+export default function AdminProducts({ isVendor }) {
   const searchParams = useSearchParams();
   const pageParam = searchParams.get('page');
   const searchParam = searchParams.get('search');
@@ -75,7 +75,5 @@ export default function AdminProducts({ brands, categories, isVendor }) {
   );
 }
 AdminProducts.propTypes = {
-  brands: PropTypes.array.isRequired,
-  categories: PropTypes.array.isRequired,
   isVendor: PropTypes.boolean
 };

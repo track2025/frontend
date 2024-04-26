@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 // mui
-import { Grid, Paper, Typography, Skeleton, IconButton, Box, Stack, Rating, Avatar } from '@mui/material';
+import { Grid, Paper, Typography, Skeleton, IconButton, Box, Stack, Rating } from '@mui/material';
 import { styled, useTheme } from '@mui/material/styles';
 // components
 import Label from 'src/components/label';
@@ -185,6 +185,7 @@ AdminProductCard.propTypes = {
         url: PropTypes.string
       })
     ),
+    image: PropTypes.object.isRequired,
     name: PropTypes.string,
     priceSale: PropTypes.number,
     price: PropTypes.number,
