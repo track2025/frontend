@@ -15,7 +15,7 @@ AdminBestSelling.propTypes = {
 };
 
 export default function AdminBestSelling({ ...props }) {
-  const { data, loading } = props;
+  const { data, loading, isVendor } = props;
 
   return (
     <>
@@ -56,7 +56,13 @@ export default function AdminBestSelling({ ...props }) {
                     <Box>
                       <Typography
                         component={NextLink}
-                        href={loading ? '/dashboard/products' : `/dashboard/products/${value.slug}`}
+                        href={
+                          loading
+                            ? '/admin/products'
+                            : isVendor
+                              ? `/vendor/products/${value.slug}`
+                              : `/admin/products/${value.slug}`
+                        }
                         variant="subtitle1"
                         noWrap
                         color="text.primary"

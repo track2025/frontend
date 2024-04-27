@@ -83,7 +83,7 @@ export default function CategoryRow({ isLoading, row, handleClickOpen }) {
           ) : (
             <>
               <Tooltip title="Edit">
-                <IconButton onClick={() => router.push(`/dashboard/coupon-codes/${row?._id}`)}>
+                <IconButton onClick={() => router.push(`/admin/coupon-codes/${row?._id}`)}>
                   <MdEdit />
                 </IconButton>
               </Tooltip>

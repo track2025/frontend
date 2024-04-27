@@ -83,6 +83,7 @@ export default function AdminProducts({ brands, categories, isVendor }) {
         handleClickOpen={handleClickOpen}
         brands={isVendor ? [] : brands}
         categories={isVendor ? [] : categories}
+        isVendor={isVendor}
       />
     </>
   );

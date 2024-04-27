@@ -45,7 +45,7 @@ const ThumbImgStyle = styled(Box)(({ theme }) => ({
   position: 'relative',
   overflow: 'hidden'
 }));
-export default function OrderList({ isLoading, row, isUser }) {
+export default function OrderList({ isLoading, row, isUser, isVendor }) {
   const theme = useTheme();
   const router = useRouter();
   return (
@@ -110,7 +110,7 @@ export default function OrderList({ isLoading, row, isUser }) {
             <Skeleton variant="circular" width={34} height={34} sx={{ mr: 1 }} />
           ) : (
             <Tooltip title="Preview">
-              <IconButton onClick={() => router.push(`/dashboard/orders/${row._id}`)}>
+              <IconButton onClick={() => router.push(`/${isVendor ? 'vendor' : 'admin'}/orders/${row._id}`)}>
                 <IoEye />
               </IconButton>
             </Tooltip>

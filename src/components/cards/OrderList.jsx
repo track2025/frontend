@@ -62,7 +62,7 @@ const RootStyle = styled(Paper)(({ theme }) => ({
   }
 }));
 
-export default function OrderList({ item, isLoading, isUser }) {
+export default function OrderList({ item, isLoading, isUser, isVendor }) {
   const theme = useTheme();
 
   return (
@@ -88,7 +88,7 @@ export default function OrderList({ item, isLoading, isUser }) {
               </Box>
             )}
             <Stack spacing={0.5}>
-              <Link className="name" component={NextLink} href={`/orders/${item?._id}`} underline="none">
+              <Link className="name" component={NextLink} href={`vendor/orders/${item?._id}`} underline="none">
                 {isLoading ? (
                   <Skeleton variant="text" />
                 ) : isUser ? (

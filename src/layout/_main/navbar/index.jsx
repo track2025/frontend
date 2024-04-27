@@ -71,7 +71,7 @@ export default function Navbar({ isAuth }) {
       <AppBar
         sx={{
           boxShadow: 'none',
-          position: 'fixed',
+          position: 'sticky',
           top: 36,
           zIndex: 999,
           borderRadius: 0,

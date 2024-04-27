@@ -140,7 +140,7 @@ export default function Dashboard({ isVendor }) {
           <OrderChart data={orders_report} isLoading={isLoading} />
         </Grid>
         <Grid item xs={12} md={4} lg={4}>
-          <BestSelling data={bestSellingProducts} loading={isLoading} />
+          <BestSelling data={bestSellingProducts} loading={isLoading} isVendor={isVendor} />
         </Grid>
         <Grid item xs={12} md={8} lg={8}>
           <IncomeChart data={income_report} isLoading={isLoading} />

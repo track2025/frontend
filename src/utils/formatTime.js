@@ -5,6 +5,9 @@ import { format, getTime, formatDistanceToNow } from 'date-fns';
 export function fDate(date) {
   return format(new Date(date), 'dd MMMM yyyy');
 }
+export function fDateShortMonth(date) {
+  return format(new Date(date), 'MM/dd/yyyy'); // Change format here (e.g., 'dd MMM yyyy')
+}
 export function fDateShort(date) {
   return format(new Date(date), 'dd MMM yyyy');
 }

@@ -131,7 +131,7 @@ export default function MobileSetting() {
               <ListItemButton
                 onClick={() => {
                   router.push(
-                    user.role === 'admin' || user.role === 'super admin' ? '/dashboard/settings' : '/profile/general'
+                    user.role === 'admin' || user.role === 'super admin' ? '/admin/settings' : '/profile/general'
                   );
                 }}
                 sx={{ py: 2 }}
@@ -148,7 +148,7 @@ export default function MobileSetting() {
                 onClick={() => {
                   router.push(
                     user.role === 'admin' || user.role === 'super admin'
-                      ? '/dashboard/settings/change-password'
+                      ? '/admin/settings/change-password'
                       : '/profile/change-password'
                   );
                 }}

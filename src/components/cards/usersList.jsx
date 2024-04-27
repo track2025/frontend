@@ -139,7 +139,7 @@ export default function UserListCard({ item, isLoading }) {
                 ) : (
                   <>
                     {item.role === 'super admin' ? (
-                      <IconButton size="small" disabled onClick={() => router.push(`/dashboard/users/${item?._id}`)}>
+                      <IconButton size="small" disabled onClick={() => router.push(`/admin/users/${item?._id}`)}>
                         <FaUserCheck />
                       </IconButton>
                     ) : (
@@ -152,7 +152,7 @@ export default function UserListCard({ item, isLoading }) {
                         {item.role === 'admin' ? <FaUserCheck /> : <LuUser2 />}
                       </IconButton>
                     )}
-                    <IconButton size="small" onClick={() => router.push(`/dashboard/users/${item?._id}`)}>
+                    <IconButton size="small" onClick={() => router.push(`/admin/users/${item?._id}`)}>
                       <FiEye />
                     </IconButton>
                   </>

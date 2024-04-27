@@ -123,7 +123,7 @@ export default function AgendaCodeMobile({ item, isLoading, handleClickOpen }) {
                 <IconButton
                   className="btn-phone"
                   size="small"
-                  onClick={() => router.push(`/dashboard/categories/${item?.slug}`)}
+                  onClick={() => router.push(`/admin/categories/${item?.slug}`)}
                 >
                   <MdEdit size={20} />
                 </IconButton>
