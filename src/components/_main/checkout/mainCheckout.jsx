@@ -23,7 +23,7 @@ import { useStripe, useElements } from '@stripe/react-stripe-js';
 import { toast } from 'react-hot-toast';
 // Componensts
 import { resetCart, getCart } from 'src/lib/redux/slices/product';
-import PayPalPaymentMethod from '../../paypal/paypal';
+import PayPalPaymentMethod from 'src/components/paypal/paypal';
 
 import countries from './countries.json';
 // lodash
