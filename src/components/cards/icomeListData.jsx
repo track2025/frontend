@@ -6,6 +6,8 @@ import { Grid, Paper, Typography, Skeleton, Box, Stack, Link, IconButton, Toolti
 import { styled, useTheme } from '@mui/material/styles';
 import { IoEye } from 'react-icons/io5';
 import { MdEdit } from 'react-icons/md';
+import { useRouter } from 'next-nprogress-bar';
+import BlurImage from 'src/components/blurImage';
 
 // components
 import Label from 'src/components/label';
@@ -64,18 +66,43 @@ const RootStyle = styled(Paper)(({ theme }) => ({
   }
 }));
 
-export default function IncomeListData({ item, isLoading, isUser, handleClickOpen }) {
+export default function IncomeListData({ item, isLoading, isUser, handleClickOpen, isPayout }) {
   const theme = useTheme();
+  const router = useRouter();
 
   return (
     <RootStyle key={uniqueId()}>
       <Grid container alignItems="center">
         <Grid item md={8} sm={8} xs={8}>
+          {isPayout ? (
+            <Stack direction="row" alignItems="center" spacing={1}>
+              {isLoading ? (
+                <Skeleton variant="rectangular" width={50} height={50} sx={{ borderRadius: 1 }} />
+              ) : (
+                <Box
+                  sx={{
+                    position: 'relative',
+                    overflow: 'hidden',
+                    height: 50,
+                    width: 50,
+                    minWidth: 50,
+                    borderRadius: 1,
+                    border: `1px solid ${theme.palette.divider}`
+                  }}
+                >
+                  <BlurImage priority fill alt={item?.name} src={item?.shop?.logo?.url} objectFit="cover" />
+                </Box>
+              )}
+              <Typography variant="subtitle2" noWrap>
+                {isLoading ? <Skeleton variant="text" width={120} /> : item?.shop?.title}
+              </Typography>
+            </Stack>
+          ) : null}
           <Stack direction="row" alignItems="center" spacing={2}>
             <Stack spacing={0.5}>
-              <Link className="name" component={NextLink} href={`/orders/${item?._id}`} underline="none">
-                {isLoading ? <Skeleton variant="text" /> : `Sales: ${item.orders?.length || 0}`}
-              </Link>
+              <Typography variant={isPayout ? 'body2' : 'subtitle2'} className="time-slot" noWrap pt={isPayout && 1}>
+                {isLoading ? <Skeleton variant="text" width={120} /> : `Sales: ${item.orders?.length || 0}`}
+              </Typography>
               <Stack spacing={2} direction="row" alignItems="center">
                 <Typography className="time-slot">
                   {isLoading ? <Skeleton variant="text" width={50} /> : `Total Income: ${fCurrency(item.totalIncome)}`}
@@ -92,7 +119,7 @@ export default function IncomeListData({ item, isLoading, isUser, handleClickOpe
           </Stack>
         </Grid>
         <Grid item xs={4}>
-          <Typography sx={{ textAlign: 'right', mb: 0.5 }} variant="body2" fontWeight={600}>
+          <Typography sx={{ textAlign: 'right', mb: 0.5 }} variant={isPayout ? 'subtitle1' : 'body2'} fontWeight={600}>
             {isLoading ? <Skeleton variant="text" width={50} sx={{ ml: 'auto' }} /> : fCurrency(Number(item?.total))}
           </Typography>
           <Box className="phone-container">

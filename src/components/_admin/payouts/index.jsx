@@ -9,7 +9,7 @@ import toast from 'react-hot-toast';
 // components
 import Table from 'src/components/table/table';
 import PayoutsListRow from 'src/components/table/rows/income';
-// import IncomeListCard from 'src/components/cards/incomeList';
+import IncomeListData from 'src/components/cards/icomeListData';
 
 // mui
 import EditPaymentDialog from 'src/components/dialog/editPayment';
@@ -45,7 +45,7 @@ export default function PayoutsList() {
         data={data}
         isLoading={isLoading}
         row={PayoutsListRow}
-        // mobileRow={IncomeListCard}
+        mobileRow={IncomeListData}
         handleClickOpen={(v) => setPayment(v)}
         isPayout
       />

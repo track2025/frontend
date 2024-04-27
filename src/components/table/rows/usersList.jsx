@@ -86,7 +86,7 @@ export default function UserRow({ isLoading, row, setId }) {
           ) : (
             <>
               {row.role === 'super admin' ? (
-                <IconButton disabled onClick={() => router.push(`/dashboard/users/${row?._id}`)}>
+                <IconButton disabled onClick={() => router.push(`/admin/users/${row?._id}`)}>
                   <FaUserCheck />
                 </IconButton>
               ) : (
@@ -102,7 +102,7 @@ export default function UserRow({ isLoading, row, setId }) {
               )}
 
               <Tooltip title="Preview">
-                <IconButton onClick={() => router.push(`/dashboard/users/${row?._id}`)}>
+                <IconButton onClick={() => router.push(`/admin/users/${row?._id}`)}>
                   <FiEye />
                 </IconButton>
               </Tooltip>

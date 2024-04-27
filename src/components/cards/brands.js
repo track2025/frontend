@@ -117,7 +117,7 @@ export default function BrandsCard({ item, isLoading, handleClickOpen }) {
               </Stack>
             ) : (
               <Stack>
-                <IconButton size="small" onClick={() => router.push(`/dashboard/brands/${item?.slug}`)}>
+                <IconButton size="small" onClick={() => router.push(`/admin/brands/${item?.slug}`)}>
                   <MdEdit size={20} />
                 </IconButton>
                 <IconButton size="small" onClick={!isLoading && handleClickOpen(item._id)}>

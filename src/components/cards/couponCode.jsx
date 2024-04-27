@@ -106,7 +106,7 @@ export default function CouponCodeCard({ item, isLoading, handleClickOpen }) {
                 <IconButton
                   className="btn-phone"
                   size="small"
-                  onClick={() => router.push(`/dashboard/coupon-codes/${item?._id}`)}
+                  onClick={() => router.push(`/admin/coupon-codes/${item?._id}`)}
                 >
                   <MdEdit size={20} />
                 </IconButton>{' '}
