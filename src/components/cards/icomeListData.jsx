@@ -2,7 +2,7 @@ import React from 'react';
 import { uniqueId } from 'lodash';
 import PropTypes from 'prop-types';
 // mui
-import { Grid, Paper, Typography, Skeleton, Box, Stack, Link, IconButton, Tooltip } from '@mui/material';
+import { Grid, Paper, Typography, Skeleton, Box, Stack, IconButton } from '@mui/material';
 import { styled, useTheme } from '@mui/material/styles';
 import { IoEye } from 'react-icons/io5';
 import { MdEdit } from 'react-icons/md';
@@ -12,12 +12,9 @@ import BlurImage from 'src/components/blurImage';
 // components
 import Label from 'src/components/label';
 // utils
-import { fDateShort } from 'src/utils/formatTime';
 import { fCurrency } from 'src/utils/formatNumber';
 // lodash
 import { capitalize } from 'lodash';
-// next
-import NextLink from 'next/link';
 
 const RootStyle = styled(Paper)(({ theme }) => ({
   padding: '10px 10px 10px 16px',
@@ -66,7 +63,7 @@ const RootStyle = styled(Paper)(({ theme }) => ({
   }
 }));
 
-export default function IncomeListData({ item, isLoading, isUser, handleClickOpen, isPayout }) {
+export default function IncomeListData({ item, isLoading, handleClickOpen, isPayout }) {
   const theme = useTheme();
   const router = useRouter();
 
@@ -161,5 +158,6 @@ export default function IncomeListData({ item, isLoading, isUser, handleClickOpe
 IncomeListData.propTypes = {
   item: PropTypes.object,
   isLoading: PropTypes.bool,
-  isUser: PropTypes.bool
+  handleClickOpen: PropTypes.func.isRequired,
+  isPayout: PropTypes.bool
 };

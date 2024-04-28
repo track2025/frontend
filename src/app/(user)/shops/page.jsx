@@ -1,22 +1,19 @@
-'use client';
 // react
 import React from 'react';
-import NextLink from 'next/link';
+
 // mui
-import { Typography, Grid, Box, Stack, Paper, Button } from '@mui/material';
-// icons
-import { IoIosArrowForward } from 'react-icons/io';
+import { Typography, Grid, Box, Stack, Container } from '@mui/material';
+
 // api
 import * as api from 'src/services';
-import { useQuery } from 'react-query';
 // component
 import ShopCard from 'src/components/cards/shop';
 
-export default function ShopComponent() {
-  const { data, isLoading } = useQuery(['get-home-shops-all'], () => api.getHomeShops());
+export default async function ShopComponent() {
+  const data = await api.getAllShopsByUser();
 
   return (
-    <Paper elevation={0}>
+    <Container fixed>
       <Stack
         direction={'column'}
         sx={{
@@ -34,38 +31,21 @@ export default function ShopComponent() {
         </Box>
         <Box>
           <Grid container spacing={2} justifyContent="center" alignItems="center">
-            {(isLoading ? Array.from(new Array(6)) : data?.data).map((inner) => (
+            {(data?.data).map((inner) => (
               <React.Fragment key={Math.random()}>
                 <Grid item lg={4} md={6} sm={6} xs={12}>
-                  <ShopCard shop={inner} isLoading={isLoading} />
+                  <ShopCard shop={inner} isLoading={false} />
                 </Grid>
               </React.Fragment>
             ))}
-            {!isLoading && !Boolean(data?.data.length) && (
+            {!Boolean(data?.data.length) && (
               <Typography variant="h3" color="error.main" textAlign="center">
                 Shop not found
               </Typography>
             )}
           </Grid>
         </Box>
-        {Boolean(data?.data?.length > 7) && (
-          <Button
-            variant="text"
-            color="primary"
-            endIcon={<IoIosArrowForward />}
-            component={NextLink}
-            href={`/shops`}
-            sx={{
-              mt: 3,
-              mx: 'auto',
-              display: 'flex',
-              minWidth: 100
-            }}
-          >
-            View All Shops
-          </Button>
-        )}
       </Stack>
-    </Paper>
+    </Container>
   );
 }

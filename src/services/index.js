@@ -256,7 +256,7 @@ export const updateCategory = async ({ currentSlug, ...payload }) => {
   return data;
 };
 export const getAllCategories = async () => {
-  const { data } = await http.get(`/all-categories`);
+  const { data } = await http.get(`/header/all-categories`);
   return data;
 };
 export const homeCategroies = async () => {
@@ -512,5 +512,14 @@ export const createPayment = async ({ ...payload }) => {
 // payouts
 export const getPayoutsByAdmin = async () => {
   const { data } = await http.get(`/admin/payouts`);
+  return data;
+};
+
+export const getAllShopsByUser = async () => {
+  const { data } = await http.get(`/all-shops`);
+  return data;
+};
+export const getAllCategoriesByUser = async () => {
+  const { data } = await http.get(`/all-categories`);
   return data;
 };

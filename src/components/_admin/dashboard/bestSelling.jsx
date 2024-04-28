@@ -8,5 +8,6 @@ export default function BestSelling({ ...props }) {
 
 BestSelling.propTypes = {
   loading: PropTypes.bool.isRequired,
-  data: PropTypes.array.isRequired
+  data: PropTypes.array.isRequired,
+  isVendor: PropTypes.bool
 };

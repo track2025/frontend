@@ -24,8 +24,7 @@ import { useRouter } from 'next-nprogress-bar';
 import BlurImage from 'src/components/blurImage';
 import PropTypes from 'prop-types';
 
-// const label = { inputProps: { 'aria-label': 'Switch demo' } };
-export default function ProductRow({ isLoading, row, handleClickOpen, isVendor }) {
+export default function ProductRow({ isLoading, row, handleClickOpen }) {
   const router = useRouter();
   return (
     <TableRow hover key={Math.random()}>
@@ -163,5 +162,6 @@ ProductRow.propTypes = {
     price: PropTypes.number.isRequired,
     slug: PropTypes.string.isRequired
   }).isRequired,
+
   handleClickOpen: PropTypes.func.isRequired
 };

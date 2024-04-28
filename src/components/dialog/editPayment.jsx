@@ -14,7 +14,6 @@ import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import { Select, FormHelperText } from '@mui/material';
-import { fDateShortMonth, fDate } from 'src/utils/formatTime';
 // react
 import { useMutation } from 'react-query';
 // api
@@ -89,8 +88,8 @@ export default function FormDialog({ open, handleClose, data, setCount }) {
       });
     }
   });
-  const { errors, touched, values, handleSubmit, getFieldProps } = formik;
-  console.log(data?.paidAt, 'Date');
+  const { errors, touched, handleSubmit, getFieldProps } = formik;
+
   return (
     <React.Fragment>
       <Dialog

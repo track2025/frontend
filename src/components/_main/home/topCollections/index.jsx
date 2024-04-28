@@ -32,7 +32,6 @@ export default function TopCollections() {
 
       {Boolean(data?.data?.length > 7) && (
         <Button
-          variant="contained"
           size="large"
           color="primary"
           endIcon={<IoIosArrowForward />}
@@ -42,7 +41,7 @@ export default function TopCollections() {
             mt: 3,
             mx: 'auto',
             display: 'flex',
-            maxWidth: 130,
+            maxWidth: 180,
             minWidth: 130
           }}
         >

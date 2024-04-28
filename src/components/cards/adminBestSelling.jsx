@@ -11,7 +11,8 @@ import PropTypes from 'prop-types';
 
 AdminBestSelling.propTypes = {
   loading: PropTypes.bool.isRequired,
-  data: PropTypes.array.isRequired
+  data: PropTypes.array.isRequired,
+  isVendor: PropTypes.bool
 };
 
 export default function AdminBestSelling({ ...props }) {

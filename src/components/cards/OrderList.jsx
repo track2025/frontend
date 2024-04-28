@@ -62,7 +62,7 @@ const RootStyle = styled(Paper)(({ theme }) => ({
   }
 }));
 
-export default function OrderList({ item, isLoading, isUser, isVendor }) {
+export default function OrderList({ item, isLoading, isUser }) {
   const theme = useTheme();
 
   return (

@@ -21,7 +21,7 @@ const UserSelect = dynamic(() => import('src/components/select/userSelect'), {
 export default function UserTopbar() {
   const theme = useTheme();
   const { user, isAuthenticated } = useSelector(({ user }) => user);
-  console.log(user, 'topbar action');
+
   return (
     <Toolbar
       sx={{

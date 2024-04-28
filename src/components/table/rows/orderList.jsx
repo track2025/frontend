@@ -15,6 +15,7 @@ import PropTypes from 'prop-types';
 
 OrderList.propTypes = {
   isLoading: PropTypes.bool.isRequired,
+  isVendor: PropTypes.bool,
   row: PropTypes.shape({
     items: PropTypes.arrayOf(
       PropTypes.shape({

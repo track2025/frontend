@@ -1,21 +1,17 @@
-'use client';
 // react
 import React from 'react';
-import NextLink from 'next/link';
 // mui
-import { Typography, Grid, Box, Stack, Paper, Button } from '@mui/material';
-import { IoIosArrowForward } from 'react-icons/io';
+import { Typography, Grid, Box, Stack, Container } from '@mui/material';
 // api
 import * as api from 'src/services';
-import { useQuery } from 'react-query';
 // component
 import CategoryCard from 'src/components/cards/category';
 
-export default function Categories() {
-  const { data, isLoading } = useQuery(['get-home-categories-all'], () => api.homeCategroies());
+export default async function Categories() {
+  const data = await api.getAllCategoriesByUser();
 
   return (
-    <Paper elevation={0}>
+    <Container fixed>
       <Stack
         direction={'column'}
         sx={{
@@ -33,39 +29,21 @@ export default function Categories() {
         </Box>
         <Box>
           <Grid container spacing={2} justifyContent="center" alignItems="center">
-            {(isLoading ? Array.from(new Array(6)) : data?.data).map((inner) => (
+            {(data?.data).map((inner) => (
               <React.Fragment key={Math.random()}>
                 <Grid item lg={2} md={3} sm={4} xs={4}>
-                  <CategoryCard category={inner} isLoading={isLoading} />
+                  <CategoryCard category={inner} isLoading={false} />
                 </Grid>
               </React.Fragment>
             ))}
-            {!isLoading && !Boolean(data?.data.length) && (
+            {!Boolean(data?.data.length) && (
               <Typography variant="h3" color="error.main" textAlign="center">
                 Categories not found
               </Typography>
             )}
           </Grid>
         </Box>
-        {Boolean(data?.data?.length > 3) && (
-          <Button
-            variant="text"
-            color="primary"
-            endIcon={<IoIosArrowForward />}
-            component={NextLink}
-            href={`/categories`}
-            sx={{
-              mt: 3,
-              mx: 'auto',
-              display: 'flex',
-
-              minWidth: 100
-            }}
-          >
-            View All Categories
-          </Button>
-        )}
       </Stack>
-    </Paper>
+    </Container>
   );
 }

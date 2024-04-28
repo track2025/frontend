@@ -49,7 +49,7 @@ export default function UserSelect() {
         // >
         //   <Avatar size="small" />
         // </IconButton>
-        <Stack direction="row" gap={2}>
+        <Stack direction="row" gap={1}>
           <Typography
             href={`/auth/login${isAuthPath || isHomePath ? '' : `?redirect=${pathname}`}`}
             variant="body2"
