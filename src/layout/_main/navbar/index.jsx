@@ -77,6 +77,7 @@ export default function Navbar({ isAuth }) {
           borderRadius: 0,
           pr: '0px !important',
           bgcolor: (theme) => alpha(theme.palette.background.paper, 1),
+          borderTop: (theme) => `1px solid ${theme.palette.divider}`,
           borderBottom: (theme) => `1px solid ${theme.palette.divider}`,
           display: { md: 'block', xs: 'none' },
           '& .toolbar': {
@@ -90,9 +91,9 @@ export default function Navbar({ isAuth }) {
         }}
       >
         <Toolbar disableGutters className="toolbar">
-          <Stack width={203}>
-            <MainLogo />
-          </Stack>
+          {/* <Stack width={250}> */}
+          <MainLogo />
+          {/* </Stack> */}
           {isLoading ? <Skeletons /> : <MenuDesktop isHome={isHome} navConfig={menu} categories={data?.data} />}
 
           <Stack gap={0.1} direction="row" alignItems={'center'}>

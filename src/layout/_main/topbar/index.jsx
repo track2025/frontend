@@ -35,14 +35,21 @@ export default function UserTopbar() {
         width: '100%'
       }}
     >
-      <Stack direction="row" alignItems="center" spacing={1}>
-        <LiaShippingFastSolid size={20} />
-        <Typography variant="subtitle2">Free shipping and Returns on orders of $50+</Typography>
+      <Stack direction="row" alignItems="center" spacing={3}>
+        {/* <LiaShippingFastSolid size={20} /> */}
+        <Typography component={NextLink} href="#" variant="subtitle2" color="text.primary">
+          Quick Help
+        </Typography>
+        <Typography component={NextLink} href="#" variant="subtitle2" color="text.primary">
+          Order Tracking
+        </Typography>
       </Stack>
       <Stack direction="row" alignItems="center" spacing={1}>
+        <UserSelect />
         {isAuthenticated ? (
           user.role === 'user' && (
             <>
+              <Divider orientation="vertical" flexItem />
               <Link
                 component={NextLink}
                 href={isAuthenticated ? '/create-shop' : '/auth/register?redirect=/create-shop'}
@@ -50,11 +57,11 @@ export default function UserTopbar() {
               >
                 Become a seller
               </Link>
-              <Divider orientation="vertical" flexItem />
             </>
           )
         ) : (
           <>
+            <Divider orientation="vertical" flexItem />
             <Link
               component={NextLink}
               href={isAuthenticated ? '/create-shop' : '/auth/register?redirect=/create-shop'}
@@ -62,11 +69,8 @@ export default function UserTopbar() {
             >
               Become a seller
             </Link>
-            <Divider orientation="vertical" flexItem />
           </>
         )}
-
-        <UserSelect />
       </Stack>
     </Toolbar>
   );
