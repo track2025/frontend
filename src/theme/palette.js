@@ -32,7 +32,8 @@ const PRIMARY = {
   light: '#FBAB73',
   main: '#F97316',
   dark: '#C75C12',
-  contrastText: '#fff'
+  contrastText: '#fff',
+  extraLight: '#FFCFAF'
 };
 const SECONDARY = {
   light: '#609DDE',

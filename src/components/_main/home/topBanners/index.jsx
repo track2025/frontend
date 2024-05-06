@@ -17,90 +17,52 @@ export default function Index() {
     <Box my={6}>
       <Container maxWidth="xl">
         <Grid container spacing={3}>
-          <Grid item lg={6} md={6} xs={12}>
+          <Grid item lg={6} md={6} xs={6}>
             <Card
               sx={{
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'space-between',
                 backgroundColor:
-                  theme.palette.mode === 'dark'
-                    ? alpha(theme.palette.primary.dark, 0.4)
-                    : alpha(theme.palette.primary.light, 0.4),
-
+                  theme.palette.mode === 'dark' ? alpha(theme.palette.primary.dark, 0.4) : theme.palette.primary.light,
                 borderRadius: 1,
                 boxShadow: 'none',
                 height: '100%',
-                '&:after': {
-                  content: "''",
-                  position: 'absolute',
-                  top: '-10px',
-                  right: 0,
-                  backgroundColor: theme.palette.primary.main,
-                  height: { xs: 250, md: 250, xl: 340 },
-                  width: { xs: 160, md: 220, xl: 340 },
-                  borderTopLeftRadius: '50%',
-                  borderBottomLeftRadius: '50%',
-                  zIndex: '-1'
-                }
+                paddingX: { lg: theme.spacing(3), md: theme.spacing(1) }
               }}
             >
               <Stack spacing={isDeskTop ? 2 : 1.5} sx={{ p: { sm: '24px', xs: '12px' } }}>
                 <Typography
                   variant={isDeskTop ? 'h3' : 'h4'}
-                  color="text.primary"
-                  lineHeight={1}
+                  color="common.white"
+                  lineHeight={1.3}
                   sx={{
+                    width: {
+                      xl: '320px !important',
+                      lg: '300px !important',
+                      md: '170px !important',
+                      xs: '170px !important'
+                    },
                     fontSize: {
-                      xl: 32,
-                      lg: 24,
+                      xl: 38,
+                      lg: 38,
                       md: 24,
                       sm: 20,
                       xs: 12
                     }
                   }}
                 >
-                  Men Latest Fashion
+                  Shop the latest from top brands
                 </Typography>
-                <Typography
-                  variant={isDeskTop ? 'subtitle1' : 'subtitle2'}
-                  color="text.secondary"
-                  lineHeight={1}
-                  noWrap
-                  sx={{
-                    fontSize: {
-                      lg: 18,
-                      md: 16,
-                      xs: 12
-                    }
-                  }}
-                >
-                  <Box
-                    component="span"
-                    fontWeight={700}
-                    mr={0.5}
-                    fontSize={16}
-                    sx={{
-                      color: 'primary.main',
-                      fontSize: {
-                        lg: 18,
-                        md: 16,
-                        xs: 12
-                      }
-                    }}
-                  >
-                    25%
-                  </Box>
-                  Off on first order
-                </Typography>
+
                 <Typography
                   variant={isDeskTop ? 'body1' : 'body2'}
-                  color="text.secondary"
+                  color="common.white"
                   mb={2}
                   display={{ md: 'block', xs: 'none' }}
                   width={{ xl: 270 }}
                 >
-                  Lorem Ipsum is simply dummy text of the printing and typesetting industry
+                  Fully Comforable and Smooth Product
                 </Typography>
                 <Box>
                   <Button
@@ -108,32 +70,37 @@ export default function Index() {
                     href="/products?gender=women"
                     variant="contained"
                     color={'primary'}
-                    size={isDeskTopBtn ? 'medium' : 'small'}
+                    size={isDeskTopBtn ? 'large' : 'small'}
+                    sx={{
+                      borderRadius: 6
+                    }}
                   >
-                    Shop Now
+                    View Collection
                   </Button>
                 </Box>
               </Stack>
               <Box
                 sx={{
                   position: 'relative',
-                  width: { xs: 150, md: 235, xl: 340 },
-                  height: { xs: 151, md: 220, xl: 320 },
-                  zIndex: 1
+                  width: { xs: 150, md: 280, lg: 294, xl: 340 },
+                  height: { xs: 151, md: 290, lg: 290, xl: 320 },
+                  zIndex: 1,
+                  transform: { lg: 'scale(1.1)', md: 'scale(1.5)', xs: 'scale(1.5)' }
                 }}
               >
                 <Image
                   fill
                   objectFit="contain"
                   draggable="false"
-                  src="/images/top-banners/men.png"
+                  src="/images/top-banners/watch.png"
                   alt="women"
                   sizes="20vw"
                 />
               </Box>
             </Card>
           </Grid>
-          <Grid item lg={6} md={6} xs={12}>
+          {/* card 2  */}
+          <Grid item lg={6} md={6} xs={6}>
             <Card
               sx={{
                 display: 'flex',
@@ -142,108 +109,77 @@ export default function Index() {
                 backgroundColor:
                   theme.palette.mode === 'dark'
                     ? alpha(theme.palette.secondary.dark, 0.4)
-                    : alpha(theme.palette.secondary.light, 0.4),
+                    : theme.palette.secondary.light,
                 borderRadius: 1,
                 boxShadow: 'none',
                 height: '100%',
-                '&:after': {
-                  content: "''",
-                  position: 'absolute',
-                  top: '-10px',
-                  right: 0,
-                  backgroundColor: theme.palette.secondary.main,
-                  height: { xs: 250, md: 250, xl: 340 },
-                  width: { xs: 160, md: 220, xl: 340 },
-                  borderTopLeftRadius: '50%',
-                  borderBottomLeftRadius: '50%',
-                  zIndex: '-1'
-                }
+                paddingX: { lg: theme.spacing(3), md: theme.spacing(1) }
               }}
             >
-              <Stack spacing={isDeskTop ? 2 : 1.5} sx={{ p: { sm: '24px', xs: '12px' } }}>
+              <Stack spacing={isDeskTop ? 1 : 1.5} sx={{ p: { sm: '24px', xs: '12px' } }}>
                 <Typography
                   variant={isDeskTop ? 'h3' : 'h4'}
-                  color="text.primary"
-                  lineHeight={1}
-                  noWrap
+                  color="common.white"
+                  lineHeight={1.3}
                   sx={{
+                    width: {
+                      xl: '320px !important',
+                      lg: '300px !important',
+                      md: '170px !important',
+                      xs: '170px !important'
+                    },
                     fontSize: {
-                      xl: 32,
-                      lg: 24,
+                      xl: 38,
+                      lg: 38,
                       md: 24,
                       sm: 20,
                       xs: 12
                     }
                   }}
                 >
-                  Women Latest Fashion
+                  Shop the latest from top brands
                 </Typography>
-                <Typography
-                  variant={isDeskTop ? 'subtitle1' : 'subtitle2'}
-                  color="text.secondary"
-                  lineHeight={1}
-                  sx={{
-                    fontSize: {
-                      lg: 18,
-                      md: 16,
-                      xs: 12
-                    }
-                  }}
-                >
-                  <Box
-                    component="span"
-                    fontWeight={700}
-                    mr={0.5}
-                    fontSize={16}
-                    sx={{
-                      color: 'secondary.main',
-                      fontSize: {
-                        lg: 18,
-                        md: 16,
-                        xs: 12
-                      }
-                    }}
-                  >
-                    25%
-                  </Box>
-                  Off on first order
-                </Typography>
+
                 <Typography
                   variant={isDeskTop ? 'body1' : 'body2'}
-                  color="text.secondary"
+                  color="common.white"
                   mb={2}
                   display={{ md: 'block', xs: 'none' }}
+                  width={{ xl: 270 }}
                 >
-                  Lorem Ipsum is simply dummy text of the <br />
-                  printing and typesetting industry
+                  Fully Comforable and Smooth Product
                 </Typography>
                 <Box>
                   <Button
                     component={Link}
-                    href="/products?gender=men"
+                    href="/products?gender=women"
                     variant="contained"
                     color={'secondary'}
-                    size={isDeskTopBtn ? 'medium' : 'small'}
+                    size={isDeskTopBtn ? 'large' : 'small'}
+                    sx={{
+                      borderRadius: 6
+                    }}
                   >
-                    Shop Now
+                    View Collection
                   </Button>
                 </Box>
               </Stack>
               <Box
                 sx={{
                   position: 'relative',
-                  width: { xs: 150, md: 215, xl: 300 },
-                  height: { xs: 150, md: 220, xl: 320 },
-                  zIndex: 1
+                  width: { xs: 150, md: 280, lg: 294, xl: 340 },
+                  height: { xs: 151, md: 290, lg: 290, xl: 320 },
+                  zIndex: 1,
+                  transform: { lg: 'scale(1.1)', md: 'scale(1.5)', xs: 'scale(1.5)' }
                 }}
               >
                 <Image
                   fill
-                  objectFit="cover"
-                  src="/images/top-banners/banner-2.png"
+                  objectFit="contain"
+                  draggable="false"
+                  src="/images/top-banners/shoes.png"
                   alt="women"
                   sizes="20vw"
-                  draggable="false"
                 />
               </Box>
             </Card>

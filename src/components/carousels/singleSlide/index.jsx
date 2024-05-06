@@ -247,10 +247,10 @@ export default function SingleSlideCarousel({ ...props }) {
         justifyContent: 'center',
         alignItems: 'center',
         overflow: 'hidden',
-        height: { xs: 200, md: 250, lg: 350 },
-        borderRadius: 0,
+        height: { xs: 200, md: 250, lg: 343 },
+        borderRadius: 2,
         overflow: 'hidden',
-        borderBottom: (theme) => '1px solid ' + theme.palette.divider,
+        border: (theme) => '1px solid ' + theme.palette.divider,
         boxShadow: 'none'
       }}
     >
