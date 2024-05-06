@@ -1,11 +1,13 @@
 import React from 'react';
 import { GoGitCompare } from 'react-icons/go';
-import IconButton from '@mui/material/IconButton';
+import { IconButton, Badge } from '@mui/material';
 
 export default function wishlistWidget() {
   return (
     <IconButton aria-label="compare">
-      <GoGitCompare />
+      <Badge badgeContent={0} color="secondary" showZero>
+        <GoGitCompare />
+      </Badge>
     </IconButton>
   );
 }

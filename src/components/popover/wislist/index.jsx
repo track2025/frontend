@@ -38,7 +38,7 @@ export default function WishlistPopover({ isAuth }) {
           }
         }}
       >
-        <Badge showZero={true} badgeContent={loading || !isAuth ? 0 : wishlist?.length} color="warning">
+        <Badge badgeContent={wishlist?.length || 0} color="warning" showZero>
           <IoMdHeartEmpty />
         </Badge>
       </IconButton>

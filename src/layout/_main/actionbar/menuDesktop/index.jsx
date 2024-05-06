@@ -7,8 +7,11 @@ import KeyboardArrowDownRoundedIcon from '@mui/icons-material/KeyboardArrowDownR
 import { useRouter } from 'next-nprogress-bar';
 // material
 import typography from 'src/theme/typography';
-import { Link, Stack } from '@mui/material';
+import { Link, Stack, Button, alpha } from '@mui/material';
 import NextLink from 'next/link';
+import { RxDashboard } from 'react-icons/rx';
+import { FaAngleDown } from 'react-icons/fa6';
+
 // components
 import MenuDesktopPopover from 'src/components/popover/menudesktop';
 
@@ -27,68 +30,90 @@ MenuDesktopItem.propTypes = {
 };
 
 function MenuDesktopItem({ ...props }) {
-  const { item, pathname, isHome, isOpen, isOffset, onOpen, scrollPosition, onClose } = props;
+  const { item, pathname, isHome, isOpen, isOffset, onOpen, scrollPosition, onClose, isLoading } = props;
   const { title, path, isDropdown } = item;
   const anchorRef = React.useRef(null);
   const isActive = pathname === path;
 
-  // if (isDropdown) {
-  //   return (
-  //     <>
-  //       <Link
-  //         ref={anchorRef}
-  //         className={` ${isOffset && isHome && 'offset'}`}
-  //         id="composition-button"
-  //         aria-controls={isOpen ? 'composition-menu' : undefined}
-  //         aria-expanded={isOpen ? 'true' : undefined}
-  //         aria-haspopup="true"
-  //         onClick={onOpen}
-  //         sx={{
-  //           display: 'flex',
-  //           cursor: 'pointer',
-  //           alignItems: 'center',
-  //           ...typography.subtitle2,
-  //           color: 'text.primary',
-  //           textDecoration: 'none',
-  //           fontWeight: 500,
-  //           transition: '.2s ease-in',
-  //           cursor: 'pointer',
-  //           '&:hover': {
-  //             color: 'primary.main',
-  //             textDecoration: 'none'
-  //           },
-  //           '&.offset': {
-  //             color: 'text.primary'
-  //           },
-  //           '&.active': {
-  //             color: 'primary.main'
-  //           },
-  //           '& .link-icon': {
-  //             ml: 0.5,
-  //             fontSize: 16
-  //           }
-  //         }}
-  //       >
-  //         <>
-  //           {title}
+  if (isDropdown) {
+    return (
+      <>
+        {/* <Link
+          ref={anchorRef}
+          className={` ${isOffset && isHome && 'offset'}`}
+          id="composition-button"
+          aria-controls={isOpen ? 'composition-menu' : undefined}
+          aria-expanded={isOpen ? 'true' : undefined}
+          aria-haspopup="true"
+          onClick={onOpen}
+          sx={{
+            display: 'flex',
+            cursor: 'pointer',
+            alignItems: 'center',
+            ...typography.subtitle2,
+            color: 'text.primary',
+            textDecoration: 'none',
+            fontWeight: 500,
+            transition: '.2s ease-in',
+            cursor: 'pointer',
+            '&:hover': {
+              color: 'primary.main',
+              textDecoration: 'none'
+            },
+            '&.offset': {
+              color: 'text.primary'
+            },
+            '&.active': {
+              color: 'primary.main'
+            },
+            '& .link-icon': {
+              ml: 0.5,
+              fontSize: 16
+            }
+          }}
+        >
+          <>
+            {title}
 
-  //           {isOpen ? (
-  //             <KeyboardArrowUpRoundedIcon className="link-icon" />
-  //           ) : (
-  //             <KeyboardArrowDownRoundedIcon className="link-icon" />
-  //           )}
-  //         </>
-  //       </Link>
-  //       <MenuDesktopPopover
-  //         isOpen={isOpen}
-  //         scrollPosition={scrollPosition}
-  //         onClose={onClose}
-  //         isLoading={isLoading}
-  //         data={data}
-  //       />
-  //     </>
-  //   );
-  // }
+            {isOpen ? (
+              <KeyboardArrowUpRoundedIcon className="link-icon" />
+            ) : (
+              <KeyboardArrowDownRoundedIcon className="link-icon" />
+            )}
+          </>
+        </Link> */}
+        <Button
+          ref={anchorRef}
+          className={` ${isOffset && isHome && 'offset'}`}
+          id="composition-button"
+          aria-controls={isOpen ? 'composition-menu' : undefined}
+          aria-expanded={isOpen ? 'true' : undefined}
+          aria-haspopup="true"
+          onClick={onOpen}
+          variant="contained"
+          color="primary"
+          size="large"
+          sx={{
+            boxShadow: 'none',
+            borderRadius: 0,
+            bgcolor: (theme) => alpha(theme.palette.common.black, 0.1)
+            //   borderBottom: '2px solid #fff'
+          }}
+          startIcon={<RxDashboard />}
+          endIcon={<FaAngleDown size={14} />}
+        >
+          {title}
+        </Button>
+        <MenuDesktopPopover
+          isOpen={isOpen}
+          scrollPosition={scrollPosition}
+          onClose={onClose}
+          isLoading={isLoading}
+          // data={data}
+        />
+      </>
+    );
+  }
 
   return (
     <Link
@@ -162,6 +187,7 @@ export default function MenuDesktop({ ...props }) {
     <Stack
       gap={2}
       direction="row"
+      alignItems="center"
       sx={{
         ...(isLeft && {
           ml: 0
