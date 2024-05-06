@@ -76,6 +76,7 @@ export default function Search({ ...props }) {
       <TextField
         id="standard-basic"
         variant="standard"
+        placeholder="Search categories, brands & products"
         onFocus={() => setFocus(true)}
         onKeyDown={onKeyDown}
         onChange={(e) => {
