@@ -6,7 +6,7 @@ import storage from 'redux-persist/lib/storage'; // You can use other storage op
 import productReducer from './slices/product';
 import UserReducer from './slices/user';
 import WishlistReducer from './slices/wishlist';
-
+import CompareReducer from './slices/compare';
 import SettingsReducer from './slices/settings';
 
 const rootPersistConfig = {
@@ -28,6 +28,12 @@ const wishlistPersistConfig = {
   keyPrefix: 'redux-',
   whitelist: ['wishlist']
 };
+const comparePersistConfig = {
+  key: 'compare',
+  storage,
+  keyPrefix: 'redux-',
+  whitelist: ['products']
+};
 
 const settingsPersistConfig = {
   key: 'settings',
@@ -46,6 +52,7 @@ const reducer = combineReducers({
   product: persistReducer(productPersistConfig, productReducer),
   user: persistReducer(userPersistConfig, UserReducer),
   settings: persistReducer(settingsPersistConfig, SettingsReducer),
-  wishlist: persistReducer(wishlistPersistConfig, WishlistReducer)
+  wishlist: persistReducer(wishlistPersistConfig, WishlistReducer),
+  compare: persistReducer(comparePersistConfig, CompareReducer)
 });
 export { rootPersistConfig, reducer };
