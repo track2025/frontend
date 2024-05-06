@@ -7,6 +7,7 @@ import { Box, Card, Typography, Stack, IconButton, useTheme, useMediaQuery, Tool
 // redux
 import { useDispatch } from 'src/lib/redux/store';
 import { setWishlist } from 'src/lib/redux/slices/wishlist';
+import { addCompareProduct, removeCompareProduct } from '../../lib/redux/slices/compare';
 import { useSelector } from 'react-redux';
 // next
 import Link from 'next/link';
@@ -24,6 +25,7 @@ import { toast } from 'react-hot-toast';
 // icons
 
 import { GoEye } from 'react-icons/go';
+import { GoGitCompare } from 'react-icons/go';
 
 import { IoIosHeart } from 'react-icons/io';
 import dynamic from 'next/dynamic';
@@ -39,6 +41,8 @@ export default function ShopProductCard({ ...props }) {
   const dispatch = useDispatch();
   // type error
   const { wishlist } = useSelector(({ wishlist }) => wishlist);
+  const { products: compareProducts } = useSelector(({ compare }) => compare);
+  console.log(compareProducts, 'compareProducts');
   const { isAuthenticated } = useSelector(({ user }) => user);
   const isTablet = useMediaQuery('(max-width:900px)');
   const [isLoading, setLoading] = useState(false);
@@ -69,16 +73,26 @@ export default function ShopProductCard({ ...props }) {
       await mutate(_id);
     }
   };
+  const onAddCompare = async (event) => {
+    event.stopPropagation();
+    dispatch(addCompareProduct(product));
+  };
+
+  const onRemoveCompare = async (event) => {
+    event.stopPropagation();
+    dispatch(removeCompareProduct(_id));
+  };
 
   return (
     <Card
       sx={{
         display: 'block',
         boxShadow:
-          theme.palette.mode === 'light' ? '0 6px 16px rgba(145, 158, 171, 25%)' : '0 6px 16px rgb(5 6 6 / 25%)',
-        '&:hover': {
-          border: '1px solid ' + theme.palette.primary.main + '!important'
-        }
+          theme.palette.mode === 'light' ? '0 6px 16px rgba(145, 158, 171, 25%)' : '0 6px 16px rgb(5 6 6 / 25%)'
+        // border: '1px solid transparent',
+        // '&:hover': {
+        //   border: '1px solid ' + theme.palette.primary.main + '!important'
+        // }
       }}
     >
       <Box
@@ -252,7 +266,7 @@ export default function ShopProductCard({ ...props }) {
                 <IconButton
                   disabled={isLoading}
                   onClick={onClickWishList}
-                  aria-label="add to cart"
+                  aria-label="Remove from cart"
                   color="primary"
                   size={isTablet ? 'small' : 'medium'}
                 >
@@ -268,6 +282,32 @@ export default function ShopProductCard({ ...props }) {
                   size={isTablet ? 'small' : 'medium'}
                 >
                   <IoMdHeartEmpty />
+                </IconButton>
+              </Tooltip>
+            )}
+            {loading ? (
+              <Skeleton variant="circular" width={isTablet ? 24 : 44} height={isTablet ? 24 : 44} />
+            ) : compareProducts?.filter((v) => v._id === _id).length > 0 ? (
+              <Tooltip title="Remove from cart">
+                <IconButton
+                  disabled={isLoading}
+                  onClick={onRemoveCompare}
+                  aria-label="Remove from compare"
+                  color="primary"
+                  size={isTablet ? 'small' : 'medium'}
+                >
+                  <GoGitCompare />
+                </IconButton>
+              </Tooltip>
+            ) : (
+              <Tooltip title="Add to compare">
+                <IconButton
+                  disabled={isLoading}
+                  onClick={onAddCompare}
+                  aria-label="add to compare"
+                  size={isTablet ? 'small' : 'medium'}
+                >
+                  <GoGitCompare />
                 </IconButton>
               </Tooltip>
             )}

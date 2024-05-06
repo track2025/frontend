@@ -3,7 +3,7 @@ import { createSlice } from '@reduxjs/toolkit';
 // ----------------------------------------------------------------------
 
 const initialState = {
-  compare: []
+  products: []
 };
 
 const slice = createSlice({
@@ -14,7 +14,7 @@ const slice = createSlice({
       state.products = [...state.products, action.payload];
     },
     removeCompareProduct(state, action) {
-      const filtered = state.products.filter((p) => p._ud !== action.payload);
+      const filtered = state.products.filter((p) => p._id !== action.payload);
       state.products = filtered;
     },
     resetCompareProducts(state) {
