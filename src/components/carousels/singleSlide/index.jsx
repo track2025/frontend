@@ -114,109 +114,109 @@ function CarouselItem({ ...props }) {
           background: (theme) => (theme.palette.mode === 'dark' ? alpha(theme.palette.grey[800], 0.2) : '')
         }}
       />
-      <Container maxWidth="lg">
-        <Grid container spacing={2}>
-          <Grid
-            item
-            xs={6}
-            sm={6}
+
+      <Grid container spacing={2}>
+        <Grid
+          item
+          xs={12}
+          sm={6}
+          sx={{
+            position: 'relative',
+            display: 'flex',
+            flexDirection: 'column',
+            justifyContent: 'center'
+          }}
+        >
+          <CardContent
             sx={{
-              display: 'flex',
-              flexDirection: 'column',
-              justifyContent: 'center'
+              top: '50%',
+              left: 24,
+              transform: 'translateY(-50%)',
+              width: '100%',
+              textAlign: 'left',
+              position: 'absolute',
+              color: 'common.white'
             }}
           >
-            <CardContent
-              sx={{
-                top: { xl: '50%', lg: '50%', md: '50%', xs: '50%' },
-                left: 0,
-                transform: 'translateY(-50%)',
-                width: '100%',
-                textAlign: 'left',
-                position: 'absolute',
-                color: 'common.white'
-              }}
-            >
-              <MotionContainer open={first}>
-                <motion.div variants={varFadeInRight}>
-                  <Typography
-                    variant="h2"
-                    color="text.primary"
-                    component="h1"
-                    lineHeight={1.1}
-                    gutterBottom
-                    fontWeight="900!important"
-                    sx={{
-                      pointerEvents: 'none'
-                    }}
+            <MotionContainer open={first}>
+              <motion.div variants={varFadeInRight}>
+                <Typography
+                  variant="h2"
+                  color="text.primary"
+                  component="h1"
+                  lineHeight={1.1}
+                  gutterBottom
+                  fontWeight="900!important"
+                  sx={{
+                    pointerEvents: 'none'
+                  }}
+                >
+                  {item?.heading}
+                </Typography>
+              </motion.div>
+              <motion.div variants={varFadeInRight}>
+                <Typography
+                  variant="h6"
+                  gutterBottom
+                  color={'text.secondary'}
+                  sx={{
+                    fontWeight: 400,
+                    pointerEvents: 'none',
+                    marginTop: 1
+                  }}
+                >
+                  {item?.description}
+                </Typography>
+              </motion.div>
+              <motion.div variants={varFadeInRight}>
+                <div>
+                  <Button
+                    size={isMobile ? 'small' : 'large'}
+                    variant="contained"
+                    component={Link}
+                    href={item?.btnPrimary.url}
+                    sx={{ mt: 1 }}
                   >
-                    {item?.heading}
-                  </Typography>
-                </motion.div>
-                <motion.div variants={varFadeInRight}>
-                  <Typography
-                    variant="h6"
-                    gutterBottom
-                    color={'text.secondary'}
-                    sx={{
-                      fontWeight: 400,
-                      pointerEvents: 'none',
-                      marginTop: 1
-                    }}
-                  >
-                    {item?.description}
-                  </Typography>
-                </motion.div>
-                <motion.div variants={varFadeInRight}>
-                  <div>
-                    <Button
-                      size={isMobile ? 'small' : 'large'}
-                      variant="contained"
-                      component={Link}
-                      href={item?.btnPrimary.url}
-                      sx={{ mt: 1 }}
-                    >
-                      {item?.btnPrimary.btnText || 'Shop Now'}
-                    </Button>
+                    {item?.btnPrimary.btnText || 'Shop Now'}
+                  </Button>
 
-                    <Button
-                      size={isMobile ? 'small' : 'large'}
-                      variant="contained"
-                      color="secondary"
-                      sx={{ mt: 1, mx: { sm: 2, xs: 1 } }}
-                      component={Link}
-                      href={item?.btnSecondary.url}
-                    >
-                      {item?.btnSecondary.btnText || 'See All'}
-                    </Button>
-                  </div>
-                </motion.div>
-              </MotionContainer>
-            </CardContent>
-          </Grid>
-          <Grid item xs={6} sm={6}>
-            <Box
-              className="img-box"
-              sx={{
-                img: {
-                  position: 'relative !important',
-                  display: { xs: 'none', md: 'block' }
-                }
-              }}
-            >
-              <Image
-                priority
-                src={item.cover}
-                alt="centered-banner"
-                layout="fill"
-                objectFit="contain"
-                static
-                draggable="false"
-              />
-            </Box>
-          </Grid>
+                  <Button
+                    size={isMobile ? 'small' : 'large'}
+                    variant="contained"
+                    color="secondary"
+                    sx={{ mt: 1, mx: { sm: 2, xs: 1 } }}
+                    component={Link}
+                    href={item?.btnSecondary.url}
+                  >
+                    {item?.btnSecondary.btnText || 'See All'}
+                  </Button>
+                </div>
+              </motion.div>
+            </MotionContainer>
+          </CardContent>
         </Grid>
-      </Container>
+        <Grid item xs={6} sm={6}>
+          <Box
+            className="img-box"
+            sx={{
+              img: {
+                position: 'relative !important',
+                display: { xs: 'none', md: 'block' }
+              }
+            }}
+          >
+            <Image
+              priority
+              src={item.cover}
+              alt="centered-banner"
+              layout="fill"
+              objectFit="contain"
+              static
+              draggable="false"
+            />
+          </Box>
+        </Grid>
+      </Grid>
     </Paper>
   );
 }
@@ -248,10 +248,8 @@ export default function SingleSlideCarousel({ ...props }) {
         alignItems: 'center',
         overflow: 'hidden',
         height: { xs: 200, md: 250, lg: 350 },
-        borderRadius: 0,
-        overflow: 'hidden',
-        borderBottom: (theme) => '1px solid ' + theme.palette.divider,
-        boxShadow: 'none'
+        borderRadius: '12px',
+        overflow: 'hidden'
       }}
     >
       {isEmpty ? (

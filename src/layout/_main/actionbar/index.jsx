@@ -43,13 +43,10 @@ export default function Navbar({}) {
         sx={{
           boxShadow: 'none',
           position: 'sticky',
-          top: 100,
+          top: 101,
           zIndex: 999,
           borderRadius: 0,
-          //   pr: '0px !important',
           bgcolor: (theme) => theme.palette.primary.main,
-          borderTop: (theme) => `1px solid ${theme.palette.divider}`,
-          borderBottom: (theme) => `1px solid ${theme.palette.divider}`,
           display: { md: 'block', xs: 'none' }
         }}
       >
