@@ -36,6 +36,7 @@ export default function Navbar({}) {
   const { menu } = config;
 
   const { data, isLoading } = useQuery(['get-categories-all'], () => api.getAllCategories());
+  console.log(data, 'data');
   return (
     <>
       <AppBar
@@ -69,7 +70,7 @@ export default function Navbar({}) {
             Categories
           </Button> */}
           {/* categories={data?.data} */}
-          <MenuDesktop navConfig={menu} />
+          <MenuDesktop navConfig={menu} data={data?.data} isLoading={isLoading} />
         </Toolbar>
       </AppBar>
     </>

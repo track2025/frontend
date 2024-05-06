@@ -72,12 +72,10 @@ export default function LanguageSelect() {
                         fullWidth
                         size="large"
                         variant={index < 1 ? 'outlined' : 'text'}
-                        color="inherit"
+                        color={index < 1 ? 'primary' : 'inherit'}
                         sx={{
                           textAlign: 'left',
-                          justifyContent: 'start',
-                          borderWidth: 1,
-                          borderColor: 'text.primary'
+                          justifyContent: 'start'
                         }}
                       >
                         <Stack>
@@ -100,12 +98,10 @@ export default function LanguageSelect() {
                         fullWidth
                         size="large"
                         variant={index < 1 ? 'outlined' : 'text'}
-                        color="inherit"
+                        color={index < 1 ? 'primary' : 'inherit'}
                         sx={{
                           textAlign: 'left',
-                          justifyContent: 'start',
-                          borderWidth: 1,
-                          borderColor: 'text.primary'
+                          justifyContent: 'start'
                         }}
                       >
                         <Stack>
