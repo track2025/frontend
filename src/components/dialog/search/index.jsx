@@ -2,7 +2,7 @@ import * as React from 'react';
 // react js
 import { IoSearchOutline } from 'react-icons/io5';
 // mui
-import Dialog from '@mui/material/Dialog';
+import { Dialog, alpha, Stack, Typography } from '@mui/material';
 import IconButton from '@mui/material/IconButton';
 // components
 import Search from './search';
@@ -18,9 +18,38 @@ export default function SimpleDialogDemo() {
 
   return (
     <>
-      <IconButton onClick={handleClickOpen} name="search">
-        <IoSearchOutline />
-      </IconButton>
+      <Stack
+        direction="row"
+        alignItems="center"
+        justifyContent="space-between"
+        onClick={handleClickOpen}
+        sx={{
+          p: 1,
+          border: (theme) => `1px solid ${theme.palette.divider}`,
+          borderRadius: 10,
+          width: 300,
+          height: 56,
+          cursor: 'pointer'
+        }}
+      >
+        <Typography variant="body1" color="text.primary" ml={2}>
+          Search...
+        </Typography>
+        <IconButton
+          onClick={handleClickOpen}
+          name="search"
+          color="primary"
+          sx={{
+            borderColor: 'primary',
+            borderWidth: 1,
+            borderStyle: 'solid',
+            bgcolor: (theme) => alpha(theme.palette.primary.main, 0.2)
+          }}
+        >
+          <IoSearchOutline />
+        </IconButton>
+      </Stack>
+
       <Dialog open={open} onClose={handleClose} sx={{ '& .MuiPaper-root': { width: 600 } }}>
         <Search onClose={handleClose} />
       </Dialog>
