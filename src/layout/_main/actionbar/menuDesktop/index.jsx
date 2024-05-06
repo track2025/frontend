@@ -7,13 +7,14 @@ import KeyboardArrowDownRoundedIcon from '@mui/icons-material/KeyboardArrowDownR
 import { useRouter } from 'next-nprogress-bar';
 // material
 import typography from 'src/theme/typography';
-import { Link, Stack, Button, alpha } from '@mui/material';
+import { Link, Stack, Button, alpha, Box } from '@mui/material';
 import NextLink from 'next/link';
 import { RxDashboard } from 'react-icons/rx';
 import { FaAngleDown } from 'react-icons/fa6';
 
 // components
 import MenuDesktopPopover from 'src/components/popover/menudesktop';
+import { transform } from 'lodash';
 
 // ----------------------------------------------------------------------
 
@@ -24,13 +25,14 @@ MenuDesktopItem.propTypes = {
   pathname: PropTypes.string.isRequired,
   isOpen: PropTypes.bool.isRequired,
   onOpen: PropTypes.func.isRequired,
+  data: PropTypes.array.isRequired,
 
   isOffset: PropTypes.bool.isRequired,
   scrollPosition: PropTypes.any
 };
 
 function MenuDesktopItem({ ...props }) {
-  const { item, pathname, isHome, isOpen, isOffset, onOpen, scrollPosition, onClose, isLoading } = props;
+  const { item, pathname, isHome, isOpen, isOffset, onOpen, scrollPosition, onClose, isLoading, data } = props;
   const { title, path, isDropdown } = item;
   const anchorRef = React.useRef(null);
   const isActive = pathname === path;
@@ -38,78 +40,43 @@ function MenuDesktopItem({ ...props }) {
   if (isDropdown) {
     return (
       <>
-        {/* <Link
-          ref={anchorRef}
-          className={` ${isOffset && isHome && 'offset'}`}
-          id="composition-button"
-          aria-controls={isOpen ? 'composition-menu' : undefined}
-          aria-expanded={isOpen ? 'true' : undefined}
-          aria-haspopup="true"
-          onClick={onOpen}
+        <Box
           sx={{
-            display: 'flex',
-            cursor: 'pointer',
-            alignItems: 'center',
-            ...typography.subtitle2,
-            color: 'text.primary',
-            textDecoration: 'none',
-            fontWeight: 500,
-            transition: '.2s ease-in',
-            cursor: 'pointer',
-            '&:hover': {
-              color: 'primary.main',
-              textDecoration: 'none'
-            },
-            '&.offset': {
-              color: 'text.primary'
-            },
-            '&.active': {
-              color: 'primary.main'
-            },
-            '& .link-icon': {
-              ml: 0.5,
-              fontSize: 16
-            }
+            flexGrow: 1
           }}
         >
-          <>
+          <Button
+            ref={anchorRef}
+            className={` ${isOffset && isHome && 'offset'}`}
+            id="composition-button"
+            aria-controls={isOpen ? 'composition-menu' : undefined}
+            aria-expanded={isOpen ? 'true' : undefined}
+            aria-haspopup="true"
+            onClick={onOpen}
+            variant="contained"
+            color="primary"
+            size="large"
+            sx={{
+              boxShadow: 'none',
+              borderRadius: 0,
+              width: 280,
+              bgcolor: (theme) => alpha(theme.palette.common.black, 0.1),
+              '&.arrow-icon': {
+                transform: isOpen ? 'rotate(180deg)' : 'rotate(0deg)'
+              }
+            }}
+            startIcon={<RxDashboard />}
+            endIcon={<FaAngleDown size={14} className="arrow-icon" />}
+          >
             {title}
-
-            {isOpen ? (
-              <KeyboardArrowUpRoundedIcon className="link-icon" />
-            ) : (
-              <KeyboardArrowDownRoundedIcon className="link-icon" />
-            )}
-          </>
-        </Link> */}
-        <Button
-          ref={anchorRef}
-          className={` ${isOffset && isHome && 'offset'}`}
-          id="composition-button"
-          aria-controls={isOpen ? 'composition-menu' : undefined}
-          aria-expanded={isOpen ? 'true' : undefined}
-          aria-haspopup="true"
-          onClick={onOpen}
-          variant="contained"
-          color="primary"
-          size="large"
-          sx={{
-            boxShadow: 'none',
-            borderRadius: 0,
-            bgcolor: (theme) => alpha(theme.palette.common.black, 0.1)
-            //   borderBottom: '2px solid #fff'
-          }}
-          startIcon={<RxDashboard />}
-          endIcon={<FaAngleDown size={14} />}
-        >
-          {title}
-        </Button>
+          </Button>
+        </Box>
         <MenuDesktopPopover
           isOpen={isOpen}
           scrollPosition={scrollPosition}
           onClose={onClose}
           isLoading={isLoading}
-          // data={data}
+          data={data}
         />
       </>
     );
@@ -151,7 +118,7 @@ function MenuDesktopItem({ ...props }) {
 }
 
 export default function MenuDesktop({ ...props }) {
-  const { isOffset, isHome, navConfig, isLeft } = props;
+  const { isOffset, isHome, navConfig, isLeft, data, isLoading } = props;
 
   const { pathname } = useRouter();
 
@@ -189,6 +156,7 @@ export default function MenuDesktop({ ...props }) {
       direction="row"
       alignItems="center"
       sx={{
+        width: 1,
         ...(isLeft && {
           ml: 0
         })
@@ -199,7 +167,8 @@ export default function MenuDesktop({ ...props }) {
           scrollPosition={scrollPosition}
           key={Math.random()}
           item={links}
-          isLoading={false}
+          data={data}
+          isLoading={isLoading}
           pathname={pathname}
           isOpen={open}
           onOpen={handleOpen}
@@ -214,6 +183,8 @@ export default function MenuDesktop({ ...props }) {
 
 MenuDesktop.propTypes = {
   isLeft: PropTypes.bool,
+  isLoading: PropTypes.bool.isRequired,
   isOffset: PropTypes.bool.isRequired,
-  navConfig: PropTypes.array.isRequired
+  navConfig: PropTypes.array.isRequired,
+  data: PropTypes.array.isRequired
 };

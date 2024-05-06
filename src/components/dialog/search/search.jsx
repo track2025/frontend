@@ -34,15 +34,14 @@ export default function Search({ ...props }) {
   const [state, setstate] = React.useState({
     products: [],
     categories: [],
-    brands: []
+    brands: [],
+    initialized: false
   });
-  const [loading, setLoading] = React.useState(true);
 
   const router = useRouter();
   const [search, setSearch] = React.useState('');
-  const { mutate } = useMutation('search', api.search, {
+  const { mutate, isLoading } = useMutation('search', api.search, {
     onSuccess: (data) => {
-      setLoading(false);
       setstate({ ...data });
     }
   });
@@ -62,11 +61,13 @@ export default function Search({ ...props }) {
   };
   React.useEffect(() => {
     const delayDebounceFn = setTimeout(() => {
-      setLoading(true);
-      mutate({ query: search });
+      if (Boolean(state.initialized)) {
+        mutate({ query: search });
+      }
     }, 1000);
 
     return () => clearTimeout(delayDebounceFn);
+
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [search]);
 
@@ -79,12 +80,13 @@ export default function Search({ ...props }) {
         onKeyDown={onKeyDown}
         onChange={(e) => {
           setSearch(e.target.value);
+          setstate({ ...state, initialized: true });
         }}
         fullWidth
         InputProps={{
           startAdornment: (
             <InputAdornment position="start" sx={{ justifyContent: 'center' }}>
-              {loading ? (
+              {isLoading ? (
                 <CircularProgress sx={{ width: '24px !important', height: '24px !important' }} />
               ) : (
                 <SearchIcon />
@@ -114,7 +116,8 @@ export default function Search({ ...props }) {
       />
       <Box className="scroll-main">
         <Box sx={{ height: mobile ? 'auto' : '400px', overflow: 'auto' }}>
-          {!loading &&
+          {state.initialized &&
+            !isLoading &&
             !Boolean(state.products.length) &&
             !Boolean(state.categories.length) &&
             !Boolean(state.brands.length) && (
@@ -155,18 +158,18 @@ export default function Search({ ...props }) {
                 }}
                 autoFocusItem={!focus}
               >
-                {!loading && !Boolean(state.brands.length) ? (
+                {!isLoading && !Boolean(state.brands.length) ? (
                   ''
                 ) : (
                   <Typography variant="subtitle2" color="text.primary" p={2} textTransform="uppercase">
-                    {loading ? <Skeleton variant="text" width={150} /> : 'brands'}
+                    {isLoading ? <Skeleton variant="text" width={150} /> : 'brands'}
                   </Typography>
                 )}
 
-                {(loading ? Array.from(new Array(mobile ? 4 : 2)) : state.brands).map((brand) => (
+                {(isLoading ? Array.from(new Array(mobile ? 4 : 2)) : state.brands).map((brand) => (
                   <MenuItem key={brand?.id} onClick={() => handleListItemClick(brand?.slug, 'brand')}>
                     <ListItemIcon>
-                      {loading ? (
+                      {isLoading ? (
                         <Skeleton variant="circular" width={40} height={40} />
                       ) : (
                         <BlurImageAvatar
@@ -180,14 +183,14 @@ export default function Search({ ...props }) {
                     </ListItemIcon>
                     <ListItemText>
                       <Typography variant="subtitle1" color="text.primary" noWrap>
-                        {loading ? <Skeleton variant="text" /> : brand.name}
+                        {isLoading ? <Skeleton variant="text" /> : brand.name}
                       </Typography>
                     </ListItemText>
                   </MenuItem>
                 ))}
               </MenuList>
             </>
-            {!loading && !Boolean(state.categories.length) ? (
+            {!isLoading && !Boolean(state.categories.length) ? (
               ''
             ) : (
               <>
@@ -211,12 +214,12 @@ export default function Search({ ...props }) {
                   autoFocusItem={!focus}
                 >
                   <Typography variant="subtitle2" color="text.primary" p={2} textTransform="uppercase">
-                    {loading ? <Skeleton variant="text" width={150} /> : 'categories'}
+                    {isLoading ? <Skeleton variant="text" width={150} /> : 'categories'}
                   </Typography>
-                  {(loading ? Array.from(new Array(mobile ? 4 : 2)) : state.categories).map((category) => (
+                  {(isLoading ? Array.from(new Array(mobile ? 4 : 2)) : state.categories).map((category) => (
                     <MenuItem key={category?.id} onClick={() => handleListItemClick(category?.slug, 'category')}>
                       <ListItemIcon>
-                        {loading ? (
+                        {isLoading ? (
                           <Skeleton variant="circular" width={40} height={40} />
                         ) : (
                           <BlurImageAvatar
@@ -230,7 +233,7 @@ export default function Search({ ...props }) {
                       </ListItemIcon>
                       <ListItemText>
                         <Typography variant="subtitle1" color="text.primary" noWrap>
-                          {loading ? <Skeleton variant="text" /> : category.name}
+                          {isLoading ? <Skeleton variant="text" /> : category.name}
                         </Typography>
                       </ListItemText>
                     </MenuItem>
@@ -238,7 +241,7 @@ export default function Search({ ...props }) {
                 </MenuList>
               </>
             )}
-            {!loading && !Boolean(state.products.length) ? (
+            {!isLoading && !Boolean(state.products.length) ? (
               ''
             ) : (
               <>
@@ -262,12 +265,12 @@ export default function Search({ ...props }) {
                   autoFocusItem={!focus}
                 >
                   <Typography variant="subtitle2" color="text.primary" p={2} textTransform="uppercase">
-                    {loading ? <Skeleton variant="text" width={150} /> : 'Products'}
+                    {isLoading ? <Skeleton variant="text" width={150} /> : 'Products'}
                   </Typography>
-                  {(loading ? Array.from(new Array(mobile ? 4 : 2)) : state.products).map((product) => (
+                  {(isLoading ? Array.from(new Array(mobile ? 4 : 2)) : state.products).map((product) => (
                     <MenuItem key={product?.id} onClick={() => handleListItemClick(product?.slug, 'product')}>
                       <ListItemIcon>
-                        {loading ? (
+                        {isLoading ? (
                           <Skeleton variant="circular" width={40} height={40} />
                         ) : (
                           <BlurImageAvatar
@@ -281,10 +284,10 @@ export default function Search({ ...props }) {
                       </ListItemIcon>
                       <ListItemText>
                         <Typography variant="subtitle1" color="text.primary" noWrap>
-                          {loading ? <Skeleton variant="text" /> : product.name}
+                          {isLoading ? <Skeleton variant="text" /> : product.name}
                         </Typography>
                         <Typography variant="body2" color="text.secondary" noWrap>
-                          {loading ? <Skeleton variant="text" /> : product.category?.name}
+                          {isLoading ? <Skeleton variant="text" /> : product.category?.name}
                         </Typography>
                       </ListItemText>
                     </MenuItem>
