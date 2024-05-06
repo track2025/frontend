@@ -35,14 +35,14 @@ export default function UserTopbar() {
         width: '100%'
       }}
     >
-      <Stack direction="row" alignItems="center" spacing={3}>
-        {/* <LiaShippingFastSolid size={20} /> */}
-        <Typography component={NextLink} href="#" variant="subtitle2" color="text.primary">
+      <Stack direction="row" alignItems="center" spacing={1}>
+        <Link component={NextLink} href={'/'} sx={{ color: 'text.primary', fontSize: 14 }}>
           Quick Help
-        </Typography>
-        <Typography component={NextLink} href="#" variant="subtitle2" color="text.primary">
+        </Link>
+        <Divider orientation="vertical" flexItem />
+        <Link component={NextLink} href={'/'} sx={{ color: 'text.primary', fontSize: 14 }}>
           Order Tracking
-        </Typography>
+        </Link>
       </Stack>
       <Stack direction="row" alignItems="center" spacing={1}>
         <UserSelect />

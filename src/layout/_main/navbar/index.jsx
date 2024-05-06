@@ -12,11 +12,9 @@ import { Toolbar, Skeleton, Stack, AppBar, useMediaQuery } from '@mui/material';
 import { useSelector } from 'react-redux';
 
 // config
-import config from 'src/layout/_main/config.json';
+
 import MainLogo from 'src/components/mainLogo';
-import * as api from 'src/services';
-// usequery
-import { useQuery } from 'react-query';
+
 const MobileBar = dynamic(() => import('src/layout/_main/mobileBar'));
 
 // dynamic import components
@@ -30,7 +28,15 @@ const CartWidget = dynamic(() => import('src/components/cartWidget'), {
   loading: () => <Skeleton variant="rounded" width={86} height={41} />
 });
 
+const CompareWidget = dynamic(() => import('src/components/compareWidget'), {
+  ssr: false,
+  loading: () => <Skeleton variant="circular" width={40} height={40} />
+});
 const Search = dynamic(() => import('src/components/dialog/search'), {
+  ssr: false,
+  loading: () => <Skeleton variant="circular" width={40} height={40} />
+});
+const LanguageSelect = dynamic(() => import('src/components/languageSelect'), {
   ssr: false,
   loading: () => <Skeleton variant="circular" width={40} height={40} />
 });
@@ -38,33 +44,14 @@ const Search = dynamic(() => import('src/components/dialog/search'), {
 //   ssr: false,
 //   loading: () => <Skeleton variant="circular" width={50} height={50} />
 // });
-const AdminDialog = dynamic(() => import('src/components/dialog/admin'));
-const Skeletons = () => {
-  return (
-    <Stack direction="row" gap={2}>
-      <Skeleton variant="rounded" width={38.3} height={22} />
-      <Skeleton variant="rounded" width={89} height={22} />
-      <Skeleton variant="rounded" width={56} height={22} />
-      <Skeleton variant="rounded" width={27.4} height={22} />
-      <Skeleton variant="rounded" width={48.6} height={22} />
-      <Skeleton variant="rounded" width={26.8} height={22} />
-    </Stack>
-  );
-};
-const MenuDesktop = dynamic(() => import('./menuDesktop'), {
-  ssr: false,
-  loading: () => <Skeletons />
-});
+// const AdminDialog = dynamic(() => import('src/components/dialog/admin'));
 
 // ----------------------------------------------------------------------
 export default function Navbar({ isAuth }) {
-  const { menu } = config;
   const pathname = usePathname();
   const isHome = pathname === '/';
   const { checkout } = useSelector(({ product }) => product);
   const isMobile = useMediaQuery('(max-width:768px)');
-
-  const { data, isLoading } = useQuery(['get-categories-all'], () => api.getAllCategories());
 
   return (
     <>
@@ -94,20 +81,22 @@ export default function Navbar({ isAuth }) {
           {/* <Stack width={250}> */}
           <MainLogo />
           {/* </Stack> */}
-          {isLoading ? <Skeletons /> : <MenuDesktop isHome={isHome} navConfig={menu} categories={data?.data} />}
+          {/* {isLoading ? <Skeletons /> : <MenuDesktop isHome={isHome} navConfig={menu} categories={data?.data} />} */}
 
-          <Stack gap={0.1} direction="row" alignItems={'center'}>
+          <Stack gap={0.5} direction="row" alignItems={'center'}>
             <Search />
-
-            <WishlistPopover isAuth={isAuth} />
+            <LanguageSelect />
             <SettingMode />
+            <CompareWidget />
+            <WishlistPopover isAuth={isAuth} />
+
             <CartWidget checkout={checkout} />
             {/* <UserSelect /> */}
           </Stack>
         </Toolbar>
       </AppBar>
       {isMobile && <MobileBar />}
-      {data?.adminPopup && <AdminDialog isOpen={data?.adminPopup} />}
+      {/* {data?.adminPopup && <AdminDialog isOpen={data?.adminPopup} />} */}
     </>
   );
 }

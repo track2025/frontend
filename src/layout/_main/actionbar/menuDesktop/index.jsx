@@ -17,80 +17,78 @@ import MenuDesktopPopover from 'src/components/popover/menudesktop';
 MenuDesktopItem.propTypes = {
   isLoading: PropTypes.bool.isRequired,
   onClose: PropTypes.func.isRequired,
-  data: PropTypes.array.isRequired,
   item: PropTypes.object.isRequired,
   pathname: PropTypes.string.isRequired,
   isOpen: PropTypes.bool.isRequired,
   onOpen: PropTypes.func.isRequired,
-  isHome: PropTypes.bool,
+
   isOffset: PropTypes.bool.isRequired,
-  scrollPosition: PropTypes.any,
-  data: PropTypes.array.isRequired
+  scrollPosition: PropTypes.any
 };
 
 function MenuDesktopItem({ ...props }) {
-  const { item, pathname, isHome, isOpen, isOffset, onOpen, scrollPosition, onClose, isLoading, data } = props;
+  const { item, pathname, isHome, isOpen, isOffset, onOpen, scrollPosition, onClose } = props;
   const { title, path, isDropdown } = item;
   const anchorRef = React.useRef(null);
   const isActive = pathname === path;
 
-  if (isDropdown) {
-    return (
-      <>
-        <Link
-          ref={anchorRef}
-          className={` ${isOffset && isHome && 'offset'}`}
-          id="composition-button"
-          aria-controls={isOpen ? 'composition-menu' : undefined}
-          aria-expanded={isOpen ? 'true' : undefined}
-          aria-haspopup="true"
-          onClick={onOpen}
-          sx={{
-            display: 'flex',
-            cursor: 'pointer',
-            alignItems: 'center',
-            ...typography.subtitle2,
-            color: 'text.primary',
-            textDecoration: 'none',
-            fontWeight: 500,
-            transition: '.2s ease-in',
-            cursor: 'pointer',
-            '&:hover': {
-              color: 'primary.main',
-              textDecoration: 'none'
-            },
-            '&.offset': {
-              color: 'text.primary'
-            },
-            '&.active': {
-              color: 'primary.main'
-            },
-            '& .link-icon': {
-              ml: 0.5,
-              fontSize: 16
-            }
-          }}
-        >
-          <>
-            {title}
+  // if (isDropdown) {
+  //   return (
+  //     <>
+  //       <Link
+  //         ref={anchorRef}
+  //         className={` ${isOffset && isHome && 'offset'}`}
+  //         id="composition-button"
+  //         aria-controls={isOpen ? 'composition-menu' : undefined}
+  //         aria-expanded={isOpen ? 'true' : undefined}
+  //         aria-haspopup="true"
+  //         onClick={onOpen}
+  //         sx={{
+  //           display: 'flex',
+  //           cursor: 'pointer',
+  //           alignItems: 'center',
+  //           ...typography.subtitle2,
+  //           color: 'text.primary',
+  //           textDecoration: 'none',
+  //           fontWeight: 500,
+  //           transition: '.2s ease-in',
+  //           cursor: 'pointer',
+  //           '&:hover': {
+  //             color: 'primary.main',
+  //             textDecoration: 'none'
+  //           },
+  //           '&.offset': {
+  //             color: 'text.primary'
+  //           },
+  //           '&.active': {
+  //             color: 'primary.main'
+  //           },
+  //           '& .link-icon': {
+  //             ml: 0.5,
+  //             fontSize: 16
+  //           }
+  //         }}
+  //       >
+  //         <>
+  //           {title}
 
-            {isOpen ? (
-              <KeyboardArrowUpRoundedIcon className="link-icon" />
-            ) : (
-              <KeyboardArrowDownRoundedIcon className="link-icon" />
-            )}
-          </>
-        </Link>
-        <MenuDesktopPopover
-          isOpen={isOpen}
-          scrollPosition={scrollPosition}
-          onClose={onClose}
-          isLoading={isLoading}
-          data={data}
-        />
-      </>
-    );
-  }
+  //           {isOpen ? (
+  //             <KeyboardArrowUpRoundedIcon className="link-icon" />
+  //           ) : (
+  //             <KeyboardArrowDownRoundedIcon className="link-icon" />
+  //           )}
+  //         </>
+  //       </Link>
+  //       <MenuDesktopPopover
+  //         isOpen={isOpen}
+  //         scrollPosition={scrollPosition}
+  //         onClose={onClose}
+  //         isLoading={isLoading}
+  //         data={data}
+  //       />
+  //     </>
+  //   );
+  // }
 
   return (
     <Link
@@ -100,16 +98,16 @@ function MenuDesktopItem({ ...props }) {
       name={title}
       className={` ${isActive && 'active'}`}
       sx={{
-        ...typography.subtitle2,
-        color: 'text.primary',
+        ...typography.subtitle1,
+        color: 'common.white',
         textDecoration: 'none',
         fontWeight: 500,
         transition: '.2s ease-in',
         cursor: 'pointer',
-        '&:hover': {
-          color: 'primary.main',
-          textDecoration: 'none'
-        },
+        // '&:hover': {
+        //   color: 'primary.main',
+        //   textDecoration: 'none'
+        // },
         '&.offset': {
           color: 'text.primary'
         },
@@ -128,7 +126,7 @@ function MenuDesktopItem({ ...props }) {
 }
 
 export default function MenuDesktop({ ...props }) {
-  const { isOffset, isHome, navConfig, isLeft, categories } = props;
+  const { isOffset, isHome, navConfig, isLeft } = props;
 
   const { pathname } = useRouter();
 
@@ -174,7 +172,6 @@ export default function MenuDesktop({ ...props }) {
         <MenuDesktopItem
           scrollPosition={scrollPosition}
           key={Math.random()}
-          data={categories}
           item={links}
           isLoading={false}
           pathname={pathname}
@@ -182,7 +179,6 @@ export default function MenuDesktop({ ...props }) {
           onOpen={handleOpen}
           onClose={handleClose}
           isOffset={isOffset}
-          isHome={isHome}
           router={router}
         />
       ))}
@@ -192,8 +188,6 @@ export default function MenuDesktop({ ...props }) {
 
 MenuDesktop.propTypes = {
   isLeft: PropTypes.bool,
-  isHome: PropTypes.bool,
-  categories: PropTypes.array.isRequired,
   isOffset: PropTypes.bool.isRequired,
   navConfig: PropTypes.array.isRequired
 };
