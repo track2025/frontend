@@ -16,7 +16,7 @@ export default function MenuDesktop({ ...props }) {
       onClose={onClose}
       anchorReference="anchorPosition"
       anchorPosition={{
-        top: 80,
+        top: 150,
         left: 0
       }}
       isDesktop

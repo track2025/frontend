@@ -1,29 +1,34 @@
 {
   "menu": [
     {
-      "title": "Home",
-      "path": "/"
-    },
-    {
       "title": "Categories",
       "path": "",
       "isDropdown": true
     },
     {
+      "title": "Home",
+      "path": "/"
+    },
+   
+    {
       "title": "Products",
       "path": "/products"
     },
     {
-      "title": "Men",
-      "path": "/products?gender=men"
+      "title": "Offers",
+      "path": "/"
     },
     {
-      "title": "Women",
-      "path": "/products?gender=women"
+      "title": "Shops",
+      "path": "/"
     },
     {
-      "title": "Kids",
-      "path": "/products?gender=kids"
+      "title": "Compaign",
+      "path": "/"
+    },
+    {
+      "title": "Contact",
+      "path": "/"
     }
   ],
   "mobile_menu": [

@@ -53,7 +53,7 @@ export default function Navbar({}) {
         }}
       >
         <Toolbar disableGutters className="toolbar" sx={{ minHeight: '48px!important', px: 3, gap: 2 }}>
-          <Button
+          {/* <Button
             variant="contained"
             color="primary"
             size="large"
@@ -67,7 +67,7 @@ export default function Navbar({}) {
             // endIcon={<FaAngleDown fontSize={18} />}
           >
             Categories
-          </Button>
+          </Button> */}
           {/* categories={data?.data} */}
           <MenuDesktop navConfig={menu} />
         </Toolbar>

@@ -97,6 +97,7 @@ function CarouselItem({ ...props }) {
         position: 'relative',
         borderBottom: (theme) => '1px solid ' + theme.palette.divider,
         zIndex: 11,
+        height: { xs: 220, md: 270, lg: 370 },
         borderRadius: 0,
         img: {
           borderRadius: 0,
@@ -125,9 +126,9 @@ function CarouselItem({ ...props }) {
               justifyContent: 'center'
             }}
           >
-            {/* <CardContent
+            <CardContent
               sx={{
-                top: { xl: '22%', lg: '23.5%', md: '28%', xs: '55%' },
+                top: { xl: '50%', lg: '50%', md: '50%', xs: '50%' },
                 left: 0,
                 transform: 'translateY(-50%)',
                 width: '100%',
@@ -135,66 +136,74 @@ function CarouselItem({ ...props }) {
                 position: 'absolute',
                 color: 'common.white'
               }}
-            > */}
-            <MotionContainer open={first}>
-              <motion.div variants={varFadeInRight}>
-                <Typography
-                  variant="h2"
-                  color="text.primary"
-                  component="h1"
-                  lineHeight={1.1}
-                  gutterBottom
-                  fontWeight="900!important"
-                  sx={{
-                    pointerEvents: 'none'
-                  }}
-                >
-                  {item?.heading}
-                </Typography>
-              </motion.div>
-              <motion.div variants={varFadeInRight}>
-                <Typography
-                  variant="h6"
-                  gutterBottom
-                  color={'text.secondary'}
-                  sx={{
-                    fontWeight: 400,
-                    pointerEvents: 'none',
-                    marginTop: 1
-                  }}
-                >
-                  {item?.description}
-                </Typography>
-              </motion.div>
-              <motion.div variants={varFadeInRight}>
-                <div>
-                  <Button
-                    size={isMobile ? 'small' : 'large'}
-                    variant="contained"
-                    component={Link}
-                    href={item?.btnPrimary.url}
-                    sx={{ mt: 1 }}
+            >
+              <MotionContainer open={first}>
+                <motion.div variants={varFadeInRight}>
+                  <Typography
+                    variant="h2"
+                    color="text.primary"
+                    component="h1"
+                    lineHeight={1.1}
+                    gutterBottom
+                    fontWeight="900!important"
+                    sx={{
+                      pointerEvents: 'none'
+                    }}
                   >
-                    {item?.btnPrimary.btnText || 'Shop Now'}
-                  </Button>
+                    {item?.heading}
+                  </Typography>
+                </motion.div>
+                <motion.div variants={varFadeInRight}>
+                  <Typography
+                    variant="h6"
+                    gutterBottom
+                    color={'text.secondary'}
+                    sx={{
+                      fontWeight: 400,
+                      pointerEvents: 'none',
+                      marginTop: 1
+                    }}
+                  >
+                    {item?.description}
+                  </Typography>
+                </motion.div>
+                <motion.div variants={varFadeInRight}>
+                  <div>
+                    <Button
+                      size={isMobile ? 'small' : 'large'}
+                      variant="contained"
+                      component={Link}
+                      href={item?.btnPrimary.url}
+                      sx={{ mt: 1 }}
+                    >
+                      {item?.btnPrimary.btnText || 'Shop Now'}
+                    </Button>
 
-                  <Button
-                    size={isMobile ? 'small' : 'large'}
-                    variant="contained"
-                    color="secondary"
-                    sx={{ mt: 1, mx: { sm: 2, xs: 1 } }}
-                    component={Link}
-                    href={item?.btnSecondary.url}
-                  >
-                    {item?.btnSecondary.btnText || 'See All'}
-                  </Button>
-                </div>
-              </motion.div>
-            </MotionContainer>
-            {/* </CardContent> */}
+                    <Button
+                      size={isMobile ? 'small' : 'large'}
+                      variant="contained"
+                      color="secondary"
+                      sx={{ mt: 1, mx: { sm: 2, xs: 1 } }}
+                      component={Link}
+                      href={item?.btnSecondary.url}
+                    >
+                      {item?.btnSecondary.btnText || 'See All'}
+                    </Button>
+                  </div>
+                </motion.div>
+              </MotionContainer>
+            </CardContent>
           </Grid>
           <Grid item xs={6} sm={6}>
-            <Box className="img-box">
+            <Box
+              className="img-box"
+              sx={{
+                img: {
+                  position: 'relative !important',
+                  display: { xs: 'none', md: 'block' }
+                }
+              }}
+            >
               <Image
                 priority
                 src={item.cover}
@@ -238,8 +247,8 @@ export default function SingleSlideCarousel({ ...props }) {
         justifyContent: 'center',
         alignItems: 'center',
         overflow: 'hidden',
-        height: 350,
-        borderRadius: '8px',
+        height: { xs: 200, md: 250, lg: 350 },
+        borderRadius: 0,
         overflow: 'hidden',
         borderBottom: (theme) => '1px solid ' + theme.palette.divider,
         boxShadow: 'none'
