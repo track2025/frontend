@@ -32,8 +32,8 @@ export default function wishlistWidget() {
           <Typography variant="subtitle2" color="text.primary" mb={-0.6}>
             Compare
           </Typography>
-          <Typography variant="body1" color="text.primary">
-            {compareProducts?.length} Items
+          <Typography variant="body1" color="text.secondary">
+            {compareProducts?.length} {compareProducts?.length > 1 ? 'Items' : 'Item'}
           </Typography>
         </Stack>
       </Stack>
