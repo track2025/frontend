@@ -152,7 +152,7 @@ export default function MenuDesktop({ ...props }) {
 
   return (
     <Stack
-      gap={2}
+      spacing={2}
       direction="row"
       alignItems="center"
       sx={{

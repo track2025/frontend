@@ -27,10 +27,24 @@ export default function WishlistPopover({ isAuth }) {
 
   return (
     <>
-      <Stack direction="row" spacing={1} alignItems="center" width="auto">
+      <Stack
+        direction="row"
+        spacing={1}
+        alignItems="center"
+        width="auto"
+        sx={{ cursor: 'pointer' }}
+        onClick={() => {
+          if (!isAuth) {
+            router.push('/auth/login');
+          } else {
+            router.push('/profile/wishlist');
+          }
+        }}
+      >
         <IconButton
           name="wishlist"
           color="primary"
+          disableRipple
           sx={{
             borderColor: 'primary',
             borderWidth: 1,
@@ -48,11 +62,11 @@ export default function WishlistPopover({ isAuth }) {
           <IoMdHeartEmpty />
         </IconButton>
         <Stack>
-          <Typography variant="subtitle2" color="text.primary" mb={0}>
+          <Typography variant="subtitle2" color="text.primary" mb={-0.6}>
             Wishlist
           </Typography>
-          <Typography variant="body1" color="text.primary">
-            {wishlist?.length} Items
+          <Typography variant="body1" color="text.secondary">
+            {wishlist?.length} {wishlist?.length > 1 ? 'Items' : 'Item'}
           </Typography>
         </Stack>
       </Stack>

@@ -31,13 +31,9 @@ export default function CartWidget({ ...props }) {
       spacing={1}
       alignItems="center"
       width="auto"
-      // sx={{
-      //   bgcolor: (theme) => theme.palette.background.default,
-      //   border: (theme) => `1px solid ${theme.palette.divider}`,
-      //   borderRadius: '8px',
-      //   pr: 1
-      // }}
-      component={CardActionArea}
+      sx={{
+        cursor: 'pointer'
+      }}
     >
       <IconButton
         name="cart"
@@ -55,10 +51,10 @@ export default function CartWidget({ ...props }) {
         {/* </Badge> */}
       </IconButton>
       <Stack>
-        <Typography variant="subtitle2" color="text.primary" mb={0}>
-          Cart({totalItems})
+        <Typography variant="subtitle2" color="text.primary" mb={-0.6}>
+          Cart ({totalItems})
         </Typography>
-        <Typography variant="body1" color="text.primary">
+        <Typography variant="body1" color="text.secondary">
           {fCurrency(total)}
         </Typography>
       </Stack>

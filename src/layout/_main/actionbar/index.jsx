@@ -47,26 +47,10 @@ export default function Navbar({}) {
           zIndex: 999,
           borderRadius: 0,
           bgcolor: (theme) => theme.palette.primary.main,
-          display: { md: 'block', xs: 'none' }
+          display: { md: 'flex', xs: 'none' }
         }}
       >
-        <Toolbar disableGutters className="toolbar" sx={{ minHeight: '48px!important', px: 3, gap: 2 }}>
-          {/* <Button
-            variant="contained"
-            color="primary"
-            size="large"
-            sx={{
-              boxShadow: 'none',
-              borderRadius: 0,
-              bgcolor: (theme) => alpha(theme.palette.common.black, 0.1)
-              //   borderBottom: '2px solid #fff'
-            }}
-            startIcon={<RxDashboard />}
-            // endIcon={<FaAngleDown fontSize={18} />}
-          >
-            Categories
-          </Button> */}
-          {/* categories={data?.data} */}
+        <Toolbar className="toolbar" sx={{ minHeight: '48px!important' }}>
           <MenuDesktop navConfig={menu} data={data?.data} isLoading={isLoading} />
         </Toolbar>
       </AppBar>
