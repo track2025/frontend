@@ -25,7 +25,7 @@ export default function Categories() {
       >
         <Box>
           <Typography variant="h2" color="text.primary" textAlign="center">
-            Categories
+            Top Categories
           </Typography>
           <Typography variant="body1" color="text.secondary" textAlign="center">
             Lorem Ipsum Is Simply Dummy Text Of The Printing And Typesetting Industry.

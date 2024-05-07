@@ -5,7 +5,7 @@ import React from 'react';
 import { useRouter } from 'next-nprogress-bar';
 
 // mui
-import { Badge, IconButton } from '@mui/material';
+import { IconButton, Stack, Typography, alpha } from '@mui/material';
 import { IoMdHeartEmpty } from 'react-icons/io';
 import { useSelector } from 'react-redux';
 
@@ -27,21 +27,35 @@ export default function WishlistPopover({ isAuth }) {
 
   return (
     <>
-      <IconButton
-        name="wishlist"
-        color={'default'}
-        onClick={() => {
-          if (!isAuth) {
-            router.push('/auth/login');
-          } else {
-            router.push('/profile/wishlist');
-          }
-        }}
-      >
-        <Badge badgeContent={wishlist?.length || 0} color="warning" showZero>
+      <Stack direction="row" spacing={1} alignItems="center" width="auto">
+        <IconButton
+          name="wishlist"
+          color="primary"
+          sx={{
+            borderColor: 'primary',
+            borderWidth: 1,
+            borderStyle: 'solid',
+            bgcolor: (theme) => alpha(theme.palette.primary.main, 0.2)
+          }}
+          onClick={() => {
+            if (!isAuth) {
+              router.push('/auth/login');
+            } else {
+              router.push('/profile/wishlist');
+            }
+          }}
+        >
           <IoMdHeartEmpty />
-        </Badge>
-      </IconButton>
+        </IconButton>
+        <Stack>
+          <Typography variant="subtitle2" color="text.primary" mb={0}>
+            Wishlist
+          </Typography>
+          <Typography variant="body1" color="text.primary">
+            {wishlist?.length} Items
+          </Typography>
+        </Stack>
+      </Stack>
     </>
   );
 }

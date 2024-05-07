@@ -5,11 +5,11 @@ export default function Card(theme) {
         root: {
           position: 'relative',
           zIndex: 0, // Fix Safari overflow: hidden with border radius
-          border: `1px solid ${theme.palette.divider} !important`,
+          // border: `1px solid ${theme.palette.divider} !important`,
           transition: 'all ease-in-out 0.3s',
           background: theme.palette.background.paper,
-          borderRadius: theme.spacing(1)
-          // boxShadow: theme.shadows[10],
+          borderRadius: theme.spacing(2),
+          boxShadow: theme.shadows[10]
         }
       }
     },

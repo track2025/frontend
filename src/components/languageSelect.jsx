@@ -10,7 +10,7 @@ import TabList from '@mui/lab/TabList';
 import TabPanel from '@mui/lab/TabPanel';
 import { MdClear } from 'react-icons/md';
 import Typography from '@mui/material/Typography';
-import { Grid, Button, Stack } from '@mui/material';
+import { Grid, Button, Stack,alpha } from '@mui/material';
 
 export default function LanguageSelect() {
   const [open, setOpen] = React.useState(false);
@@ -29,7 +29,17 @@ export default function LanguageSelect() {
 
   return (
     <React.Fragment>
-      <IconButton aria-label="lang-curr-select" onClick={handleClickOpen}>
+      <IconButton
+        aria-label="lang-curr-select"
+        onClick={handleClickOpen}
+        color="primary"
+        sx={{
+          borderColor: 'primary',
+          borderWidth: 1,
+          borderStyle: 'solid',
+          bgcolor: (theme) => alpha(theme.palette.primary.main, 0.2)
+        }}
+      >
         <TfiWorld />
       </IconButton>
       <Dialog
@@ -72,12 +82,10 @@ export default function LanguageSelect() {
                         fullWidth
                         size="large"
                         variant={index < 1 ? 'outlined' : 'text'}
-                        color="inherit"
+                        color={index < 1 ? 'primary' : 'inherit'}
                         sx={{
                           textAlign: 'left',
-                          justifyContent: 'start',
-                          borderWidth: 1,
-                          borderColor: 'text.primary'
+                          justifyContent: 'start'
                         }}
                       >
                         <Stack>
@@ -100,12 +108,10 @@ export default function LanguageSelect() {
                         fullWidth
                         size="large"
                         variant={index < 1 ? 'outlined' : 'text'}
-                        color="inherit"
+                        color={index < 1 ? 'primary' : 'inherit'}
                         sx={{
                           textAlign: 'left',
-                          justifyContent: 'start',
-                          borderWidth: 1,
-                          borderColor: 'text.primary'
+                          justifyContent: 'start'
                         }}
                       >
                         <Stack>

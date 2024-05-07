@@ -36,19 +36,17 @@ export default function Navbar({}) {
   const { menu } = config;
 
   const { data, isLoading } = useQuery(['get-categories-all'], () => api.getAllCategories());
+  console.log(data, 'data');
   return (
     <>
       <AppBar
         sx={{
           boxShadow: 'none',
           position: 'sticky',
-          top: 100,
+          top: 117,
           zIndex: 999,
           borderRadius: 0,
-          //   pr: '0px !important',
           bgcolor: (theme) => theme.palette.primary.main,
-          borderTop: (theme) => `1px solid ${theme.palette.divider}`,
-          borderBottom: (theme) => `1px solid ${theme.palette.divider}`,
           display: { md: 'block', xs: 'none' }
         }}
       >
@@ -69,7 +67,7 @@ export default function Navbar({}) {
             Categories
           </Button> */}
           {/* categories={data?.data} */}
-          <MenuDesktop navConfig={menu} />
+          <MenuDesktop navConfig={menu} data={data?.data} isLoading={isLoading} />
         </Toolbar>
       </AppBar>
     </>
