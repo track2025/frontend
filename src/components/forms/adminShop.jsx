@@ -121,13 +121,14 @@ export default function AdminShopForm({ data: currentShop, isLoading: shopLoadin
       logo: currentShop?.logo || null,
       description: currentShop?.description || '',
       metaDescription: currentShop?.metaDescription || '',
-      ...(currentShop && {
-        status: currentShop ? currentShop.status : STATUS_OPTIONS[0], // Only include message if currentShop exists
-        message:
-          currentShop.status === 'cancel' || currentShop.status === 'closed' || currentShop.status === 'action required'
-            ? currentShop.message
-            : ''
-      }),
+      status: STATUS_OPTIONS[0],
+      // ...(currentShop && {
+      //   status: currentShop ? currentShop.status : STATUS_OPTIONS[0], // Only include message if currentShop exists
+      //   message:
+      //     currentShop.status === 'cancel' || currentShop.status === 'closed' || currentShop.status === 'action required'
+      //       ? currentShop.message
+      //       : ''
+      // }),
       fileLogo: currentShop?.logo || '',
       fileCover: currentShop?.cover || '',
       slug: currentShop?.slug || '',

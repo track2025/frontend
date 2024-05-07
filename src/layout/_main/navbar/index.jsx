@@ -73,23 +73,23 @@ export default function Navbar({ isAuth }) {
             borderRadius: 0,
             WebkitBackdropFilter: 'blur(6px)', // Fix on Mobile
             bgcolor: (theme) => alpha(theme.palette.background.paper, 1),
-            px: 3
+            px: 3,
+            py: 1.5
           }
         }}
       >
         <Toolbar disableGutters className="toolbar">
-          {/* <Stack width={250}> */}
-          <MainLogo />
-          {/* </Stack> */}
+          <Stack gap={4} direction="row" alignItems={'center'}>
+            <MainLogo />
+            <Search />
+          </Stack>
           {/* {isLoading ? <Skeletons /> : <MenuDesktop isHome={isHome} navConfig={menu} categories={data?.data} />} */}
 
-          <Stack gap={0.5} direction="row" alignItems={'center'}>
-            <Search />
+          <Stack gap={2} direction="row" alignItems={'center'}>
             <LanguageSelect />
             <SettingMode />
-            <CompareWidget />
             <WishlistPopover isAuth={isAuth} />
-
+            <CompareWidget />
             <CartWidget checkout={checkout} />
             {/* <UserSelect /> */}
           </Stack>
