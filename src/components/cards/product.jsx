@@ -3,7 +3,18 @@ import { useState } from 'react';
 import PropTypes from 'prop-types';
 import { useMutation } from 'react-query';
 // mui
-import { Box, Card, Typography, Stack, IconButton, useTheme, useMediaQuery, Tooltip, Skeleton } from '@mui/material';
+import {
+  Box,
+  Card,
+  Typography,
+  Stack,
+  IconButton,
+  useTheme,
+  useMediaQuery,
+  Tooltip,
+  Skeleton,
+  Zoom
+} from '@mui/material';
 // redux
 import { useDispatch } from 'src/lib/redux/store';
 import { setWishlist } from 'src/lib/redux/slices/wishlist';
@@ -36,13 +47,14 @@ export default function ShopProductCard({ ...props }) {
   const { product, loading } = props;
 
   const [open, setOpen] = useState(false);
+  const [openActions, setOpenActions] = useState(false);
   const theme = useTheme();
   const router = useRouter();
   const dispatch = useDispatch();
   // type error
   const { wishlist } = useSelector(({ wishlist }) => wishlist);
   const { products: compareProducts } = useSelector(({ compare }) => compare);
-  console.log(compareProducts, 'compareProducts');
+
   const { isAuthenticated } = useSelector(({ user }) => user);
   const isTablet = useMediaQuery('(max-width:900px)');
   const [isLoading, setLoading] = useState(false);
@@ -85,14 +97,12 @@ export default function ShopProductCard({ ...props }) {
 
   return (
     <Card
+      onMouseEnter={() => setOpenActions(true)}
+      onMouseLeave={() => setOpenActions(false)}
       sx={{
         display: 'block',
         boxShadow:
           theme.palette.mode === 'light' ? '0 6px 16px rgba(145, 158, 171, 25%)' : '0 6px 16px rgb(5 6 6 / 25%)'
-        // border: '1px solid transparent',
-        // '&:hover': {
-        //   border: '1px solid ' + theme.palette.primary.main + '!important'
-        // }
       }}
     >
       <Box
@@ -153,11 +163,95 @@ export default function ShopProductCard({ ...props }) {
                 objectFit="cover"
                 placeholder="blur"
                 blurDataURL={image?.blurDataURL}
-                // quality={15}
               />
             </Box>
           )}
         </Box>
+        <Zoom in={openActions}>
+          <Box>
+            <Stack
+              direction={'row'}
+              sx={{
+                position: 'absolute',
+                bottom: 8,
+                left: '50%',
+                transform: 'translate(-50%, 0px)',
+                bgcolor: 'background.paper',
+                borderRadius: '27px',
+                p: '2px',
+                zIndex: 11
+              }}
+            >
+              {loading ? (
+                <Skeleton variant="circular" width={isTablet ? 24 : 44} height={isTablet ? 24 : 44} />
+              ) : (
+                <Tooltip title="Add to cart">
+                  <IconButton
+                    aria-label="add to cart"
+                    disabled={loading || product?.available < 1}
+                    onClick={() => setOpen(true)}
+                    size={isTablet ? 'small' : 'medium'}
+                  >
+                    <GoEye />
+                  </IconButton>
+                </Tooltip>
+              )}
+
+              {loading ? (
+                <Skeleton variant="circular" width={isTablet ? 24 : 44} height={isTablet ? 24 : 44} />
+              ) : wishlist?.filter((v) => v === _id).length > 0 ? (
+                <Tooltip title="Remove from cart">
+                  <IconButton
+                    disabled={isLoading}
+                    onClick={onClickWishList}
+                    aria-label="Remove from cart"
+                    color="primary"
+                    size={isTablet ? 'small' : 'medium'}
+                  >
+                    <IoIosHeart />
+                  </IconButton>
+                </Tooltip>
+              ) : (
+                <Tooltip title="Add to wishlist">
+                  <IconButton
+                    disabled={isLoading}
+                    onClick={onClickWishList}
+                    aria-label="add to wishlist"
+                    size={isTablet ? 'small' : 'medium'}
+                  >
+                    <IoMdHeartEmpty />
+                  </IconButton>
+                </Tooltip>
+              )}
+              {loading ? (
+                <Skeleton variant="circular" width={isTablet ? 24 : 44} height={isTablet ? 24 : 44} />
+              ) : compareProducts?.filter((v) => v._id === _id).length > 0 ? (
+                <Tooltip title="Remove from cart">
+                  <IconButton
+                    disabled={isLoading}
+                    onClick={onRemoveCompare}
+                    aria-label="Remove from compare"
+                    color="primary"
+                    size={isTablet ? 'small' : 'medium'}
+                  >
+                    <GoGitCompare />
+                  </IconButton>
+                </Tooltip>
+              ) : (
+                <Tooltip title="Add to compare">
+                  <IconButton
+                    disabled={isLoading}
+                    onClick={onAddCompare}
+                    aria-label="add to compare"
+                    size={isTablet ? 'small' : 'medium'}
+                  >
+                    <GoGitCompare />
+                  </IconButton>
+                </Tooltip>
+              )}
+            </Stack>
+          </Box>
+        </Zoom>
       </Box>
 
       <Stack
@@ -243,75 +337,6 @@ export default function ShopProductCard({ ...props }) {
               </>
             )}
           </Typography>
-          <Stack direction={'row'}>
-            {loading ? (
-              <Skeleton variant="circular" width={isTablet ? 24 : 44} height={isTablet ? 24 : 44} />
-            ) : (
-              <Tooltip title="Add to cart">
-                <IconButton
-                  aria-label="add to cart"
-                  disabled={loading || product?.available < 1}
-                  onClick={() => setOpen(true)}
-                  size={isTablet ? 'small' : 'medium'}
-                >
-                  <GoEye />
-                </IconButton>
-              </Tooltip>
-            )}
-
-            {loading ? (
-              <Skeleton variant="circular" width={isTablet ? 24 : 44} height={isTablet ? 24 : 44} />
-            ) : wishlist?.filter((v) => v === _id).length > 0 ? (
-              <Tooltip title="Remove from cart">
-                <IconButton
-                  disabled={isLoading}
-                  onClick={onClickWishList}
-                  aria-label="Remove from cart"
-                  color="primary"
-                  size={isTablet ? 'small' : 'medium'}
-                >
-                  <IoIosHeart />
-                </IconButton>
-              </Tooltip>
-            ) : (
-              <Tooltip title="Add to wishlist">
-                <IconButton
-                  disabled={isLoading}
-                  onClick={onClickWishList}
-                  aria-label="add to wishlist"
-                  size={isTablet ? 'small' : 'medium'}
-                >
-                  <IoMdHeartEmpty />
-                </IconButton>
-              </Tooltip>
-            )}
-            {loading ? (
-              <Skeleton variant="circular" width={isTablet ? 24 : 44} height={isTablet ? 24 : 44} />
-            ) : compareProducts?.filter((v) => v._id === _id).length > 0 ? (
-              <Tooltip title="Remove from cart">
-                <IconButton
-                  disabled={isLoading}
-                  onClick={onRemoveCompare}
-                  aria-label="Remove from compare"
-                  color="primary"
-                  size={isTablet ? 'small' : 'medium'}
-                >
-                  <GoGitCompare />
-                </IconButton>
-              </Tooltip>
-            ) : (
-              <Tooltip title="Add to compare">
-                <IconButton
-                  disabled={isLoading}
-                  onClick={onAddCompare}
-                  aria-label="add to compare"
-                  size={isTablet ? 'small' : 'medium'}
-                >
-                  <GoGitCompare />
-                </IconButton>
-              </Tooltip>
-            )}
-          </Stack>
         </Stack>
       </Stack>
       {open && <ProductDetailsDialog slug={product.slug} open={open} onClose={() => setOpen(false)} />}
