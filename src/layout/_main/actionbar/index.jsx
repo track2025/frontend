@@ -43,7 +43,7 @@ export default function Navbar({}) {
         sx={{
           boxShadow: 'none',
           position: 'sticky',
-          top: 101,
+          top: 117,
           zIndex: 999,
           borderRadius: 0,
           bgcolor: (theme) => theme.palette.primary.main,
