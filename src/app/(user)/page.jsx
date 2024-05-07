@@ -12,7 +12,8 @@ import TopCollections from 'src/components/_main/home/topCollections';
 import Brands from 'src/components/_main/home/brands';
 import WhyUs from 'src/components/_main/home/whyUs';
 import TopBanners from 'src/components/_main/home/topBanners';
-import ShopComponent from 'src/components/_main/home/shop';
+import BestSellerTwo from 'src/components/_main/home/bestSellerTwo';
+import BestSellerThree from 'src/components/_main/home/bestSellerThree';
 
 export default async function IndexPage() {
   return (
@@ -21,7 +22,7 @@ export default async function IndexPage() {
       <TopBanners />
       <Container maxWidth="xl">
         <Categories />
-        <ShopComponent />
+        {/* <ShopComponent /> */}
         <Suspense>
           <TopCollections />
         </Suspense>
@@ -30,6 +31,12 @@ export default async function IndexPage() {
       <Container maxWidth="xl">
         <Suspense>
           <BestSeller />
+        </Suspense>
+        <Suspense>
+          <BestSellerTwo />
+        </Suspense>
+        <Suspense>
+          <BestSellerThree />
         </Suspense>
         <Suspense>
           <Brands />

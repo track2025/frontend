@@ -7,7 +7,9 @@ import { FaAngleRight } from 'react-icons/fa6';
 
 // material
 import { alpha } from '@mui/material/styles';
-import { Box, Link, List, Paper, ListItem, Typography, Divider, Stack } from '@mui/material';
+import { Box, Link, List, Paper, ListItem, Typography, Divider, Stack, Button } from '@mui/material';
+import { IoShirtOutline } from 'react-icons/io5';
+
 //
 // import MenuHotProducts from './MenuHotProducts';
 // import MegaMenuCarousel from './MegaMenuCarousel';
@@ -45,8 +47,7 @@ function ParentItem({ path, title, open, hasSub, ...other }) {
       href={path || '/'}
       component={RouterLink}
       sx={{
-        pl: 2.5,
-        pr: 1.5,
+        padding: (theme) => theme.spacing(3.5, 2),
         height: ITEM_HEIGHT,
         cursor: 'pointer',
         color: 'text.primary',
@@ -54,13 +55,32 @@ function ParentItem({ path, title, open, hasSub, ...other }) {
         textTransform: 'capitalize',
         justifyContent: 'space-between',
         transition: (theme) => theme.transitions.create('all'),
+        borderBottom: (theme) => `1px solid ${theme.palette.divider}`,
         '&:hover': activeStyle,
         ...(open && activeStyle)
       }}
       {...other}
     >
-      {title}
-      {hasSub && <Box component={FaAngleRight} sx={{ ml: 1, width: 20, height: 20 }} />}
+      <Stack direction="row" spacing={2} alignItems="center">
+        <Box
+          component="span"
+          sx={{
+            bgcolor: (theme) => theme.palette.grey[300],
+            width: 32,
+            height: 32,
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+            borderRadius: '50%'
+          }}
+        >
+          <IoShirtOutline />
+        </Box>
+        <Typography variant="body1" color="text.primary" fontWeight={500}>
+          {title}
+        </Typography>
+      </Stack>
+      {hasSub && <Box component={FaAngleRight} sx={{ ml: 1, width: 10, height: 10 }} />}
     </ListItem>
   );
 }
@@ -156,14 +176,29 @@ export default function MegaMenuDesktopVertical({ ...other }) {
         minWidth: 280,
         bgcolor: '#fff',
         borderRadius: '8px',
-        height: 350,
+        height: 343,
         overflowY: 'auto',
-        overflowX: 'auto'
+        overflowX: 'auto',
+        border: (theme) => `1px solid ${theme.palette.divider}`
       }}
     >
-      {navConfig.map((parent) => (
+      {navConfig.slice(0, 5).map((parent) => (
         <MegaMenuItem key={parent.title} parent={parent} />
       ))}
+      <Button
+        variant="outlined"
+        fullWidth
+        endIcon={<FaAngleRight size={14} />}
+        sx={{
+          bgcolor: (theme) => theme.palette.primary.extraLight + '!important',
+          color: (theme) => theme.palette.primary.dark,
+          border: 'none !important',
+          borderRadius: 'unset',
+          paddingY: (theme) => theme.spacing(3.5)
+        }}
+      >
+        View All
+      </Button>
     </List>
   );
 }

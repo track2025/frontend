@@ -1,8 +1,9 @@
 import React from 'react';
 import { GoGitCompare } from 'react-icons/go';
 import { IconButton, Badge, alpha, Stack, Typography } from '@mui/material';
-
+import { useSelector } from 'react-redux';
 export default function wishlistWidget() {
+  const { products: compareProducts } = useSelector(({ compare }) => compare);
   return (
     <>
       <Stack
@@ -31,8 +32,8 @@ export default function wishlistWidget() {
           <Typography variant="subtitle2" color="text.primary" mb={-0.6}>
             Compare
           </Typography>
-          <Typography variant="body1" color="text.secondary">
-            3 Items
+          <Typography variant="body1" color="text.primary">
+            {compareProducts?.length} Items
           </Typography>
         </Stack>
       </Stack>
