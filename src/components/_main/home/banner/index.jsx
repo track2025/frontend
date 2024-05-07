@@ -6,6 +6,7 @@ import { alpha } from '@mui/material/styles';
 import { Box, Typography, Grid, Button, Container, Stack } from '@mui/material';
 // blur image
 import Image from 'next/image';
+import { IoIosArrowForward } from 'react-icons/io';
 
 export default function Banner() {
   return (
@@ -37,13 +38,13 @@ export default function Banner() {
           width: '100%',
           overflow: 'hidden',
           py: 1,
-          bgcolor: (theme) => alpha(theme.palette.success.main, 0.2),
+          bgcolor: (theme) => theme.palette.primary.extraLight,
           '&:before': {
             content: "''",
             position: 'absolute',
             top: '-40px',
             left: '40%',
-            bgcolor: (theme) => alpha(theme.palette.success.main, 0.77),
+            bgcolor: (theme) => alpha(theme.palette.primary.main, 0.77),
             height: 100,
             width: 100,
             borderRadius: '50px',
@@ -64,7 +65,17 @@ export default function Banner() {
                   luxury brands around the globe.
                 </Typography>
                 <Box>
-                  <Button component={Link} href="/products" variant="contained" color="success" size="large">
+                  <Button
+                    component={Link}
+                    href="/products"
+                    variant="contained"
+                    color="primary"
+                    size="large"
+                    endIcon={<IoIosArrowForward />}
+                    sx={{
+                      borderRadius: 6
+                    }}
+                  >
                     View more
                   </Button>
                 </Box>
@@ -81,7 +92,7 @@ export default function Banner() {
                     top: 0,
                     transform: 'translateY(10%)',
                     borderRadius: '50%',
-                    bgcolor: 'success.main',
+                    bgcolor: 'primary.main',
                     display: 'block',
                     p: { md: '50%', xs: '50%' }
                   }

@@ -24,14 +24,30 @@ export default function ShopComponent() {
           mt: 5
         }}
       >
-        <Box>
-          <Typography variant="h2" color="text.primary" textAlign="center">
-            All Shops
-          </Typography>
-          <Typography variant="body1" color="text.secondary" textAlign="center">
-            Lorem Ipsum Is Simply Dummy Text Of The Printing And Typesetting Industry.
-          </Typography>
-        </Box>
+        <Stack direction="row" justifyContent="space-between" alignItems="center">
+          <Box>
+            <Typography variant="h2" color="text.primary" mt={{ xs: 5, md: 8 }}>
+              Best Shops
+            </Typography>
+            <Typography variant="body1" color="text.secondary" mb={5}>
+              Our Highest Rated Shops Where You Can Find What You Are Looking For
+            </Typography>
+          </Box>
+          <Button
+            variant="contained"
+            color="primary"
+            size="large"
+            sx={{
+              borderRadius: 6
+            }}
+            endIcon={<IoIosArrowForward />}
+            component={NextLink}
+            href={``}
+          >
+            View More
+          </Button>
+        </Stack>
+
         <Box>
           <Grid container spacing={2} justifyContent="center" alignItems="center">
             {(isLoading ? Array.from(new Array(6)) : data?.data).map((inner) => (
