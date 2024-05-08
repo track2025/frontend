@@ -14,7 +14,7 @@ export default function ProductList({ ...props }) {
       <Grid container spacing={isMobile ? 1 : 2}>
         {!isLoading && products?.length < 1 && <NoDataFound />}
         {(isLoading ? Array.from(new Array(6)) : products)?.map((product) => (
-          <Grid key={Math.random()} item lg={4} md={4} sm={4} xs={6} sx={{ transition: 'all 0.3s ease-in-out' }}>
+          <Grid key={Math.random()} item lg={3} md={3} sm={4} xs={6} sx={{ transition: 'all 0.3s ease-in-out' }}>
             <ProductCard product={product} loading={isLoading} isMobile={isMobile} />
           </Grid>
         ))}
