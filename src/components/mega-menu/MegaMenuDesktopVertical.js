@@ -179,7 +179,8 @@ export default function MegaMenuDesktopVertical({ ...other }) {
         height: 343,
         overflowY: 'auto',
         overflowX: 'auto',
-        border: (theme) => `1px solid ${theme.palette.divider}`
+        border: (theme) => `1px solid ${theme.palette.divider}`,
+        display: { md: 'block', xs: 'none' }
       }}
     >
       {navConfig.slice(0, 5).map((parent) => (

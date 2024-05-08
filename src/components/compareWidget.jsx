@@ -6,10 +6,19 @@ export default function wishlistWidget() {
   const { products: compareProducts } = useSelector(({ compare }) => compare);
   return (
     <>
-      <Stack direction="row" spacing={1} alignItems="center" width="auto">
+      <Stack
+        direction="row"
+        spacing={1}
+        alignItems="center"
+        width="auto"
+        sx={{
+          cursor: 'pointer'
+        }}
+      >
         <IconButton
           aria-label="compare"
           color="primary"
+          disableRipple
           sx={{
             borderColor: 'primary',
             borderWidth: 1,
@@ -20,11 +29,11 @@ export default function wishlistWidget() {
           <GoGitCompare />
         </IconButton>
         <Stack>
-          <Typography variant="subtitle2" color="text.primary" mb={0}>
+          <Typography variant="subtitle2" color="text.primary" mb={-0.6}>
             Compare
           </Typography>
-          <Typography variant="body1" color="text.primary">
-            {compareProducts?.length} Items
+          <Typography variant="body1" color="text.secondary">
+            {compareProducts?.length} {compareProducts?.length > 1 ? 'Items' : 'Item'}
           </Typography>
         </Stack>
       </Stack>

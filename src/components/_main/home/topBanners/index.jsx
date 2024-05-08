@@ -17,7 +17,7 @@ export default function Index() {
     <Box my={6}>
       <Container maxWidth="xl">
         <Grid container spacing={3}>
-          <Grid item lg={6} md={6} xs={6}>
+          <Grid item lg={6} md={6} xs={12} sm={6}>
             <Card
               sx={{
                 display: 'flex',
@@ -40,15 +40,15 @@ export default function Index() {
                     width: {
                       xl: '320px !important',
                       lg: '300px !important',
-                      md: '170px !important',
+                      md: '220px !important',
                       xs: '170px !important'
                     },
                     fontSize: {
                       xl: 38,
                       lg: 38,
-                      md: 24,
+                      md: 28,
                       sm: 20,
-                      xs: 12
+                      xs: 20
                     }
                   }}
                 >
@@ -85,7 +85,7 @@ export default function Index() {
                   width: { xs: 150, md: 280, lg: 294, xl: 340 },
                   height: { xs: 151, md: 290, lg: 290, xl: 320 },
                   zIndex: 1,
-                  transform: { lg: 'scale(1.1)', md: 'scale(1.5)', xs: 'scale(1.5)' }
+                  transform: { lg: 'scale(1.1)', md: 'scale(1.2)', xs: 'scale(1.3)' }
                 }}
               >
                 <Image
@@ -100,7 +100,7 @@ export default function Index() {
             </Card>
           </Grid>
           {/* card 2  */}
-          <Grid item lg={6} md={6} xs={6}>
+          <Grid item lg={6} md={6} xs={12} sm={6}>
             <Card
               sx={{
                 display: 'flex',
@@ -113,7 +113,7 @@ export default function Index() {
                 borderRadius: 1,
                 boxShadow: 'none',
                 height: '100%',
-                paddingX: { lg: theme.spacing(3), md: theme.spacing(1) }
+                paddingX: { lg: theme.spacing(3), md: theme.spacing(1), xs: theme.spacing(1) }
               }}
             >
               <Stack spacing={isDeskTop ? 1 : 1.5} sx={{ p: { sm: '24px', xs: '12px' } }}>
@@ -125,15 +125,15 @@ export default function Index() {
                     width: {
                       xl: '320px !important',
                       lg: '300px !important',
-                      md: '170px !important',
+                      md: '220px !important',
                       xs: '170px !important'
                     },
                     fontSize: {
                       xl: 38,
                       lg: 38,
-                      md: 24,
+                      md: 28,
                       sm: 20,
-                      xs: 12
+                      xs: 20
                     }
                   }}
                 >
@@ -170,7 +170,8 @@ export default function Index() {
                   width: { xs: 150, md: 280, lg: 294, xl: 340 },
                   height: { xs: 151, md: 290, lg: 290, xl: 320 },
                   zIndex: 1,
-                  transform: { lg: 'scale(1.1)', md: 'scale(1.5)', xs: 'scale(1.5)' }
+                  transform: { lg: 'scale(1.1)', md: 'scale(1.2)', xs: 'scale(1.3)' },
+                  marginLeft: { xs: '-40px', md: 0 }
                 }}
               >
                 <Image

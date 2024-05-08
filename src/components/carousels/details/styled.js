@@ -1,12 +1,12 @@
 import { styled, alpha } from '@mui/material/styles';
-import { Box } from '@mui/material';
-const RootStyled = styled(Box)(({ theme }) => ({
+import { Card } from '@mui/material';
+const RootStyled = styled(Card)(({ theme }) => ({
   width: '100%',
-  position: 'relative',
+
+  position: 'sticky',
+  top: 128,
   overflow: 'hidden',
   paddingTop: '100%',
-
-  borderRadius: 0,
   '& .motion-dev': {
     position: 'absolute',
     width: '100%',
@@ -20,7 +20,7 @@ const RootStyled = styled(Box)(({ theme }) => ({
     backgroundColor: 'transparent',
     borderRadius: 0,
     img: {
-      borderRadius: '8px',
+      borderRadius: '16px',
       objectPosition: 'center',
       border: `1px solid ${theme.palette.divider}`,
       ...(theme.direction === 'rtl' && {
@@ -38,7 +38,10 @@ const RootStyled = styled(Box)(({ theme }) => ({
   },
   '& .controls-wrapper': {
     paddingTop: theme.spacing(2),
-    overflow: 'auto',
+    width: '100%',
+    overflowX: 'auto',
+    paddingLeft: theme.spacing(2),
+    paddingRight: theme.spacing(2),
     '& .controls-button': {
       minWidth: 60,
       minHeight: 60,

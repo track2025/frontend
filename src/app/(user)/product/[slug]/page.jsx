@@ -62,32 +62,22 @@ export default async function ProductDetail({ params: { slug } }) {
             }
           ]}
         />
-        <>
-          <Card
-            sx={{
-              p: 2,
-              mt: 4,
-              borderWidth: 0,
-              bgcolor: 'background.paper',
-              mb: 3
-            }}
-          >
-            <Grid container spacing={2} justifyContent="center">
-              <Grid item xs={12} sm={8} md={6} lg={6}>
-                <ProductDetailsCarousel slug={slug} product={data} data={data} />
-              </Grid>
-              <Grid item xs={12} md={6} lg={6}>
-                <ProductDetailsSumary
-                  id={data?._id}
-                  product={data}
-                  brand={brand}
-                  category={category}
-                  totalRating={totalRating}
-                  totalReviews={totalReviews}
-                />
-              </Grid>
+        <Box mt={4}>
+          <Grid container spacing={2} justifyContent="center">
+            <Grid item xs={12} sm={6} md={4} lg={4}>
+              <ProductDetailsCarousel slug={slug} product={data} data={data} />
             </Grid>
-          </Card>
+            <Grid item xs={12} md={8} lg={8}>
+              <ProductDetailsSumary
+                id={data?._id}
+                product={data}
+                brand={brand}
+                category={category}
+                totalRating={totalRating}
+                totalReviews={totalReviews}
+              />
+            </Grid>
+          </Grid>
           <Suspense fallback={<></>}>
             <ProductDetailTabs
               product={{ description: data.description, _id: data._id }}
@@ -99,7 +89,7 @@ export default async function ProductDetail({ params: { slug } }) {
           <Suspense fallback={<></>}>
             <RelatedProductsCarousel id={data._id} category={category?.slug} />
           </Suspense>
-        </>
+        </Box>
       </Container>
     </Box>
   );

@@ -2,12 +2,14 @@
 import React from 'react';
 import NextLink from 'next/link';
 // mui
-import { Grid, Button, Typography, Box } from '@mui/material';
+import { Grid, Button, Typography, Box, Stack } from '@mui/material';
 // icons
 import { IoIosArrowForward } from 'react-icons/io';
 // api
 import * as api from 'src/services';
 import { useQuery } from 'react-query';
+
+import TodayCountDown from '../todayCountDown';
 // components
 import ProductCard from 'src/components/cards/product';
 export default function TopCollections() {
@@ -15,22 +17,58 @@ export default function TopCollections() {
 
   return (
     <Box>
-      <Typography variant="h2" color="text.primary" textAlign="center" mt={{ xs: 5, md: 8 }}>
-        Top Collections
-      </Typography>
-      <Typography variant="body1" color="text.secondary" textAlign="center" mb={5}>
-        Lorem Ipsum Is Simply Dummy Text Of The Printing And Typesetting Industry.
-      </Typography>
+      <Stack direction="row" justifyContent="space-between" alignItems="center">
+        <Box>
+          <Typography variant="h2" color="text.primary" mt={{ xs: 5, md: 8 }}>
+            Today Deal
+          </Typography>
+          <Typography variant="body1" color="text.secondary" mb={5}>
+            Choose your necessary products from this feature category
+          </Typography>
+        </Box>
+        <Button
+          variant="contained"
+          color="primary"
+          size="large"
+          sx={{
+            borderRadius: 6
+          }}
+          endIcon={<IoIosArrowForward />}
+          component={NextLink}
+          href={`/products?top=-1`}
+        >
+          View More
+        </Button>
+      </Stack>
 
-      <Grid container spacing={2} justifyContent="center">
-        {(isLoading ? Array.from(new Array(8)) : data?.data).map((item, index) => (
-          <Grid item xs={6} sm={6} md={4} lg={3} key={index}>
-            <ProductCard product={item} loading={isLoading} />
-          </Grid>
-        ))}
-      </Grid>
+      <Stack direction="row" spacing={2}>
+        <Box>
+          <TodayCountDown />
+        </Box>
+        <Grid container spacing={2} justifyContent="center">
+          {(isLoading ? Array.from(new Array(2)) : data?.data).map((item, index) => (
+            <>
+              <Grid item xs={6} sm={6} md={4} lg={3} key={index}>
+                <ProductCard product={item} loading={isLoading} />
+              </Grid>
+              <Grid item xs={6} sm={6} md={4} lg={3} key={index}>
+                <ProductCard product={item} loading={isLoading} />
+              </Grid>
+              <Grid item xs={6} sm={6} md={4} lg={3} key={index}>
+                <ProductCard product={item} loading={isLoading} />
+              </Grid>
+              <Grid item xs={6} sm={6} md={4} lg={3} key={index}>
+                <ProductCard product={item} loading={isLoading} />
+              </Grid>
+              <Grid item xs={6} sm={6} md={4} lg={3} key={index}>
+                <ProductCard product={item} loading={isLoading} />
+              </Grid>
+            </>
+          ))}
+        </Grid>
+      </Stack>
 
-      {Boolean(data?.data?.length > 7) && (
+      {/* {Boolean(data?.data?.length > 7) && (
         <Button
           size="large"
           color="primary"
@@ -47,7 +85,7 @@ export default function TopCollections() {
         >
           View All
         </Button>
-      )}
+      )} */}
       {!isLoading && !Boolean(data?.data.length) && (
         <Typography variant="h3" color="error.main" textAlign="center">
           Products not found
