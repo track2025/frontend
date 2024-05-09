@@ -34,8 +34,9 @@ export default async function RootLayout({ children }) {
       <ActionBar /> */}
       {/* <Box sx={{ height: 100, display: { xs: 'none', md: 'flex' } }} /> */}
       {children}
-      {/* <Box sx={{ py: { xs: 5, md: 3 } }} />
-      <Footer /> */}
+ 
+      <Footer />
+ 
     </>
   );
 }

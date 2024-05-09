@@ -44,7 +44,7 @@ import { FaRegStar } from 'react-icons/fa';
 import ColorPreviewGroup from 'src/components/colorPreviewGroup';
 const ProductDetailsDialog = dynamic(() => import('../dialog/productDetails'));
 export default function ShopProductCard({ ...props }) {
-  const { product, loading } = props;
+  const { product, loading, isSmall } = props;
 
   const [open, setOpen] = useState(false);
   const [openActions, setOpenActions] = useState(false);
@@ -190,7 +190,7 @@ export default function ShopProductCard({ ...props }) {
                     aria-label="add to cart"
                     disabled={loading || product?.available < 1}
                     onClick={() => setOpen(true)}
-                    size={isTablet ? 'small' : 'medium'}
+                    size={isTablet || isSmall ? 'small' : 'medium'}
                   >
                     <GoEye />
                   </IconButton>
@@ -206,7 +206,7 @@ export default function ShopProductCard({ ...props }) {
                     onClick={onClickWishList}
                     aria-label="Remove from cart"
                     color="primary"
-                    size={isTablet ? 'small' : 'medium'}
+                    size={isTablet || isSmall ? 'small' : 'medium'}
                   >
                     <IoIosHeart />
                   </IconButton>
@@ -217,7 +217,7 @@ export default function ShopProductCard({ ...props }) {
                     disabled={isLoading}
                     onClick={onClickWishList}
                     aria-label="add to wishlist"
-                    size={isTablet ? 'small' : 'medium'}
+                    size={isTablet || isSmall ? 'small' : 'medium'}
                   >
                     <IoMdHeartEmpty />
                   </IconButton>
@@ -232,7 +232,7 @@ export default function ShopProductCard({ ...props }) {
                     onClick={onRemoveCompare}
                     aria-label="Remove from compare"
                     color="primary"
-                    size={isTablet ? 'small' : 'medium'}
+                    size={isTablet || isSmall ? 'small' : 'medium'}
                   >
                     <GoGitCompare />
                   </IconButton>
@@ -243,7 +243,7 @@ export default function ShopProductCard({ ...props }) {
                     disabled={isLoading}
                     onClick={onAddCompare}
                     aria-label="add to compare"
-                    size={isTablet ? 'small' : 'medium'}
+                    size={isTablet || isSmall ? 'small' : 'medium'}
                   >
                     <GoGitCompare />
                   </IconButton>
