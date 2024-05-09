@@ -1,10 +1,9 @@
 import { styled, alpha } from '@mui/material/styles';
-import { Card } from '@mui/material';
-const RootStyled = styled(Card)(({ theme }) => ({
+import { Box } from '@mui/material';
+const RootStyled = styled(Box)(({ theme }) => ({
   width: '100%',
-
   position: 'sticky',
-  top: 128,
+  top: 20,
   overflow: 'hidden',
   paddingTop: '100%',
   '& .motion-dev': {

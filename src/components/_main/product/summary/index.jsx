@@ -12,7 +12,7 @@ import {
   FormHelperText,
   Skeleton,
   Rating,
-  useMediaQuery,
+  Tooltip,
   Grid,
   Card,
   alpha,
@@ -52,6 +52,7 @@ import { MdLockOutline } from 'react-icons/md';
 import { FaRegStar } from 'react-icons/fa';
 import { TbMessage } from 'react-icons/tb';
 
+import { addCompareProduct, removeCompareProduct } from '../../../../lib/redux/slices/compare';
 import { MdOutlineShoppingBasket } from 'react-icons/md';
 
 ProductDetailsSumary.propTypes = {
@@ -101,6 +102,7 @@ Incrementer.propTypes = {
 export default function ProductDetailsSumary({ ...props }) {
   const { product, isLoading, totalReviews, totalRating, brand, category, id } = props;
   const { isAuthenticated } = useSelector(({ user }) => user);
+  const { products: compareProducts } = useSelector(({ compare }) => compare);
   const [loading, setLoading] = useState(false);
   const [isClient, setIsClient] = useState(false);
   const [color, setColor] = useState(0);
@@ -209,6 +211,15 @@ export default function ProductDetailsSumary({ ...props }) {
     setLoaded(true);
   }, []);
 
+  const onAddCompare = async (event) => {
+    event.stopPropagation();
+    dispatch(addCompareProduct(product));
+  };
+
+  const onRemoveCompare = async (event) => {
+    event.stopPropagation();
+    dispatch(removeCompareProduct(product?._id));
+  };
   return (
     <RootStyled>
       <FormikProvider value={formik}>
@@ -219,7 +230,6 @@ export default function ProductDetailsSumary({ ...props }) {
                 <Typography noWrap variant="h4" paragraph className="heading">
                   {product?.name}
                 </Typography>
-                <Typography variant="body1"> {product?.description}</Typography>
 
                 <Stack spacing={1} mt={1} mb={3}>
                   <Stack direction="row" alignItems="center" justifyContent="space-between" spacing={1}>
@@ -271,49 +281,14 @@ export default function ProductDetailsSumary({ ...props }) {
                     <SizePreview size={size} setSize={setSize} sizes={product?.sizes} isDetail />
                   </Stack>
                 </Stack>
-                <Stack spacing={2} className="detail-actions-wrapper">
-                  <Stack direction="row">
-                    <Stack direction="row" spacing={0.5}>
-                      <IconButton
-                        aria-label="copy"
-                        onClick={() => {
-                          navigator.clipboard.writeText(window?.location.href);
-                          toast.success('Link copied.');
-                        }}
-                      >
-                        <MdContentCopy size={24} />
-                      </IconButton>
-                      {isClient && (
-                        <>
-                          <WhatsappShareButton url={window?.location.href || ''}>
-                            <IconButton sx={{ color: '#42BC50' }} aria-label="whatsapp">
-                              <IoLogoWhatsapp size={24} />
-                            </IconButton>
-                          </WhatsappShareButton>
-                          <FacebookShareButton url={window?.location.href || ''}>
-                            <IconButton sx={{ color: '#1373EC' }} aria-label="facebook">
-                              <FaFacebook size={24} />
-                            </IconButton>
-                          </FacebookShareButton>
-                          <TwitterShareButton url={window?.location.href || ''}>
-                            <IconButton sx={{ color: 'text.primary' }} aria-label="twitter">
-                              <FaXTwitter size={24} />
-                            </IconButton>
-                          </TwitterShareButton>
-                          <LinkedinShareButton url={window?.location.href || ''}>
-                            <IconButton sx={{ color: '#0962B7' }} aria-label="linkedin">
-                              <FaLinkedin size={24} />
-                            </IconButton>
-                          </LinkedinShareButton>
-                        </>
-                      )}
-                    </Stack>
-                  </Stack>
-                </Stack>
+                <Typography variant="subtitle1">Description:</Typography>
+                <Typography variant="body1"> {product?.description}</Typography>
+                <Typography variant="body1"> {product?.description}</Typography>
+                <Typography variant="body1"> {product?.description}</Typography>
               </Card>
             </Grid>
             <Grid item xs={12} md={5}>
-              <Card sx={{ p: 2, position: 'sticky', top: 28 }}>
+              <Card sx={{ p: 2, position: 'sticky', top: 20 }}>
                 <Typography variant="h4" className="text-price">
                   {!isLoading && isLoaded && fCurrency(product?.priceSale)} &nbsp;
                   {product?.price <= product?.priceSale ? null : (
@@ -351,29 +326,18 @@ export default function ProductDetailsSumary({ ...props }) {
                 <Stack spacing={1} className="contained-buttons" mb={2}>
                   <Button
                     fullWidth
-                    disabled={loading}
-                    onClick={onClickWishList}
+                    disabled={isMaxQuantity || isLoading || product?.available < 1}
+                    // size={isMobile ? 'medium' : 'large'}
                     type="button"
                     color="primary"
                     variant="text"
+                    onClick={() => handleAddCart(product)}
                     sx={{
                       background: (theme) => alpha(theme.palette.primary.main, 0.3),
                       ':hover': {
                         background: (theme) => alpha(theme.palette.primary.main, 0.3)
                       }
                     }}
-                  >
-                    Add to Wishlist
-                  </Button>
-
-                  <Button
-                    fullWidth
-                    disabled={isMaxQuantity || isLoading || product?.available < 1}
-                    // size={isMobile ? 'medium' : 'large'}
-                    type="button"
-                    color="primary"
-                    variant="contained"
-                    onClick={() => handleAddCart(product)}
                   >
                     Add to Cart
                   </Button>
@@ -383,11 +347,77 @@ export default function ProductDetailsSumary({ ...props }) {
                     // size={isMobile ? 'medium' : 'large'}
                     type="submit"
                     variant="contained"
-                    color="secondary"
+                    color="primary"
                   >
                     Buy Now
                   </Button>
+                  <Button
+                    fullWidth
+                    disabled={loading}
+                    onClick={onClickWishList}
+                    type="button"
+                    color="secondary"
+                    variant="contained"
+                  >
+                    Add to Wishlist
+                  </Button>
+                  {compareProducts?.filter((v) => v._id === product._id).length > 0 ? (
+                    <Button fullWidth onClick={onRemoveCompare} type="button" color="error" variant="contained">
+                      Remove from Compare
+                    </Button>
+                  ) : (
+                    <Button fullWidth onClick={onAddCompare} type="button" color="error" variant="contained">
+                      Add to Compare
+                    </Button>
+                  )}
+
+                  <Stack direction="row" spacing={0.5} justifyContent={'center'}>
+                    <Tooltip title="Copy Prooduct URL">
+                      <IconButton
+                        aria-label="copy"
+                        onClick={() => {
+                          navigator.clipboard.writeText(window?.location.href);
+                          toast.success('Link copied.');
+                        }}
+                      >
+                        <MdContentCopy size={24} />
+                      </IconButton>
+                    </Tooltip>
+                    {isClient && (
+                      <>
+                        <Tooltip title="Share on WhatsApp">
+                          <WhatsappShareButton url={window?.location.href || ''}>
+                            <IconButton sx={{ color: '#42BC50' }} aria-label="whatsapp">
+                              <IoLogoWhatsapp size={24} />
+                            </IconButton>
+                          </WhatsappShareButton>
+                        </Tooltip>
+                        <Tooltip title="Share on Facebook">
+                          <FacebookShareButton url={window?.location.href || ''}>
+                            <IconButton sx={{ color: '#1373EC' }} aria-label="facebook">
+                              <FaFacebook size={24} />
+                            </IconButton>
+                          </FacebookShareButton>
+                        </Tooltip>
+                        <Tooltip title="Share on Twitter">
+                          <TwitterShareButton url={window?.location.href || ''}>
+                            <IconButton sx={{ color: 'text.primary' }} aria-label="twitter">
+                              <FaXTwitter size={24} />
+                            </IconButton>
+                          </TwitterShareButton>
+                        </Tooltip>
+                        <Tooltip title="Share on LinkedIn">
+                          <LinkedinShareButton url={window?.location.href || ''}>
+                            <IconButton sx={{ color: '#0962B7' }} aria-label="linkedin">
+                              <FaLinkedin size={24} />
+                            </IconButton>
+                          </LinkedinShareButton>
+                        </Tooltip>
+                      </>
+                    )}
+                  </Stack>
                 </Stack>
+
                 <Divider />
                 {shippingData.map((item, index) => (
                   <Stack

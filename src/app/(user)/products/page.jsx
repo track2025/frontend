@@ -4,12 +4,10 @@ import { Box } from '@mui/material';
 import Container from '@mui/material/Container';
 
 // components
-// import Filter from 'src/components/_main/products/filters';
 import HeaderBreadcrumbs from 'src/components/headerBreadcrumbs';
 import ProductList from 'src/components/_main/products';
 
 export default async function Listing() {
-  // const data = await getAllFilters();
   return (
     <Box>
       <Box sx={{ bgcolor: 'background.default' }}>
@@ -26,21 +24,7 @@ export default async function Listing() {
               }
             ]}
           />
-          {/* <Grid container spacing={3}>
-            <Grid
-              item
-              md={3}
-              xs={0}
-              sx={{
-                display: { xs: 'none', md: 'block' }
-              }}
-            >
-              
-              <Filter pathname="/products" fetchFilters={'getAllFilters'} />
-            </Grid>
-            <Grid item md={9} xs={12}>
-            </Grid>
-          </Grid> */}
+
           <ProductList fetchFilters={'getAllFilters'} />
         </Container>
       </Box>

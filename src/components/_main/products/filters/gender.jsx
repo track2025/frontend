@@ -67,7 +67,8 @@ export default function GenderMain({ ...props }) {
         setstate({ ...state, genders: filtered });
         push(`${path}?` + createQueryString('gender', filtered.join('_')));
       } else {
-        push(`${path}?` + createQueryString('gender', ''));
+        const deleted = deleteQueryString('gender');
+        push(path + '?' + deleted);
       }
     }
   };

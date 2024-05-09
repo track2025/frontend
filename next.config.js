@@ -3,13 +3,6 @@
 // });
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  reactStrictMode: true,
-  swcMinify: true,
-  webpack: (config) => {
-    config.resolve.fallback = { fs: false };
-    return config;
-  },
-
   env: {
     BASE_URL: process.env.BASE_URL,
     CLOUDINARY_CLOUD_NAME: process.env.CLOUDINARY_CLOUD_NAME,

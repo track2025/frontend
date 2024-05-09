@@ -64,7 +64,8 @@ export default function ColorsMain({ ...props }) {
         setstate({ ...state, colors: filtered });
         push(`${path}?` + createQueryString('colors', filtered.join('_')));
       } else {
-        push(`${path}?` + createQueryString('colors', ''));
+        const deleted = deleteQueryString('colors');
+        push(path + '?' + deleted);
       }
     }
   };

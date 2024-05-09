@@ -36,7 +36,7 @@ ProductDetailsReviewList.propTypes = {
 
 function ReviewItem({ ...props }) {
   const { review, isLoading } = props;
-  console.log(review, 'review');
+
   return (
     <Box pt={2}>
       <ListItem
@@ -111,25 +111,28 @@ function ReviewItem({ ...props }) {
           {<Rating size="small" value={review.rating} precision={0.1} readOnly />}
         </Box>
       </ListItem>
-      <Box p={3}>
-        <Grid container spacing={2} sx={{ img: { borderRadius: '8px' } }}>
-          {!isLoading &&
-            review.images.map((image) => (
-              <Grid item xs={6} md={3} lg={2} key={Math.random()}>
-                <Box
-                  sx={{
-                    position: 'relative',
-                    height: 100
-                  }}
-                >
-                  {' '}
-                  <Image src={image.url} alt={review.name + "'s review"} layout="fill" objectFit="cover" />
-                </Box>
-              </Grid>
-            ))}
-        </Grid>
-      </Box>
-      <Divider />
+      {!isLoading && Boolean(review.images.length) ? (
+        <>
+          <Box p={3}>
+            <Grid container spacing={2} sx={{ img: { borderRadius: '8px' } }}>
+              {review.images.map((image) => (
+                <Grid item xs={6} md={3} lg={2} key={Math.random()}>
+                  <Box
+                    sx={{
+                      position: 'relative',
+                      height: 100
+                    }}
+                  >
+                    {' '}
+                    <Image src={image.url} alt={review.name + "'s review"} layout="fill" objectFit="cover" />
+                  </Box>
+                </Grid>
+              ))}
+            </Grid>
+          </Box>
+        </>
+      ) : null}
+      <Divider />{' '}
     </Box>
   );
 }

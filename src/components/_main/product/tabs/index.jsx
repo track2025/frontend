@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 import * as api from 'src/services';
 // usequery
 import { useQuery } from 'react-query';
-
+import ProductDetailsReview from '../reviews';
 TabsIndex.propTypes = {
   product: PropTypes.object.isRequired,
   totalRating: PropTypes.number.isRequired,
@@ -14,15 +14,17 @@ TabsIndex.propTypes = {
 
 export default async function TabsIndex({ product, totalRating, totalReviews }) {
   const { data, isLoading } = useQuery(['brands'], () => api.getProductReviews(product._id));
-
-  return (
-    <Tabs
+  console.log(data, 'data data data');
+  return !isLoading ? (
+    <ProductDetailsReview
       isLoading={isLoading}
-      reviews={data?.reviews}
       reviewsSummery={data?.reviewsSummery}
-      product={product}
       totalRating={totalRating}
       totalReviews={totalReviews}
+      reviews={data?.reviews}
+      pid={product?._id}
     />
+  ) : (
+    <></>
   );
 }

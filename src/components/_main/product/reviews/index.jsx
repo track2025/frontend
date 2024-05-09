@@ -1,6 +1,6 @@
 import { useState } from 'react';
 // mui
-import { Divider, Collapse, Grid } from '@mui/material';
+import { Divider, Collapse, Grid, Box, Card } from '@mui/material';
 // components
 import ReviewForm from 'src/components/forms/reviews';
 import ReviewOverview from 'src/components/_main/product/reviews/overview';
@@ -37,31 +37,42 @@ export default function ProductReview({ ...props }) {
   };
 
   return (
-    <>
-      <Grid container>
-        <Grid item xs={12} md={4}>
-          <ReviewOverview
-            totalRating={totalRating}
-            totalReviews={totalReviews}
-            reviews={[...state, ...reviews]}
-            onOpen={handleOpenReviewBox}
-            reviewsSummery={reviewsSummery}
-          />
-        </Grid>
+    <Box sx={{ my: 5 }}>
+      <Grid container spacing={3}>
         <Grid item xs={12} md={8}>
           <Collapse in={reviewBox}>
-            <ReviewForm
-              onAddingReview={(v) => setstate([v, ...state])}
-              pid={pid}
-              onClose={handleCloseReviewBox}
-              id="move_add_review"
-              onClickCancel={() => setReviewBox(false)}
-            />
-            <Divider />
+            <Card sx={{ mb: 3 }}>
+              <ReviewForm
+                onAddingReview={(v) => setstate([v, ...state])}
+                pid={pid}
+                onClose={handleCloseReviewBox}
+                id="move_add_review"
+                onClickCancel={() => setReviewBox(false)}
+              />
+            </Card>
           </Collapse>
-          <ReviewsList reviews={[...state, ...reviews]} />
+
+          <Card>
+            <ReviewsList reviews={[...state, ...reviews]} />
+            <ReviewsList reviews={[...state, ...reviews]} />
+            <ReviewsList reviews={[...state, ...reviews]} />
+            <ReviewsList reviews={[...state, ...reviews]} />
+            <ReviewsList reviews={[...state, ...reviews]} />
+            <ReviewsList reviews={[...state, ...reviews]} />
+          </Card>
+        </Grid>
+        <Grid item xs={12} md={4}>
+          <Card sx={{ position: 'sticky', top: 20 }}>
+            <ReviewOverview
+              totalRating={totalRating}
+              totalReviews={totalReviews}
+              reviews={[...state, ...reviews]}
+              onOpen={handleOpenReviewBox}
+              reviewsSummery={reviewsSummery}
+            />
+          </Card>
         </Grid>
       </Grid>
-    </>
+    </Box>
   );
 }
