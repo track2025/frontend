@@ -45,8 +45,8 @@ export default async function IndexPage() {
         <Suspense>
           <Brands />
         </Suspense>
-        <WhyUs />
       </Container>
+      <WhyUs />
     </>
   );
 }

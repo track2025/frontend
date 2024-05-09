@@ -3,74 +3,90 @@
 import React from 'react';
 
 // mui
-import { alpha } from '@mui/material/styles';
-import { Typography, Container, Stack, Box, IconButton } from '@mui/material';
+import { alpha, useTheme } from '@mui/material/styles';
+import { Typography, Container, Stack, Box, IconButton, Grid, Link, Fab, Divider } from '@mui/material';
 // next
 import NextLink from 'next/link';
 // components
 import NewsLetter from './newsletter';
 
+import MainLogo from 'src/components/mainLogo';
+
 // icons
-import { IoLogoInstagram } from 'react-icons/io5';
-import { FaFacebook, FaLinkedin } from 'react-icons/fa';
-import { IoLogoYoutube } from 'react-icons/io';
+import { FaFacebookF, FaInstagram, FaLinkedinIn } from 'react-icons/fa';
+import { MdOutlineLocationOn } from 'react-icons/md';
+import { FiMail } from 'react-icons/fi';
+import { MdOutlineCall } from 'react-icons/md';
 
 const SOCIAL_MEDIA_LINK = [
   {
-    name: 'facebook',
     linkPath: 'https://www.facebook.com/techgater',
-    icon: <FaFacebook className="facebook" />
+    icon: <FaFacebookF size={18} />
   },
   {
-    name: 'instagram',
     linkPath: 'https://www.instagram.com/techgater',
-    icon: <IoLogoInstagram className="insta" />
+    icon: <FaInstagram size={18} />
   },
   {
-    name: 'linkedin',
     linkPath: 'https://www.linkedin.com/company/89683736/admin',
-    icon: <FaLinkedin className="linkedin" />
+    icon: <FaLinkedinIn size={18} />
+  }
+];
+
+const ADDRESS = [
+  {
+    name: ' 8819 Ohio St. South Gate, CA 90280',
+    icon: <MdOutlineLocationOn />
   },
   {
-    name: 'youtube',
-    linkPath: 'https://www.youtube.com/@techgaterwebsolutions7394',
-    icon: <IoLogoYoutube className="youtube" />
+    name: 'Ourstudio@hello.com',
+    linkPath: '/',
+    icon: <FiMail fontSize={20} />
+  },
+  {
+    name: '+1 386-688-3295',
+    linkPath: '/',
+    icon: <MdOutlineCall />
+  }
+];
+
+const MAIN_LINKS = [
+  {
+    heading: 'Resource',
+    listText1: 'Support',
+    listLink1: '#',
+    listText2: 'Updates',
+    listLink2: '#',
+    listText3: 'Roadmap',
+    listLink3: '#',
+    listText4: 'Providers',
+    listLink4: '#',
+    listText5: 'Affiliat',
+    listLink5: '#'
+  },
+  {
+    heading: 'Company',
+    listText1: 'Product',
+    listLink1: '#',
+    listText2: 'Men',
+    listLink2: '#',
+    listText3: 'Women',
+    listLink3: '#',
+    listText4: 'Kids',
+    listLink4: '#'
   }
 ];
 
 export default function Footer() {
+  const theme = useTheme();
   return (
     <Box
       sx={{
-        // bgcolor: (theme) => alpha(theme.palette.secondary.main, 0.2),
-        bgcolor: 'background.paper',
-        borderTop: (theme) => `1px solid ${theme.palette.divider}`,
-        py: 3,
-
+        bgcolor: (theme) => alpha(theme.palette.info.light, 0.1),
+        py: 4,
         overflow: 'hidden',
         position: 'relative',
-        // '&:before': {
-        //   content: "''",
-        //   position: 'absolute',
-        //   bottom: '-50px',
-        //   left: 100,
-        //   bgcolor: (theme) => alpha(theme.palette.secondary.light, 0.77),
-        //   height: 100,
-        //   width: 100,
-        //   borderRadius: '50px',
-        //   zIndex: 0
-        // },
-        // '&:after': {
-        //   content: "''",
-        //   position: 'absolute',
-        //   top: 100,
-        //   right: '-50px',
-        //   bgcolor: (theme) => alpha(theme.palette.secondary.light, 0.77),
-        //   height: 100,
-        //   width: 100,
-        //   borderRadius: '50px',
-        //   zIndex: 0
-        // },
+
         display: {
           md: 'block',
           xs: 'none'
@@ -78,61 +94,157 @@ export default function Footer() {
       }}
     >
       <Container fixed>
-        <Stack
-          className="newsletter"
-          spacing={1}
-          sx={{
-            textAlign: 'center',
-            justifyContent: 'center',
-            position: 'relative',
-            width: '100%',
-            maxWidth: 600,
-            margin: 'auto',
-            '&:before': {
-              content: "''",
-              position: 'absolute',
-              top: '-80px',
-              left: 0,
-              ngcolor: (theme) => alpha(theme.palette.secondary.light, 0.77),
-              height: 100,
-              width: 100,
-              borderRadius: '50px',
-              zIndex: 0
-            }
-          }}
-        >
-          <Typography variant="h2" color="text.primary" fontWeight={700}>
-            Newsletter
-          </Typography>
-          <Typography variant="body1" color="text.secondary">
-            Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry
-            {`'`}s standard dummy text ever since the 1500s.
-          </Typography>
-          <NewsLetter />
-          <Stack direction="row" spacing={3} justifyContent="center">
-            {SOCIAL_MEDIA_LINK.map((item, index) => (
-              <React.Fragment key={index}>
-                <IconButton
-                  aria-label=""
-                  name={name}
-                  component={NextLink}
-                  href={item.linkPath}
-                  target="_blank"
+        <Grid container spacing={4}>
+          <Grid item md={3}>
+            <Stack spacing={3}>
+              <MainLogo />
+              <Typography variant="body1" color="text.secondary">
+                Lorem Ipsum is simply dummy text of the printing and typesetting industry.
+              </Typography>
+              <Stack>
+                {ADDRESS.map((item, idx) => (
+                  <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }} key={idx}>
+                    <IconButton
+                      sx={{
+                        svg: {
+                          color: theme.palette.primary.main
+                        }
+                      }}
+                    >
+                      {item.icon}
+                    </IconButton>
+                    <Typography
+                      variant="body1"
+                      color="text.secondary"
+                      component={NextLink}
+                      href={`${item.linkPath}`}
+                      sx={{
+                        ':hover': {
+                          color: theme.palette.primary.main
+                        }
+                      }}
+                    >
+                      {item.name}
+                    </Typography>
+                  </Box>
+                ))}
+              </Stack>
+            </Stack>
+          </Grid>
+          {MAIN_LINKS.map((item, idx) => (
+            <Grid item md={2} key={idx}>
+              <Stack spacing={3}>
+                <Typography variant="h4" color="text.primary">
+                  {item.heading}
+                </Typography>
+                <Box
                   sx={{
-                    color: (theme) =>
-                      index === 0 || index === 2 ? theme.palette.primary.main : theme.palette.error.main,
-                    fontSize: 28
+                    display: 'flex',
+                    flexDirection: 'column',
+                    gap: 1
                   }}
                 >
-                  {item.icon}
-                </IconButton>
-              </React.Fragment>
-            ))}
-          </Stack>
-          <Typography variant="body1" color="text.primary" textAlign="center">
-            © 2024 Nextall. All rights reserved
-          </Typography>
-        </Stack>
+                  <Link
+                    href={`${item.listLink1}`}
+                    component={NextLink}
+                    underline="none"
+                    sx={{
+                      color: 'text.secondary',
+                      transition: '0.3s ease-in-out',
+                      ':hover': {
+                        color: theme.palette.primary.main,
+                        transform: 'translateX(10px)'
+                      }
+                    }}
+                  >
+                    {item.listText1}
+                  </Link>
+                  <Link
+                    href={`${item.listLink2}`}
+                    component={NextLink}
+                    underline="none"
+                    sx={{
+                      color: 'text.secondary',
+                      transition: '0.3s ease-in-out',
+                      ':hover': {
+                        color: theme.palette.primary.main,
+                        transform: 'translateX(10px)'
+                      }
+                    }}
+                  >
+                    {item.listText2}
+                  </Link>
+                  <Link
+                    href={`${item.listLink3}`}
+                    component={NextLink}
+                    underline="none"
+                    sx={{
+                      color: 'text.secondary',
+                      transition: '0.3s ease-in-out',
+                      ':hover': {
+                        color: theme.palette.primary.main,
+                        transform: 'translateX(10px)'
+                      }
+                    }}
+                  >
+                    {item.listText3}
+                  </Link>
+                  <Link
+                    href={`${item.listLink4}`}
+                    component={NextLink}
+                    underline="none"
+                    sx={{
+                      color: 'text.secondary',
+                      transition: '0.3s ease-in-out',
+                      ':hover': {
+                        color: theme.palette.primary.main,
+                        transform: 'translateX(10px)'
+                      }
+                    }}
+                  >
+                    {item.listText4}
+                  </Link>
+                  <Link
+                    href={`${item.listLink5}`}
+                    component={NextLink}
+                    underline="none"
+                    sx={{
+                      color: 'text.secondary',
+                      transition: '0.3s ease-in-out',
+                      ':hover': {
+                        color: theme.palette.primary.main,
+                        transform: 'translateX(10px)'
+                      }
+                    }}
+                  >
+                    {item.listText5}
+                  </Link>
+                </Box>
+              </Stack>
+            </Grid>
+          ))}
+
+          <Grid item md={5}>
+            <Stack spacing={3}>
+              <Typography variant="h4" color="text.primary">
+                Join a Newsletter
+              </Typography>
+              <NewsLetter />
+
+              <Stack direction="row" alignItems="center" spacing={2}>
+                {SOCIAL_MEDIA_LINK.map((item, idx) => (
+                  <Fab size="small" color="primary" key={idx} component={NextLink} href={item.linkPath}>
+                    {item.icon}
+                  </Fab>
+                ))}
+              </Stack>
+            </Stack>
+          </Grid>
+        </Grid>
+        <Divider sx={{ my: 3 }} />
+        <Typography variant="body1" color="text.primary" textAlign="center">
+          © 2024 Nextall. All rights reserved
+        </Typography>
       </Container>
     </Box>
   );

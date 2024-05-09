@@ -45,7 +45,8 @@ const INFO = {
   light: '#85D3F0',
   main: '#33B5E6',
   dark: '#2991B8',
-  contrastText: '#fff'
+  contrastText: '#fff',
+  extraLight: '#0061C80D'
 };
 const SUCCESS = {
   light: '#7DDAC0',
