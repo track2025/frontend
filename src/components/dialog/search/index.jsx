@@ -32,7 +32,7 @@ export default function SimpleDialogDemo() {
           cursor: 'pointer'
         }}
       >
-        <Typography variant="body1" color="text.primary" ml={2}>
+        <Typography variant="body1" color="text.secondary" ml={2}>
           Search...
         </Typography>
         <IconButton

@@ -23,7 +23,7 @@ export default function HeaderBreadcrumbs({ ...props }) {
         width: '100%',
         ...(!admin && {
           p: 3,
-          mt: 5,
+          mt: 3,
           color: 'common.white',
           position: 'relative',
           overflow: 'hidden',

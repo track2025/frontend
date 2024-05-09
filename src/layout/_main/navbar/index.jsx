@@ -59,7 +59,7 @@ export default function Navbar({ isAuth }) {
         sx={{
           boxShadow: 'none',
           position: 'sticky',
-          top: 36,
+          top: 0,
           zIndex: 999,
           borderRadius: 0,
           pr: '0px !important',

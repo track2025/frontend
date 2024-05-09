@@ -1,7 +1,6 @@
 import { styled } from '@mui/material/styles';
 
 const RootStyled = styled('div')(({ theme }) => ({
-  padding: theme.spacing(2, 0),
   '& .heading': {
     textTransform: 'capitalize',
     marginBottom: 0
@@ -22,10 +21,10 @@ const RootStyled = styled('div')(({ theme }) => ({
   '& .text-price': {
     display: 'flex',
     alignItems: 'center',
-    marginLeft: 'auto',
-    position: 'absolute',
-    right: 0,
-    marginTop: theme.spacing(0.5),
+    // marginLeft: 'auto',
+    // position: 'absolute',
+    // right: 0,
+    // marginTop: theme.spacing(0.5),
     '& .old-price': {
       display: 'inline',
       color: 'text.disabled',
@@ -86,29 +85,29 @@ const RootStyled = styled('div')(({ theme }) => ({
     marginTop: theme.spacing(2),
     '& .contained-buttons': {
       width: '100%',
-      '& .cart-button': {
+      '&.cart-button': {
         whiteSpace: 'nowrap'
       }
     },
     '& .progress': {
       width: '48px!important',
       height: '48px!important'
-    },
-    '& .wishlist-button': {
-      minHeight: 48,
-      height: 48,
-      borderRadius: '8px'
-    },
-
-    '& .remove-wishlist-button': {
-      minHeight: 48,
-      height: 48,
-      borderRadius: '8px',
-
-      '&.bg-grey': {
-        backgroundColor: theme.palette.grey[500]
-      }
     }
+    // '& .wishlist-button': {
+    //   minHeight: 48,
+    //   height: 48,
+    //   borderRadius: '8px'
+    // },
+
+    // '& .remove-wishlist-button': {
+    //   minHeight: 48,
+    //   height: 48,
+    //   borderRadius: '8px',
+
+    //   '&.bg-grey': {
+    //     backgroundColor: theme.palette.grey[500]
+    //   }
+    // }
   }
 }));
 export default RootStyled;

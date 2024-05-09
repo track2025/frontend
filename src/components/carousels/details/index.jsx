@@ -2,6 +2,7 @@
 'use client';
 import PropTypes from 'prop-types';
 import { useState } from 'react';
+import Scrollbar from 'src/components/Scrollbar';
 // next
 import BlurImage from 'src/components/blurImage';
 import { toast } from 'react-hot-toast';
@@ -9,12 +10,9 @@ import { toast } from 'react-hot-toast';
 import { Box, Stack, IconButton, useMediaQuery, Tooltip } from '@mui/material';
 import { IoMdHeartEmpty } from 'react-icons/io';
 import { IoIosHeart } from 'react-icons/io';
-// redux
-import { setWishlist } from 'src/lib/redux/slices/wishlist';
+
 import { useSelector, useDispatch } from 'react-redux';
-// api
-import * as api from 'src/services';
-import { useMutation } from 'react-query';
+
 // framer motion
 import { motion, AnimatePresence } from 'framer-motion';
 
@@ -55,62 +53,14 @@ const swipePower = (offset, velocity) => {
 
 // ----------------------------------------------------------------------
 ProductDetailsCarousel.propTypes = {
-  item: PropTypes.object.isRequired,
-  onClickWishList: PropTypes.func.isRequired,
-  wishlist: PropTypes.array.isRequired,
-  isLoading: PropTypes.bool.isRequired,
-  isMobile: PropTypes.bool.isRequired,
-  _id: PropTypes.string.isRequired
+  item: PropTypes.object.isRequired
 };
 
 function ProductDetailsCarousel({ ...props }) {
-  const { item, onClickWishList, wishlist, isLoading, isMobile, _id } = props;
+  const { item } = props;
 
   return (
     <div className="slide-wrapper">
-      <Stack
-        sx={{
-          bgcolor: 'background.paper',
-          position: 'absolute',
-          top: isMobile ? 7 : 12,
-          right: isMobile ? 5 : 14,
-          borderRadius: '50%',
-          width: 30,
-          height: 30,
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-          zIndex: 999,
-          img: {
-            borderRadius: '50%'
-          }
-        }}
-      >
-        {wishlist?.filter((v) => v === _id).length > 0 ? (
-          <Tooltip title="Remove from cart">
-            <IconButton
-              disabled={isLoading}
-              onClick={onClickWishList}
-              aria-label="add to cart"
-              color="primary"
-              size={isMobile ? 'small' : 'medium'}
-            >
-              <IoIosHeart />
-            </IconButton>
-          </Tooltip>
-        ) : (
-          <Tooltip title="Add to wishlist">
-            <IconButton
-              disabled={isLoading}
-              onClick={onClickWishList}
-              aria-label="add to wishlist"
-              size={isMobile ? 'small' : 'medium'}
-            >
-              <IoMdHeartEmpty />
-            </IconButton>
-          </Tooltip>
-        )}
-      </Stack>
       {item && (
         <BlurImage
           priority
@@ -131,35 +81,8 @@ function ProductDetailsCarousel({ ...props }) {
 export default function CarouselAnimation({ ...props }) {
   const { product, data: others } = props;
 
-  const dispatch = useDispatch();
-  const _id = others?._id;
-
   const images = product?.images;
-  const { wishlist } = useSelector(({ wishlist }) => wishlist);
-  const { isAuthenticated } = useSelector(({ user }) => user);
-  const [isLoading, setLoading] = useState(false);
-  const { mutate } = useMutation(api.updateWishlist, {
-    onSuccess: (data) => {
-      toast.success(data.message);
-      setLoading(false);
-      dispatch(setWishlist(data.data));
-    },
-    onError: (err) => {
-      setLoading(false);
-      const message = JSON.stringify(err?.response?.data?.message);
-      toast.error(message);
-    }
-  });
-  const onClickWishList = async (event) => {
-    if (!isAuthenticated) {
-      event.stopPropagation();
-      router.push('/auth/login');
-    } else {
-      event.stopPropagation();
-      setLoading(true);
-      await mutate(_id);
-    }
-  };
+
   const isMobile = useMediaQuery('(max-width:600px)');
   const { themeMode } = useSelector(({ settings }) => settings);
   const [[page, direction], setPage] = useState([0, 0]);
@@ -170,6 +93,16 @@ export default function CarouselAnimation({ ...props }) {
 
   return (
     <RootStyled>
+      {/* <Scrollbar
+        sx={{
+          height: 1,
+          '& .simplebar-content': {
+            height: 1,
+            display: 'flex',
+            flexDirection: 'row'
+          }
+        }}
+      > */}
       <AnimatePresence initial={false} custom={direction}>
         <motion.div
           className="motion-dev"
@@ -202,11 +135,6 @@ export default function CarouselAnimation({ ...props }) {
             activeStep={imageIndex}
             isActive={imageIndex}
             key={Math.random()}
-            isLoading={isLoading}
-            wishlist={wishlist}
-            onClickWishList={onClickWishList}
-            isMobile={isMobile}
-            _id={_id}
           />
         </motion.div>
       </AnimatePresence>
@@ -237,6 +165,7 @@ export default function CarouselAnimation({ ...props }) {
           </Box>
         ))}
       </Stack>
+      {/* </Scrollbar> */}
     </RootStyled>
   );
 }

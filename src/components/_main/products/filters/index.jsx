@@ -33,7 +33,6 @@ Filter.propTypes = {
 
 export default function Filter({ ...props }) {
   const { isMobile, onClose, pathname, fetchFilters, category, shop, subCategory } = props;
-  console.log(shop, fetchFilters, 'shop123');
   const router = useRouter();
   const { data, isLoading } = useQuery(['get-filters' + shop || '' + category || '' + 'subCategory'], () =>
     api[fetchFilters](shop?.slug || '', category?.slug || '', subCategory?.slug || '')
@@ -42,10 +41,9 @@ export default function Filter({ ...props }) {
   return (
     <Card
       sx={{
-        width: !isMobile ? '100%' : '300px',
-        ...(!isMobile
-          ? { position: 'sticky', top: '81px', my: 2 }
-          : { border: 'none !important', borderRadius: '0px !important' })
+        width: '300px',
+        border: 'none !important',
+        borderRadius: '0px !important'
       }}
     >
       <Box
@@ -60,24 +58,15 @@ export default function Filter({ ...props }) {
         <Typography variant="h5" color="text.primary">
           Filter
         </Typography>
-        <Tooltip title="Remove filters">
-          <IconButton
-            aria-label="remove-all"
-            onClick={() => router.push(pathname)}
-            sx={{ display: { md: 'flex', xs: 'none' } }}
-          >
-            <MdClear />
-          </IconButton>
-        </Tooltip>
-        {isMobile && (
-          <IconButton onClick={() => onClose()}>
-            <MdClear />
-          </IconButton>
-        )}
+
+        <IconButton onClick={() => onClose()}>
+          <MdClear />
+        </IconButton>
       </Box>
       <Box
         sx={{
-          ...(isMobile && { height: 'calc(100vh - 100px)', overflowY: 'auto' })
+          height: 'calc(100vh - 56px)',
+          overflowY: 'auto'
         }}
       >
         {isLoading ? (

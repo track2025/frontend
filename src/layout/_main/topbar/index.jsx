@@ -29,8 +29,8 @@ export default function UserTopbar() {
         background: theme.palette.background.default,
         justifyContent: 'space-between',
         display: { xs: 'none', md: 'flex' },
-        position: 'sticky',
-        top: 0,
+        position: 'static',
+        // top: 0,
         zIndex: 999,
         width: '100%'
       }}
