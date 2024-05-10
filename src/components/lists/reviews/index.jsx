@@ -101,14 +101,13 @@ function ReviewItem({ ...props }) {
               {fDate(review.createdAt)}
             </Typography>
           </Box>
-          <Typography variant="subtitle1" noWrap sx={{ textTransform: 'capitalize' }}>
+          <Typography variant="subtitle1" noWrap mb={0.5} sx={{ textTransform: 'capitalize' }}>
             {review.user?.firstName} {review.user?.lastName}
           </Typography>
-
-          <Typography variant="subtitle2" mb={1} mt={0.5} fontWeight={400}>
+          {<Rating size="small" value={review.rating} precision={0.1} readOnly />}
+          <Typography variant="subtitle2" mb={1} fontWeight={400}>
             {review.review}
           </Typography>
-          {<Rating size="small" value={review.rating} precision={0.1} readOnly />}
         </Box>
       </ListItem>
       {!isLoading && Boolean(review.images.length) ? (

@@ -59,7 +59,7 @@ function ProgressItem({ ...props }) {
           bgcolor: 'divider'
         }}
       />
-      <Typography variant="body2" sx={{ color: 'text.secondary', minWidth: 64, textAlign: 'right' }}>
+      <Typography variant="body2" sx={{ color: 'text.secondary', textAlign: 'right' }}>
         {fShortenNumber(star)}
       </Typography>
     </Stack>
@@ -72,6 +72,7 @@ ReviewOverview.propTypes = {
 
 export default function ReviewOverview({ ...props }) {
   const { totalRating, onOpen, reviewsSummery, totalReviews } = props;
+  console.log(reviewsSummery, 'reviewsSummery');
   return (
     <Box
       sx={{
@@ -81,21 +82,16 @@ export default function ReviewOverview({ ...props }) {
     >
       <Grid container>
         <GridStyle item xs={12} className="border-bottom">
-          <Typography variant="subtitle1" gutterBottom>
-            Average Rating
-          </Typography>
-          <Typography variant="h2" gutterBottom sx={{ color: 'error.main' }}>
+          <Typography variant="h2" gutterBottom sx={{ color: 'error.main', mb: 0 }} lineHeight={1}>
             {totalReviews === 0 ? 0 : totalRating?.toFixed(1)}
           </Typography>
-          <RatingStyle readOnly value={totalRating} precision={0.1} />
-          <Typography variant="body2" sx={{ color: 'text.secondary' }}>
+          <Typography variant="subtitle2" color="text.secondary" mb={1}>
             ({fShortenNumber(totalReviews)}
             &nbsp; {totalReviews > 1 ? 'reviews' : 'review'})
           </Typography>
-        </GridStyle>
+          <RatingStyle readOnly value={totalRating} precision={0.1} />
 
-        <GridStyle item xs={12} className={'border-bottom'}>
-          <Stack sx={{ width: 1 }} flexDirection="column-reverse">
+          <Stack sx={{ width: 1, mb: 1 }} flexDirection="column-reverse">
             {Array.from(new Array(5)).map((rating, index) => {
               const match = reviewsSummery.find((v) => v._id === index + 1);
 
@@ -104,10 +100,7 @@ export default function ReviewOverview({ ...props }) {
               );
             })}
           </Stack>
-        </GridStyle>
-
-        <GridStyle item xs={12}>
-          <Button size="large" onClick={onOpen} variant="outlined" startIcon={<MdEdit />}>
+          <Button size="large" onClick={onOpen} variant="outlined" startIcon={<MdEdit />} fullWidth>
             Write A Review
           </Button>
         </GridStyle>

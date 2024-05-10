@@ -25,8 +25,8 @@ export default function Index() {
                 justifyContent: 'space-between',
                 backgroundColor:
                   theme.palette.mode === 'dark' ? alpha(theme.palette.primary.dark, 0.4) : theme.palette.primary.light,
-                borderRadius: 1,
-                boxShadow: 'none',
+                borderRadius: '12px',
+
                 height: '100%',
                 paddingX: { lg: theme.spacing(3), md: theme.spacing(1) }
               }}
@@ -110,8 +110,8 @@ export default function Index() {
                   theme.palette.mode === 'dark'
                     ? alpha(theme.palette.secondary.dark, 0.4)
                     : theme.palette.secondary.light,
-                borderRadius: 1,
-                boxShadow: 'none',
+                borderRadius: '12px',
+
                 height: '100%',
                 paddingX: { lg: theme.spacing(3), md: theme.spacing(1), xs: theme.spacing(1) }
               }}

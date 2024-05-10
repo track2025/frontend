@@ -8,6 +8,7 @@ import UserReducer from './slices/user';
 import WishlistReducer from './slices/wishlist';
 import CompareReducer from './slices/compare';
 import SettingsReducer from './slices/settings';
+import CategoriesReducer from './slices/categories';
 
 const rootPersistConfig = {
   key: 'root',
@@ -53,6 +54,7 @@ const reducer = combineReducers({
   user: persistReducer(userPersistConfig, UserReducer),
   settings: persistReducer(settingsPersistConfig, SettingsReducer),
   wishlist: persistReducer(wishlistPersistConfig, WishlistReducer),
-  compare: persistReducer(comparePersistConfig, CompareReducer)
+  compare: persistReducer(comparePersistConfig, CompareReducer),
+  categories: CategoriesReducer
 });
 export { rootPersistConfig, reducer };

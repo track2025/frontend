@@ -3,15 +3,15 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 // mui
-import { Stack, TextField, Card, CardHeader, Typography } from '@mui/material';
+import { Stack, TextField, Card, CardHeader, Typography, FormControlLabel, Checkbox } from '@mui/material';
 // countries
 import countries from '../_main/checkout/countries.json';
 
-export default function CheckoutGuestForm({ getFieldProps, touched, errors }) {
+export default function CheckoutGuestForm({ getFieldProps, touched, errors, values, handleChangeShipping, checked }) {
   return (
     <Card>
       <CardHeader
-        title={<Typography variant="h4">User Information</Typography>}
+        title={<Typography variant="h4">Billing Detail</Typography>}
         // sx={{ mb: 1 }}
       />
       <Stack spacing={{ xs: 2, sm: 3 }} p={3} mt={1}>
@@ -144,6 +144,24 @@ export default function CheckoutGuestForm({ getFieldProps, touched, errors }) {
             ))}
           </TextField>
         </Stack>
+        <Stack spacing={0.5} width={1}>
+          <Typography variant="overline" color="text.primary" for="order" component={'label'}>
+            Order
+          </Typography>
+          <TextField
+            fullWidth
+            multiline
+            rows={8}
+            {...getFieldProps('order')}
+            error={Boolean(touched.order && errors.order)}
+            helperText={touched.order && errors.order}
+            type="text"
+          />
+        </Stack>
+        <FormControlLabel
+          control={<Checkbox onChange={handleChangeShipping} checked={checked} />}
+          label="Ship to a different address?"
+        />
       </Stack>
     </Card>
   );
@@ -151,5 +169,6 @@ export default function CheckoutGuestForm({ getFieldProps, touched, errors }) {
 CheckoutGuestForm.propTypes = {
   getFieldProps: PropTypes.func.isRequired,
   touched: PropTypes.object.isRequired,
-  errors: PropTypes.object.isRequired
+  errors: PropTypes.object.isRequired,
+  values: PropTypes.object.isRequired
 };

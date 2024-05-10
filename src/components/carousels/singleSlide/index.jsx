@@ -14,6 +14,7 @@ import {
   Typography,
   CardContent,
   Container,
+  Card,
   useMediaQuery,
   Stack,
   alpha
@@ -199,10 +200,9 @@ function CarouselItem({ ...props }) {
           <Box
             className="img-box"
             sx={{
-              img: {
-                position: 'relative !important',
-                display: { xs: 'none', md: 'block' }
-              }
+              position: 'relative',
+              height: 350,
+              display: { xs: 'none', md: 'block' }
             }}
           >
             <Image
@@ -239,7 +239,7 @@ export default function SingleSlideCarousel({ ...props }) {
   const isEmpty = !Boolean(data?.length);
 
   return (
-    <Paper
+    <Card
       sx={{
         width: '100%',
         position: 'relative',
@@ -247,7 +247,7 @@ export default function SingleSlideCarousel({ ...props }) {
         justifyContent: 'center',
         alignItems: 'center',
         overflow: 'hidden',
-        height: { xs: 200, md: 250, lg: 350 },
+        height: { xs: 200, md: 250, lg: 343 },
         borderRadius: '12px',
         overflow: 'hidden'
       }}
@@ -311,7 +311,7 @@ export default function SingleSlideCarousel({ ...props }) {
       {data.length && (
         <Actions active={imageIndex} themeMode={themeMode} setPage={setPage} paginate={paginate} data={data} />
       )}
-    </Paper>
+    </Card>
   );
 }
 SingleSlideCarousel.propTypes = {

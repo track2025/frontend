@@ -3,17 +3,16 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 // next
-import { usePathname } from 'next/navigation';
 import dynamic from 'next/dynamic';
 // mui
-import { alpha } from '@mui/material/styles';
-import { Toolbar, Stack, AppBar, Button, Skeleton } from '@mui/material';
-import { RxDashboard } from 'react-icons/rx';
-import { FaAngleDown } from 'react-icons/fa6';
+
+import { Toolbar, Stack, AppBar, Skeleton } from '@mui/material';
 import config from 'src/layout/_main/config.json';
 import * as api from 'src/services';
 // usequery
 import { useQuery } from 'react-query';
+import { useDispatch } from 'react-redux';
+import { setCategories } from 'src/lib/redux/slices/categories';
 const Skeletons = () => {
   return (
     <Stack direction="row" gap={2}>
@@ -34,9 +33,15 @@ const MenuDesktop = dynamic(() => import('./menuDesktop'), {
 // ----------------------------------------------------------------------
 export default function Navbar({}) {
   const { menu } = config;
+  const dispatch = useDispatch();
 
   const { data, isLoading } = useQuery(['get-categories-all'], () => api.getAllCategories());
-  console.log(data, 'data');
+  React.useEffect(() => {
+    if (!isLoading) {
+      dispatch(setCategories(data?.data));
+    }
+  }, [data]);
+
   return (
     <>
       <AppBar

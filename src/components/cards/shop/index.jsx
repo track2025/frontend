@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 // next
 import Link from 'next/link';
 // mui
-import { Typography, CardActionArea, Card, Box, Skeleton, Stack, Rating, Button, useTheme } from '@mui/material';
+import { Typography, CardActionArea, Card, Box, Skeleton, Stack, Rating, Button } from '@mui/material';
 // components
 import Image from 'src/components/blurImage';
 // icons
@@ -13,7 +13,6 @@ import { FaRegUser } from 'react-icons/fa6';
 export default function ShopCard({ ...props }) {
   const { shop, isLoading } = props;
   const baseUrl = '/shops/';
-  const theme = useTheme();
 
   return (
     <Card
@@ -79,22 +78,17 @@ export default function ShopCard({ ...props }) {
           >
             {isLoading ? <Skeleton variant="text" width={100} /> : shop?.title}
           </Typography>
-          <Stack direction="row" justifyContent="space-between" width="100%">
+          <Stack direction="row" justifyContent="space-between" width="100%" mb={1}>
             <Typography color="text.secondary" variant="body1" textAlign="center" noWrap className="title">
-              3 Product
+              {shop?.products?.length} Product{shop?.products?.length > 1 ? 's' : null}
             </Typography>
-            <div>
-              <Rating
-                name="size-small"
-                defaultValue={5}
-                readOnly
-                sx={{
-                  fontSize: 20
-                }}
-              />
-            </div>
+            {/* <div>
+              <Rating name="size-small" defaultValue={5} readOnly />
+            </div> */}
           </Stack>
+
           <Stack direction="row" justifyContent="space-between" spacing={1.5} mt={1}>
+
             <Button
               variant="contained"
               color="primary"
