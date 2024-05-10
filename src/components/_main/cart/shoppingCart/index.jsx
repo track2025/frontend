@@ -13,6 +13,8 @@ import { sum } from 'lodash';
 import { useFormik, Form, FormikProvider } from 'formik';
 // icons
 import { IoArrowBackOutline } from 'react-icons/io5';
+import { MdOutlineShoppingCart } from 'react-icons/md';
+
 // redux
 import { useDispatch, useSelector } from 'react-redux';
 import { deleteCart, increaseQuantity, decreaseQuantity, getCart } from 'src/lib/redux/slices/product';
@@ -116,11 +118,14 @@ export default function ShoppingCart({ loading }) {
               <EmptyCart />
             )}
             <Divider />
-            <Box mt={2}>
+            <Stack mt={2} direction="row " justifyContent="space-between" alignItems="center">
               <Button color="inherit" onClick={() => router.push('/')} startIcon={<IoArrowBackOutline />}>
                 Continue Shopping
               </Button>
-            </Box>
+              <Button color="inherit" onClick={() => {}} startIcon={<MdOutlineShoppingCart />}>
+                Clear Cart
+              </Button>
+            </Stack>
           </Card>
         </Form>
       </FormikProvider>
