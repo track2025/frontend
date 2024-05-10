@@ -94,14 +94,15 @@ export default function ShopCard({ ...props }) {
               />
             </div>
           </Stack>
-          <Stack direction="row" justifyContent="space-between" spacing={3} mt={1}>
+          <Stack direction="row" justifyContent="space-between" spacing={1.5} mt={1}>
             <Button
               variant="contained"
               color="primary"
               startIcon={<AiOutlineShop />}
               sx={{
                 borderRadius: 6,
-                fontWeight: 400
+                fontWeight: 400,
+                whiteSpace: 'nowrap'
               }}
             >
               View Store
