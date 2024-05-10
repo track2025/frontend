@@ -38,6 +38,9 @@ import CardItemSekelton from '../skeletons/checkout/cartItems';
 const CheckoutForm = dynamic(() => import('src/components/forms/checkout'), {
   loading: () => <CheckoutGuestFormSkeleton />
 });
+const ShipmentCheckoutForm = dynamic(() => import('src/components/forms/shipmentAddress'), {
+  loading: () => <CheckoutGuestFormSkeleton />
+});
 const PaymentInfo = dynamic(() => import('src/components/_main/checkout/paymentInfo'), {
   loading: () => <PaymentInfoSkeleton />
 });
@@ -63,6 +66,12 @@ const CheckoutMain = () => {
   const { user: userData } = useSelector(({ user }) => user);
   const { cart, total } = checkout;
   const [paymentMethod, setPaymentMethod] = useState('COD');
+  const [checked, setChecked] = React.useState(true);
+
+  const handleChangeShipping = (event) => {
+    setChecked(event.target.checked);
+  };
+
   const [couponCode, setCouponCode] = useState(null);
   const [checkoutError, setCheckoutError] = useState(null);
   const [isProcessing, setProcessingTo] = useState(false);
@@ -116,8 +125,24 @@ const CheckoutMain = () => {
     city: Yup.string().required('City is required'),
     state: Yup.string().required('State is required'),
     country: Yup.string().required('Country is required'),
-    zip: Yup.string().required('Postal is required')
+    zip: Yup.string().required('Postal is required'),
+    // shipping: Yup.boolean().required('Postal is required'),
+    shippingAddress: checked
+      ? Yup.object().shape({
+          firstName: Yup.string().required('First name is required'),
+          lastName: Yup.string().required('Last name is required'),
+          phone: Yup.string().required('Phone is required'),
+          email: Yup.string().email('Enter email Valid').required('Email is required'),
+          address: Yup.string().required('Address is required'),
+          city: Yup.string().required('City is required'),
+          state: Yup.string().required('State is required'),
+          country: Yup.string().required('Country is required'),
+          zip: Yup.string().required('Postal is required')
+        })
+      : Yup.string().nullable().notRequired()
   });
+
+  // Define initial values
   const formik = useFormik({
     initialValues: {
       firstName: userData?.firstName || '',
@@ -128,11 +153,36 @@ const CheckoutMain = () => {
       city: userData?.city || '',
       state: userData?.state || '',
       country: userData?.country || 'Pakistan',
-      zip: userData?.zip || ''
+      zip: userData?.zip || '',
+      order: userData?.order || '',
+      ...(checked && {
+        // firstName: userData?.firstName || '',
+        // lastName: userData?.lastName || '',
+        // phone: userData?.phone || '',
+        // email: userData?.email || '',
+        // address: userData?.address || '',
+        // city: userData?.city || '',
+        // state: userData?.state || '',
+        // country: userData?.country || 'Pakistan',
+        // zip: userData?.zip || '',
+        // order: userData?.order || '',
+        // shipping: userData?.shipping || true,
+
+        shippingAddress: {
+          firstName: '',
+          lastName: '',
+          address: '',
+          city: '',
+          state: '',
+          country: 'Pakistan',
+          zip: ''
+        }
+      })
     },
     enableReinitialize: true,
     validationSchema: NewAddressSchema,
     onSubmit: async (values) => {
+      console.log(values, 'test checkout Data');
       const items = cart.map(({ ...others }) => others);
       const totalItems = sum(items.map((item) => item.quantity));
 
@@ -235,7 +285,17 @@ const CheckoutMain = () => {
         <Box py={5}>
           <Grid container spacing={2}>
             <Grid item xs={12} md={8}>
-              <CheckoutForm getFieldProps={getFieldProps} touched={touched} errors={errors} />
+              <CheckoutForm
+                getFieldProps={getFieldProps}
+                touched={touched}
+                errors={errors}
+                values={values}
+                handleChangeShipping={handleChangeShipping}
+                checked={checked}
+              />
+              <Collapse in={checked}>
+                <ShipmentCheckoutForm getFieldProps={getFieldProps} touched={touched} errors={errors} />
+              </Collapse>
             </Grid>
             <Grid item xs={12} md={4}>
               <CartItemsCard cart={cart} loading={loading} />
@@ -267,7 +327,7 @@ const CheckoutMain = () => {
                   fullWidth
                   size="large"
                   type="submit"
-                  loading={isLoading || isProcessing || loading}
+                  // loading={isLoading || isProcessing || loading}
                 >
                   Place Order
                 </LoadingButton>
