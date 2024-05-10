@@ -10,7 +10,7 @@ import TabList from '@mui/lab/TabList';
 import TabPanel from '@mui/lab/TabPanel';
 import { MdClear } from 'react-icons/md';
 import Typography from '@mui/material/Typography';
-import { Grid, Button, Stack,alpha } from '@mui/material';
+import { Grid, Button, Stack, alpha } from '@mui/material';
 
 export default function LanguageSelect() {
   const [open, setOpen] = React.useState(false);
@@ -52,7 +52,6 @@ export default function LanguageSelect() {
       >
         <IconButton
           aria-label="close"
-          // size="small"
           onClick={handleClose}
           sx={{
             position: 'absolute',
