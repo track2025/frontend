@@ -45,21 +45,9 @@ export default function TopCollections() {
         <Box>
           <TodayCountDown />
         </Box>
-        <Grid container spacing={2} justifyContent="center">
-          {(isLoading ? Array.from(new Array(2)) : data?.data).map((item, index) => (
+        <Grid container spacing={2}>
+          {(isLoading ? Array.from(new Array(8)) : data?.data).map((item, index) => (
             <>
-              <Grid item xs={6} sm={6} md={4} lg={3} key={index}>
-                <ProductCard product={item} loading={isLoading} />
-              </Grid>
-              <Grid item xs={6} sm={6} md={4} lg={3} key={index}>
-                <ProductCard product={item} loading={isLoading} />
-              </Grid>
-              <Grid item xs={6} sm={6} md={4} lg={3} key={index}>
-                <ProductCard product={item} loading={isLoading} />
-              </Grid>
-              <Grid item xs={6} sm={6} md={4} lg={3} key={index}>
-                <ProductCard product={item} loading={isLoading} />
-              </Grid>
               <Grid item xs={6} sm={6} md={4} lg={3} key={index}>
                 <ProductCard product={item} loading={isLoading} />
               </Grid>

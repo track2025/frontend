@@ -78,13 +78,13 @@ export default function ShopCard({ ...props }) {
           >
             {isLoading ? <Skeleton variant="text" width={100} /> : shop?.title}
           </Typography>
-          <Stack direction="row" justifyContent="space-between" width="100%">
+          <Stack direction="row" justifyContent="space-between" width="100%" mb={1}>
             <Typography color="text.secondary" variant="body1" textAlign="center" noWrap className="title">
-              3 Product
+              {shop?.products?.length} Product{shop?.products?.length > 1 ? 's' : null}
             </Typography>
-            <div>
+            {/* <div>
               <Rating name="size-small" defaultValue={5} readOnly />
-            </div>
+            </div> */}
           </Stack>
           <Stack direction="row" justifyContent="space-between" spacing={3}>
             <Button

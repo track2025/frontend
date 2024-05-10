@@ -23,7 +23,6 @@ export default async function IndexPage() {
       <TopBanners />
       <Container maxWidth="xl">
         <Categories />
-
         <Suspense>
           <TopCollections />
         </Suspense>
