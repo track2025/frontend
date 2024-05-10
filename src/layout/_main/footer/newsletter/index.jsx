@@ -2,7 +2,7 @@
 import React from 'react';
 import * as Yup from 'yup';
 // mui
-import { FormControl, InputAdornment, TextField } from '@mui/material';
+import { FormControl, InputAdornment, TextField, Button } from '@mui/material';
 // react
 import { useMutation } from 'react-query';
 // formik
@@ -51,7 +51,7 @@ export default function NewsLetter() {
   return (
     <FormikProvider value={formik}>
       <Form noValidate autoComplete="off" onSubmit={handleSubmit}>
-        <Stack sx={{ maxWidth: 500, margin: 'auto', marginTop: 2, marginBottom: 1 }}>
+        <Stack sx={{}} direction="row" alignItems="center" spacing={2}>
           <FormControl fullWidth variant="outlined">
             <TextField
               size="medium"
@@ -61,35 +61,24 @@ export default function NewsLetter() {
               helperText={touched.email && errors.email}
               sx={{
                 '& .MuiInputBase-root': {
-                  bgcoolor: (theme) => theme.palette.background.paper
+                  bgcolor: (theme) => theme.palette.background.paper,
+                  input: {
+                    paddingY: '9.5px !important'
+                  }
                 }
-              }}
-              InputProps={{
-                endAdornment: (
-                  <InputAdornment position="end">
-                    <LoadingButton
-                      name="newsletter-button"
-                      // component="span"
-                      variant="contained"
-                      color="primary"
-                      size="large"
-                      type="submit"
-                      loading={loading}
-                      sx={{
-                        p: 0,
-                        height: 32,
-                        borderRadius: 50,
-                        minWidth: 32,
-                        border: 'unset !important'
-                      }}
-                    >
-                      <BsFillSendFill fontSize={16} />
-                    </LoadingButton>
-                  </InputAdornment>
-                )
               }}
             />
           </FormControl>
+          <LoadingButton
+            variant="contained"
+            size="medium"
+            color="primary"
+            type="submit"
+            loading={loading}
+            sx={{ marginTop: 8, paddingX: 4 }}
+          >
+            Subscribe
+          </LoadingButton>
         </Stack>
       </Form>
     </FormikProvider>

@@ -4,7 +4,7 @@ import { useState, useEffect, useCallback } from 'react';
 import dynamic from 'next/dynamic';
 // mui
 import { Stack, Drawer } from '@mui/material';
-import { IconButton, Typography, Skeleton } from '@mui/material';
+import { IconButton, Typography, Skeleton, Button } from '@mui/material';
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
@@ -130,17 +130,27 @@ export default function SortBar({ fetchFilters, productData, shop, isLoading, so
           )}
         </Typography>
         <Stack direction="row" gap={1} alignItems="center">
-          <IconButton
+          <Button
+            onClick={() => setOpenDrawer(true)}
+            variant="outlined"
+            color="inherit"
+            endIcon={<MdTune />}
+            sx={{
+              width: 200
+            }}
+          >
+            Filters
+          </Button>
+          {/* <IconButton
             onClick={() => setOpenDrawer(true)}
             sx={{
-              display: { md: 'none', xs: 'flex' },
               bgcolor: 'background.neutral',
               height: 40,
               width: 40
             }}
           >
             <MdTune />
-          </IconButton>
+          </IconButton> */}
           <FormControl
             size="small"
             fullWidth
@@ -196,7 +206,6 @@ export default function SortBar({ fetchFilters, productData, shop, isLoading, so
         open={openDrawer}
         onClose={() => setOpenDrawer(false)}
         sx={{
-          display: { xs: 'block', md: 'none' },
           '& .MuiDrawer-paper': {
             boxSizing: 'border-box',
             borderRadius: '0px !important',

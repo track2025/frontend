@@ -56,7 +56,8 @@ export default function Size({ ...props }) {
         setstate({ ...state, sizes: filtered });
         push(`${path}?` + createQueryString('sizes', filtered.join('_')));
       } else {
-        push(`${path}?` + createQueryString('sizes', ''));
+        const deleted = deleteQueryString('gender');
+        push(path + '?' + deleted);
       }
     }
   };

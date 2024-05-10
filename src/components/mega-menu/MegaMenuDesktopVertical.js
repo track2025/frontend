@@ -65,7 +65,7 @@ function ParentItem({ path, title, open, hasSub, ...other }) {
         <Box
           component="span"
           sx={{
-            bgcolor: (theme) => theme.palette.grey[300],
+            bgcolor: 'background.default',
             width: 32,
             height: 32,
             display: 'flex',
@@ -174,7 +174,7 @@ export default function MegaMenuDesktopVertical({ ...other }) {
       {...other}
       sx={{
         minWidth: 280,
-        bgcolor: '#fff',
+        bgcolor: 'background.paper',
         borderRadius: '8px',
         height: 343,
         overflowY: 'auto',

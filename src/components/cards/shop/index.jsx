@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 // next
 import Link from 'next/link';
 // mui
-import { Typography, CardActionArea, Card, Box, Skeleton, Stack, Rating, Button } from '@mui/material';
+import { Typography, CardActionArea, Card, Box, Skeleton, Stack, Rating, Button, useTheme } from '@mui/material';
 // components
 import Image from 'src/components/blurImage';
 // icons
@@ -13,6 +13,7 @@ import { FaRegUser } from 'react-icons/fa6';
 export default function ShopCard({ ...props }) {
   const { shop, isLoading } = props;
   const baseUrl = '/shops/';
+  const theme = useTheme();
 
   return (
     <Card
@@ -83,10 +84,17 @@ export default function ShopCard({ ...props }) {
               3 Product
             </Typography>
             <div>
-              <Rating name="size-small" defaultValue={5} readOnly />
+              <Rating
+                name="size-small"
+                defaultValue={5}
+                readOnly
+                sx={{
+                  fontSize: 20
+                }}
+              />
             </div>
           </Stack>
-          <Stack direction="row" justifyContent="space-between" spacing={3}>
+          <Stack direction="row" justifyContent="space-between" spacing={3} mt={1}>
             <Button
               variant="contained"
               color="primary"
