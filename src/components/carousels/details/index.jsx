@@ -93,16 +93,6 @@ export default function CarouselAnimation({ ...props }) {
 
   return (
     <RootStyled>
-      {/* <Scrollbar
-        sx={{
-          height: 1,
-          '& .simplebar-content': {
-            height: 1,
-            display: 'flex',
-            flexDirection: 'row'
-          }
-        }}
-      > */}
       <AnimatePresence initial={false} custom={direction}>
         <motion.div
           className="motion-dev"
@@ -138,12 +128,19 @@ export default function CarouselAnimation({ ...props }) {
           />
         </motion.div>
       </AnimatePresence>
-      <Stack
-        direction="row"
-        justifyContent={images.length < 6 ? 'center' : 'left'}
-        spacing={1}
-        className="controls-wrapper"
+      <Scrollbar
+        sx={{
+          width: '100%',
+          '& .simplebar-content': {
+            width: 1,
+            display: 'flex',
+            flexDirection: 'row',
+            justifyContent: images.length < 6 ? 'center' : 'left',
+            gap: 1
+          }
+        }}
       >
+        {/* <Stack className="controls-wrapper"> */}
         {images.map((item, i) => (
           <Box
             key={Math.random()}
@@ -164,8 +161,8 @@ export default function CarouselAnimation({ ...props }) {
             />
           </Box>
         ))}
-      </Stack>
-      {/* </Scrollbar> */}
+        {/* </Stack> */}
+      </Scrollbar>
     </RootStyled>
   );
 }

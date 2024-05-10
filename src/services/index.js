@@ -17,12 +17,19 @@ export const getProducts = async (query = '') => {
   const { data } = await http.get(`/products${query}`);
   return data;
 };
+export const getProductDetails = async (pid) => {
+  const { data } = await http.get(`/products/${pid}`);
+  return data;
+};
 
 export const getProductsByCategory = async (query = '', category) => {
   const { data } = await http.get(`/category/products/${category}${query}`);
   return data;
 };
-
+export const getProductSlugs = async () => {
+  const { data } = await http.get(`/products-slugs`);
+  return data;
+};
 export const getProductsBySubCategory = async (query = '', subcategory) => {
   const { data } = await http.get(`/subcategory/products/${subcategory}${query}`);
   return data;

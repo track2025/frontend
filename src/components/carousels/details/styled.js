@@ -38,7 +38,6 @@ const RootStyled = styled(Box)(({ theme }) => ({
   '& .controls-wrapper': {
     paddingTop: theme.spacing(2),
     width: '100%',
-    overflowX: 'auto',
     paddingLeft: theme.spacing(2),
     paddingRight: theme.spacing(2),
     '& .controls-button': {

@@ -1,7 +1,7 @@
 import React from 'react';
 import { Suspense } from 'react';
 // mui
-import { Box, Container, Card, Grid } from '@mui/material';
+import { Box, Container, Stack, Grid } from '@mui/material';
 //  Next
 import { notFound } from 'next/navigation';
 // components
@@ -11,17 +11,17 @@ import ProductAdditionalInfo from 'src/components/_main/product/additionalInfo';
 import ProductDetailsCarousel from 'src/components/carousels/details';
 import ProductDetailsSumary from 'src/components/_main/product/summary';
 import HeaderBreadcrumbs from 'src/components/headerBreadcrumbs';
+import * as api from 'src/services';
 export async function generateStaticParams() {
-  const { data } = await fetch(process.env.BASE_URL + '/api/products-slugs').then((res) => res.json());
+  const { data } = await api.getProductSlugs();
+
   return data?.map((product) => ({
     slug: product.slug
   }));
 }
 
 export async function generateMetadata({ params }) {
-  const { data: response } = await fetch(process.env.BASE_URL + '/api/products/' + params.slug).then((res) =>
-    res.json()
-  );
+  const { data: response } = await api.getProductDetails(params.slug);
 
   return {
     title: response.metaTitle,
@@ -35,9 +35,8 @@ export async function generateMetadata({ params }) {
 }
 
 export default async function ProductDetail({ params: { slug } }) {
-  const response = await fetch(process.env.BASE_URL + '/api/products/' + slug, { cache: 'no-store' }).then((res) =>
-    res.json()
-  );
+  const response = await api.getProductDetails(slug);
+
   if (!response) {
     notFound();
   }
@@ -46,23 +45,23 @@ export default async function ProductDetail({ params: { slug } }) {
   return (
     <Box>
       <Container fixed>
-        <HeaderBreadcrumbs
-          heading="Product Details"
-          links={[
-            {
-              name: 'Home',
-              href: '/'
-            },
-            {
-              name: 'Product',
-              href: '/products'
-            },
-            {
-              name: data?.name
-            }
-          ]}
-        />
-        <Box mt={4}>
+        <Stack gap={5}>
+          <HeaderBreadcrumbs
+            heading="Product Details"
+            links={[
+              {
+                name: 'Home',
+                href: '/'
+              },
+              {
+                name: 'Product',
+                href: '/products'
+              },
+              {
+                name: data?.name
+              }
+            ]}
+          />
           <Grid container spacing={2} justifyContent="center">
             <Grid item xs={12} sm={6} md={4} lg={4}>
               <ProductDetailsCarousel slug={slug} product={data} data={data} />
@@ -78,6 +77,7 @@ export default async function ProductDetail({ params: { slug } }) {
               />
             </Grid>
           </Grid>
+          <ProductAdditionalInfo />
           <Suspense fallback={<></>}>
             <ProductDetailTabs
               product={{ description: data.description, _id: data._id }}
@@ -85,11 +85,10 @@ export default async function ProductDetail({ params: { slug } }) {
               totalReviews={totalReviews}
             />
           </Suspense>
-          <ProductAdditionalInfo />
           <Suspense fallback={<></>}>
             <RelatedProductsCarousel id={data._id} category={category?.slug} />
           </Suspense>
-        </Box>
+        </Stack>
       </Container>
     </Box>
   );

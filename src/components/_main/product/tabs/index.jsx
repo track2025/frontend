@@ -13,8 +13,8 @@ TabsIndex.propTypes = {
 };
 
 export default async function TabsIndex({ product, totalRating, totalReviews }) {
-  const { data, isLoading } = useQuery(['brands'], () => api.getProductReviews(product._id));
-  console.log(data, 'data data data');
+  const { data, isLoading } = useQuery(['reviews-summary'], () => api.getProductReviews(product._id));
+
   return !isLoading ? (
     <ProductDetailsReview
       isLoading={isLoading}

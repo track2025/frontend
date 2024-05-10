@@ -51,9 +51,13 @@ import { LiaShippingFastSolid } from 'react-icons/lia';
 import { MdLockOutline } from 'react-icons/md';
 import { FaRegStar } from 'react-icons/fa';
 import { TbMessage } from 'react-icons/tb';
-
+import LoadingButton from '@mui/lab/LoadingButton';
 import { addCompareProduct, removeCompareProduct } from '../../../../lib/redux/slices/compare';
 import { MdOutlineShoppingBasket } from 'react-icons/md';
+import { FiShoppingCart } from 'react-icons/fi';
+import { IoBagCheckOutline } from 'react-icons/io5';
+import { FaRegHeart } from 'react-icons/fa';
+import { GoGitCompare } from 'react-icons/go';
 
 ProductDetailsSumary.propTypes = {
   product: PropTypes.object.isRequired,
@@ -101,8 +105,10 @@ Incrementer.propTypes = {
 };
 export default function ProductDetailsSumary({ ...props }) {
   const { product, isLoading, totalReviews, totalRating, brand, category, id } = props;
+  console.log(totalReviews, totalRating, 'totalRating');
   const { isAuthenticated } = useSelector(({ user }) => user);
   const { products: compareProducts } = useSelector(({ compare }) => compare);
+  const { wishlist } = useSelector(({ wishlist }) => wishlist);
   const [loading, setLoading] = useState(false);
   const [isClient, setIsClient] = useState(false);
   const [color, setColor] = useState(0);
@@ -111,7 +117,6 @@ export default function ProductDetailsSumary({ ...props }) {
     setIsClient(true);
   }, []);
 
-  console.log(product, 'product');
   const router = useRouter();
 
   const dispatch = useDispatch();
@@ -235,7 +240,9 @@ export default function ProductDetailsSumary({ ...props }) {
                   <Stack direction="row" alignItems="center" justifyContent="space-between" spacing={1}>
                     <Stack direction="row" alignItems="center" className="rating-wrapper" spacing={1}>
                       <Rating value={totalRating} precision={0.1} size="small" readOnly />
-                      <Typography variant="body1">{totalReviews}</Typography>
+                      <Typography variant="subtitle2" color="text.secondary">
+                        ({totalRating.toFixed(1)})
+                      </Typography>
                     </Stack>
                     <Stack direction="row" alignItems="center" spacing={1} color="text.secondary">
                       <TbMessage size={18} />
@@ -283,8 +290,6 @@ export default function ProductDetailsSumary({ ...props }) {
                 </Stack>
                 <Typography variant="subtitle1">Description:</Typography>
                 <Typography variant="body1"> {product?.description}</Typography>
-                <Typography variant="body1"> {product?.description}</Typography>
-                <Typography variant="body1"> {product?.description}</Typography>
               </Card>
             </Grid>
             <Grid item xs={12} md={5}>
@@ -323,6 +328,7 @@ export default function ProductDetailsSumary({ ...props }) {
                     {product?.available > 0 ? `${product?.available} Items` : <span>Out of stock</span>}
                   </Typography>
                 </Stack>
+
                 <Stack spacing={1} className="contained-buttons" mb={2}>
                   <Button
                     fullWidth
@@ -332,6 +338,7 @@ export default function ProductDetailsSumary({ ...props }) {
                     color="primary"
                     variant="text"
                     onClick={() => handleAddCart(product)}
+                    startIcon={<FiShoppingCart />}
                     sx={{
                       background: (theme) => alpha(theme.palette.primary.main, 0.3),
                       ':hover': {
@@ -348,25 +355,56 @@ export default function ProductDetailsSumary({ ...props }) {
                     type="submit"
                     variant="contained"
                     color="primary"
+                    startIcon={<IoBagCheckOutline />}
                   >
                     Buy Now
                   </Button>
-                  <Button
-                    fullWidth
-                    disabled={loading}
-                    onClick={onClickWishList}
-                    type="button"
-                    color="secondary"
-                    variant="contained"
-                  >
-                    Add to Wishlist
-                  </Button>
+                  {wishlist?.filter((v) => v === product?._id).length > 0 ? (
+                    <LoadingButton
+                      fullWidth
+                      loading={loading}
+                      onClick={onClickWishList}
+                      type="button"
+                      color="secondary"
+                      variant="contained"
+                      startIcon={<FaRegHeart />}
+                    >
+                      Remove from Wishlist
+                    </LoadingButton>
+                  ) : (
+                    <LoadingButton
+                      fullWidth
+                      loading={loading}
+                      onClick={onClickWishList}
+                      type="button"
+                      color="secondary"
+                      variant="contained"
+                      startIcon={<FaRegHeart />}
+                    >
+                      Add to Wishlist
+                    </LoadingButton>
+                  )}
+
                   {compareProducts?.filter((v) => v._id === product._id).length > 0 ? (
-                    <Button fullWidth onClick={onRemoveCompare} type="button" color="error" variant="contained">
+                    <Button
+                      startIcon={<GoGitCompare />}
+                      fullWidth
+                      onClick={onRemoveCompare}
+                      type="button"
+                      color="error"
+                      variant="contained"
+                    >
                       Remove from Compare
                     </Button>
                   ) : (
-                    <Button fullWidth onClick={onAddCompare} type="button" color="error" variant="contained">
+                    <Button
+                      startIcon={<GoGitCompare />}
+                      fullWidth
+                      onClick={onAddCompare}
+                      type="button"
+                      color="error"
+                      variant="contained"
+                    >
                       Add to Compare
                     </Button>
                   )}

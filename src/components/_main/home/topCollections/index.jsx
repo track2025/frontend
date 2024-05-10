@@ -1,5 +1,5 @@
 'use client';
-import React, { useState } from 'react';
+import React from 'react';
 import NextLink from 'next/link';
 // mui
 import { Grid, Button, Typography, Box, Stack } from '@mui/material';
@@ -14,7 +14,6 @@ import TodayCountDown from '../todayCountDown';
 import ProductCard from 'src/components/cards/product';
 export default function TopCollections() {
   const { data, isLoading } = useQuery(['get-best-products'], () => api.getTopRatedProducts());
-  // const [small, isSmall] = useState(false);
 
   return (
     <Box>
@@ -43,26 +42,26 @@ export default function TopCollections() {
       </Stack>
 
       <Stack direction="row" spacing={2}>
-        <Box paddingTop={2}>
+        <Box>
           <TodayCountDown />
         </Box>
         <Grid container spacing={2} justifyContent="center">
           {(isLoading ? Array.from(new Array(2)) : data?.data).map((item, index) => (
             <>
               <Grid item xs={6} sm={6} md={4} lg={3} key={index}>
-                <ProductCard product={item} loading={isLoading} isSmall />
+                <ProductCard product={item} loading={isLoading} />
               </Grid>
               <Grid item xs={6} sm={6} md={4} lg={3} key={index}>
-                <ProductCard product={item} loading={isLoading} isSmall />
+                <ProductCard product={item} loading={isLoading} />
               </Grid>
               <Grid item xs={6} sm={6} md={4} lg={3} key={index}>
-                <ProductCard product={item} loading={isLoading} isSmall />
+                <ProductCard product={item} loading={isLoading} />
               </Grid>
               <Grid item xs={6} sm={6} md={4} lg={3} key={index}>
-                <ProductCard product={item} loading={isLoading} isSmall />
+                <ProductCard product={item} loading={isLoading} />
               </Grid>
               <Grid item xs={6} sm={6} md={4} lg={3} key={index}>
-                <ProductCard product={item} loading={isLoading} isSmall />
+                <ProductCard product={item} loading={isLoading} />
               </Grid>
             </>
           ))}
