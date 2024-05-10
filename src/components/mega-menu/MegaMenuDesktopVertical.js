@@ -6,16 +6,15 @@ import { FaAngleRight } from 'react-icons/fa6';
 
 // material
 import { alpha } from '@mui/material/styles';
-import { Box, List, Card, ListItem, Typography, Stack, Button } from '@mui/material';
-import { IoShirtOutline } from 'react-icons/io5';
-import navConfig from './MenuConfig';
+import { Box, List, Card, ListItem, Typography, Stack, Button, Skeleton } from '@mui/material';
+import Image from 'next/image';
 import { useSelector } from 'react-redux';
 // ----------------------------------------------------------------------
 
 const ITEM_HEIGHT = 40;
 // ----------------------------------------------------------------------
 
-function ParentItem({ slug, name }) {
+function ParentItem({ category, isLast, isLoading }) {
   const activeStyle = {
     color: 'primary.main',
     bgcolor: (theme) => alpha(theme.palette.primary.main, theme.palette.action.hoverOpacity)
@@ -23,7 +22,7 @@ function ParentItem({ slug, name }) {
 
   return (
     <ListItem
-      href={'/products?category=' + slug}
+      href={'/products?category=' + category?.slug}
       component={RouterLink}
       sx={{
         padding: (theme) => theme.spacing(3.5, 2),
@@ -35,27 +34,28 @@ function ParentItem({ slug, name }) {
         justifyContent: 'space-between',
         transition: (theme) => theme.transitions.create('all'),
         borderBottom: (theme) => `1px solid ${isLast ? 'transparent' : theme.palette.divider}`,
-        '&:hover': activeStyle,
-        ...(open && activeStyle)
+        '&:hover': activeStyle
       }}
     >
       <Stack direction="row" spacing={2} alignItems="center">
         <Box
           component="span"
           sx={{
-            bgcolor: 'background.default',
             width: 32,
             height: 32,
-            display: 'flex',
-            justifyContent: 'center',
-            alignItems: 'center',
-            borderRadius: '50%'
+            borderRadius: '50%',
+            position: 'relative',
+            overflow: 'hidden'
           }}
         >
-          <IoShirtOutline />
+          {isLoading ? (
+            <Skeleton variant="circular" width={32} height={32} />
+          ) : (
+            <Image src={category?.cover?.url} alt={category?.name} layout="fill" objectFit="cover" />
+          )}
         </Box>
         <Typography variant="body1" color="text.primary" fontWeight={500}>
-          {name}
+          {isLoading ? <Skeleton variant="text" width={120} /> : category?.name}
         </Typography>
       </Stack>
     </ListItem>
@@ -67,19 +67,13 @@ MegaMenuItem.propTypes = {
   isLast: PropTypes.bool
 };
 
-function MegaMenuItem({ category, isLast }) {
-  const { name, slug } = category;
-
-  return (
-    <ParentItem slug={slug} name={name} isLast={isLast}>
-      {name}
-    </ParentItem>
-  );
+function MegaMenuItem({ category, isLast, isLoading }) {
+  return <ParentItem category={category} isLoading={isLoading} isLast={isLast} />;
 }
 
 export default function MegaMenuDesktopVertical({ ...other }) {
   const { categories, isLoading } = useSelector(({ categories }) => categories);
-  console.log(categories, isLoading, 'categories, isLoading');
+
   return (
     <List
       component={Card}
@@ -98,10 +92,9 @@ export default function MegaMenuDesktopVertical({ ...other }) {
         justifyContent: 'space-between'
       }}
     >
-      {!isLoading &&
-        categories
-          .slice(0, 5)
-          .map((category, i) => <MegaMenuItem key={category.name} category={category} isLast={i === 4} />)}
+      {(isLoading ? Array.from(new Array(5)) : categories.slice(0, 5)).map((category, i) => (
+        <MegaMenuItem key={Math.random()} isLoading={isLoading} category={category} isLast={i === 4} />
+      ))}
       <Button
         variant="outlined"
         fullWidth

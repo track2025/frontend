@@ -263,7 +263,7 @@ export const updateCategory = async ({ currentSlug, ...payload }) => {
   return data;
 };
 export const getAllCategories = async () => {
-  const { data } = await http.get(`/header/all-categories`);
+  const { data } = await http.get(`/all-categories`);
   return data;
 };
 export const homeCategroies = async () => {

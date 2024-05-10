@@ -201,7 +201,7 @@ function CarouselItem({ ...props }) {
             className="img-box"
             sx={{
               position: 'relative',
-              height: 1,
+              height: 350,
               display: { xs: 'none', md: 'block' }
             }}
           >
