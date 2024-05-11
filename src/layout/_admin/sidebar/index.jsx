@@ -23,6 +23,7 @@ import { IoSettingsOutline } from 'react-icons/io5';
 import { RiCoupon5Line } from 'react-icons/ri';
 import { BsBuildings } from 'react-icons/bs';
 import { AiOutlineDollarCircle } from 'react-icons/ai';
+import { BsCashCoin } from 'react-icons/bs';
 
 // next
 import { usePathname } from 'next/navigation';
@@ -90,7 +91,7 @@ export const navlinks = [
     id: 8,
     title: 'Payouts',
     slug: '/payouts',
-    icon: <AiOutlineDollarCircle />,
+    icon: <BsCashCoin />,
     isSearch: false
   },
   {
@@ -100,9 +101,16 @@ export const navlinks = [
     icon: <RiCoupon5Line />,
     isSearch: true
   },
-
   {
     id: 10,
+    title: 'Currencies',
+    slug: '/currencies',
+    icon: <AiOutlineDollarCircle />,
+    isSearch: true
+  },
+
+  {
+    id: 11,
     title: 'Newsletter',
     slug: '/newsletter',
     icon: <SlEnvolopeLetter />,

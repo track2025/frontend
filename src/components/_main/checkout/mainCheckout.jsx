@@ -156,18 +156,6 @@ const CheckoutMain = () => {
       zip: userData?.zip || '',
       order: userData?.order || '',
       ...(checked && {
-        // firstName: userData?.firstName || '',
-        // lastName: userData?.lastName || '',
-        // phone: userData?.phone || '',
-        // email: userData?.email || '',
-        // address: userData?.address || '',
-        // city: userData?.city || '',
-        // state: userData?.state || '',
-        // country: userData?.country || 'Pakistan',
-        // zip: userData?.zip || '',
-        // order: userData?.order || '',
-        // shipping: userData?.shipping || true,
-
         shippingAddress: {
           firstName: '',
           lastName: '',
@@ -182,7 +170,6 @@ const CheckoutMain = () => {
     enableReinitialize: true,
     validationSchema: NewAddressSchema,
     onSubmit: async (values) => {
-      console.log(values, 'test checkout Data');
       const items = cart.map(({ ...others }) => others);
       const totalItems = sum(items.map((item) => item.quantity));
 

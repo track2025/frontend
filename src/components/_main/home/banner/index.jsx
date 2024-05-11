@@ -38,13 +38,13 @@ export default function Banner() {
           width: '100%',
           overflow: 'hidden',
           py: 1,
-          bgcolor: (theme) => theme.palette.primary.extraLight,
+          bgcolor: (theme) => alpha(theme.palette.success.light, 0.4),
           '&:before': {
             content: "''",
             position: 'absolute',
             top: '-40px',
             left: '40%',
-            bgcolor: (theme) => alpha(theme.palette.primary.main, 0.77),
+            bgcolor: (theme) => alpha(theme.palette.success.main, 0.77),
             height: 100,
             width: 100,
             borderRadius: '50px',
@@ -59,7 +59,7 @@ export default function Banner() {
                 <Typography variant="h2" fontWeight={900}>
                   UK Premier Store for Wrist Watches
                 </Typography>
-                <Typography variant="body1" color="text.secondary">
+                <Typography variant="body1" color="text.success">
                   Welcome to our world of horological excellence, where timepieces become timeless statements of
                   elegance. Our collection showcases an unparalleled selection of premium watches, curated from renowned
                   luxury brands around the globe.
@@ -69,7 +69,7 @@ export default function Banner() {
                     component={Link}
                     href="/products"
                     variant="contained"
-                    color="primary"
+                    color="success"
                     size="large"
                     endIcon={<IoIosArrowForward />}
                     sx={{
@@ -92,7 +92,7 @@ export default function Banner() {
                     top: 0,
                     transform: 'translateY(10%)',
                     borderRadius: '50%',
-                    bgcolor: 'primary.main',
+                    bgcolor: 'success.main',
                     display: 'block',
                     p: { md: '50%', xs: '50%' }
                   }

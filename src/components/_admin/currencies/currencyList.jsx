@@ -12,16 +12,17 @@ import { Dialog } from '@mui/material';
 // components
 import DeleteDialog from 'src/components/dialog/delete';
 import Table from 'src/components/table/table';
-import BrandsCard from 'src/components/cards/brands';
-import Brand from 'src/components/table/rows/brand';
+import CurrencyCard from 'src/components/cards/currency';
+import Currency from 'src/components/table/rows/currency';
 // next
 import { useSearchParams } from 'next/navigation';
 
 const TABLE_HEAD = [
-  { id: 'name', label: 'Brands', alignRight: false, sort: true },
-  { id: 'description', label: 'Description', alignRight: false },
+  { id: 'name', label: 'Currency', alignRight: false, sort: true },
+  { id: 'country', label: 'Country', alignRight: false },
+  { id: 'rate', label: 'Rate', alignRight: false },
   { id: 'status', label: 'Status', alignRight: false },
-  { id: 'createdAt', label: 'Date', alignRight: false, sort: true },
+
   { id: '', label: 'Actions', alignRight: true }
 ];
 
@@ -35,7 +36,7 @@ export default function BrandList() {
 
   const { data, isLoading, error } = useQuery(
     ['brands', apicall, searchParam, pageParam],
-    () => api.getBrands(+pageParam || 1, searchParam || ''),
+    () => api.getAdminCurrencies(+pageParam || 1, searchParam || ''),
     {
       onError: (err) => toast.error(err.response.data.message || 'Something went wrong!')
     }
@@ -59,16 +60,16 @@ export default function BrandList() {
           endPoint="deleteBrand"
           type={'Brand deleted'}
           deleteMessage={
-            'Are you sure you want to delete this brand? Please consider carefully before making irreversible changes.'
+            'Are you sure you want to delete this currency? Please consider carefully before making irreversible changes.'
           }
         />
       </Dialog>
       <Table
         headData={TABLE_HEAD}
         data={error ? [] : data}
-        // mobileRow={BrandsCard}
+        // mobileRow={CurrencyCard}
         isLoading={isLoading}
-        row={Brand}
+        row={Currency}
         handleClickOpen={handleClickOpen}
       />
     </>

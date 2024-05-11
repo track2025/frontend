@@ -52,7 +52,8 @@ export default function Navbar({}) {
           zIndex: 999,
           borderRadius: 0,
           bgcolor: (theme) => theme.palette.primary.main,
-          display: { md: 'flex', xs: 'none' }
+          display: { md: 'flex', xs: 'none' },
+          pr: '0px !important'
         }}
       >
         <Toolbar className="toolbar" sx={{ minHeight: '48px!important' }}>

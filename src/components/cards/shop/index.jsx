@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 // next
 import Link from 'next/link';
 // mui
-import { Typography, CardActionArea, Card, Box, Skeleton, Stack, Rating, Button } from '@mui/material';
+import { Typography, CardActionArea, Card, Box, Skeleton, Stack, Rating, Button, IconButton } from '@mui/material';
 // components
 import Image from 'src/components/blurImage';
 // icons
@@ -87,28 +87,12 @@ export default function ShopCard({ ...props }) {
             </div> */}
           </Stack>
           <Stack direction="row" justifyContent="space-between" spacing={3}>
-            <Button
-              variant="contained"
-              color="primary"
-              startIcon={<AiOutlineShop />}
-              sx={{
-                borderRadius: 6,
-                fontWeight: 400
-              }}
-            >
-              View Store
-            </Button>
-            <Button
-              variant="outlined"
-              color="primary"
-              startIcon={<FaRegUser style={{ fontSize: 16 }} />}
-              sx={{
-                borderRadius: 6,
-                fontWeight: 400
-              }}
-            >
-              Follow
-            </Button>
+            <IconButton aria-label="view shop">
+              <AiOutlineShop />
+            </IconButton>
+            <IconButton aria-label="follow shop">
+              <FaRegUser />
+            </IconButton>
           </Stack>
         </Box>
       </Stack>

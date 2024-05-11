@@ -530,3 +530,22 @@ export const getAllCategoriesByUser = async () => {
   const { data } = await http.get(`/all-categories`);
   return data;
 };
+export const getAdminCurrencies = async (page, search) => {
+  const { data } = await http.get(`/admin/currencies?page=${page || 1}&search=${search || ''}`);
+  return data;
+};
+
+export const addCurrency = async (payload) => {
+  const { data } = await http.post(`/admin/currencies`, payload);
+  return data;
+};
+
+export const updateCurrency = async ({ _id, ...others }) => {
+  const { data } = await http.put(`/admin/currencies/${_id}`, others);
+  return data;
+};
+
+export const getCurrencyByAdmin = async (cid) => {
+  const { data } = await http.get(`/admin/currencies/${cid}`);
+  return data;
+};
