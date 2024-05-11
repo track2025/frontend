@@ -549,3 +549,7 @@ export const getCurrencyByAdmin = async (cid) => {
   const { data } = await http.get(`/admin/currencies/${cid}`);
   return data;
 };
+export const getCurrencies = async () => {
+  const { data } = await http.get(`/currencies`);
+  return data;
+};

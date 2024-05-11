@@ -10,15 +10,18 @@ import TabList from '@mui/lab/TabList';
 import TabPanel from '@mui/lab/TabPanel';
 import { MdClear } from 'react-icons/md';
 import Typography from '@mui/material/Typography';
-import { Grid, Button, Stack, alpha } from '@mui/material';
+import { Grid, Button, Stack, alpha, Skeleton } from '@mui/material';
 import { locales } from 'i18n-config';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
+import * as api from 'src/services';
+// usequery
+import { useQuery } from 'react-query';
 export default function LanguageSelect() {
   const [open, setOpen] = React.useState(false);
   const [value, setValue] = React.useState('1');
   const pathName = usePathname();
-
+  const { data, isLoading } = useQuery(['coupon-codes'], () => api.getCurrencies());
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
@@ -37,7 +40,7 @@ export default function LanguageSelect() {
     return segments.join('/');
   };
   const segments = pathName?.split('/');
-  console.log(segments, 'segments');
+
   return (
     <React.Fragment>
       <IconButton
@@ -116,8 +119,8 @@ export default function LanguageSelect() {
                   Choose a currency
                 </Typography>
                 <Grid container spacing={2}>
-                  {Array.from(new Array(12)).map((idx, index) => (
-                    <Grid key={idx} item xs={12} md={3}>
+                  {(isLoading ? Array.from(new Array(12)) : data?.data).map((cur, index) => (
+                    <Grid key={Math.random()} item xs={12} md={3}>
                       <Button
                         fullWidth
                         size="large"
@@ -129,8 +132,12 @@ export default function LanguageSelect() {
                         }}
                       >
                         <Stack>
-                          <Typography variant="subtitle2">United States Dollar</Typography>
-                          <Typography variant="body2">USD-$</Typography>
+                          <Typography variant="subtitle2">
+                            {isLoading ? <Skeleton variant="text" width={120} /> : `${cur.name}-${cur.code}`}
+                          </Typography>
+                          <Typography variant="body2">
+                            {isLoading ? <Skeleton variant="text" width={60} /> : cur.country}
+                          </Typography>
                         </Stack>
                       </Button>
                     </Grid>
