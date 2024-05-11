@@ -86,13 +86,31 @@ export default function ShopCard({ ...props }) {
               <Rating name="size-small" defaultValue={5} readOnly />
             </div> */}
           </Stack>
-          <Stack direction="row" justifyContent="space-between" spacing={3}>
-            <IconButton aria-label="view shop">
-              <AiOutlineShop />
-            </IconButton>
-            <IconButton aria-label="follow shop">
-              <FaRegUser />
-            </IconButton>
+
+          <Stack direction="row" justifyContent="space-between" spacing={1.5} mt={1}>
+            <Button
+              variant="contained"
+              color="primary"
+              startIcon={<AiOutlineShop />}
+              sx={{
+                borderRadius: 6,
+                fontWeight: 400,
+                whiteSpace: 'nowrap'
+              }}
+            >
+              View Store
+            </Button>
+            <Button
+              variant="outlined"
+              color="primary"
+              startIcon={<FaRegUser style={{ fontSize: 16 }} />}
+              sx={{
+                borderRadius: 6,
+                fontWeight: 400
+              }}
+            >
+              Follow
+            </Button>
           </Stack>
         </Box>
       </Stack>
