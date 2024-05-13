@@ -16,6 +16,7 @@ PayPalCheckout.propTypes = {
     country: PropTypes.string.isRequired
   }).isRequired,
   total: PropTypes.number.isRequired,
+  currency: PropTypes.string.isRequired,
   isValid: PropTypes.bool.isRequired
 };
 
@@ -43,6 +44,7 @@ function PayPalCheckout({ onSuccess, values, total, isValid }) {
               {
                 description: `${values.email} placed an order from ${values.city}, ${values.state}, ${values.country}`,
                 amount: {
+                  currency_code: currency,
                   value: total.toFixed(2) // Ensure value is in "xx.xx" format
                 }
               }

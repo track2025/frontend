@@ -312,6 +312,7 @@ const CheckoutMain = () => {
                     isValid={isValid}
                     formik={formik}
                     couponCode={couponCode}
+                    currency={currency}
                   />
                 </PayPalScriptProvider>
               </Collapse>
