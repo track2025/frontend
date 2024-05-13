@@ -12,7 +12,7 @@ import * as api from 'src/services';
 import PropTypes from 'prop-types';
 import ProductList from './productList';
 import SortBar from './sortbar';
-
+import { useSelector } from 'react-redux';
 ProductListing.propTypes = {
   category: PropTypes.object,
   fetchFilters: PropTypes.string.isRequired,
