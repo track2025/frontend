@@ -34,6 +34,7 @@ import CheckoutGuestFormSkeleton from '../skeletons/checkout/checkoutForm';
 import PaymentInfoSkeleton from '../skeletons/checkout/paymentInfo';
 import PaymentMethodCardSkeleton from '../skeletons/checkout/paymentMethod';
 import CardItemSekelton from '../skeletons/checkout/cartItems';
+import { useCurrencyConvert } from 'src/hooks/convertCurrency';
 // dynamic components
 const CheckoutForm = dynamic(() => import('src/components/forms/checkout'), {
   loading: () => <CheckoutGuestFormSkeleton />
@@ -61,6 +62,7 @@ const initialOptions = {
 
 const CheckoutMain = () => {
   const router = useRouter();
+  const cCurrency = useCurrencyConvert();
   const dispatch = useDispatch();
   const { currency, rate } = useSelector(({ settings }) => settings);
   const { checkout } = useSelector(({ product }) => product);
@@ -211,7 +213,10 @@ const CheckoutMain = () => {
 
     const cardElement = elements.getElement('card');
     try {
-      const { client_secret: clientSecret } = await api.paymentIntents(Number(totalWithDiscount || checkout.total));
+      const { client_secret: clientSecret } = await api.paymentIntents(
+        cCurrency(totalWithDiscount || checkout.total),
+        currency
+      );
 
       const paymentMethodReq = await stripe.createPaymentMethod({
         type: 'card',
@@ -239,7 +244,6 @@ const CheckoutMain = () => {
 
       mutate({
         ...data,
-
         paymentMethod: 'Stripe',
         couponCode,
         paymentId: paymentMethodReq?.paymentMethod.id
@@ -304,10 +308,11 @@ const CheckoutMain = () => {
                   <PayPalPaymentMethod
                     onSuccess={onSuccessPaypal}
                     values={values}
-                    total={totalWithDiscount || total}
+                    total={cCurrency(totalWithDiscount || total)}
                     isValid={isValid}
                     formik={formik}
                     couponCode={couponCode}
+                    currency={currency}
                   />
                 </PayPalScriptProvider>
               </Collapse>

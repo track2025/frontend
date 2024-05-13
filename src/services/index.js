@@ -440,9 +440,10 @@ export const getNewsletter = async (page) => {
   return data;
 };
 
-export const paymentIntents = async (amount) => {
+export const paymentIntents = async (amount, currency) => {
   const { data } = await http.post(`/payment-intents`, {
-    amount
+    amount,
+    currency
   });
   return data;
 };
