@@ -17,7 +17,11 @@ import { usePathname } from 'next/navigation';
 import * as api from 'src/services';
 // usequery
 import { useQuery } from 'react-query';
+import { useDispatch, useSelector } from 'react-redux';
+import { handleChangeCurrency } from 'src/lib/redux/slices/settings';
 export default function LanguageSelect() {
+  const dispatch = useDispatch();
+  const { currency } = useSelector(({ settings }) => settings);
   const [open, setOpen] = React.useState(false);
   const [value, setValue] = React.useState('1');
   const pathName = usePathname();
@@ -32,6 +36,8 @@ export default function LanguageSelect() {
   const handleClose = () => {
     setOpen(false);
   };
+
+  console.log(currency, 'currencycurrency');
 
   const redirectedPathName = (locale) => {
     if (!pathName) return '/';
@@ -122,10 +128,18 @@ export default function LanguageSelect() {
                   {(isLoading ? Array.from(new Array(12)) : data?.data).map((cur, index) => (
                     <Grid key={Math.random()} item xs={12} md={3}>
                       <Button
+                        onClick={() =>
+                          dispatch(
+                            handleChangeCurrency({
+                              currency: cur.code,
+                              rate: cur.rate
+                            })
+                          )
+                        }
                         fullWidth
                         size="large"
-                        variant={index < 1 ? 'outlined' : 'text'}
-                        color={index < 1 ? 'primary' : 'inherit'}
+                        variant={'outlined'}
+                        color={currency === cur?.code ? 'primary' : 'inherit'}
                         sx={{
                           textAlign: 'left',
                           justifyContent: 'start'

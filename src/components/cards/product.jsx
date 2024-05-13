@@ -25,7 +25,6 @@ import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 // components
 import Label from 'src/components/label';
-import { fCurrency } from 'src/utils/formatNumber';
 import BlurImage from 'src/components/blurImage';
 // icons
 import { IoMdHeartEmpty } from 'react-icons/io';
@@ -42,9 +41,13 @@ import { IoIosHeart } from 'react-icons/io';
 import dynamic from 'next/dynamic';
 import { FaRegStar } from 'react-icons/fa';
 import ColorPreviewGroup from 'src/components/colorPreviewGroup';
+import { useCurrencyConvert } from 'src/hooks/convertCurrency';
+import { useCurrencyFormatter } from 'src/hooks/fCurrency';
 const ProductDetailsDialog = dynamic(() => import('../dialog/productDetails'));
 export default function ShopProductCard({ ...props }) {
   const { product, loading } = props;
+  const cCurrency = useCurrencyConvert();
+  const fCurrency = useCurrencyFormatter();
 
   const [open, setOpen] = useState(false);
   const [openActions, setOpenActions] = useState(false);
@@ -330,7 +333,7 @@ export default function ShopProductCard({ ...props }) {
               <Skeleton variant="text" width={120} />
             ) : (
               <>
-                <span>{fCurrency(product?.priceSale)}</span>
+                <span>{fCurrency(cCurrency(product?.priceSale))}</span>
                 <span className="discount">
                   ({`-${(100 - (product?.priceSale / product?.price) * 100).toFixed()}%`})
                 </span>

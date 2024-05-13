@@ -36,6 +36,7 @@ const getSearchParams = (searchParams) => {
 };
 export default function ProductListing({ category, subCategory, shop, fetchFilters }) {
   const searchParams = useSearchParams();
+  const { rate } = useSelector(({ settings }) => settings);
   const { data, isLoading } = useQuery(
     [
       'products' + category || subCategory ? '-with-category' : '',
@@ -55,7 +56,8 @@ export default function ProductListing({ category, subCategory, shop, fetchFilte
               : 'getProducts'
       ](
         getSearchParams(searchParams),
-        shop ? shop?.slug : category ? category?.slug : subCategory ? subCategory?.slug : ''
+        shop ? shop?.slug : category ? category?.slug : subCategory ? subCategory?.slug : '',
+        rate
       )
   );
   console.log(subCategory, 'subCategory');

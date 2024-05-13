@@ -58,7 +58,8 @@ import { FiShoppingCart } from 'react-icons/fi';
 import { IoBagCheckOutline } from 'react-icons/io5';
 import { FaRegHeart } from 'react-icons/fa';
 import { GoGitCompare } from 'react-icons/go';
-
+import { useCurrencyConvert } from 'src/hooks/convertCurrency';
+import { useCurrencyFormatter } from 'src/hooks/fCurrency';
 ProductDetailsSumary.propTypes = {
   product: PropTypes.object.isRequired,
   isLoading: PropTypes.bool.isRequired,
@@ -105,7 +106,8 @@ Incrementer.propTypes = {
 };
 export default function ProductDetailsSumary({ ...props }) {
   const { product, isLoading, totalReviews, totalRating, brand, category, id } = props;
-  console.log(totalReviews, totalRating, 'totalRating');
+  const cCurrency = useCurrencyConvert();
+  const fCurrency = useCurrencyFormatter();
   const { isAuthenticated } = useSelector(({ user }) => user);
   const { products: compareProducts } = useSelector(({ compare }) => compare);
   const { wishlist } = useSelector(({ wishlist }) => wishlist);
@@ -274,7 +276,7 @@ export default function ProductDetailsSumary({ ...props }) {
                     <Stack direction="row" alignItems="center" spacing={1}>
                       <Typography variant="subtitle1">Discount:</Typography>
                       <Typography variant="subtitle1" color="text.secondary" fontWeight={400} className="text-discount">
-                        {!isLoading && isLoaded && fCurrency(product?.price - product?.priceSale)}
+                        {!isLoading && isLoaded && fCurrency(cCurrency(product?.price - product?.priceSale))}
                         {<span>({(100 - (product?.priceSale / product?.price) * 100).toFixed(0)}% Discount)</span>}
                       </Typography>
                     </Stack>
@@ -295,10 +297,10 @@ export default function ProductDetailsSumary({ ...props }) {
             <Grid item xs={12} md={5}>
               <Card sx={{ p: 2, position: 'sticky', top: 20 }}>
                 <Typography variant="h4" className="text-price">
-                  {!isLoading && isLoaded && fCurrency(product?.priceSale)} &nbsp;
+                  {!isLoading && isLoaded && fCurrency(cCurrency(product?.priceSale))} &nbsp;
                   {product?.price <= product?.priceSale ? null : (
                     <Typography component="span" className="old-price" color="text.secondary">
-                      {!isLoading && isLoaded && fCurrency(product?.price)}
+                      {!isLoading && isLoaded && fCurrency(cCurrency(product?.price))}
                     </Typography>
                   )}
                 </Typography>

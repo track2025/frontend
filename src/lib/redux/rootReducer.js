@@ -40,7 +40,7 @@ const settingsPersistConfig = {
   key: 'settings',
   storage,
   keyPrefix: 'redux-',
-  whitelist: ['themeMode', 'themeColor']
+  whitelist: ['themeMode', 'themeColor', 'rate', 'currency']
 };
 const userPersistConfig = {
   key: 'user',

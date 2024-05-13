@@ -13,8 +13,8 @@ export const getUserCategories = async () => {
   const { data } = await http.get(`/categories`);
   return data;
 };
-export const getProducts = async (query = '') => {
-  const { data } = await http.get(`/products${query}`);
+export const getProducts = async (query = '', cat, rate) => {
+  const { data } = await http.get(`/products${query}&rate=${rate}`);
   return data;
 };
 export const getProductDetails = async (pid) => {
@@ -22,21 +22,21 @@ export const getProductDetails = async (pid) => {
   return data;
 };
 
-export const getProductsByCategory = async (query = '', category) => {
-  const { data } = await http.get(`/category/products/${category}${query}`);
+export const getProductsByCategory = async (query = '', category, rate) => {
+  const { data } = await http.get(`/category/products/${category}${query}&rate=${rate}`);
   return data;
 };
 export const getProductSlugs = async () => {
   const { data } = await http.get(`/products-slugs`);
   return data;
 };
-export const getProductsBySubCategory = async (query = '', subcategory) => {
-  const { data } = await http.get(`/subcategory/products/${subcategory}${query}`);
+export const getProductsBySubCategory = async (query = '', subcategory, rate) => {
+  const { data } = await http.get(`/subcategory/products/${subcategory}${query}&rate=${rate}`);
   return data;
 };
 
-export const getProductsByShop = async (query = '', shop) => {
-  const { data } = await http.get(`/shop/products/${shop}${query}`);
+export const getProductsByShop = async (query = '', shop, rate) => {
+  const { data } = await http.get(`/shop/products/${shop}${query}&rate=${rate}`);
   return data;
 };
 

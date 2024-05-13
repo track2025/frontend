@@ -62,6 +62,7 @@ const initialOptions = {
 const CheckoutMain = () => {
   const router = useRouter();
   const dispatch = useDispatch();
+  const { currency, rate } = useSelector(({ settings }) => settings);
   const { checkout } = useSelector(({ product }) => product);
   const { user: userData } = useSelector(({ user }) => user);
   const { cart, total } = checkout;
@@ -179,6 +180,8 @@ const CheckoutMain = () => {
         user: values,
         totalItems,
         couponCode,
+        currency,
+        conversionRate: rate,
         shipping: process.env.SHIPPING_FEE || 0
       };
       if (data.paymentMethod === 'stripe') {
@@ -236,6 +239,7 @@ const CheckoutMain = () => {
 
       mutate({
         ...data,
+
         paymentMethod: 'Stripe',
         couponCode,
         paymentId: paymentMethodReq?.paymentMethod.id
