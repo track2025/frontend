@@ -14,7 +14,6 @@ import { sum } from 'lodash';
 import { useCurrencyConvert } from 'src/hooks/convertCurrency';
 import { useCurrencyFormatter } from 'src/hooks/fCurrency';
 import { useDispatch, useSelector } from 'react-redux';
-import { getCart } from 'src/lib/redux/slices/product';
 export default function CartWidget({ ...props }) {
   const dispatch = useDispatch();
   const router = useRouter();
@@ -22,7 +21,7 @@ export default function CartWidget({ ...props }) {
     checkout: { cart }
   } = useSelector(({ product }) => product);
   const totalItems = sum(cart?.map((item) => item.quantity));
-  const subtotal = sum(cart?.map((product) => product.price * product.quantity));
+  const subtotal = sum(cart?.map((product) => (product.priceSale || product.price) * product.quantity));
   const total = subtotal;
   const cCurrency = useCurrencyConvert();
   const fCurrency = useCurrencyFormatter();
