@@ -2,7 +2,7 @@
 import React, { useState } from 'react';
 // next
 import dynamic from 'next/dynamic';
-import { useRouter } from 'next-nprogress-bar';
+import { useRouter } from 'src/hooks/useRouter';
 // mui
 import { Box, Collapse, Grid } from '@mui/material';
 import LoadingButton from '@mui/lab/LoadingButton';

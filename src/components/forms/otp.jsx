@@ -2,7 +2,7 @@
 import React from 'react';
 
 // next component
-import { useRouter } from 'next-nprogress-bar';
+import { useRouter } from 'src/hooks/useRouter';
 import { useSearchParams } from 'next/navigation';
 // api
 import * as api from 'src/services';

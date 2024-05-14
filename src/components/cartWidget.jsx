@@ -7,7 +7,7 @@ import PropTypes from 'prop-types';
 import { useState, useEffect } from 'react';
 
 // next
-import { useRouter } from 'next-nprogress-bar';
+import { useRouter } from 'src/hooks/useRouter';
 
 // lodash
 import { sum } from 'lodash';

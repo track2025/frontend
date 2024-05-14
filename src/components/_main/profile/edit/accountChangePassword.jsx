@@ -1,7 +1,7 @@
 'use client';
 import React from 'react';
 // next
-import { useRouter } from 'next-nprogress-bar';
+import { useRouter } from 'src/hooks/useRouter';
 // mui
 import { Stack, TextField, Typography, Box, InputAdornment, IconButton } from '@mui/material';
 import { LoadingButton } from '@mui/lab';

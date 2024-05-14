@@ -19,6 +19,7 @@ import * as api from 'src/services';
 import { useQuery } from 'react-query';
 import { useDispatch, useSelector } from 'react-redux';
 import { handleChangeCurrency } from 'src/lib/redux/slices/settings';
+
 export default function LanguageSelect() {
   const dispatch = useDispatch();
   const { currency } = useSelector(({ settings }) => settings);
@@ -36,8 +37,6 @@ export default function LanguageSelect() {
   const handleClose = () => {
     setOpen(false);
   };
-
-  console.log(currency, 'currencycurrency');
 
   const redirectedPathName = (locale) => {
     if (!pathName) return '/';

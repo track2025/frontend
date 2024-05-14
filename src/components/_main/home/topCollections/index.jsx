@@ -1,6 +1,6 @@
 'use client';
 import React from 'react';
-import NextLink from 'next/link';
+import NextLink from 'src/utils/link';
 // mui
 import { Grid, Button, Typography, Box, Stack } from '@mui/material';
 // icons

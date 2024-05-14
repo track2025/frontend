@@ -25,7 +25,7 @@ import { useDispatch } from 'src/lib/redux/store';
 import { setWishlist } from 'src/lib/redux/slices/wishlist';
 import { useSelector } from 'react-redux';
 // next
-import Link from 'next/link';
+import Link from 'src/utils/link';
 import { useRouter } from 'next/navigation';
 // components
 import ColorPreview from 'src/components/colorPreview';

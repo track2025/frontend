@@ -6,7 +6,7 @@ import { Grid, Paper, Typography, Skeleton, Box, Stack, IconButton } from '@mui/
 import { styled, useTheme } from '@mui/material/styles';
 import { IoEye } from 'react-icons/io5';
 import { MdEdit } from 'react-icons/md';
-import { useRouter } from 'next-nprogress-bar';
+import { useRouter } from 'src/hooks/useRouter';
 import BlurImage from 'src/components/blurImage';
 
 // components

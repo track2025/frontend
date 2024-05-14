@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import { useState, useEffect } from 'react';
 // next
 import Image from 'next/image';
-import Link from 'next/link';
+import Link from 'src/utils/link';
 // mui
 import {
   Box,

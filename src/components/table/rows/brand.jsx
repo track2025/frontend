@@ -10,7 +10,7 @@ import { MdDelete } from 'react-icons/md';
 import BlurImage from 'src/components/blurImage';
 import { fDateShort } from 'src/utils/formatTime';
 // next
-import { useRouter } from 'next-nprogress-bar';
+import { useRouter } from 'src/hooks/useRouter';
 // components
 import Label from 'src/components/label';
 // lodash

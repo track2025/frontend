@@ -6,7 +6,7 @@ import { useSelector } from 'react-redux';
 // mui
 import { Toolbar, Typography, Stack, useTheme, Link, Divider, Skeleton } from '@mui/material';
 import { LiaShippingFastSolid } from 'react-icons/lia';
-import NextLink from 'next/link';
+import NextLink from 'src/utils/link';
 const UserSelect = dynamic(() => import('src/components/select/userSelect'), {
   ssr: false,
   loading: () => (

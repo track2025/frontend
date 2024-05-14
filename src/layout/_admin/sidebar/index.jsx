@@ -27,7 +27,7 @@ import { BsCashCoin } from 'react-icons/bs';
 
 // next
 import { usePathname } from 'next/navigation';
-import { useRouter } from 'next-nprogress-bar';
+import { useRouter } from 'src/hooks/useRouter';
 import Scrollbar from 'src/components/Scrollbar';
 // Dashboard Side NevLinks
 export const navlinks = [

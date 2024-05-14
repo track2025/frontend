@@ -8,7 +8,7 @@ import { MdDelete } from 'react-icons/md';
 import { fDateShort } from 'src/utils/formatTime';
 import { fCurrency } from 'src/utils/formatNumber';
 // next
-import { useRouter } from 'next-nprogress-bar';
+import { useRouter } from 'src/hooks/useRouter';
 
 import PropTypes from 'prop-types';
 

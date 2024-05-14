@@ -6,7 +6,7 @@ import Typography from '@mui/material/Typography';
 import Tooltip from '@mui/material/Tooltip';
 import { Box, Stack, Zoom, Button } from '@mui/material';
 import { useSearchParams } from 'next/navigation';
-import { useRouter } from 'next-nprogress-bar';
+import { useRouter } from 'src/hooks/useRouter';
 // icons
 import { IoPricetagOutline } from 'react-icons/io5';
 import { useCurrencyFormatter } from 'src/hooks/fCurrency';

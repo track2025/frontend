@@ -7,7 +7,7 @@ import ReviewOverview from 'src/components/_main/product/reviews/overview';
 import ReviewsList from 'src/components/lists/reviews';
 // redux
 import { useSelector } from 'react-redux';
-import { useRouter } from 'next-nprogress-bar';
+import { useRouter } from 'src/hooks/useRouter';
 
 import PropTypes from 'prop-types';
 

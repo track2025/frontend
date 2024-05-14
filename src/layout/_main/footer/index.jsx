@@ -6,7 +6,7 @@ import React from 'react';
 import { alpha, useTheme } from '@mui/material/styles';
 import { Typography, Container, Stack, Box, IconButton, Grid, Link, Fab, Divider } from '@mui/material';
 // next
-import NextLink from 'next/link';
+import NextLink from 'src/utils/link';
 // components
 import NewsLetter from './newsletter';
 

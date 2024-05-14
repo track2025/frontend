@@ -29,7 +29,7 @@ import {
 } from '@mui/material';
 import { enUS } from 'date-fns/locale';
 // next
-import { useRouter } from 'next-nprogress-bar';
+import { useRouter } from 'src/hooks/useRouter';
 // component
 import { Popover as MenuPopover } from 'src/components/popover';
 import NoDataFoundIllustration from 'src/components/illustrations/noDataFound';

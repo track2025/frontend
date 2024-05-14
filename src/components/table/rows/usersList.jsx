@@ -4,7 +4,7 @@ import { Box, TableRow, Skeleton, TableCell, Typography, Stack, IconButton, Avat
 // component
 import { fDateShort } from 'src/utils/formatTime';
 import { enUS } from 'date-fns/locale';
-import { useRouter } from 'next-nprogress-bar';
+import { useRouter } from 'src/hooks/useRouter';
 import BlurImage from 'src/components/blurImage';
 // icons
 import { FiEye } from 'react-icons/fi';

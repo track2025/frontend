@@ -7,7 +7,7 @@ import * as api from 'src/services';
 import { useQuery } from 'react-query';
 // Marquee
 import Marquee from 'react-fast-marquee';
-import NextLink from 'next/link';
+import NextLink from 'src/utils/link';
 
 export default function Brands() {
   const setting = {

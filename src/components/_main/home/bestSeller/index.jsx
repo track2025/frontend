@@ -10,7 +10,7 @@ import { useQuery } from 'react-query';
 import ProductsCarousel from 'src/components/carousels/products';
 import { IoIosArrowForward } from 'react-icons/io';
 // next
-import NextLink from 'next/link';
+import NextLink from 'src/utils/link';
 
 export default function Featured() {
   const { data, isLoading } = useQuery(['get-best-products'], () => api.getBestSellingProducts());
