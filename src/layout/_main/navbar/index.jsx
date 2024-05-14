@@ -7,7 +7,7 @@ import { usePathname } from 'next/navigation';
 import dynamic from 'next/dynamic';
 // mui
 import { alpha } from '@mui/material/styles';
-import { Toolbar, Skeleton, Stack, AppBar, useMediaQuery } from '@mui/material';
+import { Toolbar, Skeleton, Stack, AppBar, useMediaQuery, Box } from '@mui/material';
 // redux
 import { useSelector } from 'react-redux';
 
@@ -22,19 +22,43 @@ const SettingMode = dynamic(() => import('src/components/settings/themeModeSetti
   loading: () => <Skeleton variant="circular" width={40} height={40} />
 });
 const WishlistPopover = dynamic(() => import('src/components/popover/wislist'), {
-  loading: () => <Skeleton variant="circular" width={40} height={40} />
+  loading: () => (
+    <Stack direction="row" spacing={1} alignItems="center">
+      <Skeleton variant="circular" width={40} height={40} />
+      <Box>
+        <Skeleton variant="text" width={60} sx={{ mb: 0.6 }} />
+        <Skeleton variant="text" width={60} />
+      </Box>
+    </Stack>
+  )
 });
 const CartWidget = dynamic(() => import('src/components/cartWidget'), {
-  loading: () => <Skeleton variant="rounded" width={86} height={41} />
+  loading: () => (
+    <Stack direction="row" spacing={1} alignItems="center">
+      <Skeleton variant="circular" width={40} height={40} />
+      <Box>
+        <Skeleton variant="text" width={60} sx={{ mb: 0.6 }} />
+        <Skeleton variant="text" width={60} />
+      </Box>
+    </Stack>
+  )
 });
 
 const CompareWidget = dynamic(() => import('src/components/compareWidget'), {
   ssr: false,
-  loading: () => <Skeleton variant="circular" width={40} height={40} />
+  loading: () => (
+    <Stack direction="row" spacing={1} alignItems="center">
+      <Skeleton variant="circular" width={40} height={40} />
+      <Box>
+        <Skeleton variant="text" width={60} sx={{ mb: 0.6 }} />
+        <Skeleton variant="text" width={60} />
+      </Box>
+    </Stack>
+  )
 });
 const Search = dynamic(() => import('src/components/dialog/search'), {
   ssr: false,
-  loading: () => <Skeleton variant="circular" width={40} height={40} />
+  loading: () => <Skeleton variant="rounded" width={300} height={56} sx={{ borderRadius: '70px' }} />
 });
 const LanguageSelect = dynamic(() => import('src/components/languageSelect'), {
   ssr: false,
@@ -59,7 +83,7 @@ export default function Navbar({ isAuth }) {
         sx={{
           boxShadow: 'none',
           position: 'sticky',
-          top: 0,
+          top: -0.5,
           zIndex: 999,
           borderRadius: 0,
           pr: '0px !important',
