@@ -39,21 +39,8 @@ export default async function Listing({ params }) {
           <Box mt={3}>
             <ShopDetailCover isUser data={shopData} isLoading={false} />
           </Box>
-          <Grid container spacing={3}>
-            <Grid
-              item
-              md={3}
-              xs={0}
-              sx={{
-                display: { xs: 'none', md: 'block' }
-              }}
-            >
-              <Filter fetchFilters={'getFiltersByShop'} shop={shopData} pathname={`${shop}`} />
-            </Grid>
-            <Grid item md={9} xs={12}>
-              <ProductList shop={shopData} fetchFilters={'getFiltersByShop'} />
-            </Grid>
-          </Grid>
+
+          <ProductList shop={shopData} fetchFilters={'getFiltersByShop'} />
         </Container>
       </Box>
     </Box>
