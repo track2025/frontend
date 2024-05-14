@@ -23,7 +23,7 @@ export const getProductDetails = async (pid) => {
 };
 
 export const getProductsByCategory = async (query = '', category, rate) => {
-  const { data } = await http.get(`/category/products/${category}${query}&rate=${rate}`);
+  const { data } = await http.get(`/category/products/${category}${query || '?'}&rate=${rate}`);
   return data;
 };
 export const getProductSlugs = async () => {
@@ -31,12 +31,12 @@ export const getProductSlugs = async () => {
   return data;
 };
 export const getProductsBySubCategory = async (query = '', subcategory, rate) => {
-  const { data } = await http.get(`/subcategory/products/${subcategory}${query}&rate=${rate}`);
+  const { data } = await http.get(`/subcategory/products/${subcategory}${query || '?'}&rate=${rate}`);
   return data;
 };
 
 export const getProductsByShop = async (query = '', shop, rate) => {
-  const { data } = await http.get(`/shop/products/${shop}${query}&rate=${rate}`);
+  const { data } = await http.get(`/shop/products/${shop}${query || '?'}&rate=${rate}`);
   return data;
 };
 

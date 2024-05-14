@@ -124,6 +124,7 @@ export default function ShopDetailCover({ data, isLoading, isUser }) {
           spacing={3}
           sx={{
             width: '100% !important',
+            position: 'relative',
             '.MuiTypography-root': {
               display: 'flex !important'
             }
