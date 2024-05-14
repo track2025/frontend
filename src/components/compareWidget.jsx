@@ -2,7 +2,7 @@ import React from 'react';
 import { GoGitCompare } from 'react-icons/go';
 import { IconButton, Badge, alpha, Stack, Typography } from '@mui/material';
 import { useSelector } from 'react-redux';
-export default function wishlistWidget() {
+export default function WishlistWidget() {
   const { products: compareProducts } = useSelector((compare) => compare);
   return (
     <>

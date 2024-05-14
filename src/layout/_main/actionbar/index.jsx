@@ -40,6 +40,7 @@ export default function Navbar({}) {
     if (!isLoading) {
       dispatch(setCategories(data?.data));
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [data]);
 
   return (

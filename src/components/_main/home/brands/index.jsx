@@ -9,7 +9,7 @@ import { useQuery } from 'react-query';
 import Marquee from 'react-fast-marquee';
 import NextLink from 'next/link';
 
-export default async function Brands() {
+export default function Brands() {
   const setting = {
     gradient: false
   };
