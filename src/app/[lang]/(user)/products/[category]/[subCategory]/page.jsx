@@ -7,19 +7,20 @@ import Container from '@mui/material/Container';
 import Filter from 'src/components/_main/products/filters';
 import HeaderBreadcrumbs from 'src/components/headerBreadcrumbs';
 import ProductList from 'src/components/_main/products';
-
+import * as api from 'src/services';
+export const dynamic = 'force-static';
 export async function generateStaticParams() {
-  const { data } = await fetch(process.env.BASE_URL + '/api/subcategories-slugs').then((res) => res.json());
-  return data?.map((cat) => ({
-    subCategory: cat.slug,
-    category: cat.parentCategory.slug
-  }));
+  const { data } = await api.getSubCategorySlugs();
+  return data?.map((cat) => {
+    return {
+      subCategory: cat.slug,
+      category: cat.parentCategory.slug
+    };
+  });
 }
 
 export async function generateMetadata({ params }) {
-  const { data: response } = await fetch(process.env.BASE_URL + '/api/subcategories/' + params.subCategory).then(
-    (res) => res.json()
-  );
+  const { data: response } = await api.getSubCategoryBySlug(params.subCategory);
   // const images = category.images.map((img) => img.url);
   return {
     title: response.metaTitle,
@@ -33,13 +34,8 @@ export async function generateMetadata({ params }) {
 
 export default async function Listing({ params }) {
   const { category, subCategory } = params;
-  const response = await fetch(process.env.BASE_URL + `/api/subcategory-title/${subCategory}`).then((res) =>
-    res.json()
-  );
-  if (!response) {
-    notFound();
-  }
-  const { data: subCategoryData } = response;
+  const { data: subCategoryData } = await api.getSubCategoryTitle(subCategory);
+
   return (
     <Box>
       <Box sx={{ bgcolor: 'background.default' }}>

@@ -554,3 +554,30 @@ export const getCurrencies = async () => {
   const { data } = await http.get(`/currencies`);
   return data;
 };
+export const getCategoryTitle = async (category) => {
+  const { data } = await http.get(`/category-title/${category}`);
+  return data;
+};
+export const getCategoryBySlug = async (category) => {
+  const { data } = await http.get(`/categories/${category}`);
+  return data;
+};
+
+export const getCategorySlugs = async () => {
+  const { data } = await http.get(`/categories-slugs`);
+  return data;
+};
+
+export const getSubCategoryTitle = async (subcategory) => {
+  const { data } = await http.get(`/subcategory-title/${subcategory}`);
+  return data;
+};
+export const getSubCategoryBySlug = async (subcategory) => {
+  const { data } = await http.get(`/subcategories/${subcategory}`);
+  return data;
+};
+
+export const getSubCategorySlugs = async () => {
+  const { data } = await http.get(`/subcategories-slugs`);
+  return data;
+};

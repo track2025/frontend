@@ -12,24 +12,26 @@ import ProductDetailsCarousel from 'src/components/carousels/details';
 import ProductDetailsSumary from 'src/components/_main/product/summary';
 import HeaderBreadcrumbs from 'src/components/headerBreadcrumbs';
 import * as api from 'src/services';
+export const dynamic = 'force-static';
 export async function generateStaticParams() {
   const { data } = await api.getProductSlugs();
-
-  return data?.map((product) => ({
-    slug: product.slug
-  }));
+  return data?.map((product) => {
+    return {
+      slug: product.slug
+    };
+  });
 }
 
 export async function generateMetadata({ params }) {
   const { data: response } = await api.getProductDetails(params.slug);
 
   return {
-    title: response.metaTitle,
-    description: response.metaDescription,
-    keywords: response.tags,
-    title: response.name,
+    title: response?.metaTitle,
+    description: response?.metaDescription,
+    keywords: response?.tags,
+    title: response?.name,
     openGraph: {
-      images: response.images.map((v) => v.url)
+      images: response?.images.map((v) => v.url)
     }
   };
 }
