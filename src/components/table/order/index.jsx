@@ -4,7 +4,7 @@ import React from 'react';
 import { Typography, Skeleton, Divider, Table, TableBody, TableRow, TableCell } from '@mui/material';
 // components
 import OrderDetailsTable from '../orderDetail';
-import { fCurrency } from 'src/utils/formatNumber';
+import { useCurrencyFormatter } from 'src/hooks/fCurrency';
 // styled
 import RootStyled from './styled';
 
@@ -25,6 +25,8 @@ TableCard.propTypes = {
 export default function TableCard({ ...props }) {
   const { data, isLoading } = props;
   const items = data?.items;
+  const fCurrency = useCurrencyFormatter(data?.currency);
+  const conversionRate = data?.conversionRate;
   return (
     <RootStyled>
       {isLoading ? (
@@ -34,7 +36,7 @@ export default function TableCard({ ...props }) {
           {data?.totalItems} {data?.totalItems > 1 ? 'Items' : 'Item'}
         </Typography>
       )}
-      <OrderDetailsTable currency={'$'} data={items} isLoading={isLoading} />
+      <OrderDetailsTable data={items} isLoading={isLoading} conversionRate={conversionRate} currency={data?.currency} />
       <Divider />
       <Table>
         <TableBody>
@@ -70,7 +72,7 @@ export default function TableCard({ ...props }) {
               {isLoading ? (
                 <Skeleton variant="text" className="skeleton-text" width={100} />
               ) : (
-                <strong>{fCurrency(data?.shipping)}</strong>
+                <strong>{fCurrency(data?.shipping * conversionRate)}</strong>
               )}
             </TableCell>
           </TableRow>
@@ -87,7 +89,7 @@ export default function TableCard({ ...props }) {
               {isLoading ? (
                 <Skeleton variant="text" className="skeleton-text" width={100} />
               ) : (
-                <strong>-{fCurrency(data?.discount)}</strong>
+                <strong>-{fCurrency(data?.discount * conversionRate)}</strong>
               )}
             </TableCell>
           </TableRow>
@@ -100,7 +102,7 @@ export default function TableCard({ ...props }) {
               {isLoading ? (
                 <Skeleton variant="text" className="skeleton-text" width={100} />
               ) : (
-                <strong>{fCurrency(data?.total)}</strong>
+                <strong>{fCurrency(data?.total * conversionRate)}</strong>
               )}
             </TableCell>
           </TableRow>

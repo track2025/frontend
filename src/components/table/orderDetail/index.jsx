@@ -15,7 +15,7 @@ import {
 } from '@mui/material';
 import { styled } from '@mui/material/styles';
 // components
-import { fCurrency } from 'src/utils/formatNumber';
+import { useCurrencyFormatter } from 'src/hooks/fCurrency';
 import BlurImage from 'src/components/blurImage';
 // styled
 import RootStyled from './styled';
@@ -38,6 +38,8 @@ TableDetails.propTypes = {
       price: PropTypes.number
     })
   ).isRequired,
+  currency: PropTypes.string,
+  conversionRate: PropTypes.number,
   isLoading: PropTypes.bool.isRequired,
   currency: PropTypes.string.isRequired
 };
@@ -52,7 +54,8 @@ const ThumbImgStyle = styled(Box)(({ theme }) => ({
   overflow: 'hidden'
 }));
 export default function TableDetails({ ...props }) {
-  const { data, isLoading } = props;
+  const { data, isLoading, conversionRate, currency } = props;
+  const fCurrency = useCurrencyFormatter(currency);
   return (
     <RootStyled>
       <TableContainer>
@@ -128,7 +131,11 @@ export default function TableDetails({ ...props }) {
                 <TableCell>{row ? row?.quantity : <Skeleton variant="text" width={100} />}</TableCell>
 
                 <TableCell align="right">
-                  {row ? `${fCurrency(row?.priceSale || row?.price)}` : <Skeleton variant="text" width={100} />}
+                  {row ? (
+                    `${fCurrency((row?.priceSale || row?.price) * conversionRate)}`
+                  ) : (
+                    <Skeleton variant="text" width={100} />
+                  )}
                 </TableCell>
               </TableRow>
             ))}
