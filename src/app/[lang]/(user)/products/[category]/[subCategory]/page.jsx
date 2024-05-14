@@ -1,10 +1,8 @@
 // mui
 import { Box } from '@mui/material';
-import Grid from '@mui/material/Grid';
 import Container from '@mui/material/Container';
 // next
 // lodash
-import Filter from 'src/components/_main/products/filters';
 import HeaderBreadcrumbs from 'src/components/headerBreadcrumbs';
 import ProductList from 'src/components/_main/products';
 import * as api from 'src/services';
@@ -60,26 +58,7 @@ export default async function Listing({ params }) {
               }
             ]}
           />
-          <Grid container spacing={3}>
-            <Grid
-              item
-              md={3}
-              xs={0}
-              sx={{
-                display: { xs: 'none', md: 'block' }
-              }}
-            >
-              <Filter
-                fetchFilters={'getFiltersBySubCategory'}
-                subCategory={subCategoryData}
-                category={subCategoryData.parentCategory}
-                pathname={`${subCategory}`}
-              />
-            </Grid>
-            <Grid item md={9} xs={12}>
-              <ProductList subCategory={subCategoryData} fetchFilters={'getFiltersByCategory'} />
-            </Grid>
-          </Grid>
+          <ProductList subCategory={subCategoryData} fetchFilters={'getFiltersByCategory'} />
         </Container>
       </Box>
     </Box>

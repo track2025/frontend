@@ -7,6 +7,7 @@ import { Box, Typography, Grid, Button, Container, Stack } from '@mui/material';
 // blur image
 import Image from 'next/image';
 import { IoIosArrowForward } from 'react-icons/io';
+import bannerImg from '../../../../../public/images/banner-3.png';
 
 export default function Banner() {
   return (
@@ -114,12 +115,12 @@ export default function Banner() {
                   }}
                 >
                   <Image
-                    src="/images/banner-3.png"
+                    src={bannerImg}
                     alt="centered-banner"
                     layout="fill"
                     objectFit="contain"
-                    placeholder="blur"
-                    blurDataURL="/images/banner-3.png"
+                    // placeholder="blur"
+                    // blurDataURL={bannerImg}
                     // sizes="300px"
                     static
                   />

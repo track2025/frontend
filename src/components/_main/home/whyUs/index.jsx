@@ -50,7 +50,8 @@ export default function WhyUs() {
         display: {
           md: 'block',
           xs: 'none'
-        }
+        },
+        borderBottom: (theme) => `solid 1px ${theme.palette.divider}`
       }}
     >
       <Container fixed>

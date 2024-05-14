@@ -1,10 +1,8 @@
 // mui
 import { Box } from '@mui/material';
-import Grid from '@mui/material/Grid';
 import Container from '@mui/material/Container';
 
 // components
-import Filter from 'src/components/_main/products/filters';
 import HeaderBreadcrumbs from 'src/components/headerBreadcrumbs';
 import ProductList from 'src/components/_main/products';
 import * as api from 'src/services';
@@ -58,21 +56,8 @@ export default async function Listing({ params }) {
               }
             ]}
           />
-          <Grid container spacing={3}>
-            <Grid
-              item
-              md={3}
-              xs={0}
-              sx={{
-                display: { xs: 'none', md: 'block' }
-              }}
-            >
-              <Filter pathname={`${category}`} />
-            </Grid>
-            <Grid item md={9} xs={12}>
-              <ProductList category={categoryData} fetchFilters={'getFiltersByCategory'} />
-            </Grid>
-          </Grid>
+
+          <ProductList category={categoryData} fetchFilters={'getFiltersByCategory'} />
         </Container>
       </Box>
     </Box>

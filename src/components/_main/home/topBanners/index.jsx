@@ -7,6 +7,8 @@ import useMediaQuery from '@mui/material/useMediaQuery';
 import { useTheme, alpha } from '@mui/material/styles';
 // next
 import Image from 'next/image';
+import watchImg from '../../../../../public/images/top-banners/watch.png';
+import shoesImg from '../../../../../public/images/top-banners/shoes.png';
 
 export default function Index() {
   const theme = useTheme();
@@ -88,14 +90,7 @@ export default function Index() {
                   transform: { lg: 'scale(1.1)', md: 'scale(1.2)', xs: 'scale(1.3)' }
                 }}
               >
-                <Image
-                  fill
-                  objectFit="contain"
-                  draggable="false"
-                  src="/images/top-banners/watch.png"
-                  alt="women"
-                  sizes="20vw"
-                />
+                <Image fill objectFit="contain" draggable="false" src={watchImg} alt="women" sizes="20vw" />
               </Box>
             </Card>
           </Grid>
@@ -174,14 +169,7 @@ export default function Index() {
                   marginLeft: { xs: '-40px', md: 0 }
                 }}
               >
-                <Image
-                  fill
-                  objectFit="contain"
-                  draggable="false"
-                  src="/images/top-banners/shoes.png"
-                  alt="women"
-                  sizes="20vw"
-                />
+                <Image fill objectFit="contain" draggable="false" src={shoesImg} alt="women" sizes="20vw" />
               </Box>
             </Card>
           </Grid>
