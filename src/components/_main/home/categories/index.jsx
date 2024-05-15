@@ -5,15 +5,12 @@ import NextLink from 'src/utils/link';
 // mui
 import { Typography, Grid, Box, Stack, Paper, Button } from '@mui/material';
 import { IoIosArrowForward } from 'react-icons/io';
-// api
-import * as api from 'src/services';
-import { useQuery } from 'react-query';
 // component
 import CategoryCard from 'src/components/cards/category';
+import { useSelector } from 'react-redux';
 
 export default function Categories() {
-  const { data, isLoading } = useQuery(['get-home-categories-all'], () => api.homeCategroies());
-
+  const { newCategories, isLoading } = useSelector(({ categories }) => categories);
   return (
     <Paper elevation={0}>
       <Stack
@@ -33,21 +30,21 @@ export default function Categories() {
         </Box>
         <Box>
           <Grid container spacing={2} justifyContent="center" alignItems="center">
-            {(isLoading ? Array.from(new Array(6)) : data?.data).map((inner) => (
+            {(isLoading ? Array.from(new Array(6)) : newCategories).map((inner) => (
               <React.Fragment key={Math.random()}>
                 <Grid item lg={2} md={3} sm={4} xs={4}>
                   <CategoryCard category={inner} isLoading={isLoading} />
                 </Grid>
               </React.Fragment>
             ))}
-            {!isLoading && !Boolean(data?.data.length) && (
+            {!isLoading && !Boolean(newCategories.length) && (
               <Typography variant="h3" color="error.main" textAlign="center">
                 Categories not found
               </Typography>
             )}
           </Grid>
         </Box>
-        {Boolean(data?.data?.length > 3) && (
+        {Boolean(newCategories?.length > 3) && (
           <Button
             variant="text"
             color="primary"

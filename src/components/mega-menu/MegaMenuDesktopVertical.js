@@ -1,4 +1,5 @@
 'use client';
+import React from 'react';
 import { useState } from 'react';
 import PropTypes from 'prop-types';
 import RouterLink from 'src/utils/link';
@@ -8,13 +9,16 @@ import { FaAngleRight } from 'react-icons/fa6';
 import { alpha } from '@mui/material/styles';
 import { Box, List, Card, ListItem, Typography, Stack, Button, Skeleton } from '@mui/material';
 import Image from 'next/image';
-import { useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
+import { setBrands } from 'src/lib/redux/slices/brands';
+import * as api from 'src/services';
+import { useQuery } from 'react-query';
 // ----------------------------------------------------------------------
 
 const ITEM_HEIGHT = 40;
 // ----------------------------------------------------------------------
 
-function ParentItem({ category, isLast, isLoading }) {
+function ParentItem({ brand, isLast, isLoading }) {
   const activeStyle = {
     color: 'primary.main',
     bgcolor: (theme) => alpha(theme.palette.primary.main, theme.palette.action.hoverOpacity)
@@ -22,7 +26,7 @@ function ParentItem({ category, isLast, isLoading }) {
 
   return (
     <ListItem
-      href={'/products?category=' + category?.slug}
+      href={`/products/${brand?.slug}`}
       component={RouterLink}
       sx={{
         padding: (theme) => theme.spacing(3.5, 2),
@@ -41,21 +45,22 @@ function ParentItem({ category, isLast, isLoading }) {
         <Box
           component="span"
           sx={{
-            width: 32,
-            height: 32,
+            width: 40,
+            height: 40,
             borderRadius: '50%',
             position: 'relative',
-            overflow: 'hidden'
+            overflow: 'hidden',
+            border: (theme) => `solid 1px ${theme.palette.divider}`
           }}
         >
           {isLoading ? (
-            <Skeleton variant="circular" width={32} height={32} />
+            <Skeleton variant="circular" width={40} height={40} />
           ) : (
-            <Image src={category?.cover?.url} alt={category?.name} layout="fill" objectFit="cover" />
+            <Image src={brand?.logo?.url} alt={brand?.name} layout="fill" objectFit="cover" />
           )}
         </Box>
         <Typography variant="body1" color="text.primary" fontWeight={500}>
-          {isLoading ? <Skeleton variant="text" width={120} /> : category?.name}
+          {isLoading ? <Skeleton variant="text" width={120} /> : brand?.name}
         </Typography>
       </Stack>
     </ListItem>
@@ -63,17 +68,23 @@ function ParentItem({ category, isLast, isLoading }) {
 }
 
 MegaMenuItem.propTypes = {
-  category: PropTypes.object,
+  brand: PropTypes.object,
   isLast: PropTypes.bool
 };
 
-function MegaMenuItem({ category, isLast, isLoading }) {
-  return <ParentItem category={category} isLoading={isLoading} isLast={isLast} />;
+function MegaMenuItem({ brand, isLast, isLoading }) {
+  return <ParentItem brand={brand} isLoading={isLoading} isLast={isLast} />;
 }
 
 export default function MegaMenuDesktopVertical({ ...other }) {
-  const { categories, isLoading } = useSelector(({ categories }) => categories);
-
+  const dispatch = useDispatch();
+  const { data, isLoading } = useQuery(['get-brands-products'], () => api.getHomeBrands());
+  React.useEffect(() => {
+    if (!isLoading) {
+      dispatch(setBrands(data?.data));
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [data]);
   return (
     <List
       component={Card}
@@ -92,15 +103,15 @@ export default function MegaMenuDesktopVertical({ ...other }) {
         justifyContent: 'space-between'
       }}
     >
-      {(isLoading ? Array.from(new Array(5)) : categories.slice(0, 5)).map((category, i) => (
-        <MegaMenuItem key={Math.random()} isLoading={isLoading} category={category} isLast={i === 4} />
+      {(isLoading ? Array.from(new Array(5)) : data?.data.slice(0, 5)).map((brand, i) => (
+        <MegaMenuItem key={Math.random()} isLoading={isLoading} brand={brand} isLast={i === 4} />
       ))}
       <Button
         variant="outlined"
         fullWidth
         endIcon={<FaAngleRight size={14} />}
         sx={{
-          bgcolor: (theme) => theme.palette.primary.extraLight + '!important',
+          bgcolor: (theme) => alpha(theme.palette.primary.dark, 0.2) + '!important',
           color: (theme) => theme.palette.primary.dark,
           border: 'none !important',
           borderRadius: 'unset',

@@ -3,18 +3,16 @@ import { createSlice } from '@reduxjs/toolkit';
 // ----------------------------------------------------------------------
 
 const initialState = {
-  categories: [],
-  newCategories: [],
+  brands: [],
   isLoading: true
 };
 
 const slice = createSlice({
-  name: 'categories',
+  name: 'brands',
   initialState,
   reducers: {
-    setCategories(state, action) {
-      state.categories = action.payload.data;
-      state.newCategories = action.payload.newCategories;
+    setBrands(state, action) {
+      state.brands = action.payload;
       state.isLoading = false;
     }
   }
@@ -24,6 +22,6 @@ const slice = createSlice({
 export default slice.reducer;
 
 // Actions
-export const { setCategories } = slice.actions;
+export const { setBrands } = slice.actions;
 
 // ----------------------------------------------------------------------
