@@ -9,7 +9,8 @@ import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
 // next
-import { usePathname, useRouter, useSearchParams } from 'next/navigation';
+import { usePathname, useSearchParams } from 'next/navigation';
+import {  useRouter } from 'src/hooks/useRouter';
 // icon
 import { MdTune } from 'react-icons/md';
 // lodash

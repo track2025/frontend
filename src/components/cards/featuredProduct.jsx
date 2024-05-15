@@ -11,7 +11,7 @@ import FavoriteRoundedIcon from '@mui/icons-material/FavoriteRounded';
 // next
 import Image from 'next/image';
 import Link from 'src/utils/link';
-import { useRouter } from 'next/navigation';
+import { useRouter } from 'src/hooks/useRouter';
 import useTranslation from 'next-translate/useTranslation';
 // redux
 import { addCart } from 'src/redux/slices/product';

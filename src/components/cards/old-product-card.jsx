@@ -26,7 +26,7 @@ import { setWishlist } from 'src/lib/redux/slices/wishlist';
 import { useSelector } from 'react-redux';
 // next
 import Link from 'src/utils/link';
-import { useRouter } from 'next/navigation';
+import { useRouter } from 'src/hooks/useRouter';
 // components
 import ColorPreview from 'src/components/colorPreview';
 import SizePreview from 'src/components/sizePicker';

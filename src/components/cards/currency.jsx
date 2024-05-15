@@ -14,7 +14,7 @@ import { fDateShort } from 'src/utils/formatTime';
 import { MdDelete } from 'react-icons/md';
 import { MdEdit } from 'react-icons/md';
 // next
-import { useRouter } from 'next/navigation';
+import { useRouter } from 'src/hooks/useRouter';
 
 const RootStyle = styled(Paper)(({ theme }) => ({
   padding: '10px 10px 10px 16px',

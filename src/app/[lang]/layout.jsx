@@ -8,6 +8,7 @@ export default async function RootLayout({ children }) {
   return (
     <html lang={'en-US'}>
       <body>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <Providers isAuth={hasCookie}>{children}</Providers>
       </body>
     </html>

@@ -24,6 +24,7 @@ import { RiCoupon5Line } from 'react-icons/ri';
 import { BsBuildings } from 'react-icons/bs';
 import { AiOutlineDollarCircle } from 'react-icons/ai';
 import { BsCashCoin } from 'react-icons/bs';
+import { LuBadgePercent } from 'react-icons/lu';
 
 // next
 import { usePathname } from 'next/navigation';
@@ -102,7 +103,14 @@ export const navlinks = [
     isSearch: true
   },
   {
-    id: 10,
+    id: 122,
+    title: 'Compaigns',
+    slug: '/compaigns',
+    icon: <LuBadgePercent />,
+    isSearch: true
+  },
+  {
+    id: 11,
     title: 'Currencies',
     slug: '/currencies',
     icon: <AiOutlineDollarCircle />,
@@ -110,14 +118,14 @@ export const navlinks = [
   },
 
   {
-    id: 11,
+    id: 12,
     title: 'Newsletter',
     slug: '/newsletter',
     icon: <SlEnvolopeLetter />,
     isSearch: false
   },
   {
-    id: 11,
+    id: 13,
     title: 'Settings',
     slug: '/settings',
     icon: <IoSettingsOutline />,

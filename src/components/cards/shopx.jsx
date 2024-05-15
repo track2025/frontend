@@ -10,7 +10,7 @@ import { setWishlist } from 'src/lib/redux/slices/wishlist';
 import { useSelector } from 'react-redux';
 // next
 import Link from 'src/utils/link';
-import { useRouter } from 'next/navigation';
+import { useRouter } from 'src/hooks/useRouter';
 // components
 import Label from 'src/components/label';
 import { fCurrency } from 'src/utils/formatNumber';

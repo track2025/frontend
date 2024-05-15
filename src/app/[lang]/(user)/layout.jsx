@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React, { Suspense } from 'react';
 // mui
 import { Box } from '@mui/material';
 // components
@@ -29,7 +29,9 @@ export default async function RootLayout({ children }) {
 
   return (
     <>
-      <Topbar />
+      <Suspense>
+        <Topbar />
+      </Suspense>
       <Navbar isAuth={hasCookie} />
       <ActionBar />
       {/* <Box sx={{ height: 100, display: { xs: 'none', md: 'flex' } }} /> */}

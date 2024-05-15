@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 // next
-import { usePathname, useRouter, useSearchParams } from 'next/navigation';
+import { usePathname, useSearchParams } from 'next/navigation';
+import { useRouter } from 'src/hooks/useRouter';
 import { TextField, Stack } from '@mui/material';
 import PropTypes from 'prop-types';
 const STATUS_OPTIONS = ['sale', 'new', 'regular', 'disabled'];

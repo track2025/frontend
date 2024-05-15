@@ -23,7 +23,7 @@ export default function BrandsRow({ isLoading, row, handleClickOpen }) {
 
       <TableCell>{isLoading ? <Skeleton variant="text" /> : <> {row.country} </>}</TableCell>
 
-      <TableCell>{isLoading ? <Skeleton variant="text" /> : <> {row.rate || '-'} </>}</TableCell>
+      <TableCell>{isLoading ? <Skeleton variant="text" /> : <> {row.rate || 'Default rate'} </>}</TableCell>
 
       <TableCell>
         {isLoading ? (
