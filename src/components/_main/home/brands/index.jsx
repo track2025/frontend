@@ -1,24 +1,26 @@
 'use client';
+import React from 'react';
 import Image from 'src/components/blurImage';
 // mui
 import { Typography, Box, Stack, Card, Link, Skeleton } from '@mui/material';
-// api
-import * as api from 'src/services';
-import { useQuery } from 'react-query';
+// // api
+// import * as api from 'src/services';
+// import { useQuery } from 'react-query';
 // Marquee
 import Marquee from 'react-fast-marquee';
 import NextLink from 'src/utils/link';
+import { useSelector } from 'react-redux';
 
 export default function Brands() {
   const setting = {
     gradient: false
   };
-  const { data, isLoading } = useQuery(['get-brands-products'], () => api.getHomeBrands());
-
+  // const { data, isLoading } = useQuery(['get-brands-products'], () => api.getHomeBrands());
+  const { brands, isLoading } = useSelector(({ brands }) => brands);
   return (
     <Box
       sx={{
-        mt: 6,
+        my: 6,
         display: { md: 'block', xs: 'none' }
       }}
     >
@@ -41,10 +43,10 @@ export default function Brands() {
 
       {isLoading ? (
         <Skeleton variant="rounded" width={80} height={80} />
-      ) : Boolean(data?.data.length) ? (
+      ) : Boolean(brands.length) ? (
         <Marquee {...setting}>
           <Stack direction="row" alignItems="center">
-            {data?.data.map((v) => (
+            {brands.map((v) => (
               <Link component={NextLink} href={`/products?brand=${v.slug}`} key={v._id} mx={2.5}>
                 <Card
                   className="slider-main"

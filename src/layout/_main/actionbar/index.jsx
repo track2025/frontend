@@ -41,7 +41,7 @@ export default function Navbar({}) {
   const { data, isLoading } = useQuery(['get-categories-all'], () => api.getAllCategories());
   React.useEffect(() => {
     if (!isLoading) {
-      dispatch(setCategories(data?.data));
+      dispatch(setCategories(data));
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [data]);
