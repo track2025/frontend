@@ -15,6 +15,7 @@ import TopBanners from 'src/components/_main/home/topBanners';
 import BestSellerTwo from 'src/components/_main/home/bestSellerTwo';
 import BestSellerThree from 'src/components/_main/home/bestSellerThree';
 import ShopComponent from 'src/components/_main/home/shop';
+import CampaignsComponent from 'src/components/_main/home/campaign';
 
 export default async function IndexPage() {
   return (
@@ -25,6 +26,9 @@ export default async function IndexPage() {
         <Categories />
         <Suspense>
           <TopCollections />
+        </Suspense>
+        <Suspense>
+          <CampaignsComponent />
         </Suspense>
         <Suspense>
           <BestSeller />
