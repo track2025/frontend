@@ -3,7 +3,20 @@ import PropTypes from 'prop-types';
 // next
 import Link from 'src/utils/link';
 // mui
-import { Typography, CardActionArea, Card, Box, Skeleton, Stack, Rating, Button, IconButton } from '@mui/material';
+import {
+  Typography,
+  CardActionArea,
+  Card,
+  Box,
+  Skeleton,
+  Stack,
+  Rating,
+  Button,
+  IconButton,
+  CardContent,
+  Divider,
+  alpha
+} from '@mui/material';
 // components
 import Image from 'src/components/blurImage';
 // icons
@@ -13,57 +26,105 @@ import { FaRegUser } from 'react-icons/fa6';
 export default function ShopCard({ ...props }) {
   const { shop, isLoading } = props;
   const baseUrl = '/shops/';
+  console.log(shop, 'shop');
 
   return (
     <Card
       sx={{
-        px: 3,
-        py: 2,
+        // px: 3,
+        // py: 2,
         borderRadius: 2
       }}
     >
-      <Stack direction="row" alignItems="center" spacing={3}>
-        {isLoading ? (
-          <Skeleton
-            variant="circular"
-            sx={{
-              height: 90,
-              width: 90
-            }}
+      <Box
+        sx={{
+          position: 'relative',
+          overflow: 'hidden',
+          height: 100
+        }}
+      >
+        <Box
+          sx={{
+            position: 'absolute',
+            width: '100%',
+            height: '100%'
+          }}
+        >
+          <Image
+            alt="shop"
+            src={shop?.cover?.url}
+            // placeholder="blur"
+            // blurDataURL={shop?.cover?.blurDataURL}
+            layout="fill"
+            objectFit="cover"
+            static
+            draggable="false"
+            quality={5}
+            sizes={'50vw'}
           />
-        ) : (
-          <Box
-            sx={{
-              position: 'relative',
-              border: '1px soild #eee',
-              height: 90,
-              width: 90,
-              minWidth: 90,
-              img: {
-                borderRadius: '50%'
-              },
-              '&:after': {
-                content: `""`,
-                display: 'block',
-                paddingBottom: '100%'
-              }
-            }}
-          >
-            <Image
-              alt="shop"
-              src={shop?.logo?.url}
-              placeholder="blur"
-              blurDataURL={shop?.logo?.blurDataURL}
-              layout="fill"
-              objectFit="cover"
-              static
-              draggable="false"
-              quality={5}
-              sizes={'50vw'}
+        </Box>
+      </Box>
+      <CardContent>
+        <Box sx={{ mt: -7 }}>
+          {isLoading ? (
+            <Skeleton
+              variant="circular"
+              sx={{
+                height: 70,
+                width: 70,
+                mx: 'auto'
+              }}
             />
-          </Box>
-        )}
-        <Box>
+          ) : (
+            <Box
+              sx={{
+                position: 'relative',
+                height: 70,
+                width: 70,
+                minWidth: 70,
+                borderRadius: '50%',
+                bgcolor: 'background.paper',
+                mx: 'auto',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center'
+              }}
+            >
+              <Box
+                sx={{
+                  position: 'relative',
+                  border: (theme) => `1px solid ${theme.palette.divider}`,
+                  height: 64,
+                  width: 64,
+                  minWidth: 64,
+                  borderRadius: '50%',
+                  img: {
+                    borderRadius: '50%'
+                  },
+                  '&:after': {
+                    content: `""`,
+                    display: 'block',
+                    paddingBottom: '100%'
+                  }
+                }}
+              >
+                <Image
+                  alt="shop"
+                  src={shop?.logo?.url}
+                  placeholder="blur"
+                  blurDataURL={shop?.logo?.blurDataURL}
+                  layout="fill"
+                  objectFit="cover"
+                  static
+                  draggable="false"
+                  quality={5}
+                  sizes={'50vw'}
+                />
+              </Box>
+            </Box>
+          )}
+        </Box>
+        <Stack spacing={1}>
           <Typography
             {...(!isLoading && {
               component: Link,
@@ -72,48 +133,80 @@ export default function ShopCard({ ...props }) {
             color="text.primary"
             variant="h6"
             textAlign="center"
-            noWrap
-            className="title"
-            sx={{ textTransform: 'capitalize' }}
+            lineHeight={0.5}
+            sx={{ textTransform: 'capitalize', pt: 2 }}
           >
             {isLoading ? <Skeleton variant="text" width={100} /> : shop?.title}
           </Typography>
-          <Stack direction="row" justifyContent="space-between" width="100%" mb={1}>
-            <Typography color="text.secondary" variant="body1" textAlign="center" noWrap className="title">
-              {shop?.products?.length} Product{shop?.products?.length > 1 ? 's' : null}
+          <Typography color="text.secondary" variant="body1" textAlign="center">
+            Our Highest Rated Shops Where You Can Find What You Are
+          </Typography>
+        </Stack>
+        <Stack direction="row" spacing={1.5} justifyContent="center" mt={1}>
+          <Button
+            variant="outlined"
+            color="primary"
+            size="small"
+            startIcon={<AiOutlineShop />}
+            sx={{
+              borderRadius: 6,
+              fontWeight: 400,
+              whiteSpace: 'nowrap',
+              px: 2,
+              bgcolor: (theme) => alpha(theme.palette.primary.main, 0.2)
+            }}
+          >
+            View Store
+          </Button>
+          <Button
+            variant="outlined"
+            size="small"
+            color="secondary"
+            startIcon={<FaRegUser size={16} />}
+            sx={{
+              borderRadius: 6,
+              fontWeight: 400,
+              px: 2,
+              bgcolor: (theme) => alpha(theme.palette.secondary.main, 0.2)
+            }}
+          >
+            Follow
+          </Button>
+        </Stack>
+      </CardContent>
+      <Divider />
+      <CardContent
+        sx={{
+          py: '16px !important'
+        }}
+      >
+        <Stack direction="row" alignItems="center" justifyContent="space-between" spacing={2}>
+          <Stack alignItems="center">
+            <Typography variant="subtitle2" color="text.secondary">
+              Follower
             </Typography>
-            {/* <div>
-              <Rating name="size-small" defaultValue={5} readOnly />
-            </div> */}
+            <Typography variant="subtitle2" color="text.primary">
+              11.9K
+            </Typography>
+          </Stack>{' '}
+          <Stack alignItems="center">
+            <Typography variant="subtitle2" color="text.secondary">
+              Following
+            </Typography>
+            <Typography variant="subtitle2" color="text.primary">
+              11.9K
+            </Typography>
           </Stack>
-
-          <Stack direction="row" justifyContent="space-between" spacing={1.5} mt={1}>
-            <Button
-              variant="contained"
-              color="primary"
-              startIcon={<AiOutlineShop />}
-              sx={{
-                borderRadius: 6,
-                fontWeight: 400,
-                whiteSpace: 'nowrap'
-              }}
-            >
-              View Store
-            </Button>
-            <Button
-              variant="outlined"
-              color="primary"
-              startIcon={<FaRegUser style={{ fontSize: 16 }} />}
-              sx={{
-                borderRadius: 6,
-                fontWeight: 400
-              }}
-            >
-              Follow
-            </Button>
+          <Stack alignItems="center">
+            <Typography variant="subtitle2" color="text.secondary">
+              Total Posts
+            </Typography>
+            <Typography variant="subtitle2" color="text.primary">
+              11.9K
+            </Typography>
           </Stack>
-        </Box>
-      </Stack>
+        </Stack>
+      </CardContent>
       {/* <CardActionArea className="card-action-area" component={Link} href={`${baseUrl + shop?.slug}`}>
         <CardContent></CardContent>
       </CardActionArea> */}
