@@ -1,6 +1,6 @@
 import React from 'react';
 // Components
-import CurrencyList from 'src/components/_admin/currencies/currencyList';
+import CompaignList from 'src/components/_admin/compaigns/compaignList';
 // Toolbar
 import Toolbar from 'src/components/_admin/toolbar';
 // Breadcrumbs
@@ -34,7 +34,7 @@ export default function Currencies() {
           }}
         />
       </Toolbar>
-      <CurrencyList />
+      <CompaignList />
     </>
   );
 }

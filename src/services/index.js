@@ -581,3 +581,7 @@ export const getSubCategorySlugs = async () => {
   const { data } = await http.get(`/subcategories-slugs`);
   return data;
 };
+export const getAdminCompaigns = async (page, search) => {
+  const { data } = await http.get(`/admin/compaigns?page=${page || 1}&search=${search || ''}`);
+  return data;
+};

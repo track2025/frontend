@@ -103,9 +103,11 @@ export default function MegaMenuDesktopVertical({ ...other }) {
         justifyContent: 'space-between'
       }}
     >
-      {(isLoading ? Array.from(new Array(5)) : data?.data.slice(0, 5)).map((brand, i) => (
-        <MegaMenuItem key={Math.random()} isLoading={isLoading} brand={brand} isLast={i === 4} />
-      ))}
+      <div>
+        {(isLoading ? Array.from(new Array(5)) : data?.data.slice(0, 5)).map((brand, i) => (
+          <MegaMenuItem key={Math.random()} isLoading={isLoading} brand={brand} isLast={i === 4} />
+        ))}
+      </div>
       <Button
         variant="outlined"
         fullWidth

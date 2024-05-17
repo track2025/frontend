@@ -33,7 +33,7 @@ export default function WishlistWidget() {
             Compare
           </Typography>
           <Typography variant="body1" color="text.secondary">
-            {compareProducts?.length} {compareProducts?.length > 1 ? 'Items' : 'Item'}
+            {compareProducts?.length || 0} {compareProducts?.length > 1 ? 'Items' : 'Item'}
           </Typography>
         </Stack>
       </Stack>

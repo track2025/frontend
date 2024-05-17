@@ -66,7 +66,7 @@ export default function WishlistPopover({ isAuth }) {
             Wishlist
           </Typography>
           <Typography variant="body1" color="text.secondary">
-            {wishlist?.length} {wishlist?.length > 1 ? 'Items' : 'Item'}
+            {wishlist?.length || 0} {wishlist?.length > 1 ? 'Items' : 'Item'}
           </Typography>
         </Stack>
       </Stack>
