@@ -13,17 +13,28 @@ import { useRouter } from 'src/hooks/useRouter';
 import Label from 'src/components/label';
 // lodash
 import { capitalize } from 'lodash';
+import { useCurrencyFormatter } from 'src/hooks/fCurrency';
+import { fDateShort } from 'src/utils/formatTime';
 
 export default function BrandsRow({ isLoading, row, handleClickOpen }) {
+  const fCurrency = useCurrencyFormatter();
   const router = useRouter();
   const theme = useTheme();
   return (
     <TableRow hover key={Math.random()}>
-      <TableCell>{isLoading ? <Skeleton variant="text" /> : row.name + ` (${row.code})`}</TableCell>
+      <TableCell>{isLoading ? <Skeleton variant="text" /> : row.name}</TableCell>
 
-      <TableCell>{isLoading ? <Skeleton variant="text" /> : <> {row.country} </>}</TableCell>
+      <TableCell>{isLoading ? <Skeleton variant="text" /> : <> {row.products.length} products </>}</TableCell>
 
-      <TableCell>{isLoading ? <Skeleton variant="text" /> : <> {row.rate || 'Default rate'} </>}</TableCell>
+      <TableCell>
+        {isLoading ? (
+          <Skeleton variant="text" />
+        ) : (
+          <> {row.discountType === 'percent' ? row.discount + '%' : fCurrency(row.discount)} </>
+        )}
+      </TableCell>
+      <TableCell>{isLoading ? <Skeleton variant="text" /> : fDateShort(row.startDate)}</TableCell>
+      <TableCell>{isLoading ? <Skeleton variant="text" /> : fDateShort(row.endDate)}</TableCell>
 
       <TableCell>
         {isLoading ? (
@@ -31,7 +42,7 @@ export default function BrandsRow({ isLoading, row, handleClickOpen }) {
         ) : (
           <Label
             variant={theme.palette.mode === 'light' ? 'ghost' : 'filled'}
-            color={row?.status?.toLowerCase() === 'active' ? 'success' : 'error'}
+            color={row?.status?.toLowerCase() === 'enable' ? 'success' : 'error'}
           >
             {capitalize(row?.status)}
           </Label>
@@ -47,7 +58,7 @@ export default function BrandsRow({ isLoading, row, handleClickOpen }) {
           ) : (
             <>
               <Tooltip title="Edit">
-                <IconButton onClick={() => router.push(`/admin/currencies/${row?._id}`)}>
+                <IconButton onClick={() => router.push(`/admin/compaigns/${row?.slug}`)}>
                   <MdEdit />
                 </IconButton>
               </Tooltip>

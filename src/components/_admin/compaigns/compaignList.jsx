@@ -18,11 +18,12 @@ import Compaign from 'src/components/table/rows/compaign';
 import { useSearchParams } from 'next/navigation';
 
 const TABLE_HEAD = [
-  { id: 'name', label: 'Currency', alignRight: false, sort: true },
-  { id: 'country', label: 'Country', alignRight: false },
-  { id: 'rate', label: 'Rate', alignRight: false },
+  { id: 'name', label: 'Name', alignRight: false, sort: true },
+  { id: 'total', label: 'Total Products', alignRight: false },
+  { id: 'discount', label: 'Discount', alignRight: false },
+  { id: 'startDate', label: 'Start Date', alignRight: false },
+  { id: 'endDate', label: 'End Date', alignRight: false },
   { id: 'status', label: 'Status', alignRight: false },
-
   { id: '', label: 'Actions', alignRight: true }
 ];
 
@@ -57,8 +58,8 @@ export default function BrandList() {
           onClose={handleClose}
           id={id}
           apicall={setApicall}
-          endPoint="deleteBrand"
-          type={'Brand deleted'}
+          endPoint="deleteCompaign"
+          type={'Compaign deleted'}
           deleteMessage={
             'Are you sure you want to delete this compaign? Please consider carefully before making irreversible changes.'
           }

@@ -585,3 +585,20 @@ export const getAdminCompaigns = async (page, search) => {
   const { data } = await http.get(`/admin/compaigns?page=${page || 1}&search=${search || ''}`);
   return data;
 };
+export const addCompaign = async (payload) => {
+  const { data } = await http.post(`/admin/compaigns`, payload);
+  return data;
+};
+
+export const updateCompaign = async ({ currentSlug, ...payload }) => {
+  const { data } = await http.put(`/admin/compaigns/${currentSlug}`, payload);
+  return data;
+};
+export const getCompaignByAdmin = async (slug) => {
+  const { data } = await http.get(`/admin/compaigns/${slug}`);
+  return data;
+};
+export const deleteCompaign = async (slug) => {
+  const { data } = await http.delete(`/admin/compaigns/${slug}`);
+  return data;
+};

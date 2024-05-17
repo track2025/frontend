@@ -47,6 +47,7 @@ import ListItemIcon from '@mui/material/ListItemIcon';
 import { useCurrencyConvert } from 'src/hooks/convertCurrency';
 import { useCurrencyFormatter } from 'src/hooks/fCurrency';
 import { IoMdClose } from 'react-icons/io';
+import { format, parseISO } from 'date-fns';
 
 compaignForm.propTypes = {
   data: PropTypes.object,
@@ -60,7 +61,7 @@ const LabelStyle = styled(Typography)(({ theme }) => ({
   lineHeight: 2.5
 }));
 
-const STATUS_OPTIONS = ['active', 'deactive'];
+const STATUS_OPTIONS = ['enable', 'disable'];
 
 export default function compaignForm({ data: currentCompaign, isLoading: compaignLoading }) {
   const router = useRouter();
@@ -105,7 +106,7 @@ export default function compaignForm({ data: currentCompaign, isLoading: compaig
     }
   });
   const NewcompaignSchema = Yup.object().shape({
-    title: Yup.string().required('Title is required'),
+    name: Yup.string().required('Name is required'),
     cover: Yup.mixed().required('Cover is required'),
     slug: Yup.string().required('Slug is required'),
     description: Yup.string().required('Description is required'),
@@ -125,9 +126,10 @@ export default function compaignForm({ data: currentCompaign, isLoading: compaig
       description: currentCompaign?.description || '',
       metaDescription: currentCompaign?.metaDescription || '',
       products: currentCompaign?.products || [],
-      startDate: currentCompaign?.startDate || '',
-      startDate: currentCompaign?.startDate || '',
-      endDate: currentCompaign?.endDate || '',
+
+      startDate: currentCompaign?.startDate ? format(parseISO(currentCompaign?.startDate), 'yyyy-MM-dd') : '',
+
+      endDate: currentCompaign?.endDate ? format(parseISO(currentCompaign?.endDate), 'yyyy-MM-dd') : '',
       discount: currentCompaign?.discount || '',
       discountType: currentCompaign?.discountType || 'percent',
       file: currentCompaign?.cover || '',
@@ -137,10 +139,11 @@ export default function compaignForm({ data: currentCompaign, isLoading: compaig
     enableReinitialize: true,
     validationSchema: NewcompaignSchema,
     onSubmit: async (values) => {
-      const { ...rest } = values;
+      const { products, ...rest } = values;
       try {
         mutate({
           ...rest,
+          products: products.map((v) => v._id),
           ...(currentCompaign && {
             currentSlug: currentCompaign.slug
           })
@@ -188,7 +191,7 @@ export default function compaignForm({ data: currentCompaign, isLoading: compaig
       });
   };
   const handleChange = (event) => {
-    setValue(event.target.value);
+    setFieldValue('discountType', event.target.value);
   };
   const handleTitleChange = (event) => {
     const title = event.target.value;
@@ -371,7 +374,7 @@ export default function compaignForm({ data: currentCompaign, isLoading: compaig
                         <LabelStyle component={'label'} htmlFor="compaign-type">
                           Compaign type
                         </LabelStyle>
-                        <RadioGroup row id="compaign-type" value={value} onChange={handleChange}>
+                        <RadioGroup row id="compaign-type" value={values.discountType} onChange={handleChange}>
                           <FormControlLabel value="percent" control={<Radio />} label="Percent" />
                           <FormControlLabel value="fixed" control={<Radio />} label="Fixed" />
                         </RadioGroup>

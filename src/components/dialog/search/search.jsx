@@ -49,17 +49,12 @@ export default function Search({ ...props }) {
   const fCurrency = useCurrencyFormatter();
   const [state, setstate] = React.useState({
     products: [],
-    selected: [],
+    selected: selectedProducts || [],
     initialized: false,
     category: '',
     subCategory: '',
     brand: ''
   });
-  React.useEffect(() => {
-    if (selectedProducts) {
-      setstate({ ...state, selected: selectedProducts });
-    }
-  }, [selectedProducts]);
 
   const router = useRouter();
   const [search, setSearch] = React.useState('');
@@ -104,7 +99,7 @@ export default function Search({ ...props }) {
   React.useEffect(() => {
     mutate({ query: search, category: state.category, subCategory: state.subCategory, brand: state.brand });
   }, [state.category, state.subCategory, state.brand]);
-  console.log(state.selected, 'selected');
+
   return (
     <>
       <TextField
@@ -302,7 +297,7 @@ export default function Search({ ...props }) {
         </Box>{' '}
         {multiSelect && (
           <Stack gap={1} direction={'row'} p={1} justifyContent={'end'}>
-            <Button variant="outlined" color="primary">
+            <Button variant="outlined" color="primary" onClick={() => handleSave(selectedProducts)}>
               Cancel
             </Button>
             <Button variant="contained" color="primary" onClick={() => handleSave(state.selected)}>
