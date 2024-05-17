@@ -8,8 +8,12 @@ import { Typography, Grid, Box, Stack, Paper, Button } from '@mui/material';
 import { IoIosArrowForward } from 'react-icons/io';
 // component
 import CompaginCard from 'src/components/cards/userCompagin';
+// api
+import * as api from 'src/services';
+import { useQuery } from 'react-query';
 
-export default function CampaignsComponent() {
+export default function CompaignsComponent() {
+  const { data, isLoading } = useQuery(['get-home-compaign-all'], () => api.getHomeCompaigns());
   return (
     <Paper elevation={0}>
       <Stack
@@ -37,7 +41,7 @@ export default function CampaignsComponent() {
             }}
             endIcon={<IoIosArrowForward />}
             component={NextLink}
-            href={``}
+            href={`/compaigns`}
           >
             View More
           </Button>
@@ -45,18 +49,18 @@ export default function CampaignsComponent() {
 
         <Box>
           <Grid container spacing={2} justifyContent="center" alignItems="center">
-            {Array.from(new Array(6)).map((inner) => (
+            {(isLoading ? Array.from(new Array(6)) : data?.data).map((inner) => (
               <React.Fragment key={Math.random()}>
                 <Grid item lg={3} md={4} sm={6} xs={12}>
-                  <CompaginCard shop={inner} isLoading={false} />
+                  <CompaginCard compaign={inner} isLoading={isLoading} />
                 </Grid>
               </React.Fragment>
             ))}
-            {/* {!isLoading && !Boolean(data?.data.length) && (
+            {!isLoading && !Boolean(data?.data.length) && (
               <Typography variant="h3" color="error.main" textAlign="center">
                 Shop not found
               </Typography>
-            )} */}
+            )}
           </Grid>
         </Box>
       </Stack>

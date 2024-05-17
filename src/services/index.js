@@ -274,7 +274,10 @@ export const getHomeShops = async () => {
   const { data } = await http.get(`/shops?limit=9`);
   return data;
 };
-
+export const getHomeCompaigns = async () => {
+  const { data } = await http.get(`/compaigns`);
+  return data;
+};
 export const getBestSellingProducts = async () => {
   const { data } = await http.get(`/home/products/best-selling`);
   return data;
