@@ -22,15 +22,15 @@ export default function ProductDetailsDialog(props) {
   const { data, isLoading } = useQuery(['coupon-codes', slug], () => api.getProductBySlug(slug));
 
   return (
-    <Dialog onClose={onClose} open={open} maxWidth="md">
+    <Dialog onClose={onClose} open={open} fullWidth maxWidth="lg">
       {isLoading ? (
         <DetailsSkeleton isPopup />
       ) : (
         <Grid container spacing={2} justifyContent="center" sx={{ p: 3 }}>
-          <Grid item xs={12} sm={8} md={6} lg={6}>
+          <Grid item xs={12} md={4} lg={4}>
             <ProductDetailsCarousel slug={slug} product={data?.data} data={data?.data} />
           </Grid>
-          <Grid item xs={12} md={6} lg={6}>
+          <Grid item xs={12} md={8} lg={8}>
             <ProductDetailsSumary
               id={data?.data?._id}
               product={data?.data}
