@@ -10,6 +10,7 @@ import CompareReducer from './slices/compare';
 import SettingsReducer from './slices/settings';
 import CategoriesReducer from './slices/categories';
 import BrandsReducer from './slices/brands';
+import ShopsReducer from './slices/shops';
 
 const rootPersistConfig = {
   key: 'root',
@@ -57,6 +58,7 @@ const reducer = combineReducers({
   wishlist: persistReducer(wishlistPersistConfig, WishlistReducer),
   compare: persistReducer(comparePersistConfig, CompareReducer),
   categories: CategoriesReducer,
-  brands: BrandsReducer
+  brands: BrandsReducer,
+  shops: ShopsReducer
 });
 export { rootPersistConfig, reducer };

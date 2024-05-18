@@ -8,12 +8,12 @@ import { Typography, Grid, Box, Stack, Container } from '@mui/material';
 // api
 import * as api from 'src/services';
 // component
-// import ShopCard from 'src/components/cards/shop';
-import UserBrandsCard from 'src/components/cards/userBrands';
+// component
+import CompaginCard from 'src/components/cards/userCompagin';
 import { useQuery } from 'react-query';
 
-export default function BrandPage() {
-  const { data, isLoading } = useQuery(['get-brands-user'], () => api.getUserBrands());
+export default function CompaignPage() {
+  const { data, isLoading } = useQuery(['get-home-compaign-all'], () => api.getHomeCompaigns());
   return (
     <Container fixed>
       <Stack
@@ -25,7 +25,7 @@ export default function BrandPage() {
       >
         <Box>
           <Typography variant="h2" color="text.primary" textAlign="center">
-            All Brands
+            All Compaigns
           </Typography>
           <Typography variant="body1" color="text.secondary" textAlign="center">
             Lorem Ipsum Is Simply Dummy Text Of The Printing And Typesetting Industry.
@@ -36,13 +36,13 @@ export default function BrandPage() {
             {(isLoading ? Array.from(new Array(5)) : data?.data).map((inner) => (
               <React.Fragment key={Math.random()}>
                 <Grid item lg={4} md={6} sm={6} xs={12}>
-                  <UserBrandsCard item={inner} isLoading={isLoading} />
+                  <CompaginCard compaign={inner} isLoading={isLoading} />
                 </Grid>
               </React.Fragment>
             ))}
             {!Boolean(data?.data.length) && (
               <Typography variant="h3" color="error.main" textAlign="center">
-                Brands not found
+                Compaigns not found
               </Typography>
             )}
           </Grid>

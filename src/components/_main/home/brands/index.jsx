@@ -4,19 +4,17 @@ import Image from 'src/components/blurImage';
 // mui
 import { Typography, Box, Stack, Card, Link, Skeleton } from '@mui/material';
 // // api
-// import * as api from 'src/services';
-// import { useQuery } from 'react-query';
+import * as api from 'src/services';
+import { useQuery } from 'react-query';
 // Marquee
 import Marquee from 'react-fast-marquee';
 import NextLink from 'src/utils/link';
-import { useSelector } from 'react-redux';
 
 export default function Brands() {
   const setting = {
     gradient: false
   };
-  // const { data, isLoading } = useQuery(['get-brands-products'], () => api.getHomeBrands());
-  const { brands, isLoading } = useSelector(({ brands }) => brands);
+  const { data, isLoading } = useQuery(['get-brands-products'], () => api.getHomeBrands());
   return (
     <Box
       sx={{
@@ -43,10 +41,10 @@ export default function Brands() {
 
       {isLoading ? (
         <Skeleton variant="rounded" width={80} height={80} />
-      ) : Boolean(brands.length) ? (
+      ) : Boolean(data?.data?.length) ? (
         <Marquee {...setting}>
           <Stack direction="row" alignItems="center">
-            {brands.map((v) => (
+            {(isLoading ? Array.from(new Array(6)) : data?.data).map((v) => (
               <Link component={NextLink} href={`/products?brand=${v.slug}`} key={v._id} mx={2.5}>
                 <Card
                   className="slider-main"

@@ -10,15 +10,16 @@ import { alpha } from '@mui/material/styles';
 import { Box, List, Card, ListItem, Typography, Stack, Button, Skeleton } from '@mui/material';
 import Image from 'next/image';
 import { useDispatch } from 'react-redux';
-import { setBrands } from 'src/lib/redux/slices/brands';
+import { setShops } from 'src/lib/redux/slices/shops';
 import * as api from 'src/services';
 import { useQuery } from 'react-query';
+import { useRouter } from 'src/hooks/useRouter';
 // ----------------------------------------------------------------------
 
 const ITEM_HEIGHT = 40;
 // ----------------------------------------------------------------------
 
-function ParentItem({ brand, isLast, isLoading }) {
+function ParentItem({ shop, isLast, isLoading }) {
   const activeStyle = {
     color: 'primary.main',
     bgcolor: (theme) => alpha(theme.palette.primary.main, theme.palette.action.hoverOpacity)
@@ -26,7 +27,7 @@ function ParentItem({ brand, isLast, isLoading }) {
 
   return (
     <ListItem
-      href={`/products/${brand?.slug}`}
+      href={`/products/${shop?.slug}`}
       component={RouterLink}
       sx={{
         padding: (theme) => theme.spacing(3.5, 2),
@@ -56,11 +57,11 @@ function ParentItem({ brand, isLast, isLoading }) {
           {isLoading ? (
             <Skeleton variant="circular" width={40} height={40} />
           ) : (
-            <Image src={brand?.logo?.url} alt={brand?.name} layout="fill" objectFit="cover" />
+            <Image src={shop?.logo?.url} alt={shop?.title} layout="fill" objectFit="cover" />
           )}
         </Box>
         <Typography variant="body1" color="text.primary" fontWeight={500}>
-          {isLoading ? <Skeleton variant="text" width={120} /> : brand?.name}
+          {isLoading ? <Skeleton variant="text" width={120} /> : shop?.title}
         </Typography>
       </Stack>
     </ListItem>
@@ -68,20 +69,22 @@ function ParentItem({ brand, isLast, isLoading }) {
 }
 
 MegaMenuItem.propTypes = {
-  brand: PropTypes.object,
+  shop: PropTypes.object,
   isLast: PropTypes.bool
 };
 
-function MegaMenuItem({ brand, isLast, isLoading }) {
-  return <ParentItem brand={brand} isLoading={isLoading} isLast={isLast} />;
+function MegaMenuItem({ shop, isLast, isLoading }) {
+  return <ParentItem shop={shop} isLoading={isLoading} isLast={isLast} />;
 }
 
 export default function MegaMenuDesktopVertical({ ...other }) {
   const dispatch = useDispatch();
-  const { data, isLoading } = useQuery(['get-brands-products'], () => api.getHomeBrands());
+  const router = useRouter();
+  const { data, isLoading } = useQuery(['get-home-shops-all'], () => api.getHomeShops());
+  // const { data, isLoading } = useQuery(['get-brands-products'], () => api.getHomeBrands());
   React.useEffect(() => {
     if (!isLoading) {
-      dispatch(setBrands(data?.data));
+      dispatch(setShops(data?.data));
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [data]);
@@ -104,13 +107,14 @@ export default function MegaMenuDesktopVertical({ ...other }) {
       }}
     >
       <div>
-        {(isLoading ? Array.from(new Array(5)) : data?.data.slice(0, 5)).map((brand, i) => (
-          <MegaMenuItem key={Math.random()} isLoading={isLoading} brand={brand} isLast={i === 4} />
+        {(isLoading ? Array.from(new Array(5)) : data?.data.slice(0, 5)).map((shop, i) => (
+          <MegaMenuItem key={Math.random()} isLoading={isLoading} shop={shop} isLast={i === 4} />
         ))}
       </div>
       <Button
         variant="outlined"
         fullWidth
+        onClick={() => router.push('/shops')}
         endIcon={<FaAngleRight size={14} />}
         sx={{
           bgcolor: (theme) => alpha(theme.palette.primary.dark, 0.2) + '!important',

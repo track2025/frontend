@@ -22,11 +22,13 @@ import Image from 'src/components/blurImage';
 // icons
 import { AiOutlineShop } from 'react-icons/ai';
 import { FaRegUser } from 'react-icons/fa6';
+// next
+import { useRouter } from 'src/hooks/useRouter';
 
 export default function ShopCard({ ...props }) {
   const { shop, isLoading } = props;
+  const router = useRouter();
   const baseUrl = '/shops/';
-  console.log(shop, 'shop');
 
   return (
     <Card
@@ -147,6 +149,8 @@ export default function ShopCard({ ...props }) {
             variant="outlined"
             color="primary"
             size="small"
+            type="button"
+            onClick={() => router.push(baseUrl + shop?.slug)}
             startIcon={<AiOutlineShop />}
             sx={{
               borderRadius: 6,
