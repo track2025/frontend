@@ -13,11 +13,12 @@ import shape from './shape';
 import shadows, { customShadows } from './shadows';
 import componentsOverride from './overrides';
 import { usePathname } from 'next/navigation';
-import createCache from '@emotion/cache';
 import rtlPlugin from 'stylis-plugin-rtl';
 import { prefixer } from 'stylis';
 import * as locales from '@mui/material/locale';
+import createCache from '@emotion/cache';
 import { CacheProvider } from '@emotion/react';
+
 ThemeRegistry.propTypes = {
   children: PropTypes.node.isRequired
 };
@@ -42,28 +43,27 @@ export default function ThemeRegistry({ children }) {
   const lang = segments[1];
   const locale = Localization(lang);
   const dir = lang === 'ar' ? 'rtl' : 'ltr';
-  const styleCache = createCache({
-    key: dir === 'rtl' ? 'muirtl' : 'css',
-    stylisPlugins: dir === 'rtl' ? [prefixer, rtlPlugin] : []
+  const cacheRtl = createCache({
+    key: 'muirtl',
+    stylisPlugins: [prefixer, rtlPlugin]
   });
-  const customTheme = () =>
+  const customTheme = (outerTheme) =>
     createTheme(
       {
-        palette: themeMode === 'dark' ? { ...palette.dark, mode: 'dark' } : { ...palette.light, mode: 'light' },
+        palette: { ...palette.dark, mode: 'dark' },
         direction: dir,
         typography: typography,
-        shadows: themeMode === 'dark' ? shadows.dark : shadows.light,
+        shadows: shadows.dark,
         shape,
         breakpoints,
-        customShadows: themeMode === 'dark' ? customShadows.light : customShadows.dark
+        customShadows: customShadows.light
       },
       locales[locale]
     );
-
-  customTheme.components = componentsOverride(customTheme());
+  // customTheme.components = componentsOverride(customTheme);
   return (
-    <CacheProvider value={styleCache}>
-      <ThemeProvider theme={customTheme()}>
+    <CacheProvider value={cacheRtl}>
+      <ThemeProvider theme={customTheme}>
         <main dir={dir}>
           <CssBaseline />
           {children}

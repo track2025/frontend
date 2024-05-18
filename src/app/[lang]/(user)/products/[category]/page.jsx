@@ -14,7 +14,6 @@ export async function generateStaticParams() {
       category: cat.slug
     };
   });
-  console.log(mapped, 'mapped');
   return mapped;
 }
 

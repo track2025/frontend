@@ -98,6 +98,7 @@ export default function Search({ ...props }) {
   }, [search]);
   React.useEffect(() => {
     mutate({ query: search, category: state.category, subCategory: state.subCategory, brand: state.brand });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [state.category, state.subCategory, state.brand]);
 
   return (
@@ -158,7 +159,9 @@ export default function Search({ ...props }) {
           >
             <MenuItem value="">None</MenuItem>
             {categories.map((category) => (
-              <MenuItem value={category._id}>{category.name}</MenuItem>
+              <MenuItem key={category._id} value={category._id}>
+                {category.name}
+              </MenuItem>
             ))}
           </Select>
         </FormControl>
@@ -177,7 +180,9 @@ export default function Search({ ...props }) {
             {categories
               .find((cat) => cat._id === state.category)
               ?.subCategories.map((subcat) => (
-                <MenuItem value={subcat._id}>{subcat.name}</MenuItem>
+                <MenuItem value={subcat._id} key={subcat._id}>
+                  {subcat.name}
+                </MenuItem>
               ))}
           </Select>
         </FormControl>
@@ -193,7 +198,9 @@ export default function Search({ ...props }) {
             onChange={(e) => setstate({ ...state, brand: e.target.value })}
           >
             {brands.map((brand) => (
-              <MenuItem value={brand._id}>{brand.name}</MenuItem>
+              <MenuItem value={brand._id} key={brand._id}>
+                {brand.name}
+              </MenuItem>
             ))}
           </Select>
         </FormControl>

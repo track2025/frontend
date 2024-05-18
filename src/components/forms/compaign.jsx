@@ -49,7 +49,7 @@ import { useCurrencyFormatter } from 'src/hooks/fCurrency';
 import { IoMdClose } from 'react-icons/io';
 import { format, parseISO } from 'date-fns';
 
-compaignForm.propTypes = {
+CompaignForm.propTypes = {
   data: PropTypes.object,
   isLoading: PropTypes.bool
 };
@@ -63,7 +63,7 @@ const LabelStyle = styled(Typography)(({ theme }) => ({
 
 const STATUS_OPTIONS = ['enable', 'disable'];
 
-export default function compaignForm({ data: currentCompaign, isLoading: compaignLoading }) {
+export default function CompaignForm({ data: currentCompaign, isLoading: compaignLoading }) {
   const router = useRouter();
   const cCurrency = useCurrencyConvert();
   const fCurrency = useCurrencyFormatter();

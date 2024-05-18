@@ -29,7 +29,6 @@ export default function WishlistPopover({ isAuth }) {
     <>
       <Stack
         direction="row"
-        spacing={1}
         alignItems="center"
         width="auto"
         sx={{ cursor: 'pointer' }}
@@ -40,12 +39,14 @@ export default function WishlistPopover({ isAuth }) {
             router.push('/profile/wishlist');
           }
         }}
+        spacing={1}
       >
         <IconButton
           name="wishlist"
           color="primary"
           disableRipple
           sx={{
+            ml: 1,
             borderColor: 'primary',
             borderWidth: 1,
             borderStyle: 'solid',
