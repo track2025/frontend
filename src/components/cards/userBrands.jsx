@@ -1,49 +1,63 @@
+'use client';
 import React from 'react';
 import { uniqueId } from 'lodash';
+// next
+import Link from 'src/utils/link';
 import PropTypes from 'prop-types';
 // mui
-import { Grid, Card, Typography, Skeleton, IconButton, Box, Stack } from '@mui/material';
-import { styled, useTheme } from '@mui/material/styles';
+import { Card, Typography, Skeleton, CardContent, Box } from '@mui/material';
+import { useTheme } from '@mui/material/styles';
 // lodash
 import { capitalize } from 'lodash';
 // components
 import BlurImage from 'src/components/blurImage';
-import Label from 'src/components/label';
-import { fDateShort } from 'src/utils/formatTime';
-// icons
-import { MdDelete } from 'react-icons/md';
-import { MdEdit } from 'react-icons/md';
-// next
-import { useRouter } from 'src/hooks/useRouter';
-
-const RootStyle = styled(Card)(({ theme }) => ({}));
 
 export default function UserBrandsCard({ item, isLoading }) {
   const theme = useTheme();
-  const router = useRouter();
+  const baseUrl = '/brands/';
   return (
-    <RootStyle key={uniqueId()}>
-      {isLoading ? (
-        <Skeleton variant="rectangular" width={50} height={50} sx={{ borderRadius: 1 }} />
-      ) : (
-        <Box
+    <Card key={uniqueId()}>
+      <CardContent>
+        {isLoading ? (
+          <Skeleton variant="rectangular" width={120} height={120} sx={{ borderRadius: 1, mx: 'auto' }} />
+        ) : (
+          <Box
+            sx={{
+              position: 'relative',
+              overflow: 'hidden',
+              height: 120,
+              width: 120,
+              minWidth: 120,
+              borderRadius: 50,
+              border: `1px solid ${theme.palette.divider}`,
+              mx: 'auto',
+              mb: 2
+            }}
+          >
+            <BlurImage priority fill alt={item?.name} src={item?.logo?.url} objectFit="cover" />
+          </Box>
+        )}
+        <Typography
+          noWrap
+          variant="h6"
+          textAlign="center"
+          color="text.primary"
+          {...(!isLoading && {
+            component: Link,
+            href: baseUrl + item?.slug
+          })}
           sx={{
-            position: 'relative',
-            overflow: 'hidden',
-            height: 50,
-            width: 50,
-            minWidth: 50,
-            borderRadius: 1,
-            border: `1px solid ${theme.palette.divider}`
+            display: 'flex',
+            justifyContent: 'center'
           }}
         >
-          <BlurImage priority fill alt={item?.name} src={item?.logo?.url} objectFit="cover" />
-        </Box>
-      )}
-      <Typography noWrap variant="h6">
-        {isLoading ? <Skeleton variant="text" /> : capitalize(item.name).slice(0, 20)}
-      </Typography>
-    </RootStyle>
+          {isLoading ? <Skeleton variant="text" /> : capitalize(item?.name)}
+        </Typography>
+        <Typography variant="body1" color="text.secondary" textAlign="center">
+          {isLoading ? <Skeleton variant="text" /> : item?.description}
+        </Typography>
+      </CardContent>
+    </Card>
   );
 }
 UserBrandsCard.propTypes = {

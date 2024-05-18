@@ -290,7 +290,10 @@ export const getHomeBrands = async () => {
   const { data } = await http.get(`/home/brands`);
   return data;
 };
-
+export const getUserBrands = async () => {
+  const { data } = await http.get(`/brands`);
+  return data;
+};
 // sub categories
 export const getSubCategoryByAdmin = async (slug) => {
   const { data } = await http.get(`/admin/subcategories/${slug}`);

@@ -60,10 +60,9 @@ export default function ThemeRegistry({ children }) {
       locales[locale]
     );
 
-  customTheme.components = componentsOverride(customTheme());
   return (
     <CacheProvider value={styleCache}>
-      <ThemeProvider theme={customTheme()}>
+      <ThemeProvider theme={{ ...customTheme(), components: componentsOverride(customTheme()) }}>
         <main dir={dir}>
           <CssBaseline />
           {children}
