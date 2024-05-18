@@ -6,7 +6,7 @@ import { Box, OutlinedInput, InputAdornment } from '@mui/material';
 import { IoIosSearch } from 'react-icons/io';
 // next js
 import { usePathname, useSearchParams } from 'next/navigation';
-import {  useRouter } from 'src/hooks/useRouter';
+import { useRouter } from 'src/hooks/useRouter';
 
 const RootStyle = styled(Box)(() => ({
   maxHeight: 96,
@@ -36,6 +36,7 @@ export default function Search() {
   const pathname = usePathname();
   const searchParams = useSearchParams();
   const usedSearch = searchParams.get('search');
+  const [initial, setInitial] = useState(false);
   const [search, setSearch] = useState(usedSearch || '');
   const onChange = (e) => {
     const val = e.target.value;
@@ -56,9 +57,12 @@ export default function Search() {
   useEffect(() => {
     const delayDebounceFn = setTimeout(() => {
       if (Boolean(search)) {
-        router.push(`${pathname}?${createQueryString('search', search)}`);
+        setInitial(true);
+        router.push(`${pathname}?${createQueryString('search', search)}`, 'isAlreadyPathname');
       } else {
-        router.push(`${pathname}`);
+        if (initial) {
+          router.push(`${pathname}`, 'isAlreadyPathname');
+        }
       }
       // eslint-disable-next-line react-hooks/exhaustive-deps
     }, 1000);

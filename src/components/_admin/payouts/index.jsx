@@ -48,6 +48,7 @@ export default function PayoutsList() {
         mobileRow={IncomeListData}
         handleClickOpen={(v) => setPayment(v)}
         isPayout
+        isSearch
       />
       <EditPaymentDialog
         handleClose={() => setPayment(null)}

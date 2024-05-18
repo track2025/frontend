@@ -72,6 +72,7 @@ export default function BrandList() {
         isLoading={isLoading}
         row={Compaign}
         handleClickOpen={handleClickOpen}
+        isSearch
       />
     </>
   );

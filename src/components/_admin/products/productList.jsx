@@ -14,7 +14,7 @@ import ProductCard from 'src/components/cards/adminProduct';
 import Product from 'src/components/table/rows/product';
 import { useSearchParams } from 'next/navigation';
 import PropTypes from 'prop-types';
-import Search from 'src/components/search';
+
 import ProductFilter from './productFilter';
 
 const TABLE_HEAD = [
@@ -71,8 +71,7 @@ export default function AdminProducts({ brands, categories, isVendor }) {
         />
       </Dialog>
       <Stack spacing={2} direction="row" alignItems="center" justifyContent="space-between" mb={2}>
-        <Search />
-        {!isVendor && <ProductFilter categories={categories} />}
+        {}
       </Stack>
       <Table
         headData={TABLE_HEAD}
@@ -84,6 +83,8 @@ export default function AdminProducts({ brands, categories, isVendor }) {
         brands={isVendor ? [] : brands}
         categories={isVendor ? [] : categories}
         isVendor={isVendor}
+        filters={<>{!isVendor ? <ProductFilter categories={categories} /> : null}</>}
+        isSearch
       />
     </>
   );

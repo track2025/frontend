@@ -35,34 +35,34 @@ export const navlinks = [
   {
     id: 1,
     title: 'Dashboard',
-    slug: '/dashboard',
+    slug: 'dashboard',
     icon: <LuLayoutDashboard />
   },
   {
     id: 2,
     title: 'Categories',
-    slug: '/categories',
+    slug: 'categories',
     icon: <TbCategory2 />,
     isSearch: true
   },
   {
     id: 3,
     title: 'Sub Categories',
-    slug: '/sub-categories',
+    slug: 'sub-categories',
     icon: <TbCategory2 />,
     isSearch: true
   },
   {
     id: 3,
     title: 'Brands',
-    slug: '/brands',
+    slug: 'brands',
     icon: <FaRegBuilding />,
     isSearch: true
   },
   {
     id: 4,
     title: 'Products',
-    slug: '/products',
+    slug: 'products',
     icon: <BsShop />,
     isSearch: true
   },
@@ -70,49 +70,49 @@ export const navlinks = [
   {
     id: 5,
     title: 'Orders',
-    slug: '/orders',
+    slug: 'orders',
     icon: <BsCart3 />,
     isSearch: true
   },
   {
     id: 6,
     title: 'Shops',
-    slug: '/shops',
+    slug: 'shops',
     icon: <BsBuildings />,
     isSearch: true
   },
   {
     id: 7,
     title: 'Users',
-    slug: '/users',
+    slug: 'users',
     icon: <LuUsers />,
     isSearch: true
   },
   {
     id: 8,
     title: 'Payouts',
-    slug: '/payouts',
+    slug: 'payouts',
     icon: <BsCashCoin />,
     isSearch: false
   },
   {
     id: 9,
     title: 'Coupon codes',
-    slug: '/coupon-codes',
+    slug: 'coupon-codes',
     icon: <RiCoupon5Line />,
     isSearch: true
   },
   {
     id: 122,
     title: 'Compaigns',
-    slug: '/compaigns',
+    slug: 'compaigns',
     icon: <LuBadgePercent />,
     isSearch: true
   },
   {
     id: 11,
     title: 'Currencies',
-    slug: '/currencies',
+    slug: 'currencies',
     icon: <AiOutlineDollarCircle />,
     isSearch: true
   },
@@ -120,14 +120,14 @@ export const navlinks = [
   {
     id: 12,
     title: 'Newsletter',
-    slug: '/newsletter',
+    slug: 'newsletter',
     icon: <SlEnvolopeLetter />,
     isSearch: false
   },
   {
     id: 13,
     title: 'Settings',
-    slug: '/settings',
+    slug: 'settings',
     icon: <IoSettingsOutline />,
     isSearch: false
   }
@@ -192,11 +192,11 @@ export default function Sidebar({ handleDrawerClose, handleDrawerOpen, open }) {
   const theme = useTheme();
   const router = useRouter();
   const pathname = usePathname();
-  const [active, setActive] = React.useState('/admin/dashboard');
+  const [active, setActive] = React.useState('');
   const [initial, setInitial] = React.useState(false);
   const isMobile = useMediaQuery(theme.breakpoints.down('md'));
   React.useEffect(() => {
-    setActive(pathname);
+    setActive(pathname.split('/')[3]);
     setInitial(true);
   }, [pathname]);
   return (
@@ -273,8 +273,7 @@ export default function Sidebar({ handleDrawerClose, handleDrawerOpen, open }) {
                   display: 'block',
                   borderRadius: '8px',
                   border: `1px solid transparent`,
-                  ...((pathname.split('/')?.length > 3 ? '/admin/' + pathname.split('/')[2] : active) ===
-                    '/admin' + item.slug &&
+                  ...(active === item.slug &&
                     initial && {
                       bgcolor: (theme) => alpha(theme.palette.primary.main, 0.2),
                       border: (theme) => `1px solid ${theme.palette.primary.main}`,
@@ -288,8 +287,8 @@ export default function Sidebar({ handleDrawerClose, handleDrawerOpen, open }) {
                 <Tooltip title={open ? '' : item.title} placement="left" arrow leaveDelay={200}>
                   <ListItemButton
                     onClick={() => {
-                      setActive('/admin' + item.slug);
-                      router.push('/admin' + item.slug);
+                      setActive(item.slug);
+                      router.push('/admin/' + item.slug);
                       isMobile && handleDrawerClose();
                     }}
                     sx={{

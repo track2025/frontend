@@ -70,6 +70,7 @@ export default function BrandList() {
         isLoading={isLoading}
         row={Brand}
         handleClickOpen={handleClickOpen}
+        isSearch
       />
     </>
   );

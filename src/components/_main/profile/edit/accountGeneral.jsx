@@ -228,7 +228,7 @@ export default function AccountGeneral() {
               <FormHelperText error sx={{ px: 2, textAlign: 'center' }}>
                 {touched.photoURL && errors.photoURL}
               </FormHelperText>
-              {user?.isVerified ? (
+              {isLoading || user?.isVerified ? (
                 ''
               ) : (
                 <LoadingButton loading={verifyLoading} variant="text" color="primary" onClick={onVerifyAccount}>

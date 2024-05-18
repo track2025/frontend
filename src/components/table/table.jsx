@@ -8,6 +8,7 @@ import Pagination from 'src/components/pagination';
 import PropTypes from 'prop-types';
 import dynamic from 'next/dynamic';
 import TableHeadMain from '../_main/skeletons/profile/invoice/tableHead';
+import Search from 'src/components/search';
 const TableHead = dynamic(() => import('./tableHead'), {
   loading: () => <TableHeadMain />
 });
@@ -28,15 +29,20 @@ CustomTable.propTypes = {
   isLoading: PropTypes.bool.isRequired,
   isDashboard: PropTypes.bool,
   mobileRow: PropTypes.elementType,
-  row: PropTypes.elementType.isRequired
+  row: PropTypes.elementType.isRequired,
+  filters: PropTypes.any,
+  isSearch: PropTypes.bool
 };
 
 export default function CustomTable({ ...props }) {
-  const { headData, data, isLoading, mobileRow, isDashboard, row, ...rest } = props;
+  const { headData, data, isLoading, mobileRow, isDashboard, isSearch, row, filters, ...rest } = props;
   const Component = row;
   const CardComponent = mobileRow;
   return (
     <>
+      <Stack spacing={2} direction="row" alignItems="center" justifyContent="space-between" mb={2}>
+        {isSearch ? <Search /> : null} {filters}
+      </Stack>
       {!isLoading && data?.data?.length === 0 ? (
         <Card>
           <NotFound title="No Order Found" />
