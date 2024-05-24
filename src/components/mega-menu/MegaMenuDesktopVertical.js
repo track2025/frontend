@@ -27,7 +27,7 @@ function ParentItem({ shop, isLast, isLoading }) {
 
   return (
     <ListItem
-      href={`/products/${shop?.slug}`}
+      href={`/shops/${shop?.slug}`}
       component={RouterLink}
       sx={{
         padding: (theme) => theme.spacing(3.5, 2),

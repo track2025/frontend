@@ -15,8 +15,7 @@ import { useSelector } from 'react-redux';
 import ShopCard from 'src/components/cards/shop';
 
 export default function ShopComponent() {
-  const data = useSelector(({ shops }) => shops);
-  console.log(data, 'shops');
+  const { shop, isLoading } = useSelector(({ shops }) => shops);
 
   return (
     <Paper elevation={0}>

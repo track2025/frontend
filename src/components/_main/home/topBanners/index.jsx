@@ -25,8 +25,7 @@ export default function Index() {
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'space-between',
-                backgroundColor:
-                  theme.palette.mode === 'dark' ? alpha(theme.palette.primary.dark, 0.4) : theme.palette.primary.light,
+                backgroundColor: theme.palette.primary.light,
                 borderRadius: '12px',
 
                 height: '100%',
