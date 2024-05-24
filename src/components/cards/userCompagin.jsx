@@ -69,7 +69,6 @@ const renderer = ({ days, hours, minutes, seconds, completed }) => {
 };
 
 export default function CompaginCard({ compaign, isLoading }) {
-  const baseUrl = '/compagin/';
   return (
     <Card
       sx={{
@@ -108,7 +107,7 @@ export default function CompaginCard({ compaign, isLoading }) {
         <Stack spacing={1}>
           <Typography
             component={Link}
-            href={baseUrl}
+            href={'/compaigns/' + compaign.slug}
             color="text.primary"
             variant="h6"
             textAlign="center"

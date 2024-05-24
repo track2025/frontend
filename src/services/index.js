@@ -14,7 +14,7 @@ export const getUserCategories = async () => {
   return data;
 };
 export const getProducts = async (query = '', cat, rate) => {
-  const { data } = await http.get(`/products${query}&rate=${rate}`);
+  const { data } = await http.get(`/products${query || "?"}&rate=${rate}`);
   return data;
 };
 export const getProductDetails = async (pid) => {

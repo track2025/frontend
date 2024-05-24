@@ -60,7 +60,6 @@ export default function ProductListing({ category, subCategory, shop, fetchFilte
         rate
       )
   );
-  console.log(subCategory, 'subCategory');
 
   const isMobile = useMediaQuery('(max-width:900px)');
   return (

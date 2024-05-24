@@ -15,7 +15,7 @@ import { useSelector } from 'react-redux';
 import ShopCard from 'src/components/cards/shop';
 
 export default function ShopComponent() {
-  const { shop, isLoading } = useSelector(({ shops }) => shops);
+  const { shops, isLoading } = useSelector(({ shops }) => shops);
 
   return (
     <Paper elevation={0}>
@@ -49,6 +49,40 @@ export default function ShopComponent() {
             View More
           </Button>
         </Stack>
+
+        <Box>
+          <Grid container spacing={2} justifyContent="center" alignItems="center">
+            {(isLoading ? Array.from(new Array(6)) : shops).map((inner) => (
+              <React.Fragment key={Math.random()}>
+                <Grid item lg={3} md={4} sm={6} xs={12}>
+                  <ShopCard shop={inner} isLoading={isLoading} />
+                </Grid>
+              </React.Fragment>
+            ))}
+            {!isLoading && !Boolean(shops?.length) && (
+              <Typography variant="h3" color="error.main" textAlign="center">
+                Shop not found
+              </Typography>
+            )}
+          </Grid>
+        </Box>
+        {Boolean(shops?.length > 7) && (
+          <Button
+            variant="text"
+            color="primary"
+            endIcon={<IoIosArrowForward />}
+            component={NextLink}
+            href={`/shops`}
+            sx={{
+              mt: 3,
+              mx: 'auto',
+              display: 'flex',
+              minWidth: 100
+            }}
+          >
+            View All Shops
+          </Button>
+        )}
       </Stack>
     </Paper>
   );
