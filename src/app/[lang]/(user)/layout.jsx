@@ -29,14 +29,14 @@ export default async function RootLayout({ children }) {
 
   return (
     <>
-      <Suspense>
+      {/* <Suspense>
         <Topbar />
       </Suspense>
       <Navbar isAuth={hasCookie} />
-      <ActionBar />
+      <ActionBar /> */}
       {/* <Box sx={{ height: 100, display: { xs: 'none', md: 'flex' } }} /> */}
       {children}
-      <Footer />
+      {/* <Footer /> */}
     </>
   );
 }
