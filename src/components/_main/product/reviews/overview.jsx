@@ -72,7 +72,7 @@ ReviewOverview.propTypes = {
 
 export default function ReviewOverview({ ...props }) {
   const { totalRating, onOpen, reviewsSummery, totalReviews } = props;
-  console.log(reviewsSummery, 'reviewsSummery');
+
   return (
     <Box
       sx={{

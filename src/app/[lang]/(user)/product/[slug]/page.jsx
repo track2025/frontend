@@ -2,8 +2,7 @@ import React from 'react';
 import { Suspense } from 'react';
 // mui
 import { Box, Container, Stack, Grid } from '@mui/material';
-//  Next
-import { notFound } from 'next/navigation';
+
 // components
 import RelatedProductsCarousel from 'src/components/_main/product/relatedProducts';
 import ProductDetailTabs from 'src/components/_main/product/tabs';
@@ -12,7 +11,7 @@ import ProductDetailsCarousel from 'src/components/carousels/details';
 import ProductDetailsSumary from 'src/components/_main/product/summary';
 import HeaderBreadcrumbs from 'src/components/headerBreadcrumbs';
 import * as api from 'src/services';
-export const dynamic = 'force-static';
+export const dynamic = 'force-dynamic';
 export async function generateStaticParams() {
   const { data } = await api.getProductSlugs();
   return data?.map((product) => {
@@ -39,9 +38,6 @@ export async function generateMetadata({ params }) {
 export default async function ProductDetail({ params: { slug } }) {
   const response = await api.getProductDetails(slug);
 
-  if (!response) {
-    notFound();
-  }
   const { data, totalRating, totalReviews, brand, category } = response;
 
   return (

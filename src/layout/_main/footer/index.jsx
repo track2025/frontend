@@ -86,7 +86,7 @@ export default function Footer() {
         py: 4,
         overflow: 'hidden',
         position: 'relative',
-
+        mt: 8,
         display: {
           md: 'block',
           xs: 'none'
@@ -233,7 +233,16 @@ export default function Footer() {
 
               <Stack direction="row" alignItems="center" spacing={2}>
                 {SOCIAL_MEDIA_LINK.map((item, idx) => (
-                  <Fab size="small" color="primary" key={idx} component={NextLink} href={item.linkPath}>
+                  <Fab
+                    size="small"
+                    color="primary"
+                    key={idx}
+                    component={NextLink}
+                    href={item.linkPath}
+                    sx={{
+                      zIndex: 1
+                    }}
+                  >
                     {item.icon}
                   </Fab>
                 ))}

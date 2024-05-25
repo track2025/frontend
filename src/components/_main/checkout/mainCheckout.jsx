@@ -157,7 +157,7 @@ const CheckoutMain = () => {
       state: userData?.state || '',
       country: userData?.country || 'Pakistan',
       zip: userData?.zip || '',
-      order: userData?.order || '',
+      note: '',
       ...(checked && {
         shippingAddress: {
           firstName: '',
@@ -323,7 +323,7 @@ const CheckoutMain = () => {
                   fullWidth
                   size="large"
                   type="submit"
-                  // loading={isLoading || isProcessing || loading}
+                  loading={isLoading || isProcessing || loading}
                 >
                   Place Order
                 </LoadingButton>

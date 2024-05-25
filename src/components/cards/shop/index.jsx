@@ -45,26 +45,36 @@ export default function ShopCard({ ...props }) {
           height: 100
         }}
       >
-        <Box
-          sx={{
-            position: 'absolute',
-            width: '100%',
-            height: '100%'
-          }}
-        >
-          <Image
-            alt="shop"
-            src={shop?.cover?.url}
-            // placeholder="blur"
-            // blurDataURL={shop?.cover?.blurDataURL}
-            layout="fill"
-            objectFit="cover"
-            static
-            draggable="false"
-            quality={5}
-            sizes={'50vw'}
+        {isLoading ? (
+          <Skeleton
+            variant="rectangular"
+            sx={{
+              height: 100,
+              width: '100%'
+            }}
           />
-        </Box>
+        ) : (
+          <Box
+            sx={{
+              position: 'absolute',
+              width: '100%',
+              height: '100%'
+            }}
+          >
+            <Image
+              alt="shop"
+              src={shop?.cover?.url}
+              // placeholder="blur"
+              // blurDataURL={shop?.cover?.blurDataURL}
+              layout="fill"
+              objectFit="cover"
+              static
+              draggable="false"
+              quality={5}
+              sizes={'50vw'}
+            />
+          </Box>
+        )}
       </Box>
       <CardContent>
         <Box sx={{ mt: -7 }}>
@@ -138,44 +148,70 @@ export default function ShopCard({ ...props }) {
             lineHeight={0.5}
             sx={{ textTransform: 'capitalize', pt: 2 }}
           >
-            {isLoading ? <Skeleton variant="text" width={100} /> : shop?.title}
+            {isLoading ? <Skeleton variant="text" width={100} sx={{ mx: 'auto' }} /> : shop?.title}
           </Typography>
           <Typography color="text.secondary" variant="body1" textAlign="center">
-            Our Highest Rated Shops Where You Can Find What You Are
+            {isLoading ? (
+              <Skeleton variant="text" width={'100%'} />
+            ) : (
+              'Our Highest Rated Shops Where You Can Find What You Are'
+            )}
           </Typography>
         </Stack>
         <Stack direction="row" spacing={1.5} justifyContent="center" mt={1}>
-          <Button
-            variant="outlined"
-            color="primary"
-            size="small"
-            type="button"
-            onClick={() => router.push(baseUrl + shop?.slug)}
-            startIcon={<AiOutlineShop />}
-            sx={{
-              borderRadius: 6,
-              fontWeight: 400,
-              whiteSpace: 'nowrap',
-              px: 2,
-              bgcolor: (theme) => alpha(theme.palette.primary.main, 0.2)
-            }}
-          >
-            View Store
-          </Button>
-          <Button
-            variant="outlined"
-            size="small"
-            color="secondary"
-            startIcon={<FaRegUser size={16} />}
-            sx={{
-              borderRadius: 6,
-              fontWeight: 400,
-              px: 2,
-              bgcolor: (theme) => alpha(theme.palette.secondary.main, 0.2)
-            }}
-          >
-            Follow
-          </Button>
+          {isLoading ? (
+            <Skeleton
+              variant="rectanguar"
+              width={121}
+              height={32}
+              sx={{
+                borderRadius: '24px'
+              }}
+            />
+          ) : (
+            <Button
+              variant="outlined"
+              color="primary"
+              size="small"
+              type="button"
+              onClick={() => router.push(baseUrl + shop?.slug)}
+              startIcon={<AiOutlineShop />}
+              sx={{
+                borderRadius: 6,
+                fontWeight: 400,
+                whiteSpace: 'nowrap',
+                px: 2,
+                bgcolor: (theme) => alpha(theme.palette.primary.main, 0.2)
+              }}
+            >
+              View Store
+            </Button>
+          )}
+          {isLoading ? (
+            <Skeleton
+              variant="rectanguar"
+              width={92}
+              height={32}
+              sx={{
+                borderRadius: '24px'
+              }}
+            />
+          ) : (
+            <Button
+              variant="outlined"
+              size="small"
+              color="secondary"
+              startIcon={<FaRegUser size={16} />}
+              sx={{
+                borderRadius: 6,
+                fontWeight: 400,
+                px: 2,
+                bgcolor: (theme) => alpha(theme.palette.secondary.main, 0.2)
+              }}
+            >
+              Follow
+            </Button>
+          )}
         </Stack>
       </CardContent>
       <Divider />
@@ -184,29 +220,29 @@ export default function ShopCard({ ...props }) {
           py: '16px !important'
         }}
       >
-        <Stack direction="row" alignItems="center" justifyContent="space-between" spacing={2}>
+        <Stack direction="row" alignItems="center" justifyContent="space-evenly" spacing={2}>
           <Stack alignItems="center">
             <Typography variant="subtitle2" color="text.secondary">
-              Follower
+              {isLoading ? <Skeleton variant="text" width={50} /> : 'Followers'}
             </Typography>
-            <Typography variant="subtitle2" color="text.primary">
-              11.9K
+            <Typography variant="h5" color="text.primary">
+              {isLoading ? <Skeleton variant="text" width={100} /> : shop?.followers?.length}
             </Typography>
           </Stack>{' '}
-          <Stack alignItems="center">
+          {/* <Stack alignItems="center">
             <Typography variant="subtitle2" color="text.secondary">
               Following
             </Typography>
             <Typography variant="subtitle2" color="text.primary">
               11.9K
             </Typography>
-          </Stack>
+          </Stack> */}
           <Stack alignItems="center">
             <Typography variant="subtitle2" color="text.secondary">
-              Total Posts
+              {isLoading ? <Skeleton variant="text" width={50} /> : 'Total Products'}
             </Typography>
-            <Typography variant="subtitle2" color="text.primary">
-              11.9K
+            <Typography variant="h5" color="text.primary">
+              {isLoading ? <Skeleton variant="text" width={100} /> : shop?.products?.length}
             </Typography>
           </Stack>
         </Stack>

@@ -50,7 +50,7 @@ export default function LoginForm() {
       await createCookies('token', data.token);
       setloading(false);
       toast.success('Logged in successfully!');
-      push(redirect || '/');
+      push(redirect || '/', 'isAlreadyPathname');
     },
     onError: (err) => {
       setloading(false);
