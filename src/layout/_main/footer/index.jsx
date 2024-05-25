@@ -11,7 +11,7 @@ import NextLink from 'src/utils/link';
 import NewsLetter from './newsletter';
 
 import MainLogo from 'src/components/mainLogo';
-
+import { usePathname } from 'next/navigation';
 // icons
 import { FaFacebookF, FaInstagram, FaLinkedinIn } from 'react-icons/fa';
 import { MdOutlineLocationOn } from 'react-icons/md';
@@ -79,6 +79,7 @@ const MAIN_LINKS = [
 
 export default function Footer() {
   const theme = useTheme();
+  const pathname = usePathname();
   return (
     <Box
       sx={{
@@ -86,7 +87,7 @@ export default function Footer() {
         py: 4,
         overflow: 'hidden',
         position: 'relative',
-        mt: 8,
+
         display: {
           md: 'block',
           xs: 'none'

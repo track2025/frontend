@@ -6,7 +6,7 @@ import Container from '@mui/material/Container';
 import HeaderBreadcrumbs from 'src/components/headerBreadcrumbs';
 import ProductList from 'src/components/_main/products';
 import * as api from 'src/services';
-export const dynamic = 'force-static';
+export const dynamic = 'error';
 export async function generateStaticParams() {
   const { data } = await api.getSubCategorySlugs();
   return data?.map((cat) => {
@@ -19,7 +19,7 @@ export async function generateStaticParams() {
 
 export async function generateMetadata({ params }) {
   const { data: response } = await api.getSubCategoryBySlug(params.subCategory);
-  // const images = category.images.map((img) => img.url);
+
   return {
     title: response.metaTitle,
     description: response.metaDescription,

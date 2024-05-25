@@ -25,7 +25,7 @@ export default function UserSelect() {
   const router = useRouter();
   const pathname = usePathname();
   const isAuthPath = getKeyByValue(PATH_PAGE.auth, pathname);
-  const isHomePath = pathname === '/';
+  const isHomePath = pathname.slice(3) === '';
   const anchorRef = React.useRef(null);
   const [openUser, setOpen] = React.useState(false);
 

@@ -295,7 +295,7 @@ export default function ProductDetailsSumary({ ...props }) {
               </Card>
             </Grid>
             <Grid item xs={12} md={5}>
-              <Card sx={{ p: 2, position: 'sticky', top: 20 }}>
+              <Card sx={{ p: 2, position: 'sticky', top: 156 }}>
                 <Typography variant="h4" className="text-price">
                   {!isLoading && isLoaded && fCurrency(cCurrency(product?.priceSale))} &nbsp;
                   {product?.price <= product?.priceSale ? null : (

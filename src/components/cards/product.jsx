@@ -100,7 +100,7 @@ export default function ShopProductCard({ ...props }) {
 
   return (
     <Card
-      onMouseEnter={() => setOpenActions(true)}
+      onMouseEnter={() => !isLoading && setOpenActions(true)}
       onMouseLeave={() => setOpenActions(false)}
       sx={{
         display: 'block',
@@ -170,7 +170,7 @@ export default function ShopProductCard({ ...props }) {
             </Box>
           )}
         </Box>
-        <Zoom in={!isLoading && openActions}>
+        <Zoom in={openActions}>
           <Box>
             {}
             <Stack

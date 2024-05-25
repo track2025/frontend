@@ -19,18 +19,24 @@ import { BsFillSendFill } from 'react-icons/bs';
 
 export default function NewsLetter() {
   const [loading, setloading] = React.useState(false);
-  const ChangePassWordSchema = Yup.object().shape({
-    email: Yup.string().email('Please enter valid email').required('Email is required')
-  });
 
   const formik = useFormik({
     initialValues: {
       email: ''
     },
-    validationSchema: ChangePassWordSchema,
     onSubmit: async (values) => {
-      setloading(true);
-      mutate(values);
+      if (
+        values.email
+          .toLowerCase()
+          .match(
+            /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|.(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+          )
+      ) {
+        setloading(true);
+        mutate(values);
+      } else {
+        toast.error('Invalid email!');
+      }
     }
   });
 
@@ -57,8 +63,6 @@ export default function NewsLetter() {
               size="medium"
               placeholder="Enter your Email"
               {...getFieldProps('email')}
-              error={Boolean(touched.email && errors.email)}
-              helperText={touched.email && errors.email}
               sx={{
                 '& .MuiInputBase-root': {
                   bgcolor: (theme) => theme.palette.background.paper,

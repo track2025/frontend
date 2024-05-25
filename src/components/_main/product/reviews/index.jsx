@@ -57,7 +57,7 @@ export default function ProductReview({ ...props }) {
         </Collapse>
       </Grid>
       <Grid item xs={12} md={4}>
-        <Card sx={{ position: 'sticky', top: 20 }}>
+        <Card sx={{ position: 'sticky', top: 156 }}>
           <ReviewOverview
             totalRating={totalRating}
             totalReviews={totalReviews}
