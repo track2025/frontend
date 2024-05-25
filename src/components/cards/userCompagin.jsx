@@ -2,7 +2,7 @@
 // next
 import Link from 'src/utils/link';
 // mui
-import { Typography, Card, Box, Stack, CardContent, alpha } from '@mui/material';
+import { Typography, Card, Box, Stack, CardContent, alpha, Skeleton } from '@mui/material';
 // components
 import Image from 'src/components/blurImage';
 import Countdown from 'react-countdown';
@@ -84,42 +84,59 @@ export default function CompaginCard({ compaign, isLoading }) {
           height: 100
         }}
       >
-        <Box
-          sx={{
-            position: 'absolute',
-            width: '100%',
-            height: '100%'
-          }}
-        >
-          <Image
-            alt="shop"
-            src={compaign?.cover?.url}
-            layout="fill"
-            objectFit="cover"
-            static
-            draggable="false"
-            quality={5}
-            sizes={'50vw'}
-          />
-        </Box>
+        {isLoading ? (
+          <Skeleton variant="rectangular" width="100%" height={100} />
+        ) : (
+          <Box
+            sx={{
+              position: 'absolute',
+              width: '100%',
+              height: '100%'
+            }}
+          >
+            <Image
+              alt="shop"
+              src={compaign?.cover?.url}
+              layout="fill"
+              objectFit="cover"
+              static
+              draggable="false"
+              quality={5}
+              sizes={'50vw'}
+            />
+          </Box>
+        )}
       </Box>
       <CardContent>
         <Stack spacing={1}>
           <Typography
             component={Link}
-            href={'/compaigns/' + compaign.slug}
+            href={'/compaigns/' + compaign?.slug}
             color="text.primary"
             variant="h6"
             textAlign="center"
             lineHeight={0.5}
             sx={{ textTransform: 'capitalize' }}
           >
-            {compaign?.name}
+            {isLoading ? <Skeleton variant="text" width="140px" sx={{ mx: 'auto' }} /> : compaign?.name}
           </Typography>
           <Typography color="text.secondary" variant="body1" textAlign="center">
-            {compaign?.products?.length} {compaign?.products?.length > 1 ? 'Products' : 'Product'}
+            {isLoading ? (
+              <Skeleton variant="text" width="80px" sx={{ mx: 'auto' }} />
+            ) : (
+              `${compaign?.products?.length} ${compaign?.products?.length > 1 ? 'Products' : 'Product'}`
+            )}
           </Typography>
-          <Countdown date={new Date(compaign?.endDate)} renderer={renderer} />
+          {isLoading ? (
+            <Stack direction="row" gap={1}>
+              <Skeleton variant="rounded" height="70px" width="100%" />
+              <Skeleton variant="rounded" height="70px" width="100%" />
+              <Skeleton variant="rounded" height="70px" width="100%" />
+              <Skeleton variant="rounded" height="70px" width="100%" />
+            </Stack>
+          ) : (
+            <Countdown date={new Date(compaign?.endDate)} renderer={renderer} />
+          )}
         </Stack>
       </CardContent>
     </Card>

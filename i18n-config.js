@@ -2,64 +2,77 @@ export const locales = [
   {
     title: 'English',
     country: 'United Kingdom',
-    code: 'en'
+    code: 'en',
+    countryCode: 'GB'
   },
   {
     title: 'Arabic',
     country: 'Saudi Arabia',
-    code: 'ar'
+    code: 'ar',
+    countryCode: 'SA'
   },
   {
     title: 'French',
     country: 'France',
-    code: 'fr'
+    code: 'fr',
+    countryCode: 'FR'
   },
   {
     title: 'Spanish',
     country: 'Spain',
-    code: 'es'
+    code: 'es',
+    countryCode: 'ES'
   },
   {
     title: 'German',
     country: 'Germany',
-    code: 'de'
+    code: 'de',
+    countryCode: 'DE'
   },
   {
     title: 'Italian',
     country: 'Italy',
-    code: 'it'
+    code: 'it',
+    countryCode: 'IT'
   },
   {
     title: 'Portuguese',
     country: 'Brazil',
-    code: 'pt'
+    code: 'pt',
+    countryCode: 'BR'
   },
   {
     title: 'Russian',
     country: 'Russia',
-    code: 'ru'
+    code: 'ru',
+    countryCode: 'RU'
   },
   {
     title: 'Japanese',
     country: 'Japan',
-    code: 'ja'
+    code: 'ja',
+    countryCode: 'JP'
   },
   {
     title: 'Korean',
     country: 'South Korea',
-    code: 'ko'
+    code: 'ko',
+    countryCode: 'KR'
   },
   {
     title: 'Hindi',
     country: 'India',
-    code: 'hi'
+    code: 'hi',
+    countryCode: 'IN'
   },
   {
     title: 'Chinese (Simplified)',
     country: 'China',
-    code: 'zh-Hans'
+    code: 'zh-Hans',
+    countryCode: 'CN'
   }
 ];
+
 export const i18n = {
   defaultLocale: 'en',
   locales: locales.map((v) => v.code)

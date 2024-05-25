@@ -8,7 +8,6 @@ import { IoIosArrowForward } from 'react-icons/io';
 // component
 import CategoryCard from 'src/components/cards/category';
 import { useSelector } from 'react-redux';
-
 export default function Categories() {
   const { newCategories, isLoading } = useSelector(({ categories }) => categories);
   return (
@@ -20,14 +19,33 @@ export default function Categories() {
           mt: 5
         }}
       >
-        <Box>
-          <Typography variant="h2" color="text.primary" textAlign="center">
-            Top Categories
-          </Typography>
-          <Typography variant="body1" color="text.secondary" textAlign="center">
-            Lorem Ipsum Is Simply Dummy Text Of The Printing And Typesetting Industry.
-          </Typography>
-        </Box>
+        <Stack direction="row" justifyContent="space-between" alignItems="center">
+          <Box>
+            <Typography variant="h2" color="text.primary">
+              Top Categories
+            </Typography>
+            <Typography variant="body1" color="text.secondary">
+              Lorem Ipsum Is Simply Dummy Text Of The Printing And Typesetting Industry.
+            </Typography>
+          </Box>
+        </Stack>
+
+        {Boolean(newCategories?.length > 3) ? (
+          <Button
+            variant="contained"
+            color="primary"
+            size="large"
+            sx={{
+              borderRadius: 6
+            }}
+            endIcon={<IoIosArrowForward />}
+            component={NextLink}
+            href={`/categories`}
+          >
+            View More
+          </Button>
+        ) : null}
+
         <Box>
           <Grid container spacing={2} justifyContent="center" alignItems="center">
             {(isLoading ? Array.from(new Array(6)) : newCategories).map((inner) => (
@@ -44,24 +62,6 @@ export default function Categories() {
             )}
           </Grid>
         </Box>
-        {Boolean(newCategories?.length > 3) && (
-          <Button
-            variant="text"
-            color="primary"
-            endIcon={<IoIosArrowForward />}
-            component={NextLink}
-            href={`/categories`}
-            sx={{
-              mt: 3,
-              mx: 'auto',
-              display: 'flex',
-
-              minWidth: 100
-            }}
-          >
-            View All Categories
-          </Button>
-        )}
       </Stack>
     </Paper>
   );

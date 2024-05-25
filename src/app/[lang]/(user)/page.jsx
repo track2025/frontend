@@ -25,13 +25,10 @@ export default async function IndexPage() {
       <Container maxWidth="xl">
         <Categories />
         <Suspense>
-          <TopCollections />
+          <BestSeller />
         </Suspense>
         <Suspense>
           <CompaignsComponent />
-        </Suspense>
-        <Suspense>
-          <BestSeller />
         </Suspense>
       </Container>
       <Banner />

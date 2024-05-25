@@ -302,7 +302,7 @@ export default function ShopProductCard({ ...props }) {
               <Skeleton variant="text" width={72} />
             ) : (
               <>
-                <FaRegStar /> ({averageRating || 0})
+                <FaRegStar /> ({averageRating.toFixed(1) || 0})
               </>
             )}
           </Typography>
