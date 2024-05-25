@@ -16,6 +16,7 @@ import BestSellerTwo from 'src/components/_main/home/bestSellerTwo';
 import BestSellerThree from 'src/components/_main/home/bestSellerThree';
 import ShopComponent from 'src/components/_main/home/shop';
 import CompaignsComponent from 'src/components/_main/home/compaign';
+import Testimonials from 'src/components/_main/home/testimonials';
 
 export default async function IndexPage() {
   return (
@@ -39,6 +40,11 @@ export default async function IndexPage() {
         <Suspense>
           <ShopComponent />
         </Suspense>
+      </Container>
+      <Suspense>
+        <Testimonials />
+      </Suspense>
+      <Container maxWidth="xl">
         <Suspense>
           <BestSellerThree />
         </Suspense>

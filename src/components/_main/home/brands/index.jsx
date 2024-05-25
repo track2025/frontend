@@ -15,6 +15,7 @@ export default function Brands() {
     gradient: false
   };
   const { data, isLoading } = useQuery(['get-brands-products'], () => api.getHomeBrands());
+  console.log(data?.data, 'brands');
   return (
     <Box
       sx={{
@@ -42,42 +43,53 @@ export default function Brands() {
       {isLoading ? (
         <Skeleton variant="rounded" width={80} height={80} />
       ) : Boolean(data?.data?.length) ? (
-        <Marquee {...setting}>
-          <Stack direction="row" alignItems="center">
-            {(isLoading ? Array.from(new Array(6)) : data?.data).map((v) => (
-              <Link component={NextLink} href={`/products?brand=${v.slug}`} key={v._id} mx={2.5}>
-                <Card
-                  className="slider-main"
-                  sx={{
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    p: 1,
-                    width: '80px',
-                    height: '80px',
-                    borderRadius: '10px',
-                    position: 'relative',
-                    mb: 3,
-                    img: {
-                      borderRadius: '8px',
-                      objectFit: 'contain'
-                    }
-                  }}
-                >
-                  <Image
-                    src={v.logo.url}
-                    alt="logo"
-                    width={70}
-                    height={70}
-                    draggable="false"
-                    placeholder="blur"
-                    blurDataURL={v?.logo?.blurDataURL}
-                  />
-                </Card>
-              </Link>
-            ))}
-          </Stack>
-        </Marquee>
+        <Stack direction="row" alignItems="center" justifyContent="center" flexWrap>
+          {(isLoading ? Array.from(new Array(6)) : data?.data).map((v) => (
+            <Card
+              key={v._id}
+              className="slider-main"
+              sx={{
+                mx: 2.5,
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                p: 2,
+                // width: '80px',
+                height: '80px',
+                borderRadius: '10px',
+                position: 'relative',
+                mb: 3,
+                img: {
+                  borderRadius: '8px',
+                  objectFit: 'contain'
+                }
+              }}
+            >
+              <Stack direction="row" alignItems="center" spacing={2}>
+                <Image
+                  src={v.logo.url}
+                  alt="logo"
+                  width={70}
+                  height={70}
+                  draggable="false"
+                  placeholder="blur"
+                  blurDataURL={v?.logo?.blurDataURL}
+                />
+                <Stack>
+                  <Typography
+                    variant="subtitle1"
+                    component={NextLink}
+                    href={`/products?brand=${v.slug}`}
+                    color="text.primary"
+                  >
+                    {v.name}
+                  </Typography>
+                  <Typography variant="body1">3 Products</Typography>
+                </Stack>
+              </Stack>
+            </Card>
+          ))}
+        </Stack>
       ) : (
         <Typography variant="h3" color="error.main" textAlign="center">
           Brands not found
