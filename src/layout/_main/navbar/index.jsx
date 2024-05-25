@@ -1,7 +1,6 @@
 'use client';
 // react
 import React from 'react';
-import PropTypes from 'prop-types';
 // next
 import { usePathname } from 'next/navigation';
 import dynamic from 'next/dynamic';
@@ -71,9 +70,8 @@ const LanguageSelect = dynamic(() => import('src/components/languageSelect'), {
 // const AdminDialog = dynamic(() => import('src/components/dialog/admin'));
 
 // ----------------------------------------------------------------------
-export default function Navbar({ isAuth }) {
+export default function Navbar() {
   const pathname = usePathname();
-  const isHome = pathname === '/';
   const { checkout } = useSelector(({ product }) => product);
   const isMobile = useMediaQuery('(max-width:768px)');
 
@@ -112,7 +110,7 @@ export default function Navbar({ isAuth }) {
           <Stack gap={2} direction="row" alignItems={'center'}>
             <LanguageSelect />
             <SettingMode />
-            <WishlistPopover isAuth={isAuth} />
+            <WishlistPopover />
             <CompareWidget />
             <CartWidget checkout={checkout} />
             {/* <UserSelect /> */}
@@ -124,6 +122,3 @@ export default function Navbar({ isAuth }) {
     </>
   );
 }
-Navbar.propTypes = {
-  isAuth: PropTypes.bool.isRequired
-};

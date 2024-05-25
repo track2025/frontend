@@ -6,7 +6,7 @@ import Container from '@mui/material/Container';
 import HeaderBreadcrumbs from 'src/components/headerBreadcrumbs';
 import ProductList from 'src/components/_main/products';
 import * as api from 'src/services';
-export const dynamic = 'force-static';
+export const dynamic = 'error';
 export async function generateStaticParams() {
   const { data } = await api.getCategorySlugs();
   const mapped = data?.map((cat) => {

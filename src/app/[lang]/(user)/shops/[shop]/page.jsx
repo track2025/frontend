@@ -3,39 +3,39 @@ import { Box } from '@mui/material';
 import Grid from '@mui/material/Grid';
 import Container from '@mui/material/Container';
 import ShopDetailCover from 'src/components/_admin/shops/shopDetailCover';
-
-// components
-import Filter from 'src/components/_main/products/filters';
 import ProductList from 'src/components/_main/products';
+import * as api from 'src/services';
+export const dynamic = 'error';
+export async function generateStaticParams() {
+  const { data } = await api.getShopSlugs();
+  const mapped = data?.map((shop) => {
+    return {
+      shop: shop.slug
+    };
+  });
+  return mapped;
+}
 
+export async function generateMetadata({ params }) {
+  const { data: response } = await api.getShopBySlug(params.shop);
+
+  return {
+    title: response.metaTitle,
+    description: response.metaDescription,
+    title: response.title,
+    openGraph: {
+      images: [response.cover.url]
+    }
+  };
+}
 export default async function Listing({ params }) {
   const { shop } = params;
-  const response = await fetch(process.env.BASE_URL + '/api/shop-title/' + shop).then((res) => res.json());
-  if (!response) {
-    notFound();
-  }
-  const { data: shopData } = response;
-  // console.log(shopData, 'shopData');
+  const { data: shopData } = await api.getShopTitle(shop);
+
   return (
     <Box>
       <Box sx={{ bgcolor: 'background.default' }}>
         <Container fixed>
-          {/* <HeaderBreadcrumbs
-            heading={shopData?.title}
-            links={[
-              {
-                name: 'Home',
-                href: '/'
-              },
-              {
-                name: 'Shops',
-                href: '/shops'
-              },
-              {
-                name: shopData?.title
-              }
-            ]}
-          /> */}
           <Box mt={3}>
             <ShopDetailCover isUser data={shopData} isLoading={false} />
           </Box>

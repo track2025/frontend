@@ -11,7 +11,7 @@ import ProductDetailsCarousel from 'src/components/carousels/details';
 import ProductDetailsSumary from 'src/components/_main/product/summary';
 import HeaderBreadcrumbs from 'src/components/headerBreadcrumbs';
 import * as api from 'src/services';
-export const dynamic = 'force-dynamic';
+export const dynamic = 'error';
 export async function generateStaticParams() {
   const { data } = await api.getProductSlugs();
   return data?.map((product) => {

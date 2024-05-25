@@ -14,7 +14,7 @@ export const getUserCategories = async () => {
   return data;
 };
 export const getProducts = async (query = '', cat, rate) => {
-  const { data } = await http.get(`/products${query || "?"}&rate=${rate}`);
+  const { data } = await http.get(`/products${query || '?'}&rate=${rate}`);
   return data;
 };
 export const getProductDetails = async (pid) => {
@@ -564,6 +564,7 @@ export const getCategoryTitle = async (category) => {
   const { data } = await http.get(`/category-title/${category}`);
   return data;
 };
+
 export const getCategoryBySlug = async (category) => {
   const { data } = await http.get(`/categories/${category}`);
   return data;
@@ -571,6 +572,18 @@ export const getCategoryBySlug = async (category) => {
 
 export const getCategorySlugs = async () => {
   const { data } = await http.get(`/categories-slugs`);
+  return data;
+};
+export const getShopSlugs = async () => {
+  const { data } = await http.get('/shops-slugs');
+  return data;
+};
+export const getShopBySlug = async (shop) => {
+  const { data } = await http.get(`/shops/${shop}`);
+  return data;
+};
+export const getShopTitle = async (shop) => {
+  const { data } = await http.get(`/shop-title/${shop}`);
   return data;
 };
 

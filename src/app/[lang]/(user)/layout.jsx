@@ -4,7 +4,6 @@ import { Box } from '@mui/material';
 // components
 import Navbar from 'src/layout/_main/navbar';
 import Footer from 'src/layout/_main/footer';
-import { cookies } from 'next/headers';
 import Topbar from 'src/layout/_main/topbar';
 import ActionBar from 'src/layout/_main/actionbar';
 // Meta information
@@ -24,15 +23,12 @@ export const metadata = {
 };
 
 export default async function RootLayout({ children }) {
-  const cookiesList = cookies();
-  const hasCookie = cookiesList.get('token');
-
   return (
     <>
       <Suspense>
         <Topbar />
       </Suspense>
-      <Navbar isAuth={hasCookie} />
+      <Navbar />
       <ActionBar />
       {/* <Box sx={{ height: 100, display: { xs: 'none', md: 'flex' } }} /> */}
       {children}

@@ -16,14 +16,11 @@ WishlistPopover.propTypes = {
 };
 
 // ----------------------------------------------------------------------
-export default function WishlistPopover({ isAuth }) {
+export default function WishlistPopover() {
   const router = useRouter();
-  const [loading, setLoading] = React.useState(true);
-  const { wishlist } = useSelector(({ wishlist }) => wishlist);
 
-  React.useEffect(() => {
-    setLoading(false);
-  }, []);
+  const { wishlist } = useSelector(({ wishlist }) => wishlist);
+  const { isAuthenticated } = useSelector(({ user }) => user);
 
   return (
     <>
@@ -33,7 +30,7 @@ export default function WishlistPopover({ isAuth }) {
         width="auto"
         sx={{ cursor: 'pointer' }}
         onClick={() => {
-          if (!isAuth) {
+          if (!isAuthenticated) {
             router.push('/auth/login');
           } else {
             router.push('/profile/wishlist');
@@ -53,7 +50,7 @@ export default function WishlistPopover({ isAuth }) {
             bgcolor: (theme) => alpha(theme.palette.primary.main, 0.2)
           }}
           onClick={() => {
-            if (!isAuth) {
+            if (!isAuthenticated) {
               router.push('/auth/login');
             } else {
               router.push('/profile/wishlist');
