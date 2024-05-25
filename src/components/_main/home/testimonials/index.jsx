@@ -104,7 +104,8 @@ export default function Testimonials() {
                 disabled={page === 0}
                 sx={{
                   bgcolor: 'background.paper',
-                  color: 'primary.main'
+                  color: 'primary.main',
+                  zIndex: 99
                 }}
               >
                 <IoArrowBackOutline size={24} />
@@ -116,7 +117,8 @@ export default function Testimonials() {
                 onClick={() => paginate(1)}
                 sx={{
                   bgcolor: 'background.paper',
-                  color: 'primary.main'
+                  color: 'primary.main',
+                  zIndex: 99
                 }}
               >
                 <IoArrowForward size={24} />

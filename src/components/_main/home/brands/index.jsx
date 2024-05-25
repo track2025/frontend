@@ -2,7 +2,7 @@
 import React from 'react';
 import Image from 'src/components/blurImage';
 // mui
-import { Typography, Box, Stack, Card, Link, Skeleton } from '@mui/material';
+import { Typography, Box, Stack, Card, Link, Skeleton, CardActionArea } from '@mui/material';
 // // api
 import * as api from 'src/services';
 import { useQuery } from 'react-query';
@@ -53,7 +53,6 @@ export default function Brands() {
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
-                p: 2,
                 // width: '80px',
                 height: '80px',
                 borderRadius: '10px',
@@ -65,28 +64,30 @@ export default function Brands() {
                 }
               }}
             >
-              <Stack direction="row" alignItems="center" spacing={2}>
-                <Image
-                  src={v.logo.url}
-                  alt="logo"
-                  width={70}
-                  height={70}
-                  draggable="false"
-                  placeholder="blur"
-                  blurDataURL={v?.logo?.blurDataURL}
-                />
-                <Stack>
-                  <Typography
-                    variant="subtitle1"
-                    component={NextLink}
-                    href={`/products?brand=${v.slug}`}
-                    color="text.primary"
-                  >
-                    {v.name}
-                  </Typography>
-                  <Typography variant="body1">3 Products</Typography>
+              <CardActionArea sx={{ p: 1, pr: 2 }}>
+                <Stack direction="row" alignItems="center" spacing={2}>
+                  <Image
+                    src={v.logo.url}
+                    alt="logo"
+                    width={70}
+                    height={70}
+                    draggable="false"
+                    placeholder="blur"
+                    blurDataURL={v?.logo?.blurDataURL}
+                  />
+                  <Stack>
+                    <Typography
+                      variant="subtitle1"
+                      component={NextLink}
+                      href={`/products?brand=${v.slug}`}
+                      color="text.primary"
+                    >
+                      {v.name}
+                    </Typography>
+                    <Typography variant="body1">3 Products</Typography>
+                  </Stack>
                 </Stack>
-              </Stack>
+              </CardActionArea>
             </Card>
           ))}
         </Stack>
