@@ -170,8 +170,9 @@ export default function ShopProductCard({ ...props }) {
             </Box>
           )}
         </Box>
-        <Zoom in={openActions}>
+        <Zoom in={!isLoading && openActions}>
           <Box>
+            {}
             <Stack
               direction={'row'}
               sx={{
@@ -185,9 +186,7 @@ export default function ShopProductCard({ ...props }) {
                 zIndex: 11
               }}
             >
-              {loading ? (
-                <Skeleton variant="circular" width={isTablet ? 24 : 44} height={isTablet ? 24 : 44} />
-              ) : (
+              {
                 <Tooltip title="Add to cart">
                   <IconButton
                     aria-label="add to cart"
@@ -198,11 +197,9 @@ export default function ShopProductCard({ ...props }) {
                     <GoEye />
                   </IconButton>
                 </Tooltip>
-              )}
+              }
 
-              {loading ? (
-                <Skeleton variant="circular" width={isTablet ? 24 : 44} height={isTablet ? 24 : 44} />
-              ) : wishlist?.filter((v) => v === _id).length > 0 ? (
+              {wishlist?.filter((v) => v === _id).length > 0 ? (
                 <Tooltip title="Remove from cart">
                   <IconButton
                     disabled={isLoading}
@@ -226,9 +223,7 @@ export default function ShopProductCard({ ...props }) {
                   </IconButton>
                 </Tooltip>
               )}
-              {loading ? (
-                <Skeleton variant="circular" width={isTablet ? 24 : 44} height={isTablet ? 24 : 44} />
-              ) : compareProducts?.filter((v) => v._id === _id).length > 0 ? (
+              {compareProducts?.filter((v) => v._id === _id).length > 0 ? (
                 <Tooltip title="Remove from cart">
                   <IconButton
                     disabled={isLoading}

@@ -243,7 +243,7 @@ export default function ProductDetailsSumary({ ...props }) {
                     <Stack direction="row" alignItems="center" className="rating-wrapper" spacing={1}>
                       <Rating value={totalRating} precision={0.1} size="small" readOnly />
                       <Typography variant="subtitle2" color="text.secondary">
-                        ({totalRating.toFixed(1)})
+                        ({totalRating?.toFixed(1)})
                       </Typography>
                     </Stack>
                     <Stack direction="row" alignItems="center" spacing={1} color="text.secondary">
