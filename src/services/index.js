@@ -287,6 +287,11 @@ export const getBestSellingProducts = async () => {
   const { data } = await http.get(`/home/products/best-selling`);
   return data;
 };
+export const getFeaturedProducts = async () => {
+  const { data } = await http.get(`/home/products/featured`);
+  return data;
+};
+
 export const getTopRatedProducts = async () => {
   const { data } = await http.get(`/home/products/top`);
   return data;

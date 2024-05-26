@@ -28,9 +28,6 @@ export default function Categories() {
               Lorem Ipsum Is Simply Dummy Text Of The Printing And Typesetting Industry.
             </Typography>
           </Box>
-        </Stack>
-
-        {Boolean(newCategories?.length > 3) ? (
           <Button
             variant="contained"
             color="primary"
@@ -44,7 +41,7 @@ export default function Categories() {
           >
             View More
           </Button>
-        ) : null}
+        </Stack>
 
         <Box>
           <Grid container spacing={2} justifyContent="center" alignItems="center">

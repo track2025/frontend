@@ -6,16 +6,11 @@ import { Typography, Box, Stack, Card, Link, Skeleton, CardActionArea } from '@m
 // // api
 import * as api from 'src/services';
 import { useQuery } from 'react-query';
-// Marquee
-import Marquee from 'react-fast-marquee';
-import NextLink from 'src/utils/link';
+import { useRouter } from 'src/hooks/useRouter';
 
 export default function Brands() {
-  const setting = {
-    gradient: false
-  };
+  const { push } = useRouter();
   const { data, isLoading } = useQuery(['get-brands-products'], () => api.getHomeBrands());
-  console.log(data?.data, 'brands');
   return (
     <Box
       sx={{
@@ -64,7 +59,7 @@ export default function Brands() {
                 }
               }}
             >
-              <CardActionArea sx={{ p: 1, pr: 2 }}>
+              <CardActionArea onClick={() => push(`/products?brand=${v.slug}`)} sx={{ p: 1, pr: 2 }}>
                 <Stack direction="row" alignItems="center" spacing={2}>
                   <Image
                     src={v.logo.url}
@@ -76,12 +71,7 @@ export default function Brands() {
                     blurDataURL={v?.logo?.blurDataURL}
                   />
                   <Stack>
-                    <Typography
-                      variant="subtitle1"
-                      component={NextLink}
-                      href={`/products?brand=${v.slug}`}
-                      color="text.primary"
-                    >
+                    <Typography variant="subtitle1" color="text.primary">
                       {v.name}
                     </Typography>
                     <Typography variant="body1">3 Products</Typography>

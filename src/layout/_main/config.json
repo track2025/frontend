@@ -17,11 +17,11 @@
 
     {
       "title": "Shops",
-      "path": "/"
+      "path": "/shops"
     },
     {
       "title": "Compaigns",
-      "path": "/"
+      "path": "/compaigns"
     },
     {
       "title": "Contact",

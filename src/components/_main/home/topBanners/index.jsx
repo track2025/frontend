@@ -67,7 +67,7 @@ export default function Index() {
                 <Box>
                   <Button
                     component={Link}
-                    href="/products?gender=women"
+                    href="/products"
                     variant="contained"
                     color={'primary'}
                     size={isDeskTopBtn ? 'large' : 'small'}
@@ -145,7 +145,7 @@ export default function Index() {
                 <Box>
                   <Button
                     component={Link}
-                    href="/products?gender=women"
+                    href="/products"
                     variant="contained"
                     color={'secondary'}
                     size={isDeskTopBtn ? 'large' : 'small'}

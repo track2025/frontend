@@ -55,7 +55,7 @@ export default function Testimonials() {
   return (
     <Box
       sx={{
-        my: 3,
+        mt: 3,
         bgcolor: (theme) => alpha(theme.palette.primary.main, 0.1),
         position: 'relative',
         overflow: 'hidden',

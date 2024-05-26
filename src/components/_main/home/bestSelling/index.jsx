@@ -19,7 +19,7 @@ export default function Featured() {
       <Stack direction="row" justifyContent="space-between" alignItems="center">
         <Box>
           <Typography variant="h2" color="text.primary" mt={{ xs: 5, md: 8 }}>
-            New Arrivals
+            Best Selling Products
           </Typography>
           <Typography variant="body1" color="text.secondary" mb={5}>
             Special products in this month
@@ -34,7 +34,7 @@ export default function Featured() {
           }}
           endIcon={<IoIosArrowForward />}
           component={NextLink}
-          href={``}
+          href={`/products?top=1`}
         >
           View More
         </Button>

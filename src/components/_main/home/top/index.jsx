@@ -11,13 +11,13 @@ import ProductsCarousel from 'src/components/carousels/products';
 import { IoIosArrowForward } from 'react-icons/io';
 import NextLink from 'src/utils/link';
 export default function Index() {
-  const { data, isLoading } = useQuery(['featured-products'], () => api.getFeaturedProducts());
+  const { data, isLoading } = useQuery(['get-best-products'], () => api.getBestSellingProducts());
   return (
     <Box>
       <Stack direction="row" justifyContent="space-between" alignItems="center">
         <Box>
           <Typography variant="h2" color="text.primary" mt={8}>
-            Featured Products
+            Top Collection
           </Typography>
           <Typography variant="body1" color="text.secondary" mb={5}>
             Lorem Ipsum Is Simply Dummy Text Of The Printing And Typesetting Industry.
@@ -32,12 +32,11 @@ export default function Index() {
           }}
           endIcon={<IoIosArrowForward />}
           component={NextLink}
-          href={`/products?featured=true`}
+          href={`/products?top=1`}
         >
           View More
         </Button>
       </Stack>
-
       {!isLoading && !Boolean(data?.data.length) ? (
         <Typography variant="h3" color="error.main" textAlign="center">
           Products not found
