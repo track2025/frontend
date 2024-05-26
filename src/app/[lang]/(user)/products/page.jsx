@@ -25,7 +25,7 @@ export default async function Listing() {
             ]}
           />
 
-          <ProductList fetchFilters={'getAllFilters'} />
+          <ProductList />
         </Container>
       </Box>
     </Box>

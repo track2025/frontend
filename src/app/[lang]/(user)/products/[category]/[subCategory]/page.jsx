@@ -58,7 +58,7 @@ export default async function Listing({ params }) {
               }
             ]}
           />
-          <ProductList subCategory={subCategoryData} fetchFilters={'getFiltersByCategory'} />
+          <ProductList subCategory={subCategoryData} />
         </Container>
       </Box>
     </Box>

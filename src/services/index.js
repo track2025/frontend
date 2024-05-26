@@ -26,6 +26,11 @@ export const getProductsByCategory = async (query = '', category, rate) => {
   const { data } = await http.get(`/category/products/${category}${query || '?'}&rate=${rate}`);
   return data;
 };
+export const getProductsByCompaign = async (query = '', slug, rate) => {
+  const { data } = await http.get(`/compaign/products/${slug}${query || '?'}&rate=${rate}`);
+  return data;
+};
+
 export const getProductSlugs = async () => {
   const { data } = await http.get(`/products-slugs`);
   return data;
@@ -619,5 +624,17 @@ export const getCompaignByAdmin = async (slug) => {
 };
 export const deleteCompaign = async (slug) => {
   const { data } = await http.delete(`/admin/compaigns/${slug}`);
+  return data;
+};
+export const getCompaignSlugs = async () => {
+  const { data } = await http.get('/compaigns-slugs');
+  return data;
+};
+export const getCompaignBySlug = async (slug) => {
+  const { data } = await http.get(`/compaigns/${slug}`);
+  return data;
+};
+export const getCompaignTitle = async (slug) => {
+  const { data } = await http.get(`/compaign-title/${slug}`);
   return data;
 };

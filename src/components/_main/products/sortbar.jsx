@@ -10,7 +10,7 @@ import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
 // next
 import { usePathname, useSearchParams } from 'next/navigation';
-import {  useRouter } from 'src/hooks/useRouter';
+import { useRouter } from 'src/hooks/useRouter';
 // icon
 import { MdTune } from 'react-icons/md';
 // lodash
@@ -20,7 +20,16 @@ const Filter = dynamic(() => import('src/components/_main/products/filters'), {
   loading: () => <Skeleton variant="rounded" width={'100%'} height={185} />
 });
 
-export default function SortBar({ fetchFilters, productData, shop, isLoading, sortData, category, subCategory }) {
+export default function SortBar({
+  fetchFilters,
+  compaign,
+  productData,
+  shop,
+  isLoading,
+  sortData,
+  category,
+  subCategory
+}) {
   // filterData
   const router = useRouter();
   const pathname = usePathname();
@@ -131,17 +140,20 @@ export default function SortBar({ fetchFilters, productData, shop, isLoading, so
           )}
         </Typography>
         <Stack direction="row" gap={1} alignItems="center">
-          <Button
-            onClick={() => setOpenDrawer(true)}
-            variant="outlined"
-            color="inherit"
-            endIcon={<MdTune />}
-            sx={{
-              width: 200
-            }}
-          >
-            Filters
-          </Button>
+          {compaign ? null : (
+            <Button
+              onClick={() => setOpenDrawer(true)}
+              variant="outlined"
+              color="inherit"
+              endIcon={<MdTune />}
+              sx={{
+                width: 200
+              }}
+            >
+              Filters
+            </Button>
+          )}
+
           {/* <IconButton
             onClick={() => setOpenDrawer(true)}
             sx={{
@@ -218,7 +230,6 @@ export default function SortBar({ fetchFilters, productData, shop, isLoading, so
           category={category}
           subCategory={subCategory}
           shop={shop}
-          fetchFilters={fetchFilters}
           pathname="/products"
           isMobile
           onClose={() => setOpenDrawer(false)}

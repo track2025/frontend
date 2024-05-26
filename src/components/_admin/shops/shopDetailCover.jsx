@@ -48,15 +48,15 @@ const CoverImgStyle = styled('div')({
   position: 'absolute'
 });
 
-export default function ShopDetailCover({ data, isLoading, isUser }) {
+export default function ShopDetailCover({ data, isLoading, isUser, page }) {
   return (
     <RootStyle>
       {!isLoading && (
         <Image
           src={data?.cover?.url}
-          alt={data?.title}
-          // placeholder="blur"
-          // blurDataURL={data?.cover?.blurDataURL}
+          alt={data?.title || data?.name}
+          placeholder="blur"
+          blurDataURL={data?.cover?.blurDataURL}
           objectFit="cover"
           fill
         />
@@ -65,18 +65,21 @@ export default function ShopDetailCover({ data, isLoading, isUser }) {
       <div>
         <Container fixed>
           <InfoStyle>
-            <MyAvatar
-              data={{ cover: data?.logo?.url, fullName: data?.title }}
-              sx={{
-                mx: 'auto',
-                borderWidth: 2,
-                borderStyle: 'solid',
-                borderColor: 'common.white',
-                width: { xs: 80, md: 128 },
-                height: { xs: 80, md: 128 },
-                boxShadow: (theme) => `inset -1px 1px 2px ${alpha(theme.palette.common.black, 0.24)}`
-              }}
-            />
+            {data?.logo ? (
+              <MyAvatar
+                data={{ cover: data?.logo?.url, fullName: data?.title }}
+                sx={{
+                  mx: 'auto',
+                  borderWidth: 2,
+                  borderStyle: 'solid',
+                  borderColor: 'common.white',
+                  width: { xs: 80, md: 128 },
+                  height: { xs: 80, md: 128 },
+                  boxShadow: (theme) => `inset -1px 1px 2px ${alpha(theme.palette.common.black, 0.24)}`
+                }}
+              />
+            ) : null}
+
             <Box
               sx={{
                 ml: { md: 3 },
@@ -85,18 +88,28 @@ export default function ShopDetailCover({ data, isLoading, isUser }) {
                 textAlign: { xs: 'center', md: 'left' }
               }}
             >
-              <Typography variant="h4">{isLoading ? <Skeleton variant="text" width={220} /> : data?.title}</Typography>
+              <Typography variant="h4">
+                {isLoading ? <Skeleton variant="text" width={220} /> : data?.title || data?.name}
+              </Typography>
               {isUser ? (
                 <Stack direction="row" alignItems="center" justifyContent="end" spacing={0.5}>
                   <Typography variant="body1" component={NextLink} href="/" color="common.white">
                     Home
                   </Typography>
                   <IoIosArrowForward size={12} />
-                  <Typography variant="body1" component={NextLink} href="/shops" color="common.white">
-                    Shops
+                  <Typography
+                    variant="body1"
+                    component={NextLink}
+                    href={page}
+                    color="common.white"
+                    sx={{
+                      textTransform: 'capitalize'
+                    }}
+                  >
+                    {page}
                   </Typography>
                   <IoIosArrowForward size={12} />
-                  <Typography variant="body1">{data?.title}</Typography>
+                  <Typography variant="body1">{data?.title || data?.name}</Typography>
                 </Stack>
               ) : (
                 <Typography variant="body1">
@@ -108,7 +121,7 @@ export default function ShopDetailCover({ data, isLoading, isUser }) {
           <CoverImgStyle />
         </Container>
       </div>
-      <Toolbar
+      {/* <Toolbar
         sx={{
           position: 'absolute',
           bottom: 0,
@@ -166,7 +179,7 @@ export default function ShopDetailCover({ data, isLoading, isUser }) {
             </>
           )}
         </Stack>
-      </Toolbar>
+      </Toolbar> */}
     </RootStyle>
   );
 }

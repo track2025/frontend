@@ -16,7 +16,7 @@ export default function Index() {
   const isDeskTopBtn = useMediaQuery(theme.breakpoints.up('lg'));
 
   return (
-    <Box my={6}>
+    <Box mb={6} mt={2}>
       <Container maxWidth="xl">
         <Grid container spacing={3}>
           <Grid item lg={6} md={6} xs={12} sm={6}>
@@ -27,7 +27,6 @@ export default function Index() {
                 justifyContent: 'space-between',
                 backgroundColor: theme.palette.primary.light,
                 borderRadius: '12px',
-
                 height: '100%',
                 paddingX: { lg: theme.spacing(3), md: theme.spacing(1) }
               }}

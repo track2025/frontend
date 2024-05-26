@@ -56,7 +56,7 @@ export default async function Listing({ params }) {
             ]}
           />
 
-          <ProductList category={categoryData} fetchFilters={'getFiltersByCategory'} />
+          <ProductList category={categoryData} />
         </Container>
       </Box>
     </Box>

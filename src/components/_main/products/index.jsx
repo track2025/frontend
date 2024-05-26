@@ -34,7 +34,7 @@ const sortData = [
 const getSearchParams = (searchParams) => {
   return searchParams.toString().length ? '?' + searchParams.toString() : '';
 };
-export default function ProductListing({ category, subCategory, shop, fetchFilters }) {
+export default function ProductListing({ category, subCategory, shop, compaign, fetchFilters }) {
   const searchParams = useSearchParams();
   const { rate } = useSelector(({ settings }) => settings);
   const { data, isLoading } = useQuery(
@@ -53,14 +53,15 @@ export default function ProductListing({ category, subCategory, shop, fetchFilte
             ? 'getProductsBySubCategory'
             : shop
               ? 'getProductsByShop'
-              : 'getProducts'
+              : compaign
+                ? 'getProductsByCompaign'
+                : 'getProducts'
       ](
         getSearchParams(searchParams),
-        shop ? shop?.slug : category ? category?.slug : subCategory ? subCategory?.slug : '',
+        shop ? shop?.slug : category ? category?.slug : subCategory ? subCategory?.slug : compaign ? compaign.slug : '',
         rate
       )
   );
-
   const isMobile = useMediaQuery('(max-width:900px)');
   return (
     <>
@@ -70,8 +71,8 @@ export default function ProductListing({ category, subCategory, shop, fetchFilte
         category={subCategory?.parentCategory || category}
         shop={shop}
         subCategory={subCategory}
-        fetchFilters={fetchFilters}
         isLoading={isLoading}
+        compaign={compaign}
       />
       <ProductList data={data} isLoading={isLoading} isMobile={isMobile} />
       <Pagination data={data} />

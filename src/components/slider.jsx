@@ -108,10 +108,11 @@ export default function CustomizedSlider({ ...props }) {
   );
   React.useEffect(() => {
     if (Boolean(prices)) {
-      setstate([convertCurrency(prices.split('_')[0]), convertCurrency(prices.split('_')[1])]);
+      setstate([cCurrency(Number(prices.split('_')[0])), cCurrency(Number(prices.split('_')[1]))]);
     } else {
       setstate([0, 100000]);
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [prices]);
 
   return (
@@ -150,9 +151,9 @@ export default function CustomizedSlider({ ...props }) {
           valueLabelDisplay="on"
           onChangeCommitted={(e, value) => {
             const prices = typeof value === 'object' && value.join('_');
-            push(`${path}?` + createQueryString('prices', [cCurrency(prices[0]), cCurrency(prices[1])]));
+            push(`${path}?` + createQueryString('prices', prices));
           }}
-          // valueLabelFormat={(x) => fCurrency(cCurrency(x))}
+          valueLabelFormat={(x) => fCurrency(x)}
           max={cCurrency(filterPrices[1])}
           components={{ Thumb: AirbnbThumbComponent }}
           value={state}
