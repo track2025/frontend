@@ -44,6 +44,7 @@ export default async function IndexPage() {
           <FeaturedProducts />
         </Suspense>
       </Container>
+
       <Suspense>
         <Testimonials />
       </Suspense>
@@ -52,6 +53,8 @@ export default async function IndexPage() {
           <Brands />
         </Suspense>
       </Container>
+
+      <WhyUs />
     </>
   );
 }

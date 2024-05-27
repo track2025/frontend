@@ -45,8 +45,10 @@ export default function WhyUs() {
   return (
     <Card
       sx={{
+ 
         p: 3,
         borderRadius: '12px',
+ 
         display: {
           md: 'block',
           xs: 'none'

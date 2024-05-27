@@ -145,9 +145,7 @@ export default function CartProductList({ ...props }) {
                   {isLoading ? (
                     <Skeleton variant="text" width={52} sx={{ mx: 'auto' }} />
                   ) : (
-
                     <Typography variant="subtitle2">{fCurrency(cCurrency(quantity * (priceSale || price)))}</Typography>
-
                   )}
                 </TableCell>
                 <TableCell align="right">

@@ -8,7 +8,6 @@ import { fCurrency } from 'src/utils/formatNumber';
 import { useCurrencyConvert } from 'src/hooks/convertCurrency';
 import { useCurrencyFormatter } from 'src/hooks/fCurrency';
 
-
 //  styling
 import RootStyled from './styled';
 // redux
@@ -26,14 +25,14 @@ PaymentSummary.propTypes = {
 export default function PaymentSummary({ loading, cart }) {
   const { product } = useSelector((state) => state);
   const { total, shipping, subtotal } = product.checkout;
- 
+
   const router = useRouter();
 
   const isEmptyCart = cart.length === 0;
- 
+
   const cCurrency = useCurrencyConvert();
   const fCurrency = useCurrencyFormatter();
- 
+
   return (
     <RootStyled>
       <CardContent sx={{ py: 2 }}>

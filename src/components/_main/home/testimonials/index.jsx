@@ -86,11 +86,11 @@ export default function Testimonials() {
                 performance of our offerings. Gain insights into how our customers perceive our products and their
                 overall satisfaction. Your opinions matter, and we're here to listen..
               </Typography>
-              <Box>
+              {/* <Box>
                 <Button size="large" variant="contained" color="primary">
                   Write a Review
                 </Button>
-              </Box>
+              </Box> */}
             </Stack>
             <Stack
               direction={'row'}
@@ -104,7 +104,7 @@ export default function Testimonials() {
                 aria-label="back"
                 size="small"
                 onClick={() => paginate(-1)}
-                disabled={page === 0}
+                // disabled={page === 0}
                 sx={{
                   bgcolor: isDarkMode ? 'primary.main' : 'background.paper',
                   color: isDarkMode ? 'common.white' : 'primary.main',
