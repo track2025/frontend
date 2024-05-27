@@ -25,7 +25,11 @@
     },
     {
       "title": "Contact",
-      "path": "/"
+      "path": "/contact"
+    },
+    {
+      "title": "About",
+      "path": "/about"
     }
   ],
   "mobile_menu": [
