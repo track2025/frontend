@@ -43,14 +43,14 @@ export default async function IndexPage() {
           <FeaturedProducts />
         </Suspense>
       </Container>
+      <Suspense>
+        <Testimonials />
+      </Suspense>
       <Container maxWidth="xl">
         <Suspense>
           <Brands />
         </Suspense>
       </Container>
-      <Suspense>
-        <Testimonials />
-      </Suspense>
 
       <WhyUs />
     </>

@@ -53,16 +53,15 @@ const ADDRESS = [
 const MAIN_LINKS = [
   {
     heading: 'Resource',
-    listText1: 'Support',
-    listLink1: '#',
-    listText2: 'Updates',
-    listLink2: '#',
-    listText3: 'Roadmap',
+    listText1: 'About us',
+    listLink1: '/about',
+    listText2: 'Contact us',
+    listLink2: '/contact',
+    listText3: 'Shops',
+    listLink3: '/shops',
     listLink3: '#',
-    listText4: 'Providers',
-    listLink4: '#',
-    listText5: 'Affiliat',
-    listLink5: '#'
+    listText4: 'Brands',
+    listLink4: '/products?brand'
   },
   {
     heading: 'Company',

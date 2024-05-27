@@ -46,7 +46,7 @@ export default function WhyUs() {
     <Box
       sx={{
         py: 4,
-        bgcolor: (theme) => alpha(theme.palette.grey[600], 0.2),
+        bgcolor: (theme) => theme.palette.background.paper,
         display: {
           md: 'block',
           xs: 'none'
