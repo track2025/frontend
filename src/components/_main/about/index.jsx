@@ -8,7 +8,7 @@ import Image from 'next/image';
 import AboutImage from '../../../../public/images/about-1.png';
 import AboutImage2 from '../../../../public/images/about-2.png';
 import WhyUs from '../home/whyUs';
-import Team from './Team';
+import Team from './team';
 
 const Data = [
   {
@@ -100,7 +100,7 @@ export default function Index() {
         <Box sx={{ marginY: { md: 10, sm: 8, xs: 5 } }}>
           <Grid container spacing={3}>
             {Data.map((item, idx) => (
-              <Grid item md={3} sm={6} xs={12}>
+              <Grid item md={3} sm={6} xs={12} key={Math.random()}>
                 <Stack
                   textAlign="center"
                   sx={{ border: `1px solid ${theme.palette.divider}`, borderRadius: 2, p: 2 }}
