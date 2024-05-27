@@ -26,11 +26,11 @@ function Incrementer({ ...props }) {
           color="inherit"
           onClick={onDecrease}
           disabled={quantity <= 1}
-          sx={{
-            bgcolor: theme.palette.grey[300],
-            border: `solid 1px ${theme.palette.divider}`,
-            borderRadius: '50%'
-          }}
+          // sx={{
+          //   bgcolor: theme.palette.grey[300],
+          //   border: `solid 1px ${theme.palette.divider}`,
+          //   borderRadius: '50%'
+          // }}
         >
           <IoIosRemove size={16} />
         </IconButton>
@@ -40,11 +40,11 @@ function Incrementer({ ...props }) {
           color="inherit"
           onClick={onIncrease}
           disabled={quantity >= available}
-          sx={{
-            bgcolor: theme.palette.primary.extraLight + '!important',
-            border: `solid 1px ${theme.palette.primary.main}`,
-            borderRadius: '50%'
-          }}
+          // sx={{
+          //   bgcolor: theme.palette.primary.extraLight + '!important',
+          //   border: `solid 1px ${theme.palette.primary.main}`,
+          //   borderRadius: '50%'
+          // }}
         >
           <IoIosAdd size={16} />
         </IconButton>
