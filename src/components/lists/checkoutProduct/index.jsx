@@ -36,7 +36,10 @@ const ThumbImgStyle = styled(Box)(({ theme }) => ({
 
 export default function CartProductList({ ...props }) {
   const { onDelete, onIncreaseQuantity, onDecreaseQuantity, isLoading, cart } = props;
+  console.log(props, 'propesss');
 
+  const cCurrency = useCurrencyConvert();
+  const fCurrency = useCurrencyFormatter();
   return (
     <RootStyled>
       <Table>
@@ -142,7 +145,7 @@ export default function CartProductList({ ...props }) {
                   {isLoading ? (
                     <Skeleton variant="text" width={52} sx={{ mx: 'auto' }} />
                   ) : (
-                    <Typography variant="subtitle2">{fCurrency(quantity * (priceSale || price))}</Typography>
+                    <Typography variant="subtitle2">{fCurrency(cCurrency(quantity * (priceSale || price)))}</Typography>
                   )}
                 </TableCell>
                 <TableCell align="right">
