@@ -65,10 +65,10 @@ export default function SortBar({
       const sortedData = sortData.find((item) => item.title === state);
       const key = sortedData?.key;
 
-      router.push(`${pathname}?${createQueryString([filtered.key], filtered.value, key)}`);
+      router.push(`${pathname}?${createQueryString([filtered.key], filtered.value, key)}`, 'isPathname');
       setState(filtered.title);
     } else {
-      router.push(`${pathname}?${createQueryString([filtered.key], filtered.value)}`);
+      router.push(`${pathname}?${createQueryString([filtered.key], filtered.value)}`, 'isPathname');
       setState(filtered.title);
     }
   };
@@ -147,7 +147,8 @@ export default function SortBar({
               color="inherit"
               endIcon={<MdTune />}
               sx={{
-                width: 200
+                minWidth: 120,
+                justifyContent: 'space-between'
               }}
             >
               Filters
@@ -168,11 +169,11 @@ export default function SortBar({
             size="small"
             fullWidth
             sx={{
-              minWidth: 150
+              minWidth: 180
             }}
           >
             {state || state === '' ? (
-              <Select labelId="demo-simple-select-label" id="demo-simple-select" value={state} onChange={handleChange}>
+              <Select id="sort-select" value={state} onChange={handleChange}>
                 {sortData.map((item) => (
                   <MenuItem key={Math.random()} value={item.title}>
                     {item.title}
@@ -183,15 +184,14 @@ export default function SortBar({
               <Skeleton variant="rounded" width={150} height={40} />
             )}
           </FormControl>
-          <FormControl size="small" fullWidth sx={{ maxWidth: 150 }}>
+          <FormControl size="small" fullWidth sx={{ maxWidth: 120 }}>
             <Select
-              labelId="demo-simple-select-label"
-              id="demo-simple-select"
+              id="items-select"
               value={itemsPerPage}
               onChange={(e) => {
                 setItemsPerPage(e.target.value);
 
-                router.push(`${pathname}?${createQueryString('limit', e.target.value)}`);
+                router.push(`${pathname}?${createQueryString('limit', e.target.value)}`, 'isPathname');
               }}
               sx={{
                 '& .MuiSelect-select': {

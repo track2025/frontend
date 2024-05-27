@@ -2,7 +2,6 @@
 'use client';
 import PropTypes from 'prop-types';
 import { useState } from 'react';
-import Scrollbar from 'src/components/Scrollbar';
 // next
 import BlurImage from 'src/components/blurImage';
 import { toast } from 'react-hot-toast';
@@ -10,9 +9,11 @@ import { toast } from 'react-hot-toast';
 import { Box, Stack, IconButton, useMediaQuery, Tooltip } from '@mui/material';
 import { IoMdHeartEmpty } from 'react-icons/io';
 import { IoIosHeart } from 'react-icons/io';
-
+// redux
+import { setWishlist } from 'src/lib/redux/slices/wishlist';
 import { useSelector, useDispatch } from 'react-redux';
-
+// api
+import * as api from 'src/services';
 // framer motion
 import { motion, AnimatePresence } from 'framer-motion';
 
@@ -80,13 +81,15 @@ function ProductDetailsCarousel({ ...props }) {
 
 export default function CarouselAnimation({ ...props }) {
   const { product, data: others } = props;
-
+  console.log(product, 'imageIndex');
+  const dispatch = useDispatch();
+  const _id = others?._id;
   const images = product?.images;
-
   const isMobile = useMediaQuery('(max-width:600px)');
   const { themeMode } = useSelector(({ settings }) => settings);
   const [[page, direction], setPage] = useState([0, 0]);
   const imageIndex = Math.abs(page % images?.length);
+
   const paginate = (newDirection) => {
     setPage([page + newDirection, newDirection]);
   };
@@ -118,29 +121,15 @@ export default function CarouselAnimation({ ...props }) {
             }
           }}
         >
-          <ProductDetailsCarousel
-            themeMode={themeMode}
-            item={images[imageIndex]}
-            index={images[imageIndex]}
-            activeStep={imageIndex}
-            isActive={imageIndex}
-            key={Math.random()}
-          />
+          <ProductDetailsCarousel item={images[imageIndex]} />
         </motion.div>
       </AnimatePresence>
-      <Scrollbar
-        sx={{
-          width: '100%',
-          '& .simplebar-content': {
-            width: 1,
-            display: 'flex',
-            flexDirection: 'row',
-            justifyContent: images.length < 6 ? 'center' : 'left',
-            gap: 1
-          }
-        }}
+      <Stack
+        direction="row"
+        justifyContent={images.length < 6 ? 'center' : 'left'}
+        spacing={1}
+        className="controls-wrapper"
       >
-        {/* <Stack className="controls-wrapper"> */}
         {images.map((item, i) => (
           <Box
             key={Math.random()}
@@ -161,8 +150,7 @@ export default function CarouselAnimation({ ...props }) {
             />
           </Box>
         ))}
-        {/* </Stack> */}
-      </Scrollbar>
+      </Stack>
     </RootStyled>
   );
 }

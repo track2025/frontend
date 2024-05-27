@@ -117,7 +117,7 @@ function CarouselItem({ ...props }) {
       />
       <Box
         className="img-box"
-        onClick={() => alert('Hello')}
+        // onClick={() => alert('Hello')}
         sx={{
           position: 'relative',
           height: 350,

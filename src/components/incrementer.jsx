@@ -1,7 +1,7 @@
 // mui
 import { styled } from '@mui/material/styles';
 import PropTypes from 'prop-types';
-import { Box, Typography, IconButton, useTheme, Stack } from '@mui/material';
+import { Box, Typography, Fab, useTheme, Stack } from '@mui/material';
 import { IoIosRemove } from 'react-icons/io';
 import { IoIosAdd } from 'react-icons/io';
 
@@ -21,33 +21,33 @@ function Incrementer({ ...props }) {
   return (
     <Stack sx={{ width: 96, mb: 0 }}>
       <IncrementerStyle>
-        <IconButton
+        <Fab
           size="small"
-          color="inherit"
+          color="primary"
           onClick={onDecrease}
           disabled={quantity <= 1}
           sx={{
-            bgcolor: theme.palette.grey[300],
-            border: `solid 1px ${theme.palette.divider}`,
-            borderRadius: '50%'
+            width: 26,
+            maxHeight: 26,
+            minHeight: 'auto'
           }}
         >
           <IoIosRemove size={16} />
-        </IconButton>
+        </Fab>
         {quantity}
-        <IconButton
+        <Fab
           size="small"
-          color="inherit"
+          color="primary"
           onClick={onIncrease}
           disabled={quantity >= available}
           sx={{
-            bgcolor: theme.palette.primary.extraLight + '!important',
-            border: `solid 1px ${theme.palette.primary.main}`,
-            borderRadius: '50%'
+            width: 26,
+            maxHeight: 26,
+            minHeight: 'auto'
           }}
         >
           <IoIosAdd size={16} />
-        </IconButton>
+        </Fab>
       </IncrementerStyle>
       <Typography variant="caption" sx={{ color: 'text.secondary' }}>
         Available: {available}

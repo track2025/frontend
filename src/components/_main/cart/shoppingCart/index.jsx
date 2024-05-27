@@ -17,7 +17,7 @@ import { MdOutlineShoppingCart } from 'react-icons/md';
 
 // redux
 import { useDispatch, useSelector } from 'react-redux';
-import { deleteCart, increaseQuantity, decreaseQuantity, getCart } from 'src/lib/redux/slices/product';
+import { deleteCart, increaseQuantity, decreaseQuantity, getCart, resetCart } from 'src/lib/redux/slices/product';
 // component
 import CheckoutCard from 'src/components/cards/checkout';
 import CheckoutProductList from 'src/components/lists/checkoutProduct';
@@ -122,7 +122,12 @@ export default function ShoppingCart({ loading }) {
               <Button color="inherit" onClick={() => router.push('/')} startIcon={<IoArrowBackOutline />}>
                 Continue Shopping
               </Button>
-              <Button color="inherit" onClick={() => {}} startIcon={<MdOutlineShoppingCart />}>
+              <Button
+                color="inherit"
+                onClick={() => dispatch(resetCart())}
+                startIcon={<MdOutlineShoppingCart />}
+                disabled={isEmptyCart}
+              >
                 Clear Cart
               </Button>
             </Stack>
