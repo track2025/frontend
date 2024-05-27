@@ -16,7 +16,7 @@ export default function Index() {
   const isDeskTopBtn = useMediaQuery(theme.breakpoints.up('lg'));
 
   return (
-    <Box mb={6} mt={2}>
+    <Box mb={2} mt={2}>
       <Container maxWidth="xl">
         <Grid container spacing={3}>
           <Grid item lg={6} md={6} xs={12} sm={6}>

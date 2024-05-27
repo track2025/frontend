@@ -3,7 +3,7 @@
 import React from 'react';
 // mui
 import { alpha } from '@mui/material/styles';
-import { Typography, Box, Container, Stack } from '@mui/material';
+import { Typography, Card, Container, Stack, Divider } from '@mui/material';
 
 // icons
 import { MdOutlineSupportAgent } from 'react-icons/md';
@@ -43,10 +43,12 @@ export default function WhyUs() {
     }
   ];
   return (
-    <Box
+    <Card
       sx={{
-        py: 4,
-        bgcolor: (theme) => theme.palette.background.paper,
+ 
+        p: 3,
+        borderRadius: '12px',
+ 
         display: {
           md: 'block',
           xs: 'none'
@@ -54,15 +56,14 @@ export default function WhyUs() {
         borderBottom: (theme) => `solid 1px ${theme.palette.divider}`
       }}
     >
-      <Container fixed>
-        <Stack direction="row" alignItems="center" justifyContent="space-between" spacing={4}>
-          {data.map((v) => (
+      <Stack direction="row" alignItems="center" justifyContent="space-around" spacing={1}>
+        {data.map((v, i) => (
+          <React.Fragment key={Math.random()}>
             <Stack
-              key={Math.random()}
               direction="row"
               alignItems="center"
-              justifyContent="center"
-              spacing={2}
+              // justifyContent="center"
+              spacing={1}
               sx={{
                 svg: {
                   color: 'primary.main'
@@ -79,9 +80,10 @@ export default function WhyUs() {
                 </Typography>
               </Stack>
             </Stack>
-          ))}
-        </Stack>
-      </Container>
-    </Box>
+            {i !== 4 ? <Divider orientation="vertical" flexItem /> : null}
+          </React.Fragment>
+        ))}
+      </Stack>
+    </Card>
   );
 }

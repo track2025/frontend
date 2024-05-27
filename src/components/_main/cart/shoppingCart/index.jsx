@@ -50,10 +50,6 @@ export default function ShoppingCart({ loading }) {
     dispatch(deleteCart(productId));
     setCount((prev) => prev + 1);
   };
-  // clear cart
-  const handleClearCart = () => {
-    dispatch(resetCart());
-  };
 
   const handleIncreaseQuantity = (productId) => {
     dispatch(increaseQuantity(productId));
@@ -128,7 +124,7 @@ export default function ShoppingCart({ loading }) {
               </Button>
               <Button
                 color="inherit"
-                onClick={handleClearCart}
+                onClick={() => dispatch(resetCart())}
                 startIcon={<MdOutlineShoppingCart />}
                 disabled={isEmptyCart}
               >

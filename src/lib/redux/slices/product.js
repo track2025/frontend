@@ -61,7 +61,7 @@ const slice = createSlice({
       state.checkout.cart = uniqBy([...state.checkout.cart, updatedProduct], 'sku');
     },
 
-    deleteCart(state, action) {
+    clearCart(state, action) {
       const updateCart = filter(state.checkout.cart, (item) => item.sku !== action.payload);
 
       state.checkout.cart = updateCart;
@@ -129,7 +129,7 @@ export const {
   onGotoStep,
   onBackStep,
   onNextStep,
-  deleteCart,
+  clearCart,
   createBilling,
   applyDiscount,
   increaseQuantity,
