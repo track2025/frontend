@@ -18,7 +18,8 @@ import { IoClose } from 'react-icons/io5';
 //components
 import RootStyled from './styled';
 import Incrementer from 'src/components/incrementer';
-import { fCurrency } from 'src/utils/formatNumber';
+import { useCurrencyConvert } from 'src/hooks/convertCurrency';
+import { useCurrencyFormatter } from 'src/hooks/fCurrency';
 import BlurImage from 'src/components/blurImage';
 
 const ThumbImgStyle = styled(Box)(({ theme }) => ({
@@ -35,8 +36,6 @@ const ThumbImgStyle = styled(Box)(({ theme }) => ({
 
 export default function CartProductList({ ...props }) {
   const { onDelete, onIncreaseQuantity, onDecreaseQuantity, isLoading, cart } = props;
-
-  console.log(props, 'propesss');
 
   return (
     <RootStyled>
@@ -143,9 +142,7 @@ export default function CartProductList({ ...props }) {
                   {isLoading ? (
                     <Skeleton variant="text" width={52} sx={{ mx: 'auto' }} />
                   ) : (
-                    <Typography variant="body1" fontWeight={600}>
-                      {fCurrency(quantity * (priceSale || price))}
-                    </Typography>
+                    <Typography variant="subtitle2">{fCurrency(quantity * (priceSale || price))}</Typography>
                   )}
                 </TableCell>
                 <TableCell align="right">

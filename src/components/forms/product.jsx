@@ -28,7 +28,7 @@ import {
 import * as api from 'src/services';
 import { useMutation } from 'react-query';
 // import { useNavigate, useParams } from "react-router-dom";
-import { useRouter } from 'next-nprogress-bar';
+import { useRouter } from 'src/hooks/useRouter';
 import UploadMultiFile from 'src/components/upload/UploadMultiFile';
 import { fCurrency } from 'src/utils/formatNumber';
 import axios from 'axios';

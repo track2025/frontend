@@ -13,7 +13,7 @@ import Divider from '@mui/material/Divider';
 import ListItemText from '@mui/material/ListItemText';
 import { RxDashboard } from 'react-icons/rx';
 import { FaCheck } from 'react-icons/fa6';
-import { useRouter } from 'next-nprogress-bar';
+import { useRouter } from 'src/hooks/useRouter';
 import { useSearchParams } from 'next/navigation';
 export default function Filters() {
   const [anchorEl, setAnchorEl] = React.useState(null);

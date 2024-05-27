@@ -8,7 +8,7 @@ import MenuDesktopList from 'src/components/lists/menuDesktopList';
 import MenuPopover from 'src/components/popover/popover';
 
 export default function MenuDesktop({ ...props }) {
-  const { isOpen, onClose, isLoading, data } = props;
+  const { isOpen, onClose, isLoading, data, scrollPosition } = props;
 
   return (
     <MenuPopover
@@ -16,7 +16,7 @@ export default function MenuDesktop({ ...props }) {
       onClose={onClose}
       anchorReference="anchorPosition"
       anchorPosition={{
-        top: 150,
+        top: scrollPosition > 100 ? 134 : 170,
         left: 0
       }}
       isDesktop
@@ -40,5 +40,6 @@ MenuDesktop.propTypes = {
   isOpen: PropTypes.bool.isRequired,
   onClose: PropTypes.func.isRequired,
   isLoading: PropTypes.bool.isRequired,
-  data: PropTypes.array
+  data: PropTypes.array,
+  scrollPosition: PropTypes.number.isRequired
 };

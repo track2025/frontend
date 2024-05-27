@@ -1,24 +1,20 @@
 'use client';
+import React from 'react';
 import Image from 'src/components/blurImage';
 // mui
-import { Typography, Box, Stack, Card, Link, Skeleton } from '@mui/material';
-// api
+import { Typography, Box, Stack, Card, Link, Skeleton, CardActionArea } from '@mui/material';
+// // api
 import * as api from 'src/services';
 import { useQuery } from 'react-query';
-// Marquee
-import Marquee from 'react-fast-marquee';
-import NextLink from 'next/link';
+import { useRouter } from 'src/hooks/useRouter';
 
-export default async function Brands() {
-  const setting = {
-    gradient: false
-  };
+export default function Brands() {
+  const { push } = useRouter();
   const { data, isLoading } = useQuery(['get-brands-products'], () => api.getHomeBrands());
-
   return (
     <Box
       sx={{
-        mt: 6,
+        my: 6,
         display: { md: 'block', xs: 'none' }
       }}
     >
@@ -41,29 +37,30 @@ export default async function Brands() {
 
       {isLoading ? (
         <Skeleton variant="rounded" width={80} height={80} />
-      ) : Boolean(data?.data.length) ? (
-        <Marquee {...setting}>
-          <Stack direction="row" alignItems="center">
-            {data?.data.map((v) => (
-              <Link component={NextLink} href={`/products?brand=${v.slug}`} key={v._id} mx={2.5}>
-                <Card
-                  className="slider-main"
-                  sx={{
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    p: 1,
-                    width: '80px',
-                    height: '80px',
-                    borderRadius: '10px',
-                    position: 'relative',
-                    mb: 3,
-                    img: {
-                      borderRadius: '8px',
-                      objectFit: 'contain'
-                    }
-                  }}
-                >
+      ) : Boolean(data?.data?.length) ? (
+        <Stack direction="row" alignItems="center" justifyContent="center" flexWrap>
+          {(isLoading ? Array.from(new Array(6)) : data?.data).map((v) => (
+            <Card
+              key={v._id}
+              className="slider-main"
+              sx={{
+                mx: 2.5,
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                // width: '80px',
+                height: '80px',
+                borderRadius: '10px',
+                position: 'relative',
+                mb: 3,
+                img: {
+                  borderRadius: '8px',
+                  objectFit: 'contain'
+                }
+              }}
+            >
+              <CardActionArea onClick={() => push(`/products?brand=${v.slug}`)} sx={{ p: 1, pr: 2 }}>
+                <Stack direction="row" alignItems="center" spacing={2}>
                   <Image
                     src={v.logo.url}
                     alt="logo"
@@ -73,11 +70,17 @@ export default async function Brands() {
                     placeholder="blur"
                     blurDataURL={v?.logo?.blurDataURL}
                   />
-                </Card>
-              </Link>
-            ))}
-          </Stack>
-        </Marquee>
+                  <Stack>
+                    <Typography variant="subtitle1" color="text.primary">
+                      {v.name}
+                    </Typography>
+                    <Typography variant="body1">3 Products</Typography>
+                  </Stack>
+                </Stack>
+              </CardActionArea>
+            </Card>
+          ))}
+        </Stack>
       ) : (
         <Typography variant="h3" color="error.main" textAlign="center">
           Brands not found

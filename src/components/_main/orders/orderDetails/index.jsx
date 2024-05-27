@@ -5,8 +5,7 @@ import { Typography, Card, CardContent, Stack, Fab, Grid, Skeleton } from '@mui/
 import { IoPersonSharp } from 'react-icons/io5';
 import { HiCurrencyDollar } from 'react-icons/hi2';
 // Component
-import { fCurrency } from 'src/utils/formatNumber';
-
+import { useCurrencyFormatter } from 'src/hooks/fCurrency';
 // styles
 import RootStyled from './styled';
 
@@ -20,6 +19,7 @@ Details.propTypes = {
 export default function Details({ ...props }) {
   const { data, isLoading } = props;
   const user = data?.user;
+  const fCurrency = useCurrencyFormatter(data?.currency);
   return (
     <RootStyled>
       <Grid spacing={2} container>
@@ -115,7 +115,7 @@ export default function Details({ ...props }) {
                       <strong>Status</strong>: {data?.status}
                     </Typography>
                     <Typography variant="body2" textTransform="capitalize">
-                      <strong>Shipping Fee</strong>: {data?.currency} {fCurrency(data?.shipping)}
+                      <strong>Shipping Fee</strong>: {fCurrency(data?.shipping * data?.conversionRate)}
                     </Typography>
                     <Typography variant="body2">
                       <strong>Order Date</strong>:{' '}

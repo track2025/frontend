@@ -15,7 +15,7 @@ import {
 } from '@mui/material';
 // components
 import DeleteOutlineRoundedIcon from '@mui/icons-material/DeleteOutlineRounded';
-import { useRouter } from 'next-nprogress-bar';
+import { useRouter } from 'src/hooks/useRouter';
 import { useMutation } from 'react-query';
 // api
 

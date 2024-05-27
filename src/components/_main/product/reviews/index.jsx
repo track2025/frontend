@@ -7,7 +7,7 @@ import ReviewOverview from 'src/components/_main/product/reviews/overview';
 import ReviewsList from 'src/components/lists/reviews';
 // redux
 import { useSelector } from 'react-redux';
-import { useRouter } from 'next-nprogress-bar';
+import { useRouter } from 'src/hooks/useRouter';
 
 import PropTypes from 'prop-types';
 
@@ -57,7 +57,7 @@ export default function ProductReview({ ...props }) {
         </Collapse>
       </Grid>
       <Grid item xs={12} md={4}>
-        <Card sx={{ position: 'sticky', top: 20 }}>
+        <Card sx={{ position: 'sticky', top: 156 }}>
           <ReviewOverview
             totalRating={totalRating}
             totalReviews={totalReviews}

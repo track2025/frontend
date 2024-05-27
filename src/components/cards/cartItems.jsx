@@ -6,9 +6,12 @@ import { Card, CardContent, Stack, Box, Divider, Typography, Skeleton } from '@m
 // next
 import Image from 'next/image';
 // components
-import { fCurrency } from 'src/utils/formatNumber';
+import { useCurrencyConvert } from 'src/hooks/convertCurrency';
+import { useCurrencyFormatter } from 'src/hooks/fCurrency';
 
 export default function CheckoutCard({ cart, loading }) {
+  const cCurrency = useCurrencyConvert();
+  const fCurrency = useCurrencyFormatter();
   return (
     <Card sx={{ mb: 2 }}>
       <CardContent>
@@ -114,7 +117,11 @@ export default function CheckoutCard({ cart, loading }) {
                 </Box>
               </Stack>
               <Typography variant="subtitle1">
-                {loading ? <Skeleton variant="text" width={60} /> : <>{fCurrency(parseInt(value.subtotal))}</>}
+                {loading ? (
+                  <Skeleton variant="text" width={60} />
+                ) : (
+                  <>{fCurrency(cCurrency(parseInt(value.subtotal)))}</>
+                )}
               </Typography>
             </Stack>
             {index !== array.length - 1 && <Divider />}

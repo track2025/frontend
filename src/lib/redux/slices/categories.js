@@ -4,6 +4,7 @@ import { createSlice } from '@reduxjs/toolkit';
 
 const initialState = {
   categories: [],
+  newCategories: [],
   isLoading: true
 };
 
@@ -12,7 +13,8 @@ const slice = createSlice({
   initialState,
   reducers: {
     setCategories(state, action) {
-      state.categories = action.payload;
+      state.categories = action.payload.data;
+      state.newCategories = action.payload.newCategories;
       state.isLoading = false;
     }
   }

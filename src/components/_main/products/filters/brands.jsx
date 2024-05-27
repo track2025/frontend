@@ -4,7 +4,8 @@ import { FormGroup, FormControlLabel, Radio, Grid, Typography, Button, Stack, Zo
 // icons
 import { MdOutlineBrandingWatermark } from 'react-icons/md';
 // next
-import { useSearchParams, useRouter } from 'next/navigation';
+import { useSearchParams } from 'next/navigation';
+import { useRouter } from 'src/hooks/useRouter';
 // PropTypes;
 import PropTypes from 'prop-types';
 

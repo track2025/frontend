@@ -6,11 +6,11 @@ import Typography from '@mui/material/Typography';
 import Tooltip from '@mui/material/Tooltip';
 import { Box, Stack, Zoom, Button } from '@mui/material';
 import { useSearchParams } from 'next/navigation';
-import { useRouter } from 'next-nprogress-bar';
+import { useRouter } from 'src/hooks/useRouter';
 // icons
 import { IoPricetagOutline } from 'react-icons/io5';
-import { fCurrency } from 'src/utils/formatNumber';
-
+import { useCurrencyFormatter } from 'src/hooks/fCurrency';
+import { useCurrencyConvert } from 'src/hooks/convertCurrency';
 CustomizedSlider.propTypes = {
   prices: PropTypes.array.isRequired,
   path: PropTypes.string.isRequired
@@ -81,6 +81,8 @@ AirbnbThumbComponent.propTypes = {
 
 export default function CustomizedSlider({ ...props }) {
   const { prices: filterPrices, path } = props;
+  const cCurrency = useCurrencyConvert();
+  const fCurrency = useCurrencyFormatter();
   const { push } = useRouter();
   const searchParams = useSearchParams();
   const prices = searchParams.get('prices');
@@ -106,10 +108,11 @@ export default function CustomizedSlider({ ...props }) {
   );
   React.useEffect(() => {
     if (Boolean(prices)) {
-      setstate([...prices.split('_')]);
+      setstate([cCurrency(Number(prices.split('_')[0])), cCurrency(Number(prices.split('_')[1]))]);
     } else {
       setstate([0, 100000]);
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [prices]);
 
   return (
@@ -150,8 +153,8 @@ export default function CustomizedSlider({ ...props }) {
             const prices = typeof value === 'object' && value.join('_');
             push(`${path}?` + createQueryString('prices', prices));
           }}
-          valueLabelFormat={(x) => fCurrency(x, false)?.split('.')[0] || x}
-          max={filterPrices[1]}
+          valueLabelFormat={(x) => fCurrency(x)}
+          max={cCurrency(filterPrices[1])}
           components={{ Thumb: AirbnbThumbComponent }}
           value={state}
           onChange={(e, v) => setstate(v)}

@@ -145,16 +145,17 @@ export default function CheckoutGuestForm({ getFieldProps, touched, errors, valu
           </TextField>
         </Stack>
         <Stack spacing={0.5} width={1}>
-          <Typography variant="overline" color="text.primary" for="order" component={'label'}>
-            Order
+          <Typography variant="overline" color="text.primary" for="note" component={'label'}>
+            Note
           </Typography>
           <TextField
             fullWidth
             multiline
             rows={8}
-            {...getFieldProps('order')}
-            error={Boolean(touched.order && errors.order)}
-            helperText={touched.order && errors.order}
+            id="note"
+            {...getFieldProps('note')}
+            error={Boolean(touched.note && errors.note)}
+            helperText={touched.note && errors.note}
             type="text"
           />
         </Stack>

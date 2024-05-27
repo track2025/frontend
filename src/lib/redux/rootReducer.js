@@ -9,6 +9,8 @@ import WishlistReducer from './slices/wishlist';
 import CompareReducer from './slices/compare';
 import SettingsReducer from './slices/settings';
 import CategoriesReducer from './slices/categories';
+import BrandsReducer from './slices/brands';
+import ShopsReducer from './slices/shops';
 
 const rootPersistConfig = {
   key: 'root',
@@ -40,7 +42,7 @@ const settingsPersistConfig = {
   key: 'settings',
   storage,
   keyPrefix: 'redux-',
-  whitelist: ['themeMode', 'themeColor']
+  whitelist: ['themeMode', 'themeColor', 'rate', 'currency']
 };
 const userPersistConfig = {
   key: 'user',
@@ -55,6 +57,8 @@ const reducer = combineReducers({
   settings: persistReducer(settingsPersistConfig, SettingsReducer),
   wishlist: persistReducer(wishlistPersistConfig, WishlistReducer),
   compare: persistReducer(comparePersistConfig, CompareReducer),
-  categories: CategoriesReducer
+  categories: CategoriesReducer,
+  brands: BrandsReducer,
+  shops: ShopsReducer
 });
 export { rootPersistConfig, reducer };

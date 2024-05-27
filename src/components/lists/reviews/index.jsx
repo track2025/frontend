@@ -123,7 +123,14 @@ function ReviewItem({ ...props }) {
                     }}
                   >
                     {' '}
-                    <Image src={image.url} alt={review.name + "'s review"} layout="fill" objectFit="cover" />
+                    <Image
+                      src={image.url}
+                      alt={review.name + "'s review"}
+                      layout="fill"
+                      objectFit="cover"
+                      placeholder="blur"
+                      blurDataURL={image.blurDataURL}
+                    />
                   </Box>
                 </Grid>
               ))}

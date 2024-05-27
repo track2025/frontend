@@ -12,35 +12,62 @@ import breakpoints from './breakpoints';
 import shape from './shape';
 import shadows, { customShadows } from './shadows';
 import componentsOverride from './overrides';
-
+import { usePathname } from 'next/navigation';
+import createCache from '@emotion/cache';
+import rtlPlugin from 'stylis-plugin-rtl';
+import { prefixer } from 'stylis';
+import * as locales from '@mui/material/locale';
+import { CacheProvider } from '@emotion/react';
 ThemeRegistry.propTypes = {
   children: PropTypes.node.isRequired
 };
 
+const Localization = (lang) => {
+  switch (lang) {
+    case 'ar':
+      return 'arEG';
+    case 'fr':
+      return 'frFR';
+    case 'en':
+      return 'enUS';
+    default:
+      return 'frFR';
+  }
+};
+
 export default function ThemeRegistry({ children }) {
   const { themeMode } = useSelector((state) => state.settings);
-
-  const customTheme = React.useMemo(
-    () =>
-      createTheme({
+  const pathName = usePathname();
+  const segments = pathName?.split('/');
+  const lang = segments[1];
+  const locale = Localization(lang);
+  const dir = lang === 'ar' ? 'rtl' : 'ltr';
+  const styleCache = createCache({
+    key: dir === 'rtl' ? 'muirtl' : 'css',
+    stylisPlugins: dir === 'rtl' ? [prefixer, rtlPlugin] : []
+  });
+  const customTheme = () =>
+    createTheme(
+      {
         palette: themeMode === 'dark' ? { ...palette.dark, mode: 'dark' } : { ...palette.light, mode: 'light' },
-        direction: 'ltr',
+        direction: dir,
         typography: typography,
         shadows: themeMode === 'dark' ? shadows.dark : shadows.light,
         shape,
         breakpoints,
         customShadows: themeMode === 'dark' ? customShadows.light : customShadows.dark
-      }),
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    [themeMode]
-  );
-  customTheme.components = componentsOverride(customTheme);
+      },
+      locales[locale]
+    );
+
   return (
-    <AppRouterCacheProvider options={{ enableCssLayer: true }}>
-      <ThemeProvider theme={customTheme}>
-        <CssBaseline />
-        <main>{children}</main>
+    <CacheProvider value={styleCache}>
+      <ThemeProvider theme={{ ...customTheme(), components: componentsOverride(customTheme()) }}>
+        <main dir={dir}>
+          <CssBaseline />
+          {children}
+        </main>
       </ThemeProvider>
-    </AppRouterCacheProvider>
+    </CacheProvider>
   );
 }

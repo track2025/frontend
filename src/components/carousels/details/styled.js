@@ -3,13 +3,14 @@ import { Box } from '@mui/material';
 const RootStyled = styled(Box)(({ theme }) => ({
   width: '100%',
   position: 'sticky',
-  top: 20,
+  top: 156,
   overflow: 'hidden',
   paddingTop: '100%',
   '& .motion-dev': {
     position: 'absolute',
     width: '100%',
     overflow: 'hidden',
+    backgroundColor: theme.palette.background.paper,
     top: 0
   },
   '& .slide-wrapper': {
@@ -18,10 +19,13 @@ const RootStyled = styled(Box)(({ theme }) => ({
     zIndex: 11,
     backgroundColor: 'transparent',
     borderRadius: 0,
+    borderRadius: '16px',
+    border: `1px solid ${theme.palette.divider}`,
+    overflow: 'hidden',
     img: {
-      borderRadius: '16px',
+      
+
       objectPosition: 'center',
-      border: `1px solid ${theme.palette.divider}`,
       ...(theme.direction === 'rtl' && {
         '-webkit-transform': 'scaleX(-1)',
         transform: 'scaleX(-1)'

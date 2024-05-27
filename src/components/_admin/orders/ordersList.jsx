@@ -67,6 +67,7 @@ export default function OrdersAdminList({ isVendor }) {
         mobileRow={OrderListCard}
         handleClickOpen={handleClickOpen}
         isVendor={isVendor}
+        isSearch
       />
     </>
   );

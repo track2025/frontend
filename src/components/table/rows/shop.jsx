@@ -19,7 +19,7 @@ import { MdEdit } from 'react-icons/md';
 import { MdDelete } from 'react-icons/md';
 import { IoEye } from 'react-icons/io5';
 import { enUS } from 'date-fns/locale';
-import { useRouter } from 'next-nprogress-bar';
+import { useRouter } from 'src/hooks/useRouter';
 import BlurImage from 'src/components/blurImage';
 import PropTypes from 'prop-types';
 import BlurImageAvatar from 'src/components/avatar';

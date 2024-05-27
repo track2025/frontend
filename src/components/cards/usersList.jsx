@@ -13,7 +13,7 @@ import { FiEye } from 'react-icons/fi';
 import { LuUser2 } from 'react-icons/lu';
 import { FaUserCheck } from 'react-icons/fa6';
 // next
-import { useRouter } from 'next/navigation';
+import { useRouter } from 'src/hooks/useRouter';
 // lodash
 import { uniqueId } from 'lodash';
 

@@ -30,7 +30,7 @@ import toast from 'react-hot-toast';
 import { Form, FormikProvider, useFormik } from 'formik';
 import UploadSingleFile from 'src/components/upload/UploadSingleFile';
 // next
-import { useRouter } from 'next/navigation';
+import { useRouter } from 'src/hooks/useRouter';
 
 const LabelStyle = styled(Typography)(({ theme }) => ({
   ...theme.typography.subtitle2,

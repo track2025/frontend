@@ -21,11 +21,10 @@ import { setWishlist } from 'src/lib/redux/slices/wishlist';
 import { addCompareProduct, removeCompareProduct } from '../../lib/redux/slices/compare';
 import { useSelector } from 'react-redux';
 // next
-import Link from 'next/link';
-import { useRouter } from 'next/navigation';
+import Link from 'src/utils/link';
+import { useRouter } from 'src/hooks/useRouter';
 // components
 import Label from 'src/components/label';
-import { fCurrency } from 'src/utils/formatNumber';
 import BlurImage from 'src/components/blurImage';
 // icons
 import { IoMdHeartEmpty } from 'react-icons/io';
@@ -42,9 +41,13 @@ import { IoIosHeart } from 'react-icons/io';
 import dynamic from 'next/dynamic';
 import { FaRegStar } from 'react-icons/fa';
 import ColorPreviewGroup from 'src/components/colorPreviewGroup';
+import { useCurrencyConvert } from 'src/hooks/convertCurrency';
+import { useCurrencyFormatter } from 'src/hooks/fCurrency';
 const ProductDetailsDialog = dynamic(() => import('../dialog/productDetails'));
 export default function ShopProductCard({ ...props }) {
   const { product, loading } = props;
+  const cCurrency = useCurrencyConvert();
+  const fCurrency = useCurrencyFormatter();
 
   const [open, setOpen] = useState(false);
   const [openActions, setOpenActions] = useState(false);
@@ -97,7 +100,7 @@ export default function ShopProductCard({ ...props }) {
 
   return (
     <Card
-      onMouseEnter={() => setOpenActions(true)}
+      onMouseEnter={() => !isLoading && setOpenActions(true)}
       onMouseLeave={() => setOpenActions(false)}
       sx={{
         display: 'block',
@@ -169,6 +172,7 @@ export default function ShopProductCard({ ...props }) {
         </Box>
         <Zoom in={openActions}>
           <Box>
+            {}
             <Stack
               direction={'row'}
               sx={{
@@ -182,9 +186,7 @@ export default function ShopProductCard({ ...props }) {
                 zIndex: 11
               }}
             >
-              {loading ? (
-                <Skeleton variant="circular" width={isTablet ? 24 : 44} height={isTablet ? 24 : 44} />
-              ) : (
+              {
                 <Tooltip title="Add to cart">
                   <IconButton
                     aria-label="add to cart"
@@ -195,11 +197,9 @@ export default function ShopProductCard({ ...props }) {
                     <GoEye />
                   </IconButton>
                 </Tooltip>
-              )}
+              }
 
-              {loading ? (
-                <Skeleton variant="circular" width={isTablet ? 24 : 44} height={isTablet ? 24 : 44} />
-              ) : wishlist?.filter((v) => v === _id).length > 0 ? (
+              {wishlist?.filter((v) => v === _id).length > 0 ? (
                 <Tooltip title="Remove from cart">
                   <IconButton
                     disabled={isLoading}
@@ -223,9 +223,7 @@ export default function ShopProductCard({ ...props }) {
                   </IconButton>
                 </Tooltip>
               )}
-              {loading ? (
-                <Skeleton variant="circular" width={isTablet ? 24 : 44} height={isTablet ? 24 : 44} />
-              ) : compareProducts?.filter((v) => v._id === _id).length > 0 ? (
+              {compareProducts?.filter((v) => v._id === _id).length > 0 ? (
                 <Tooltip title="Remove from cart">
                   <IconButton
                     disabled={isLoading}
@@ -299,7 +297,7 @@ export default function ShopProductCard({ ...props }) {
               <Skeleton variant="text" width={72} />
             ) : (
               <>
-                <FaRegStar /> ({averageRating || 0})
+                <FaRegStar /> ({averageRating?.toFixed(1) || 0})
               </>
             )}
           </Typography>
@@ -330,7 +328,7 @@ export default function ShopProductCard({ ...props }) {
               <Skeleton variant="text" width={120} />
             ) : (
               <>
-                <span>{fCurrency(product?.priceSale)}</span>
+                <span>{fCurrency(cCurrency(product?.priceSale))}</span>
                 <span className="discount">
                   ({`-${(100 - (product?.priceSale / product?.price) * 100).toFixed()}%`})
                 </span>

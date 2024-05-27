@@ -1,7 +1,7 @@
 'use client';
 import React, { useState } from 'react';
 // next
-import { useRouter } from 'next-nprogress-bar';
+import { useRouter } from 'src/hooks/useRouter';
 // mui
 import { Box, Button, Container, Typography, Card } from '@mui/material';
 import { LoadingButton } from '@mui/lab';
@@ -76,7 +76,7 @@ export default function ForgetPasswordMain() {
             </Box>
 
             <Typography variant="h3" gutterBottom>
-              Request Send
+              Request Sent
             </Typography>
             <Typography mb={5}>
               Email has been sent to <strong>{email}</strong>.

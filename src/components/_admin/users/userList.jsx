@@ -68,6 +68,7 @@ export default function AdminProducts() {
         row={UserList}
         setId={setId}
         id={setId}
+        isSearch
       />
     </>
   );

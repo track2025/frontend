@@ -16,7 +16,7 @@ export default function BlurImageAvatar({ ...props }) {
         ...props
       }}
     >
-      <Image src={props.src} layout="fill" objectFit="cover" {...props} />
+      <Image src={props.src} alt="user avatar" layout="fill" objectFit="cover" {...props} />
     </Box>
   );
 }

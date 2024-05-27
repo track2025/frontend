@@ -2,7 +2,7 @@
 import React, { useState } from 'react';
 // next
 import dynamic from 'next/dynamic';
-import { useRouter } from 'next-nprogress-bar';
+import { useRouter } from 'src/hooks/useRouter';
 // mui
 import { Box, Collapse, Grid } from '@mui/material';
 import LoadingButton from '@mui/lab/LoadingButton';
@@ -34,6 +34,7 @@ import CheckoutGuestFormSkeleton from '../skeletons/checkout/checkoutForm';
 import PaymentInfoSkeleton from '../skeletons/checkout/paymentInfo';
 import PaymentMethodCardSkeleton from '../skeletons/checkout/paymentMethod';
 import CardItemSekelton from '../skeletons/checkout/cartItems';
+import { useCurrencyConvert } from 'src/hooks/convertCurrency';
 // dynamic components
 const CheckoutForm = dynamic(() => import('src/components/forms/checkout'), {
   loading: () => <CheckoutGuestFormSkeleton />
@@ -61,7 +62,9 @@ const initialOptions = {
 
 const CheckoutMain = () => {
   const router = useRouter();
+  const cCurrency = useCurrencyConvert();
   const dispatch = useDispatch();
+  const { currency, rate } = useSelector(({ settings }) => settings);
   const { checkout } = useSelector(({ product }) => product);
   const { user: userData } = useSelector(({ user }) => user);
   const { cart, total } = checkout;
@@ -154,20 +157,8 @@ const CheckoutMain = () => {
       state: userData?.state || '',
       country: userData?.country || 'Pakistan',
       zip: userData?.zip || '',
-      order: userData?.order || '',
+      note: '',
       ...(checked && {
-        // firstName: userData?.firstName || '',
-        // lastName: userData?.lastName || '',
-        // phone: userData?.phone || '',
-        // email: userData?.email || '',
-        // address: userData?.address || '',
-        // city: userData?.city || '',
-        // state: userData?.state || '',
-        // country: userData?.country || 'Pakistan',
-        // zip: userData?.zip || '',
-        // order: userData?.order || '',
-        // shipping: userData?.shipping || true,
-
         shippingAddress: {
           firstName: '',
           lastName: '',
@@ -182,7 +173,6 @@ const CheckoutMain = () => {
     enableReinitialize: true,
     validationSchema: NewAddressSchema,
     onSubmit: async (values) => {
-      console.log(values, 'test checkout Data');
       const items = cart.map(({ ...others }) => others);
       const totalItems = sum(items.map((item) => item.quantity));
 
@@ -192,6 +182,8 @@ const CheckoutMain = () => {
         user: values,
         totalItems,
         couponCode,
+        currency,
+        conversionRate: rate,
         shipping: process.env.SHIPPING_FEE || 0
       };
       if (data.paymentMethod === 'stripe') {
@@ -221,7 +213,10 @@ const CheckoutMain = () => {
 
     const cardElement = elements.getElement('card');
     try {
-      const { client_secret: clientSecret } = await api.paymentIntents(Number(totalWithDiscount || checkout.total));
+      const { client_secret: clientSecret } = await api.paymentIntents(
+        cCurrency(totalWithDiscount || checkout.total),
+        currency
+      );
 
       const paymentMethodReq = await stripe.createPaymentMethod({
         type: 'card',
@@ -313,10 +308,11 @@ const CheckoutMain = () => {
                   <PayPalPaymentMethod
                     onSuccess={onSuccessPaypal}
                     values={values}
-                    total={totalWithDiscount || total}
+                    total={cCurrency(totalWithDiscount || total)}
                     isValid={isValid}
                     formik={formik}
                     couponCode={couponCode}
+                    currency={currency}
                   />
                 </PayPalScriptProvider>
               </Collapse>
@@ -327,7 +323,7 @@ const CheckoutMain = () => {
                   fullWidth
                   size="large"
                   type="submit"
-                  // loading={isLoading || isProcessing || loading}
+                  loading={isLoading || isProcessing || loading}
                 >
                   Place Order
                 </LoadingButton>

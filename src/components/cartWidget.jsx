@@ -7,23 +7,24 @@ import PropTypes from 'prop-types';
 import { useState, useEffect } from 'react';
 
 // next
-import { useRouter } from 'next-nprogress-bar';
+import { useRouter } from 'src/hooks/useRouter';
 
 // lodash
 import { sum } from 'lodash';
-import { fCurrency } from 'src/utils/formatNumber';
-
+import { useCurrencyConvert } from 'src/hooks/convertCurrency';
+import { useCurrencyFormatter } from 'src/hooks/fCurrency';
+import { useDispatch, useSelector } from 'react-redux';
 export default function CartWidget({ ...props }) {
-  const { checkout } = props;
+  const dispatch = useDispatch();
   const router = useRouter();
-  const [cart, setCart] = useState([]);
-  const totalItems = sum(cart.map((item) => item.quantity));
-  const total = sum(cart.map((item) => item.subtotal));
-
-  useEffect(() => {
-    setCart(checkout.cart);
-  }, [checkout]);
-
+  const {
+    checkout: { cart }
+  } = useSelector(({ product }) => product);
+  const totalItems = sum(cart?.map((item) => item.quantity));
+  const subtotal = sum(cart?.map((product) => (product.priceSale || product.price) * product.quantity));
+  const total = subtotal;
+  const cCurrency = useCurrencyConvert();
+  const fCurrency = useCurrencyFormatter();
   return (
     <Stack
       onClick={() => router.push('/cart')}
@@ -55,7 +56,7 @@ export default function CartWidget({ ...props }) {
           Cart ({totalItems})
         </Typography>
         <Typography variant="body1" color="text.secondary">
-          {fCurrency(total)}
+          {fCurrency(cCurrency(total))}
         </Typography>
       </Stack>
     </Stack>

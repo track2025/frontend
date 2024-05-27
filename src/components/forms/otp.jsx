@@ -2,7 +2,7 @@
 import React from 'react';
 
 // next component
-import { useRouter } from 'next-nprogress-bar';
+import { useRouter } from 'src/hooks/useRouter';
 import { useSearchParams } from 'next/navigation';
 // api
 import * as api from 'src/services';
@@ -99,7 +99,7 @@ export default function VerifyOTPForm() {
     onSuccess: async () => {
       setLoading(false);
       dispatch(verifyUser());
-      router.push(redirect || `/`);
+      router.push(redirect || '/', 'isAlreadyPathname');
     },
     onError: () => {
       toast.error('Invalid OTP.');

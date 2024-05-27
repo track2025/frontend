@@ -3,6 +3,7 @@ import Box from '@mui/material/Box';
 import { createGradient } from 'src/theme/palette';
 
 const RootStyled = styled(Box)(({ theme }) => ({
+  marginBottom: theme.spacing(4),
   '& .detail-card': {
     minHeight: 226,
     position: 'relative',
@@ -56,6 +57,7 @@ const RootStyled = styled(Box)(({ theme }) => ({
       minHeight: 50,
       color: theme.palette.common.white,
       background: alpha(theme.palette.primary.light, 0.5),
+      boxShadow: 'none',
       '&:hover': {
         background: theme.palette.primary.dark
       },

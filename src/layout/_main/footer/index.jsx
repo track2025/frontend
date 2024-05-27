@@ -6,12 +6,12 @@ import React from 'react';
 import { alpha, useTheme } from '@mui/material/styles';
 import { Typography, Container, Stack, Box, IconButton, Grid, Link, Fab, Divider } from '@mui/material';
 // next
-import NextLink from 'next/link';
+import NextLink from 'src/utils/link';
 // components
 import NewsLetter from './newsletter';
 
 import MainLogo from 'src/components/mainLogo';
-
+import { usePathname } from 'next/navigation';
 // icons
 import { FaFacebookF, FaInstagram, FaLinkedinIn } from 'react-icons/fa';
 import { MdOutlineLocationOn } from 'react-icons/md';
@@ -79,6 +79,7 @@ const MAIN_LINKS = [
 
 export default function Footer() {
   const theme = useTheme();
+  const pathname = usePathname();
   return (
     <Box
       sx={{
@@ -233,7 +234,16 @@ export default function Footer() {
 
               <Stack direction="row" alignItems="center" spacing={2}>
                 {SOCIAL_MEDIA_LINK.map((item, idx) => (
-                  <Fab size="small" color="primary" key={idx} component={NextLink} href={item.linkPath}>
+                  <Fab
+                    size="small"
+                    color="primary"
+                    key={idx}
+                    component={NextLink}
+                    href={item.linkPath}
+                    sx={{
+                      zIndex: 1
+                    }}
+                  >
                     {item.icon}
                   </Fab>
                 ))}

@@ -70,6 +70,7 @@ export default function AdminProducts({ isVendor }) {
         isLoading={isLoading}
         row={Shop}
         handleClickOpen={handleClickOpen}
+        isSearch
       />
     </>
   );

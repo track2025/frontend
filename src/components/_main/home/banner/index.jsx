@@ -1,12 +1,13 @@
 'use client';
 import React from 'react';
-import Link from 'next/link';
+import Link from 'src/utils/link';
 // mui
 import { alpha } from '@mui/material/styles';
 import { Box, Typography, Grid, Button, Container, Stack } from '@mui/material';
 // blur image
 import Image from 'next/image';
 import { IoIosArrowForward } from 'react-icons/io';
+import bannerImg from '../../../../../public/images/banner-3.png';
 
 export default function Banner() {
   return (
@@ -38,13 +39,13 @@ export default function Banner() {
           width: '100%',
           overflow: 'hidden',
           py: 1,
-          bgcolor: (theme) => theme.palette.primary.extraLight,
+          bgcolor: (theme) => alpha(theme.palette.success.light, 0.4),
           '&:before': {
             content: "''",
             position: 'absolute',
             top: '-40px',
             left: '40%',
-            bgcolor: (theme) => alpha(theme.palette.primary.main, 0.77),
+            bgcolor: (theme) => alpha(theme.palette.success.main, 0.77),
             height: 100,
             width: 100,
             borderRadius: '50px',
@@ -59,7 +60,7 @@ export default function Banner() {
                 <Typography variant="h2" fontWeight={900}>
                   UK Premier Store for Wrist Watches
                 </Typography>
-                <Typography variant="body1" color="text.secondary">
+                <Typography variant="body1" color="text.success">
                   Welcome to our world of horological excellence, where timepieces become timeless statements of
                   elegance. Our collection showcases an unparalleled selection of premium watches, curated from renowned
                   luxury brands around the globe.
@@ -69,7 +70,7 @@ export default function Banner() {
                     component={Link}
                     href="/products"
                     variant="contained"
-                    color="primary"
+                    color="success"
                     size="large"
                     endIcon={<IoIosArrowForward />}
                     sx={{
@@ -92,7 +93,7 @@ export default function Banner() {
                     top: 0,
                     transform: 'translateY(10%)',
                     borderRadius: '50%',
-                    bgcolor: 'primary.main',
+                    bgcolor: 'success.main',
                     display: 'block',
                     p: { md: '50%', xs: '50%' }
                   }
@@ -114,12 +115,12 @@ export default function Banner() {
                   }}
                 >
                   <Image
-                    src="/images/banner-3.png"
+                    src={bannerImg}
                     alt="centered-banner"
                     layout="fill"
                     objectFit="contain"
-                    placeholder="blur"
-                    blurDataURL="/images/banner-3.png"
+                    // placeholder="blur"
+                    // blurDataURL={bannerImg}
                     // sizes="300px"
                     static
                   />
