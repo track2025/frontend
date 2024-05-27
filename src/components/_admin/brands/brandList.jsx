@@ -66,10 +66,11 @@ export default function BrandList() {
       <Table
         headData={TABLE_HEAD}
         data={error ? [] : data}
-        mobileRow={BrandsCard}
+        // mobileRow={BrandsCard}
         isLoading={isLoading}
         row={Brand}
         handleClickOpen={handleClickOpen}
+        isSearch
       />
     </>
   );

@@ -5,7 +5,8 @@ import { useMutation } from 'react-query';
 import { Card, CardContent, Typography, Stack, Divider, TextField } from '@mui/material';
 import { LoadingButton } from '@mui/lab';
 // hook
-import { fCurrency } from 'src/utils/formatNumber';
+import { useCurrencyConvert } from 'src/hooks/convertCurrency';
+import { useCurrencyFormatter } from 'src/hooks/fCurrency';
 // redux
 import { useSelector } from 'react-redux';
 // toast
@@ -29,6 +30,8 @@ export default function PaymentInfo({ setCouponCode, setTotal }) {
   const { product } = useSelector((state) => state);
   const { total, shipping, subtotal } = product.checkout;
   const [code, setCode] = useState('');
+  const cCurrency = useCurrencyConvert();
+  const fCurrency = useCurrencyFormatter();
 
   const [discountPrice, setDiscountPrice] = useState(null);
   const [appliedDiscount, setDiscount] = useState(null);
@@ -53,13 +56,13 @@ export default function PaymentInfo({ setCouponCode, setTotal }) {
 
         setDiscountPrice(discountedTotal + shipping);
         setTotal(discountedTotal + shipping);
-        toast.success('Coupon code applied. You have saved ' + fCurrency(discount));
+        toast.success('Coupon code applied. You have saved ' + fCurrency(cCurrency(discount)));
       } else {
         const discountedTotal = subtotal - data.discount;
         setDiscount(data.discount);
         setTotal(discountedTotal);
         setCouponCode(code);
-        toast.success('Coupon code applied. You have saved ' + fCurrency(data.discount));
+        toast.success('Coupon code applied. You have saved ' + fCurrency(cCurrency(data.discount)));
         setDiscountPrice(discountedTotal + +shipping);
       }
     },
@@ -87,19 +90,19 @@ export default function PaymentInfo({ setCouponCode, setTotal }) {
             <Typography variant="subtitle2" color="text.secondary">
               Subtotal:
             </Typography>
-            <Typography variant="subtitle2">{fCurrency(subtotal)}</Typography>
+            <Typography variant="subtitle2">{fCurrency(cCurrency(subtotal))}</Typography>
           </Stack>
           <Stack direction="row" alignItem="center" justifyContent="space-between" spacing={2}>
             <Typography variant="subtitle2" color="text.secondary">
               Discount:
             </Typography>
-            <Typography variant="subtitle2">-{fCurrency(appliedDiscount || 0)}</Typography>
+            <Typography variant="subtitle2">-{fCurrency(cCurrency(appliedDiscount || 0))}</Typography>
           </Stack>
           <Stack direction="row" alignItem="center" justifyContent="space-between" spacing={2}>
             <Typography variant="subtitle2" color="text.secondary">
               Shipping:
             </Typography>
-            <Typography variant="subtitle2">{!shipping ? 'Free' : fCurrency(shipping)}</Typography>
+            <Typography variant="subtitle2">{!shipping ? 'Free' : fCurrency(cCurrency(shipping))}</Typography>
           </Stack>
 
           <Stack direction={'row'} gap={1}>
@@ -126,7 +129,7 @@ export default function PaymentInfo({ setCouponCode, setTotal }) {
         <Divider />
         <Stack direction="row" alignItem="center" justifyContent="space-between" spacing={2} mt={2}>
           <Typography variant="subtitle1">Total:</Typography>
-          <Typography variant="subtitle1">{fCurrency(discountPrice || total)}</Typography>
+          <Typography variant="subtitle1">{fCurrency(cCurrency(discountPrice || total))}</Typography>
         </Stack>
       </CardContent>
     </Card>

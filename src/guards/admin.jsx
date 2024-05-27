@@ -7,7 +7,7 @@ import { useSelector } from 'src/lib/redux';
 import { toast } from 'react-hot-toast';
 import Loading from 'src/components/loading';
 // next
-import { useRouter } from 'next-nprogress-bar';
+import { useRouter } from 'src/hooks/useRouter';
 
 export default function Guest({ children }) {
   const router = useRouter();

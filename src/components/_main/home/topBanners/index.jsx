@@ -1,12 +1,14 @@
 'use client';
 import React from 'react';
-import Link from 'next/link';
+import Link from 'src/utils/link';
 // mui
 import { Box, Card, Grid, Stack, Typography, Button, Container } from '@mui/material';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import { useTheme, alpha } from '@mui/material/styles';
 // next
 import Image from 'next/image';
+import watchImg from '../../../../../public/images/top-banners/watch.png';
+import shoesImg from '../../../../../public/images/top-banners/shoes.png';
 
 export default function Index() {
   const theme = useTheme();
@@ -14,7 +16,7 @@ export default function Index() {
   const isDeskTopBtn = useMediaQuery(theme.breakpoints.up('lg'));
 
   return (
-    <Box my={6}>
+    <Box mb={6} mt={2}>
       <Container maxWidth="xl">
         <Grid container spacing={3}>
           <Grid item lg={6} md={6} xs={12} sm={6}>
@@ -23,10 +25,8 @@ export default function Index() {
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'space-between',
-                backgroundColor:
-                  theme.palette.mode === 'dark' ? alpha(theme.palette.primary.dark, 0.4) : theme.palette.primary.light,
+                backgroundColor: theme.palette.primary.light,
                 borderRadius: '12px',
-
                 height: '100%',
                 paddingX: { lg: theme.spacing(3), md: theme.spacing(1) }
               }}
@@ -67,7 +67,7 @@ export default function Index() {
                 <Box>
                   <Button
                     component={Link}
-                    href="/products?gender=women"
+                    href="/products"
                     variant="contained"
                     color={'primary'}
                     size={isDeskTopBtn ? 'large' : 'small'}
@@ -88,14 +88,7 @@ export default function Index() {
                   transform: { lg: 'scale(1.1)', md: 'scale(1.2)', xs: 'scale(1.3)' }
                 }}
               >
-                <Image
-                  fill
-                  objectFit="contain"
-                  draggable="false"
-                  src="/images/top-banners/watch.png"
-                  alt="women"
-                  sizes="20vw"
-                />
+                <Image fill objectFit="contain" draggable="false" src={watchImg} alt="women" sizes="20vw" />
               </Box>
             </Card>
           </Grid>
@@ -152,7 +145,7 @@ export default function Index() {
                 <Box>
                   <Button
                     component={Link}
-                    href="/products?gender=women"
+                    href="/products"
                     variant="contained"
                     color={'secondary'}
                     size={isDeskTopBtn ? 'large' : 'small'}
@@ -174,14 +167,7 @@ export default function Index() {
                   marginLeft: { xs: '-40px', md: 0 }
                 }}
               >
-                <Image
-                  fill
-                  objectFit="contain"
-                  draggable="false"
-                  src="/images/top-banners/shoes.png"
-                  alt="women"
-                  sizes="20vw"
-                />
+                <Image fill objectFit="contain" draggable="false" src={shoesImg} alt="women" sizes="20vw" />
               </Box>
             </Card>
           </Grid>

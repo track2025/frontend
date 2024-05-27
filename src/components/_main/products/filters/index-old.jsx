@@ -3,7 +3,7 @@ import React from 'react';
 // mui
 import { Card, Box, Typography, IconButton, Divider, Stack, Chip } from '@mui/material';
 // Next
-import { useRouter } from 'next-nprogress-bar';
+import { useRouter } from 'src/hooks/useRouter';
 // icons
 import { MdClear } from 'react-icons/md';
 // PropTypes;

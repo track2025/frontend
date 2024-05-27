@@ -8,7 +8,9 @@ import { Typography, Card, Stack, Box, IconButton } from '@mui/material';
 import { MdDeleteOutline } from 'react-icons/md';
 import { styled } from '@mui/material/styles';
 // components
-import { fCurrency } from 'src/utils/formatNumber';
+// import { fCurrency } from 'src/utils/formatNumber';
+import { useCurrencyConvert } from 'src/hooks/convertCurrency';
+import { useCurrencyFormatter } from 'src/hooks/fCurrency';
 import BlurImage from 'src/components/blurImage';
 const RootStyled = dynamic(() => import('./styled'));
 const Incrementer = dynamic(() => import('src/components/incrementer'));
@@ -35,7 +37,8 @@ const ThumbImgStyle = styled(Box)(({ theme }) => ({
 
 export default function CheckoutCard({ ...props }) {
   const { onDelete, onIncreaseQuantity, onDecreaseQuantity, cart } = props;
-
+  const cCurrency = useCurrencyConvert();
+  const fCurrency = useCurrencyFormatter();
   return (
     <RootStyled>
       {cart.map((product) => {
@@ -70,7 +73,7 @@ export default function CheckoutCard({ ...props }) {
                   {size}
                 </Typography>
                 <Typography variant="body2" color="text.primary" mb={0.5}>
-                  <b>subtotal:</b> {fCurrency(priceSale * quantity)}
+                  <b>subtotal:</b> {fCurrency(cCurrency(priceSale * quantity))}
                   {/* { formatNumbers(Number(priceSale), Number(unitRate))} */}
                 </Typography>
                 {/* <Typography variant="body2" color="text.primary" mb={0.5}>

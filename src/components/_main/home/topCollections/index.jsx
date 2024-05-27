@@ -1,6 +1,6 @@
 'use client';
 import React from 'react';
-import NextLink from 'next/link';
+import NextLink from 'src/utils/link';
 // mui
 import { Grid, Button, Typography, Box, Stack } from '@mui/material';
 // icons
@@ -48,7 +48,7 @@ export default function TopCollections() {
         <Grid container spacing={2}>
           {(isLoading ? Array.from(new Array(8)) : data?.data).map((item, index) => (
             <>
-              <Grid item xs={6} sm={6} md={4} lg={3} key={index}>
+              <Grid item xs={6} sm={6} md={4} lg={3} key={Math.random()}>
                 <ProductCard product={item} loading={isLoading} />
               </Grid>
             </>

@@ -1,10 +1,10 @@
-'use clinet';
-
+'use client';
+import Image from 'next/image';
 import { useState, useEffect } from 'react';
 import { Box, Button, Card, Stack, Typography, useTheme } from '@mui/material';
-import { IoIosArrowForward } from 'react-icons/io';
-import NextLink from 'next/link';
-
+// import { IoIosArrowForward } from 'react-icons/io';
+import NextLink from 'src/utils/link';
+import bgImage from '../../../../../public/images/top-banners/countdown.png';
 export default function Index() {
   const theme = useTheme();
   const [time, setTime] = useState({
@@ -39,9 +39,11 @@ export default function Index() {
     <Card
       sx={{
         width: 336,
-        backgroundImage: 'url(/images/top-banners/countdown.png)',
-        backgroundRepeat: 'no-repeat',
-        backgroundSize: 'cover',
+        position: 'relative',
+        // backgroundImage: 'url(../../../../../public/images/top-banners/countdown.png)',
+        // backgroundRepeat: 'no-repeat',
+        // backgroundSize: 'cover',
+        minHeight: 680,
         height: '100%',
         borderRadius: 6,
         overflow: 'hidden',
@@ -53,7 +55,8 @@ export default function Index() {
         px: 2
       }}
     >
-      <Stack spacing={2}>
+      <Image fill objectFit="cover" draggable="false" src={bgImage} alt="bg-image" />
+      <Stack spacing={2} position="relative">
         <Typography variant="body1" color="common.white" fontWeight={700} textAlign="center">
           Upto
         </Typography>
@@ -71,11 +74,11 @@ export default function Index() {
           30% Off
         </Typography>
       </Stack>
-      <Typography variant="body1" color="common.white" textAlign="center">
+      <Typography variant="body1" color="common.white" textAlign="center" position="relative">
         Visit our showroom today for exclusive offers on premium products. Discover unbeatable deals and elevate your
         lifestyle with our curated selection. Limited time, extraordinary savings await you
       </Typography>
-      <Stack direction="row" spacing={2}>
+      <Stack direction="row" spacing={2} position="relative">
         <Box
           sx={{
             px: 3,

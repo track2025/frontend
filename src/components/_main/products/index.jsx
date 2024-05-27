@@ -12,7 +12,7 @@ import * as api from 'src/services';
 import PropTypes from 'prop-types';
 import ProductList from './productList';
 import SortBar from './sortbar';
-
+import { useSelector } from 'react-redux';
 ProductListing.propTypes = {
   category: PropTypes.object,
   fetchFilters: PropTypes.string.isRequired,
@@ -34,8 +34,9 @@ const sortData = [
 const getSearchParams = (searchParams) => {
   return searchParams.toString().length ? '?' + searchParams.toString() : '';
 };
-export default function ProductListing({ category, subCategory, shop, fetchFilters }) {
+export default function ProductListing({ category, subCategory, shop, compaign, fetchFilters }) {
   const searchParams = useSearchParams();
+  const { rate } = useSelector(({ settings }) => settings);
   const { data, isLoading } = useQuery(
     [
       'products' + category || subCategory ? '-with-category' : '',
@@ -52,14 +53,15 @@ export default function ProductListing({ category, subCategory, shop, fetchFilte
             ? 'getProductsBySubCategory'
             : shop
               ? 'getProductsByShop'
-              : 'getProducts'
+              : compaign
+                ? 'getProductsByCompaign'
+                : 'getProducts'
       ](
         getSearchParams(searchParams),
-        shop ? shop?.slug : category ? category?.slug : subCategory ? subCategory?.slug : ''
+        shop ? shop?.slug : category ? category?.slug : subCategory ? subCategory?.slug : compaign ? compaign.slug : '',
+        rate
       )
   );
-  console.log(subCategory, 'subCategory');
-
   const isMobile = useMediaQuery('(max-width:900px)');
   return (
     <>
@@ -69,8 +71,8 @@ export default function ProductListing({ category, subCategory, shop, fetchFilte
         category={subCategory?.parentCategory || category}
         shop={shop}
         subCategory={subCategory}
-        fetchFilters={fetchFilters}
         isLoading={isLoading}
+        compaign={compaign}
       />
       <ProductList data={data} isLoading={isLoading} isMobile={isMobile} />
       <Pagination data={data} />

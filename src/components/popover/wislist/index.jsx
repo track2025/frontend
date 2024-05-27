@@ -2,7 +2,7 @@
 import React from 'react';
 
 // next
-import { useRouter } from 'next-nprogress-bar';
+import { useRouter } from 'src/hooks/useRouter';
 
 // mui
 import { IconButton, Stack, Typography, alpha } from '@mui/material';
@@ -16,43 +16,41 @@ WishlistPopover.propTypes = {
 };
 
 // ----------------------------------------------------------------------
-export default function WishlistPopover({ isAuth }) {
+export default function WishlistPopover() {
   const router = useRouter();
-  const [loading, setLoading] = React.useState(true);
-  const { wishlist } = useSelector(({ wishlist }) => wishlist);
 
-  React.useEffect(() => {
-    setLoading(false);
-  }, []);
+  const { wishlist } = useSelector(({ wishlist }) => wishlist);
+  const { isAuthenticated } = useSelector(({ user }) => user);
 
   return (
     <>
       <Stack
         direction="row"
-        spacing={1}
         alignItems="center"
         width="auto"
         sx={{ cursor: 'pointer' }}
         onClick={() => {
-          if (!isAuth) {
+          if (!isAuthenticated) {
             router.push('/auth/login');
           } else {
             router.push('/profile/wishlist');
           }
         }}
+        spacing={1}
       >
         <IconButton
           name="wishlist"
           color="primary"
           disableRipple
           sx={{
+            ml: 1,
             borderColor: 'primary',
             borderWidth: 1,
             borderStyle: 'solid',
             bgcolor: (theme) => alpha(theme.palette.primary.main, 0.2)
           }}
           onClick={() => {
-            if (!isAuth) {
+            if (!isAuthenticated) {
               router.push('/auth/login');
             } else {
               router.push('/profile/wishlist');
@@ -66,7 +64,7 @@ export default function WishlistPopover({ isAuth }) {
             Wishlist
           </Typography>
           <Typography variant="body1" color="text.secondary">
-            {wishlist?.length} {wishlist?.length > 1 ? 'Items' : 'Item'}
+            {wishlist?.length || 0} {wishlist?.length > 1 ? 'Items' : 'Item'}
           </Typography>
         </Stack>
       </Stack>

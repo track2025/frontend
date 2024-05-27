@@ -3,7 +3,7 @@
 import * as React from 'react';
 // next
 import { usePathname } from 'next/navigation';
-import { useRouter } from 'next-nprogress-bar';
+import { useRouter } from 'src/hooks/useRouter';
 
 // loadash
 import { sum } from 'lodash';

@@ -25,7 +25,8 @@ import { setLogin } from 'src/lib/redux/slices/user';
 import { useSelector } from 'react-redux';
 // notification toast
 import { toast } from 'react-hot-toast';
-import { usePathname, useRouter } from 'next/navigation';
+import { usePathname } from 'next/navigation';
+import { useRouter } from 'src/hooks/useRouter';
 
 export default function AccountGeneral() {
   const { user: adminUser } = useSelector(({ user }) => user);
@@ -227,7 +228,7 @@ export default function AccountGeneral() {
               <FormHelperText error sx={{ px: 2, textAlign: 'center' }}>
                 {touched.photoURL && errors.photoURL}
               </FormHelperText>
-              {user?.isVerified ? (
+              {isLoading || user?.isVerified ? (
                 ''
               ) : (
                 <LoadingButton loading={verifyLoading} variant="text" color="primary" onClick={onVerifyAccount}>

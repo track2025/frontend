@@ -10,12 +10,23 @@ import TabList from '@mui/lab/TabList';
 import TabPanel from '@mui/lab/TabPanel';
 import { MdClear } from 'react-icons/md';
 import Typography from '@mui/material/Typography';
-import { Grid, Button, Stack, alpha } from '@mui/material';
+import { Grid, Button, Stack, alpha, Skeleton } from '@mui/material';
+import { locales } from 'i18n-config';
+import Link from 'next/link';
+import { usePathname } from 'next/navigation';
+import * as api from 'src/services';
+// usequery
+import { useQuery } from 'react-query';
+import { useDispatch, useSelector } from 'react-redux';
+import { handleChangeCurrency } from 'src/lib/redux/slices/settings';
 
 export default function LanguageSelect() {
+  const dispatch = useDispatch();
+  const { currency } = useSelector(({ settings }) => settings);
   const [open, setOpen] = React.useState(false);
   const [value, setValue] = React.useState('1');
-
+  const pathName = usePathname();
+  const { data, isLoading } = useQuery(['coupon-codes'], () => api.getCurrencies());
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
@@ -26,6 +37,14 @@ export default function LanguageSelect() {
   const handleClose = () => {
     setOpen(false);
   };
+
+  const redirectedPathName = (locale) => {
+    if (!pathName) return '/';
+    const segments = pathName.split('/');
+    segments[1] = locale;
+    return segments.join('/');
+  };
+  const segments = pathName?.split('/');
 
   return (
     <React.Fragment>
@@ -56,7 +75,8 @@ export default function LanguageSelect() {
           sx={{
             position: 'absolute',
             right: 5,
-            top: 5
+            top: 5,
+            zIndex: 111
           }}
         >
           <MdClear />
@@ -75,21 +95,24 @@ export default function LanguageSelect() {
                   Choose a language and region
                 </Typography>
                 <Grid container spacing={2}>
-                  {Array.from(new Array(12)).map((idx, index) => (
-                    <Grid key={idx} item xs={12} md={3}>
+                  {locales.map((locale, index) => (
+                    <Grid key={locale} item xs={12} md={3}>
                       <Button
                         fullWidth
+                        component={Link}
+                        onClick={() => setOpen(false)}
+                        href={redirectedPathName(locale.code)}
                         size="large"
-                        variant={index < 1 ? 'outlined' : 'text'}
-                        color={index < 1 ? 'primary' : 'inherit'}
+                        variant={segments[1] === locale.code ? 'outlined' : 'text'}
+                        color={segments[1] === locale.code ? 'primary' : 'inherit'}
                         sx={{
                           textAlign: 'left',
                           justifyContent: 'start'
                         }}
                       >
                         <Stack>
-                          <Typography variant="subtitle2">English</Typography>
-                          <Typography variant="body2">United States</Typography>
+                          <Typography variant="subtitle2">{locale.title}</Typography>
+                          <Typography variant="body2">{locale.country}</Typography>
                         </Stack>
                       </Button>
                     </Grid>
@@ -101,21 +124,33 @@ export default function LanguageSelect() {
                   Choose a currency
                 </Typography>
                 <Grid container spacing={2}>
-                  {Array.from(new Array(12)).map((idx, index) => (
-                    <Grid key={idx} item xs={12} md={3}>
+                  {(isLoading ? Array.from(new Array(12)) : data?.data).map((cur, index) => (
+                    <Grid key={Math.random()} item xs={12} md={3}>
                       <Button
+                        onClick={() =>
+                          dispatch(
+                            handleChangeCurrency({
+                              currency: cur.code,
+                              rate: cur.rate
+                            })
+                          )
+                        }
                         fullWidth
                         size="large"
-                        variant={index < 1 ? 'outlined' : 'text'}
-                        color={index < 1 ? 'primary' : 'inherit'}
+                        variant={'outlined'}
+                        color={currency === cur?.code ? 'primary' : 'inherit'}
                         sx={{
                           textAlign: 'left',
                           justifyContent: 'start'
                         }}
                       >
                         <Stack>
-                          <Typography variant="subtitle2">United States Dollar</Typography>
-                          <Typography variant="body2">USD-$</Typography>
+                          <Typography variant="subtitle2">
+                            {isLoading ? <Skeleton variant="text" width={120} /> : `${cur.name}-${cur.code}`}
+                          </Typography>
+                          <Typography variant="body2">
+                            {isLoading ? <Skeleton variant="text" width={60} /> : cur.country}
+                          </Typography>
                         </Stack>
                       </Button>
                     </Grid>

@@ -10,7 +10,7 @@ import DialogActions from '@mui/material/DialogActions';
 import DialogTitle from '@mui/material/DialogTitle';
 import { SuccessPopupIcon } from 'src/assets';
 // next
-import { useRouter } from 'next-nprogress-bar';
+import { useRouter } from 'src/hooks/useRouter';
 // icons
 import { IoClose } from 'react-icons/io5';
 

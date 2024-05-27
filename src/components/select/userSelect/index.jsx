@@ -1,6 +1,6 @@
 'use client';
 import React from 'react';
-import Link from 'next/link';
+import Link from 'src/utils/link';
 
 // mui
 import { Avatar, IconButton, Typography, Stack, Divider, Box } from '@mui/material';
@@ -9,7 +9,7 @@ import KeyboardArrowDownRoundedIcon from '@mui/icons-material/KeyboardArrowDownR
 // components
 import MenuPopover from 'src/components/popover/popover';
 import { usePathname } from 'next/navigation';
-import { useRouter } from 'next-nprogress-bar';
+import { useRouter } from 'src/hooks/useRouter';
 import { PATH_PAGE } from 'src/routes/paths';
 import { UserList } from 'src/components/lists';
 import BlurImageAvatar from 'src/components/avatar';
@@ -25,7 +25,7 @@ export default function UserSelect() {
   const router = useRouter();
   const pathname = usePathname();
   const isAuthPath = getKeyByValue(PATH_PAGE.auth, pathname);
-  const isHomePath = pathname === '/';
+  const isHomePath = pathname.slice(3) === '';
   const anchorRef = React.useRef(null);
   const [openUser, setOpen] = React.useState(false);
 

@@ -6,7 +6,7 @@ import * as api from 'src/services';
 // usequery
 import { useQuery } from 'react-query';
 import toast from 'react-hot-toast';
-import { useRouter } from 'next-nprogress-bar';
+import { useRouter } from 'src/hooks/useRouter';
 import { useDispatch, useSelector } from 'react-redux';
 import { updateStatus } from 'src/lib/redux/slices/user';
 export default function ShopSettingMain() {

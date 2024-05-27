@@ -13,8 +13,8 @@ export const getUserCategories = async () => {
   const { data } = await http.get(`/categories`);
   return data;
 };
-export const getProducts = async (query = '') => {
-  const { data } = await http.get(`/products${query}`);
+export const getProducts = async (query = '', cat, rate) => {
+  const { data } = await http.get(`/products${query || '?'}&rate=${rate}`);
   return data;
 };
 export const getProductDetails = async (pid) => {
@@ -22,21 +22,26 @@ export const getProductDetails = async (pid) => {
   return data;
 };
 
-export const getProductsByCategory = async (query = '', category) => {
-  const { data } = await http.get(`/category/products/${category}${query}`);
+export const getProductsByCategory = async (query = '', category, rate) => {
+  const { data } = await http.get(`/category/products/${category}${query || '?'}&rate=${rate}`);
   return data;
 };
+export const getProductsByCompaign = async (query = '', slug, rate) => {
+  const { data } = await http.get(`/compaign/products/${slug}${query || '?'}&rate=${rate}`);
+  return data;
+};
+
 export const getProductSlugs = async () => {
   const { data } = await http.get(`/products-slugs`);
   return data;
 };
-export const getProductsBySubCategory = async (query = '', subcategory) => {
-  const { data } = await http.get(`/subcategory/products/${subcategory}${query}`);
+export const getProductsBySubCategory = async (query = '', subcategory, rate) => {
+  const { data } = await http.get(`/subcategory/products/${subcategory}${query || '?'}&rate=${rate}`);
   return data;
 };
 
-export const getProductsByShop = async (query = '', shop) => {
-  const { data } = await http.get(`/shop/products/${shop}${query}`);
+export const getProductsByShop = async (query = '', shop, rate) => {
+  const { data } = await http.get(`/shop/products/${shop}${query || '?'}&rate=${rate}`);
   return data;
 };
 
@@ -274,11 +279,19 @@ export const getHomeShops = async () => {
   const { data } = await http.get(`/shops?limit=9`);
   return data;
 };
-
+export const getHomeCompaigns = async () => {
+  const { data } = await http.get(`/compaigns`);
+  return data;
+};
 export const getBestSellingProducts = async () => {
   const { data } = await http.get(`/home/products/best-selling`);
   return data;
 };
+export const getFeaturedProducts = async () => {
+  const { data } = await http.get(`/home/products/featured`);
+  return data;
+};
+
 export const getTopRatedProducts = async () => {
   const { data } = await http.get(`/home/products/top`);
   return data;
@@ -287,7 +300,10 @@ export const getHomeBrands = async () => {
   const { data } = await http.get(`/home/brands`);
   return data;
 };
-
+export const getUserBrands = async () => {
+  const { data } = await http.get(`/brands`);
+  return data;
+};
 // sub categories
 export const getSubCategoryByAdmin = async (slug) => {
   const { data } = await http.get(`/admin/subcategories/${slug}`);
@@ -440,9 +456,10 @@ export const getNewsletter = async (page) => {
   return data;
 };
 
-export const paymentIntents = async (amount) => {
+export const paymentIntents = async (amount, currency) => {
   const { data } = await http.post(`/payment-intents`, {
-    amount
+    amount,
+    currency
   });
   return data;
 };
@@ -528,5 +545,101 @@ export const getAllShopsByUser = async () => {
 };
 export const getAllCategoriesByUser = async () => {
   const { data } = await http.get(`/all-categories`);
+  return data;
+};
+export const getAdminCurrencies = async (page, search) => {
+  const { data } = await http.get(`/admin/currencies?page=${page || 1}&search=${search || ''}`);
+  return data;
+};
+
+export const addCurrency = async (payload) => {
+  const { data } = await http.post(`/admin/currencies`, payload);
+  return data;
+};
+
+export const updateCurrency = async ({ _id, ...others }) => {
+  const { data } = await http.put(`/admin/currencies/${_id}`, others);
+  return data;
+};
+
+export const getCurrencyByAdmin = async (cid) => {
+  const { data } = await http.get(`/admin/currencies/${cid}`);
+  return data;
+};
+export const getCurrencies = async () => {
+  const { data } = await http.get(`/currencies`);
+  return data;
+};
+export const getCategoryTitle = async (category) => {
+  const { data } = await http.get(`/category-title/${category}`);
+  return data;
+};
+
+export const getCategoryBySlug = async (category) => {
+  const { data } = await http.get(`/categories/${category}`);
+  return data;
+};
+
+export const getCategorySlugs = async () => {
+  const { data } = await http.get(`/categories-slugs`);
+  return data;
+};
+export const getShopSlugs = async () => {
+  const { data } = await http.get('/shops-slugs');
+  return data;
+};
+export const getShopBySlug = async (shop) => {
+  const { data } = await http.get(`/shops/${shop}`);
+  return data;
+};
+export const getShopTitle = async (shop) => {
+  const { data } = await http.get(`/shop-title/${shop}`);
+  return data;
+};
+
+export const getSubCategoryTitle = async (subcategory) => {
+  const { data } = await http.get(`/subcategory-title/${subcategory}`);
+  return data;
+};
+export const getSubCategoryBySlug = async (subcategory) => {
+  const { data } = await http.get(`/subcategories/${subcategory}`);
+  return data;
+};
+
+export const getSubCategorySlugs = async () => {
+  const { data } = await http.get(`/subcategories-slugs`);
+  return data;
+};
+export const getAdminCompaigns = async (page, search) => {
+  const { data } = await http.get(`/admin/compaigns?page=${page || 1}&search=${search || ''}`);
+  return data;
+};
+export const addCompaign = async (payload) => {
+  const { data } = await http.post(`/admin/compaigns`, payload);
+  return data;
+};
+
+export const updateCompaign = async ({ currentSlug, ...payload }) => {
+  const { data } = await http.put(`/admin/compaigns/${currentSlug}`, payload);
+  return data;
+};
+export const getCompaignByAdmin = async (slug) => {
+  const { data } = await http.get(`/admin/compaigns/${slug}`);
+  return data;
+};
+export const deleteCompaign = async (slug) => {
+  const { data } = await http.delete(`/admin/compaigns/${slug}`);
+  return data;
+};
+export const getCompaignSlugs = async () => {
+  const { data } = await http.get('/compaigns-slugs');
+  return data;
+};
+export const getCompaignBySlug = async (slug) => {
+  const { data } = await http.get(`/compaigns/${slug}`);
+  return data;
+};
+export const getCompaignTitle = async (slug) => {
+  const { data } = await http.get(`/compaign-title/${slug}`);
   return data;
 };

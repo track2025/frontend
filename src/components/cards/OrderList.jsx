@@ -13,7 +13,7 @@ import { fCurrency } from 'src/utils/formatNumber';
 // lodash
 import { capitalize } from 'lodash';
 // next
-import NextLink from 'next/link';
+import NextLink from 'src/utils/link';
 
 const RootStyle = styled(Paper)(({ theme }) => ({
   padding: '10px 10px 10px 16px',

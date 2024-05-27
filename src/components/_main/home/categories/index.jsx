@@ -1,19 +1,15 @@
 'use client';
 // react
 import React from 'react';
-import NextLink from 'next/link';
+import NextLink from 'src/utils/link';
 // mui
 import { Typography, Grid, Box, Stack, Paper, Button } from '@mui/material';
 import { IoIosArrowForward } from 'react-icons/io';
-// api
-import * as api from 'src/services';
-import { useQuery } from 'react-query';
 // component
 import CategoryCard from 'src/components/cards/category';
-
+import { useSelector } from 'react-redux';
 export default function Categories() {
-  const { data, isLoading } = useQuery(['get-home-categories-all'], () => api.homeCategroies());
-
+  const { newCategories, isLoading } = useSelector(({ categories }) => categories);
   return (
     <Paper elevation={0}>
       <Stack
@@ -23,48 +19,46 @@ export default function Categories() {
           mt: 5
         }}
       >
-        <Box>
-          <Typography variant="h2" color="text.primary" textAlign="center">
-            Top Categories
-          </Typography>
-          <Typography variant="body1" color="text.secondary" textAlign="center">
-            Lorem Ipsum Is Simply Dummy Text Of The Printing And Typesetting Industry.
-          </Typography>
-        </Box>
+        <Stack direction="row" justifyContent="space-between" alignItems="center">
+          <Box>
+            <Typography variant="h2" color="text.primary">
+              Top Categories
+            </Typography>
+            <Typography variant="body1" color="text.secondary">
+              Lorem Ipsum Is Simply Dummy Text Of The Printing And Typesetting Industry.
+            </Typography>
+          </Box>
+          <Button
+            variant="contained"
+            color="primary"
+            size="large"
+            sx={{
+              borderRadius: 6
+            }}
+            endIcon={<IoIosArrowForward />}
+            component={NextLink}
+            href={`/categories`}
+          >
+            View More
+          </Button>
+        </Stack>
+
         <Box>
           <Grid container spacing={2} justifyContent="center" alignItems="center">
-            {(isLoading ? Array.from(new Array(6)) : data?.data).map((inner) => (
+            {(isLoading ? Array.from(new Array(6)) : newCategories).map((inner) => (
               <React.Fragment key={Math.random()}>
                 <Grid item lg={2} md={3} sm={4} xs={4}>
                   <CategoryCard category={inner} isLoading={isLoading} />
                 </Grid>
               </React.Fragment>
             ))}
-            {!isLoading && !Boolean(data?.data.length) && (
+            {!isLoading && !Boolean(newCategories.length) && (
               <Typography variant="h3" color="error.main" textAlign="center">
                 Categories not found
               </Typography>
             )}
           </Grid>
         </Box>
-        {Boolean(data?.data?.length > 3) && (
-          <Button
-            variant="text"
-            color="primary"
-            endIcon={<IoIosArrowForward />}
-            component={NextLink}
-            href={`/categories`}
-            sx={{
-              mt: 3,
-              mx: 'auto',
-              display: 'flex',
-
-              minWidth: 100
-            }}
-          >
-            View All Categories
-          </Button>
-        )}
       </Stack>
     </Paper>
   );

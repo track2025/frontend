@@ -9,7 +9,7 @@ import { IoIosArrowDown } from 'react-icons/io';
 // react
 import { useMutation } from 'react-query';
 // next
-import { useRouter } from 'next-nprogress-bar';
+import { useRouter } from 'src/hooks/useRouter';
 // api
 import * as api from 'src/services';
 // toast

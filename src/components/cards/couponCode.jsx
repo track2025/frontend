@@ -10,7 +10,7 @@ import { fDateShort } from 'src/utils/formatTime';
 // lodash
 import { capitalize } from 'lodash';
 // next
-import { useRouter } from 'next/navigation';
+import { useRouter } from 'src/hooks/useRouter';
 // icons
 import { MdDelete } from 'react-icons/md';
 import { MdEdit } from 'react-icons/md';

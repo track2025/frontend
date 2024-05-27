@@ -66,6 +66,7 @@ export default function SubCategoryList() {
         isLoading={isLoading}
         row={SubCategory}
         handleClickOpen={handleClickOpen}
+        isSearch
       />
     </>
   );

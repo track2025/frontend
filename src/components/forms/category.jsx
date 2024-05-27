@@ -20,7 +20,7 @@ import {
 // components
 import UploadSingleFile from 'src/components/upload/UploadSingleFile';
 // next
-import { useRouter } from 'next/navigation';
+import { useRouter } from 'src/hooks/useRouter';
 // yup
 import * as Yup from 'yup';
 // axios

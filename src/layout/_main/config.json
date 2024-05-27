@@ -14,17 +14,14 @@
       "title": "Products",
       "path": "/products"
     },
-    {
-      "title": "Offers",
-      "path": "/"
-    },
+
     {
       "title": "Shops",
-      "path": "/"
+      "path": "/shops"
     },
     {
-      "title": "Compaign",
-      "path": "/"
+      "title": "Compaigns",
+      "path": "/compaigns"
     },
     {
       "title": "Contact",

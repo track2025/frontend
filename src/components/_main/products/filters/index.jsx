@@ -1,9 +1,8 @@
 'use client';
 import React from 'react';
 // mui
-import { Card, Box, Typography, IconButton, Divider, Tooltip } from '@mui/material';
-// Next
-import { useRouter } from 'next-nprogress-bar';
+import { Card, Box, Typography, IconButton, Divider } from '@mui/material';
+
 // icons
 import { MdClear } from 'react-icons/md';
 // PropTypes;
@@ -33,9 +32,8 @@ Filter.propTypes = {
 
 export default function Filter({ ...props }) {
   const { isMobile, onClose, pathname, fetchFilters, category, shop, subCategory } = props;
-  const router = useRouter();
   const { data, isLoading } = useQuery(['get-filters' + shop || '' + category || '' + 'subCategory'], () =>
-    api[fetchFilters](shop?.slug || '', category?.slug || '', subCategory?.slug || '')
+    api.getAllFilters(shop?.slug || '', category?.slug || '', subCategory?.slug || '')
   );
   const filters = data?.data;
   return (

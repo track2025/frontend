@@ -67,6 +67,7 @@ export default function CategoryList() {
         isLoading={isLoading}
         row={Category}
         handleClickOpen={handleClickOpen}
+        isSearch
       />
     </>
   );
