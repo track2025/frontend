@@ -14,7 +14,7 @@ import { useQuery } from 'react-query';
 
 export default function CompaignsComponent() {
   const { data, isLoading } = useQuery(['get-home-compaign-all'], () => api.getHomeCompaigns('?limit=4'));
-  return (
+  return !isLoading && !Boolean(data.length) ? null : (
     <Paper elevation={0}>
       <Stack
         direction={'column'}
@@ -46,7 +46,6 @@ export default function CompaignsComponent() {
             View More
           </Button>
         </Stack>
-
         <Box>
           <Grid container spacing={2} justifyContent="center" alignItems="center">
             {(isLoading ? Array.from(new Array(6)) : data?.data).map((inner) => (
@@ -56,11 +55,6 @@ export default function CompaignsComponent() {
                 </Grid>
               </React.Fragment>
             ))}
-            {!isLoading && !Boolean(data?.data.length) && (
-              <Typography variant="h3" color="error.main" textAlign="center">
-                Compaigns not found
-              </Typography>
-            )}
           </Grid>
         </Box>
       </Stack>

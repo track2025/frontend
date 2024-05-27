@@ -7,7 +7,8 @@ const initialState = {
   isAuthenticated: false,
   user: null,
   count: 0,
-  isInitialized: false
+  isInitialized: false,
+  followingShops: []
 };
 
 // slice
@@ -39,6 +40,15 @@ const slice = createSlice({
     },
     updateUserRole(state) {
       state.user.role = 'vendor';
+    },
+    updateFollowShop(state, action) {
+      const filtered = state.followingShops.filter((v) => v === action.payload);
+      if (filtered.length) {
+        const removedShop = state.followingShops.filter((v) => v !== action.payload);
+        state.followingShops = removedShop;
+      } else {
+        state.followingShops = [...state.followingShops, action.payload];
+      }
     }
   }
 });
@@ -47,6 +57,15 @@ const slice = createSlice({
 export default slice.reducer;
 
 // Actions
-export const { setLogin, setLogout, setCount, setInitialize, updateStatus, verifyUser, updateUserRole } = slice.actions;
+export const {
+  setLogin,
+  setLogout,
+  setCount,
+  setInitialize,
+  updateStatus,
+  verifyUser,
+  updateUserRole,
+  updateFollowShop
+} = slice.actions;
 
 // ----------------------------------------------------------------------

@@ -643,3 +643,8 @@ export const getCompaignTitle = async (slug) => {
   const { data } = await http.get(`/compaign-title/${slug}`);
   return data;
 };
+
+export const followShop = async (shopId) => {
+  const { data } = await http.put(`/shops/${shopId}/follow`);
+  return data;
+};

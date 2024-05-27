@@ -85,6 +85,7 @@ export default function Footer() {
       sx={{
         bgcolor: (theme) => alpha(theme.palette.info.light, 0.1),
         py: 4,
+        mt: 7,
         overflow: 'hidden',
         position: 'relative',
 

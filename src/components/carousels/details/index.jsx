@@ -81,12 +81,9 @@ function ProductDetailsCarousel({ ...props }) {
 
 export default function CarouselAnimation({ ...props }) {
   const { product, data: others } = props;
-  console.log(product, 'imageIndex');
-  const dispatch = useDispatch();
-  const _id = others?._id;
+
   const images = product?.images;
-  const isMobile = useMediaQuery('(max-width:600px)');
-  const { themeMode } = useSelector(({ settings }) => settings);
+
   const [[page, direction], setPage] = useState([0, 0]);
   const imageIndex = Math.abs(page % images?.length);
 
@@ -96,61 +93,63 @@ export default function CarouselAnimation({ ...props }) {
 
   return (
     <RootStyled>
-      <AnimatePresence initial={false} custom={direction}>
-        <motion.div
-          className="motion-dev"
-          key={page}
-          custom={direction}
-          variants={variants}
-          initial="enter"
-          animate="center"
-          exit="exit"
-          transition={{
-            x: { type: 'spring', stiffness: 300, damping: 30 },
-            opacity: { duration: 0.2 }
-          }}
-          drag="x"
-          dragConstraints={{ left: 0, right: 0 }}
-          dragElastic={1}
-          onDragEnd={(e, { offset, velocity }) => {
-            const swipe = swipePower(offset.x, velocity.x);
-            if (swipe < -swipeConfidenceThreshold) {
-              paginate(1);
-            } else if (swipe > swipeConfidenceThreshold) {
-              paginate(-1);
-            }
-          }}
-        >
-          <ProductDetailsCarousel item={images[imageIndex]} />
-        </motion.div>
-      </AnimatePresence>
-      <Stack
-        direction="row"
-        justifyContent={images.length < 6 ? 'center' : 'left'}
-        spacing={1}
-        className="controls-wrapper"
-      >
-        {images.map((item, i) => (
-          <Box
-            key={Math.random()}
-            className={`controls-button ${imageIndex === i ? 'active' : ''}`}
-            onClick={() => {
-              setPage([i, i]);
+      <div className="carousel-wrap">
+        <AnimatePresence initial={false} custom={direction}>
+          <motion.div
+            className="motion-dev"
+            key={page}
+            custom={direction}
+            variants={variants}
+            initial="enter"
+            animate="center"
+            exit="exit"
+            transition={{
+              x: { type: 'spring', stiffness: 300, damping: 30 },
+              opacity: { duration: 0.2 }
+            }}
+            drag="x"
+            dragConstraints={{ left: 0, right: 0 }}
+            dragElastic={1}
+            onDragEnd={(e, { offset, velocity }) => {
+              const swipe = swipePower(offset.x, velocity.x);
+              if (swipe < -swipeConfidenceThreshold) {
+                paginate(1);
+              } else if (swipe > swipeConfidenceThreshold) {
+                paginate(-1);
+              }
             }}
           >
-            <BlurImage
-              priority
-              fill
-              objectFit="cover"
-              sizes="14vw"
-              src={item?.src || item?.url}
-              alt="hero-carousel"
-              placeholder="blur"
-              blurDataURL={item.blurDataURL}
-            />
-          </Box>
-        ))}
-      </Stack>
+            <ProductDetailsCarousel item={images[imageIndex]} />
+          </motion.div>
+        </AnimatePresence>
+        <Stack
+          direction="row"
+          justifyContent={images.length < 6 ? 'center' : 'left'}
+          spacing={1}
+          className="controls-wrapper"
+        >
+          {images.map((item, i) => (
+            <Box
+              key={Math.random()}
+              className={`controls-button ${imageIndex === i ? 'active' : ''}`}
+              onClick={() => {
+                setPage([i, i]);
+              }}
+            >
+              <BlurImage
+                priority
+                fill
+                objectFit="cover"
+                sizes="14vw"
+                src={item?.src || item?.url}
+                alt="hero-carousel"
+                placeholder="blur"
+                blurDataURL={item.blurDataURL}
+              />
+            </Box>
+          ))}
+        </Stack>
+      </div>
     </RootStyled>
   );
 }
