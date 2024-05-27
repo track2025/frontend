@@ -13,7 +13,8 @@ import {
   Skeleton,
   Stack
 } from '@mui/material';
-import { MdDeleteOutline } from 'react-icons/md';
+import { IoClose } from 'react-icons/io5';
+
 //components
 import RootStyled from './styled';
 import Incrementer from 'src/components/incrementer';
@@ -35,6 +36,8 @@ const ThumbImgStyle = styled(Box)(({ theme }) => ({
 
 export default function CartProductList({ ...props }) {
   const { onDelete, onIncreaseQuantity, onDecreaseQuantity, isLoading, cart } = props;
+  console.log(props, 'propesss');
+
   const cCurrency = useCurrencyConvert();
   const fCurrency = useCurrencyFormatter();
   return (
@@ -43,10 +46,13 @@ export default function CartProductList({ ...props }) {
         <TableHead>
           <TableRow className="table-head-row">
             <TableCell>{isLoading ? <Skeleton variant="text" width={100} /> : 'Product'}</TableCell>
-
+            <TableCell align="center">
+              {isLoading ? <Skeleton variant="text" width={80} sx={{ mx: 'auto' }} /> : 'Price'}
+            </TableCell>
             <TableCell align="center">
               {isLoading ? <Skeleton variant="text" width={80} sx={{ mx: 'auto' }} /> : 'Quantity'}
             </TableCell>
+
             <TableCell align="center">
               {isLoading ? <Skeleton variant="text" width={63} sx={{ mx: 'auto' }} /> : 'Total Price'}
             </TableCell>
@@ -104,6 +110,15 @@ export default function CartProductList({ ...props }) {
                     </Box>
                   </Box>
                 </TableCell>
+                <TableCell>
+                  {isLoading ? (
+                    <Skeleton variant="text" width={52} sx={{ mx: 'auto' }} />
+                  ) : (
+                    <Typography variant="body1" color="text.primary" fontWeight={600}>
+                      ${price}
+                    </Typography>
+                  )}
+                </TableCell>
                 <TableCell
                   align="center"
                   sx={{
@@ -130,7 +145,9 @@ export default function CartProductList({ ...props }) {
                   {isLoading ? (
                     <Skeleton variant="text" width={52} sx={{ mx: 'auto' }} />
                   ) : (
+
                     <Typography variant="subtitle2">{fCurrency(cCurrency(quantity * (priceSale || price)))}</Typography>
+
                   )}
                 </TableCell>
                 <TableCell align="right">
@@ -138,7 +155,7 @@ export default function CartProductList({ ...props }) {
                     <Skeleton variant="circular" width={40} height={40} sx={{ ml: 'auto' }} />
                   ) : (
                     <IconButton aria-label="delete" color="inherit" onClick={() => onDelete(sku)} size="small">
-                      <MdDeleteOutline size={24} />
+                      <IoClose size={24} />
                     </IconButton>
                   )}
                 </TableCell>

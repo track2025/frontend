@@ -25,7 +25,6 @@ const PaymentSummary = dynamic(() => import('src/components/_main/cart/paymentSu
 });
 
 export default function CartMain() {
-  const router = useRouter();
   const dispatch = useDispatch();
   const { checkout } = useSelector(({ product }) => product);
   const { cart } = checkout;
@@ -56,8 +55,8 @@ export default function CartMain() {
             <ShoppingCart loading={loading} />
           </Grid>
           <Grid item xs={12} md={4}>
-            <PaymentSummary loading={loading} />
-            <Box mt={2}>
+            <PaymentSummary loading={loading} cart={cart} />
+            {/* <Box mt={2}>
               <LoadingButton
                 variant="contained"
                 fullWidth
@@ -71,7 +70,7 @@ export default function CartMain() {
               >
                 Checkout
               </LoadingButton>
-            </Box>
+            </Box> */}
           </Grid>
         </Grid>
       </Box>
