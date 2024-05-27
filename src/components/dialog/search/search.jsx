@@ -53,13 +53,13 @@ export default function Search({ ...props }) {
     initialized: false,
     category: '',
     subCategory: '',
-    brand: ''
+    shop: ''
   });
 
   const router = useRouter();
   const [search, setSearch] = React.useState('');
   const { categories } = useSelector(({ categories }) => categories);
-  const { brands } = useSelector(({ brands }) => brands);
+  const { shops } = useSelector(({ shops }) => shops);
   const { mutate, isLoading } = useMutation('search', api.search, {
     onSuccess: (data) => {
       setstate({ ...state, ...data });
@@ -89,7 +89,7 @@ export default function Search({ ...props }) {
   };
   React.useEffect(() => {
     const delayDebounceFn = setTimeout(() => {
-      mutate({ query: search, category: state.category, subCategory: state.subCategory, brand: state.brand });
+      mutate({ query: search, category: state.category, subCategory: state.subCategory, shop: state.shop });
     }, 1000);
 
     return () => clearTimeout(delayDebounceFn);
@@ -97,16 +97,16 @@ export default function Search({ ...props }) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [search]);
   React.useEffect(() => {
-    mutate({ query: search, category: state.category, subCategory: state.subCategory, brand: state.brand });
+    mutate({ query: search, category: state.category, subCategory: state.subCategory, shop: state.shop });
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [state.category, state.subCategory, state.brand]);
+  }, [state.category, state.subCategory, state.shop]);
 
   return (
     <>
       <TextField
         id="standard-basic"
         variant="standard"
-        placeholder="Search categories, brands & products"
+        placeholder="Search products"
         onFocus={() => setFocus(true)}
         onKeyDown={onKeyDown}
         onChange={(e) => {
@@ -147,6 +147,25 @@ export default function Search({ ...props }) {
       />
       <Stack gap={1} direction="row" p={1}>
         <FormControl fullWidth>
+          <LabelStyle component={'label'} htmlFor="shops">
+            Shop
+          </LabelStyle>
+          <Select
+            id="shops"
+            size="small"
+            labelId="demo-simple-select-label"
+            value={state.shop}
+            onChange={(e) => setstate({ ...state, shop: e.target.value })}
+          >
+            <MenuItem value="">None</MenuItem>
+            {shops.map((shop) => (
+              <MenuItem value={shop._id} key={shop._id}>
+                {shop.title}
+              </MenuItem>
+            ))}
+          </Select>
+        </FormControl>
+        <FormControl fullWidth>
           <LabelStyle component={'label'} htmlFor="category">
             Category
           </LabelStyle>
@@ -155,7 +174,7 @@ export default function Search({ ...props }) {
             size="small"
             labelId="demo-simple-select-label"
             value={state.category}
-            onChange={(e) => setstate({ ...state, category: e.target.value })}
+            onChange={(e) => setstate({ ...state, category: e.target.value, subCategory: '' })}
           >
             <MenuItem value="">None</MenuItem>
             {categories.map((category) => (
@@ -177,6 +196,7 @@ export default function Search({ ...props }) {
             value={state.subCategory}
             onChange={(e) => setstate({ ...state, subCategory: e.target.value })}
           >
+            <MenuItem value="">None</MenuItem>
             {categories
               .find((cat) => cat._id === state.category)
               ?.subCategories.map((subcat) => (
@@ -184,24 +204,6 @@ export default function Search({ ...props }) {
                   {subcat.name}
                 </MenuItem>
               ))}
-          </Select>
-        </FormControl>
-        <FormControl fullWidth>
-          <LabelStyle component={'label'} htmlFor="brand">
-            Brand
-          </LabelStyle>
-          <Select
-            id="brand"
-            size="small"
-            labelId="demo-simple-select-label"
-            value={state.brand}
-            onChange={(e) => setstate({ ...state, brand: e.target.value })}
-          >
-            {brands.map((brand) => (
-              <MenuItem value={brand._id} key={brand._id}>
-                {brand.name}
-              </MenuItem>
-            ))}
           </Select>
         </FormControl>
       </Stack>

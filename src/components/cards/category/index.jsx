@@ -77,7 +77,7 @@ export default function CategoriesCard({ ...props }) {
           href: baseUrl + category.slug
         })}
         color="text.primary"
-        variant="subtitle2"
+        variant="h5"
         textAlign="center"
         noWrap
         className="title"

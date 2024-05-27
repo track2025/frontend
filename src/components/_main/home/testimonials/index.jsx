@@ -17,6 +17,7 @@ import AvatarImg from '../../../../../public/images/avatar.png';
 
 // Components
 import TestimonialCarousel from 'src/components/carousels/testimonial';
+import { useSelector } from 'react-redux';
 
 // data
 const data = [
@@ -47,11 +48,13 @@ const data = [
 ];
 
 export default function Testimonials() {
+  const { themeMode } = useSelector(({ settings }) => settings);
   const [[page, direction], setPage] = React.useState([0, 0]);
   const imageIndex = Math.abs(page % data?.length);
   const paginate = (newDirection) => {
     setPage([page + newDirection, newDirection]);
   };
+  const isDarkMode = themeMode === 'dark';
   return (
     <Box
       sx={{
@@ -103,8 +106,8 @@ export default function Testimonials() {
                 onClick={() => paginate(-1)}
                 disabled={page === 0}
                 sx={{
-                  bgcolor: 'background.paper',
-                  color: 'primary.main',
+                  bgcolor: isDarkMode ? 'primary.main' : 'background.paper',
+                  color: isDarkMode ? 'common.white' : 'primary.main',
                   zIndex: 99
                 }}
               >
@@ -116,8 +119,8 @@ export default function Testimonials() {
                 size="small"
                 onClick={() => paginate(1)}
                 sx={{
-                  bgcolor: 'background.paper',
-                  color: 'primary.main',
+                  bgcolor: isDarkMode ? 'primary.main' : 'background.paper',
+                  color: isDarkMode ? 'common.white' : 'primary.main',
                   zIndex: 99
                 }}
               >
