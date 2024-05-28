@@ -1,4 +1,5 @@
 'use client';
+import { useState } from 'react';
 import PropTypes from 'prop-types';
 // next
 import Link from 'src/utils/link';
@@ -24,12 +25,35 @@ import { AiOutlineShop } from 'react-icons/ai';
 import { FaRegUser } from 'react-icons/fa6';
 // next
 import { useRouter } from 'src/hooks/useRouter';
+// react
+import { useMutation } from 'react-query';
+
+// api
+import * as api from 'src/services';
+// toast
+import toast from 'react-hot-toast';
+import { useDispatch, useSelector } from 'react-redux';
+import { updateFollowShop } from 'src/lib/redux/slices/user';
 
 export default function ShopCard({ ...props }) {
   const { shop, isLoading } = props;
+  const { followingShops } = useSelector(({ user }) => user);
+  const [loading, setLoading] = useState(false);
+  const dispatch = useDispatch();
   const router = useRouter();
   const baseUrl = '/shops/';
-
+  const { mutate } = useMutation(api.followShop, {
+    onSuccess: (data) => {
+      toast.success(data.message);
+      dispatch(updateFollowShop(data.shopId));
+      setLoading(false);
+    },
+    onError: (err) => {
+      toast.error(err.response.data.message);
+      setLoading(false);
+    }
+  });
+  console.log(followingShops, 'followingShops');
   return (
     <Card
       sx={{
@@ -180,14 +204,13 @@ export default function ShopCard({ ...props }) {
                 borderRadius: 6,
                 fontWeight: 400,
                 whiteSpace: 'nowrap',
-                px: 2,
-                bgcolor: (theme) => alpha(theme.palette.primary.main, 0.2)
+                px: 2
               }}
             >
               View Store
             </Button>
           )}
-          {isLoading ? (
+          {isLoading || loading ? (
             <Skeleton
               variant="rectanguar"
               width={92}
@@ -198,18 +221,21 @@ export default function ShopCard({ ...props }) {
             />
           ) : (
             <Button
-              variant="outlined"
+              onClick={() => {
+                setLoading(true);
+                mutate(shop._id);
+              }}
+              variant={followingShops.filter((v) => v === shop._id).length ? 'contained' : 'outlined'}
               size="small"
               color="secondary"
               startIcon={<FaRegUser size={16} />}
               sx={{
                 borderRadius: 6,
                 fontWeight: 400,
-                px: 2,
-                bgcolor: (theme) => alpha(theme.palette.secondary.main, 0.2)
+                px: 2
               }}
             >
-              Follow
+              {followingShops.filter((v) => v === shop._id).length ? 'Unfollow' : 'Follow'}
             </Button>
           )}
         </Stack>

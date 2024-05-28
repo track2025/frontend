@@ -2,7 +2,6 @@
 'use client';
 import PropTypes from 'prop-types';
 import { useState } from 'react';
-import Scrollbar from 'src/components/Scrollbar';
 // next
 import BlurImage from 'src/components/blurImage';
 import { toast } from 'react-hot-toast';
@@ -10,9 +9,11 @@ import { toast } from 'react-hot-toast';
 import { Box, Stack, IconButton, useMediaQuery, Tooltip } from '@mui/material';
 import { IoMdHeartEmpty } from 'react-icons/io';
 import { IoIosHeart } from 'react-icons/io';
-
+// redux
+import { setWishlist } from 'src/lib/redux/slices/wishlist';
 import { useSelector, useDispatch } from 'react-redux';
-
+// api
+import * as api from 'src/services';
 // framer motion
 import { motion, AnimatePresence } from 'framer-motion';
 
@@ -83,86 +84,72 @@ export default function CarouselAnimation({ ...props }) {
 
   const images = product?.images;
 
-  const isMobile = useMediaQuery('(max-width:600px)');
-  const { themeMode } = useSelector(({ settings }) => settings);
   const [[page, direction], setPage] = useState([0, 0]);
   const imageIndex = Math.abs(page % images?.length);
+
   const paginate = (newDirection) => {
     setPage([page + newDirection, newDirection]);
   };
 
   return (
     <RootStyled>
-      <AnimatePresence initial={false} custom={direction}>
-        <motion.div
-          className="motion-dev"
-          key={page}
-          custom={direction}
-          variants={variants}
-          initial="enter"
-          animate="center"
-          exit="exit"
-          transition={{
-            x: { type: 'spring', stiffness: 300, damping: 30 },
-            opacity: { duration: 0.2 }
-          }}
-          drag="x"
-          dragConstraints={{ left: 0, right: 0 }}
-          dragElastic={1}
-          onDragEnd={(e, { offset, velocity }) => {
-            const swipe = swipePower(offset.x, velocity.x);
-            if (swipe < -swipeConfidenceThreshold) {
-              paginate(1);
-            } else if (swipe > swipeConfidenceThreshold) {
-              paginate(-1);
-            }
-          }}
-        >
-          <ProductDetailsCarousel
-            themeMode={themeMode}
-            item={images[imageIndex]}
-            index={images[imageIndex]}
-            activeStep={imageIndex}
-            isActive={imageIndex}
-            key={Math.random()}
-          />
-        </motion.div>
-      </AnimatePresence>
-      <Scrollbar
-        sx={{
-          width: '100%',
-          '& .simplebar-content': {
-            width: 1,
-            display: 'flex',
-            flexDirection: 'row',
-            justifyContent: images.length < 6 ? 'center' : 'left',
-            gap: 1
-          }
-        }}
-      >
-        {/* <Stack className="controls-wrapper"> */}
-        {images.map((item, i) => (
-          <Box
-            key={Math.random()}
-            className={`controls-button ${imageIndex === i ? 'active' : ''}`}
-            onClick={() => {
-              setPage([i, i]);
+      <div className="carousel-wrap">
+        <AnimatePresence initial={false} custom={direction}>
+          <motion.div
+            className="motion-dev"
+            key={page}
+            custom={direction}
+            variants={variants}
+            initial="enter"
+            animate="center"
+            exit="exit"
+            transition={{
+              x: { type: 'spring', stiffness: 300, damping: 30 },
+              opacity: { duration: 0.2 }
+            }}
+            drag="x"
+            dragConstraints={{ left: 0, right: 0 }}
+            dragElastic={1}
+            onDragEnd={(e, { offset, velocity }) => {
+              const swipe = swipePower(offset.x, velocity.x);
+              if (swipe < -swipeConfidenceThreshold) {
+                paginate(1);
+              } else if (swipe > swipeConfidenceThreshold) {
+                paginate(-1);
+              }
             }}
           >
-            <BlurImage
-              priority
-              fill
-              objectFit="cover"
-              sizes="14vw"
-              src={item?.src || item?.url}
-              alt="hero-carousel"
-              placeholder="blur"
-              blurDataURL={item.blurDataURL}
-            />
-          </Box>
-        ))}
-        {/* </Stack> */}
-      </Scrollbar>
+            <ProductDetailsCarousel item={images[imageIndex]} />
+          </motion.div>
+        </AnimatePresence>
+        <Stack
+          direction="row"
+          justifyContent={images.length < 6 ? 'center' : 'left'}
+          spacing={1}
+          className="controls-wrapper"
+        >
+          {images.map((item, i) => (
+            <Box
+              key={Math.random()}
+              className={`controls-button ${imageIndex === i ? 'active' : ''}`}
+              onClick={() => {
+                setPage([i, i]);
+              }}
+            >
+              <BlurImage
+                priority
+                fill
+                objectFit="cover"
+                sizes="14vw"
+                src={item?.src || item?.url}
+                alt="hero-carousel"
+                placeholder="blur"
+                blurDataURL={item.blurDataURL}
+              />
+            </Box>
+          ))}
+        </Stack>
+      </div>
     </RootStyled>
   );
 }

@@ -8,6 +8,7 @@ import { Box, Typography, Grid, Button, Container, Stack } from '@mui/material';
 import Image from 'next/image';
 import { IoIosArrowForward } from 'react-icons/io';
 import bannerImg from '../../../../../public/images/banner-3.png';
+import BlurImage from 'src/components/blurImage';
 
 export default function Banner() {
   return (
@@ -34,33 +35,20 @@ export default function Banner() {
         key={Math.random()}
         sx={{
           mt: 3,
-          border: (theme) => '1px solid' + theme.palette.divider,
-          position: 'relative',
-          width: '100%',
-          overflow: 'hidden',
-          py: 1,
-          bgcolor: (theme) => alpha(theme.palette.success.light, 0.4),
-          '&:before': {
-            content: "''",
-            position: 'absolute',
-            top: '-40px',
-            left: '40%',
-            bgcolor: (theme) => alpha(theme.palette.success.main, 0.77),
-            height: 100,
-            width: 100,
-            borderRadius: '50px',
-            zIndex: 0
-          }
+
+          py: 12,
+          position: 'relative'
         }}
       >
+        <BlurImage src={bannerImg} alt="banner-3" placeholder="blur" layout="fill" sizes="100vw" />
         <Container fixed>
           <Grid container alignItems="center" spacing={4}>
             <Grid item xs={6} md={6}>
               <Stack spacing={2}>
-                <Typography variant="h2" fontWeight={900}>
+                <Typography sx={{ zIndex: 11 }} variant="h2" fontWeight={900}>
                   UK Premier Store for Wrist Watches
                 </Typography>
-                <Typography variant="body1" color="text.success">
+                <Typography sx={{ zIndex: 11 }} variant="body1" color="text.success">
                   Welcome to our world of horological excellence, where timepieces become timeless statements of
                   elegance. Our collection showcases an unparalleled selection of premium watches, curated from renowned
                   luxury brands around the globe.
@@ -70,7 +58,7 @@ export default function Banner() {
                     component={Link}
                     href="/products"
                     variant="contained"
-                    color="success"
+                    color="secondary"
                     size="large"
                     endIcon={<IoIosArrowForward />}
                     sx={{
@@ -81,51 +69,6 @@ export default function Banner() {
                   </Button>
                 </Box>
               </Stack>
-            </Grid>
-            <Grid item xs={6} md={6}>
-              <Box
-                sx={{
-                  position: 'relative',
-                  zIndex: 0,
-                  '&:after': {
-                    content: "''",
-                    position: 'absolute',
-                    top: 0,
-                    transform: 'translateY(10%)',
-                    borderRadius: '50%',
-                    bgcolor: 'success.main',
-                    display: 'block',
-                    p: { md: '50%', xs: '50%' }
-                  }
-                }}
-              >
-                <Box
-                  sx={{
-                    position: 'relative',
-                    zIndex: 2,
-                    display: 'flex',
-                    alignItems: 'end',
-                    justifyContent: 'center',
-                    transform: 'translateY(2%)',
-                    '&:after': {
-                      content: "''",
-                      display: 'block',
-                      pb: { md: '80%', xs: '80%' }
-                    }
-                  }}
-                >
-                  <Image
-                    src={bannerImg}
-                    alt="centered-banner"
-                    layout="fill"
-                    objectFit="contain"
-                    // placeholder="blur"
-                    // blurDataURL={bannerImg}
-                    // sizes="300px"
-                    static
-                  />
-                </Box>
-              </Box>
             </Grid>
           </Grid>
         </Container>
