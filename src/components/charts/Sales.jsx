@@ -66,6 +66,10 @@ export default function Income({ data, isLoading }) {
               {
                 name: 'sales',
                 data
+              },
+              {
+                name: 'orders',
+                data
               }
             ]}
             options={chartOptions}
