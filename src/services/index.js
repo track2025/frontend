@@ -539,8 +539,8 @@ export const getPayoutsByAdmin = async () => {
   return data;
 };
 
-export const getAllShopsByUser = async () => {
-  const { data } = await http.get(`/all-shops`);
+export const getAllShopsByAdmin = async () => {
+  const { data } = await http.get(`/admin/all-shops`);
   return data;
 };
 export const getAllCategoriesByUser = async () => {

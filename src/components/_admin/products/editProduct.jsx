@@ -13,7 +13,7 @@ EditProduct.propTypes = {
   isVendor: PropTypes.boolean
 };
 
-export default function EditProduct({ brands, categories, slug, isVendor }) {
+export default function EditProduct({ brands, categories, slug, shops, isVendor }) {
   const { data, isLoading } = useQuery(
     ['coupon-codes'],
     () => api[isVendor ? 'getVendorProductBySlug' : 'getProductBySlug'](slug),
@@ -26,6 +26,7 @@ export default function EditProduct({ brands, categories, slug, isVendor }) {
   return (
     <div>
       <ProductForm
+        shops={shops}
         brands={brands}
         categories={categories}
         currentProduct={data?.data}

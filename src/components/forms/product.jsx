@@ -51,6 +51,7 @@ export default function ProductForm({
   categoryLoading = false,
   isInitialized = false,
   brands,
+  shops,
   isVendor
 }) {
   const router = useRouter();
@@ -82,6 +83,7 @@ export default function ProductForm({
     status: Yup.string().required('Status is required'),
     description: Yup.string().required('Description is required'),
     category: Yup.string().required('Category is required'),
+    shop: Yup.string().required('Shop is required'),
     subCategory: Yup.string().required('Sub Category is required'),
     slug: Yup.string().required('Slug is required'),
     brand: Yup.string().required('brand is required'),
@@ -111,6 +113,7 @@ export default function ProductForm({
       tags: currentProduct?.tags || [],
       gender: currentProduct?.gender || '',
       category: currentProduct?.category || (categories.length && categories[0]?._id) || '',
+      shop: currentProduct?.shop || (shops.length && shops[0]?._id) || '',
       subCategory: currentProduct?.subCategory || (categories.length && categories[0].subCategories[0]?._id) || '',
       status: currentProduct?.status || STATUS_OPTIONS[0],
       blob: currentProduct?.blob || [],
@@ -226,6 +229,37 @@ export default function ProductForm({
                     </div>
                     <div>
                       <Grid container spacing={2}>
+                      <Grid item xs={12} md={6}>
+                          <FormControl fullWidth>
+                            {isInitialized ? (
+                              <Skeleton variant="text" width={100} />
+                            ) : (
+                              <LabelStyle component={'label'} htmlFor="shop-select">
+                                {'Shop'}
+                              </LabelStyle>
+                            )}
+                            
+                              <Select
+                                native
+                                {...getFieldProps('shop')}
+                                value={values.shop}
+                                id="shop-select"
+                              >
+                                {shops?.map((shop) => (
+                                  <option key={shop._id} value={shop._id}>
+                                    {shop.title}
+                                  </option>
+
+                                ))}
+                              </Select>
+                          
+                            {touched.shop && errors.shop && (
+                              <FormHelperText error sx={{ px: 2, mx: 0 }}>
+                                {touched.shop && errors.shop}
+                              </FormHelperText>
+                            )}
+                          </FormControl>
+                        </Grid>
                         <Grid item xs={12} md={6}>
                           <FormControl fullWidth>
                             {isInitialized ? (
