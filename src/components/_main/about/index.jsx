@@ -8,7 +8,7 @@ import Image from 'next/image';
 import AboutImage from '../../../../public/images/about-1.png';
 import AboutImage2 from '../../../../public/images/about-2.png';
 import WhyUs from '../home/whyUs';
-import Team from './Team';
+import Team from './team';
 
 const Data = [
   {
@@ -44,7 +44,7 @@ export default function Index() {
             <Grid item md={6} xs={12}>
               <Stack direction="row" spacing={3} mt={5}>
                 <Box sx={{ position: 'relative', width: '100%', height: 418, borderRadius: 4, overflow: 'hidden' }}>
-                  <Image src={AboutImage} alt="" fill placeholder="blur" />
+                  <Image src={AboutImage} alt="" fill placeholder="blur" objectFit="cover" />
                 </Box>
                 <Box
                   sx={{
@@ -56,7 +56,7 @@ export default function Index() {
                     transform: 'translateY(-40px)'
                   }}
                 >
-                  <Image src={AboutImage2} alt="" fill placeholder="blur" />
+                  <Image src={AboutImage2} alt="" fill placeholder="blur" objectFit="cover" />
                 </Box>
               </Stack>
             </Grid>
@@ -125,7 +125,7 @@ export default function Index() {
             ))}
           </Grid>
         </Box>
-        <Box>
+        <Box sx={{ paddingBottom: 10 }}>
           <Typography variant="h3" fontWeight={700} textAlign="center">
             Our Team
           </Typography>
@@ -137,7 +137,7 @@ export default function Index() {
           >
             Meet out expert team members.
           </Typography>
-          <Grid container spacing={3}>
+          <Grid container spacing={3} mt={5}>
             {[1, 2, 3, 4].map((index) => (
               <Grid item md={3} sm={2} xs={6} key={index}>
                 <Team />
