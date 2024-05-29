@@ -24,7 +24,7 @@ import { useRouter } from 'src/hooks/useRouter';
 import BlurImage from 'src/components/blurImage';
 import PropTypes from 'prop-types';
 
-export default function ProductRow({ isLoading, row, handleClickOpen }) {
+export default function ProductRow({ isLoading, row, handleClickOpen, isVendor }) {
   const router = useRouter();
   return (
     <TableRow hover key={Math.random()}>
@@ -129,7 +129,7 @@ export default function ProductRow({ isLoading, row, handleClickOpen }) {
               </IconButton>
             </Link>
             <Tooltip title="Edit">
-              <IconButton onClick={() => router.push(`/vendor/products/${row.slug}`)}>
+              <IconButton onClick={() => router.push(`/${isVendor ? 'vendor' : 'admin'}/products/${row.slug}`)}>
                 <MdEdit />
               </IconButton>
             </Tooltip>
