@@ -5,25 +5,23 @@ import AddCouponCode from 'src/components/_admin/couponCodes/addCouponCode';
 export default function page() {
   return (
     <div>
-      <Toolbar>
-        <HeaderBreadcrumbs
-          admin
-          heading="Coupon Code List"
-          links={[
-            {
-              name: 'Dashboard',
-              href: '/admin'
-            },
-            {
-              name: 'Coupon code',
-              href: '/admin/coupon-code'
-            },
-            {
-              name: 'Add coupon code'
-            }
-          ]}
-        />
-      </Toolbar>
+      <HeaderBreadcrumbs
+        admin
+        heading="Coupon Code List"
+        links={[
+          {
+            name: 'Dashboard',
+            href: '/admin'
+          },
+          {
+            name: 'Coupon code',
+            href: '/admin/coupon-code'
+          },
+          {
+            name: 'Add coupon code'
+          }
+        ]}
+      />
       <AddCouponCode />
     </div>
   );

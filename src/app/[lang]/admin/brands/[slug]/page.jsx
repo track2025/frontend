@@ -26,25 +26,23 @@ export default function Page({ params }) {
   });
   return (
     <div>
-      <Toolbar>
-        <HeaderBreadcrumbs
-          admin
-          heading="Categories List"
-          links={[
-            {
-              name: 'Dashboard',
-              href: '/admin'
-            },
-            {
-              name: 'Brands',
-              href: '/admin/brands'
-            },
-            {
-              name: data?.data.name
-            }
-          ]}
-        />
-      </Toolbar>
+      <HeaderBreadcrumbs
+        admin
+        heading="Categories List"
+        links={[
+          {
+            name: 'Dashboard',
+            href: '/admin'
+          },
+          {
+            name: 'Brands',
+            href: '/admin/brands'
+          },
+          {
+            name: data?.data.name
+          }
+        ]}
+      />
       <EditBrand data={data?.data} isLoading={isLoading} />
     </div>
   );

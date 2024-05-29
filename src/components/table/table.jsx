@@ -35,29 +35,29 @@ CustomTable.propTypes = {
   isSearch: PropTypes.bool
 };
 
-const filtersData = [
-  {
-    name: 'Brand',
-    param: 'brand',
-    data: [
-      { name: 'Home', value: 'red' },
-      { name: 'Home 1', value: 'green' },
-      { name: 'Home 2', value: 'yellow' }
-    ]
-  },
-  {
-    name: 'Stock',
-    param: 'stock',
-    data: [
-      { name: 'Home', value: 'red' },
-      { name: 'Home 1', value: 'green' },
-      { name: 'Home 2', value: 'yellow' }
-    ]
-  }
-];
+// const filtersData = [
+//   {
+//     name: 'Brand',
+//     param: 'brand',
+//     data: [
+//       { name: 'Home', value: 'red' },
+//       { name: 'Home 1', value: 'green' },
+//       { name: 'Home 2', value: 'yellow' }
+//     ]
+//   },
+//   {
+//     name: 'Stock',
+//     param: 'stock',
+//     data: [
+//       { name: 'Home', value: 'red' },
+//       { name: 'Home 1', value: 'green' },
+//       { name: 'Home 2', value: 'yellow' }
+//     ]
+//   }
+// ];
 
 export default function CustomTable({ ...props }) {
-  const { headData, data, isLoading, isDashboard, isSearch, row, ...rest } = props;
+  const { headData, data, isLoading, isDashboard, filters = [], isSearch, row, ...rest } = props;
   const { push } = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
@@ -93,7 +93,7 @@ export default function CustomTable({ ...props }) {
         <Stack spacing={2} direction="row" alignItems="center" justifyContent="space-between" sx={{ p: 2 }}>
           {isSearch ? <Search /> : null}{' '}
           <Stack spacing={2} direction="row">
-            {filtersData.map((item) => (
+            {filters.map((item) => (
               <FormControl fullWidth key={Math.random()} sx={{ maxWidth: 200, minWidth: 140, width: '100%' }}>
                 <InputLabel id={'select-' + item.name}>{item.name}</InputLabel>
                 <Select
@@ -133,7 +133,7 @@ export default function CustomTable({ ...props }) {
                 </TableBody>
               </Table>
             </TableContainer>
-
+            <Divider />
             {!isLoading && (
               <Stack alignItems="flex-end" mt={2} pr={2}>
                 <Pagination data={data} />

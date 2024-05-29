@@ -12,21 +12,19 @@ export const metadata = {
 export default function page() {
   return (
     <div>
-      <Toolbar>
-        <HeaderBreadcrumbs
-          admin
-          heading="Orders List"
-          links={[
-            {
-              name: 'Dashboard',
-              href: '/admin'
-            },
-            {
-              name: 'Orders'
-            }
-          ]}
-        />
-      </Toolbar>
+      <HeaderBreadcrumbs
+        admin
+        heading="Orders List"
+        links={[
+          {
+            name: 'Dashboard',
+            href: '/admin'
+          },
+          {
+            name: 'Orders'
+          }
+        ]}
+      />
       <OrdersList />
     </div>
   );

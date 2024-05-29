@@ -23,25 +23,23 @@ export default function Page({ params }) {
   });
   return (
     <>
-      <Toolbar>
-        <HeaderBreadcrumbs
-          heading="Dashboard"
-          admin
-          links={[
-            {
-              name: 'Admin',
-              href: '/admin'
-            },
-            {
-              name: 'Shops',
-              href: '/admin/shops'
-            },
-            {
-              name: 'Edit'
-            }
-          ]}
-        />
-      </Toolbar>
+      <HeaderBreadcrumbs
+        heading="Dashboard"
+        admin
+        links={[
+          {
+            name: 'Admin',
+            href: '/admin'
+          },
+          {
+            name: 'Shops',
+            href: '/admin/shops'
+          },
+          {
+            name: 'Edit'
+          }
+        ]}
+      />
       <EditAdminShopForm data={data?.data} isLoading={isLoading} />
     </>
   );

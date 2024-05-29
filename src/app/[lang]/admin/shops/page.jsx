@@ -13,25 +13,23 @@ export const metadata = {
 export default async function AdminProducts() {
   return (
     <>
-      <Toolbar>
-        <HeaderBreadcrumbs
-          admin
-          heading="Shops"
-          links={[
-            {
-              name: 'Dashboard',
-              href: '/admin'
-            },
-            {
-              name: 'Shops'
-            }
-          ]}
-          action={{
-            href: `/admin/shops/add`,
-            title: 'Add Shop'
-          }}
-        />
-      </Toolbar>
+      <HeaderBreadcrumbs
+        admin
+        heading="Shops"
+        links={[
+          {
+            name: 'Dashboard',
+            href: '/admin'
+          },
+          {
+            name: 'Shops'
+          }
+        ]}
+        action={{
+          href: `/admin/shops/add`,
+          title: 'Add Shop'
+        }}
+      />
       <ShopList />
     </>
   );

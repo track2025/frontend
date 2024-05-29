@@ -8,25 +8,23 @@ import AddCurrency from 'src/components/_admin/currencies/addCurrency';
 export default function page() {
   return (
     <div>
-      <Toolbar>
-        <HeaderBreadcrumbs
-          admin
-          heading="Currency List"
-          links={[
-            {
-              name: 'Dashboard',
-              href: '/admin'
-            },
-            {
-              name: 'Currencies',
-              href: '/admin/currencies'
-            },
-            {
-              name: 'Add currency'
-            }
-          ]}
-        />
-      </Toolbar>
+      <HeaderBreadcrumbs
+        admin
+        heading="Currency List"
+        links={[
+          {
+            name: 'Dashboard',
+            href: '/admin'
+          },
+          {
+            name: 'Currencies',
+            href: '/admin/currencies'
+          },
+          {
+            name: 'Add currency'
+          }
+        ]}
+      />
       <AddCurrency />
     </div>
   );

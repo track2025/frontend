@@ -11,25 +11,23 @@ export const metadata = {
 export default function page() {
   return (
     <div>
-      <Toolbar>
-        <HeaderBreadcrumbs
-          heading="Dashboard"
-          admin
-          links={[
-            {
-              name: 'Dashboard',
-              href: '/'
-            },
-            {
-              name: 'Settings'
-            }
-          ]}
-          action={{
-            href: `/vendor/settings/shop`,
-            title: 'Shop Setting'
-          }}
-        />
-      </Toolbar>
+      <HeaderBreadcrumbs
+        heading="Dashboard"
+        admin
+        links={[
+          {
+            name: 'Dashboard',
+            href: '/'
+          },
+          {
+            name: 'Settings'
+          }
+        ]}
+        action={{
+          href: `/vendor/settings/shop`,
+          title: 'Shop Setting'
+        }}
+      />
       <AccountGeneral />
     </div>
   );

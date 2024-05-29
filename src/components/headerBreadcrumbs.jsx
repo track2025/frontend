@@ -21,6 +21,9 @@ export default function HeaderBreadcrumbs({ ...props }) {
       sx={{
         ...sx,
         width: '100%',
+        ...(admin && {
+          mb: 3
+        }),
         ...(!admin && {
           p: 3,
           mt: 3,

@@ -20,25 +20,23 @@ export default function ShopSetting() {
   });
   return (
     <>
-      <Toolbar>
-        <HeaderBreadcrumbs
-          admin
-          heading="Categories List"
-          links={[
-            {
-              name: 'Dashboard',
-              href: '/'
-            },
-            {
-              name: 'Settings',
-              href: '/vendor/settings'
-            },
-            {
-              name: 'Shop Settings'
-            }
-          ]}
-        />
-      </Toolbar>
+      <HeaderBreadcrumbs
+        admin
+        heading="Categories List"
+        links={[
+          {
+            name: 'Dashboard',
+            href: '/'
+          },
+          {
+            name: 'Settings',
+            href: '/vendor/settings'
+          },
+          {
+            name: 'Shop Settings'
+          }
+        ]}
+      />
       <ShopSettingMain data={data?.data} isLoading={isLoading} />
     </>
   );

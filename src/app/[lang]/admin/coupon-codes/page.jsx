@@ -67,25 +67,23 @@ export default function Catgeories() {
         />
       </Dialog>
 
-      <Toolbar>
-        <HeaderBreadcrumbs
-          admin
-          heading="Coupon codes"
-          links={[
-            {
-              name: 'Dashboard',
-              href: '/admin'
-            },
-            {
-              name: 'Coupon codes'
-            }
-          ]}
-          action={{
-            href: `/admin/coupon-codes/add`,
-            title: 'Add Coupon code'
-          }}
-        />
-      </Toolbar>
+      <HeaderBreadcrumbs
+        admin
+        heading="Coupon codes"
+        links={[
+          {
+            name: 'Dashboard',
+            href: '/admin'
+          },
+          {
+            name: 'Coupon codes'
+          }
+        ]}
+        action={{
+          href: `/admin/coupon-codes/add`,
+          title: 'Add Coupon code'
+        }}
+      />
       <Table
         headData={TABLE_HEAD}
         data={data}

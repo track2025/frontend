@@ -15,25 +15,23 @@ export default async function page() {
 
   return (
     <div>
-      <Toolbar>
-        <HeaderBreadcrumbs
-          admin
-          heading="Product List"
-          links={[
-            {
-              name: 'Dashboard',
-              href: '/'
-            },
-            {
-              name: 'Products',
-              href: '/dashboard/products'
-            },
-            {
-              name: 'Add Product'
-            }
-          ]}
-        />
-      </Toolbar>
+      <HeaderBreadcrumbs
+        admin
+        heading="Product List"
+        links={[
+          {
+            name: 'Dashboard',
+            href: '/'
+          },
+          {
+            name: 'Products',
+            href: '/dashboard/products'
+          },
+          {
+            name: 'Add Product'
+          }
+        ]}
+      />
       <AddProduct brands={brands} categories={categories} isVendor />
     </div>
   );

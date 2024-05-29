@@ -21,25 +21,23 @@ export default function Page({ params }) {
   });
   return (
     <div>
-      <Toolbar>
-        <HeaderBreadcrumbs
-          admin
-          heading="Categories List"
-          links={[
-            {
-              name: 'Dashboard',
-              href: '/admin'
-            },
-            {
-              name: 'Brands',
-              href: '/admin/brands'
-            },
-            {
-              name: 'Edit Coupon'
-            }
-          ]}
-        />
-      </Toolbar>
+      <HeaderBreadcrumbs
+        admin
+        heading="Categories List"
+        links={[
+          {
+            name: 'Dashboard',
+            href: '/admin'
+          },
+          {
+            name: 'Brands',
+            href: '/admin/brands'
+          },
+          {
+            name: 'Edit Coupon'
+          }
+        ]}
+      />
       <EditCouponCode data={data?.data} isLoading={isLoading} />
     </div>
   );

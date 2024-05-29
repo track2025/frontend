@@ -22,25 +22,23 @@ export default function Page({ params }) {
   });
   return (
     <div>
-      <Toolbar>
-        <HeaderBreadcrumbs
-          admin
-          heading="Sub Categories List"
-          links={[
-            {
-              name: 'Dashboard',
-              href: '/admin'
-            },
-            {
-              name: 'Sub Categories',
-              href: '/admin/sub-categories'
-            },
-            {
-              name: data?.data?.name
-            }
-          ]}
-        />
-      </Toolbar>
+      <HeaderBreadcrumbs
+        admin
+        heading="Sub Categories List"
+        links={[
+          {
+            name: 'Dashboard',
+            href: '/admin'
+          },
+          {
+            name: 'Sub Categories',
+            href: '/admin/sub-categories'
+          },
+          {
+            name: data?.data?.name
+          }
+        ]}
+      />
       <EditSubCategory data={data?.data} categories={data?.categories} isLoading={isLoading} />
     </div>
   );

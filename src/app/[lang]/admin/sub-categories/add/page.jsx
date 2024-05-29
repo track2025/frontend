@@ -12,25 +12,23 @@ export default async function page() {
   const { data: categories } = data1;
   return (
     <div>
-      <Toolbar>
-        <HeaderBreadcrumbs
-          admin
-          heading="Sub Categories List"
-          links={[
-            {
-              name: 'Dashboard',
-              href: '/admin'
-            },
-            {
-              name: 'Sub Categories',
-              href: '/admin/sub-categories'
-            },
-            {
-              name: 'Add Sub Category'
-            }
-          ]}
-        />
-      </Toolbar>
+      <HeaderBreadcrumbs
+        admin
+        heading="Sub Categories List"
+        links={[
+          {
+            name: 'Dashboard',
+            href: '/admin'
+          },
+          {
+            name: 'Sub Categories',
+            href: '/admin/sub-categories'
+          },
+          {
+            name: 'Add Sub Category'
+          }
+        ]}
+      />
       <AddSubCategory categories={categories} />
     </div>
   );

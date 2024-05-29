@@ -13,25 +13,23 @@ export const metadata = {
 export default function page() {
   return (
     <div>
-      <Toolbar>
-        <HeaderBreadcrumbs
-          admin
-          heading="Categories List"
-          links={[
-            {
-              name: 'Dashboard',
-              href: '/admin'
-            },
-            {
-              name: 'Categories',
-              href: '/admin/categories'
-            },
-            {
-              name: 'Add Category'
-            }
-          ]}
-        />
-      </Toolbar>
+      <HeaderBreadcrumbs
+        admin
+        heading="Categories List"
+        links={[
+          {
+            name: 'Dashboard',
+            href: '/admin'
+          },
+          {
+            name: 'Categories',
+            href: '/admin/categories'
+          },
+          {
+            name: 'Add Category'
+          }
+        ]}
+      />
       <AddCategory />
     </div>
   );

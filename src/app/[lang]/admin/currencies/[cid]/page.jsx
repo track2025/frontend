@@ -18,25 +18,23 @@ export default function Page({ params }) {
   });
   return (
     <div>
-      <Toolbar>
-        <HeaderBreadcrumbs
-          admin
-          heading="Currency List"
-          links={[
-            {
-              name: 'Dashboard',
-              href: '/admin'
-            },
-            {
-              name: 'Currencies',
-              href: '/admin/currencies'
-            },
-            {
-              name: 'Add currency'
-            }
-          ]}
-        />
-      </Toolbar>
+      <HeaderBreadcrumbs
+        admin
+        heading="Currency List"
+        links={[
+          {
+            name: 'Dashboard',
+            href: '/admin'
+          },
+          {
+            name: 'Currencies',
+            href: '/admin/currencies'
+          },
+          {
+            name: 'Add currency'
+          }
+        ]}
+      />
       <EditCurrency isLoading={isLoading} data={data?.data} />
     </div>
   );

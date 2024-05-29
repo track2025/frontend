@@ -13,25 +13,23 @@ export const metadata = {
 export default function Categories() {
   return (
     <>
-      <Toolbar>
-        <HeaderBreadcrumbs
-          admin
-          heading="Sub Categories List"
-          links={[
-            {
-              name: 'Dashboard',
-              href: '/admin'
-            },
-            {
-              name: 'Sub Categories'
-            }
-          ]}
-          action={{
-            href: `/admin/sub-categories/add`,
-            title: 'Add Sub Category'
-          }}
-        />
-      </Toolbar>
+      <HeaderBreadcrumbs
+        admin
+        heading="Sub Categories List"
+        links={[
+          {
+            name: 'Dashboard',
+            href: '/admin'
+          },
+          {
+            name: 'Sub Categories'
+          }
+        ]}
+        action={{
+          href: `/admin/sub-categories/add`,
+          title: 'Add Sub Category'
+        }}
+      />
       <SubCategoryList />
     </>
   );
