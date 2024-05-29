@@ -21,7 +21,6 @@ const TABLE_HEAD = [
   { id: 'owner', label: 'Owner', alignRight: false, sort: true },
   { id: 'products', label: 'products', alignRight: false, sort: true },
   { id: 'status', label: 'Status', alignRight: false, sort: false },
-  { id: 'registered', label: 'Registered', alignRight: false, sort: true },
   { id: '', label: 'Actions', alignRight: true }
 ];
 

@@ -24,7 +24,7 @@ export default function BrandsRow({ isLoading, row, handleClickOpen }) {
     <TableRow hover key={Math.random()}>
       <TableCell>{isLoading ? <Skeleton variant="text" /> : row.name}</TableCell>
 
-      <TableCell>{isLoading ? <Skeleton variant="text" /> : <> {row.products.length} products </>}</TableCell>
+      <TableCell>{isLoading ? <Skeleton variant="text" /> : <> {row?.products?.length} products </>}</TableCell>
 
       <TableCell>
         {isLoading ? (

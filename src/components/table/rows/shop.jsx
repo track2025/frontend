@@ -124,10 +124,6 @@ export default function ProductRow({ isLoading, row, handleClickOpen }) {
           </Label>
         )}
       </TableCell>
-      <TableCell>
-        {isLoading ? <Skeleton variant="text" /> : row.approved ? fDateShort(row?.approvedAt, enUS) : 'Not approved'}
-      </TableCell>
-
       <TableCell align="right">
         {isLoading ? (
           <Stack direction="row" justifyContent="flex-end">
