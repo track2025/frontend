@@ -66,6 +66,11 @@ const slice = createSlice({
 
       state.checkout.cart = updateCart;
     },
+    deleteCart(state, action) {
+      const updateCart = filter(state.checkout.cart, (item) => item.sku !== action.payload);
+
+      state.checkout.cart = updateCart;
+    },
 
     resetCart(state) {
       state.checkout.activeStep = 0;
@@ -130,6 +135,7 @@ export const {
   onBackStep,
   onNextStep,
   clearCart,
+  deleteCart,
   createBilling,
   applyDiscount,
   increaseQuantity,

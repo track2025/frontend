@@ -10,6 +10,7 @@ import ProductDetailsSumary from 'src/components/_main/product/summary';
 import { Grid } from '@mui/material';
 import PropTypes from 'prop-types';
 import DetailsSkeleton from 'src/components/skeletons/productDetail';
+import ProductDetailsSumaryMobile from '../_main/product/mobileSummary';
 ProductDetailsDialog.propTypes = {
   slug: PropTypes.string,
   onClose: PropTypes.func,
@@ -22,16 +23,16 @@ export default function ProductDetailsDialog(props) {
   const { data, isLoading } = useQuery(['coupon-codes', slug], () => api.getProductBySlug(slug));
 
   return (
-    <Dialog onClose={onClose} open={open} fullWidth maxWidth="lg">
+    <Dialog onClose={onClose} open={open} fullWidth maxWidth="md">
       {isLoading ? (
         <DetailsSkeleton isPopup />
       ) : (
         <Grid container spacing={2} justifyContent="center" sx={{ p: 3 }}>
-          <Grid item xs={12} md={4} lg={4}>
+          <Grid item xs={12} md={6} lg={6}>
             <ProductDetailsCarousel slug={slug} product={data?.data} data={data?.data} />
           </Grid>
-          <Grid item xs={12} md={8} lg={8}>
-            <ProductDetailsSumary
+          <Grid item xs={12} md={6} lg={6}>
+            <ProductDetailsSumaryMobile
               id={data?.data?._id}
               product={data?.data}
               brand={data?.brand}

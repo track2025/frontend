@@ -543,6 +543,10 @@ export const getAllShopsByAdmin = async () => {
   const { data } = await http.get(`/admin/all-shops`);
   return data;
 };
+export const getAllShopsByUser = async () => {
+  const { data } = await http.get(`/shops`);
+  return data;
+};
 export const getAllCategoriesByUser = async () => {
   const { data } = await http.get(`/all-categories`);
   return data;

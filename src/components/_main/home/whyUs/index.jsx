@@ -45,15 +45,14 @@ export default function WhyUs() {
   return (
     <Card
       sx={{
- 
         p: 3,
         borderRadius: '12px',
- 
+
         display: {
           md: 'block',
           xs: 'none'
-        },
-        borderBottom: (theme) => `solid 1px ${theme.palette.divider}`
+        }
+        // borderBottom: (theme) => `solid 1px ${theme.palette.divider}`
       }}
     >
       <Stack direction="row" alignItems="center" justifyContent="space-around" spacing={1}>
