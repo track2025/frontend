@@ -27,13 +27,12 @@ export default function BaseOptionChart(value) {
           theme.palette.chart.red[0]
         ]
       : [
-        theme.palette.primary.main,
-        theme.palette.secondary.main,
-        theme.palette.info.main,
-        theme.palette.success.main,
-        theme.palette.warning.main,
-        theme.palette.error.main,
-         
+          theme.palette.primary.main,
+          theme.palette.secondary.main,
+          theme.palette.info.main,
+          theme.palette.success.main,
+          theme.palette.warning.main,
+          theme.palette.error.main
         ];
   return {
     // Colors
@@ -132,7 +131,9 @@ export default function BaseOptionChart(value) {
       // Bar
       bar: {
         columnWidth: '60%',
-        borderRadius: [3]
+        borderRadius: 3,
+        borderRadiusApplication: 'end',
+        borderRadiusWhenStacked: 'last'
       },
       // Pie + Donut
       pie: {

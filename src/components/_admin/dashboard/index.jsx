@@ -39,6 +39,7 @@ export default function Dashboard({ isVendor }) {
   const totalProducts = data?.totalProducts;
   const sales_report = data?.salesReport;
   const income_report = data?.incomeReport;
+  const commission_report = data?.commissionReport;
   const orders_report = data?.ordersReport;
   const bestSellingProducts = data?.bestSellingProducts;
   const totalVendors = data?.totalVendors;
@@ -143,7 +144,12 @@ export default function Dashboard({ isVendor }) {
           <BestSelling data={bestSellingProducts} loading={isLoading} isVendor={isVendor} />
         </Grid>
         <Grid item xs={12} md={8} lg={8}>
-          <IncomeChart data={income_report} isLoading={isLoading} />
+          <IncomeChart
+            income={income_report}
+            commission={commission_report}
+            isVendor={isVendor}
+            isLoading={isLoading}
+          />
         </Grid>
         <Grid item xs={12}>
           <Card>

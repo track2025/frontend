@@ -6,12 +6,8 @@ import NotFound from 'src/components/illustrations/noDataFound';
 import Pagination from 'src/components/pagination';
 
 import PropTypes from 'prop-types';
-import dynamic from 'next/dynamic';
-import TableHeadMain from '../_main/skeletons/profile/invoice/tableHead';
 import Search from 'src/components/search';
-const TableHead = dynamic(() => import('./tableHead'), {
-  loading: () => <TableHeadMain />
-});
+import TableHead from './tableHead';
 
 CustomTable.propTypes = {
   headData: PropTypes.arrayOf(
@@ -35,59 +31,29 @@ CustomTable.propTypes = {
 };
 
 export default function CustomTable({ ...props }) {
-  const { headData, data, isLoading, mobileRow, isDashboard, isSearch, row, filters, ...rest } = props;
+  const { headData, data, isLoading, isDashboard, isSearch, row, filters, ...rest } = props;
+  // mobileRow,
   const Component = row;
-  const CardComponent = mobileRow;
+  // const CardComponent = mobileRow;
   return (
-    <>
-      <Stack spacing={2} direction="row" alignItems="center" justifyContent="space-between" mb={2}>
-        {isSearch ? <Search /> : null} {filters}
-      </Stack>
+    <Card>
       {!isLoading && data?.data?.length === 0 ? (
-        <Card>
-          <NotFound title="No Order Found" />
-        </Card>
+        <NotFound title="No Order Found" />
       ) : (
         <>
-          {isDashboard ? (
-            <TableContainer sx={{ display: { md: 'block', xs: 'none' } }}>
-              <Table size="small">
-                <TableHead headData={headData} />
-                <TableBody>
-                  {(isLoading ? Array.from(new Array(6)) : data?.data).map((item) => {
-                    return <Component key={Math.random()} row={item} isLoading={isLoading} {...rest} />;
-                  })}
-                </TableBody>
-              </Table>
-            </TableContainer>
-          ) : (
-            <Card sx={{ display: { md: 'block', xs: 'none' } }}>
-              <TableContainer>
-                <Table size="small">
-                  <TableHead headData={headData} />
-                  <TableBody>
-                    {(isLoading ? Array.from(new Array(6)) : data?.data).map((item) => {
-                      return <Component key={Math.random()} row={item} isLoading={isLoading} {...rest} />;
-                    })}
-                  </TableBody>
-                </Table>
-              </TableContainer>
-            </Card>
-          )}
-
-          {mobileRow && (
-            <Box sx={{ display: { md: 'none', xs: 'block' } }}>
-              {(isLoading ? Array.from(new Array(6)) : data?.data).map((row) => (
-                <CardComponent
-                  key={Math.random()}
-                  item={row}
-                  isDashboard={isDashboard}
-                  isLoading={isLoading}
-                  {...rest}
-                />
-              ))}
-            </Box>
-          )}
+          <Stack spacing={2} direction="row" alignItems="center" justifyContent="space-between" sx={{ p: 2 }}>
+            {isSearch ? <Search /> : null} {filters}
+          </Stack>
+          <TableContainer sx={{ maxHeight: 440 }}>
+            <Table size="small" sx={{ minWidth: 650 }} stickyHeader>
+              <TableHead headData={headData} />
+              <TableBody>
+                {(isLoading ? Array.from(new Array(6)) : data?.data).map((item) => {
+                  return <Component key={Math.random()} row={item} isLoading={isLoading} {...rest} />;
+                })}
+              </TableBody>
+            </Table>
+          </TableContainer>
 
           {!isLoading && (
             <Stack alignItems="flex-end" mt={2} pr={2}>
@@ -96,6 +62,6 @@ export default function CustomTable({ ...props }) {
           )}
         </>
       )}
-    </>
+    </Card>
   );
 }

@@ -20,7 +20,7 @@ function getKeyByValue(object, value) {
   return Object.keys(object).find((key) => object[key] === value);
 }
 
-export default function UserSelect() {
+export default function UserSelect({ isAdmin }) {
   const { user, isAuthenticated } = useSelector(({ user }) => user);
   const router = useRouter();
   const pathname = usePathname();
@@ -41,7 +41,7 @@ export default function UserSelect() {
   };
   return (
     <Box>
-      {!isAuthenticated ? (
+      {!isAuthenticated && !isAdmin ? (
         // <IconButton
         //   name="user-select"
         //   size="small"
@@ -76,10 +76,10 @@ export default function UserSelect() {
             <IconButton ref={anchorRef} onClick={handleOpenUser} size="small" name="user-select">
               {user?.cover?.url ? (
                 <BlurImageAvatar priority alt={user.firstName} src={user?.cover?.url} layout="fill" objectFit="cover" />
+              ) : !isAuthenticated ? (
+                <Avatar src="/broken-image.jpg" />
               ) : (
-                <Avatar alt={user.firstName} src={user?.cover?.url} size="small">
-                  {user.firstName.slice(0, 1).toUpperCase()}
-                </Avatar>
+                <Avatar size="small">{user?.firstName?.slice(0, 1)?.toUpperCase()}</Avatar>
               )}
             </IconButton>
           ) : (

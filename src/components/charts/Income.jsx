@@ -9,7 +9,7 @@ import BaseOptionChart from './BaseOptionChart';
 // utils
 import { fCurrency } from 'src/utils/formatNumber';
 
-export default function IncomeChart({ data, isLoading }) {
+export default function IncomeChart({ income, commission, isVendor, isLoading }) {
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down('md'));
   const [seriesData, setSeriesData] = useState('week');
@@ -25,7 +25,15 @@ export default function IncomeChart({ data, isLoading }) {
   const chartOptions = merge(BaseOptionChart(), {
     legend: { position: 'top', horizontalAlign: 'right' },
     xaxis: {
-      categories: seriesData === 'week' ? pastWeek.reverse() : seriesData === 'year' ? month : null
+      categories:
+        seriesData === 'week'
+          ? pastWeek.reverse()
+          : seriesData === 'year'
+            ? month
+            : [
+                1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28,
+                29, 30, 31
+              ]
     },
     yaxis: [
       {
@@ -95,13 +103,19 @@ export default function IncomeChart({ data, isLoading }) {
             }}
           >
             <ReactApexChart
-              type="area"
+              type="bar"
+              stack
               series={[
                 {
-                  name: 'income',
-                  data: data[seriesData]
+                  name: 'Income',
+                  data: income[seriesData]
+                },
+
+                {
+                  name: 'Commission',
+                  data: commission[seriesData]
                 }
-              ]}
+              ].slice(0, !isVendor ? 2 : 1)}
               options={chartOptions}
               height={isMobile ? 260 : 400}
             />

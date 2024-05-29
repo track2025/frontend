@@ -105,7 +105,8 @@ export default function HeaderBreadcrumbs({ ...props }) {
             <>
               <Box sx={{ flexShrink: 0, display: 'flex', alignItems: 'center' }}>
                 <Button
-                  variant="outlined"
+                  variant="contained"
+                  color="inherit"
                   component={NextLink}
                   href={action.href}
                   startIcon={action.icon ? action.icon : <IoMdAdd size={20} />}

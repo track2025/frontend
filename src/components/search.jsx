@@ -15,16 +15,13 @@ const RootStyle = styled(Box)(() => ({
 }));
 
 const SearchStyle = styled(OutlinedInput)(({ theme }) => ({
-  width: 190,
+  width: 250,
   transition: theme.transitions.create(['box-shadow', 'width'], {
     easing: theme.transitions.easing.easeInOut,
     duration: theme.transitions.duration.shorter
   }),
 
-  '&.Mui-focused': { width: 230, boxShadow: theme.customShadows.z8 },
-  '& fieldset': {
-    borderWidth: `1px !important`
-  },
+  '&.Mui-focused': { width: 300 },
   [theme.breakpoints.down('sm')]: {
     width: 150,
     '&.Mui-focused': { width: 150 }
@@ -74,7 +71,6 @@ export default function Search() {
   return (
     <RootStyle>
       <SearchStyle
-        size="small"
         value={search}
         onChange={onChange}
         placeholder="Search"
