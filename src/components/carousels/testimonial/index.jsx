@@ -63,12 +63,14 @@ function TestimonialDetailsCarousel({ ...props }) {
             <Image
               component={Avatar}
               src={item.cover.url}
+              placeholder="blur"
               alt="avatar"
               responsive
               static
               dragable={false}
               height={80}
               width={80}
+              sizes="50vw"
               style={{
                 borderRadius: 50
               }}

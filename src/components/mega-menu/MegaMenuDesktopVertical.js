@@ -11,8 +11,8 @@ import { Box, List, Card, ListItem, Typography, Stack, Button, Skeleton } from '
 import Image from 'next/image';
 import { useDispatch } from 'react-redux';
 import { setShops } from 'src/lib/redux/slices/shops';
-import * as api from 'src/services';
-import { useQuery } from 'react-query';
+// import * as api from 'src/services';
+// import { useQuery } from 'react-query';
 import { useRouter } from 'src/hooks/useRouter';
 // ----------------------------------------------------------------------
 
@@ -77,17 +77,18 @@ function MegaMenuItem({ shop, isLast, isLoading }) {
   return <ParentItem shop={shop} isLoading={isLoading} isLast={isLast} />;
 }
 
-export default function MegaMenuDesktopVertical({ ...other }) {
+export default function MegaMenuDesktopVertical({ data, ...other }) {
   const dispatch = useDispatch();
   const router = useRouter();
-  const { data, isLoading } = useQuery(['get-home-shops-all'], () => api.getHomeShops());
+  // const { data, isLoading } = useQuery(['get-home-shops-all'], () => api.getHomeShops());
   // const { data, isLoading } = useQuery(['get-brands-products'], () => api.getHomeBrands());
-  React.useEffect(() => {
-    if (!isLoading) {
-      dispatch(setShops(data?.data));
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [data]);
+  const isLoading = false;
+  // React.useEffect(() => {
+  // if (!isLoading) {
+  // dispatch(setShops(data));
+  // }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  // }, [data]);
   return (
     <List
       component={Card}
@@ -107,7 +108,7 @@ export default function MegaMenuDesktopVertical({ ...other }) {
       }}
     >
       <div>
-        {(isLoading ? Array.from(new Array(5)) : data?.data.slice(0, 5)).map((shop, i) => (
+        {(isLoading ? Array.from(new Array(5)) : data.slice(0, 5)).map((shop, i) => (
           <MegaMenuItem key={Math.random()} isLoading={isLoading} shop={shop} isLast={i === 4} />
         ))}
       </div>

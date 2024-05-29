@@ -68,7 +68,7 @@ export default function CategoryForm({ data: currentCategory, isLoading: categor
       onSuccess: (data) => {
         toast.success(data.message);
 
-        router.push('/dashboard/categories');
+        router.push('/admin/categories');
       },
       onError: (error) => {
         toast.error(error.response.data.message);

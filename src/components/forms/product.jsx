@@ -113,7 +113,7 @@ export default function ProductForm({
       tags: currentProduct?.tags || [],
       gender: currentProduct?.gender || '',
       category: currentProduct?.category || (categories.length && categories[0]?._id) || '',
-      shop: currentProduct?.shop || (shops.length && shops[0]?._id) || '',
+      shop: currentProduct?.shop || (shops?.length && shops[0]?._id) || '',
       subCategory: currentProduct?.subCategory || (categories.length && categories[0].subCategories[0]?._id) || '',
       status: currentProduct?.status || STATUS_OPTIONS[0],
       blob: currentProduct?.blob || [],
@@ -229,7 +229,7 @@ export default function ProductForm({
                     </div>
                     <div>
                       <Grid container spacing={2}>
-                      <Grid item xs={12} md={6}>
+                        <Grid item xs={12} md={6}>
                           <FormControl fullWidth>
                             {isInitialized ? (
                               <Skeleton variant="text" width={100} />
@@ -238,21 +238,15 @@ export default function ProductForm({
                                 {'Shop'}
                               </LabelStyle>
                             )}
-                            
-                              <Select
-                                native
-                                {...getFieldProps('shop')}
-                                value={values.shop}
-                                id="shop-select"
-                              >
-                                {shops?.map((shop) => (
-                                  <option key={shop._id} value={shop._id}>
-                                    {shop.title}
-                                  </option>
 
-                                ))}
-                              </Select>
-                          
+                            <Select native {...getFieldProps('shop')} value={values.shop} id="shop-select">
+                              {shops?.map((shop) => (
+                                <option key={shop._id} value={shop._id}>
+                                  {shop.title}
+                                </option>
+                              ))}
+                            </Select>
+
                             {touched.shop && errors.shop && (
                               <FormHelperText error sx={{ px: 2, mx: 0 }}>
                                 {touched.shop && errors.shop}

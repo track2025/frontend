@@ -52,7 +52,7 @@ export default function CouponCodeForm({ data: currentCouponCode, isLoading: cat
       onSuccess: (data) => {
         toast.success(data.message);
 
-        router.push('/dashboard/coupon-codes');
+        router.push('/admin/coupon-codes');
       },
       onError: (error) => {
         toast.error(error.message);

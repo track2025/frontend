@@ -19,8 +19,8 @@ export default function CategoriesCard({ ...props }) {
           borderWidth: '3px !important',
           transform: 'scale(1.0)',
           transition: 'all 0.2s ease-in-out',
-          width: { xs: 90, md: 200 },
-          height: { xs: 90, md: 200 },
+          width: { xs: 90, md: 175 },
+          height: { xs: 90, md: 175 },
           border: isLoading && 'none !important',
           '&:hover': {
             color: '#000',

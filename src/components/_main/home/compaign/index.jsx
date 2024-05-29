@@ -9,11 +9,12 @@ import { IoIosArrowForward } from 'react-icons/io';
 // component
 import CompaginCard from 'src/components/cards/userCompagin';
 // api
-import * as api from 'src/services';
-import { useQuery } from 'react-query';
+// import * as api from 'src/services';
+// import { useQuery } from 'react-query';
 
-export default function CompaignsComponent() {
-  const { data, isLoading } = useQuery(['get-home-compaign-all'], () => api.getHomeCompaigns('?limit=4'));
+export default function CompaignsComponent({ data }) {
+  // const { data, isLoading } = useQuery(['get-home-compaign-all'], () => api.getHomeCompaigns('?limit=4'));
+  const isLoading = false;
   return !isLoading && !Boolean(data.length) ? null : (
     <Paper elevation={0}>
       <Stack
@@ -48,7 +49,7 @@ export default function CompaignsComponent() {
         </Stack>
         <Box>
           <Grid container spacing={2} justifyContent="center" alignItems="center">
-            {(isLoading ? Array.from(new Array(6)) : data?.data).map((inner) => (
+            {(isLoading ? Array.from(new Array(6)) : data).map((inner) => (
               <React.Fragment key={Math.random()}>
                 <Grid item lg={3} md={4} sm={6} xs={12}>
                   <CompaginCard compaign={inner} isLoading={isLoading} />

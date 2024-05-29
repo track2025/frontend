@@ -4,13 +4,14 @@ import Image from 'src/components/blurImage';
 // mui
 import { Typography, Box, Stack, Card, Link, Skeleton, CardActionArea } from '@mui/material';
 // // api
-import * as api from 'src/services';
-import { useQuery } from 'react-query';
+// import * as api from 'src/services';
+// import { useQuery } from 'react-query';
 import { useRouter } from 'src/hooks/useRouter';
 
-export default function Brands() {
+export default function Brands({ data }) {
   const { push } = useRouter();
-  const { data, isLoading } = useQuery(['get-brands-products'], () => api.getHomeBrands());
+  // const { data, isLoading } = useQuery(['get-brands-products'], () => api.getHomeBrands());
+  const isLoading = false;
   return (
     <Box
       sx={{
@@ -37,9 +38,9 @@ export default function Brands() {
 
       {isLoading ? (
         <Skeleton variant="rounded" width={80} height={80} />
-      ) : Boolean(data?.data?.length) ? (
+      ) : Boolean(data?.length) ? (
         <Stack direction="row" alignItems="center" justifyContent="center" flexWrap>
-          {(isLoading ? Array.from(new Array(6)) : data?.data).map((v) => (
+          {(isLoading ? Array.from(new Array(6)) : data).map((v) => (
             <Card
               key={v._id}
               className="slider-main"

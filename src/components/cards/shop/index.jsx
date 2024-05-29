@@ -53,7 +53,6 @@ export default function ShopCard({ ...props }) {
       setLoading(false);
     }
   });
-  console.log(followingShops, 'followingShops');
   return (
     <Card
       sx={{
@@ -88,14 +87,14 @@ export default function ShopCard({ ...props }) {
             <Image
               alt="shop"
               src={shop?.cover?.url}
-              // placeholder="blur"
-              // blurDataURL={shop?.cover?.blurDataURL}
+              placeholder="blur"
+              blurDataURL={shop?.cover?.blurDataURL}
               layout="fill"
               objectFit="cover"
               static
               draggable="false"
               quality={5}
-              sizes={'50vw'}
+              sizes={'40vw'}
             />
           </Box>
         )}

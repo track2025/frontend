@@ -71,7 +71,6 @@ const ThumbImgStyle = styled(Box)(({ theme }) => ({
 export default function AdminProductCard({ item, isLoading, handleClickOpen, isDashboard }) {
   const theme = useTheme();
   const router = useRouter();
-  console.log(isDashboard, 'asdasd');
   return (
     <RootStyle
       key={uniqueId()}

@@ -61,7 +61,7 @@ export default function BrandsForm({ data: currentBrand, isLoading: brandLoading
       retry: false,
       onSuccess: (data) => {
         toast.success(data.message);
-        router.push('/dashboard/brands');
+        router.push('/admin/brands');
       },
       onError: (error) => {
         toast.error(error.response.data.message);

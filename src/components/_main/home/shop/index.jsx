@@ -14,9 +14,9 @@ import { useSelector } from 'react-redux';
 // component
 import ShopCard from 'src/components/cards/shop';
 
-export default function ShopComponent() {
-  const { shops, isLoading } = useSelector(({ shops }) => shops);
-
+export default function ShopComponent({ data: shops }) {
+  // const { shops, isLoading } = useSelector(({ shops }) => shops);
+  const isLoading = false;
   return (
     <Paper elevation={0}>
       <Stack

@@ -29,7 +29,7 @@ export default function OrderToolbarActions({ data }) {
   const { mutate, isLoading: deleteLoading } = useMutation(api.deleteOrder, {
     onSuccess: (data) => {
       toast.success(data.message);
-      router.push('/dashboard/orders');
+      router.push('/admin/orders');
     },
     onError: () => {
       toast.error('Something went wrong!');
