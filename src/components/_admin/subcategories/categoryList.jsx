@@ -23,7 +23,7 @@ const TABLE_HEAD = [
   { id: 'createdAt', label: 'Date', alignRight: false, sort: true },
   { id: '', label: 'Actions', alignRight: true }
 ];
-export default function SubCategoryList() {
+export default function SubCategoryList({ categories }) {
   const searchParams = useSearchParams();
   const pageParam = searchParams.get('page');
   const searchParam = searchParams.get('search');
@@ -67,6 +67,13 @@ export default function SubCategoryList() {
         row={SubCategory}
         handleClickOpen={handleClickOpen}
         isSearch
+        filters={[
+          {
+            name: 'Category',
+            param: 'category',
+            data: categories
+          }
+        ]}
       />
     </>
   );

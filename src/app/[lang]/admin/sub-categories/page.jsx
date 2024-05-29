@@ -3,6 +3,7 @@ import React from 'react';
 import SubCategoryList from 'src/components/_admin/subcategories/categoryList';
 import Toolbar from 'src/components/_admin/toolbar';
 import HeaderBreadcrumbs from 'src/components/headerBreadcrumbs';
+import * as api from 'src/services';
 // Meta information
 export const metadata = {
   title: 'Sub Categories - Nextall',
@@ -10,7 +11,8 @@ export const metadata = {
   authors: 'Nextall'
 };
 
-export default function Categories() {
+export default async function Categories() {
+  const {data} = await api.getAllCategories();
   return (
     <>
       <HeaderBreadcrumbs
@@ -30,7 +32,7 @@ export default function Categories() {
           title: 'Add Sub Category'
         }}
       />
-      <SubCategoryList />
+      <SubCategoryList categories={data} />
     </>
   );
 }

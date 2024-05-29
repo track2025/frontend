@@ -56,8 +56,8 @@ CustomTable.propTypes = {
 //   }
 // ];
 
-export default function CustomTable({ ...props }) {
-  const { headData, data, isLoading, isDashboard, filters = [], isSearch, row, ...rest } = props;
+export default function CustomTable({ filters = [], ...props }) {
+  const { headData, data, isLoading, isDashboard, isSearch, row, ...rest } = props;
   const { push } = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
@@ -105,7 +105,7 @@ export default function CustomTable({ ...props }) {
                 >
                   <MenuItem value="">None</MenuItem>
                   {item.data.map((v) => (
-                    <MenuItem value={v.value} key={Math.random()}>
+                    <MenuItem value={v.slug} key={Math.random()}>
                       {v.name}
                     </MenuItem>
                   ))}

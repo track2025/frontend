@@ -5,11 +5,11 @@ import AddSubCategory from 'src/components/_admin/subcategories/addCategory';
 import * as api from 'src/services';
 
 export default async function page() {
-  const data1 = await api.getAllCategories();
-  if (!data1) {
+  const data = await api.getAllCategories();
+  if (!data) {
     notFound();
   }
-  const { data: categories } = data1;
+  const { data: categories } = data;
   return (
     <div>
       <HeaderBreadcrumbs
