@@ -85,17 +85,12 @@ export default function HeaderBreadcrumbs({ ...props }) {
           sx={{
             flexGrow: 1,
             zInex: 99,
-            position: 'relative',
-            ...(admin && {
-              display: { sm: 'block', xs: 'none' }
-            })
+            position: 'relative'
           }}
         >
-          {!admin && (
-            <Typography variant="h3" gutterBottom sx={{ textTransform: 'capitalize', width: '80vw' }} noWrap>
-              {heading}
-            </Typography>
-          )}
+          <Typography variant="h3" gutterBottom sx={{ textTransform: 'capitalize', width: '80vw' }} noWrap>
+            {heading}
+          </Typography>
 
           <MBreadcrumbs icon={icon} admin={admin} links={links} {...other} />
         </Box>
@@ -106,7 +101,7 @@ export default function HeaderBreadcrumbs({ ...props }) {
               <Box sx={{ flexShrink: 0, display: 'flex', alignItems: 'center' }}>
                 <Button
                   variant="contained"
-                  color="inherit"
+                  color="primary"
                   component={NextLink}
                   href={action.href}
                   startIcon={action.icon ? action.icon : <IoMdAdd size={20} />}

@@ -14,6 +14,7 @@ export default function Categories() {
     <>
       {/* <Toolbar> */}
       <HeaderBreadcrumbs
+        admin
         heading="Categories List"
         links={[
           {
