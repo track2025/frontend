@@ -108,30 +108,10 @@ export default function HeaderBreadcrumbs({ ...props }) {
                   component={NextLink}
                   href={action.href}
                   startIcon={action.icon ? action.icon : <IoMdAdd size={20} />}
-                  sx={{ display: { sm: 'flex', xs: 'none' } }}
                 >
                   {action.title}
                 </Button>
               </Box>
-
-              <Fab
-                color="primary"
-                aria-label="add"
-                sx={{
-                  position: 'fixed',
-                  bottom: 10,
-                  right: 10,
-                  zIndex: 1000,
-                  display: {
-                    sm: 'none',
-                    xs: 'flex'
-                  }
-                }}
-                component={NextLink}
-                href={action.href}
-              >
-                {action.icon ? action.icon : <IoMdAdd size={20} />}
-              </Fab>
             </>
           ) : (
             action
