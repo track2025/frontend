@@ -26,8 +26,8 @@ export default function Page() {
             }
           ]}
         />
+        <AboutUs />
       </Container>
-      <AboutUs />
     </>
   );
 }
