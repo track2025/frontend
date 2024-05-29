@@ -38,96 +38,49 @@ export default function Index() {
 
   return (
     <>
-      <Box sx={{ marginY: 8 }}>
-        <Container maxWidth="xl">
-          <Grid container spacing={3}>
-            <Grid item md={6} xs={12}>
-              <Stack direction="row" spacing={3} mt={5}>
-                <Box sx={{ position: 'relative', width: '100%', height: 418, borderRadius: 4, overflow: 'hidden' }}>
-                  <Image src={AboutImage} alt="" fill placeholder="blur" objectFit="cover" />
-                </Box>
-                <Box
-                  sx={{
-                    position: 'relative',
-                    width: '100%',
-                    height: 418,
-                    borderRadius: 4,
-                    overflow: 'hidden',
-                    transform: 'translateY(-40px)'
-                  }}
-                >
-                  <Image src={AboutImage2} alt="" fill placeholder="blur" objectFit="cover" />
-                </Box>
-              </Stack>
-            </Grid>
-            <Grid item md={6} xs={12} sx={{ display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
-              <Typography variant="h6" fontSize="16px" textTransform="uppercase" color="primary">
-                Who We Are?
-              </Typography>
-              <Typography variant="h2" fontWeight={800}>
-                Creating a World Where Fashion is a Lifestyle
-              </Typography>
-              <Typography variant="body1" fontWeight={400} color="text.secondary" mt={2}>
-                Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the
-                industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and
-                scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap
-                into electronic typesetting, remaining essentially unchanged. Lorem Ipsum has survived not only five
-                centuries, but also the leap into electronic typesetting, remaining essentially unchanged. Lorem Ipsum
-                is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's
-                standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it
-                to make a type specimen book.
-              </Typography>
-            </Grid>
+      <Box sx={{ my: 8 }}>
+        <Grid container spacing={3}>
+          <Grid item md={6} xs={12}>
+            <Stack direction="row" spacing={3} mt={5}>
+              <Box sx={{ position: 'relative', width: '100%', height: 418, borderRadius: 4, overflow: 'hidden' }}>
+                <Image src={AboutImage} alt="" fill placeholder="blur" objectFit="cover" />
+              </Box>
+              <Box
+                sx={{
+                  position: 'relative',
+                  width: '100%',
+                  height: 418,
+                  borderRadius: 4,
+                  overflow: 'hidden',
+                  transform: 'translateY(-40px)'
+                }}
+              >
+                <Image src={AboutImage2} alt="" fill placeholder="blur" objectFit="cover" />
+              </Box>
+            </Stack>
           </Grid>
-          <Box sx={{ marginTop: 5 }}>
-            <Typography variant="h3" fontWeight={700} textAlign="center">
-              Our Services
+          <Grid item md={6} xs={12} sx={{ display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
+            <Typography variant="h6" fontSize="16px" textTransform="uppercase" color="primary">
+              Who We Are?
             </Typography>
-            <Typography
-              variant="body1"
-              fontWeight={400}
-              color="text.secondary"
-              sx={{ maxWidth: 350, textAlign: 'center', mx: 'auto' }}
-            >
-              Customer service should not be a department. It should be the entire company.
+            <Typography variant="h2" fontWeight={800}>
+              Creating a World Where Fashion is a Lifestyle
             </Typography>
-          </Box>
-        </Container>
-      </Box>
-      {/* WhyUs  */}
-      <WhyUs />
-      <Container maxWidth="xl">
-        <Box sx={{ marginY: { md: 10, sm: 8, xs: 5 } }}>
-          <Grid container spacing={3}>
-            {Data.map((item, idx) => (
-              <Grid item md={3} sm={6} xs={12} key={Math.random()}>
-                <Stack
-                  textAlign="center"
-                  sx={{ border: `1px solid ${theme.palette.divider}`, borderRadius: 2, p: 2 }}
-                  key={idx}
-                >
-                  <Typography variant="h3" color="text.secondary">
-                    {item.range}
-                  </Typography>
-                  <Typography variant="h3" color="text.primary">
-                    {item.name}
-                  </Typography>
-                  <Typography
-                    variant="body1"
-                    fontWeight={400}
-                    color="text.secondary"
-                    sx={{ maxWidth: 350, textAlign: 'center', mx: 'auto' }}
-                  >
-                    {item.description}
-                  </Typography>
-                </Stack>
-              </Grid>
-            ))}
+            <Typography variant="body1" fontWeight={400} color="text.secondary" mt={2}>
+              Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the
+              industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and
+              scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into
+              electronic typesetting, remaining essentially unchanged. Lorem Ipsum has survived not only five centuries,
+              but also the leap into electronic typesetting, remaining essentially unchanged. Lorem Ipsum is simply
+              dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy
+              text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type
+              specimen book.
+            </Typography>
           </Grid>
-        </Box>
-        <Box sx={{ paddingBottom: 10 }}>
+        </Grid>
+        <Box sx={{ marginTop: 5 }}>
           <Typography variant="h3" fontWeight={700} textAlign="center">
-            Our Team
+            Our Services
           </Typography>
           <Typography
             variant="body1"
@@ -135,17 +88,60 @@ export default function Index() {
             color="text.secondary"
             sx={{ maxWidth: 350, textAlign: 'center', mx: 'auto' }}
           >
-            Meet out expert team members.
+            Customer service should not be a department. It should be the entire company.
           </Typography>
-          <Grid container spacing={3} mt={5}>
-            {[1, 2, 3, 4].map((index) => (
-              <Grid item md={3} sm={2} xs={6} key={index}>
-                <Team />
-              </Grid>
-            ))}
-          </Grid>
         </Box>
-      </Container>
+      </Box>
+      {/* WhyUs  */}
+      <WhyUs />
+      <Box sx={{ marginY: { md: 10, sm: 8, xs: 5 } }}>
+        <Grid container spacing={3}>
+          {Data.map((item, idx) => (
+            <Grid item md={3} sm={6} xs={12} key={Math.random()}>
+              <Stack
+                textAlign="center"
+                sx={{ border: `1px solid ${theme.palette.divider}`, borderRadius: 2, p: 2 }}
+                key={idx}
+              >
+                <Typography variant="h3" color="text.secondary">
+                  {item.range}
+                </Typography>
+                <Typography variant="h3" color="text.primary">
+                  {item.name}
+                </Typography>
+                <Typography
+                  variant="body1"
+                  fontWeight={400}
+                  color="text.secondary"
+                  sx={{ maxWidth: 350, textAlign: 'center', mx: 'auto' }}
+                >
+                  {item.description}
+                </Typography>
+              </Stack>
+            </Grid>
+          ))}
+        </Grid>
+      </Box>
+      <Box sx={{ paddingBottom: 10 }}>
+        <Typography variant="h3" fontWeight={700} textAlign="center">
+          Our Team
+        </Typography>
+        <Typography
+          variant="body1"
+          fontWeight={400}
+          color="text.secondary"
+          sx={{ maxWidth: 350, textAlign: 'center', mx: 'auto' }}
+        >
+          Meet out expert team members.
+        </Typography>
+        <Grid container spacing={3} mt={5}>
+          {[1, 2, 3, 4].map((index) => (
+            <Grid item md={3} sm={2} xs={6} key={index}>
+              <Team />
+            </Grid>
+          ))}
+        </Grid>
+      </Box>
     </>
   );
 }
