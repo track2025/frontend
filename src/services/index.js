@@ -271,6 +271,11 @@ export const getAllCategories = async () => {
   const { data } = await http.get(`/all-categories`);
   return data;
 };
+export const getAllCategoriesByAdmin = async () => {
+  const { data } = await http.get(`/admin/all-categories`);
+  return data;
+};
+
 export const homeCategroies = async () => {
   const { data } = await http.get(`/home/categories`);
   return data;
@@ -309,8 +314,8 @@ export const getSubCategoryByAdmin = async (slug) => {
   const { data } = await http.get(`/admin/subcategories/${slug}`);
   return data;
 };
-export const getSubCategories = async (page, search) => {
-  const { data } = await http.get(`/admin/subcategories?search=${search}&page=${page}`);
+export const getSubCategories = async (params) => {
+  const { data } = await http.get(`/admin/subcategories?${params}`);
   return data;
 };
 export const deleteSubCategory = async (slug) => {
@@ -326,8 +331,8 @@ export const updateSubCategory = async ({ currentSlug, ...payload }) => {
   return data;
 };
 
-export const getAdminProducts = async (page, search) => {
-  const { data: response } = await http.get(`/admin/products?search=${search}&page=${page}`);
+export const getAdminProducts = async (params) => {
+  const { data: response } = await http.get(`/admin/products?${params}`);
   return response;
 };
 

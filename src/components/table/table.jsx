@@ -34,28 +34,6 @@ CustomTable.propTypes = {
   filters: PropTypes.any,
   isSearch: PropTypes.bool
 };
-
-// const filtersData = [
-//   {
-//     name: 'Brand',
-//     param: 'brand',
-//     data: [
-//       { name: 'Home', value: 'red' },
-//       { name: 'Home 1', value: 'green' },
-//       { name: 'Home 2', value: 'yellow' }
-//     ]
-//   },
-//   {
-//     name: 'Stock',
-//     param: 'stock',
-//     data: [
-//       { name: 'Home', value: 'red' },
-//       { name: 'Home 1', value: 'green' },
-//       { name: 'Home 2', value: 'yellow' }
-//     ]
-//   }
-// ];
-
 export default function CustomTable({ filters = [], ...props }) {
   const { headData, data, isLoading, isDashboard, isSearch, row, ...rest } = props;
   const { push } = useRouter();
@@ -106,7 +84,7 @@ export default function CustomTable({ filters = [], ...props }) {
                   <MenuItem value="">None</MenuItem>
                   {item.data.map((v) => (
                     <MenuItem value={v.slug} key={Math.random()}>
-                      {v.name}
+                      {v.name || v.title}
                     </MenuItem>
                   ))}
                 </Select>

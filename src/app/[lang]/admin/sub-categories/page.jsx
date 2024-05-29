@@ -12,7 +12,7 @@ export const metadata = {
 };
 
 export default async function Categories() {
-  const {data} = await api.getAllCategories();
+  const { data: categories } = await api.getAllCategoriesByAdmin();
   return (
     <>
       <HeaderBreadcrumbs
@@ -32,7 +32,7 @@ export default async function Categories() {
           title: 'Add Sub Category'
         }}
       />
-      <SubCategoryList categories={data} />
+      <SubCategoryList categories={categories} />
     </>
   );
 }
