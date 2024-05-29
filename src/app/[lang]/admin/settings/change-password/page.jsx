@@ -6,25 +6,23 @@ import { Card, Container, Stack, Typography } from '@mui/material';
 export default function page() {
   return (
     <div>
-      <Toolbar>
-        <HeaderBreadcrumbs
-          heading="Dashboard"
-          admin
-          links={[
-            {
-              name: 'Dashboard',
-              href: '/admin'
-            },
-            {
-              name: 'Settings',
-              href: '/admin/settings'
-            },
-            {
-              name: 'Change Password'
-            }
-          ]}
-        />
-      </Toolbar>
+      <HeaderBreadcrumbs
+        heading="Dashboard"
+        admin
+        links={[
+          {
+            name: 'Dashboard',
+            href: '/admin'
+          },
+          {
+            name: 'Settings',
+            href: '/admin/settings'
+          },
+          {
+            name: 'Change Password'
+          }
+        ]}
+      />
       <Container maxWidth="sm">
         <Card
           sx={{

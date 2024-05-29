@@ -8,25 +8,23 @@ import AddBrand from 'src/components/_admin/brands/addBrand';
 export default function page() {
   return (
     <div>
-      <Toolbar>
-        <HeaderBreadcrumbs
-          admin
-          heading="Brands List"
-          links={[
-            {
-              name: 'Dashboard',
-              href: '/admin'
-            },
-            {
-              name: 'Brands',
-              href: '/admin/brands'
-            },
-            {
-              name: 'Add brand'
-            }
-          ]}
-        />
-      </Toolbar>
+      <HeaderBreadcrumbs
+        admin
+        heading="Brands List"
+        links={[
+          {
+            name: 'Dashboard',
+            href: '/admin'
+          },
+          {
+            name: 'Brands',
+            href: '/admin/brands'
+          },
+          {
+            name: 'Add brand'
+          }
+        ]}
+      />
       <AddBrand />
     </div>
   );

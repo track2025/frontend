@@ -5,32 +5,30 @@ import AddSubCategory from 'src/components/_admin/subcategories/addCategory';
 import * as api from 'src/services';
 
 export default async function page() {
-  const data1 = await api.getAllCategories();
-  if (!data1) {
+  const data = await api.getAllCategories();
+  if (!data) {
     notFound();
   }
-  const { data: categories } = data1;
+  const { data: categories } = data;
   return (
     <div>
-      <Toolbar>
-        <HeaderBreadcrumbs
-          admin
-          heading="Sub Categories List"
-          links={[
-            {
-              name: 'Dashboard',
-              href: '/admin'
-            },
-            {
-              name: 'Sub Categories',
-              href: '/admin/sub-categories'
-            },
-            {
-              name: 'Add Sub Category'
-            }
-          ]}
-        />
-      </Toolbar>
+      <HeaderBreadcrumbs
+        admin
+        heading="Sub Categories List"
+        links={[
+          {
+            name: 'Dashboard',
+            href: '/admin'
+          },
+          {
+            name: 'Sub Categories',
+            href: '/admin/sub-categories'
+          },
+          {
+            name: 'Add Sub Category'
+          }
+        ]}
+      />
       <AddSubCategory categories={categories} />
     </div>
   );

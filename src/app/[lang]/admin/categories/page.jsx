@@ -12,8 +12,8 @@ export const metadata = {
 export default function Categories() {
   return (
     <>
-      {/* <Toolbar> */}
       <HeaderBreadcrumbs
+        admin
         heading="Categories List"
         links={[
           {
@@ -29,8 +29,7 @@ export default function Categories() {
           title: 'Add Category'
         }}
       />
-      <br />
-      {/* </Toolbar> */}
+
       <CategoryList />
     </>
   );

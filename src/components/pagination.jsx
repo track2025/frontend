@@ -50,8 +50,8 @@ export default function PaginationRounded({ ...props }) {
       shape="rounded"
       color="primary"
       sx={{
-        mx: 'auto',
-        mb: 3,
+        ml: 'auto',
+        mb: 2,
         '.MuiPagination-ul': {
           justifyContent: 'center'
         }

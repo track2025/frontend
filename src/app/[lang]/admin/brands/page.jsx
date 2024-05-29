@@ -15,25 +15,23 @@ export const metadata = {
 export default function Brands() {
   return (
     <>
-      <Toolbar>
-        <HeaderBreadcrumbs
-          admin
-          heading="Brands List"
-          links={[
-            {
-              name: 'Admin Dashboard',
-              href: '/admin'
-            },
-            {
-              name: 'Brands'
-            }
-          ]}
-          action={{
-            href: `/admin/brands/add`,
-            title: 'Add brand'
-          }}
-        />
-      </Toolbar>
+      <HeaderBreadcrumbs
+        admin
+        heading="Brands List"
+        links={[
+          {
+            name: 'Admin Dashboard',
+            href: '/admin'
+          },
+          {
+            name: 'Brands'
+          }
+        ]}
+        action={{
+          href: `/admin/brands/add`,
+          title: 'Add brand'
+        }}
+      />
       <BrandList />
     </>
   );

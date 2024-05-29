@@ -15,25 +15,23 @@ export const metadata = {
 export default function Currencies() {
   return (
     <>
-      <Toolbar>
-        <HeaderBreadcrumbs
-          admin
-          heading="Currencies List"
-          links={[
-            {
-              name: 'Admin Dashboard',
-              href: '/admin'
-            },
-            {
-              name: 'Currencies'
-            }
-          ]}
-          action={{
-            href: `/admin/currencies/add`,
-            title: 'Add currency'
-          }}
-        />
-      </Toolbar>
+      <HeaderBreadcrumbs
+        admin
+        heading="Currencies List"
+        links={[
+          {
+            name: 'Admin Dashboard',
+            href: '/admin'
+          },
+          {
+            name: 'Currencies'
+          }
+        ]}
+        action={{
+          href: `/admin/currencies/add`,
+          title: 'Add currency'
+        }}
+      />
       <CompaignList />
     </>
   );

@@ -12,21 +12,19 @@ export default function page() {
   return (
     <div>
       {' '}
-      <Toolbar>
-        <HeaderBreadcrumbs
-          admin
-          heading="Newsletter List"
-          links={[
-            {
-              name: 'Dashboard',
-              href: '/admin'
-            },
-            {
-              name: 'newsletter'
-            }
-          ]}
-        />
-      </Toolbar>
+      <HeaderBreadcrumbs
+        admin
+        heading="Newsletter List"
+        links={[
+          {
+            name: 'Dashboard',
+            href: '/admin'
+          },
+          {
+            name: 'newsletter'
+          }
+        ]}
+      />
       <NewsletterList />
     </div>
   );

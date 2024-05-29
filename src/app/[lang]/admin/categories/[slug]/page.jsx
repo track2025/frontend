@@ -22,25 +22,23 @@ export default function Page({ params }) {
   });
   return (
     <div>
-      <Toolbar>
-        <HeaderBreadcrumbs
-          admin
-          heading="Categories List"
-          links={[
-            {
-              name: 'Dashboard',
-              href: '/admin'
-            },
-            {
-              name: 'Categories',
-              href: '/admin/categories'
-            },
-            {
-              name: data?.data?.name
-            }
-          ]}
-        />
-      </Toolbar>
+      <HeaderBreadcrumbs
+        admin
+        heading="Categories List"
+        links={[
+          {
+            name: 'Dashboard',
+            href: '/admin'
+          },
+          {
+            name: 'Categories',
+            href: '/admin/categories'
+          },
+          {
+            name: data?.data?.name
+          }
+        ]}
+      />
       <EditCategory isLoading={isLoading} data={data?.data} />
     </div>
   );

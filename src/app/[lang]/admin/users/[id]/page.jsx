@@ -6,25 +6,23 @@ import UsersDetails from 'src/components/_admin/users/details';
 export default function page({ params }) {
   return (
     <>
-      <Toolbar>
-        <HeaderBreadcrumbs
-          admin
-          heading="User Details"
-          links={[
-            {
-              name: 'Dashboard',
-              href: '/admin'
-            },
-            {
-              name: 'Users',
-              href: '/admin/users'
-            },
-            {
-              name: 'Users details'
-            }
-          ]}
-        />
-      </Toolbar>
+      <HeaderBreadcrumbs
+        admin
+        heading="User Details"
+        links={[
+          {
+            name: 'Dashboard',
+            href: '/admin'
+          },
+          {
+            name: 'Users',
+            href: '/admin/users'
+          },
+          {
+            name: 'Users details'
+          }
+        ]}
+      />
       <UsersDetails id={params.id} />
     </>
   );

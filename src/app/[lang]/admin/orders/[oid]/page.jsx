@@ -26,30 +26,28 @@ export default function Page({ params }) {
   });
   return (
     <Box>
-      <Toolbar>
-        <HeaderBreadcrumbs
-          admin
-          links={[
-            {
-              name: 'Dashboard',
-              href: '/admin'
-            },
-            {
-              name: 'Orders',
-              href: '/admin/orders'
-            },
-            {
-              name: 'Order details',
-              href: ''
-            }
-          ]}
-          action={
-            <>
-              <OrderToolbarActions data={data?.data} />
-            </>
+      <HeaderBreadcrumbs
+        admin
+        links={[
+          {
+            name: 'Dashboard',
+            href: '/admin'
+          },
+          {
+            name: 'Orders',
+            href: '/admin/orders'
+          },
+          {
+            name: 'Order details',
+            href: ''
           }
-        />
-      </Toolbar>
+        ]}
+        action={
+          <>
+            <OrderToolbarActions data={data?.data} />
+          </>
+        }
+      />
       <Container fixed>
         <Grid container direction={{ xs: 'row', md: 'row-reverse' }} spacing={2}>
           <Grid item xs={12} md={4}>

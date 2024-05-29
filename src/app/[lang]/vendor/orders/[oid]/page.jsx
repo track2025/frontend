@@ -25,25 +25,23 @@ export default function Page({ params }) {
   });
   return (
     <Box>
-      <Toolbar>
-        <HeaderBreadcrumbs
-          admin
-          links={[
-            {
-              name: 'Dashboard',
-              href: '/dashboard'
-            },
-            {
-              name: 'Orders',
-              href: '/dashboard/orders'
-            },
-            {
-              name: 'Order details',
-              href: ''
-            }
-          ]}
-        />
-      </Toolbar>
+      <HeaderBreadcrumbs
+        admin
+        links={[
+          {
+            name: 'Dashboard',
+            href: '/dashboard'
+          },
+          {
+            name: 'Orders',
+            href: '/dashboard/orders'
+          },
+          {
+            name: 'Order details',
+            href: ''
+          }
+        ]}
+      />
       <Container fixed>
         <Grid container direction={{ xs: 'row', md: 'row-reverse' }} spacing={2}>
           <Grid item xs={12} md={4}>

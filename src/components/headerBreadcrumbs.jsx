@@ -21,6 +21,9 @@ export default function HeaderBreadcrumbs({ ...props }) {
       sx={{
         ...sx,
         width: '100%',
+        ...(admin && {
+          mb: 3
+        }),
         ...(!admin && {
           p: 3,
           mt: 3,
@@ -85,17 +88,12 @@ export default function HeaderBreadcrumbs({ ...props }) {
           sx={{
             flexGrow: 1,
             zInex: 99,
-            position: 'relative',
-            ...(admin && {
-              display: { sm: 'block', xs: 'none' }
-            })
+            position: 'relative'
           }}
         >
-          {!admin && (
-            <Typography variant="h3" gutterBottom sx={{ textTransform: 'capitalize', width: '80vw' }} noWrap>
-              {heading}
-            </Typography>
-          )}
+          <Typography variant="h3" gutterBottom sx={{ textTransform: 'capitalize', width: '80vw' }} noWrap>
+            {heading}
+          </Typography>
 
           <MBreadcrumbs icon={icon} admin={admin} links={links} {...other} />
         </Box>
@@ -106,34 +104,14 @@ export default function HeaderBreadcrumbs({ ...props }) {
               <Box sx={{ flexShrink: 0, display: 'flex', alignItems: 'center' }}>
                 <Button
                   variant="contained"
-                  color="inherit"
+                  color="primary"
                   component={NextLink}
                   href={action.href}
                   startIcon={action.icon ? action.icon : <IoMdAdd size={20} />}
-                  sx={{ display: { sm: 'flex', xs: 'none' } }}
                 >
                   {action.title}
                 </Button>
               </Box>
-
-              <Fab
-                color="primary"
-                aria-label="add"
-                sx={{
-                  position: 'fixed',
-                  bottom: 10,
-                  right: 10,
-                  zIndex: 1000,
-                  display: {
-                    sm: 'none',
-                    xs: 'flex'
-                  }
-                }}
-                component={NextLink}
-                href={action.href}
-              >
-                {action.icon ? action.icon : <IoMdAdd size={20} />}
-              </Fab>
             </>
           ) : (
             action

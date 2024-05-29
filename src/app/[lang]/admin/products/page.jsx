@@ -16,25 +16,23 @@ export default async function AdminProducts() {
   const data = await api.getAllCategories();
   return (
     <>
-      <Toolbar>
-        <HeaderBreadcrumbs
-          admin
-          heading="Products List"
-          links={[
-            {
-              name: 'Dashboard',
-              href: '/admin'
-            },
-            {
-              name: 'Products'
-            }
-          ]}
-          action={{
-            href: `/admin/products/add`,
-            title: 'Add Product'
-          }}
-        />
-      </Toolbar>
+      <HeaderBreadcrumbs
+        admin
+        heading="Products List"
+        links={[
+          {
+            name: 'Dashboard',
+            href: '/admin'
+          },
+          {
+            name: 'Products'
+          }
+        ]}
+        action={{
+          href: `/admin/products/add`,
+          title: 'Add Product'
+        }}
+      />
       <ProductList categories={data?.data} />
     </>
   );
