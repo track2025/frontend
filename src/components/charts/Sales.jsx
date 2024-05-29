@@ -61,14 +61,10 @@ export default function Income({ data, isLoading }) {
       ) : (
         <Box sx={{ mt: 3, mx: 3 }} dir="ltr">
           <ReactApexChart
-            type="area"
+            type="bar"
             series={[
               {
                 name: 'Sales',
-                data
-              },
-              {
-                name: 'Comissions',
                 data
               }
             ]}

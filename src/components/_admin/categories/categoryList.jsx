@@ -63,7 +63,6 @@ export default function CategoryList() {
       <Table
         headData={TABLE_HEAD}
         data={data}
-        mobileRow={CategoryCard}
         isLoading={isLoading}
         row={Category}
         handleClickOpen={handleClickOpen}

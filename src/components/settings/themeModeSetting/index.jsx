@@ -7,7 +7,7 @@ import { IoSunny } from 'react-icons/io5';
 import { IoMoonOutline } from 'react-icons/io5';
 // mui
 import { IconButton, alpha } from '@mui/material';
-export default function SettingMode() {
+export default function SettingMode({ isAdmin }) {
   const { themeMode } = useSelector(({ settings }) => settings);
   const dispatch = useDispatch();
   return (
@@ -15,12 +15,14 @@ export default function SettingMode() {
       name="setting-mode"
       onClick={() => dispatch(setThemeMode(themeMode === 'light' ? 'dark' : 'light'))}
       size="medium"
-      color="primary"
+      color={isAdmin ? 'default' : 'primary'}
       sx={{
-        borderColor: 'primary',
-        borderWidth: 1,
-        borderStyle: 'solid',
-        bgcolor: (theme) => alpha(theme.palette.primary.main, 0.2)
+        ...(!isAdmin && {
+          borderColor: 'primary',
+          borderWidth: 1,
+          borderStyle: 'solid',
+          bgcolor: (theme) => alpha(theme.palette.primary.main, 0.2)
+        })
       }}
     >
       {themeMode === 'dark' ? <IoSunny size={24} /> : <IoMoonOutline size={24} />}
