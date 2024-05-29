@@ -25,15 +25,14 @@ const TABLE_HEAD = [
 ];
 export default function SubCategoryList({ categories }) {
   const searchParams = useSearchParams();
-  const pageParam = searchParams.get('page');
-  const searchParam = searchParams.get('search');
+
   const [open, setOpen] = useState(false);
   const [apicall, setApicall] = useState(false);
   const [id, setId] = useState(null);
 
   const { data, isLoading } = useQuery(
-    ['categories', apicall, searchParam, pageParam],
-    () => api.getSubCategories(+pageParam || 1, searchParam || ''),
+    ['categories', apicall, searchParams.toString()],
+    () => api.getSubCategories(searchParams.toString()),
     {
       onError: (err) => toast.error(err.response.data.message || 'Something went wrong!')
     }

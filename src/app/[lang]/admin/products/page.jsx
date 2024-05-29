@@ -1,7 +1,6 @@
 import React from 'react';
 // components
 import ProductList from 'src/components/_admin/products/productList';
-import Toolbar from 'src/components/_admin/toolbar';
 import HeaderBreadcrumbs from 'src/components/headerBreadcrumbs';
 import * as api from 'src/services';
 
@@ -13,7 +12,10 @@ export const metadata = {
 };
 
 export default async function AdminProducts() {
-  const data = await api.getAllCategories();
+  const { data: categories } = await api.getAllCategoriesByAdmin();
+  const { data: brands } = await api.getAllBrands();
+  const { data: shops } = await api.getAllShopsByAdmin();
+
   return (
     <>
       <HeaderBreadcrumbs
@@ -33,7 +35,7 @@ export default async function AdminProducts() {
           title: 'Add Product'
         }}
       />
-      <ProductList categories={data?.data} />
+      <ProductList categories={categories} shops={shops} brands={brands} />
     </>
   );
 }

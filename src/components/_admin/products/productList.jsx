@@ -15,8 +15,6 @@ import Product from 'src/components/table/rows/product';
 import { useSearchParams } from 'next/navigation';
 import PropTypes from 'prop-types';
 
-import ProductFilter from './productFilter';
-
 const TABLE_HEAD = [
   { id: 'name', label: 'Product', alignRight: false, sort: true },
   { id: 'createdAt', label: 'Date', alignRight: false, sort: true },
@@ -25,24 +23,15 @@ const TABLE_HEAD = [
   { id: 'price', label: 'Price', alignRight: false, sort: true },
   { id: '', label: 'Actions', alignRight: true }
 ];
-export default function AdminProducts({ brands, categories, isVendor }) {
+export default function AdminProducts({ brands, categories, shops, isVendor }) {
   const searchParams = useSearchParams();
-  const pageParam = searchParams.get('page');
-  const searchParam = searchParams.get('search');
-  const categoryParam = searchParams.get('category');
-  const statusParam = searchParams.get('status');
+
   const [open, setOpen] = useState(false);
   const [apicall, setApicall] = useState(false);
   const [id, setId] = useState(null);
   const { data, isLoading } = useQuery(
-    ['admin-products', apicall, searchParam, pageParam, categoryParam, statusParam],
-    () =>
-      api[isVendor ? 'getVendorProducts' : 'getAdminProducts'](
-        +pageParam || 1,
-        searchParam || '',
-        statusParam || '',
-        categoryParam || ''
-      ),
+    ['admin-products', apicall, searchParams.toString()],
+    () => api[isVendor ? 'getVendorProducts' : 'getAdminProducts'](searchParams.toString()),
     {
       onError: (err) => toast.error(err.response.data.message || 'Something went wrong!')
     }
@@ -83,7 +72,23 @@ export default function AdminProducts({ brands, categories, isVendor }) {
         brands={isVendor ? [] : brands}
         categories={isVendor ? [] : categories}
         isVendor={isVendor}
-        filters={<>{!isVendor ? <ProductFilter categories={categories} /> : null}</>}
+        filters={[
+          {
+            name: 'Shop',
+            param: 'shop',
+            data: shops
+          },
+          {
+            name: 'Category',
+            param: 'category',
+            data: categories
+          },
+          {
+            name: 'Brand',
+            param: 'brand',
+            data: brands
+          }
+        ]}
         isSearch
       />
     </>
