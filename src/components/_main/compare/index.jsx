@@ -9,7 +9,7 @@ export default function Compare() {
       <Typography variant="h3" color="text.primary">
         Compare Product
       </Typography>
-      <Box mt={{ md: 5, xs: 3 }} pb={14}>
+      <Box mt={{ md: 5, xs: 3 }} pb={{ md: 7, xs: 14 }}>
         <CompareTable />
       </Box>
     </Box>
