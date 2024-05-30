@@ -66,6 +66,7 @@ export default function Brands({ data }) {
                       height={70}
                       draggable="false"
                       placeholder="blur"
+                      objectFit="cover"
                       blurDataURL={v?.logo?.blurDataURL}
                     />
                     <Stack>
@@ -73,7 +74,7 @@ export default function Brands({ data }) {
                         {v.name}
                       </Typography>
                       <Typography variant="body1" noWrap>
-                        3 Products
+                        {v.totalProducts + ' ' + (v.totalProducts <= 1 ? 'Product' : 'Products')}
                       </Typography>
                     </Stack>
                   </Stack>
