@@ -49,7 +49,7 @@ export default function Page({ params }) {
           </>
         }
       />
-      <Container fixed>
+      <Container maxWidth="xl">
         <Grid container direction={{ xs: 'row', md: 'row-reverse' }} spacing={2}>
           <Grid item xs={12} md={4}>
             <OrderDetails data={data?.data} isLoading={isLoading} currency={'$'} />

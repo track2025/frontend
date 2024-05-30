@@ -25,7 +25,7 @@ export default async function OrderMain({ params }) {
   const { data } = response;
   return (
     <Box>
-      <Container fixed>
+      <Container maxWidth="xl">
         <Stack spacing={1} textAlign="center" mt={8} mb={5} justifyContent="center" alignItems="center">
           <Typography variant="h3">Thank you for your purchase!</Typography>
           <Typography variant="subtitle1" color="text.secondary" sx={{ maxWidth: 600 }}>

@@ -11,7 +11,7 @@ export default async function Categories() {
   const data = await api.getAllCategoriesByUser();
 
   return (
-    <Container fixed>
+    <Container maxWidth="xl">
       <Stack
         direction={'column'}
         sx={{

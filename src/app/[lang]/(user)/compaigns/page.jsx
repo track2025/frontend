@@ -15,7 +15,7 @@ import { useQuery } from 'react-query';
 export default function CompaignPage() {
   const { data, isLoading } = useQuery(['get-home-compaign-all'], () => api.getHomeCompaigns());
   return (
-    <Container fixed>
+    <Container maxWidth="xl">
       <Stack
         direction={'column'}
         sx={{

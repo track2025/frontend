@@ -10,7 +10,7 @@ export default function HomeSkeleton() {
   return (
     <>
       <HeroSkeleton />
-      <Container fixed>
+      <Container maxWidth="xl">
         <TopBanners />
         <CategoriesSkeleton />
       </Container>

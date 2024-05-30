@@ -9,7 +9,7 @@ export default function index() {
   return (
     <Box>
       <Box sx={{ bgcolor: 'background.default' }}>
-        <Container fixed>
+        <Container maxWidth="xl">
           <Breadcrumbs />
           <Grid container spacing={3}>
             <Grid

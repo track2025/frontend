@@ -15,7 +15,7 @@ import { useQuery } from 'react-query';
 export default function BrandPage() {
   const { data, isLoading } = useQuery(['get-brands-user'], () => api.getUserBrands());
   return (
-    <Container fixed>
+    <Container maxWidth="xl">
       <Stack
         direction={'column'}
         sx={{

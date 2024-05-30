@@ -69,7 +69,7 @@ const CheckoutMain = () => {
   const { user: userData } = useSelector(({ user }) => user);
   const { cart, total } = checkout;
   const [paymentMethod, setPaymentMethod] = useState('COD');
-  const [checked, setChecked] = React.useState(true);
+  const [checked, setChecked] = React.useState(false);
 
   const handleChangeShipping = (event) => {
     setChecked(event.target.checked);

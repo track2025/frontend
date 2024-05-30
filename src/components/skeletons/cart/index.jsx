@@ -6,7 +6,7 @@ import MainCartSkeleton from './mainCart';
 
 export default function CartSkeleton() {
   return (
-    <Container fixed>
+    <Container maxWidth="xl">
       <Breadcrumbs />
       <MainCartSkeleton />
     </Container>

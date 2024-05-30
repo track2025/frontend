@@ -37,7 +37,7 @@ export default async function Listing({ params }) {
   return (
     <Box>
       <Box sx={{ bgcolor: 'background.default' }}>
-        <Container fixed>
+        <Container maxWidth="xl">
           <HeaderBreadcrumbs
             heading={subCategoryData?.name}
             links={[

@@ -63,7 +63,7 @@ export default function ShopDetailCover({ data, isLoading, isUser, page }) {
       )}
 
       <div>
-        <Container fixed>
+        <Container maxWidth="xl">
           <InfoStyle>
             {data?.logo ? (
               <MyAvatar

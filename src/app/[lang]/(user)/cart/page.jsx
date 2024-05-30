@@ -18,7 +18,7 @@ export const metadata = {
 
 export default async function Cart() {
   return (
-    <Container fixed>
+    <Container maxWidth="xl">
       <HeaderBreadcrumbs
         heading="Cart"
         links={[

@@ -17,7 +17,7 @@ export default function notFound({ ...props }) {
   const { title } = props;
   return (
     <RootStyle>
-      <Container fixed>
+      <Container maxWidth="xl">
         <MotionContainer initial="initial" open>
           <Box
             sx={{

@@ -79,7 +79,7 @@ export default function ProfileCover({ data: user, isLoading }) {
   return (
     <RootStyle>
       <div>
-        <Container fixed>
+        <Container maxWidth="xl">
           <InfoStyle>
             <MyAvatar
               data={{ cover: user?.cover?.url, fullName: user?.firstName }}

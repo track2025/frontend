@@ -42,7 +42,7 @@ export default async function ProductDetail({ params: { slug } }) {
 
   return (
     <Box>
-      <Container fixed>
+      <Container maxWidth="xl">
         <Stack gap={5}>
           <HeaderBreadcrumbs
             heading="Product Details"

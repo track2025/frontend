@@ -40,8 +40,8 @@ export default function Banner() {
           position: 'relative'
         }}
       >
-        <BlurImage src={bannerImg} alt="banner-3" placeholder="blur" layout="fill" sizes="100vw" objectFit="cover"/>
-        <Container fixed>
+        <BlurImage src={bannerImg} alt="banner-3" placeholder="blur" layout="fill" sizes="100vw" objectFit="cover" />
+        <Container maxWidth="xl">
           <Grid container alignItems="center" spacing={4}>
             <Grid item xs={6} md={6}>
               <Stack spacing={2}>

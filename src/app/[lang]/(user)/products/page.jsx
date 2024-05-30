@@ -11,7 +11,7 @@ export default async function Listing() {
   return (
     <Box>
       <Box sx={{ bgcolor: 'background.default' }}>
-        <Container fixed>
+        <Container maxWidth="xl">
           <HeaderBreadcrumbs
             heading="Products"
             links={[

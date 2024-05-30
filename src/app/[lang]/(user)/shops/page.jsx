@@ -13,7 +13,7 @@ export default async function ShopComponent() {
   const data = await api.getAllShopsByUser();
 
   return (
-    <Container fixed>
+    <Container maxWidth="xl">
       <Stack
         direction={'column'}
         sx={{

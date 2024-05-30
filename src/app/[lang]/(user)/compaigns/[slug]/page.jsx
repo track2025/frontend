@@ -35,7 +35,7 @@ export default async function Listing({ params }) {
   return (
     <Box>
       <Box sx={{ bgcolor: 'background.default' }}>
-        <Container fixed>
+        <Container maxWidth="xl">
           <Box mt={3}>
             <ShopDetailCover page={'compaigns'} isUser data={compaign} isLoading={false} />
           </Box>

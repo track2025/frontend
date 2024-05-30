@@ -53,7 +53,7 @@ export default function MobileSetting() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isDeskTop]);
   return (
-    <Container fixed>
+    <Container maxWidth="xl">
       <List sx={{ mt: 5 }}>
         <ListItem disablePadding>
           <ListItemButton>

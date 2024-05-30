@@ -24,7 +24,7 @@ export const metadata = {
 
 export default function Checkout() {
   return (
-    <Container fixed>
+    <Container maxWidth="xl">
       <HeaderBreadcrumbs
         heading="Checkout"
         links={[

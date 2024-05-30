@@ -22,7 +22,7 @@ export default async function ProductDetailSkeleton({ isPopup }) {
     </Grid>
   ) : (
     <Box>
-      <Container fixed>
+      <Container maxWidth="xl">
         <BreadcrumbsSkeleton />
         <Card
           sx={{
