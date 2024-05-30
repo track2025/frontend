@@ -10,6 +10,7 @@ import { useSelector } from 'react-redux';
 import { useRouter } from 'src/hooks/useRouter';
 
 import PropTypes from 'prop-types';
+import NoDataFoundIllustration from 'src/components/illustrations/noDataFound';
 
 ProductReview.propTypes = {
   pid: PropTypes.string.isRequired,
@@ -52,7 +53,11 @@ export default function ProductReview({ ...props }) {
         </Collapse>
         <Collapse in={!reviewBox}>
           <Card>
-            <ReviewsList reviews={[...state, ...reviews]} />
+            {[...state, ...reviews]?.length ? (
+              <ReviewsList reviews={[...state, ...reviews]} />
+            ) : (
+              <NoDataFoundIllustration />
+            )}
           </Card>
         </Collapse>
       </Grid>

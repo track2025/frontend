@@ -20,13 +20,13 @@ import Divider from '@mui/material/Divider';
 
 // components
 import NoDataFound from 'src/components/illustrations/noDataFound';
-import { useMutation } from 'react-query';
+import { useMutation, useQuery } from 'react-query';
 import BlurImageAvatar from '../../avatar';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
 // api
 import * as api from 'src/services';
-import { useSelector } from 'react-redux';
+
 import { useCurrencyConvert } from 'src/hooks/convertCurrency';
 import { useCurrencyFormatter } from 'src/hooks/fCurrency';
 
@@ -58,8 +58,8 @@ export default function Search({ ...props }) {
 
   const router = useRouter();
   const [search, setSearch] = React.useState('');
-  const { categories } = useSelector(({ categories }) => categories);
-  const { shops } = useSelector(({ shops }) => shops);
+
+  const { data: filters, isLoading: filtersLoading } = useQuery(['get-search-filters'], () => api.getSearchFilters());
   const { mutate, isLoading } = useMutation('search', api.search, {
     onSuccess: (data) => {
       setstate({ ...state, ...data });
@@ -150,61 +150,73 @@ export default function Search({ ...props }) {
           <LabelStyle component={'label'} htmlFor="shops">
             Shop
           </LabelStyle>
-          <Select
-            id="shops"
-            size="small"
-            labelId="demo-simple-select-label"
-            value={state.shop}
-            onChange={(e) => setstate({ ...state, shop: e.target.value })}
-          >
-            <MenuItem value="">None</MenuItem>
-            {shops.map((shop) => (
-              <MenuItem value={shop._id} key={shop._id}>
-                {shop.title}
-              </MenuItem>
-            ))}
-          </Select>
+          {filtersLoading ? (
+            <Skeleton variant="rounded" height={40} width="100%" />
+          ) : (
+            <Select
+              id="shops"
+              size="small"
+              labelId="demo-simple-select-label"
+              value={state.shop}
+              onChange={(e) => setstate({ ...state, shop: e.target.value })}
+            >
+              <MenuItem value="">None</MenuItem>
+              {filters?.shops.map((shop) => (
+                <MenuItem value={shop._id} key={shop._id}>
+                  {shop.title}
+                </MenuItem>
+              ))}
+            </Select>
+          )}
         </FormControl>
         <FormControl fullWidth>
           <LabelStyle component={'label'} htmlFor="category">
             Category
           </LabelStyle>
-          <Select
-            id="category"
-            size="small"
-            labelId="demo-simple-select-label"
-            value={state.category}
-            onChange={(e) => setstate({ ...state, category: e.target.value, subCategory: '' })}
-          >
-            <MenuItem value="">None</MenuItem>
-            {categories.map((category) => (
-              <MenuItem key={category._id} value={category._id}>
-                {category.name}
-              </MenuItem>
-            ))}
-          </Select>
+          {filtersLoading ? (
+            <Skeleton variant="rounded" height={40} width="100%" />
+          ) : (
+            <Select
+              id="category"
+              size="small"
+              labelId="demo-simple-select-label"
+              value={state.category}
+              onChange={(e) => setstate({ ...state, category: e.target.value, subCategory: '' })}
+            >
+              <MenuItem value="">None</MenuItem>
+              {filters?.categories.map((category) => (
+                <MenuItem key={category._id} value={category._id}>
+                  {category.name}
+                </MenuItem>
+              ))}
+            </Select>
+          )}
         </FormControl>
         <FormControl fullWidth>
           <LabelStyle component={'label'} htmlFor="subCategory">
             SubCategory
           </LabelStyle>
-          <Select
-            disabled={!Boolean(state.category)}
-            id="subCategory"
-            size="small"
-            labelId="demo-simple-select-label"
-            value={state.subCategory}
-            onChange={(e) => setstate({ ...state, subCategory: e.target.value })}
-          >
-            <MenuItem value="">None</MenuItem>
-            {categories
-              .find((cat) => cat._id === state.category)
-              ?.subCategories.map((subcat) => (
-                <MenuItem value={subcat._id} key={subcat._id}>
-                  {subcat.name}
-                </MenuItem>
-              ))}
-          </Select>
+          {filtersLoading ? (
+            <Skeleton variant="rounded" height={40} width="100%" />
+          ) : (
+            <Select
+              disabled={!Boolean(state.category)}
+              id="subCategory"
+              size="small"
+              labelId="demo-simple-select-label"
+              value={state.subCategory}
+              onChange={(e) => setstate({ ...state, subCategory: e.target.value })}
+            >
+              <MenuItem value="">None</MenuItem>
+              {filters?.categories
+                .find((cat) => cat._id === state.category)
+                ?.subCategories.map((subcat) => (
+                  <MenuItem value={subcat._id} key={subcat._id}>
+                    {subcat.name}
+                  </MenuItem>
+                ))}
+            </Select>
+          )}
         </FormControl>
       </Stack>
       <Divider />
@@ -238,7 +250,7 @@ export default function Search({ ...props }) {
                   overflow: 'auto',
                   px: 1,
                   li: {
-                    borderRadius: '4px',
+                    borderRadius: '8px',
                     border: `1px solid transparent`,
                     '&:hover, &.Mui-focusVisible, &.Mui-selected ': {
                       border: (theme) => `1px solid ${theme.palette.primary.main}`,

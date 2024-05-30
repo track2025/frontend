@@ -144,6 +144,10 @@ export const search = async (payload) => {
   const { data } = await http.post(`/search`, payload);
   return data;
 };
+export const getSearchFilters = async () => {
+  const { data } = await http.get(`/search-filters`);
+  return data;
+};
 export const getInvoices = async () => {
   const { data } = await http.get(`/users/invoice`);
   return data;
