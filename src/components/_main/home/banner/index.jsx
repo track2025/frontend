@@ -21,7 +21,6 @@ export default function Banner() {
       }}
     >
       <Box
-        key={Math.random()}
         sx={{
           mt: 3,
           py: 12,
