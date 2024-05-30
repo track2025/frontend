@@ -1,4 +1,53 @@
 {
+  "login": {
+    "heading": "Login",
+    "description": "Login to your account to continue",
+    "email": "EMAIL",
+    "email_is_required": "Email is required.",
+    "password": "PASSWORD",
+    "password_is_required.": "Password is required.",
+    "remember_me": "Remember me",
+    "forgot_password": "Forgot password",
+    "dont_account": "Don't you have an account?",
+    "register": "Register"
+  },
+  "register": {
+    "heading": "Sign up",
+    "description": "Create your account",
+    "first_name": "First Name",
+    "first_name_is_required": "First name is required",
+    "last_name": "Last Name",
+    "last_name_is_required": "Last name is required",
+    "gender": "Gender",
+    "phone": "Phone",
+    "phone_number_is_required": "Phone number is required",
+    "email": "EMAIL",
+    "email_is_required": "Email is required.",
+    "password": "PASSWORD",
+    "password_is_required.": "Password is required.",
+    "remember_me": "Remember me",
+    "login": "Login",
+    "allready_account": "Already have an account?",
+    "register": "Register",
+    "by_registering": "By registering, I agree to Nextall",
+    "terms": "Terms ",
+    "and": "and",
+    "privacy_policy": "Privacy policy."
+  },
+  "foret_password": {
+    "heading": "Forget Password",
+    "description": "Please enter the email address associated with your account and We will email you a link to reset your password.",
+    "email": "EMAIL",
+    "email_is_required": "Email is required.",
+    "send_email": "Send Email",
+    "back": "Back"
+  },
+  "request_sent": {
+    "heading": "Request Sent",
+    "description": "Email has been sent to",
+    "resend": "Resend",
+    "back": "Back"
+  },
   "home": {
     "layout": {
       "topbar": {
@@ -84,27 +133,27 @@
     "best-selling": {
       "heading": "Best Selling Products",
       "description": "Special products in this month",
-      "view-more": "View More"
+      "view_more": "View More"
     },
     "all-compaigns": {
       "heading": "All Compaigns",
       "description": "All of Ours Compaigns",
-      "view-more": "View More"
+      "view_more": "View More"
     },
     "main-banner": {
       "heading": "UK Premier Store for Wrist Watches",
       "description": "Welcome to our world of horological excellence, where timepieces become timeless statements of elegance. Our collection showcases an unparalleled selection of premium watches, curated from renowned luxury brands around the globe",
-      "view-more": "View More"
+      "view_more": "View More"
     },
     "top-collection": {
       "heading": "Top Collection",
       "description": "Lorem Ipsum Is Simply Dummy Text Of The Printing And Typesetting Industry.",
-      "view-more": "View More"
+      "view_more": "View More"
     },
     "best-shops": {
       "heading": "Best Shops",
       "description": "Our Highest Rated Shops Where You Can Find What You Are Looking For",
-      "view-more": "View More",
+      "view_more": "View More",
       "view-store": "View Store",
       "follow": "Follow",
       "followers": "Followers",
@@ -113,7 +162,7 @@
     "featured-products": {
       "heading": "Featured Products",
       "description": "Lorem Ipsum Is Simply Dummy Text Of The Printing And Typesetting Industry.",
-      "view-more": "View More"
+      "view_more": "View More"
     },
     "reviews": {
       "heading": "Let's explore customer sentiments towards our offerings.",
@@ -122,7 +171,210 @@
     "brands": {
       "heading": "Brands",
       "description": "Lorem Ipsum Is Simply Dummy Text Of The Printing And Typesetting Industry.",
-      "view-more": "View More"
+      "view_more": "View More"
+    }
+  },
+  "products": {
+    "products": {
+      "heaidng": "Products",
+      "home": "Home",
+      "product": "Product"
+    },
+    "showing": "Showing",
+    "items": "items",
+    "show": "Show",
+    "filters": {
+      "heading": "Filters",
+      "brand": "Brand",
+      "gender": "Gender",
+      "color": "Color",
+      "size": "Size",
+      "price_range": "Price Range"
+    },
+    "top_reated_dropdown": {
+      "top_rated": "Top Rated",
+      "asceding": "Asceding",
+      "desceding": "Desceding",
+      "price_low_to_high": "Price low to high",
+      "price_high_to_low": "Price high to low",
+      "oldest": "Oldest"
+    }
+  },
+  "contact_us": {
+    "breadcrumbs": {
+      "heaidng": "Contact Us",
+      "home": "Home"
+    },
+    "sub_heading": "BEST YOUR WEBSITE",
+    "main_heading": "Get in touch Today!",
+    "description": "We're here to listen, assist, and answer any questions you may have. Whether you're interested in our services, seeking collaborations, or simply want to connect, our team is ready to provide personalized support.",
+    "email_address": "Email Address",
+    "phone": "Phone",
+    "contact_form": {
+      "first_name": "First Name",
+      "first_name_is_required": "First name is required",
+      "last_name": "Last Name",
+      "last_name_is_required": "Last name is required",
+      "your_email": "Your Email",
+      "email_is_required": "Email is required",
+      "your_phone": "Your Phone",
+      "phone_number_is_required": "Phone number is required",
+      "your_message": "Your Message",
+      "message_is_required": "Message is required",
+      "send_message": "Send Message"
+    }
+  },
+  "about_us": {
+    "sub_heading": "WHO WE ARE?",
+    "main_heading": "Creating a World Where Fashion is a Lifestyle",
+    "description": "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. Lorem Ipsum has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.",
+    "our_services": "Our Services",
+    "services_description": "Customer service should not be a department. It should be the entire company.",
+    "vendors": {
+      "heading": "Vendors",
+      "description": "Contrary to popular belief, Lorem is not simply random text."
+    },
+    "earnings": {
+      "heading": "Earnings",
+      "description": "Contrary to popular belief, Lorem is not simply random text."
+    },
+    "sold": {
+      "heading": "Sold",
+      "description": "Contrary to popular belief, Lorem is not simply random text."
+    },
+    "products": {
+      "heading": "Products",
+      "description": "Contrary to popular belief, Lorem is not simply random text."
+    },
+    "our_team": {
+      "heading": "Our Team",
+      "description": "Meet out expert team members."
+    }
+  },
+  "wishlist": {
+    "breadcrumbs": {
+      "heaidng": "Wishlist",
+      "home": "Home",
+      "profile": "Profile"
+    }
+  },
+  "compare": {
+    "breadcrumbs": {
+      "heaidng": "Compare",
+      "home": "Home",
+      "compare_product": "Compare Product",
+      "add_to_cart": "Add to Cart",
+      "customer_feedback": "Customer Feedback",
+      "price": "Price",
+      "shop_by": "Shop by",
+      "brand": "Brand",
+      "stock_status": "Stock status",
+      "sizes": "Sizes"
+    }
+  },
+  "product-details": {
+    "breadcrumbs": {
+      "heaidng": "Product Details",
+      "home": "Home",
+      "product": "Product"
+    },
+    "brand": "Brand",
+    "category": "Category",
+    "discount": "Discount",
+    "color": "Color",
+    "size": "Size",
+    "sold": "sold",
+    "description": "Description",
+    "add_to_cart": "Add to Cart",
+    "buy_now": "Buy Now",
+    "add_to_wishlist": "Add to Wishlist",
+    "add_to_compare": "Add to Compare",
+    "worldwide_shipping": "Worldwide shipping",
+    "secure_payment": "Secure payment",
+    "years_warranty": "2 years full warranty",
+    "original": "100% Original",
+    "days_replacement": "10 Days Replacement",
+    "one_year_warranty": "1 year Warranty",
+    "verified_purchase": "Verified Purchase",
+    "reviews": "reviews",
+    " write_a_review": "Write A Review",
+    "related_products": {
+      "heading": "Related Products",
+      "description": "Lorem Ipsum Is Simply Dummy Text Of The Printing And Typesetting Industry."
+    }
+  },
+  "cart": {
+    "breadcrumbs": {
+      "heaidng": "Cart",
+      "home": "Home",
+      "product": "Product",
+      "shopping_cart": "Shopping Cart",
+      "items": "Items",
+      "price": "Price",
+      "quantity": "Quantity",
+      "total_price": "Total Price",
+      "action": "Action",
+      "color": "Color",
+      "size": "Size",
+      "available": "Available",
+      "continue_shopping": "Continue Shopping",
+      "clear_cart": "Clear Cart",
+      "payment_summary": "Payment Summary",
+      "subtotal": "Subtotal:",
+      "shipping": "Shipping:",
+      "total": "Total",
+      "checkout": "Checkout"
+    }
+  },
+  "checkout": {
+    "breadcrumbs": {
+      "heaidng": "Checkout",
+      "cart": "Cart",
+      "home": "Home"
+    },
+    "billing_detail": {
+      "shopping_cart": "Billing Detail",
+      "first_name": "First Name",
+      "first_name_is_required": "First name is required",
+      "last_name": "Last Name",
+      "last_name_is_required": "Last name is required",
+      "email": "EMAIL",
+      "phone": "Phone",
+      "address": "Address",
+      "address_is_required": "Address is required",
+      "twon_city": "TOWN CITY",
+      "town_is_required": "City is required",
+      "state": "STATE",
+      "state_is_required": "State is required:",
+      "postal_code": "ZIP/POSTAL CODE:",
+      "postal_code_required": "Postal is required",
+      "country": "COUNTRY",
+      "note": "NOTE",
+      "skip_text": "Ship to a different address?"
+    },
+    "cart_items": {
+      "heading": "Cart Items",
+      "color": "Color",
+      "quantity": "Quantity",
+      "size": "Size"
+    },
+    "payment_summary": {
+      "heading": "Payment Summary",
+      "subtotal": "Subtotal:",
+      "discount": "Discount",
+      "shipping": "Shipping",
+      "enter_coupon_code": "Enter coupon code",
+      "apply": "Apply",
+      "total": "Total"
+    },
+    "payment_method": {
+      "heading": "Payment Method",
+      "cash_on_delivery": "Cash On Delivery:",
+      "stripe": "Stripe",
+      "payPal": "PayPal",
+      "place_order": "Place Order",
+      "apply": "Apply",
+      "total": "Total"
     }
   }
 }
