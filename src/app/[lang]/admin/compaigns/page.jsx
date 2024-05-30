@@ -8,28 +8,28 @@ import HeaderBreadcrumbs from 'src/components/headerBreadcrumbs';
 
 // Meta information
 export const metadata = {
-  title: 'Currencies - Nextall',
+  title: 'Compaigns - Nextall',
   applicationName: 'Nextall',
   authors: 'Nextall'
 };
-export default function Currencies() {
+export default function Compaigns() {
   return (
     <>
       <HeaderBreadcrumbs
         admin
-        heading="Currencies List"
+        heading="Compaigns List"
         links={[
           {
             name: 'Admin Dashboard',
             href: '/admin'
           },
           {
-            name: 'Currencies'
+            name: 'Compaigns'
           }
         ]}
         action={{
-          href: `/admin/currencies/add`,
-          title: 'Add currency'
+          href: `/admin/compaigns/add`,
+          title: 'Add Compaign'
         }}
       />
       <CompaignList />
