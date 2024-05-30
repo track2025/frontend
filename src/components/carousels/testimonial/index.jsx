@@ -106,8 +106,8 @@ export default function TestimonialCarousel({ ...props }) {
           position: 'relative',
           overflow: 'hidden',
           height: '100%',
-          pt: { xs: '50%', md: 'unset' },
-          pb: { xs: '50%', md: 'unset' },
+          pt: { xs: '50%', sm: '30%', md: 'unset' },
+          pb: { xs: '50%', sm: '30%', md: 'unset' },
           '& .motion-dev': {
             position: 'absolute',
             width: '100%',

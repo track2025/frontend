@@ -17,30 +17,26 @@ export default function Banner() {
         mt: 4,
         overflow: 'hidden',
         position: 'relative',
-        display: { md: 'block', xs: 'none' },
-        '&:before': {
-          content: "''",
-          position: 'absolute',
-          bottom: '-40px',
-          left: 100,
-          bgcolor: (theme) => alpha(theme.palette.success.light, 0.77),
-          height: 80,
-          width: 80,
-          borderRadius: '50px',
-          zIndex: 0
-        }
+        display: { md: 'block', xs: 'none' }
       }}
     >
       <Box
         key={Math.random()}
         sx={{
           mt: 3,
-
           py: 12,
           position: 'relative'
         }}
       >
-        <BlurImage src={bannerImg} alt="banner-3" placeholder="blur" layout="fill" sizes="100vw" objectFit="cover" />
+        <BlurImage
+          src={bannerImg}
+          alt="banner-3"
+          placeholder="blur"
+          layout="fill"
+          static
+          sizes="100vw"
+          objectFit="cover"
+        />
         <Container maxWidth="xl">
           <Grid container alignItems="center" spacing={4}>
             <Grid item xs={6} md={6}>
