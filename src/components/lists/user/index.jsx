@@ -38,7 +38,12 @@ export default function UserList({ ...props }) {
   const dispatch = useDispatch();
 
   const toggleLogout = () => {
-    if (pathname.includes('admin') || pathname.includes('vendor') || pathname.includes('profile')) {
+    if (
+      pathname.includes('super admin') ||
+      pathname.includes('admin') ||
+      pathname.includes('vendor') ||
+      pathname.includes('profile')
+    ) {
       router.push('/auth/login');
     }
   };
@@ -129,9 +134,9 @@ export default function UserList({ ...props }) {
         onClick={() => {
           setOpen(false);
           router.push(
-            user?.role === 'admin' || user?.role === 'super admin'
+            user.role === 'admin' || user.role === 'super admin'
               ? '/admin/settings'
-              : user?.role === 'vendor'
+              : user.role === 'vendor'
                 ? '/vendor/settings'
                 : '/profile/general'
           );
@@ -146,9 +151,9 @@ export default function UserList({ ...props }) {
         onClick={() => {
           setOpen(false);
           router.push(
-            user?.role === 'admin' || user?.role === 'super admin'
+            user.role === 'admin' || user.role === 'super admin'
               ? '/admin/settings/change-password'
-              : user?.role === 'vendor'
+              : user.role === 'vendor'
                 ? '/vendor/settings/change-password'
                 : '/profile/change-password'
           );

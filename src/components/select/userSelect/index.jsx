@@ -72,7 +72,7 @@ export default function UserSelect({ isAdmin }) {
         </Stack>
       ) : (
         <>
-          {pathname.includes('/admin') || pathname.includes('/vendor/') ? (
+          {!isAuthenticated || pathname.includes('admin') || pathname.includes('vendor') ? (
             <IconButton ref={anchorRef} onClick={handleOpenUser} size="small" name="user-select">
               {user?.cover?.url ? (
                 <BlurImageAvatar priority alt={user.firstName} src={user?.cover?.url} layout="fill" objectFit="cover" />
