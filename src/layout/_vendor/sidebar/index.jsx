@@ -28,14 +28,14 @@ export const navlinks = [
   {
     id: 1,
     title: 'Dashboard',
-    slug: '/dashboard',
+    slug: 'dashboard',
     icon: <LuLayoutDashboard />
   },
 
   {
     id: 2,
     title: 'Products',
-    slug: '/products',
+    slug: 'products',
     icon: <BsShop />,
     isSearch: true
   },
@@ -43,21 +43,21 @@ export const navlinks = [
   {
     id: 3,
     title: 'Orders',
-    slug: '/orders',
+    slug: 'orders',
     icon: <BsCart3 />,
     isSearch: true
   },
   {
     id: 4,
     title: 'Shop',
-    slug: '/shop',
+    slug: 'shop',
     icon: <HiOutlineShoppingBag />,
     isSearch: false
   },
   {
     id: 5,
     title: 'Settings',
-    slug: '/settings',
+    slug: 'settings',
     icon: <IoSettingsOutline />,
     isSearch: false
   }
@@ -122,14 +122,13 @@ export default function Sidebar({ handleDrawerClose, handleDrawerOpen, open }) {
   const theme = useTheme();
   const router = useRouter();
   const pathname = usePathname();
-  const [active, setActive] = React.useState('/dashboard');
+  const [active, setActive] = React.useState('');
   const [initial, setInitial] = React.useState(false);
   const isMobile = useMediaQuery(theme.breakpoints.down('md'));
   React.useEffect(() => {
-    setActive(pathname);
+    setActive(pathname.split('/')[3]);
     setInitial(true);
   }, [pathname]);
-  console.log('/dashboard/' + pathname.split('/')[2], "'/dashboard/' + pathname.split('/')[1]");
   return (
     <div>
       <Drawer
@@ -204,8 +203,7 @@ export default function Sidebar({ handleDrawerClose, handleDrawerOpen, open }) {
                   display: 'block',
                   borderRadius: '8px',
                   border: `1px solid transparent`,
-                  ...((pathname.split('/')?.length > 3 ? '/vendor/' + pathname.split('/')[2] : active) ===
-                    '/vendor' + item.slug &&
+                  ...(active === item.slug &&
                     initial && {
                       bgcolor: (theme) => alpha(theme.palette.primary.main, 0.2),
                       border: (theme) => `1px solid ${theme.palette.primary.main}`,
@@ -219,8 +217,8 @@ export default function Sidebar({ handleDrawerClose, handleDrawerOpen, open }) {
                 <Tooltip title={open ? '' : item.title} placement="left" arrow leaveDelay={200}>
                   <ListItemButton
                     onClick={() => {
-                      setActive('/vendor' + item.slug);
-                      router.push('/vendor' + item.slug);
+                      setActive(item.slug);
+                      router.push('/vendor/' + item.slug);
                       isMobile && handleDrawerClose();
                     }}
                     sx={{
