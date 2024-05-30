@@ -2,10 +2,11 @@ import React from 'react';
 import { GoGitCompare } from 'react-icons/go';
 import { IconButton, Badge, alpha, Stack, Typography } from '@mui/material';
 import { useSelector } from 'react-redux';
+import Link from 'next/link';
 export default function WishlistWidget() {
   const { products: compareProducts } = useSelector(({ compare }) => compare);
   return (
-    <>
+    <Link href="/compare">
       <Stack
         direction="row"
         spacing={1}
@@ -37,6 +38,6 @@ export default function WishlistWidget() {
           </Typography>
         </Stack>
       </Stack>
-    </>
+    </Link>
   );
 }
