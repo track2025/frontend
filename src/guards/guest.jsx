@@ -13,12 +13,15 @@ Guest.propTypes = {
 };
 export default function Guest({ children }) {
   const router = useRouter();
-  const { isAuthenticated } = useSelector(({ user }) => user);
+  const { isAuthenticated, user } = useSelector(({ user }) => user);
   const [isAuth, setAuth] = useState(true);
   useEffect(() => {
     if (isAuthenticated) {
       setAuth(false);
-      router.push('/');
+
+      const isAdmin = user.role.includes('admin');
+      const isVendor = user.role.includes('vendor');
+      router.push(isAdmin ? '/admin/dashboard' : isVendor ? '/vendor/dashboard' : '/');
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);

@@ -18,7 +18,7 @@ export default function Guest({ children }) {
     if (!isAuthenticated || !user?.role.includes('admin')) {
       setAdmin(false);
       toast.error("You're not allowed to access dashboard");
-      router.push('/');
+      router.push('/auth/login');
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);

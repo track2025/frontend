@@ -50,7 +50,12 @@ export default function LoginForm() {
       await createCookies('token', data.token);
       setloading(false);
       toast.success('Logged in successfully!');
-      push(redirect || '/', 'isAlreadyPathname');
+      const isAdmin = data.user.role.includes('admin');
+      const isVendor = data.user.role.includes('vendor');
+      push(
+        redirect || isAdmin ? '/admin/dashboard' : isVendor ? '/vendor/dashboard' : '/',
+        isAdmin || isVendor ? null : 'isAlreadyPathname'
+      );
     },
     onError: (err) => {
       setloading(false);

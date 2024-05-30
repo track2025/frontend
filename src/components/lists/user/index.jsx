@@ -37,10 +37,12 @@ export default function UserList({ ...props }) {
   const router = useRouter();
   const dispatch = useDispatch();
 
-  const toggleLogout = () => {
-    if (pathname.includes('admin') || pathname.includes('vendor') || pathname.includes('profile')) {
-      router.push('/auth/login');
-    }
+  const onLogout = () => {
+    deleteCookies('token');
+    dispatch(setLogout());
+    dispatch(resetWishlist());
+    setOpen(false);
+    location.href = '/' + pathname.split('/')[1] + '/auth/login';
   };
 
   return (
@@ -160,19 +162,7 @@ export default function UserList({ ...props }) {
         Change Password
       </MenuItem>
       <Box px={2} mt={1}>
-        <Button
-          onClick={() => {
-            deleteCookies('token');
-            dispatch(setLogout());
-            dispatch(resetWishlist());
-            setOpen(false);
-            toggleLogout();
-          }}
-          variant="outlined"
-          color="inherit"
-          startIcon={<LuLogOut />}
-          fullWidth
-        >
+        <Button onClick={onLogout} variant="outlined" color="inherit" startIcon={<LuLogOut />} fullWidth>
           Logout
         </Button>
       </Box>

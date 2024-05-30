@@ -26,10 +26,10 @@ Dashboard.propTypes = {
 };
 export default function Dashboard({ isVendor }) {
   const { data: dashboard, isLoading } = useQuery(
-    'dashboard-analytics',
+    isVendor ? 'vendor-analytics' : 'dashboard-analytics',
     api[isVendor ? 'vendorAnalytics' : 'dashboardAnalytics'],
     {
-      refetchInterval: 10000,
+      // refetchInterval: 10000,
       onError: (error) => toast.error(error.message || 'Something went wrong!')
     }
   );
