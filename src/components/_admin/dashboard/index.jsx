@@ -7,7 +7,8 @@ import toast from 'react-hot-toast';
 import DashboardCard from 'src/components/_admin/dashboard/dashboardCard';
 import LowStockProducts from 'src/components/_admin/dashboard/lowStockProducts';
 // icon
-import { FaFileInvoiceDollar } from 'react-icons/fa6';
+import { AiOutlineDollarCircle } from 'react-icons/ai';
+
 import { BsClipboard2DataFill } from 'react-icons/bs';
 import OrderChart from 'src/components/charts/Order';
 import SalesChart from 'src/components/charts/Sales';
@@ -54,7 +55,7 @@ export default function Dashboard({ isVendor }) {
           <DashboardCard
             color="primary"
             isAmount
-            icon={<FaFileInvoiceDollar size={24} />}
+            icon={<AiOutlineDollarCircle size={24} />}
             title="Daily Earning"
             value={daily_earning}
             isLoading={isLoading}
