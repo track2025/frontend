@@ -145,10 +145,10 @@ export default function LanguageSelect() {
                         }}
                       >
                         <Stack>
-                          <Typography variant="subtitle2">
+                          <Typography variant="subtitle2" noWrap>
                             {isLoading ? <Skeleton variant="text" width={120} /> : `${cur.name}-${cur.code}`}
                           </Typography>
-                          <Typography variant="body2">
+                          <Typography variant="body2" noWrap>
                             {isLoading ? <Skeleton variant="text" width={60} /> : cur.country}
                           </Typography>
                         </Stack>

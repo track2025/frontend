@@ -81,7 +81,7 @@ export default function Testimonials() {
               Let's explore customer sentiments towards our offerings.
             </Typography>
             <Stack sx={{ display: { xs: 'none', md: 'flex' } }}>
-              <Typography variant="body1" color="text.secondary" mb={2}>
+              <Typography variant="body1" color="text.secondary" mb={2} maxWidth={{ xs: '100%', md: 550 }}>
                 Discover what customers are saying about our products. Dive into the feedback on the quality and
                 performance of our offerings. Gain insights into how our customers perceive our products and their
                 overall satisfaction. Your opinions matter, and we're here to listen..

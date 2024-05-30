@@ -92,6 +92,8 @@ export default function CompaginCard({ compaign, isLoading }) {
             <Image
               alt="shop"
               src={compaign?.cover?.url}
+              placeholder="blur"
+              blurDataURL={compaign?.cover?.blurDataURL}
               layout="fill"
               objectFit="cover"
               static
