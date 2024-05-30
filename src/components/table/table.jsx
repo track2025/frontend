@@ -31,7 +31,7 @@ CustomTable.propTypes = {
   isDashboard: PropTypes.bool,
   mobileRow: PropTypes.elementType,
   row: PropTypes.elementType.isRequired,
-  filters: PropTypes.any,
+  filters: PropTypes.arr,
   isSearch: PropTypes.bool
 };
 export default function CustomTable({ filters = [], ...props }) {

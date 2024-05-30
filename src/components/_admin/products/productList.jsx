@@ -72,23 +72,27 @@ export default function AdminProducts({ brands, categories, shops, isVendor }) {
         brands={isVendor ? [] : brands}
         categories={isVendor ? [] : categories}
         isVendor={isVendor}
-        filters={[
-          {
-            name: 'Shop',
-            param: 'shop',
-            data: shops
-          },
-          {
-            name: 'Category',
-            param: 'category',
-            data: categories
-          },
-          {
-            name: 'Brand',
-            param: 'brand',
-            data: brands
-          }
-        ]}
+        filters={
+          isVendor
+            ? []
+            : [
+                {
+                  name: 'Shop',
+                  param: 'shop',
+                  data: shops
+                },
+                {
+                  name: 'Category',
+                  param: 'category',
+                  data: categories
+                },
+                {
+                  name: 'Brand',
+                  param: 'brand',
+                  data: brands
+                }
+              ]
+        }
         isSearch
       />
     </>

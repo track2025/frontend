@@ -67,13 +67,17 @@ export default function OrdersAdminList({ isVendor, shops }) {
         handleClickOpen={handleClickOpen}
         isVendor={isVendor}
         isSearch
-        filters={[
-          {
-            name: 'Shop',
-            param: 'shop',
-            data: shops
-          }
-        ]}
+        filters={
+          isVendor
+            ? []
+            : [
+                {
+                  name: 'Shop',
+                  param: 'shop',
+                  data: shops
+                }
+              ]
+        }
       />
     </>
   );

@@ -105,17 +105,26 @@ export default function IncomeChart({ income, commission, isVendor, isLoading })
             <ReactApexChart
               type="bar"
               stack
-              series={[
-                {
-                  name: 'Income',
-                  data: income[seriesData]
-                },
+              series={
+                isVendor
+                  ? [
+                      {
+                        name: 'Income',
+                        data: income[seriesData]
+                      }
+                    ]
+                  : [
+                      {
+                        name: 'Income',
+                        data: income[seriesData]
+                      },
 
-                {
-                  name: 'Commission',
-                  data: commission[seriesData]
-                }
-              ].slice(0, !isVendor ? 2 : 1)}
+                      {
+                        name: 'Commission',
+                        data: commission[seriesData]
+                      }
+                    ].slice(0, !isVendor ? 2 : 1)
+              }
               options={chartOptions}
               height={isMobile ? 260 : 400}
             />
