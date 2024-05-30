@@ -66,7 +66,7 @@ export default function UserList({ ...props }) {
         </ListItemIcon>
         Home
       </MenuItem>
-      {user.role === 'admin' || user.role === 'super admin' ? (
+      {user?.role === 'admin' || user?.role === 'super admin' ? (
         <MenuItem
           onClick={() => {
             router.push('/admin/dashboard');

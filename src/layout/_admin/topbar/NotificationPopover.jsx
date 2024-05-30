@@ -45,7 +45,7 @@ const NotificationPopover = ({ item, onClose }) => {
       <ListItemButton
         alignItems="flex-start"
         onClick={() => {
-          router.push(`/dashboard/orders/${item?.orderId}`);
+          router.push(`/admin/orders/${item?.orderId}`);
           onClose();
         }}
         sx={{

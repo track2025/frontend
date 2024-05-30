@@ -81,7 +81,7 @@ export default function SubCategoryForm({
       onSuccess: (data) => {
         toast.success(data.message);
 
-        router.push('/dashboard/sub-categories');
+        router.push('/admin/sub-categories');
       },
       onError: (error) => {
         toast.error(error.response.data.message);
