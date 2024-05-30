@@ -48,8 +48,6 @@ export default function Brands({ data }) {
                   display: 'flex',
                   alignItems: 'center',
                   justifyContent: 'center',
-                  // width: '80px',
-                  height: '80px',
                   borderRadius: '10px',
                   position: 'relative',
                   mb: 3,
