@@ -15,13 +15,14 @@ export default function Guest({ children }) {
   const { isAuthenticated, user } = useSelector(({ user }) => user);
 
   useEffect(() => {
-    if (!isAuthenticated || !user?.role.includes('admin')) {
+    if (!isAuthenticated || !user.role === 'super admin' || !user.role === 'admin') {
       setAdmin(false);
       toast.error("You're not allowed to access dashboard");
       router.push('/');
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
   if (!isAdmin) {
     return <Loading />;
   }
