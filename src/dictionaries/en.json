@@ -1,9 +1,128 @@
 {
-  "server-component": {
-    "welcome": "Welcome"
-  },
-  "counter": {
-    "increment": "Increment",
-    "decrement": "Decrement"
+  "home": {
+    "layout": {
+      "topbar": {
+        "quick_help": "Quick Help",
+        "order_tracking": "Order Tracking",
+        "login": "Login",
+        "register": "Register",
+        "become-a-seller": "Become a seller"
+      },
+      "navbar": {
+        "search": "Search...",
+        "wishlist": "Wishlist",
+        "compare": "Compare",
+        "cart": "Cart",
+        "item": "item",
+        "items": "Items",
+        "home": "Home",
+        "products": "Products",
+        "shops": "Shops",
+        "compaigns": "Compaigns",
+        "contact": "Contact",
+        "about": "About",
+        "categories": "Categories"
+      },
+      "footer": {
+        "description": "Lorem Ipsum is simply dummy text of the printing and typesetting industry.",
+        "resource": {
+          "heading": "Resource",
+          "about": "About us",
+          "contact": "Contact us",
+          "shop": "Shops",
+          "brands": "Brands"
+        },
+        "company": {
+          "heading": "Company",
+          "product": "Products",
+          "men": "Men",
+          "women": "Women",
+          "kids": "Kids"
+        },
+        "newsletter": {
+          "heading": "Join a Newsletter",
+          "subscribe": "Subscribe",
+          "enter_email": "Enter Your Email"
+        },
+        "copyright": "© 2024 Nextall. All rights reserved"
+      }
+    },
+    "top-banner": {
+      "banner1": {
+        "title": "Shop the latest from top brands",
+        "description": "Fully Comforable and Smooth Product",
+        "button-text": "View Collection"
+      },
+      "banner2": {
+        "title": "Shop the latest from top brands",
+        "description": "Fully Comforable and Smooth Product",
+        "button-text": "View Collection"
+      }
+    },
+    "why-us": {
+      "free-shipping": {
+        "title": "Free Shipping",
+        "description": "When you spend $100+"
+      },
+      "feedbacks": {
+        "title": "Feedbacks",
+        "description": "100% Customer"
+      },
+      "free-return": {
+        "title": "Free Return",
+        "description": "30 Day Returns Policy"
+      },
+      "secure-system": {
+        "title": "Secure System",
+        "description": "100% Secure Gaurantee"
+      },
+      "online-supports": {
+        "title": "Online Supports",
+        "description": "24/7 Dedicated Support."
+      }
+    },
+    "best-selling": {
+      "heading": "Best Selling Products",
+      "description": "Special products in this month",
+      "view-more": "View More"
+    },
+    "all-compaigns": {
+      "heading": "All Compaigns",
+      "description": "All of Ours Compaigns",
+      "view-more": "View More"
+    },
+    "main-banner": {
+      "heading": "UK Premier Store for Wrist Watches",
+      "description": "Welcome to our world of horological excellence, where timepieces become timeless statements of elegance. Our collection showcases an unparalleled selection of premium watches, curated from renowned luxury brands around the globe",
+      "view-more": "View More"
+    },
+    "top-collection": {
+      "heading": "Top Collection",
+      "description": "Lorem Ipsum Is Simply Dummy Text Of The Printing And Typesetting Industry.",
+      "view-more": "View More"
+    },
+    "best-shops": {
+      "heading": "Best Shops",
+      "description": "Our Highest Rated Shops Where You Can Find What You Are Looking For",
+      "view-more": "View More",
+      "view-store": "View Store",
+      "follow": "Follow",
+      "followers": "Followers",
+      "total-products": "Total Products"
+    },
+    "featured-products": {
+      "heading": "Featured Products",
+      "description": "Lorem Ipsum Is Simply Dummy Text Of The Printing And Typesetting Industry.",
+      "view-more": "View More"
+    },
+    "reviews": {
+      "heading": "Let's explore customer sentiments towards our offerings.",
+      "description": "Discover what customers are saying about our products. Dive into the feedback on the quality and performance of our offerings. Gain insights into how our customers perceive our products and their overall satisfaction. Your opinions matter, and we're here to listen.."
+    },
+    "brands": {
+      "heading": "Brands",
+      "description": "Lorem Ipsum Is Simply Dummy Text Of The Printing And Typesetting Industry.",
+      "view-more": "View More"
+    }
   }
 }
