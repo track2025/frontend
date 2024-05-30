@@ -131,9 +131,9 @@ export default function UserList({ ...props }) {
         onClick={() => {
           setOpen(false);
           router.push(
-            user?.role === 'admin' || user?.role === 'super admin'
+            user.role === 'admin' || user.role === 'super admin'
               ? '/admin/settings'
-              : user?.role === 'vendor'
+              : user.role === 'vendor'
                 ? '/vendor/settings'
                 : '/profile/general'
           );
@@ -148,9 +148,9 @@ export default function UserList({ ...props }) {
         onClick={() => {
           setOpen(false);
           router.push(
-            user?.role === 'admin' || user?.role === 'super admin'
+            user.role === 'admin' || user.role === 'super admin'
               ? '/admin/settings/change-password'
-              : user?.role === 'vendor'
+              : user.role === 'vendor'
                 ? '/vendor/settings/change-password'
                 : '/profile/change-password'
           );
