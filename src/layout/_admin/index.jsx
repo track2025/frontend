@@ -9,8 +9,9 @@ import Box from '@mui/material/Box';
 import DashboardAppbar from './topbar';
 import DashboardSidebar from './sidebar';
 // redux
-import { useDispatch } from 'src/lib/redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { toggleSidebar } from 'src/lib/redux/slices/settings';
+import { useRouter } from 'next-nprogress-bar';
 
 const DrawerHeader = styled('div')(({ theme }) => ({
   display: 'flex',
@@ -22,6 +23,8 @@ const DrawerHeader = styled('div')(({ theme }) => ({
 
 export default function MiniDrawer({ children }) {
   const [open, setOpen] = React.useState(false);
+  const router = useRouter();
+  const { user, isAuthenticated } = useSelector(({ user }) => user);
   const dispatch = useDispatch();
   const handleDrawerOpen = () => {
     setOpen(true);
@@ -32,6 +35,11 @@ export default function MiniDrawer({ children }) {
     setOpen(false);
     dispatch(toggleSidebar(false));
   };
+  React.useEffect(() => {
+    if (!isAuthenticated || !user?.role === 'super admin' || !user?.role === 'admin') {
+      router.push('/auth/login');
+    }
+  }, []);
 
   return (
     <Box sx={{ display: 'flex' }}>

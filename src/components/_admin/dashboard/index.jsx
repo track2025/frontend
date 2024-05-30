@@ -8,8 +8,14 @@ import DashboardCard from 'src/components/_admin/dashboard/dashboardCard';
 import LowStockProducts from 'src/components/_admin/dashboard/lowStockProducts';
 // icon
 import { AiOutlineDollarCircle } from 'react-icons/ai';
+import { PiUsersThree } from 'react-icons/pi';
 
-import { BsClipboard2DataFill } from 'react-icons/bs';
+import { BsShop } from 'react-icons/bs';
+import { BiSolidShoppingBags } from 'react-icons/bi';
+import { GrWorkshop } from 'react-icons/gr';
+import { LuFileClock } from 'react-icons/lu';
+import { FiFileText } from 'react-icons/fi';
+import { LuFileInput } from 'react-icons/lu';
 import OrderChart from 'src/components/charts/Order';
 import SalesChart from 'src/components/charts/Sales';
 import IncomeChart from 'src/components/charts/Income';
@@ -66,7 +72,7 @@ export default function Dashboard({ isVendor }) {
             color="secondary"
             title="Daily Orders"
             value={daily_orders}
-            icon={<BsClipboard2DataFill size={24} />}
+            icon={<FiFileText size={24} />}
             isLoading={isLoading}
           />
         </Grid>
@@ -76,7 +82,7 @@ export default function Dashboard({ isVendor }) {
               color="warning"
               title="Total Users"
               value={daily_users}
-              icon={<BsClipboard2DataFill size={24} />}
+              icon={<PiUsersThree size={30} />}
               isLoading={isLoading}
             />
           </Grid>
@@ -87,7 +93,7 @@ export default function Dashboard({ isVendor }) {
             color="error"
             title="Total Products"
             value={totalProducts}
-            icon={<BsClipboard2DataFill size={24} />}
+            icon={<BiSolidShoppingBags size={24} />}
             isLoading={isLoading}
           />
         </Grid>
@@ -97,7 +103,7 @@ export default function Dashboard({ isVendor }) {
               color="success"
               title="Total Vendors"
               value={totalVendors}
-              icon={<BsClipboard2DataFill size={24} />}
+              icon={<GrWorkshop size={24} />}
               isLoading={isLoading}
             />
           </Grid>
@@ -108,7 +114,7 @@ export default function Dashboard({ isVendor }) {
               color="info"
               title="Total Shop"
               value={totalShops}
-              icon={<BsClipboard2DataFill size={24} />}
+              icon={<BsShop size={24} />}
               isLoading={isLoading}
             />
           </Grid>
@@ -119,7 +125,7 @@ export default function Dashboard({ isVendor }) {
             color="#01838F"
             title="Pending Orders"
             value={totalPendingOrders}
-            icon={<BsClipboard2DataFill size={24} />}
+            icon={<LuFileClock size={24} />}
             isLoading={isLoading}
           />
         </Grid>
@@ -129,7 +135,7 @@ export default function Dashboard({ isVendor }) {
               color="#AFB42B"
               title="Retruned Orders"
               value={totalReturnOrders}
-              icon={<BsClipboard2DataFill size={24} />}
+              icon={<LuFileInput size={24} />}
               isLoading={isLoading}
             />
           </Grid>
