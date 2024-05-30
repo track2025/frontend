@@ -6,7 +6,7 @@ import { usePathname } from 'next/navigation';
 import dynamic from 'next/dynamic';
 // mui
 import { alpha } from '@mui/material/styles';
-import { Toolbar, Skeleton, Stack, AppBar, useMediaQuery, Box } from '@mui/material';
+import { Toolbar, Skeleton, Stack, AppBar, useMediaQuery, Box, Container } from '@mui/material';
 // redux
 import { useSelector } from 'react-redux';
 
@@ -100,22 +100,24 @@ export default function Navbar() {
           }
         }}
       >
-        <Toolbar disableGutters className="toolbar">
-          <Stack gap={4} direction="row" alignItems={'center'}>
-            <MainLogo />
-            <Search />
-          </Stack>
-          {/* {isLoading ? <Skeletons /> : <MenuDesktop isHome={isHome} navConfig={menu} categories={data?.data} />} */}
+        <Container maxWidth="xl">
+          <Toolbar disableGutters className="toolbar" sx={{ px: '0px!important' }}>
+            <Stack gap={4} direction="row" alignItems={'center'}>
+              <MainLogo />
+              <Search />
+            </Stack>
+            {/* {isLoading ? <Skeletons /> : <MenuDesktop isHome={isHome} navConfig={menu} categories={data?.data} />} */}
 
-          <Stack gap={2} direction="row" alignItems={'center'}>
-            <LanguageSelect />
-            <SettingMode />
-            <WishlistPopover />
-            <CompareWidget />
-            <CartWidget checkout={checkout} />
-            {/* <UserSelect /> */}
-          </Stack>
-        </Toolbar>
+            <Stack gap={2} direction="row" alignItems={'center'}>
+              <LanguageSelect />
+              <SettingMode />
+              <WishlistPopover />
+              <CompareWidget />
+              <CartWidget checkout={checkout} />
+              {/* <UserSelect /> */}
+            </Stack>
+          </Toolbar>
+        </Container>
       </AppBar>
       {isMobile && <MobileBar />}
       {/* {data?.adminPopup && <AdminDialog isOpen={data?.adminPopup} />} */}

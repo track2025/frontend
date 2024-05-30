@@ -22,14 +22,13 @@ const TABLE_HEAD = [
   { id: 'createdAt', label: 'Date', alignRight: false, sort: true },
   { id: '', label: 'actions', alignRight: true }
 ];
-export default function OrdersAdminList({ isVendor }) {
+export default function OrdersAdminList({ isVendor, shops }) {
   const searchParams = useSearchParams();
-  const pageParam = searchParams.get('page');
-  const searchParam = searchParams.get('search');
+
   const [apicall, setApicall] = useState(false);
   const { data, isLoading: loadingList } = useQuery(
-    ['orders', apicall, pageParam, searchParam],
-    () => api[isVendor ? 'getOrdersByVendor' : 'getOrdersByAdmin'](+pageParam || 1, searchParam || ''),
+    ['orders', apicall, searchParams.toString()],
+    () => api[isVendor ? 'getOrdersByVendor' : 'getOrdersByAdmin'](searchParams.toString()),
     {
       onError: (err) => toast.error(err.response.data.message || 'Something went wrong!')
     }
@@ -68,6 +67,13 @@ export default function OrdersAdminList({ isVendor }) {
         handleClickOpen={handleClickOpen}
         isVendor={isVendor}
         isSearch
+        filters={[
+          {
+            name: 'Shop',
+            param: 'shop',
+            data: shops
+          }
+        ]}
       />
     </>
   );

@@ -3,13 +3,15 @@ import React from 'react';
 import Toolbar from 'src/components/_admin/toolbar';
 import HeaderBreadcrumbs from 'src/components/headerBreadcrumbs';
 import PayoutsList from 'src/components/_admin/payouts';
+import * as api from 'src/services';
 // Meta information
 export const metadata = {
   title: 'Payouts - Nextall',
   applicationName: 'Nextall',
   authors: 'Nextall'
 };
-export default function page() {
+export default async function page() {
+  const { data: shops } = await api.getAllShopsByAdmin();
   return (
     <div>
       <HeaderBreadcrumbs
@@ -25,7 +27,7 @@ export default function page() {
           }
         ]}
       />
-      <PayoutsList />
+      <PayoutsList shops={shops} />
     </div>
   );
 }

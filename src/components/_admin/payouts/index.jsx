@@ -23,15 +23,14 @@ const TABLE_HEAD = [
   { id: 'createdAt', label: 'Created', alignRight: false },
   { id: '', label: 'actions', alignRight: true }
 ];
-export default function PayoutsList() {
+export default function PayoutsList({ shops }) {
   const searchParams = useSearchParams();
-  const pageParam = searchParams.get('page');
-  const searchParam = searchParams.get('search');
+
   const [payment, setPayment] = useState(null);
   const [count, setCount] = useState(0);
   const { data, isLoading: loadingList } = useQuery(
-    ['payouts', pageParam, searchParam, count],
-    () => api['getPayoutsByAdmin'](+pageParam || 1, searchParam || ''),
+    ['payouts', searchParams.toString(), count],
+    () => api.getPayoutsByAdmin(searchParams.toString()),
     {
       onError: (err) => toast.error(err.response.data.message || 'Something went wrong!')
     }
@@ -49,6 +48,31 @@ export default function PayoutsList() {
         handleClickOpen={(v) => setPayment(v)}
         isPayout
         isSearch
+        filters={[
+          {
+            name: 'Shop',
+            param: 'shop',
+            data: shops
+          },
+          {
+            name: 'Status',
+            param: 'status',
+            data: [
+              {
+                name: 'Pending',
+                value: 'pending'
+              },
+              {
+                name: 'Paid',
+                slug: 'paid'
+              },
+              {
+                name: 'Hold',
+                slug: 'hold'
+              }
+            ]
+          }
+        ]}
       />
       <EditPaymentDialog
         handleClose={() => setPayment(null)}

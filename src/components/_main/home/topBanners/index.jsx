@@ -18,7 +18,7 @@ export default function Index() {
   return (
     <Box mb={2} mt={2}>
       <Container maxWidth="xl">
-        <Grid container spacing={3}>
+        <Grid container spacing={2}>
           <Grid item lg={6} md={6} xs={12} sm={6}>
             <Card
               sx={{

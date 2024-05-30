@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useCallback } from 'react';
 // mui
-import { Divider, Card, Table, TableBody, TableContainer, Stack } from '@mui/material';
+import { Divider, Card, Table, TableBody, TableContainer, Stack, Typography } from '@mui/material';
 // components
 import NotFound from 'src/components/illustrations/noDataFound';
 import Pagination from 'src/components/pagination';
@@ -35,7 +35,7 @@ CustomTable.propTypes = {
   isSearch: PropTypes.bool
 };
 export default function CustomTable({ filters = [], ...props }) {
-  const { headData, data, isLoading, isDashboard, isSearch, row, ...rest } = props;
+  const { headData, data, isLoading, isDashboard, heading, isSearch, row, ...rest } = props;
   const { push } = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
@@ -69,6 +69,11 @@ export default function CustomTable({ filters = [], ...props }) {
     <Card>
       <>
         <Stack spacing={2} direction="row" alignItems="center" justifyContent="space-between" sx={{ p: 2 }}>
+          {heading ? (
+            <Typography variant="h4" color="text.primary" px={2} py={2}>
+              {heading}
+            </Typography>
+          ) : null}
           {isSearch ? <Search /> : null}{' '}
           <Stack spacing={2} direction="row">
             {filters.map((item) => (
@@ -101,8 +106,8 @@ export default function CustomTable({ filters = [], ...props }) {
           </>
         ) : (
           <>
-            <TableContainer sx={{ maxHeight: 440 }}>
-              <Table size="small" sx={{ minWidth: 650 }} stickyHeader>
+            <TableContainer>
+              <Table size="small" sx={{ minWidth: 650 }}>
                 <TableHead headData={headData} />
                 <TableBody>
                   {(isLoading ? Array.from(new Array(6)) : data?.data).map((item) => {

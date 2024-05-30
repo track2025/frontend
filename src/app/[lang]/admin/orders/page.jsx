@@ -1,15 +1,16 @@
 import React from 'react';
 // Components
-import Toolbar from 'src/components/_admin/toolbar';
 import HeaderBreadcrumbs from 'src/components/headerBreadcrumbs';
 import OrdersList from 'src/components/_admin/orders/ordersList';
+import * as api from 'src/services';
 // Meta information
 export const metadata = {
   title: 'Order - Nextall',
   applicationName: 'Nextall',
   authors: 'Nextall'
 };
-export default function page() {
+export default async function page() {
+  const { data: shops } = await api.getAllShopsByAdmin();
   return (
     <div>
       <HeaderBreadcrumbs
@@ -25,7 +26,7 @@ export default function page() {
           }
         ]}
       />
-      <OrdersList />
+      <OrdersList shops={shops} />
     </div>
   );
 }

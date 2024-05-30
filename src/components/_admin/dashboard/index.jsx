@@ -152,12 +152,7 @@ export default function Dashboard({ isVendor }) {
           />
         </Grid>
         <Grid item xs={12}>
-          <Card>
-            <Typography variant="h6" color="text.primary" px={2} py={2}>
-              Low Stock Products
-            </Typography>
-            <LowStockProducts isVendor={isVendor} />
-          </Card>
+          <LowStockProducts isVendor={isVendor} />
         </Grid>
       </Grid>
     </Box>

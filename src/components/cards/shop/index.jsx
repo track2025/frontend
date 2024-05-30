@@ -174,11 +174,7 @@ export default function ShopCard({ ...props }) {
             {isLoading ? <Skeleton variant="text" width={100} sx={{ mx: 'auto' }} /> : shop?.title}
           </Typography>
           <Typography color="text.secondary" variant="body1" textAlign="center">
-            {isLoading ? (
-              <Skeleton variant="text" width={'100%'} />
-            ) : (
-              'Our Highest Rated Shops Where You Can Find What You Are'
-            )}
+            {isLoading ? <Skeleton variant="text" width={'100%'} /> : shop.description}
           </Typography>
         </Stack>
         <Stack direction="row" spacing={1.5} justifyContent="center" mt={1}>

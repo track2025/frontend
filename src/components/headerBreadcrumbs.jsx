@@ -3,7 +3,7 @@
 import { isString } from 'lodash';
 import PropTypes from 'prop-types';
 // mui
-import { Box, Link, Button, Fab, Typography, alpha, useTheme } from '@mui/material';
+import { Box, Link, Button, Stack, Typography, alpha, useTheme } from '@mui/material';
 import { IoMdAdd } from 'react-icons/io';
 
 // components
@@ -63,9 +63,9 @@ export default function HeaderBreadcrumbs({ ...props }) {
         })
       }}
     >
-      <Box
+      <Stack
+        direction="row"
         sx={{
-          display: 'flex',
           alignItems: 'center',
           justifyContent: 'space-between',
           ...(!admin && {
@@ -86,9 +86,7 @@ export default function HeaderBreadcrumbs({ ...props }) {
       >
         <Box
           sx={{
-            flexGrow: 1,
-            zInex: 99,
-            position: 'relative'
+            width: '50%'
           }}
         >
           <Typography variant="h3" gutterBottom sx={{ textTransform: 'capitalize', width: '80vw' }} noWrap>
@@ -117,7 +115,7 @@ export default function HeaderBreadcrumbs({ ...props }) {
             action
           )
         ) : null}
-      </Box>
+      </Stack>
 
       <Box>
         {isString(moreLink) ? (

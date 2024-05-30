@@ -28,7 +28,9 @@ export default async function IndexPage() {
   const { data: brands } = await api.getHomeBrands();
   return (
     <>
-      <Hero data={homeShops} />
+      <Container maxWidth="xl">
+        <Hero data={homeShops} />
+      </Container>
       <TopBanners />
       <Container maxWidth="xl">
         <WhyUs />

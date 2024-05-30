@@ -4,7 +4,7 @@ import dynamic from 'next/dynamic';
 // redux
 import { useSelector } from 'react-redux';
 // mui
-import { Toolbar, Typography, Stack, useTheme, Link, Divider, Skeleton } from '@mui/material';
+import { Toolbar, Container, Stack, useTheme, Link, Divider, Skeleton } from '@mui/material';
 import { LiaShippingFastSolid } from 'react-icons/lia';
 import NextLink from 'src/utils/link';
 const UserSelect = dynamic(() => import('src/components/select/userSelect'), {
@@ -23,31 +23,45 @@ export default function UserTopbar() {
   const { user, isAuthenticated } = useSelector(({ user }) => user);
 
   return (
-    <Toolbar
-      sx={{
-        minHeight: `36px !important`,
-        background: theme.palette.background.default,
-        justifyContent: 'space-between',
-        display: { xs: 'none', md: 'flex' },
-        position: 'static',
-        // top: 0,
-        zIndex: 999,
-        width: '100%'
-      }}
-    >
-      <Stack direction="row" alignItems="center" spacing={1}>
-        <Link component={NextLink} href={'/'} sx={{ color: 'text.primary', fontSize: 14 }}>
-          Quick Help
-        </Link>
-        <Divider orientation="vertical" flexItem />
-        <Link component={NextLink} href={'/'} sx={{ color: 'text.primary', fontSize: 14 }}>
-          Order Tracking
-        </Link>
-      </Stack>
-      <Stack direction="row" alignItems="center" spacing={1}>
-        <UserSelect />
-        {isAuthenticated ? (
-          user.role === 'user' && (
+    <Container maxWidth="xl">
+      <Toolbar
+        sx={{
+          minHeight: `36px !important`,
+          background: theme.palette.background.default,
+          justifyContent: 'space-between',
+          display: { xs: 'none', md: 'flex' },
+          position: 'static',
+          // top: 0,
+          zIndex: 999,
+          width: '100%',
+          px: '0px!important'
+        }}
+      >
+        <Stack direction="row" alignItems="center" spacing={1}>
+          <Link component={NextLink} href={'/'} sx={{ color: 'text.primary', fontSize: 14 }}>
+            Quick Help
+          </Link>
+          <Divider orientation="vertical" flexItem />
+          <Link component={NextLink} href={'/'} sx={{ color: 'text.primary', fontSize: 14 }}>
+            Order Tracking
+          </Link>
+        </Stack>
+        <Stack direction="row" alignItems="center" spacing={1}>
+          <UserSelect />
+          {isAuthenticated ? (
+            user.role === 'user' && (
+              <>
+                <Divider orientation="vertical" flexItem />
+                <Link
+                  component={NextLink}
+                  href={isAuthenticated ? '/create-shop' : '/auth/register?redirect=/create-shop'}
+                  sx={{ color: 'text.primary', fontSize: 14 }}
+                >
+                  Become a seller
+                </Link>
+              </>
+            )
+          ) : (
             <>
               <Divider orientation="vertical" flexItem />
               <Link
@@ -58,20 +72,9 @@ export default function UserTopbar() {
                 Become a seller
               </Link>
             </>
-          )
-        ) : (
-          <>
-            <Divider orientation="vertical" flexItem />
-            <Link
-              component={NextLink}
-              href={isAuthenticated ? '/create-shop' : '/auth/register?redirect=/create-shop'}
-              sx={{ color: 'text.primary', fontSize: 14 }}
-            >
-              Become a seller
-            </Link>
-          </>
-        )}
-      </Stack>
-    </Toolbar>
+          )}
+        </Stack>
+      </Toolbar>
+    </Container>
   );
 }

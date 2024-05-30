@@ -65,6 +65,7 @@ export default function AdminProducts({ isVendor }) {
         />
       </Dialog>
       <Table
+        heading={'Low Stock Products'}
         isDashboard
         headData={TABLE_HEAD}
         data={data}

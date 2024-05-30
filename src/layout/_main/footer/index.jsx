@@ -94,7 +94,7 @@ export default function Footer() {
         }
       }}
     >
-      <Container fixed>
+      <Container maxWidth="xl">
         <Grid container spacing={4}>
           <Grid item md={3}>
             <Stack spacing={3}>

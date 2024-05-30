@@ -6,7 +6,7 @@ import PropTypes from 'prop-types';
 // import dynamic from 'next/dynamic';
 // mui
 
-import { Toolbar, Stack, AppBar, Skeleton } from '@mui/material';
+import { Toolbar, Stack, AppBar, Container } from '@mui/material';
 import config from 'src/layout/_main/config.json';
 // import * as api from 'src/services';
 // usequery
@@ -62,9 +62,11 @@ export default function Navbar({ data }) {
           pr: '0px !important'
         }}
       >
-        <Toolbar className="toolbar" sx={{ minHeight: '48px!important' }}>
-          <MenuDesktop navConfig={menu} data={data} isLoading={false} />
-        </Toolbar>
+        <Container maxWidth="xl">
+          <Toolbar className="toolbar" sx={{ minHeight: '48px!important', px: '0px!important' }}>
+            <MenuDesktop navConfig={menu} data={data} isLoading={false} />
+          </Toolbar>
+        </Container>
       </AppBar>
     </>
   );

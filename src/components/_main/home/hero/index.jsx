@@ -8,7 +8,7 @@ import { Stack } from '@mui/material';
 
 export default function Hero({ data: shops }) {
   return (
-    <Stack direction="row" gap={2} sx={{ px: 3 }} mt={2}>
+    <Stack direction="row" gap={2} mt={2}>
       <MegaMenu data={shops} />
       <SingleSlideCarousel data={data} />
     </Stack>

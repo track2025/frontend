@@ -72,7 +72,7 @@ export default function SelectOrderStatus({ data }) {
           'aria-labelledby': 'basic-button'
         }}
       >
-        {['pending', 'ontheway', 'delivered', 'returned', 'cancelled'].map((status) => (
+        {['pending', 'on the way', 'delivered', 'returned', 'canceled'].map((status) => (
           <MenuItem sx={{ textTransform: 'capitalize' }} key={status} onClick={() => handleClose(status)}>
             {status}
           </MenuItem>

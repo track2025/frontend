@@ -28,6 +28,7 @@ export default function Page({ params }) {
     <Box>
       <HeaderBreadcrumbs
         admin
+        heading="Order details"
         links={[
           {
             name: 'Dashboard',

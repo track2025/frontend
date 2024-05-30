@@ -381,12 +381,12 @@ export const updateVendorProduct = async ({ currentSlug, ...payload }) => {
 
 // orders
 
-export const getOrdersByAdmin = async (page, search) => {
-  const { data } = await http.get(`/admin/orders?search=${search}&page=${page}`);
+export const getOrdersByAdmin = async (payload) => {
+  const { data } = await http.get(`/admin/orders?${payload}`);
   return data;
 };
-export const getOrdersByVendor = async (page, search) => {
-  const { data } = await http.get(`/vendor/orders?search=${search}&page=${page}`);
+export const getOrdersByVendor = async (payload) => {
+  const { data } = await http.get(`/vendor/orders?${payload}`);
   return data;
 };
 export const getOrderByAdmin = async (id) => {
@@ -539,8 +539,8 @@ export const createPayment = async ({ ...payload }) => {
   return data;
 };
 // payouts
-export const getPayoutsByAdmin = async () => {
-  const { data } = await http.get(`/admin/payouts`);
+export const getPayoutsByAdmin = async (params) => {
+  const { data } = await http.get(`/admin/payouts?${params}`);
   return data;
 };
 
