@@ -48,6 +48,12 @@
     "resend": "Resend",
     "back": "Back"
   },
+  "verify_otp": {
+    "heading": "Verify OTP",
+    "description": "Please enter OTP to continue",
+    "verify": "Varify",
+    "resend": "Resend"
+  },
   "home": {
     "layout": {
       "topbar": {
@@ -55,7 +61,16 @@
         "order_tracking": "Order Tracking",
         "login": "Login",
         "register": "Register",
-        "become-a-seller": "Become a seller"
+        "become-a-seller": "Become a seller",
+        "profile_dropdown": {
+          "home": "Home",
+          "Become_seller": "Become a seller",
+          "Wishlish": "Wishlish",
+          "orders": "Orders",
+          "profile": "Profile",
+          "changes_password": "Changes Password",
+          "logout": "Logout"
+        }
       },
       "navbar": {
         "search": "Search...",
@@ -272,6 +287,40 @@
       "sizes": "Sizes"
     }
   },
+  "create_shop": {
+    "heading": "Create Shop",
+    "logo": "Logo",
+    "drop_or_select_images": "Drop or Select images",
+    "title": "Title",
+    "title_required": "Title is required",
+    "slug": "Slug",
+    "slug_required": "Slug is required",
+    "meta_title": "Meta Title",
+    "meta_title_required": "Meta title is required",
+    "meta_description": "Meta Description",
+    "meta_description_required": "Meta description is required",
+    "description": "Description",
+    "description_required": "Description is required",
+    "cover": "Cover",
+    "holder_name": "Holder Name",
+    "holder_name_required": "Holder Name is required",
+    "holder_email": "Holder Email",
+    "holder_email_required": "Holder email is required",
+    "bank_name": "Bank Name",
+    "bank_name_required": "Bank name is required",
+    "account_number": "Account Number",
+    "account_no_required": "Account No is required",
+    "phone_number": "Phone Number",
+    "phone_number_required": "Phone Number is required",
+    "country": "Country",
+    "country_required": "Country is required",
+    "city": "City",
+    "city_required": "City is required",
+    "state": "STATE",
+    "state_required": "State is required",
+    "street_address": "Street Address",
+    "street_address_required": "Street Address is required"
+  },
   "product-details": {
     "breadcrumbs": {
       "heaidng": "Product Details",
@@ -375,6 +424,191 @@
       "place_order": "Place Order",
       "apply": "Apply",
       "total": "Total"
+    }
+  },
+  "order": {
+    "heading": "Thank you for your purchase!",
+    "description": "Thank you for choosing us! Your purchase is appreciated. We're committed to providing top-notch products and service. Stay tuned for updates on your order.",
+    "order_number:": "Order Number:",
+    "item": "Item",
+    "product": "Product",
+    "color": "Color",
+    "size": "Size",
+    "quantity": "Quantity",
+    "price": "Price",
+    "subtotal": "Subtotal:",
+    "shipping_fee": "Shipping Fee",
+    "discount": "Discount",
+    "total": "Total",
+    "date": "Date",
+    "action": "Action",
+    "pendding": "Pendidng",
+    "status": "Status",
+    "customor_details": {
+      "heaidng": "Customor Details",
+      "name": "Name",
+      "phone": "Phone",
+      "email": "EMAIL",
+      "address": "Address"
+    },
+    "payment_method": {
+      "heaidng": "Payment Method",
+      "method": "Method",
+      "status": "Status",
+      "shipping_fee": "Shipping Fee",
+      "order_date": "Order Date"
+    }
+  },
+  "general": {
+    "breadcrumbs": {
+      "heaidng": "General",
+      "home": "Home",
+      "profile": "profile"
+    },
+    "first_name": "First Name",
+    "last_name": "Last Name",
+    "phone": "Phone",
+    "twon_city": "TOWN CITY",
+    "state": "STATE",
+    "postal_code": "ZIP/POSTAL CODE:",
+    "about": "About",
+    "gender": "Gender",
+    "male": "Male",
+    "female": "Female",
+    "save": "Save"
+  },
+  "Change Password": {
+    "breadcrumbs": {
+      "heading": "Change Password",
+      "home": "Home",
+      "profile": "profile"
+    },
+    "change_password": "Change Password",
+    "description": "Change your password by logging into your account.",
+    "old_password": "OLD PASSWORD",
+    "old_password_required": "old Password is a required",
+    "new_password": "NEW PASSWORD",
+    "new_password_required": "New password is required",
+    "confirm_password": "CONFIRM NEW PASSWORD",
+    "save": "Save"
+  },
+  "dashboard": {
+    "dashboard": {
+      "name": "Dashboard",
+      "daily_earning": "Daily Earning",
+      "daily_orders": "Daily Orders",
+      "total_users": "Total Users",
+      "total_products": "Total Products",
+      "total_vendors": "Total Vendors",
+      "total_shop": "Total Shop",
+      "pending_orders": "Pending Orders",
+      "retruned_orders": "Retruned Orders",
+      "sales_report": "Sales Report",
+      "order_report": "Order Report",
+      "total": "Total",
+      "pendding": "Pendidng",
+      "on_the_way": "On the way",
+      "delivered": "Delivered",
+      "returned": "Returned",
+      "cancelled": "Cancelled",
+      "best_selling": "Best Selling",
+      "income_report": "Income Report",
+      "week": "Week",
+      "month": "Month",
+      "year": "Year",
+      "income": "Income",
+      "commission": "Commission",
+      "low_stock_products": "Low Stock Products "
+    },
+    "categories_list": {
+      "heading": "Categories List",
+      "dashboard": "Dashboard",
+      "categories": "Categories",
+      "category": "Category",
+      "description": "Description",
+      "status": "Status",
+      "date": "Date",
+      "actions": "Actions",
+      "search": "Search...",
+      "add_catgegory": {
+        "heading": "Add Category",
+        "category_name": "Category Name",
+        "name_required": "Name is required",
+        "meta_title": "Meta Title",
+        "meta_title_required": "Meta title is required",
+        "slug": "Slug",
+        "slug_required": "Slug is required",
+        "description": "Description ",
+        "description_required": "Description is required",
+        "meta_description": "Meta Description",
+        "meta_description_required": "Meta description is required",
+        "image": "Image",
+        "cover_required": "Cover is required",
+        "status": "Status",
+        "active": "Active",
+        "deactive": "Deactive",
+        "create_category": "Create Category"
+      }
+    },
+    "subcategories_list": {
+      "heading": "Sub Categories List",
+      "dashboard": "Dashboard",
+      "categories": "Sub Categories",
+      "category": "Category",
+      "description": "Description",
+      "status": "Status",
+      "date": "Date",
+      "actions": "Actions",
+      "search": "Search...",
+      "add_subcatgegory": {
+        "heading": "Add Sub Category",
+        "category_name": "Category Name",
+        "name_required": "Name is required",
+        "meta_title": "Meta Title",
+        "meta_title_required": "Meta title is required",
+        "slug": "Slug",
+        "slug_required": "Slug is required",
+        "description": "Description ",
+        "description_required": "Description is required",
+        "meta_description": "Meta Description",
+        "meta_description_required": "Meta description is required",
+        "image": "Image",
+        "cover_required": "Cover is required",
+        "status": "Status",
+        "active": "Active",
+        "deactive": "Deactive",
+        "create_category": "Create Sub Category"
+      }
+    },
+    "brands": {
+      "heading": "Brands List",
+      "dashboard": "Brands",
+      "categories": "Sub Categories",
+      "category": "Category",
+      "description": "Description",
+      "status": "Status",
+      "date": "Date",
+      "actions": "Actions",
+      "search": "Search...",
+      "add_brands": {
+        "heading": "Add brand",
+        "brand_name": "Brand Name",
+        "name_required": "Name is required",
+        "meta_title": "Meta Title",
+        "meta_title_required": "Meta title is required",
+        "slug": "Slug",
+        "slug_required": "Slug is required",
+        "description": "Description ",
+        "description_required": "Description is required",
+        "meta_description": "Meta Description",
+        "meta_description_required": "Meta description is required",
+        "image": "Image",
+        "cover_required": "Cover is required",
+        "status": "Status",
+        "active": "Active",
+        "deactive": "Deactive",
+        "create_category": "Create Brand"
+      }
     }
   }
 }
