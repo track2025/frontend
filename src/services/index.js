@@ -197,7 +197,10 @@ export const updateAdminShopByAdmin = async ({ currentSlug, ...payload }) => {
   const { data } = await http.put(`/admin/shops/${currentSlug}`, payload);
   return data;
 };
-
+export const deleteShop = async (slug) => {
+  const { data: response } = await http.delete(`/admin/shops/${slug}`);
+  return response;
+};
 export const getLowStockProductsByAdmin = async (page) => {
   const { data: response } = await http.get(`/admin/low-stock-products?page=${page}`);
   return response;
@@ -284,29 +287,6 @@ export const getVendorLowStockProducts = async (page) => {
   const { data: response } = await http.get(`/vendor/low-stock-products?page=${page}`);
   return response;
 };
-export const getShopsByAdmin = async (page, search) => {
-  const { data: response } = await http.get(`/admin/shops?search=${search}&page=${page}`);
-  return response;
-};
-
-export const getVendorProducts = async (page, search) => {
-  const { data: response } = await http.get(`/vendor/products?search=${search}&page=${page}`);
-  return response;
-};
-export const deleteProduct = async (slug) => {
-  const { data: response } = await http.delete(`/admin/products/${slug}`);
-  return response;
-};
-export const deleteShop = async (slug) => {
-  const { data: response } = await http.delete(`/admin/shops/${slug}`);
-  return response;
-};
-export const deleteVendorProduct = async (slug) => {
-  const { data: response } = await http.delete(`/vendor/products/${slug}`);
-  return response;
-};
-export const newProduct = async (payload) => {
-  const { data: response } = await http.post(`/admin/products`, payload);
 export const getVendorProducts = async (page, search) => {
   const { data: response } = await http.get(`/vendor/products?search=${search}&page=${page}`);
   return response;
