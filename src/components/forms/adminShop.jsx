@@ -140,10 +140,10 @@ export default function AdminShopForm({ data: currentShop, isLoading: shopLoadin
         AccountNo: currentShop?.paymentInfo?.AccountNo || Number
       },
       address: {
-        country: currentShop?.address.country || 'Andorra',
-        city: currentShop?.address.city || '',
-        state: currentShop?.address.state || '',
-        streetAddress: currentShop?.address.streetAddress || ''
+        country: currentShop?.address?.country || 'Andorra',
+        city: currentShop?.address?.city || '',
+        state: currentShop?.address?.state || '',
+        streetAddress: currentShop?.address?.streetAddress || ''
       }
     },
     enableReinitialize: true,
