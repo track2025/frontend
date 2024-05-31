@@ -7,7 +7,7 @@ import { Typography, Grid, Box, Stack, Paper, Button } from '@mui/material';
 // icons
 import { IoIosArrowForward } from 'react-icons/io';
 // component
-import CompaginCard from 'src/components/cards/userCompagin';
+import CompaginCard from 'src/components/cards/compagin';
 // api
 // import * as api from 'src/services';
 // import { useQuery } from 'react-query';

@@ -9,7 +9,7 @@ import { Typography, Grid, Box, Stack, Container } from '@mui/material';
 import * as api from 'src/services';
 // component
 // component
-import CompaginCard from 'src/components/cards/userCompagin';
+import CompaginCard from 'src/components/cards/compagin';
 import { useQuery } from 'react-query';
 
 export default function CompaignPage() {
