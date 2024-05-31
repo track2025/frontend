@@ -9,7 +9,6 @@ import toast from 'react-hot-toast';
 // components
 import Table from 'src/components/table/table';
 import OrderList from 'src/components/table/rows/orderList';
-import OrderListCard from 'src/components/cards/OrderList';
 import DeleteDialog from 'src/components/dialog/delete';
 import PropTypes from 'prop-types';
 // mui

@@ -5,7 +5,7 @@ import { Card, CardContent, CardHeader, Divider, Box, Stack, Typography, Skeleto
 import BlurImage from 'src/components/blurImage';
 // components
 import ColorPreviewGroup from '../colorPreviewGroup';
-import NoDataFoundIllustration from '../illustrations/noDataFound';
+import NoDataFoundIllustration from 'src/illustrations/notFound';
 
 import PropTypes from 'prop-types';
 

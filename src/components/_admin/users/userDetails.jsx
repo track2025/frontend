@@ -3,7 +3,6 @@
 import { Card } from '@mui/material';
 // component
 import Table from 'src/components/table/table';
-import OrderCard from 'src/components/cards/OrderList';
 import OrderList from 'src/components/table/rows/orderList';
 import ProfileCover from 'src/components/_main/profile/profileCover';
 

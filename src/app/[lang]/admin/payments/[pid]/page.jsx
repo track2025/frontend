@@ -5,7 +5,6 @@ import { useSearchParams } from 'next/navigation';
 import { useQuery } from 'react-query';
 import Table from 'src/components/table/table';
 import OrderList from 'src/components/table/rows/orderList';
-import OrderListCard from 'src/components/cards/OrderList';
 import ShopDetailCover from 'src/components/_admin/shops/shopDetailCover';
 import ShopDetail from 'src/components/_admin/shops/shopDetail';
 import { fDateShort } from 'src/utils/formatTime';

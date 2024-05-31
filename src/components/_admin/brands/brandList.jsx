@@ -12,7 +12,6 @@ import { Dialog } from '@mui/material';
 // components
 import DeleteDialog from 'src/components/dialog/delete';
 import Table from 'src/components/table/table';
-import BrandsCard from 'src/components/cards/brands';
 import Brand from 'src/components/table/rows/brand';
 // next
 import { useSearchParams } from 'next/navigation';
