@@ -7,8 +7,8 @@ import useMediaQuery from '@mui/material/useMediaQuery';
 import { useTheme, alpha } from '@mui/material/styles';
 // next
 import Image from 'next/image';
-import watchImg from '../../../../../public/images/top-banners/watch.png';
-import shoesImg from '../../../../../public/images/top-banners/shoes.png';
+import banner1Img from '../../../../../public/images/banner-1.png';
+import banner2Img from '../../../../../public/images/banner-2.png';
 
 export default function Index() {
   const theme = useTheme();
@@ -25,16 +25,28 @@ export default function Index() {
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'space-between',
-                backgroundColor: theme.palette.primary.light,
                 borderRadius: '12px',
                 height: '100%',
-                paddingX: { lg: theme.spacing(3), md: theme.spacing(1) }
+                px: { lg: 3, md: 1 },
+                position: 'relative'
               }}
             >
-              <Stack spacing={isDeskTop ? 2 : 1.5} sx={{ p: { sm: '24px', xs: '12px' } }}>
+              <Image
+                draggable="false"
+                src={banner1Img}
+                alt="banner-1"
+                placeholder="blur"
+                layout="fill"
+                static
+                sizes="100vw"
+                objectFit="cover"
+              />
+              <Stack
+                spacing={isDeskTop ? 2 : 1.5}
+                sx={{ p: { sm: '24px', xs: '12px', zIndex: 99, position: 'relative' } }}
+              >
                 <Typography
-                  variant={isDeskTop ? 'h3' : 'h4'}
-                  color="common.white"
+                  variant={'h4'}
                   lineHeight={1.3}
                   sx={{
                     width: {
@@ -57,7 +69,6 @@ export default function Index() {
 
                 <Typography
                   variant={isDeskTop ? 'body1' : 'body2'}
-                  color="common.white"
                   mb={2}
                   display={{ md: 'block', xs: 'none' }}
                   width={{ xl: 270 }}
@@ -79,17 +90,6 @@ export default function Index() {
                   </Button>
                 </Box>
               </Stack>
-              <Box
-                sx={{
-                  position: 'relative',
-                  width: { xs: 150, md: 280, lg: 294, xl: 340 },
-                  height: { xs: 151, md: 290, lg: 290, xl: 320 },
-                  zIndex: 1,
-                  transform: { lg: 'scale(1.1)', md: 'scale(1.2)', xs: 'scale(1.3)' }
-                }}
-              >
-                <Image fill objectFit="contain" draggable="false" src={watchImg} alt="women" sizes="20vw" />
-              </Box>
             </Card>
           </Grid>
           {/* card 2  */}
@@ -99,20 +99,27 @@ export default function Index() {
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'space-between',
-                backgroundColor:
-                  theme.palette.mode === 'dark'
-                    ? alpha(theme.palette.secondary.dark, 0.4)
-                    : theme.palette.secondary.light,
                 borderRadius: '12px',
-
                 height: '100%',
-                paddingX: { lg: theme.spacing(3), md: theme.spacing(1), xs: theme.spacing(1) }
+                py: 3,
+                px: { lg: 3, md: 1, xs: 1 },
+                position: 'relative'
               }}
             >
-              <Stack spacing={isDeskTop ? 1 : 1.5} sx={{ p: { sm: '24px', xs: '12px' } }}>
+              <Image
+                draggable="false"
+                src={banner2Img}
+                alt="banner-1"
+                placeholder="blur"
+                layout="fill"
+                static
+                sizes="100vw"
+                objectFit="cover"
+              />
+
+              <Stack spacing={isDeskTop ? 1 : 1.5} sx={{ p: { sm: '24px', xs: '12px', zIndex: 99 } }}>
                 <Typography
-                  variant={isDeskTop ? 'h3' : 'h4'}
-                  color="common.white"
+                  variant={'h4'}
                   lineHeight={1.3}
                   sx={{
                     width: {
@@ -135,7 +142,6 @@ export default function Index() {
 
                 <Typography
                   variant={isDeskTop ? 'body1' : 'body2'}
-                  color="common.white"
                   mb={2}
                   display={{ md: 'block', xs: 'none' }}
                   width={{ xl: 270 }}
@@ -157,18 +163,6 @@ export default function Index() {
                   </Button>
                 </Box>
               </Stack>
-              <Box
-                sx={{
-                  position: 'relative',
-                  width: { xs: 150, md: 280, lg: 294, xl: 340 },
-                  height: { xs: 151, md: 290, lg: 290, xl: 320 },
-                  zIndex: 1,
-                  transform: { lg: 'scale(1.1)', md: 'scale(1.2)', xs: 'scale(1.3)' },
-                  marginLeft: { xs: '-40px', md: 0 }
-                }}
-              >
-                <Image fill objectFit="contain" draggable="false" src={shoesImg} alt="women" sizes="20vw" />
-              </Box>
             </Card>
           </Grid>
         </Grid>

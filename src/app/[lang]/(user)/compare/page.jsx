@@ -13,18 +13,14 @@ export default function Page() {
   return (
     <Container fixed>
       <HeaderBreadcrumbs
-        heading="Checkout"
+        heading="Compare"
         links={[
           {
             name: 'Home',
             href: '/'
           },
           {
-            name: 'Cart',
-            href: '/cart'
-          },
-          {
-            name: 'Checkout'
+            name: 'Compare'
           }
         ]}
       />
