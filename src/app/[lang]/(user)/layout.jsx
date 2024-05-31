@@ -5,6 +5,10 @@ import Footer from 'src/layout/_main/footer';
 import Topbar from 'src/layout/_main/topbar';
 import ActionBar from 'src/layout/_main/actionbar';
 import * as api from 'src/services';
+import dynamic from 'next/dynamic';
+const Subscription = dynamic(() => import('src/layout/_main/subscription'), {
+  ssr: false
+});
 // Meta information
 export const metadata = {
   title: 'Nextall E-commerce Script | Your Gateway to Seamless Shopping and Secure Transactions',
@@ -32,6 +36,7 @@ export default async function RootLayout({ children }) {
       {/* <Box sx={{ height: 100, display: { xs: 'none', md: 'flex' } }} /> */}
       {children}
       <Footer />
+      <Subscription />
     </>
   );
 }
