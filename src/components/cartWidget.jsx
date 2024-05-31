@@ -12,7 +12,7 @@ import { useRouter } from 'src/hooks/useRouter';
 // lodash
 import { sum } from 'lodash';
 import { useCurrencyConvert } from 'src/hooks/convertCurrency';
-import { useCurrencyFormatter } from 'src/hooks/fCurrency';
+import { useCurrencyFormatter } from 'src/hooks/formatCurrency';
 import { useDispatch, useSelector } from 'react-redux';
 export default function CartWidget({ ...props }) {
   const dispatch = useDispatch();

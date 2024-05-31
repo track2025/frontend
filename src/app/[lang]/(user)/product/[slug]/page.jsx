@@ -7,7 +7,7 @@ import { Box, Container, Stack, Grid } from '@mui/material';
 import RelatedProductsCarousel from 'src/components/_main/product/relatedProducts';
 import ProductDetailTabs from 'src/components/_main/product/tabs';
 import ProductAdditionalInfo from 'src/components/_main/product/additionalInfo';
-import ProductDetailsCarousel from 'src/components/carousels/details';
+import ProductDetailsCarousel from 'src/components/carousels/singleSlideImagePagination';
 import ProductDetailsSumary from 'src/components/_main/product/summary';
 import HeaderBreadcrumbs from 'src/components/headerBreadcrumbs';
 import * as api from 'src/services';

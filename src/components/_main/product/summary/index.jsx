@@ -29,10 +29,10 @@ import { useRouter } from 'src/hooks/useRouter';
 // formik
 import { useFormik, Form, FormikProvider, useField } from 'formik';
 // redux
-import { useDispatch, useSelector } from 'src/lib/redux/store';
+import { useDispatch, useSelector } from 'src/redux/store';
 // redux
-import { setWishlist } from 'src/lib/redux/slices/wishlist';
-import { addCart } from 'src/lib/redux/slices/product';
+import { setWishlist } from 'src/redux/slices/wishlist';
+import { addCart } from 'src/redux/slices/product';
 import { FacebookShareButton, TwitterShareButton, LinkedinShareButton, WhatsappShareButton } from 'next-share';
 // toast
 import { toast } from 'react-hot-toast';
@@ -52,14 +52,14 @@ import { MdLockOutline } from 'react-icons/md';
 import { FaRegStar } from 'react-icons/fa';
 import { TbMessage } from 'react-icons/tb';
 import LoadingButton from '@mui/lab/LoadingButton';
-import { addCompareProduct, removeCompareProduct } from '../../../../lib/redux/slices/compare';
+import { addCompareProduct, removeCompareProduct } from '../../../../redux/slices/compare';
 import { MdOutlineShoppingBasket } from 'react-icons/md';
 import { FiShoppingCart } from 'react-icons/fi';
 import { IoBagCheckOutline } from 'react-icons/io5';
 import { FaRegHeart } from 'react-icons/fa';
 import { GoGitCompare } from 'react-icons/go';
 import { useCurrencyConvert } from 'src/hooks/convertCurrency';
-import { useCurrencyFormatter } from 'src/hooks/fCurrency';
+import { useCurrencyFormatter } from 'src/hooks/formatCurrency';
 ProductDetailsSumary.propTypes = {
   product: PropTypes.object.isRequired,
   isLoading: PropTypes.bool.isRequired,

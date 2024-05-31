@@ -8,12 +8,11 @@ import { Typography, Grid, Box, Stack, Container } from '@mui/material';
 // api
 import * as api from 'src/services';
 // component
-// import ShopCard from 'src/components/cards/shop';
-import UserBrandsCard from 'src/components/cards/userBrands';
+import UserBrandsCard from 'src/components/cards/brand';
 import { useQuery } from 'react-query';
 
 export default function BrandPage() {
-  const { data, isLoading } = useQuery(['get-brands-user'], () => api.getUserBrands());
+  const { data, isLoading } = useQuery(['get-brands-user'], () => api.getBrands());
   return (
     <Container maxWidth="xl">
       <Stack

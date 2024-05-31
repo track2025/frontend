@@ -53,7 +53,7 @@ export default function AccountChangePassword() {
     }
   });
 
-  const { mutate } = useMutation(api.changerPassword, {
+  const { mutate } = useMutation(api.changePassword, {
     onSuccess: () => {
       setloading(false);
       formik.resetForm();

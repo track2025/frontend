@@ -1,17 +1,10 @@
 import PropTypes from 'prop-types';
 import React, { useState } from 'react';
 // mui
-import { styled } from '@mui/material/styles';
 import { Box, Stack, IconButton, Skeleton } from '@mui/material';
 // icons
 import { FaCheck } from 'react-icons/fa6';
 import { MdKeyboardDoubleArrowRight, MdKeyboardDoubleArrowLeft } from 'react-icons/md';
-
-const RootStyle = styled(Stack)({
-  // display: "flex",
-  // alignItems: "center",
-  // justifyContent: "flex-end",
-});
 
 export default function ColorPreview({ ...props }) {
   const { colors, color, setColor, isDetail, loading } = props;
@@ -19,7 +12,7 @@ export default function ColorPreview({ ...props }) {
   const [colorCount, setColorCount] = useState(0);
 
   return (
-    <RootStyle direction="row" spacing={0.5}>
+    <Stack direction="row" spacing={0.5}>
       {!isDetail && colors?.length > 6 && (
         <IconButton
           size="small"
@@ -95,7 +88,7 @@ export default function ColorPreview({ ...props }) {
           <MdKeyboardDoubleArrowRight size={20} />
         </IconButton>
       )}
-    </RootStyle>
+    </Stack>
   );
 }
 ColorPreview.propTypes = {

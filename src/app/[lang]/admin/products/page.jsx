@@ -13,7 +13,7 @@ export const metadata = {
 
 export default async function AdminProducts() {
   const { data: categories } = await api.getAllCategoriesByAdmin();
-  const { data: brands } = await api.getAllBrands();
+  const { data: brands } = await api.getAllBrandsByAdmin();
   const { data: shops } = await api.getAllShopsByAdmin();
 
   return (

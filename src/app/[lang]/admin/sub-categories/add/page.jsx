@@ -1,7 +1,7 @@
 import React from 'react';
 import Toolbar from 'src/components/_admin/toolbar';
 import HeaderBreadcrumbs from 'src/components/headerBreadcrumbs';
-import AddSubCategory from 'src/components/_admin/subcategories/addCategory';
+import AddSubCategory from 'src/components/_admin/subCategories/addCategory';
 import * as api from 'src/services';
 
 export default async function page() {

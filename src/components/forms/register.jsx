@@ -12,7 +12,7 @@ import { useFormik, Form, FormikProvider } from 'formik';
 import { toast } from 'react-hot-toast';
 // redux
 import { useDispatch } from 'react-redux';
-import { setLogin } from 'src/lib/redux/slices/user';
+import { setLogin } from 'src/redux/slices/user';
 // api
 import { useMutation } from 'react-query';
 import * as api from 'src/services';

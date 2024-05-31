@@ -8,7 +8,7 @@ import { useQuery } from 'react-query';
 import toast from 'react-hot-toast';
 import { useRouter } from 'src/hooks/useRouter';
 import { useDispatch, useSelector } from 'react-redux';
-import { updateStatus } from 'src/lib/redux/slices/user';
+import { updateStatus } from 'src/redux/slices/user';
 export default function ShopSettingMain() {
   const router = useRouter();
   const dispatch = useDispatch();

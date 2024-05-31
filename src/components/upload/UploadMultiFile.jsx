@@ -61,7 +61,6 @@ export default function UploadMultiFile({ ...props }) {
         }}
       >
         <input {...getInputProps()} disabled={loading} />
-        {/* <UploadIllustration sx={{ width: 220 }} /> */}
         <Box sx={{ p: 3, ml: { md: 2 } }}>
           <Typography gutterBottom variant="h5">
             Drop or a Select Images

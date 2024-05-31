@@ -10,7 +10,6 @@ import { useQuery } from 'react-query';
 import { useMutation } from 'react-query';
 // component
 import Table from 'src/components/table/table';
-import UserListCard from 'src/components/cards/usersList';
 import UserList from 'src/components/table/rows/usersList';
 import RoleDialog from 'src/components/dialog/role';
 
@@ -36,7 +35,7 @@ export default function AdminProducts() {
 
   const { data, isLoading } = useQuery(
     ['user', pageParam, searchParam, count],
-    () => api.getUsers(+pageParam || 1, searchParam || ''),
+    () => api.getUserByAdminsByAdmin(+pageParam || 1, searchParam || ''),
     {
       onError: (err) => {
         toast.error(err.response.data.message || 'Something went wrong!');
@@ -45,7 +44,7 @@ export default function AdminProducts() {
   );
   const [id, setId] = useState(null);
 
-  const { mutate, isLoading: roleLoading } = useMutation(api.updateUserRole, {
+  const { mutate, isLoading: roleLoading } = useMutation(api.updateUserRoleByAdmin, {
     onSuccess: (data) => {
       toast.success(data.message);
       setCount((prev) => prev + 1);
@@ -60,16 +59,7 @@ export default function AdminProducts() {
   return (
     <>
       <RoleDialog open={Boolean(id)} onClose={() => setId(null)} onClick={() => mutate(id)} loading={roleLoading} />
-      <Table
-        headData={TABLE_HEAD}
-        data={data}
-        mobileRow={UserListCard}
-        isLoading={isLoading}
-        row={UserList}
-        setId={setId}
-        id={setId}
-        isSearch
-      />
+      <Table headData={TABLE_HEAD} data={data} isLoading={isLoading} row={UserList} setId={setId} id={setId} isSearch />
     </>
   );
 }

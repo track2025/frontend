@@ -33,7 +33,7 @@ import * as api from 'src/services';
 // toast
 import toast from 'react-hot-toast';
 import { useDispatch, useSelector } from 'react-redux';
-import { updateFollowShop } from 'src/lib/redux/slices/user';
+import { updateFollowShop } from 'src/redux/slices/user';
 
 export default function ShopCard({ ...props }) {
   const { shop, isLoading } = props;

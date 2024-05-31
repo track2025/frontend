@@ -54,7 +54,7 @@ export default function OrdersAdminList({ isVendor, shops }) {
           onClose={handleClose}
           id={id}
           apicall={setApicall}
-          endPoint="deleteOrder"
+          endPoint="deleteOrderByAdmin"
           type={'Order deleted'}
         />
       </Dialog>
@@ -63,7 +63,6 @@ export default function OrdersAdminList({ isVendor, shops }) {
         data={data}
         isLoading={isLoading}
         row={OrderList}
-        mobileRow={OrderListCard}
         handleClickOpen={handleClickOpen}
         isVendor={isVendor}
         isSearch

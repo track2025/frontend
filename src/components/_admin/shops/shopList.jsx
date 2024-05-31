@@ -55,7 +55,7 @@ export default function AdminProducts({ isVendor }) {
           onClose={handleClose}
           id={id}
           apicall={setApicall}
-          endPoint={isVendor ? 'deleteVendorProduct' : 'deleteProduct'}
+          endPoint={isVendor ? 'deleteVendorProduct' : 'deleteProductByAdmin'}
           type={'Product deleted'}
           deleteMessage={
             'Are you really sure you want to remove this product? Just making sure before we go ahead with it.'
@@ -65,7 +65,6 @@ export default function AdminProducts({ isVendor }) {
       <Table
         headData={TABLE_HEAD}
         data={data}
-        mobileRow={ShopCard}
         isLoading={isLoading}
         row={Shop}
         handleClickOpen={handleClickOpen}

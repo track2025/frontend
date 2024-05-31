@@ -5,8 +5,7 @@ import Dialog from '@mui/material/Dialog';
 import * as api from 'src/services';
 // usequery
 import { useQuery } from 'react-query';
-import ProductDetailsCarousel from 'src/components/carousels/details';
-import ProductDetailsSumary from 'src/components/_main/product/summary';
+import ProductDetailsCarousel from 'src/components/carousels/customPaginationSilder';
 import { Grid } from '@mui/material';
 import PropTypes from 'prop-types';
 import DetailsSkeleton from 'src/components/skeletons/productDetail';

@@ -62,7 +62,7 @@ export default function AdminShopForm({ data: currentShop, isLoading: shopLoadin
 
   const { mutate, isLoading } = useMutation(
     currentShop ? 'update' : 'new',
-    currentShop ? api.updateAdminShop : api.addAdminShop,
+    currentShop ? api.updateAdminShopByAdmin : api.addAdminShopByAdmin,
     {
       ...(currentShop && {
         enabled: Boolean(currentShop)

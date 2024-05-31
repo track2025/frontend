@@ -28,12 +28,12 @@ import Image from 'next/image';
 
 import imageUrl from '../../../../public/images/product.png';
 import { useSelector, useDispatch } from 'react-redux';
-import { removeCompareProduct } from 'src/lib/redux/slices/compare';
+import { removeCompareProduct } from 'src/redux/slices/compare';
 import { useRouter } from 'next-nprogress-bar';
 import toast from 'react-hot-toast';
-import { setWishlist } from 'src/lib/redux/slices/wishlist';
+import { setWishlist } from 'src/redux/slices/wishlist';
 import { useMutation } from 'react-query';
-import { addCart } from 'src/lib/redux/slices/product';
+import { addCart } from 'src/redux/slices/product';
 
 const products = [
   {

@@ -53,7 +53,7 @@ export default function BrandsForm({ data: currentBrand, isLoading: brandLoading
 
   const { mutate, isLoading } = useMutation(
     currentBrand ? 'update' : 'new',
-    currentBrand ? api.updateBrand : api.addBrand,
+    currentBrand ? api.updateBrandByAdmin : api.addBrandByAdmin,
     {
       ...(currentBrand && {
         enabled: Boolean(currentBrand)

@@ -17,7 +17,7 @@ import { MdOutlineShoppingCart } from 'react-icons/md';
 
 // redux
 import { useDispatch, useSelector } from 'react-redux';
-import { deleteCart, increaseQuantity, decreaseQuantity, getCart, resetCart } from 'src/lib/redux/slices/product';
+import { deleteCart, increaseQuantity, decreaseQuantity, getCart, resetCart } from 'src/redux/slices/product';
 // component
 import CheckoutCard from 'src/components/cards/checkout';
 import CheckoutProductList from 'src/components/lists/checkoutProduct';
@@ -28,7 +28,7 @@ ShoppingCart.propTypes = {
   loading: PropTypes.bool.isRequired
 };
 
-const EmptyCart = dynamic(() => import('src/components/illustrations/emptyCart'), {
+const EmptyCart = dynamic(() => import('src/illustrations/emptyCart'), {
   loading: () => (
     <Stack>
       <Skeleton variant="rectangular" width="100%" height={300} />

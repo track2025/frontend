@@ -3,7 +3,7 @@ import { useState } from 'react';
 import PropTypes from 'prop-types';
 // redux
 import { Provider } from 'react-redux';
-import { reduxStore, persistor } from 'src/lib/redux';
+import { reduxStore, persistor } from 'src/redux';
 // react
 import { PersistGate } from 'redux-persist/integration/react';
 import { QueryClient, QueryClientProvider } from 'react-query';

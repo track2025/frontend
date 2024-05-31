@@ -83,7 +83,7 @@ export default function Page({ params: { pid } }) {
         data={data?.data}
         isLoading={isLoading}
         row={OrderList}
-        mobileRow={OrderListCard}
+        
         handleClickOpen={() => console.log('clicked')}
       />
     </div>

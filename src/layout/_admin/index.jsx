@@ -9,8 +9,8 @@ import Box from '@mui/material/Box';
 import DashboardAppbar from './topbar';
 import DashboardSidebar from './sidebar';
 // redux
-import { useDispatch } from 'src/lib/redux';
-import { toggleSidebar } from 'src/lib/redux/slices/settings';
+import { useDispatch } from 'src/redux';
+import { toggleSidebar } from 'src/redux/slices/settings';
 
 const DrawerHeader = styled('div')(({ theme }) => ({
   display: 'flex',

@@ -4,7 +4,7 @@ import React from 'react';
 import { Typography, Skeleton, Divider, Table, TableBody, TableRow, TableCell } from '@mui/material';
 // components
 import OrderDetailsTable from '../orderDetail';
-import { useCurrencyFormatter } from 'src/hooks/fCurrency';
+import { useCurrencyFormatter } from 'src/hooks/formatCurrency';
 // styled
 import RootStyled from './styled';
 

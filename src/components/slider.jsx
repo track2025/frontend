@@ -9,7 +9,7 @@ import { useSearchParams } from 'next/navigation';
 import { useRouter } from 'src/hooks/useRouter';
 // icons
 import { IoPricetagOutline } from 'react-icons/io5';
-import { useCurrencyFormatter } from 'src/hooks/fCurrency';
+import { useCurrencyFormatter } from 'src/hooks/formatCurrency';
 import { useCurrencyConvert } from 'src/hooks/convertCurrency';
 CustomizedSlider.propTypes = {
   prices: PropTypes.array.isRequired,

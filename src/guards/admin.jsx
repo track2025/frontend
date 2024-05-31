@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 
 // redux
-import { useSelector } from 'src/lib/redux';
+import { useSelector } from 'src/redux';
 import { toast } from 'react-hot-toast';
 import Loading from 'src/components/loading';
 // next

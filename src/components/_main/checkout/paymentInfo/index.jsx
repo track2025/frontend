@@ -6,7 +6,7 @@ import { Card, CardContent, Typography, Stack, Divider, TextField } from '@mui/m
 import { LoadingButton } from '@mui/lab';
 // hook
 import { useCurrencyConvert } from 'src/hooks/convertCurrency';
-import { useCurrencyFormatter } from 'src/hooks/fCurrency';
+import { useCurrencyFormatter } from 'src/hooks/formatCurrency';
 // redux
 import { useSelector } from 'react-redux';
 // toast

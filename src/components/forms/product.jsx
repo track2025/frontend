@@ -61,10 +61,10 @@ export default function ProductForm({
     currentProduct
       ? isVendor
         ? api.updateVendorProduct
-        : api.updateProduct
+        : api.updateProductByAdmin
       : isVendor
         ? api.createVendorProduct
-        : api.newProduct,
+        : api.createProductByAdmin,
     {
       onSuccess: (data) => {
         toast.success(data.message);

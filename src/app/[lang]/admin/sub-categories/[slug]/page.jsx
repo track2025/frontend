@@ -2,7 +2,7 @@
 import React from 'react';
 import Toolbar from 'src/components/_admin/toolbar';
 import HeaderBreadcrumbs from 'src/components/headerBreadcrumbs';
-import EditSubCategory from 'src/components/_admin/subcategories/editCategory';
+import EditSubCategory from 'src/components/_admin/subCategories/editCategory';
 import * as api from 'src/services';
 // usequery
 import { useQuery } from 'react-query';

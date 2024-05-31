@@ -43,7 +43,7 @@ export default function CouponCodeForm({ data: currentCouponCode, isLoading: cat
 
   const { mutate, isLoading } = useMutation(
     currentCouponCode ? 'update' : 'new',
-    currentCouponCode ? api.updateCouponCode : api.addCouponCode,
+    currentCouponCode ? api.updateCouponCodeByAdmin : api.addCouponCodeByAdmin,
     {
       ...(currentCouponCode && {
         enabled: Boolean(currentCouponCode)

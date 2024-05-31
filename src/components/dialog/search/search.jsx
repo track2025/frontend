@@ -19,7 +19,7 @@ import CircularProgress from '@mui/material/CircularProgress';
 import Divider from '@mui/material/Divider';
 
 // components
-import NoDataFound from 'src/components/illustrations/noDataFound';
+import NoDataFound from 'src/illustrations/notFound';
 import { useMutation, useQuery } from 'react-query';
 import BlurImageAvatar from '../../avatar';
 import FormControl from '@mui/material/FormControl';
@@ -28,7 +28,7 @@ import Select from '@mui/material/Select';
 import * as api from 'src/services';
 
 import { useCurrencyConvert } from 'src/hooks/convertCurrency';
-import { useCurrencyFormatter } from 'src/hooks/fCurrency';
+import { useCurrencyFormatter } from 'src/hooks/formatCurrency';
 
 Search.propTypes = {
   onClose: PropTypes.func.isRequired,

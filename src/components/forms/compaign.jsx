@@ -45,7 +45,7 @@ import MenuList from '@mui/material/MenuList';
 import MenuItem from '@mui/material/MenuItem';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import { useCurrencyConvert } from 'src/hooks/convertCurrency';
-import { useCurrencyFormatter } from 'src/hooks/fCurrency';
+import { useCurrencyFormatter } from 'src/hooks/formatCurrency';
 import { IoMdClose } from 'react-icons/io';
 import { format, parseISO } from 'date-fns';
 
@@ -84,7 +84,7 @@ export default function CompaignForm({ data: currentCompaign, isLoading: compaig
 
   const { mutate, isLoading } = useMutation(
     currentCompaign ? 'update' : 'new',
-    currentCompaign ? api.updateCompaign : api.addCompaign,
+    currentCompaign ? api.updateCompaignByAdmin : api.addCompaignByAdmin,
     {
       ...(currentCompaign && {
         enabled: Boolean(currentCompaign)
