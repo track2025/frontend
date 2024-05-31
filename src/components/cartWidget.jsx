@@ -1,22 +1,16 @@
 // mui
-import { Badge, CardActionArea, IconButton, Stack, Typography, alpha } from '@mui/material';
+import { IconButton, Stack, Typography, alpha } from '@mui/material';
 import { HiOutlineShoppingBag } from 'react-icons/hi2';
 
 // react
 import PropTypes from 'prop-types';
-import { useState, useEffect } from 'react';
-
-// next
-import { useRouter } from 'src/hooks/useRouter';
 
 // lodash
 import { sum } from 'lodash';
 import { useCurrencyConvert } from 'src/hooks/convertCurrency';
 import { useCurrencyFormatter } from 'src/hooks/formatCurrency';
-import { useDispatch, useSelector } from 'react-redux';
-export default function CartWidget({ ...props }) {
-  const dispatch = useDispatch();
-  const router = useRouter();
+import { useSelector } from 'react-redux';
+export default function CartWidget() {
   const {
     checkout: { cart }
   } = useSelector(({ product }) => product);
@@ -47,9 +41,7 @@ export default function CartWidget({ ...props }) {
           bgcolor: (theme) => alpha(theme.palette.primary.main, 0.2)
         }}
       >
-        {/* <Badge badgeContent={totalItems} color="primary" showZero> */}
         <HiOutlineShoppingBag />
-        {/* </Badge> */}
       </IconButton>
       <Stack>
         <Typography variant="subtitle2" color="text.primary" mb={-0.6}>

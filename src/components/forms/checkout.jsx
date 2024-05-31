@@ -7,7 +7,7 @@ import { Stack, TextField, Card, CardHeader, Typography, FormControlLabel, Check
 // countries
 import countries from '../_main/checkout/countries.json';
 
-export default function CheckoutGuestForm({ getFieldProps, touched, errors, values, handleChangeShipping, checked }) {
+export default function CheckoutGuestForm({ getFieldProps, touched, errors, handleChangeShipping, checked }) {
   return (
     <Card>
       <CardHeader
@@ -170,6 +170,5 @@ export default function CheckoutGuestForm({ getFieldProps, touched, errors, valu
 CheckoutGuestForm.propTypes = {
   getFieldProps: PropTypes.func.isRequired,
   touched: PropTypes.object.isRequired,
-  errors: PropTypes.object.isRequired,
-  values: PropTypes.object.isRequired
+  errors: PropTypes.object.isRequired
 };

@@ -3,10 +3,8 @@ import React from 'react';
 
 // next
 import dynamic from 'next/dynamic';
-import { useRouter } from 'src/hooks/useRouter';
 // mui
 import { Box, Grid } from '@mui/material';
-import { LoadingButton } from '@mui/lab';
 // api
 import * as api from 'src/services';
 // react query
@@ -46,7 +44,6 @@ export default function CartMain() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const isEmptyCart = cart.length === 0;
   return (
     <Box>
       <Box py={5}>

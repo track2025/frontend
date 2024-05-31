@@ -28,14 +28,14 @@ CustomTable.propTypes = {
     totalPages: PropTypes.number.isRequired
   }).isRequired,
   isLoading: PropTypes.bool.isRequired,
-  isDashboard: PropTypes.bool,
+
   mobileRow: PropTypes.elementType,
   row: PropTypes.elementType.isRequired,
   filters: PropTypes.arr,
   isSearch: PropTypes.bool
 };
 export default function CustomTable({ filters = [], ...props }) {
-  const { headData, data, isLoading, isDashboard, heading, isSearch, row, ...rest } = props;
+  const { headData, data, isLoading, heading, isSearch, row, ...rest } = props;
   const { push } = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
@@ -62,6 +62,7 @@ export default function CustomTable({ filters = [], ...props }) {
       paramsObject[key] = value;
     }
     setState({ ...state, ...paramsObject });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const Component = row;

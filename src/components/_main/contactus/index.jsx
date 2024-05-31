@@ -1,19 +1,6 @@
 import React from 'react';
 // material
-import {
-  Stack,
-  Typography,
-  Box,
-  Rating,
-  Avatar,
-  Link,
-  Button,
-  Container,
-  Grid,
-  TextField,
-  IconButton
-} from '@mui/material';
-import { alpha } from '@mui/material';
+import { Stack, Typography, Box, Link, Grid, IconButton } from '@mui/material';
 // import Icon from 'src/utils/icons';
 // styles
 import RootStyled from './styled';

@@ -1,10 +1,7 @@
 import React, { useCallback } from 'react';
 // mui
-import { FormGroup, FormControlLabel, Checkbox, Grid, Typography, Button, ListItemIcon, Box } from '@mui/material';
-// icons
-import { IoTransgender } from 'react-icons/io5';
-import { IoMdMale, IoMdFemale, IoMdTransgender } from 'react-icons/io';
-import { FaVenusMars } from 'react-icons/fa';
+import { Button, ListItemIcon, Box } from '@mui/material';
+
 // next
 import { useRouter } from 'src/hooks/useRouter';
 import { useSearchParams } from 'next/navigation';
@@ -26,13 +23,6 @@ GenderMain.propTypes = {
   path: PropTypes.string.isRequired
 };
 
-const label = { inputProps: { 'aria-label': 'Checkbox demo' } };
-const icons = {
-  men: <IoMdMale size={20} />,
-  women: <IoMdFemale size={20} />,
-  kids: <FaVenusMars size={20} />,
-  others: <IoMdTransgender size={20} />
-};
 export default function GenderMain({ ...props }) {
   const { genders, path } = props;
   const searchParams = useSearchParams();

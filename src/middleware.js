@@ -48,6 +48,7 @@ export function middleware(request) {
     // The new URL is now /en-US/products
     return NextResponse.redirect(new URL(`/${locale}${pathname.startsWith('/') ? '' : '/'}${pathname}`, request.url));
   }
+  return null;
 }
 
 export const config = {

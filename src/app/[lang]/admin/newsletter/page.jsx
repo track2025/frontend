@@ -1,5 +1,5 @@
 import React from 'react';
-import Toolbar from 'src/components/_admin/toolbar';
+
 import HeaderBreadcrumbs from 'src/components/headerBreadcrumbs';
 import NewsletterList from 'src/components/_admin/newsletter/newsletterList';
 // Meta information

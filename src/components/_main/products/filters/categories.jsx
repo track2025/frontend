@@ -3,7 +3,6 @@ import React from 'react';
 import { useEffect, useState, useCallback } from 'react';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
-import { AiOutlineDollar } from 'react-icons/ai';
 import { IoIosArrowDown } from 'react-icons/io';
 import Popover from '@mui/material/Popover';
 import List from '@mui/material/List';
@@ -12,7 +11,6 @@ import ListItemButton from '@mui/material/ListItemButton';
 import Divider from '@mui/material/Divider';
 import ListItemText from '@mui/material/ListItemText';
 import { RxDashboard } from 'react-icons/rx';
-import { FaCheck } from 'react-icons/fa6';
 import { useRouter } from 'src/hooks/useRouter';
 import { useSearchParams } from 'next/navigation';
 export default function Filters() {
@@ -49,14 +47,6 @@ export default function Filters() {
     [searchParams]
   );
 
-  const deleteQueryString = useCallback(
-    (name) => {
-      const params = new URLSearchParams(searchParams.toString());
-      params.delete(name);
-      return params.toString();
-    },
-    [searchParams]
-  );
   const handleChange = (props, val) => () => {
     var data = state.categories;
 

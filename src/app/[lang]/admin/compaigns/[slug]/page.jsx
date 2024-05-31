@@ -1,7 +1,7 @@
 'use client';
 import React from 'react';
 // Toolbar
-import Toolbar from 'src/components/_admin/toolbar';
+
 // Breadcrumbs
 import HeaderBreadcrumbs from 'src/components/headerBreadcrumbs';
 // components

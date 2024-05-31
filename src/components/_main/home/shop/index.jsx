@@ -7,9 +7,6 @@ import { Typography, Grid, Box, Stack, Paper, Button } from '@mui/material';
 // icons
 import { IoIosArrowForward } from 'react-icons/io';
 // api
-// import * as api from 'src/services';
-// import { useQuery } from 'react-query';
-import { useSelector } from 'react-redux';
 
 // component
 import ShopCard from 'src/components/cards/shop';

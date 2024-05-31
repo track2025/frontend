@@ -4,26 +4,12 @@ import PropTypes from 'prop-types';
 import { useState, useEffect } from 'react';
 // next
 import Image from 'next/image';
-import Link from 'src/utils/link';
 // mui
-import {
-  Box,
-  Grid,
-  Paper,
-  Button,
-  Typography,
-  CardContent,
-  Container,
-  Card,
-  useMediaQuery,
-  Stack,
-  alpha
-} from '@mui/material';
+import { Box, Paper, Typography, Card, Stack } from '@mui/material';
 // redux
 import { useSelector } from 'react-redux';
 // framer motion
 import { motion, AnimatePresence } from 'framer-motion';
-import { varFadeInRight, MotionContainer } from 'src/components/animate';
 // components
 import Actions from './actions';
 
@@ -75,21 +61,11 @@ CarouselItem.propTypes = {
       btnText: PropTypes.string.isRequired
     }).isRequired
   }).isRequired,
-  index: PropTypes.number.isRequired,
-  themeMode: PropTypes.string.isRequired
+  index: PropTypes.number.isRequired
 };
 
 function CarouselItem({ ...props }) {
-  const { item, index, themeMode } = props;
-  const isMobile = useMediaQuery('@media (max-width: 992px)');
-  const [first, setfirst] = useState(false);
-
-  useEffect(() => {
-    setTimeout(() => {
-      setfirst(true);
-    }, 100);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [index]);
+  const { item } = props;
 
   return (
     <Paper

@@ -2,7 +2,7 @@ import React from 'react';
 
 // components
 import ProductList from 'src/components/_admin/products/productList';
-import Toolbar from 'src/components/_admin/toolbar';
+
 import HeaderBreadcrumbs from 'src/components/headerBreadcrumbs';
 // Meta information
 export const metadata = {

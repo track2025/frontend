@@ -95,7 +95,7 @@ export default function LanguageSelect() {
                   Choose a language and region
                 </Typography>
                 <Grid container spacing={2}>
-                  {locales.map((locale, index) => (
+                  {locales.map((locale) => (
                     <Grid key={locale} item xs={12} md={3}>
                       <Button
                         fullWidth
@@ -124,7 +124,7 @@ export default function LanguageSelect() {
                   Choose a currency
                 </Typography>
                 <Grid container spacing={2}>
-                  {(isLoading ? Array.from(new Array(12)) : data?.data).map((cur, index) => (
+                  {(isLoading ? Array.from(new Array(12)) : data?.data).map((cur) => (
                     <Grid key={Math.random()} item xs={12} md={3}>
                       <Button
                         onClick={() =>

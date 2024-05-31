@@ -4,7 +4,7 @@ import { useState, useEffect, useCallback } from 'react';
 import dynamic from 'next/dynamic';
 // mui
 import { Stack, Drawer } from '@mui/material';
-import { IconButton, Typography, Skeleton, Button } from '@mui/material';
+import { Typography, Skeleton, Button } from '@mui/material';
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
@@ -20,16 +20,7 @@ const Filter = dynamic(() => import('src/components/_main/products/filters'), {
   loading: () => <Skeleton variant="rounded" width={'100%'} height={185} />
 });
 
-export default function SortBar({
-  fetchFilters,
-  compaign,
-  productData,
-  shop,
-  isLoading,
-  sortData,
-  category,
-  subCategory
-}) {
+export default function SortBar({ compaign, productData, shop, isLoading, sortData, category, subCategory }) {
   // filterData
   const router = useRouter();
   const pathname = usePathname();
@@ -240,7 +231,6 @@ export default function SortBar({
 }
 // add propTypes
 SortBar.propTypes = {
-  fetchFilters: PropTypes.func.isRequired,
   productData: PropTypes.object.isRequired,
   sortData: PropTypes.array.isRequired,
   category: PropTypes.object.isRequired,

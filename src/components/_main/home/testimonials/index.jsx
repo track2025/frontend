@@ -5,7 +5,7 @@ import React from 'react';
 import Image from 'next/image';
 
 // MUI
-import { alpha, Box, Grid, Typography, Button, Container, Stack, Fab } from '@mui/material';
+import { alpha, Box, Grid, Typography, Container, Stack, Fab } from '@mui/material';
 
 // icons
 import { IoArrowForward } from 'react-icons/io5';
@@ -86,11 +86,6 @@ export default function Testimonials() {
                 performance of our offerings. Gain insights into how our customers perceive our products and their
                 overall satisfaction. Your opinions matter, and we're here to listen..
               </Typography>
-              {/* <Box>
-                <Button size="large" variant="contained" color="primary">
-                  Write a Review
-                </Button>
-              </Box> */}
             </Stack>
             <Stack
               direction={'row'}

@@ -2,7 +2,7 @@
 import React from 'react';
 import EditAdminShopForm from 'src/components/forms/adminShop';
 import HeaderBreadcrumbs from 'src/components/headerBreadcrumbs';
-import Toolbar from 'src/components/_admin/toolbar';
+
 import * as api from 'src/services';
 // usequery
 import { useQuery } from 'react-query';

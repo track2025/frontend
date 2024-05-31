@@ -7,7 +7,6 @@ import toast from 'react-hot-toast';
 // components
 import Table from 'src/components/table/table';
 import Newsletter from 'src/components/table/rows/newsletter';
-import NewsletterCard from 'src/components/cards/newsletter';
 // next
 import { useSearchParams } from 'next/navigation';
 

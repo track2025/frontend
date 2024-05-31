@@ -1,5 +1,5 @@
 import React from 'react';
-import Toolbar from 'src/components/_admin/toolbar';
+
 import HeaderBreadcrumbs from 'src/components/headerBreadcrumbs';
 import UsersDetails from 'src/components/_admin/users/userDetails';
 

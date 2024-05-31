@@ -2,13 +2,10 @@
 // react
 import React from 'react';
 // mui
-import { alpha } from '@mui/material/styles';
-import { Typography, Card, Container, Stack, Divider } from '@mui/material';
+import { Typography, Card, Stack, Divider } from '@mui/material';
 
 // icons
 import { MdOutlineSupportAgent } from 'react-icons/md';
-import { MdLoop } from 'react-icons/md';
-import { BiDollar } from 'react-icons/bi';
 import { AiOutlineShoppingCart } from 'react-icons/ai';
 import { VscFeedback } from 'react-icons/vsc';
 import { MdSettingsBackupRestore } from 'react-icons/md';

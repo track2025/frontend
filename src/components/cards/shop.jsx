@@ -4,20 +4,7 @@ import PropTypes from 'prop-types';
 // next
 import Link from 'src/utils/link';
 // mui
-import {
-  Typography,
-  CardActionArea,
-  Card,
-  Box,
-  Skeleton,
-  Stack,
-  Rating,
-  Button,
-  IconButton,
-  CardContent,
-  Divider,
-  alpha
-} from '@mui/material';
+import { Typography, Card, Box, Skeleton, Stack, Button, CardContent, Divider } from '@mui/material';
 // components
 import Image from 'src/components/blurImage';
 // icons

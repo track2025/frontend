@@ -1,6 +1,6 @@
 import React from 'react';
 // Components
-import Toolbar from 'src/components/_admin/toolbar';
+
 import HeaderBreadcrumbs from 'src/components/headerBreadcrumbs';
 import OrdersList from 'src/components/_admin/orders/ordersList';
 // Meta information

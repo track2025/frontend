@@ -1,7 +1,6 @@
 import React from 'react';
 // Components
 import CategoryList from 'src/components/_admin/categories/categoryList';
-import Toolbar from 'src/components/_admin/toolbar';
 import HeaderBreadcrumbs from 'src/components/headerBreadcrumbs';
 // Meta information
 export const metadata = {

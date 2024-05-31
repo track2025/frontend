@@ -2,7 +2,7 @@ import React from 'react';
 // Components
 import CurrencyList from 'src/components/_admin/currencies/currencyList';
 // Toolbar
-import Toolbar from 'src/components/_admin/toolbar';
+
 // Breadcrumbs
 import HeaderBreadcrumbs from 'src/components/headerBreadcrumbs';
 

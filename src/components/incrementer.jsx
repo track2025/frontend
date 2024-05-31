@@ -1,7 +1,7 @@
 // mui
 import { styled } from '@mui/material/styles';
 import PropTypes from 'prop-types';
-import { Box, Typography, Fab, useTheme, Stack } from '@mui/material';
+import { Typography, Fab, Stack } from '@mui/material';
 import { IoIosRemove } from 'react-icons/io';
 import { IoIosAdd } from 'react-icons/io';
 
@@ -17,7 +17,7 @@ const IncrementerStyle = styled('div')(({ theme }) => ({
 
 function Incrementer({ ...props }) {
   const { available, quantity, onIncrease, onDecrease } = props;
-  const theme = useTheme();
+
   return (
     <Stack sx={{ width: 96, mb: 0 }}>
       <IncrementerStyle>

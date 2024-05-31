@@ -1,7 +1,7 @@
 import React from 'react';
 // Components
 import SubCategoryList from 'src/components/_admin/subCategories/categoryList';
-import Toolbar from 'src/components/_admin/toolbar';
+
 import HeaderBreadcrumbs from 'src/components/headerBreadcrumbs';
 import * as api from 'src/services';
 // Meta information

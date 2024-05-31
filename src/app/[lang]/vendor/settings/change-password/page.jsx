@@ -1,6 +1,6 @@
 import React from 'react';
 import HeaderBreadcrumbs from 'src/components/headerBreadcrumbs';
-import Toolbar from 'src/components/_admin/toolbar';
+
 import AccountChangePassword from 'src/components/_main/profile/edit/accountChangePassword';
 import { Card, Container, Stack, Typography } from '@mui/material';
 export default function page() {

@@ -4,16 +4,9 @@ import PropTypes from 'prop-types';
 import { useState } from 'react';
 // next
 import BlurImage from 'src/components/blurImage';
-import { toast } from 'react-hot-toast';
 // mui
-import { Box, Stack, IconButton, useMediaQuery, Tooltip } from '@mui/material';
-import { IoMdHeartEmpty } from 'react-icons/io';
-import { IoIosHeart } from 'react-icons/io';
-// redux
-import { setWishlist } from 'src/redux/slices/wishlist';
-import { useSelector, useDispatch } from 'react-redux';
-// api
-import * as api from 'src/services';
+import { Box, Stack } from '@mui/material';
+
 // framer motion
 import { motion, AnimatePresence } from 'framer-motion';
 
@@ -80,7 +73,7 @@ function ProductDetailsCarousel({ ...props }) {
 }
 
 export default function CarouselAnimation({ ...props }) {
-  const { product, data: others } = props;
+  const { product } = props;
 
   const images = product?.images;
 

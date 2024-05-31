@@ -9,9 +9,7 @@ import { Typography, Container, Stack, Box, IconButton, Grid, Link, Fab, Divider
 import NextLink from 'src/utils/link';
 // components
 import NewsLetter from './newsletter';
-
 import MainLogo from 'src/components/mainLogo';
-import { usePathname } from 'next/navigation';
 // icons
 import { FaFacebookF, FaInstagram, FaLinkedinIn } from 'react-icons/fa';
 import { MdOutlineLocationOn } from 'react-icons/md';
@@ -78,7 +76,6 @@ const MAIN_LINKS = [
 
 export default function Footer() {
   const theme = useTheme();
-  const pathname = usePathname();
   return (
     <Box
       sx={{

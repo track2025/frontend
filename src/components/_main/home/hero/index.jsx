@@ -1,4 +1,4 @@
-import React, { Suspense } from 'react';
+import React from 'react';
 // components
 import SingleSlideCarousel from 'src/components/carousels/singleSlide';
 import MegaMenu from 'src/components/mega-menu/MegaMenuDesktopVertical';

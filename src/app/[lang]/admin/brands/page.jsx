@@ -1,8 +1,6 @@
 import React from 'react';
 // Components
 import BrandList from 'src/components/_admin/brands/brandList';
-// Toolbar
-import Toolbar from 'src/components/_admin/toolbar';
 // Breadcrumbs
 import HeaderBreadcrumbs from 'src/components/headerBreadcrumbs';
 

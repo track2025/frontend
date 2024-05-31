@@ -3,7 +3,6 @@ import React from 'react';
 // mui
 
 import { CardContent, Typography, Stack, Divider, Skeleton, Box } from '@mui/material';
-import { fCurrency } from 'src/utils/formatNumber';
 
 import { useCurrencyConvert } from 'src/hooks/convertCurrency';
 import { useCurrencyFormatter } from 'src/hooks/formatCurrency';

@@ -1,6 +1,5 @@
 // mui
 import { Box } from '@mui/material';
-import Grid from '@mui/material/Grid';
 import Container from '@mui/material/Container';
 import ShopDetailCover from 'src/components/_admin/shops/shopDetailCover';
 import ProductList from 'src/components/_main/products';
