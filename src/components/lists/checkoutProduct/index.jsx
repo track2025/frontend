@@ -19,7 +19,7 @@ import { IoClose } from 'react-icons/io5';
 import RootStyled from './styled';
 import Incrementer from 'src/components/incrementer';
 import { useCurrencyConvert } from 'src/hooks/convertCurrency';
-import { useCurrencyFormatter } from 'src/hooks/fCurrency';
+import { useCurrencyFormatter } from 'src/hooks/formatCurrency';
 import BlurImage from 'src/components/blurImage';
 
 const ThumbImgStyle = styled(Box)(({ theme }) => ({

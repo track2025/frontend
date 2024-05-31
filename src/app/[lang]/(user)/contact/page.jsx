@@ -1,7 +1,7 @@
 import { Container } from '@mui/material';
 import React from 'react';
 // component
-import ContactUs from 'src/components/_main/contactus';
+import ContactUs from 'src/components/_main/contactUs';
 // next
 import dynamic from 'next/dynamic';
 // skeleton

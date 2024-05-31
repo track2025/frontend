@@ -13,7 +13,7 @@ import { useRouter } from 'src/hooks/useRouter';
 import Label from 'src/components/label';
 // lodash
 import { capitalize } from 'lodash';
-import { useCurrencyFormatter } from 'src/hooks/fCurrency';
+import { useCurrencyFormatter } from 'src/hooks/formatCurrency';
 import { fDateShort } from 'src/utils/formatTime';
 
 export default function BrandsRow({ isLoading, row, handleClickOpen }) {

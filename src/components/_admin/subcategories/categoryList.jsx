@@ -11,7 +11,7 @@ import { Dialog } from '@mui/material';
 // component
 import DeleteDialog from 'src/components/dialog/delete';
 import Table from 'src/components/table/table';
-import SubCategoryCard from 'src/components/cards/adminSubCategory';
+
 import SubCategory from 'src/components/table/rows/subCategory';
 // next
 import { useSearchParams } from 'next/navigation';
@@ -32,7 +32,7 @@ export default function SubCategoryList({ categories }) {
 
   const { data, isLoading } = useQuery(
     ['categories', apicall, searchParams.toString()],
-    () => api.getSubCategories(searchParams.toString()),
+    () => api.getSubCategoriesByAdmin(searchParams.toString()),
     {
       onError: (err) => toast.error(err.response.data.message || 'Something went wrong!')
     }
@@ -53,7 +53,7 @@ export default function SubCategoryList({ categories }) {
           onClose={handleClose}
           id={id}
           apicall={setApicall}
-          endPoint="deleteSubCategory"
+          endPoint="deleteSubCategoryByAdmin"
           type={'Category deleted'}
           deleteMessage={'Deleting this category will permanently remove it. Are you sure you want to proceed?'}
         />
@@ -61,7 +61,6 @@ export default function SubCategoryList({ categories }) {
       <Table
         headData={TABLE_HEAD}
         data={data}
-        mobileRow={SubCategoryCard}
         isLoading={isLoading}
         row={SubCategory}
         handleClickOpen={handleClickOpen}

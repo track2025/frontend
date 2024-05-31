@@ -13,7 +13,7 @@ import * as api from 'src/services';
 import { useMutation } from 'react-query';
 // redux
 import { useDispatch, useSelector } from 'react-redux';
-import { getCart } from 'src/lib/redux/slices/product';
+import { getCart } from 'src/redux/slices/product';
 import PaymentSummarySkeleton from 'src/components/skeletons/cart/paymentSummary';
 import ShoppingCartSkeleton from 'src/components/skeletons/cart/shoppingcart';
 // components

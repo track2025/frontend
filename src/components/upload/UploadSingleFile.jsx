@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import { alpha, styled } from '@mui/material/styles';
 import { Paper, Box, Typography } from '@mui/material';
 // component
-import { UploadIllustration } from 'src/assets';
+import { UploadIllustration } from 'src/illustrations';
 // react
 import { useDropzone } from 'react-dropzone';
 // utils
@@ -115,7 +115,7 @@ export default function UploadSingleFile({ error, file, sx, onDrop, loading, ...
         <input {...getInputProps()} />
         {!other.category && <UploadIllustration sx={{ width: 220 }} />}
         <Box sx={{ p: 2, ml: { md: 2 } }}>
-          <Typography variant={other.category ? 'subtitle1' : 'h5'}>{'Drop or Select images'}</Typography>
+          <Typography variant={other.category ? 'subtitle1' : 'h5'}>{'Drop or Select image'}</Typography>
           {other.category ? (
             <UploadIllustration sx={{ width: 160 }} />
           ) : (

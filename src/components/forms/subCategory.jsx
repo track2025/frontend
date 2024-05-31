@@ -72,7 +72,7 @@ export default function SubCategoryForm({
 
   const { mutate, isLoading } = useMutation(
     currentCategory ? 'update' : 'new',
-    currentCategory ? api.updateSubCategory : api.addSubCategory,
+    currentCategory ? api.updateSubCategoryByAdmin : api.addSubCategoryByAdmin,
     {
       ...(currentCategory && {
         enabled: Boolean(currentCategory)

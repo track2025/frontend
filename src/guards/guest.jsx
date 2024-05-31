@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react';
 // next
 import { useRouter } from 'src/hooks/useRouter';
 // redux
-import { useSelector } from 'src/lib/redux';
+import { useSelector } from 'src/redux';
 import Loading from 'src/components/loading';
 // PropTypes;
 import PropTypes from 'prop-types';

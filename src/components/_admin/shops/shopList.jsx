@@ -65,7 +65,6 @@ export default function AdminProducts() {
       <Table
         headData={TABLE_HEAD}
         data={data}
-        mobileRow={ShopCard}
         isLoading={isLoading}
         row={Shop}
         handleClickOpen={handleClickOpen}

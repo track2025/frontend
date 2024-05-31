@@ -5,7 +5,7 @@ import { Typography, Card, CardContent, Stack, Fab, Grid, Skeleton } from '@mui/
 import { IoPersonSharp } from 'react-icons/io5';
 import { HiCurrencyDollar } from 'react-icons/hi2';
 // Component
-import { useCurrencyFormatter } from 'src/hooks/fCurrency';
+import { useCurrencyFormatter } from 'src/hooks/formatCurrency';
 // styles
 import RootStyled from './styled';
 

@@ -33,7 +33,6 @@ export default function EcommerceProductList() {
         data={data}
         isLoading={isLoading}
         row={Newsletter}
-        mobileRow={NewsletterCard}
         onClickCopy={() => toast.success('Copy email')}
       />
     </>

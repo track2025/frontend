@@ -1,7 +1,7 @@
 'use client';
 import React, { useState } from 'react';
 import { useMutation } from 'react-query';
-import { updateUserRole } from 'src/lib/redux/slices/user';
+import { updateUserRole } from 'src/redux/slices/user';
 import { useDispatch } from 'react-redux';
 // mui
 import { styled } from '@mui/material/styles';

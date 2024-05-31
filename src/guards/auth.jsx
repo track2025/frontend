@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 // next
 import { useRouter } from 'src/hooks/useRouter';
 // redux
-import { useSelector } from 'src/lib/redux';
+import { useSelector } from 'src/redux';
 import Loading from 'src/components/loading';
 export default function Guest({ children }) {
   const router = useRouter();

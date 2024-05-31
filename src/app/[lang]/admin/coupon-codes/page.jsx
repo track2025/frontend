@@ -13,10 +13,10 @@ import { Dialog } from '@mui/material';
 // components
 import DeleteDialog from 'src/components/dialog/delete';
 import Table from 'src/components/table/table';
-import CouponCodeCard from 'src/components/cards/couponCode';
+
 import CouponCode from 'src/components/table/rows/couponCode';
 import { useSearchParams } from 'next/navigation';
-import Toolbar from 'src/components/_admin/toolbar';
+
 import HeaderBreadcrumbs from 'src/components/headerBreadcrumbs';
 // ----------------------------------------------------------------------
 
@@ -40,7 +40,7 @@ export default function Catgeories() {
 
   const { data, isLoading } = useQuery(
     ['coupon-codes', apicall, searchParam, pageParam],
-    () => api.getCouponCodes(+pageParam || 1, searchParam || ''),
+    () => api.getCouponCodesByAdmin(+pageParam || 1, searchParam || ''),
     {
       onError: (err) => toast.error(err.response.data.message || 'Something went wrong!')
     }
@@ -61,7 +61,7 @@ export default function Catgeories() {
           onClose={handleClose}
           id={id}
           apicall={setApicall}
-          endPoint="deleteCouponCode"
+          endPoint="deleteCouponCodeByAdmin"
           type={'Coupon code deleted'}
           deleteMessage={'Are you sure you want Delete to Coupon Code!'}
         />
@@ -87,7 +87,6 @@ export default function Catgeories() {
       <Table
         headData={TABLE_HEAD}
         data={data}
-        mobileRow={CouponCodeCard}
         isLoading={isLoading}
         row={CouponCode}
         handleClickOpen={handleClickOpen}

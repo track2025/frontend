@@ -10,7 +10,7 @@ import * as api from 'src/services';
 import ShopCard from 'src/components/cards/shop';
 
 export default async function ShopComponent() {
-  const data = await api.getAllShopsByUser();
+  const data = await api.getShops();
 
   return (
     <Container maxWidth="xl">

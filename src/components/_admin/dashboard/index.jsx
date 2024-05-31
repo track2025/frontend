@@ -16,9 +16,9 @@ import { GrWorkshop } from 'react-icons/gr';
 import { LuFileClock } from 'react-icons/lu';
 import { FiFileText } from 'react-icons/fi';
 import { LuFileInput } from 'react-icons/lu';
-import OrderChart from 'src/components/charts/Order';
-import SalesChart from 'src/components/charts/Sales';
-import IncomeChart from 'src/components/charts/Income';
+import OrderChart from 'src/components/charts/order';
+import SalesChart from 'src/components/charts/sales';
+import IncomeChart from 'src/components/charts/income';
 import BestSelling from './bestSelling';
 // mui
 import { Grid, Box, Typography, Card } from '@mui/material';
@@ -33,7 +33,7 @@ Dashboard.propTypes = {
 export default function Dashboard({ isVendor }) {
   const { data: dashboard, isLoading } = useQuery(
     isVendor ? 'vendor-analytics' : 'dashboard-analytics',
-    api[isVendor ? 'vendorAnalytics' : 'dashboardAnalytics'],
+    api[isVendor ? 'vendorDashboardAnalytics' : 'adminDashboardAnalytics'],
     {
       // refetchInterval: 10000,
       onError: (error) => toast.error(error.message || 'Something went wrong!')

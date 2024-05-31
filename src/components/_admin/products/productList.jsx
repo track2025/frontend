@@ -31,7 +31,7 @@ export default function AdminProducts({ brands, categories, shops, isVendor }) {
   const [id, setId] = useState(null);
   const { data, isLoading } = useQuery(
     ['admin-products', apicall, searchParams.toString()],
-    () => api[isVendor ? 'getVendorProducts' : 'getAdminProducts'](searchParams.toString()),
+    () => api[isVendor ? 'getVendorProducts' : 'getProductsByAdmin'](searchParams.toString()),
     {
       onError: (err) => toast.error(err.response.data.message || 'Something went wrong!')
     }
@@ -52,7 +52,7 @@ export default function AdminProducts({ brands, categories, shops, isVendor }) {
           onClose={handleClose}
           id={id}
           apicall={setApicall}
-          endPoint={isVendor ? 'deleteVendorProduct' : 'deleteProduct'}
+          endPoint={isVendor ? 'deleteVendorProduct' : 'deleteProductByAdmin'}
           type={'Product deleted'}
           deleteMessage={
             'Are you really sure you want to remove this product? Just making sure before we go ahead with it.'
@@ -65,7 +65,6 @@ export default function AdminProducts({ brands, categories, shops, isVendor }) {
       <Table
         headData={TABLE_HEAD}
         data={data}
-        mobileRow={ProductCard}
         isLoading={isLoading}
         row={Product}
         handleClickOpen={handleClickOpen}

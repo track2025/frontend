@@ -6,7 +6,7 @@ import { CardContent, Typography, Stack, Divider, Skeleton, Box } from '@mui/mat
 import { fCurrency } from 'src/utils/formatNumber';
 
 import { useCurrencyConvert } from 'src/hooks/convertCurrency';
-import { useCurrencyFormatter } from 'src/hooks/fCurrency';
+import { useCurrencyFormatter } from 'src/hooks/formatCurrency';
 
 //  styling
 import RootStyled from './styled';

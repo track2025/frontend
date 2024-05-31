@@ -21,7 +21,7 @@ import { useMutation } from 'react-query';
 
 import * as api from 'src/services';
 // toast
-import { setWishlist } from 'src/lib/redux/slices/wishlist';
+import { setWishlist } from 'src/redux/slices/wishlist';
 import { useDispatch } from 'react-redux';
 import { toast } from 'react-hot-toast';
 import RootStyled from './styled';

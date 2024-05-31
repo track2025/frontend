@@ -10,9 +10,8 @@ import { styled } from '@mui/material/styles';
 // components
 // import { fCurrency } from 'src/utils/formatNumber';
 import { useCurrencyConvert } from 'src/hooks/convertCurrency';
-import { useCurrencyFormatter } from 'src/hooks/fCurrency';
+import { useCurrencyFormatter } from 'src/hooks/formatCurrency';
 import BlurImage from 'src/components/blurImage';
-const RootStyled = dynamic(() => import('./styled'));
 const Incrementer = dynamic(() => import('src/components/incrementer'));
 
 const ThumbImgStyle = styled(Box)(({ theme }) => ({
@@ -40,7 +39,18 @@ export default function CheckoutCard({ ...props }) {
   const cCurrency = useCurrencyConvert();
   const fCurrency = useCurrencyFormatter();
   return (
-    <RootStyled>
+    <Box
+      sx={{
+        '& .card-main': {
+          p: 2,
+          borderWidth: '1px 0 0 0',
+          '& .delete-icon': {
+            fontSize: 20
+          }
+        },
+        display: { sm: 'none', xs: 'block' }
+      }}
+    >
       {cart.map((product) => {
         const { sku, name, brand, priceSale, color, size, image, quantity, available } = product;
 
@@ -96,7 +106,7 @@ export default function CheckoutCard({ ...props }) {
           </Card>
         );
       })}
-    </RootStyled>
+    </Box>
   );
 }
 CheckoutCard.propTypes = {

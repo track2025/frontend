@@ -9,8 +9,6 @@ import toast from 'react-hot-toast';
 // components
 import Table from 'src/components/table/table';
 import IncomeList from 'src/components/table/rows/income';
-import IcomeListData from 'src/components/cards/icomeListData';
-// import DeleteDialog from 'src/components/dialog/delete';
 import PropTypes from 'prop-types';
 // mui
 import { Typography } from '@mui/material';
@@ -33,7 +31,7 @@ export default function ShopIcomeList({ slug, onUpdatePayment, isVendor }) {
   const [count, setCount] = useState(0);
   const { data, isLoading: loadingList } = useQuery(
     ['income', pageParam, count],
-    () => api[isVendor ? 'getIncomeByVendor' : 'getIncomeByShop'](slug, pageParam),
+    () => api[isVendor ? 'getIncomeByVendor' : 'getShopIncomeByAdmin'](slug, pageParam),
     {
       onSuccess: () => onUpdatePayment(),
       onError: (err) => toast.error(err.response.data.message || 'Something went wrong!')
@@ -53,7 +51,6 @@ export default function ShopIcomeList({ slug, onUpdatePayment, isVendor }) {
         data={data}
         isLoading={isLoading}
         row={IncomeList}
-        mobileRow={IcomeListData}
         handleClickOpen={(v) => setPayment(v)}
         isVendor={isVendor}
       />

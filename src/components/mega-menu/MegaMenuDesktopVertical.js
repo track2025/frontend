@@ -10,7 +10,7 @@ import { alpha } from '@mui/material/styles';
 import { Box, List, Card, ListItem, Typography, Stack, Button, Skeleton } from '@mui/material';
 import Image from 'next/image';
 import { useDispatch } from 'react-redux';
-import { setShops } from 'src/lib/redux/slices/shops';
+import { setShops } from 'src/redux/slices/shops';
 // import * as api from 'src/services';
 // import { useQuery } from 'react-query';
 import { useRouter } from 'src/hooks/useRouter';

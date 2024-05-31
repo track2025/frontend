@@ -25,8 +25,8 @@ import { useRouter } from 'next-nprogress-bar';
 // formik
 import { useFormik, Form, FormikProvider, useField } from 'formik';
 // redux
-import { useDispatch, useSelector } from 'src/lib/redux/store';
-import { addCart } from 'src/lib/redux/slices/product';
+import { useDispatch, useSelector } from 'src/redux/store';
+import { addCart } from 'src/redux/slices/product';
 import { FacebookShareButton, TwitterShareButton, LinkedinShareButton, WhatsappShareButton } from 'next-share';
 // toast
 import { toast } from 'react-hot-toast';

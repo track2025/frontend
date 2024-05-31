@@ -27,11 +27,11 @@ import { IoIosHeartEmpty } from 'react-icons/io';
 import { MdLogin } from 'react-icons/md';
 import { FaRegUserCircle } from 'react-icons/fa';
 // redux
-import { setThemeMode } from 'src/lib/redux/slices/settings';
+import { setThemeMode } from 'src/redux/slices/settings';
 import { useSelector } from 'react-redux';
 import { useDispatch } from 'react-redux';
-import { setLogout } from 'src/lib/redux/slices/user';
-import { resetWishlist } from 'src/lib/redux/slices/wishlist';
+import { setLogout } from 'src/redux/slices/user';
+import { resetWishlist } from 'src/redux/slices/wishlist';
 import { deleteCookies } from 'src/hooks/cookies';
 
 export default function MobileSetting() {

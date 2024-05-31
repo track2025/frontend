@@ -10,7 +10,7 @@ import { useSelector } from 'react-redux';
 import { useRouter } from 'src/hooks/useRouter';
 
 import PropTypes from 'prop-types';
-import NoDataFoundIllustration from 'src/components/illustrations/noDataFound';
+import NoDataFoundIllustration from 'src/illustrations/notFound';
 
 ProductReview.propTypes = {
   pid: PropTypes.string.isRequired,
