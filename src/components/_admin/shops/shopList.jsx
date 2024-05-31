@@ -24,7 +24,7 @@ const TABLE_HEAD = [
   { id: '', label: 'Actions', alignRight: true }
 ];
 
-export default function AdminProducts({ isVendor }) {
+export default function AdminProducts() {
   const searchParams = useSearchParams();
   const pageParam = searchParams.get('page');
   const searchParam = searchParams.get('search');
@@ -55,10 +55,10 @@ export default function AdminProducts({ isVendor }) {
           onClose={handleClose}
           id={id}
           apicall={setApicall}
-          endPoint={isVendor ? 'deleteVendorProduct' : 'deleteProductByAdmin'}
-          type={'Product deleted'}
+          endPoint={'deleteShop'}
+          type={'Shop deleted'}
           deleteMessage={
-            'Are you really sure you want to remove this product? Just making sure before we go ahead with it.'
+            'Are you really sure you want to remove this Shop? Just making sure before we go ahead with it.'
           }
         />
       </Dialog>
