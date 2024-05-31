@@ -16,8 +16,8 @@ import toast from 'react-hot-toast';
 import { createCookies } from 'src/hooks/cookies';
 // redux
 import { useDispatch } from 'react-redux';
-import { setWishlist } from 'src/lib/redux/slices/wishlist';
-import { setLogin } from 'src/lib/redux/slices/user';
+import { setWishlist } from 'src/redux/slices/wishlist';
+import { setLogin } from 'src/redux/slices/user';
 // api
 import * as api from 'src/services';
 // mui

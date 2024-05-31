@@ -6,7 +6,7 @@ import AddProduct from 'src/components/_admin/products/addProduct';
 import * as api from 'src/services';
 export default async function page() {
   const data1 = await api.getAllCategories();
-  const data2 = await api.getAllBrands();
+  const data2 = await api.getAllBrandsByAdmin();
   if (!data1 && data2) {
     notFound();
   }

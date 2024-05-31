@@ -35,7 +35,7 @@ export default function BrandList() {
 
   const { data, isLoading, error } = useQuery(
     ['brands', apicall, searchParam, pageParam],
-    () => api.getBrands(+pageParam || 1, searchParam || ''),
+    () => api.getBrandsByAdmin(+pageParam || 1, searchParam || ''),
     {
       onError: (err) => toast.error(err.response.data.message || 'Something went wrong!')
     }
@@ -56,7 +56,7 @@ export default function BrandList() {
           onClose={handleClose}
           id={id}
           apicall={setApicall}
-          endPoint="deleteBrand"
+          endPoint="deleteBrandByAdmin"
           type={'Brand deleted'}
           deleteMessage={
             'Are you sure you want to delete this brand? Please consider carefully before making irreversible changes.'
@@ -66,7 +66,6 @@ export default function BrandList() {
       <Table
         headData={TABLE_HEAD}
         data={error ? [] : data}
-        // mobileRow={BrandsCard}
         isLoading={isLoading}
         row={Brand}
         handleClickOpen={handleClickOpen}

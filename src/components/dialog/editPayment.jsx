@@ -41,7 +41,7 @@ FormDialog.propTypes = {
 export default function FormDialog({ open, handleClose, data, setCount }) {
   const [status, setStatus] = useState(data?.status || 'pending');
 
-  const { mutate, isLoading } = useMutation(api[data?._id ? 'editPayment' : 'createPayment'], {
+  const { mutate, isLoading } = useMutation(api[data?._id ? 'editPaymentByAdmin' : 'createPaymentByAdmin'], {
     onSuccess: () => {
       toast.success('updated');
       setCount((prev) => prev + 1);

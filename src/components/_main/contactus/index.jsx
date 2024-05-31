@@ -18,7 +18,7 @@ import { alpha } from '@mui/material';
 // styles
 import RootStyled from './styled';
 // form
-import ContactUs from 'src/components/forms/contactUS';
+import ContactUs from 'src/components/forms/contact';
 // icons
 import { MdEmail } from 'react-icons/md';
 import { PiPhoneCall } from 'react-icons/pi';

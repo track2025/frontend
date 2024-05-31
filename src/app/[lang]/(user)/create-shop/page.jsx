@@ -1,7 +1,7 @@
 'use client';
 import { Container } from '@mui/material';
 import React, { useEffect } from 'react';
-import ShopForm from 'src/components/forms/user-shop';
+import ShopForm from 'src/components/forms/userShop';
 import { useSelector } from 'react-redux';
 import { useRouter } from 'src/hooks/useRouter';
 export default function Page() {

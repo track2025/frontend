@@ -4,8 +4,8 @@ import { usePathname } from 'next/navigation';
 
 // reduxt
 import { useDispatch } from 'react-redux';
-import { setLogout } from 'src/lib/redux/slices/user';
-import { resetWishlist } from 'src/lib/redux/slices/wishlist';
+import { setLogout } from 'src/redux/slices/user';
+import { resetWishlist } from 'src/redux/slices/wishlist';
 
 // mui
 import { Typography, Divider, ListItemIcon, Button, MenuItem, Box } from '@mui/material';

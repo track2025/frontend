@@ -32,7 +32,7 @@ export default function UserProfile({ id }) {
   const pageParam = searchParams.get('page');
   const { data, isLoading } = useQuery(
     ['user-details', id, pageParam],
-    () => api.getUser(id + `?page=${pageParam || 1}`),
+    () => api.getUserByAdmin(id + `?page=${pageParam || 1}`),
     {
       enabled: Boolean(id),
       retry: false
@@ -69,14 +69,7 @@ export default function UserProfile({ id }) {
         <ProfileCover data={user} isLoading={isLoading} />
       </Card>
 
-      <Table
-        headData={TABLE_HEAD}
-        data={tableData}
-        isLoading={isLoading}
-        row={OrderList}
-        isUser
-        mobileRow={OrderCard}
-      />
+      <Table headData={TABLE_HEAD} data={tableData} isLoading={isLoading} row={OrderList} isUser />
     </>
   );
 }

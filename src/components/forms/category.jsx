@@ -59,7 +59,7 @@ export default function CategoryForm({ data: currentCategory, isLoading: categor
 
   const { mutate, isLoading } = useMutation(
     currentCategory ? 'update' : 'new',
-    currentCategory ? api.updateCategory : api.addCategory,
+    currentCategory ? api.updateCategoryByAdmin : api.addCategoryByAdmin,
     {
       ...(currentCategory && {
         enabled: Boolean(currentCategory)

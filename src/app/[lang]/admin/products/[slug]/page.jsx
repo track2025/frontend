@@ -5,7 +5,7 @@ import EditProduct from 'src/components/_admin/products/editProduct';
 import * as api from 'src/services';
 export default async function page({ params }) {
   const data1 = await api.getAllCategories();
-  const data2 = await api.getAllBrands();
+  const data2 = await api.getAllBrandsByAdmin();
   const data3 = await api.getAllShopsByAdmin();
   if (!data1 || !data2 || !data3) {
     notFound();

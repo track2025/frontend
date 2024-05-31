@@ -32,7 +32,7 @@ import { enUS } from 'date-fns/locale';
 import { useRouter } from 'src/hooks/useRouter';
 // component
 import { Popover as MenuPopover } from 'src/components/popover';
-import NoDataFoundIllustration from 'src/components/illustrations/noDataFound';
+import NoDataFoundIllustration from 'src/illustrations/notFound';
 // ----------------------------------------------------------------------
 
 // ----------------------------------------------------------------------
@@ -131,7 +131,7 @@ export default function NotificationsPopover() {
   const [open, setOpen] = useState(false);
   const [page, setPage] = useState(1);
   const [notifications, setNotifications] = useState([]);
-  const { data, isLoading } = useQuery(['notification', page], () => api.getNotification(page * 10), {
+  const { data, isLoading } = useQuery(['notification', page], () => api.getNotifications(page * 10), {
     refetchInterval: 10000,
     onSuccess: (newData) => {
       setNotifications([...newData.data]);

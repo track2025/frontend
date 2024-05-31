@@ -12,7 +12,7 @@ import config from 'src/layout/_main/config.json';
 // usequery
 // import { useQuery } from 'react-query';
 import { useDispatch } from 'react-redux';
-import { setCategories } from 'src/lib/redux/slices/categories';
+import { setCategories } from 'src/redux/slices/categories';
 import MenuDesktop from './menuDesktop';
 // const Skeletons = () => {
 //   return (

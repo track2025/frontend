@@ -10,7 +10,7 @@ import { Box, Stack, IconButton, useMediaQuery, Tooltip } from '@mui/material';
 import { IoMdHeartEmpty } from 'react-icons/io';
 import { IoIosHeart } from 'react-icons/io';
 // redux
-import { setWishlist } from 'src/lib/redux/slices/wishlist';
+import { setWishlist } from 'src/redux/slices/wishlist';
 import { useSelector, useDispatch } from 'react-redux';
 // api
 import * as api from 'src/services';

@@ -4,7 +4,7 @@ import React from 'react';
 // mui
 import { Typography } from '@mui/material';
 // components
-import ProductsCarousel from 'src/components/carousels/products';
+import ProductsCarousel from 'src/components/carousels/gridSlider';
 // styles
 import RootStyled from './styled';
 import PropTypes from 'prop-types';

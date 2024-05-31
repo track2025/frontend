@@ -7,7 +7,7 @@ import { useSearchParams } from 'next/navigation';
 // api
 import * as api from 'src/services';
 import { useMutation } from 'react-query';
-import { verifyUser } from 'src/lib/redux/slices/user';
+import { verifyUser } from 'src/redux/slices/user';
 // toast
 import { toast } from 'react-hot-toast';
 // mui Component

@@ -26,7 +26,7 @@ OrderToolbarActions.propTypes = {
 
 export default function OrderToolbarActions({ data }) {
   const router = useRouter();
-  const { mutate, isLoading: deleteLoading } = useMutation(api.deleteOrder, {
+  const { mutate, isLoading: deleteLoading } = useMutation(api.deleteOrderByAdmin, {
     onSuccess: (data) => {
       toast.success(data.message);
       router.push('/admin/orders');

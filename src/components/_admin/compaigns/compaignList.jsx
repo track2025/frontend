@@ -12,7 +12,6 @@ import { Dialog } from '@mui/material';
 // components
 import DeleteDialog from 'src/components/dialog/delete';
 import Table from 'src/components/table/table';
-// import CurrencyCard from 'src/components/cards/currency';
 import Compaign from 'src/components/table/rows/compaign';
 // next
 import { useSearchParams } from 'next/navigation';
@@ -37,7 +36,7 @@ export default function BrandList() {
 
   const { data, isLoading, error } = useQuery(
     ['brands', apicall, searchParam, pageParam],
-    () => api.getAdminCompaigns(+pageParam || 1, searchParam || ''),
+    () => api.getCompaignsByAdmin(+pageParam || 1, searchParam || ''),
     {
       onError: (err) => toast.error(err.response.data.message || 'Something went wrong!')
     }
@@ -58,7 +57,7 @@ export default function BrandList() {
           onClose={handleClose}
           id={id}
           apicall={setApicall}
-          endPoint="deleteCompaign"
+          endPoint="deleteCompaignByAdmin"
           type={'Compaign deleted'}
           deleteMessage={
             'Are you sure you want to delete this compaign? Please consider carefully before making irreversible changes.'
@@ -68,7 +67,6 @@ export default function BrandList() {
       <Table
         headData={TABLE_HEAD}
         data={error ? [] : data}
-        // mobileRow={CurrencyCard}
         isLoading={isLoading}
         row={Compaign}
         handleClickOpen={handleClickOpen}

@@ -218,7 +218,7 @@ export default function BrandsForm({ data: currentCurrency, isLoading: currencyL
   };
   const { mutate, isLoading } = useMutation(
     currentCurrency ? 'update currency' : 'new currency',
-    currentCurrency ? api.updateCurrency : api.addCurrency,
+    currentCurrency ? api.updateCurrencyByAdmin : api.addCurrencyByAdmin,
     {
       ...(currentCurrency && {
         enabled: Boolean(currentCurrency)

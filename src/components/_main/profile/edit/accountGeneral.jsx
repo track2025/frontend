@@ -21,7 +21,7 @@ import { Form, FormikProvider, useFormik } from 'formik';
 import axios from 'axios';
 // redux
 import { useDispatch } from 'react-redux';
-import { setLogin } from 'src/lib/redux/slices/user';
+import { setLogin } from 'src/redux/slices/user';
 import { useSelector } from 'react-redux';
 // notification toast
 import { toast } from 'react-hot-toast';

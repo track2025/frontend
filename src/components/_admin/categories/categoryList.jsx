@@ -34,7 +34,7 @@ export default function CategoryList() {
 
   const { data, isLoading } = useQuery(
     ['categories', apicall, searchParam, pageParam],
-    () => api.getCategories(+pageParam || 1, searchParam || ''),
+    () => api.getCategoriesByAdmin(+pageParam || 1, searchParam || ''),
     {
       onError: (err) => toast.error(err.response.data.message || 'Something went wrong!')
     }
@@ -55,7 +55,7 @@ export default function CategoryList() {
           onClose={handleClose}
           id={id}
           apicall={setApicall}
-          endPoint="deleteCategory"
+          endPoint="deleteCategoryByAdmin"
           type={'Category deleted'}
           deleteMessage={'Deleting this category will permanently remove it. Are you sure you want to proceed?'}
         />

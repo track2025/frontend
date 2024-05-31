@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import { ThemeProvider } from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
 import { AppRouterCacheProvider } from '@mui/material-nextjs/v14-appRouter';
-import { useSelector } from 'src/lib/redux';
+import { useSelector } from 'src/redux';
 import { createTheme } from '@mui/material/styles';
 import palette from './palette';
 import typography from './typography';

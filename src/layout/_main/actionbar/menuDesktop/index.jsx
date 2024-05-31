@@ -13,7 +13,7 @@ import { RxDashboard } from 'react-icons/rx';
 import { FaAngleDown } from 'react-icons/fa6';
 
 // components
-import MenuDesktopPopover from 'src/components/popover/menudesktop';
+import MenuDesktopPopover from 'src/components/popover/menuDesktop';
 
 // ----------------------------------------------------------------------
 

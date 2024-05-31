@@ -16,9 +16,9 @@ import {
   Zoom
 } from '@mui/material';
 // redux
-import { useDispatch } from 'src/lib/redux/store';
-import { setWishlist } from 'src/lib/redux/slices/wishlist';
-import { addCompareProduct, removeCompareProduct } from '../../lib/redux/slices/compare';
+import { useDispatch } from 'src/redux/store';
+import { setWishlist } from 'src/redux/slices/wishlist';
+import { addCompareProduct, removeCompareProduct } from '../../redux/slices/compare';
 import { useSelector } from 'react-redux';
 // next
 import Link from 'src/utils/link';
@@ -42,7 +42,7 @@ import dynamic from 'next/dynamic';
 import { FaRegStar } from 'react-icons/fa';
 import ColorPreviewGroup from 'src/components/colorPreviewGroup';
 import { useCurrencyConvert } from 'src/hooks/convertCurrency';
-import { useCurrencyFormatter } from 'src/hooks/fCurrency';
+import { useCurrencyFormatter } from 'src/hooks/formatCurrency';
 const ProductDetailsDialog = dynamic(() => import('../dialog/productDetails'));
 export default function ShopProductCard({ ...props }) {
   const { product, loading } = props;

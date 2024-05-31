@@ -7,7 +7,7 @@ import { Card, CardContent, Stack, Box, Divider, Typography, Skeleton } from '@m
 import Image from 'next/image';
 // components
 import { useCurrencyConvert } from 'src/hooks/convertCurrency';
-import { useCurrencyFormatter } from 'src/hooks/fCurrency';
+import { useCurrencyFormatter } from 'src/hooks/formatCurrency';
 
 export default function CheckoutCard({ cart, loading }) {
   const cCurrency = useCurrencyConvert();

@@ -43,7 +43,7 @@ export default function ShopSettingFrom({ data: currentShop, isLoading: category
 
   const { mutate, isLoading } = useMutation(
     currentShop ? 'update' : 'new',
-    currentShop ? api.updateShop : api.addShop,
+    currentShop ? api.updateShopByVendor : api.addShopByVendor,
     {
       ...(currentShop && {
         enabled: Boolean(currentShop)

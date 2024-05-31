@@ -18,7 +18,7 @@ import * as api from 'src/services';
 // usequery
 import { useQuery } from 'react-query';
 import { useDispatch, useSelector } from 'react-redux';
-import { handleChangeCurrency } from 'src/lib/redux/slices/settings';
+import { handleChangeCurrency } from 'src/redux/slices/settings';
 
 export default function LanguageSelect() {
   const dispatch = useDispatch();
