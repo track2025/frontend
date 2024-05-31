@@ -105,7 +105,16 @@ function CarouselItem({ ...props }) {
         }
       }}
     >
-      <Image priority src={item.cover} alt="centered-banner" layout="fill" objectFit="cover" static draggable="false" />
+      <Image
+        priority
+        src={item.cover}
+        alt="centered-banner"
+        layout="fill"
+        placeholder="blur"
+        objectFit="cover"
+        static
+        draggable="false"
+      />
       <Box
         sx={{
           top: 0,
