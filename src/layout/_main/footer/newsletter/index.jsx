@@ -1,8 +1,7 @@
 'use client';
 import React from 'react';
-import * as Yup from 'yup';
 // mui
-import { FormControl, InputAdornment, TextField, Button } from '@mui/material';
+import { FormControl, TextField } from '@mui/material';
 // react
 import { useMutation } from 'react-query';
 // formik
@@ -13,9 +12,6 @@ import * as api from 'src/services';
 // toast
 import { toast } from 'react-hot-toast';
 import { LoadingButton } from '@mui/lab';
-
-// icons
-import { BsFillSendFill } from 'react-icons/bs';
 
 export default function NewsLetter() {
   const [loading, setloading] = React.useState(false);
@@ -52,7 +48,7 @@ export default function NewsLetter() {
     }
   });
 
-  const { errors, touched, handleSubmit, getFieldProps } = formik;
+  const { handleSubmit, getFieldProps } = formik;
 
   return (
     <FormikProvider value={formik}>

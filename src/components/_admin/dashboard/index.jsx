@@ -21,7 +21,7 @@ import SalesChart from 'src/components/charts/sales';
 import IncomeChart from 'src/components/charts/income';
 import BestSelling from './bestSelling';
 // mui
-import { Grid, Box, Typography, Card } from '@mui/material';
+import { Grid, Box } from '@mui/material';
 // react-query
 import { useQuery } from 'react-query';
 // api

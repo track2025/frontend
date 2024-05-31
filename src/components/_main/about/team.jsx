@@ -2,7 +2,7 @@ import React from 'react';
 // next
 import Image from 'next/image';
 // mui
-import { Box, Grid, Typography } from '@mui/material';
+import { Box, Typography } from '@mui/material';
 // image
 import TeamImage from '../../../../public/images/team.png';
 

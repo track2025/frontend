@@ -3,40 +3,14 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 // next
-// import dynamic from 'next/dynamic';
-// mui
 
-import { Toolbar, Stack, AppBar, Container } from '@mui/material';
+import { Toolbar, AppBar, Container } from '@mui/material';
 import config from 'src/layout/_main/config.json';
-// import * as api from 'src/services';
-// usequery
-// import { useQuery } from 'react-query';
-import { useDispatch } from 'react-redux';
-import { setCategories } from 'src/redux/slices/categories';
+
 import MenuDesktop from './menuDesktop';
-// const Skeletons = () => {
-//   return (
-//     <Stack direction="row" spacing={2} alignItems="center" justifyContent="space-between" sx={{ width: '100%' }}>
-//       <Skeleton variant="rectangular" width={280} height={48} />
-//       <Stack direction="row" spacing={2}>
-//         <Skeleton variant="rounded" width={38.3} height={22} />
-//         <Skeleton variant="rounded" width={89} height={22} />
-//         <Skeleton variant="rounded" width={56} height={22} />
-//         <Skeleton variant="rounded" width={27.4} height={22} />
-//         <Skeleton variant="rounded" width={48.6} height={22} />
-//         <Skeleton variant="rounded" width={26.8} height={22} />
-//       </Stack>
-//     </Stack>
-//   );
-// };
-// const MenuDesktop = dynamic(() => import('./menuDesktop'), {
-//   ssr: false,
-//   loading: () => <Skeletons />
-// });
 
 // ----------------------------------------------------------------------
 export default function Navbar({ data }) {
-  console.log(data, 'data');
   const { menu } = config;
   // const dispatch = useDispatch();
 

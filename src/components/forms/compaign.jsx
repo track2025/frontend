@@ -67,7 +67,6 @@ export default function CompaignForm({ data: currentCompaign, isLoading: compaig
   const router = useRouter();
   const cCurrency = useCurrencyConvert();
   const fCurrency = useCurrencyFormatter();
-  const [value, setValue] = React.useState('percent');
   const [open, setOpen] = React.useState(false);
   const handleClickOpen = () => {
     setOpen(true);

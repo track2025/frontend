@@ -1,4 +1,4 @@
-import React, { Suspense } from 'react';
+import React from 'react';
 // components
 import Navbar from 'src/layout/_main/navbar';
 import Footer from 'src/layout/_main/footer';

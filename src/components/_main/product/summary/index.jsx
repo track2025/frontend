@@ -44,7 +44,7 @@ import RootStyled from './styled';
 // components
 import ColorPreview from 'src/components/colorPreview';
 import SizePreview from 'src/components/sizePicker';
-import { fCurrency } from 'src/utils/formatNumber';
+
 import PropTypes from 'prop-types';
 // icons
 import { LiaShippingFastSolid } from 'react-icons/lia';
@@ -64,7 +64,6 @@ ProductDetailsSumary.propTypes = {
   product: PropTypes.object.isRequired,
   isLoading: PropTypes.bool.isRequired,
   id: PropTypes.string.isRequired,
-  totalReviews: PropTypes.number.isRequired,
   totalRating: PropTypes.number.isRequired,
   brand: PropTypes.object.isRequired,
   category: PropTypes.object.isRequired,
@@ -105,7 +104,7 @@ Incrementer.propTypes = {
   available: PropTypes.number.isRequired
 };
 export default function ProductDetailsSumary({ ...props }) {
-  const { product, isLoading, totalReviews, totalRating, brand, category, id } = props;
+  const { product, isLoading, totalRating, brand, category, id } = props;
   const cCurrency = useCurrencyConvert();
   const fCurrency = useCurrencyFormatter();
   const { isAuthenticated } = useSelector(({ user }) => user);

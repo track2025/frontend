@@ -26,13 +26,11 @@ import {
 import * as api from 'src/services';
 // yup
 import * as Yup from 'yup';
-// axios
-import axios from 'axios';
+
 // toast
 import toast from 'react-hot-toast';
 // formik
 import { Form, FormikProvider, useFormik } from 'formik';
-import UploadSingleFile from 'src/components/upload/UploadSingleFile';
 // next
 import { useRouter } from 'src/hooks/useRouter';
 
@@ -261,7 +259,7 @@ export default function BrandsForm({ data: currentCurrency, isLoading: currencyL
       }
     }
   });
-  const { errors, values, touched, handleSubmit, setFieldValue, getFieldProps } = formik;
+  const { errors, touched, handleSubmit, getFieldProps } = formik;
   useEffect(() => {
     if (currentCurrency) {
       setValue(Boolean(currentCurrency.rate) ? 'custom' : 'default');

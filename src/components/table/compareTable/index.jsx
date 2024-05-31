@@ -33,7 +33,7 @@ import { useRouter } from 'next-nprogress-bar';
 import toast from 'react-hot-toast';
 import { setWishlist } from 'src/redux/slices/wishlist';
 import { useMutation } from 'react-query';
-import { addCart } from 'src/redux/slices/product';
+// import { addCart } from 'src/redux/slices/product';
 
 const products = [
   {
@@ -198,7 +198,7 @@ const CompareTable = () => {
                     <Button
                       variant="outlined"
                       size="large"
-                      // disabled={isLoading}
+                      disabled={isLoading}
                       onClick={onClickWishList}
                       sx={{ paddingX: '12px !important ', minWidth: '48px !important ' }}
                     >

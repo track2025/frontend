@@ -10,8 +10,7 @@ import { useQuery } from 'react-query';
 import { Dialog, Stack } from '@mui/material';
 import DeleteDialog from 'src/components/dialog/delete';
 import Table from 'src/components/table/table';
-import ProductCard from 'src/components/cards/adminProduct';
-import Product from 'src/components/table/rows/product';
+
 import { useSearchParams } from 'next/navigation';
 import PropTypes from 'prop-types';
 

@@ -2,10 +2,8 @@
 import React from 'react';
 import Link from 'src/utils/link';
 // mui
-import { alpha } from '@mui/material/styles';
 import { Box, Typography, Grid, Button, Container, Stack } from '@mui/material';
 // blur image
-import Image from 'next/image';
 import { IoIosArrowForward } from 'react-icons/io';
 import bannerImg from '../../../../../public/images/banner-3.png';
 import BlurImage from 'src/components/blurImage';

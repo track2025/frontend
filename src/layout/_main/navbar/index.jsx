@@ -2,7 +2,6 @@
 // react
 import React from 'react';
 // next
-import { usePathname } from 'next/navigation';
 import dynamic from 'next/dynamic';
 // mui
 import { alpha } from '@mui/material/styles';
@@ -71,7 +70,6 @@ const LanguageSelect = dynamic(() => import('src/components/languageSelect'), {
 
 // ----------------------------------------------------------------------
 export default function Navbar() {
-  const pathname = usePathname();
   const { checkout } = useSelector(({ product }) => product);
   const isMobile = useMediaQuery('(max-width:768px)');
 

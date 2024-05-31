@@ -15,7 +15,6 @@ import SortBar from './sortbar';
 import { useSelector } from 'react-redux';
 ProductListing.propTypes = {
   category: PropTypes.object,
-  fetchFilters: PropTypes.string.isRequired,
   subCategory: PropTypes.object,
   shop: PropTypes.object
 };
@@ -34,7 +33,7 @@ const sortData = [
 const getSearchParams = (searchParams) => {
   return searchParams.toString().length ? '?' + searchParams.toString() : '';
 };
-export default function ProductListing({ category, subCategory, shop, compaign, fetchFilters }) {
+export default function ProductListing({ category, subCategory, shop, compaign }) {
   const searchParams = useSearchParams();
   const { rate } = useSelector(({ settings }) => settings);
   const { data, isLoading } = useQuery(

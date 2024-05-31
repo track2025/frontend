@@ -4,7 +4,7 @@ import Link from 'src/utils/link';
 // mui
 import { Box, Card, Grid, Stack, Typography, Button, Container } from '@mui/material';
 import useMediaQuery from '@mui/material/useMediaQuery';
-import { useTheme, alpha } from '@mui/material/styles';
+import { useTheme } from '@mui/material/styles';
 // next
 import Image from 'next/image';
 import banner1Img from '../../../../../public/images/banner-1.png';

@@ -2,7 +2,7 @@ import React from 'react';
 // Components
 import CompaignList from 'src/components/_admin/compaigns/compaignList';
 // Toolbar
-import Toolbar from 'src/components/_admin/toolbar';
+
 // Breadcrumbs
 import HeaderBreadcrumbs from 'src/components/headerBreadcrumbs';
 

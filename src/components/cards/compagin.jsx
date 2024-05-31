@@ -7,7 +7,7 @@ import { Typography, Card, Box, Stack, CardContent, alpha, Skeleton } from '@mui
 import Image from 'src/components/blurImage';
 import Countdown from 'react-countdown';
 
-const renderer = ({ days, hours, minutes, seconds, completed }) => {
+const renderer = ({ days, hours, minutes, seconds }) => {
   // Render a countdown
   return (
     <Stack

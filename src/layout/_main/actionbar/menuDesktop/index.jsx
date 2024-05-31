@@ -1,8 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { useState, useEffect } from 'react';
-import KeyboardArrowUpRoundedIcon from '@mui/icons-material/KeyboardArrowUpRounded';
-import KeyboardArrowDownRoundedIcon from '@mui/icons-material/KeyboardArrowDownRounded';
 // next
 import { useRouter } from 'src/hooks/useRouter';
 // material
@@ -117,7 +115,7 @@ function MenuDesktopItem({ ...props }) {
 }
 
 export default function MenuDesktop({ ...props }) {
-  const { isOffset, isHome, navConfig, isLeft, data, isLoading } = props;
+  const { isOffset, navConfig, isLeft, data, isLoading } = props;
 
   const { pathname } = useRouter();
 

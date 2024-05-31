@@ -2,15 +2,11 @@
 import NextLink from 'src/utils/link';
 // mui
 import { styled } from '@mui/material/styles';
-import { Box, Typography, Container, Card, Skeleton, Toolbar, Stack, alpha } from '@mui/material';
+import { Box, Typography, Container, Card, Skeleton, Stack, alpha } from '@mui/material';
 // components
 import MyAvatar from 'src/components/myAvatar';
 import PropTypes from 'prop-types';
 import Image from 'next/image';
-import { BiMap } from 'react-icons/bi';
-import { IoCall } from 'react-icons/io5';
-import { fDateShort } from 'src/utils/formatTime';
-import { MdVerified } from 'react-icons/md';
 import { IoIosArrowForward } from 'react-icons/io';
 
 const RootStyle = styled(Card)(({ theme }) => ({

@@ -1,6 +1,5 @@
 'use client';
 import React from 'react';
-import Tabs from './tabs';
 import PropTypes from 'prop-types';
 import * as api from 'src/services';
 // usequery

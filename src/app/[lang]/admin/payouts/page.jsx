@@ -1,6 +1,6 @@
 import React from 'react';
 // Components
-import Toolbar from 'src/components/_admin/toolbar';
+
 import HeaderBreadcrumbs from 'src/components/headerBreadcrumbs';
 import PayoutsList from 'src/components/_admin/payouts';
 import * as api from 'src/services';

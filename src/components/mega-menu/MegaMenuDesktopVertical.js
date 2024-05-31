@@ -1,6 +1,5 @@
 'use client';
 import React from 'react';
-import { useState } from 'react';
 import PropTypes from 'prop-types';
 import RouterLink from 'src/utils/link';
 import { FaAngleRight } from 'react-icons/fa6';
@@ -9,8 +8,7 @@ import { FaAngleRight } from 'react-icons/fa6';
 import { alpha } from '@mui/material/styles';
 import { Box, List, Card, ListItem, Typography, Stack, Button, Skeleton } from '@mui/material';
 import Image from 'next/image';
-import { useDispatch } from 'react-redux';
-import { setShops } from 'src/redux/slices/shops';
+// import { useDispatch } from 'react-redux';
 // import * as api from 'src/services';
 // import { useQuery } from 'react-query';
 import { useRouter } from 'src/hooks/useRouter';
@@ -78,7 +76,7 @@ function MegaMenuItem({ shop, isLast, isLoading }) {
 }
 
 export default function MegaMenuDesktopVertical({ data, ...other }) {
-  const dispatch = useDispatch();
+  // const dispatch = useDispatch();
   const router = useRouter();
   // const { data, isLoading } = useQuery(['get-home-shops-all'], () => api.getHomeShops());
   // const { data, isLoading } = useQuery(['get-brands-products'], () => api.getHomeBrands());

@@ -21,9 +21,7 @@ import Color from 'src/components/_main/skeletons/products/filters/colors';
 import Sizes from 'src/components/_main/skeletons/products/filters/sizes';
 import * as api from 'src/services';
 Filter.propTypes = {
-  isMobile: PropTypes.bool.isRequired,
   onClose: PropTypes.func.isRequired,
-  fetchFilters: PropTypes.string.isRequired,
   pathname: PropTypes.string.isRequired,
   shop: PropTypes.object,
   category: PropTypes.object,
@@ -31,7 +29,7 @@ Filter.propTypes = {
 };
 
 export default function Filter({ ...props }) {
-  const { isMobile, onClose, pathname, fetchFilters, category, shop, subCategory } = props;
+  const { onClose, pathname, category, shop, subCategory } = props;
   const { data, isLoading } = useQuery(['get-filters' + shop || '' + category || '' + 'subCategory'], () =>
     api.getAllFilters(shop?.slug || '', category?.slug || '', subCategory?.slug || '')
   );

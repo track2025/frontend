@@ -1,5 +1,5 @@
 import React from 'react';
-import Toolbar from 'src/components/_admin/toolbar';
+
 import HeaderBreadcrumbs from 'src/components/headerBreadcrumbs';
 import EditProduct from 'src/components/_admin/products/editProduct';
 import * as api from 'src/services';

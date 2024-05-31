@@ -1,6 +1,6 @@
 import React from 'react';
 import { GoGitCompare } from 'react-icons/go';
-import { IconButton, Badge, alpha, Stack, Typography } from '@mui/material';
+import { IconButton, alpha, Stack, Typography } from '@mui/material';
 import { useSelector } from 'react-redux';
 import Link from 'next/link';
 export default function WishlistWidget() {

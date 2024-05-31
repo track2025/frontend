@@ -1,5 +1,4 @@
 import React from 'react';
-import Toolbar from 'src/components/_admin/toolbar';
 import HeaderBreadcrumbs from 'src/components/headerBreadcrumbs';
 import AddCategory from 'src/components/_admin/categories/addCategory';
 

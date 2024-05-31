@@ -2,7 +2,7 @@
 
 import React from 'react';
 // material ui
-import { Box, Container, Grid, Stack, Typography, useTheme } from '@mui/material';
+import { Box, Grid, Stack, Typography, useTheme } from '@mui/material';
 import Image from 'next/image';
 // images
 import AboutImage from '../../../../public/images/about-1.png';

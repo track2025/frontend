@@ -1,7 +1,5 @@
 import * as React from 'react';
 import Providers from 'src/providers';
-import { cookies } from 'next/headers';
-import Typography from '@mui/material/Typography';
 export default function RootLayout({ children }) {
   return (
     <html lang={'en-US'}>

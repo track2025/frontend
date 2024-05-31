@@ -1,6 +1,6 @@
 'use client';
 import React from 'react';
-import Toolbar from 'src/components/_admin/toolbar';
+
 import HeaderBreadcrumbs from 'src/components/headerBreadcrumbs';
 import EditCategory from 'src/components/_admin/categories/editCategory';
 import * as api from 'src/services';
