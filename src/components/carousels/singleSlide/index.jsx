@@ -94,11 +94,10 @@ function CarouselItem({ ...props }) {
   return (
     <Paper
       sx={{
-        bgcolor: alpha(item.color, themeMode === 'dark' ? 0.2 : 0.4),
         position: 'relative',
         borderBottom: (theme) => '1px solid ' + theme.palette.divider,
         zIndex: 11,
-        height: { xs: 220, md: 270, lg: 370 },
+        height: { xs: 125, sm: 225, md: 270, lg: 370 },
         borderRadius: 0,
         img: {
           borderRadius: 0,
@@ -106,34 +105,15 @@ function CarouselItem({ ...props }) {
         }
       }}
     >
+      <Image priority src={item.cover} alt="centered-banner" layout="fill" objectFit="cover" static draggable="false" />
       <Box
         sx={{
           top: 0,
           width: '100%',
           height: '100%',
-          position: 'absolute',
-          background: (theme) => (theme.palette.mode === 'dark' ? alpha(theme.palette.grey[800], 0.2) : '')
+          position: 'absolute'
         }}
       />
-      <Box
-        className="img-box"
-        // onClick={() => alert('Hello')}
-        sx={{
-          position: 'relative',
-          height: 350,
-          display: { xs: 'none', md: 'block' }
-        }}
-      >
-        <Image
-          priority
-          src={item.cover}
-          alt="centered-banner"
-          layout="fill"
-          objectFit="cover"
-          static
-          draggable="false"
-        />
-      </Box>
     </Paper>
   );
 }
@@ -164,7 +144,7 @@ export default function SingleSlideCarousel({ ...props }) {
         justifyContent: 'center',
         alignItems: 'center',
         overflow: 'hidden',
-        height: { xs: 200, md: 250, lg: 343 },
+        height: { xs: 120, sm: 220, md: 250, lg: 343 },
         borderRadius: '12px',
         overflow: 'hidden'
       }}
