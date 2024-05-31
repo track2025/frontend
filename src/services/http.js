@@ -29,7 +29,7 @@ const http = axios.create({
 http.interceptors.request.use(
   (config) => {
     const token = getToken();
-    if (Boolean(token)) {
+    if (token) {
       config.headers.Authorization = `Bearer ${token}`;
     }
     return config;

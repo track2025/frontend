@@ -17,7 +17,7 @@ import { LuFileClock } from 'react-icons/lu';
 import { FiFileText } from 'react-icons/fi';
 import { LuFileInput } from 'react-icons/lu';
 import OrderChart from 'src/components/charts/order';
-import SalesChart from 'src/components/charts/sales';
+import SaleChart from 'src/components/charts/sale';
 import IncomeChart from 'src/components/charts/income';
 import BestSelling from './bestSelling';
 // mui
@@ -142,7 +142,7 @@ export default function Dashboard({ isVendor }) {
         )}
 
         <Grid item xs={12} md={7} lg={7}>
-          <SalesChart data={sales_report} isLoading={isLoading} />
+          <SaleChart data={sales_report} isLoading={isLoading} />
         </Grid>
         <Grid item xs={12} md={5} lg={5}>
           <OrderChart data={orders_report} isLoading={isLoading} />
