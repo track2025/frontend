@@ -94,7 +94,7 @@ export const getSubCategoryByAdmin = async (slug) => {
   const { data } = await http.get(`/admin/subcategories/${slug}`);
   return data;
 };
-export const ByAdmin = async (params) => {
+export const getSubCategoriesByAdmin = async (params) => {
   const { data } = await http.get(`/admin/subcategories?${params}`);
   return data;
 };
