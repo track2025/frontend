@@ -129,7 +129,7 @@ function CarouselItem({ ...props }) {
           src={item.cover}
           alt="centered-banner"
           layout="fill"
-          objectFit="contain"
+          objectFit="cover"
           static
           draggable="false"
         />
