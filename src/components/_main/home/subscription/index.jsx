@@ -39,7 +39,7 @@ export default function Subscription() {
 
     const timer = setTimeout(() => {
       setOpen(true);
-    }, 3000); // 3 seconds delay
+    }, 10000); // 3 seconds delay
 
     return () => clearTimeout(timer);
   }, []);
@@ -101,14 +101,14 @@ export default function Subscription() {
               }}
             >
               <Image
+                priority
                 src={subscriptionImg}
                 alt="subscribe"
+                sizes="300px"
+                placeholder="blur"
                 fill
                 objectFit="cover"
                 static
-                placeholder="blur"
-                priority
-                sizes="100vh"
               />
             </Box>
           </Grid>

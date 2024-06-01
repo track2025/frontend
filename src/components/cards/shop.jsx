@@ -81,7 +81,7 @@ export default function ShopCard({ ...props }) {
               static
               draggable="false"
               quality={5}
-              sizes={'40vw'}
+              sizes={'200px'}
             />
           </Box>
         )}

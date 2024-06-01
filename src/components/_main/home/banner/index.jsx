@@ -31,7 +31,7 @@ export default function Banner() {
           placeholder="blur"
           layout="fill"
           static
-          sizes="100vw"
+          sizes="700px"
           objectFit="cover"
         />
         <Container maxWidth="xl">
