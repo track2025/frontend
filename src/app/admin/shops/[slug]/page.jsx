@@ -4,7 +4,7 @@ import * as api from 'src/services';
 import { useQuery } from 'react-query';
 import ShopDetailCover from 'src/components/_admin/shops/shopDetailCover';
 import ShopDetail from 'src/components/_admin/shops/shopDetail';
-import ShopIcomeList from '../../../../../components/_admin/shops/shopIncome';
+import ShopIcomeList from '../../../../components/_admin/shops/shopIncome';
 import { FaGifts } from 'react-icons/fa6';
 import { HiOutlineClipboardList } from 'react-icons/hi';
 import { TbChartArrowsVertical } from 'react-icons/tb';
