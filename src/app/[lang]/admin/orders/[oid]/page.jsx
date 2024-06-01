@@ -13,12 +13,12 @@ import { useQuery } from 'react-query';
 import toast from 'react-hot-toast';
 import PropTypes from 'prop-types';
 
-Page.propTypes = {
+OrderDetail.propTypes = {
   params: PropTypes.shape({
     oid: PropTypes.string.isRequired
   }).isRequired
 };
-export default function Page({ params }) {
+export default function OrderDetail({ params }) {
   const { data, isLoading } = useQuery(['order-by-admin'], () => api.getOrderByAdmin(params.oid), {
     onError: (err) => {
       toast.error(err?.response?.data?.message || 'Something went wrong!');
