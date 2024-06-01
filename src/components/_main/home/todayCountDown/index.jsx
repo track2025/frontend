@@ -3,7 +3,7 @@ import Image from 'next/image';
 import { useState, useEffect } from 'react';
 import { Box, Button, Card, Stack, Typography, useTheme } from '@mui/material';
 // import { IoIosArrowForward } from 'react-icons/io';
-import NextLink from 'src/utils/link';
+import NextLink from 'next/link';
 import bgImage from '../../../../../public/images/top-banners/countdown.png';
 export default function Index() {
   const theme = useTheme();

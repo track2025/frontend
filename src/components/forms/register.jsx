@@ -5,7 +5,7 @@ import * as Yup from 'yup';
 // next
 import { useSearchParams } from 'next/navigation';
 import { useRouter } from 'next-nprogress-bar';
-import RouterLink from 'src/utils/link';
+import RouterLink from 'next/link';
 // formik
 import { useFormik, Form, FormikProvider } from 'formik';
 // toast

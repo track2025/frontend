@@ -2,7 +2,7 @@
 import { useState } from 'react';
 import PropTypes from 'prop-types';
 // next
-import Link from 'src/utils/link';
+import Link from 'next/link';
 // mui
 import { Typography, Card, Box, Skeleton, Stack, Button, CardContent, Divider } from '@mui/material';
 // components

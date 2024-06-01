@@ -4,7 +4,7 @@ import { useState } from 'react';
 import { useMutation } from 'react-query';
 
 // next
-import RouterLink from 'src/utils/link';
+import RouterLink from 'next/link';
 
 import { useSearchParams } from 'next/navigation';
 import { useRouter } from 'next-nprogress-bar';
@@ -52,10 +52,7 @@ export default function LoginForm() {
       toast.success('Logged in successfully!');
       const isAdmin = data.user.role.includes('admin');
       const isVendor = data.user.role.includes('vendor');
-      push(
-        redirect || isAdmin ? '/admin/dashboard' : isVendor ? '/vendor/dashboard' : '/',
-        isAdmin || isVendor ? null : 'isAlreadyPathname'
-      );
+      push(redirect || isAdmin ? '/admin/dashboard' : isVendor ? '/vendor/dashboard' : '/');
     },
     onError: (err) => {
       setloading(false);

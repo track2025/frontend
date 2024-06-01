@@ -43,7 +43,7 @@ export default function CustomTable({ filters = [], ...props }) {
   const queryString = searchParams.toString();
   const handleChange = (param, val) => {
     setState({ ...state, [param]: val });
-    push(`${pathname}?` + createQueryString(param, val), 'isAlreadyPathname');
+    push(`${pathname}?` + createQueryString(param, val));
   };
 
   const createQueryString = useCallback(

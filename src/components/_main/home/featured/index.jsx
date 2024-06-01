@@ -9,7 +9,7 @@ import { useQuery } from 'react-query';
 // components
 import ProductsCarousel from 'src/components/carousels/gridSlider';
 import { IoIosArrowForward } from 'react-icons/io';
-import NextLink from 'src/utils/link';
+import NextLink from 'next/link';
 export default function Index() {
   const { data, isLoading } = useQuery(['featured-products'], () => api.getFeaturedProducts());
 

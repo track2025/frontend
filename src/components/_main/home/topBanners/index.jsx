@@ -1,6 +1,6 @@
 'use client';
 import React from 'react';
-import Link from 'src/utils/link';
+import Link from 'next/link';
 // mui
 import { Box, Card, Grid, Stack, Typography, Button, Container } from '@mui/material';
 import useMediaQuery from '@mui/material/useMediaQuery';
