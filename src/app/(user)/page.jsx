@@ -7,13 +7,13 @@ import Hero from 'src/components/_main/home/hero';
 // import Categories from 'src/components/_main/home/categories';
 import BestSellingProducs from 'src/components/_main/home/bestSelling';
 import Banner from 'src/components/_main/home/banner';
-// import Brands from 'src/components/_main/home/brands';
+import Brands from 'src/components/_main/home/brands';
 import WhyUs from 'src/components/_main/home/whyUs';
 import TopBanners from 'src/components/_main/home/topBanners';
 import TopCollection from 'src/components/_main/home/top';
 import FeaturedProducts from 'src/components/_main/home/featured';
-// import Shops from 'src/components/_main/home/shop';
-// import Compaigns from 'src/components/_main/home/compaign';
+import Shops from 'src/components/_main/home/shop';
+import Compaigns from 'src/components/_main/home/compaign';
 import Testimonials from 'src/components/_main/home/testimonials';
 // import * as api from 'src/services';
 import SubscriptionModal from 'src/components/_main/home/subscription';
@@ -58,31 +58,31 @@ export default async function IndexPage() {
         <WhyUs />
         {/* <Categories /> */}
         <Suspense>
-          <BestSellingProducs data={[]} />
+          <BestSellingProducs />
         </Suspense>
-        {/* <Suspense>
-          <Compaigns data={compaigns} />
-        </Suspense> */}
+        <Suspense>
+          <Compaigns />
+        </Suspense>
       </Container>
       <Banner />
       <Container maxWidth="xl">
         <Suspense>
-          {' '}
-          <TopCollection data={[]} />{' '}
+          <TopCollection />
         </Suspense>
-        <Suspense>{/* <Shops data={homeShops} /> */}</Suspense>
         <Suspense>
-          {' '}
-          <FeaturedProducts data={[]} />{' '}
+          <Shops />
+        </Suspense>
+        <Suspense>
+          <FeaturedProducts />
         </Suspense>
       </Container>
       <Suspense>
         <Testimonials />
       </Suspense>
       <Container maxWidth="xl">
-        {/* <Suspense>
-          <Brands data={brands} />
-        </Suspense> */}
+        <Suspense>
+          <Brands />
+        </Suspense>
       </Container>
       <SubscriptionModal />
     </>

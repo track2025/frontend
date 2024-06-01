@@ -12,6 +12,7 @@ import { useDispatch } from 'react-redux';
 import * as api from 'src/services';
 import { useQuery } from 'react-query';
 import { useRouter } from 'next-nprogress-bar';
+import { setShops } from 'src/redux/slices/shops';
 // ----------------------------------------------------------------------
 
 const ITEM_HEIGHT = 40;
@@ -80,7 +81,6 @@ export default function MegaMenuDesktopVertical({ ...other }) {
   const router = useRouter();
   const { data, isLoading } = useQuery(['get-home-shops-all'], () => api.getHomeShops());
 
-  const isLoading = false;
   React.useEffect(() => {
     if (!isLoading) {
       dispatch(setShops(data));
@@ -106,7 +106,7 @@ export default function MegaMenuDesktopVertical({ ...other }) {
       }}
     >
       <div>
-        {(isLoading ? Array.from(new Array(5)) : data.slice(0, 5)).map((shop, i) => (
+        {(isLoading ? Array.from(new Array(5)) : data?.data.slice(0, 5)).map((shop, i) => (
           <MegaMenuItem key={Math.random()} isLoading={isLoading} shop={shop} isLast={i === 4} />
         ))}
       </div>

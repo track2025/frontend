@@ -5,6 +5,7 @@ import MegaMenu from 'src/components/mega-menu/MegaMenuDesktopVertical';
 // slides data
 import { data } from './data';
 import { Stack } from '@mui/material';
+import { Suspense } from 'react';
 
 export default function Hero({}) {
   return (
