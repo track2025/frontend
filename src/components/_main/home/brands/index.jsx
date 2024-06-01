@@ -6,7 +6,7 @@ import { Typography, Box, Stack, Card, Grid, Skeleton, CardActionArea } from '@m
 // // api
 // import * as api from 'src/services';
 // import { useQuery } from 'react-query';
-import { useRouter } from 'src/hooks/useRouter';
+import { useRouter } from 'next-nprogress-bar';
 
 export default function Brands({ data }) {
   const { push } = useRouter();

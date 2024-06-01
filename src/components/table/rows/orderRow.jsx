@@ -6,7 +6,7 @@ import { Box, TableRow, Skeleton, TableCell, Typography, Avatar, IconButton, Too
 import Label from 'src/components/label';
 import { fDate } from 'src/utils/formatTime';
 import BlurImage from 'src/components/blurImage';
-import { useRouter } from 'src/hooks/useRouter';
+import { useRouter } from 'next-nprogress-bar';
 import { IoEye } from 'react-icons/io5';
 import PropTypes from 'prop-types';
 

@@ -13,7 +13,7 @@ import { capitalize } from 'lodash';
 import { uniqueId } from 'lodash';
 // icons ;
 import { MdEdit, MdDelete } from 'react-icons/md';
-import { useRouter } from 'src/hooks/useRouter';
+import { useRouter } from 'next-nprogress-bar';
 const RootStyle = styled(Paper)(({ theme }) => ({
   padding: '10px 10px 10px 16px',
   backgroundColor: theme.palette.background.paper,

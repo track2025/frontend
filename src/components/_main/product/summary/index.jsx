@@ -25,7 +25,7 @@ import { FaXTwitter } from 'react-icons/fa6';
 import { FaLinkedin } from 'react-icons/fa';
 import { MdContentCopy } from 'react-icons/md';
 // next
-import { useRouter } from 'src/hooks/useRouter';
+import { useRouter } from 'next-nprogress-bar';
 // formik
 import { useFormik, Form, FormikProvider, useField } from 'formik';
 // redux

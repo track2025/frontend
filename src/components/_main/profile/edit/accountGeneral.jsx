@@ -26,7 +26,7 @@ import { useSelector } from 'react-redux';
 // notification toast
 import { toast } from 'react-hot-toast';
 import { usePathname } from 'next/navigation';
-import { useRouter } from 'src/hooks/useRouter';
+import { useRouter } from 'next-nprogress-bar';
 
 export default function AccountGeneral() {
   const { user: adminUser } = useSelector(({ user }) => user);

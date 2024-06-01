@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 // mui
 import { useTheme } from '@mui/material/styles';
 import { Box, Typography, Button } from '@mui/material';
-import { useRouter } from 'src/hooks/useRouter';
+import { useRouter } from 'next-nprogress-bar';
 // next
 
 export const LogoMain = () => {

@@ -8,10 +8,10 @@ import { FaAngleRight } from 'react-icons/fa6';
 import { alpha } from '@mui/material/styles';
 import { Box, List, Card, ListItem, Typography, Stack, Button, Skeleton } from '@mui/material';
 import Image from 'next/image';
-// import { useDispatch } from 'react-redux';
-// import * as api from 'src/services';
-// import { useQuery } from 'react-query';
-import { useRouter } from 'src/hooks/useRouter';
+import { useDispatch } from 'react-redux';
+import * as api from 'src/services';
+import { useQuery } from 'react-query';
+import { useRouter } from 'next-nprogress-bar';
 // ----------------------------------------------------------------------
 
 const ITEM_HEIGHT = 40;
@@ -75,18 +75,18 @@ function MegaMenuItem({ shop, isLast, isLoading }) {
   return <ParentItem shop={shop} isLoading={isLoading} isLast={isLast} />;
 }
 
-export default function MegaMenuDesktopVertical({ data, ...other }) {
-  // const dispatch = useDispatch();
+export default function MegaMenuDesktopVertical({ ...other }) {
+  const dispatch = useDispatch();
   const router = useRouter();
-  // const { data, isLoading } = useQuery(['get-home-shops-all'], () => api.getHomeShops());
-  // const { data, isLoading } = useQuery(['get-brands-products'], () => api.getHomeBrands());
+  const { data, isLoading } = useQuery(['get-home-shops-all'], () => api.getHomeShops());
+
   const isLoading = false;
-  // React.useEffect(() => {
-  // if (!isLoading) {
-  // dispatch(setShops(data));
-  // }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  // }, [data]);
+  React.useEffect(() => {
+    if (!isLoading) {
+      dispatch(setShops(data));
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [data]);
   return (
     <List
       component={Card}

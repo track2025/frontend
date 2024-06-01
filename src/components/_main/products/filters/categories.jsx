@@ -11,7 +11,7 @@ import ListItemButton from '@mui/material/ListItemButton';
 import Divider from '@mui/material/Divider';
 import ListItemText from '@mui/material/ListItemText';
 import { RxDashboard } from 'react-icons/rx';
-import { useRouter } from 'src/hooks/useRouter';
+import { useRouter } from 'next-nprogress-bar';
 import { useSearchParams } from 'next/navigation';
 export default function Filters() {
   const [anchorEl, setAnchorEl] = React.useState(null);

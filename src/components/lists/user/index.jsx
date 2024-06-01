@@ -1,5 +1,5 @@
 import React from 'react';
-import { useRouter } from 'src/hooks/useRouter';
+import { useRouter } from 'next-nprogress-bar';
 import { usePathname } from 'next/navigation';
 
 // reduxt

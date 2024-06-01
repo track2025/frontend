@@ -1,7 +1,7 @@
 'use client';
 import { useEffect, useState } from 'react';
 // next
-import { useRouter } from 'src/hooks/useRouter';
+import { useRouter } from 'next-nprogress-bar';
 // redux
 import { useSelector } from 'src/redux';
 import Loading from 'src/components/loading';

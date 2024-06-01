@@ -6,7 +6,7 @@ import { Box, TableRow, Skeleton, TableCell, Stack, IconButton, Tooltip, Typogra
 import Label from 'src/components/label';
 import { MdEdit } from 'react-icons/md';
 import { IoEye } from 'react-icons/io5';
-import { useRouter } from 'src/hooks/useRouter';
+import { useRouter } from 'next-nprogress-bar';
 // utils
 import { fCurrency } from 'src/utils/formatNumber';
 import { fDateShort } from 'src/utils/formatTime';

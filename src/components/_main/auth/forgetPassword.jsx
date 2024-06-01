@@ -1,7 +1,7 @@
 'use client';
 import React, { useState } from 'react';
 // next
-import { useRouter } from 'src/hooks/useRouter';
+import { useRouter } from 'next-nprogress-bar';
 // mui
 import { Box, Button, Container, Typography, Card } from '@mui/material';
 import { LoadingButton } from '@mui/lab';

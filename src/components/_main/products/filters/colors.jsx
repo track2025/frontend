@@ -6,7 +6,7 @@ import { Box, Tooltip, Typography, Button, Stack, Zoom } from '@mui/material';
 import { FaCheck } from 'react-icons/fa6';
 import { MdFormatColorFill } from 'react-icons/md';
 // next
-import { useRouter } from 'src/hooks/useRouter';
+import { useRouter } from 'next-nprogress-bar';
 import { useSearchParams } from 'next/navigation';
 
 // data

@@ -18,7 +18,7 @@ import Testimonials from 'src/components/_main/home/testimonials';
 // import * as api from 'src/services';
 import SubscriptionModal from 'src/components/_main/home/subscription';
 
-// // export const dynamic = 'force-dynamic';
+// export const dynamic = 'force-dynamic';
 // export async function fetchHomePageData() {
 //   const res = await fetch('https://nextgater-mv-be-indol.vercel.app/api/shops?limit=5', {
 //     next: { revalidate: 10 } // Revalidate the data every 10 seconds
@@ -51,7 +51,7 @@ export default async function IndexPage() {
   return (
     <>
       <Container maxWidth="xl">
-        <Hero data={[]} />
+        <Hero />
       </Container>
       <TopBanners />
       <Container maxWidth="xl">

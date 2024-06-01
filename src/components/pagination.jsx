@@ -3,7 +3,7 @@ import React, { useCallback } from 'react';
 import Pagination from '@mui/material/Pagination';
 // next
 import { useSearchParams, usePathname } from 'next/navigation';
-import { useRouter } from 'src/hooks/useRouter';
+import { useRouter } from 'next-nprogress-bar';
 
 import PropTypes from 'prop-types';
 

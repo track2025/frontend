@@ -23,7 +23,7 @@ import {
 // api
 import * as api from 'src/services';
 // next
-import { useRouter } from 'src/hooks/useRouter';
+import { useRouter } from 'next-nprogress-bar';
 // yup
 import * as Yup from 'yup';
 // toast

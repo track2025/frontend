@@ -2,7 +2,7 @@
 import React from 'react';
 
 // next
-import { useRouter } from 'src/hooks/useRouter';
+import { useRouter } from 'next-nprogress-bar';
 
 // mui
 import { IconButton, Stack, Typography, alpha } from '@mui/material';

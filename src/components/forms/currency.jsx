@@ -32,7 +32,7 @@ import toast from 'react-hot-toast';
 // formik
 import { Form, FormikProvider, useFormik } from 'formik';
 // next
-import { useRouter } from 'src/hooks/useRouter';
+import { useRouter } from 'next-nprogress-bar';
 
 const currencies = [
   { name: 'US Dollar', code: 'USD', country: 'United States' },

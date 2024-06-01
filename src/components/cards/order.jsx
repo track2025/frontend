@@ -10,7 +10,7 @@ import Label from 'src/components/label';
 import { fDateShort } from 'src/utils/formatTime';
 // lodash
 import { capitalize } from 'lodash';
-import { useRouter } from 'src/hooks/useRouter';
+import { useRouter } from 'next-nprogress-bar';
 // icons
 import { IoEye } from 'react-icons/io5';
 
