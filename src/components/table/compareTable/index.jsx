@@ -21,9 +21,6 @@ import { IoCartOutline } from 'react-icons/io5';
 import { FiHeart } from 'react-icons/fi';
 import { IoIosCloseCircle } from 'react-icons/io';
 
-// api
-import * as api from 'src/services';
-
 import Image from 'next/image';
 
 import imageUrl from '../../../../public/images/product.png';
@@ -34,6 +31,9 @@ import toast from 'react-hot-toast';
 import { setWishlist } from 'src/redux/slices/wishlist';
 import { useMutation } from 'react-query';
 // import { addCart } from 'src/redux/slices/product';
+import * as api from 'src/services';
+
+import { useQuery } from 'react-query';
 
 const products = [
   {
@@ -71,7 +71,11 @@ const CompareTable = () => {
 
   const dispatch = useDispatch();
   const router = useRouter();
-
+  const { products: compareProducts } = useSelector(({ compare }) => compare);
+  const { data, isLoading: compareLoading } = useQuery(['get-brands-user'], () =>
+    api.getCompareProducts(compareProducts.map((v) => v._id))
+  );
+  console.log(data, 'data');
   const { mutate } = useMutation(api.updateWishlist, {
     onSuccess: (data) => {
       toast.success(data.message);
@@ -85,7 +89,6 @@ const CompareTable = () => {
     }
   });
 
-  const { products: compareProducts } = useSelector(({ compare }) => compare);
   const { isAuthenticated } = useSelector(({ user }) => user);
 
   const findProductById = compareProducts.find((product) => product._id);
@@ -123,8 +126,6 @@ const CompareTable = () => {
     dispatch(removeCompareProduct(findProductById._id));
   };
 
-  console.log(findProductById, 'product asdsa');
-
   return (
     <TableContainer>
       <Table
@@ -138,9 +139,9 @@ const CompareTable = () => {
       >
         <TableHead>
           <TableRow>
-            <TableCell maxWidth="400px"></TableCell>
+            <TableCell></TableCell>
             {compareProducts.map((product) => (
-              <TableCell key={product.id} align="left" sx={{ minWidth: 292 }}>
+              <TableCell key={product.id} align="left" sx={{ minWidth: 292, maxWidth: 292 }}>
                 <Stack sx={{ position: 'relative' }}>
                   <IconButton
                     onClick={onRemoveCompare}
@@ -168,7 +169,7 @@ const CompareTable = () => {
                     />
                   </Box>
 
-                  <Typography variant="h6" sx={{ marginY: { md: 2, xs: 1 } }}>
+                  <Typography variant="subtitle1" sx={{ marginY: { md: 2, xs: 1 } }} noWrap>
                     {product.name}
                   </Typography>
                   <Stack direction="row" spacing={2}>
@@ -212,7 +213,7 @@ const CompareTable = () => {
         </TableHead>
         <TableBody>
           <StyledTableRow>
-            <TableCell sx={{ minWidth: 275, fontWeight: 600, fontSize: 16 }} component="th">
+            <TableCell sx={{ minWidth: 292, maxWidth: 292, fontWeight: 600, fontSize: 16 }} component="th">
               Customer Feedback
             </TableCell>
             {compareProducts.map((product) => (
@@ -225,7 +226,7 @@ const CompareTable = () => {
             ))}
           </StyledTableRow>
           <StyledTableRow>
-            <TableCell component="th" sx={{ fontWeight: 600, fontSize: 16 }}>
+            <TableCell component="th" sx={{ minWidth: 292, maxWidth: 292, fontWeight: 600, fontSize: 16 }}>
               Price
             </TableCell>
             {compareProducts.map((product) => (
@@ -235,7 +236,7 @@ const CompareTable = () => {
             ))}
           </StyledTableRow>
           <StyledTableRow>
-            <TableCell component="th" sx={{ fontWeight: 600, fontSize: 16 }}>
+            <TableCell component="th" sx={{ minWidth: 292, maxWidth: 292, fontWeight: 600, fontSize: 16 }}>
               Shop by
             </TableCell>
             {products.map((product) => (
@@ -245,7 +246,7 @@ const CompareTable = () => {
             ))}
           </StyledTableRow>
           <StyledTableRow>
-            <TableCell component="th" sx={{ fontWeight: 600, fontSize: 14 }}>
+            <TableCell component="th" sx={{ minWidth: 292, maxWidth: 292, fontWeight: 600, fontSize: 14 }}>
               Brand
             </TableCell>
             {products.map((product) => (
@@ -255,7 +256,7 @@ const CompareTable = () => {
             ))}
           </StyledTableRow>
           <StyledTableRow>
-            <TableCell component="th" sx={{ fontWeight: 600, fontSize: 16 }}>
+            <TableCell component="th" sx={{ minWidth: 292, maxWidth: 292, fontWeight: 600, fontSize: 16 }}>
               Stock status
             </TableCell>
             {products.map((product) => (
@@ -265,7 +266,7 @@ const CompareTable = () => {
             ))}
           </StyledTableRow>
           <StyledTableRow>
-            <TableCell component="th" sx={{ fontWeight: 600, fontSize: 16 }}>
+            <TableCell component="th" sx={{ minWidth: 292, maxWidth: 292, fontWeight: 600, fontSize: 16 }}>
               Sizes
             </TableCell>
             {products.map((product) => (

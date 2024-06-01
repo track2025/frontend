@@ -464,6 +464,10 @@ export const updateWishlist = async (pid) => {
   const { data } = await http.post(`/wishlist`, { pid });
   return data;
 };
+export const getCompareProducts = async (products) => {
+  const { data } = await http.post(`/compare/products`, { products });
+  return data;
+};
 
 export const getProfile = async () => {
   const { data } = await http.get(`/users/profile`);
