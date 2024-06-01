@@ -20,18 +20,18 @@ export default function Page({ params }) {
     <div>
       <HeaderBreadcrumbs
         admin
-        heading="Currency List"
+        heading="Compaigns List"
         links={[
           {
-            name: 'Dashboard',
+            name: 'Admin Dashboard',
             href: '/admin'
           },
           {
-            name: 'Currencies',
-            href: '/admin/currencies'
+            name: 'Compaigns',
+            href: '/admin/compaigns'
           },
           {
-            name: 'Add currency'
+            name: 'Edit Compaign'
           }
         ]}
       />

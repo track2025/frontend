@@ -21,7 +21,7 @@ export default function page() {
             href: '/admin/currencies'
           },
           {
-            name: 'Add currency'
+            name: 'Add Currency'
           }
         ]}
       />
