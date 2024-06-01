@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { Box, Grid } from '@mui/material';
 // components
 import ProductCard from 'src/components/cards/product';
-import NoDataFound from 'src/illustrations/notFound';
+import NoDataFound from 'src/illustrations/noDataFound';
 
 export default function ProductList({ ...props }) {
   const { data, isLoading, isMobile } = props;

@@ -1,10 +1,13 @@
+'use client';
 import React from 'react';
 // mui
 import { Box, Button, Typography } from '@mui/material';
 // svg
 import { NotFoundIllustration } from 'src/illustrations';
+import { useRouter } from 'next-nprogress-bar';
 
 export default function NotFound() {
+  const router = useRouter();
   return (
     <Box
       spacing={3}
@@ -19,10 +22,10 @@ export default function NotFound() {
         page is removed.
       </Typography>
       <Box sx={{ display: 'flex', gap: 2 }}>
-        <Button variant="contained" color="primary" size="large">
+        <Button variant="contained" color="primary" size="large" onClick={() => router.back()}>
           Go Back
         </Button>
-        <Button variant="outlined" color="primary" size="large">
+        <Button variant="outlined" color="primary" onClick={() => router.push('/')} size="large">
           Go To Home
         </Button>
       </Box>

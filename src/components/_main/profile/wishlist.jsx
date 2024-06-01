@@ -7,7 +7,7 @@ import { Card, Grid } from '@mui/material';
 // redux
 import { useSelector } from 'react-redux';
 // components
-import NoDataFound from 'src/illustrations/notFound';
+import NoDataFound from 'src/illustrations/noDataFound';
 // api
 import * as api from 'src/services';
 // usequery

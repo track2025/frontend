@@ -9,7 +9,7 @@ import { Typography, Container, Stack, Box, IconButton, Grid, Link, Fab, Divider
 import NextLink from 'next/link';
 // components
 import NewsLetter from './newsletter';
-import MainLogo from 'src/components/mainLogo';
+import Logo from 'src/components/logo';
 // icons
 import { FaFacebookF, FaInstagram, FaLinkedinIn } from 'react-icons/fa';
 import { MdOutlineLocationOn } from 'react-icons/md';
@@ -33,11 +33,11 @@ const SOCIAL_MEDIA_LINK = [
 
 const ADDRESS = [
   {
-    name: ' 8819 Ohio St. South Gate, CA 90280',
+    name: 'Ohio St. South Gate, CA 90280',
     icon: <MdOutlineLocationOn />
   },
   {
-    name: 'Ourstudio@hello.com',
+    name: 'johndoe@yahoo.com',
     linkPath: '/',
     icon: <FiMail fontSize={20} />
   },
@@ -94,7 +94,7 @@ export default function Footer() {
         <Grid container spacing={4}>
           <Grid item md={3}>
             <Stack spacing={3}>
-              <MainLogo />
+              <Logo />
               <Typography variant="body1" color="text.secondary">
                 Lorem Ipsum is simply dummy text of the printing and typesetting industry.
               </Typography>

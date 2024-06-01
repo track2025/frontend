@@ -19,7 +19,7 @@ import CircularProgress from '@mui/material/CircularProgress';
 import Divider from '@mui/material/Divider';
 
 // components
-import NoDataFound from 'src/illustrations/notFound';
+import NoDataFound from 'src/illustrations/dataNotFound';
 import { useMutation, useQuery } from 'react-query';
 import BlurImageAvatar from '../../avatar';
 import FormControl from '@mui/material/FormControl';

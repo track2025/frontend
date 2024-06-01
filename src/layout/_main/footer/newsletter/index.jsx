@@ -56,26 +56,23 @@ export default function NewsLetter() {
         <Stack sx={{}} direction="row" alignItems="center" spacing={2}>
           <FormControl fullWidth variant="outlined">
             <TextField
-              size="medium"
+              size="large"
               placeholder="Enter your Email"
               {...getFieldProps('email')}
               sx={{
                 '& .MuiInputBase-root': {
-                  bgcolor: (theme) => theme.palette.background.paper,
-                  input: {
-                    paddingY: '9.5px !important'
-                  }
+                  bgcolor: (theme) => theme.palette.background.paper
                 }
               }}
             />
           </FormControl>
           <LoadingButton
             variant="contained"
-            size="medium"
+            size="large"
             color="primary"
             type="submit"
             loading={loading}
-            sx={{ marginTop: 8, paddingX: 4 }}
+            sx={{ marginTop: 8, paddingX: 4, minHeight: 56 }}
           >
             Subscribe
           </LoadingButton>

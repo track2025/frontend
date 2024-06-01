@@ -10,7 +10,7 @@ import { useSelector } from 'react-redux';
 import { useRouter } from 'next-nprogress-bar';
 
 import PropTypes from 'prop-types';
-import NoDataFoundIllustration from 'src/illustrations/notFound';
+import NoDataFoundIllustration from 'src/illustrations/noDataFound';
 
 ProductReview.propTypes = {
   pid: PropTypes.string.isRequired,

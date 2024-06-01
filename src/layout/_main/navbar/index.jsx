@@ -11,7 +11,7 @@ import { useSelector } from 'react-redux';
 
 // config
 
-import MainLogo from 'src/components/mainLogo';
+import Logo from 'src/components/logo';
 
 const MobileBar = dynamic(() => import('src/layout/_main/mobileBar'));
 
@@ -94,7 +94,7 @@ export default function Navbar() {
         <Container maxWidth="xl">
           <Toolbar disableGutters className="toolbar" sx={{ px: '0px!important' }}>
             <Stack gap={4} direction="row" alignItems={'center'}>
-              <MainLogo />
+              <Logo />
               <Search />
             </Stack>
 
