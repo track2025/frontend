@@ -61,6 +61,7 @@ function TestimonialDetailsCarousel({ ...props }) {
             <Rating value={5} readOnly size="small" />
             <Typography variant="body1">{item.reviewdetail}</Typography>
             <Image
+              priority
               component={Avatar}
               src={item.cover.url}
               placeholder="blur"
@@ -70,7 +71,7 @@ function TestimonialDetailsCarousel({ ...props }) {
               dragable={false}
               height={80}
               width={80}
-              sizes="50vw"
+              sizes="100px"
               style={{
                 borderRadius: 50
               }}
