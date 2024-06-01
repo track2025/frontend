@@ -15,8 +15,13 @@ export default function Index() {
 
   return (
     <Box>
-      <Stack direction="row" justifyContent="space-between" alignItems="center">
-        <Box>
+      <Stack
+        direction="row"
+        justifyContent="space-between"
+        textAlign={{ xs: 'center', md: 'left' }}
+        alignItems="center"
+      >
+        <Box width="100%">
           <Typography variant="h2" color="text.primary" mt={8}>
             Top Collection
           </Typography>
@@ -29,7 +34,8 @@ export default function Index() {
           color="primary"
           size="large"
           sx={{
-            borderRadius: 6
+            borderRadius: 6,
+            display: { xs: 'none', md: 'flex' }
           }}
           endIcon={<IoIosArrowForward />}
           component={NextLink}
@@ -45,6 +51,22 @@ export default function Index() {
       ) : (
         <ProductsCarousel data={data?.data || []} isLoading={isLoading} />
       )}
+      <Button
+        variant="text"
+        color="primary"
+        size="small"
+        sx={{
+          borderRadius: 6,
+          mx: 'auto',
+          display: { md: 'none', xs: 'flex' },
+          maxWidth: '120px'
+        }}
+        endIcon={<IoIosArrowForward />}
+        component={NextLink}
+        href={`/products?top=1`}
+      >
+        View More
+      </Button>
     </Box>
   );
 }
