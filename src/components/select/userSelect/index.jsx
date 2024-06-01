@@ -1,6 +1,6 @@
 'use client';
 import React from 'react';
-import Link from 'src/utils/link';
+import Link from 'next/link';
 
 // mui
 import { Avatar, IconButton, Typography, Stack, Divider, Box } from '@mui/material';

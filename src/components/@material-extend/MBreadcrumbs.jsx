@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Typography, Box, Link, Breadcrumbs } from '@mui/material';
-import NextLink from 'src/utils/link';
+import NextLink from 'next/link';
 import { last } from 'lodash';
 
 function LinkItem({ link, admin }) {

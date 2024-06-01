@@ -6,7 +6,7 @@ import { useRouter } from 'src/hooks/useRouter';
 // material
 import typography from 'src/theme/typography';
 import { Link, Stack, Button, alpha, Box } from '@mui/material';
-import NextLink from 'src/utils/link';
+import NextLink from 'next/link';
 import { RxDashboard } from 'react-icons/rx';
 import { FaAngleDown } from 'react-icons/fa6';
 

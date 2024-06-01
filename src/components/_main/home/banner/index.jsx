@@ -1,6 +1,6 @@
 'use client';
 import React from 'react';
-import Link from 'src/utils/link';
+import Link from 'next/link';
 // mui
 import { Box, Typography, Grid, Button, Container, Stack } from '@mui/material';
 // blur image

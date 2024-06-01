@@ -21,7 +21,7 @@ import { setWishlist } from 'src/redux/slices/wishlist';
 import { addCompareProduct, removeCompareProduct } from '../../redux/slices/compare';
 import { useSelector } from 'react-redux';
 // next
-import Link from 'src/utils/link';
+import Link from 'next/link';
 import { useRouter } from 'src/hooks/useRouter';
 // components
 import Label from 'src/components/label';

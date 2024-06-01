@@ -10,7 +10,7 @@ import { Typography, Box, Stack, Button } from '@mui/material';
 import ProductsCarousel from 'src/components/carousels/gridSlider';
 import { IoIosArrowForward } from 'react-icons/io';
 // next
-import NextLink from 'src/utils/link';
+import NextLink from 'next/link';
 
 export default function Featured({ data }) {
   // const { data, isLoading } = useQuery(['get-best-products'], () => api.getBestSellingProducts());

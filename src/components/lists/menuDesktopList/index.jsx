@@ -3,7 +3,7 @@ import React from 'react';
 import RootStyled from './styled';
 // material
 import { Box, ListSubheader, ListItem } from '@mui/material';
-import NextLink from 'src/utils/link';
+import NextLink from 'next/link';
 import PropTypes from 'prop-types';
 IconBullet.propTypes = {
   type: PropTypes.string.isRequired

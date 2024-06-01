@@ -5,7 +5,7 @@ import dynamic from 'next/dynamic';
 import { useSelector } from 'react-redux';
 // mui
 import { Toolbar, Container, Stack, useTheme, Link, Divider, Skeleton } from '@mui/material';
-import NextLink from 'src/utils/link';
+import NextLink from 'next/link';
 const UserSelect = dynamic(() => import('src/components/select/userSelect'), {
   ssr: false,
   loading: () => (
