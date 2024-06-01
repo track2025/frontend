@@ -5,7 +5,6 @@ import Footer from 'src/layout/_main/footer';
 import Topbar from 'src/layout/_main/topbar';
 import ActionBar from 'src/layout/_main/actionbar';
 import * as api from 'src/services';
-import dynamic from 'next/dynamic';
 import Subscription from 'src/layout/_main/subscription';
 
 // Meta information

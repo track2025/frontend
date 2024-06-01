@@ -50,7 +50,6 @@ export default function Subscription() {
       ) {
         setloading(true);
         mutate(values);
-        handleClose();
       } else {
         toast.error('Invalid email!');
       }
@@ -62,6 +61,7 @@ export default function Subscription() {
       toast.success(data.message);
       setloading(false);
       formik.resetForm();
+      handleClose();
     },
     onError: (err) => {
       setloading(false);
@@ -73,7 +73,14 @@ export default function Subscription() {
 
   return (
     <React.Fragment>
-      <Dialog open={open} fullWidth maxWidth="md" onClose={handleClose}>
+      <Dialog
+        open={open}
+        fullWidth
+        maxWidth="md"
+        aria-labelledby="alert-dialog-title"
+        aria-describedby="alert-dialog-description"
+        onClose={handleClose}
+      >
         <Grid container justifyContent="center" alignItems="center" spacing={2}>
           <Grid item xs={12} md={5}>
             <Box
