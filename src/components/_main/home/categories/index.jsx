@@ -40,7 +40,9 @@ export default function Categories() {
             size="large"
             sx={{
               borderRadius: 6,
-              display: { xs: 'none', md: 'flex' }
+              display: { xs: 'none', md: 'flex' },
+              minWidth: 130,
+              px: 1
             }}
             endIcon={<IoIosArrowForward />}
             component={NextLink}

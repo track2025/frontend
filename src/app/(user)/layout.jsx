@@ -4,6 +4,7 @@ import Navbar from 'src/layout/_main/navbar';
 import Footer from 'src/layout/_main/footer';
 import Topbar from 'src/layout/_main/topbar';
 import ActionBar from 'src/layout/_main/actionbar';
+import { Toolbar } from '@mui/material';
 // import * as api from 'src/services';
 
 // Meta information
@@ -30,8 +31,8 @@ export default async function RootLayout({ children }) {
       <Topbar />
       <Navbar />
       <ActionBar />
-      {/* <Box sx={{ height: 100, display: { xs: 'none', md: 'flex' } }} /> */}
       {children}
+      <Toolbar sx={{ display: { xs: 'block', md: 'none' } }} />
       <Footer />
     </>
   );

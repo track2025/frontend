@@ -17,70 +17,71 @@ export default function ShopComponent() {
   return (
     <Paper elevation={0}>
       <Stack
-        direction={'column'}
-        sx={{
-          gap: 3,
-          mt: 5
-        }}
+        direction="row"
+        justifyContent="space-between"
+        alignItems="center"
+        textAlign={{ xs: 'center', md: 'left' }}
+        mb={3}
       >
-        <Stack direction="row" justifyContent="space-between" alignItems="center">
-          <Box width="100%">
-            <Typography variant="h2" color="text.primary" mt={{ xs: 5, md: 8 }}>
-              Best Shops
-            </Typography>
-            <Typography variant="body1" color="text.secondary" mb={5}>
-              Our Highest Rated Shops Where You Can Find What You Are Looking For
-            </Typography>
-          </Box>
-          <Button
-            variant="contained"
-            color="primary"
-            size="large"
-            sx={{
-              borderRadius: 6
-            }}
-            endIcon={<IoIosArrowForward />}
-            component={NextLink}
-            href={``}
-          >
-            View More
-          </Button>
-        </Stack>
-
-        <Box>
-          <Grid container spacing={2} justifyContent="center" alignItems="center">
-            {(isLoading ? Array.from(new Array(6)) : shops)?.map((inner) => (
-              <React.Fragment key={Math.random()}>
-                <Grid item lg={3} md={4} sm={6} xs={12}>
-                  <ShopCard shop={inner} isLoading={isLoading} />
-                </Grid>
-              </React.Fragment>
-            ))}
-            {!isLoading && !Boolean(shops?.length) && (
-              <Typography variant="h3" color="error.main" textAlign="center">
-                Shop not found
-              </Typography>
-            )}
-          </Grid>
+        <Box width="100%">
+          <Typography variant="h2" color="text.primary" mt={{ xs: 4, md: 8 }}>
+            Best Shops
+          </Typography>
+          <Typography variant="body1" color="text.secondary" mb={{ xs: 3, md: 5 }}>
+            Our Highest Rated Shops Where You Can Find What You Are Looking For
+          </Typography>
         </Box>
-        {Boolean(shops?.length > 7) && (
-          <Button
-            variant="text"
-            color="primary"
-            endIcon={<IoIosArrowForward />}
-            component={NextLink}
-            href={`/shops`}
-            sx={{
-              mt: 3,
-              mx: 'auto',
-              display: 'flex',
-              minWidth: 100
-            }}
-          >
-            View All Shops
-          </Button>
-        )}
+        <Button
+          variant="contained"
+          color="primary"
+          size="large"
+          sx={{
+            borderRadius: 6,
+            display: { xs: 'none', md: 'flex' },
+            minWidth: 130,
+            px: 1
+          }}
+          endIcon={<IoIosArrowForward />}
+          component={NextLink}
+          href={`/shops`}
+        >
+          View More
+        </Button>
       </Stack>
+
+      <Box>
+        <Grid container spacing={2} justifyContent="center" alignItems="center">
+          {(isLoading ? Array.from(new Array(6)) : shops)?.map((inner) => (
+            <React.Fragment key={Math.random()}>
+              <Grid item lg={3} md={4} sm={6} xs={12}>
+                <ShopCard shop={inner} isLoading={isLoading} />
+              </Grid>
+            </React.Fragment>
+          ))}
+          {!isLoading && !Boolean(shops?.length) && (
+            <Typography variant="h3" color="error.main" textAlign="center">
+              Shop not found
+            </Typography>
+          )}
+        </Grid>
+        <Button
+          variant="text"
+          color="primary"
+          size="small"
+          sx={{
+            borderRadius: 6,
+            mx: 'auto',
+            mt: 3,
+            display: { md: 'none', xs: 'flex' },
+            maxWidth: '120px'
+          }}
+          endIcon={<IoIosArrowForward />}
+          component={NextLink}
+          href={`/shops`}
+        >
+          View More
+        </Button>
+      </Box>
     </Paper>
   );
 }

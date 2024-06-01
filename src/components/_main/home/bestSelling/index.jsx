@@ -28,10 +28,10 @@ export default function Featured() {
             width: '100%'
           }}
         >
-          <Typography variant="h2" color="text.primary" mt={{ xs: 5, md: 8 }}>
+          <Typography variant="h2" color="text.primary" mt={{ xs: 4, md: 8 }}>
             Best Selling Products
           </Typography>
-          <Typography variant="body1" color="text.secondary" mb={5}>
+          <Typography variant="body1" color="text.secondary" mb={{ xs: 3, md: 5 }}>
             Special products in this month
           </Typography>
         </Box>
@@ -41,7 +41,9 @@ export default function Featured() {
           size="large"
           sx={{
             borderRadius: 6,
-            display: { xs: 'none', md: 'flex' }
+            display: { xs: 'none', md: 'flex' },
+            minWidth: 130,
+            px: 1
           }}
           endIcon={<IoIosArrowForward />}
           component={NextLink}
