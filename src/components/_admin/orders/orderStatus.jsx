@@ -27,7 +27,7 @@ export default function SelectOrderStatus({ data }) {
   const { mutate, isLoading } = useMutation(api.updateOrderStatus, {
     onSuccess: (data) => {
       toast.success(data.message);
-      router.push('/dashboard/orders');
+      router.push('/admin/orders');
     },
     onError: () => {
       toast.error('Something went wrong!');
