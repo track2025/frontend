@@ -3,7 +3,7 @@ import { Container } from '@mui/material';
 import React, { useEffect } from 'react';
 import ShopForm from 'src/components/forms/userShop';
 import { useSelector } from 'react-redux';
-import { useRouter } from 'src/hooks/useRouter';
+import { useRouter } from 'next-nprogress-bar';
 export default function Page() {
   const { user } = useSelector((state) => state.user);
   const router = useRouter();

@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { useState, useEffect } from 'react';
 // next
-import { useRouter } from 'src/hooks/useRouter';
+import { useRouter } from 'next-nprogress-bar';
 // material
 import typography from 'src/theme/typography';
 import { Link, Stack, Button, alpha, Box } from '@mui/material';

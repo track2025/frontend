@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 // mui
 import { FormGroup, FormControlLabel, Checkbox, Grid, Typography, Button, Zoom, Stack } from '@mui/material';
 // next
-import { useRouter } from 'src/hooks/useRouter';
+import { useRouter } from 'next-nprogress-bar';
 import { useSearchParams } from 'next/navigation';
 
 // data

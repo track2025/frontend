@@ -7,7 +7,7 @@ import { useMutation } from 'react-query';
 import RouterLink from 'next/link';
 
 import { useSearchParams } from 'next/navigation';
-import { useRouter } from 'src/hooks/useRouter';
+import { useRouter } from 'next-nprogress-bar';
 // formik
 import { useFormik, Form, FormikProvider } from 'formik';
 // toast

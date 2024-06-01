@@ -9,7 +9,7 @@ import KeyboardArrowDownRoundedIcon from '@mui/icons-material/KeyboardArrowDownR
 // components
 import MenuPopover from 'src/components/popover/popover';
 import { usePathname } from 'next/navigation';
-import { useRouter } from 'src/hooks/useRouter';
+import { useRouter } from 'next-nprogress-bar';
 import { PATH_PAGE } from 'src/routes/paths';
 import { UserList } from 'src/components/lists';
 import BlurImageAvatar from 'src/components/avatar';

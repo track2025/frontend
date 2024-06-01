@@ -3,7 +3,7 @@ import React, { useCallback } from 'react';
 import { Button, ListItemIcon, Box } from '@mui/material';
 
 // next
-import { useRouter } from 'src/hooks/useRouter';
+import { useRouter } from 'next-nprogress-bar';
 import { useSearchParams } from 'next/navigation';
 // PropTypes
 import PropTypes from 'prop-types';

@@ -6,7 +6,7 @@ import PropTypes from 'prop-types';
 import { Card, Button, CardHeader, Typography, Box, Skeleton, Stack, Divider } from '@mui/material';
 // next
 import dynamic from 'next/dynamic';
-import { useRouter } from 'src/hooks/useRouter';
+import { useRouter } from 'next-nprogress-bar';
 // lodash
 import { sum } from 'lodash';
 // formik

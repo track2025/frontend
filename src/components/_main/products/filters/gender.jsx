@@ -6,7 +6,7 @@ import { IoTransgender } from 'react-icons/io5';
 import { IoMdMale, IoMdFemale, IoMdTransgender } from 'react-icons/io';
 import { FaVenusMars } from 'react-icons/fa';
 // next
-import { useRouter } from 'src/hooks/useRouter';
+import { useRouter } from 'next-nprogress-bar';
 import { useSearchParams } from 'next/navigation';
 // PropTypes
 import PropTypes from 'prop-types';

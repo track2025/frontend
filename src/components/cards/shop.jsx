@@ -11,7 +11,7 @@ import Image from 'src/components/blurImage';
 import { AiOutlineShop } from 'react-icons/ai';
 import { FaRegUser } from 'react-icons/fa6';
 // next
-import { useRouter } from 'src/hooks/useRouter';
+import { useRouter } from 'next-nprogress-bar';
 // react
 import { useMutation } from 'react-query';
 

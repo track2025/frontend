@@ -6,14 +6,14 @@ import NextLink from 'next/link';
 import { Typography, Grid, Box, Stack, Paper, Button } from '@mui/material';
 // icons
 import { IoIosArrowForward } from 'react-icons/io';
-// api
 
 // component
 import ShopCard from 'src/components/cards/shop';
+import { useSelector } from 'react-redux';
 
-export default function ShopComponent({ data: shops }) {
-  // const { shops, isLoading } = useSelector(({ shops }) => shops);
-  const isLoading = false;
+export default function ShopComponent() {
+  const { shops = [], isLoading } = useSelector(({ shops }) => shops);
+
   return (
     <Paper elevation={0}>
       <Stack
@@ -49,7 +49,7 @@ export default function ShopComponent({ data: shops }) {
 
         <Box>
           <Grid container spacing={2} justifyContent="center" alignItems="center">
-            {(isLoading ? Array.from(new Array(6)) : shops).map((inner) => (
+            {(isLoading ? Array.from(new Array(6)) : shops)?.map((inner) => (
               <React.Fragment key={Math.random()}>
                 <Grid item lg={3} md={4} sm={6} xs={12}>
                   <ShopCard shop={inner} isLoading={isLoading} />

@@ -28,7 +28,7 @@ import { LuBadgePercent } from 'react-icons/lu';
 
 // next
 import { usePathname } from 'next/navigation';
-import { useRouter } from 'src/hooks/useRouter';
+import { useRouter } from 'next-nprogress-bar';
 import Scrollbar from 'src/components/Scrollbar';
 // Dashboard Side NevLinks
 export const navlinks = [

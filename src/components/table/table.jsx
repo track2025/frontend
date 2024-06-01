@@ -13,7 +13,7 @@ import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
 import { useSearchParams, usePathname } from 'next/navigation';
-import { useRouter } from 'src/hooks/useRouter';
+import { useRouter } from 'next-nprogress-bar';
 CustomTable.propTypes = {
   headData: PropTypes.arrayOf(
     PropTypes.shape({

@@ -6,7 +6,7 @@ import { Box, OutlinedInput, InputAdornment } from '@mui/material';
 import { IoIosSearch } from 'react-icons/io';
 // next js
 import { usePathname, useSearchParams } from 'next/navigation';
-import { useRouter } from 'src/hooks/useRouter';
+import { useRouter } from 'next-nprogress-bar';
 
 const RootStyle = styled(Box)(() => ({
   maxHeight: 96,

@@ -22,7 +22,7 @@ import { addCompareProduct, removeCompareProduct } from '../../redux/slices/comp
 import { useSelector } from 'react-redux';
 // next
 import Link from 'next/link';
-import { useRouter } from 'src/hooks/useRouter';
+import { useRouter } from 'next-nprogress-bar';
 // components
 import Label from 'src/components/label';
 import BlurImage from 'src/components/blurImage';

@@ -483,7 +483,7 @@ export const getAllCategories = async () => {
 };
 
 export const getHomeShops = async () => {
-  const { data } = await http.get(`/shops?limit=9`);
+  const { data } = await http.get(`/shops?limit=5`);
   return data;
 };
 export const getHomeCompaigns = async () => {

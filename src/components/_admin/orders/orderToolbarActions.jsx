@@ -6,7 +6,7 @@ import OrderStatus from 'src/components/_admin/orders/orderStatus';
 // mui
 import LoadingButton from '@mui/lab/LoadingButton';
 import { Stack, Box } from '@mui/material';
-import { useRouter } from 'src/hooks/useRouter';
+import { useRouter } from 'next-nprogress-bar';
 // api
 import * as api from 'src/services';
 // react

@@ -2,7 +2,7 @@
 import { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 // next
-import { useRouter } from 'src/hooks/useRouter';
+import { useRouter } from 'next-nprogress-bar';
 // redux
 import { useSelector } from 'src/redux';
 import Loading from 'src/components/loading';

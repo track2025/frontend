@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 // yup
 import * as Yup from 'yup';
 // next router
-import { useRouter } from 'src/hooks/useRouter';
+import { useRouter } from 'next-nprogress-bar';
 // formik
 import { Form, FormikProvider, useFormik } from 'formik';
 // react query

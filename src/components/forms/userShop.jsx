@@ -10,7 +10,7 @@ import { Card, Stack, TextField, Typography, Box, FormHelperText, Grid } from '@
 // components
 import UploadSingleFile from 'src/components/upload/UploadSingleFile';
 // next
-import { useRouter } from 'src/hooks/useRouter';
+import { useRouter } from 'next-nprogress-bar';
 // yup
 import * as Yup from 'yup';
 // axios

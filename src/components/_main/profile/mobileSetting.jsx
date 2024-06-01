@@ -1,6 +1,6 @@
 'use client';
 import React from 'react';
-import { useRouter } from 'src/hooks/useRouter';
+import { useRouter } from 'next-nprogress-bar';
 import {
   Stack,
   Button,

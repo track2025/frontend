@@ -4,14 +4,14 @@ import Image from 'src/components/blurImage';
 // mui
 import { Typography, Box, Stack, Card, Grid, Skeleton, CardActionArea } from '@mui/material';
 // // api
-// import * as api from 'src/services';
-// import { useQuery } from 'react-query';
-import { useRouter } from 'src/hooks/useRouter';
+import * as api from 'src/services';
+import { useQuery } from 'react-query';
+import { useRouter } from 'next-nprogress-bar';
 
-export default function Brands({ data }) {
+export default function Brands() {
   const { push } = useRouter();
-  // const { data, isLoading } = useQuery(['get-brands-products'], () => api.getHomeBrands());
-  const isLoading = false;
+  const { data, isLoading } = useQuery(['get-brands-products'], () => api.getHomeBrands());
+
   return (
     <Box
       sx={{
@@ -38,9 +38,9 @@ export default function Brands({ data }) {
 
       {isLoading ? (
         <Skeleton variant="rounded" width={80} height={80} />
-      ) : Boolean(data?.length) ? (
+      ) : Boolean(data?.data.length) ? (
         <Grid container alignItems="center" justifyContent="center" spacing={2}>
-          {(isLoading ? Array.from(new Array(6)) : data).map((v) => (
+          {(isLoading ? Array.from(new Array(6)) : data?.data).map((v) => (
             <Grid key={v._id} item xs={6} sm={3} md={2}>
               <Card
                 className="slider-main"

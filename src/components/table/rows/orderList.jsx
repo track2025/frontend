@@ -7,7 +7,7 @@ import { IoEye } from 'react-icons/io5';
 import Label from 'src/components/label';
 import BlurImage from 'src/components/blurImage';
 import { fDateShort } from 'src/utils/formatTime';
-import { useRouter } from 'src/hooks/useRouter';
+import { useRouter } from 'next-nprogress-bar';
 // utils
 import { fCurrency } from 'src/utils/formatNumber';
 
