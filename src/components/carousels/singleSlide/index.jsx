@@ -90,6 +90,7 @@ function CarouselItem({ ...props }) {
         objectFit="cover"
         static
         draggable="false"
+        sizes="700px"
       />
       <Box
         sx={{
