@@ -2,7 +2,7 @@
 import React from 'react';
 import { uniqueId } from 'lodash';
 // next
-import Link from 'src/utils/link';
+import Link from 'next/link';
 import PropTypes from 'prop-types';
 // mui
 import { Card, Typography, Skeleton, CardContent, Box } from '@mui/material';

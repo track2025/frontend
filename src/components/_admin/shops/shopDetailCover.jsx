@@ -1,5 +1,5 @@
 'use client';
-import NextLink from 'src/utils/link';
+import NextLink from 'next/link';
 // mui
 import { styled } from '@mui/material/styles';
 import { Box, Typography, Container, Card, Skeleton, Stack, alpha } from '@mui/material';

@@ -55,10 +55,10 @@ export default function Search() {
     const delayDebounceFn = setTimeout(() => {
       if (Boolean(search)) {
         setInitial(true);
-        router.push(`${pathname}?${createQueryString('search', search)}`, 'isAlreadyPathname');
+        router.push(`${pathname}?${createQueryString('search', search)}`);
       } else {
         if (initial) {
-          router.push(`${pathname}`, 'isAlreadyPathname');
+          router.push(`${pathname}`);
         }
       }
       // eslint-disable-next-line react-hooks/exhaustive-deps

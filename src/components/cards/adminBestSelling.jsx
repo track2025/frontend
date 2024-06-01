@@ -1,6 +1,6 @@
 import React from 'react';
 // next
-import NextLink from 'src/utils/link';
+import NextLink from 'next/link';
 import { Card, CardContent, CardHeader, Divider, Box, Stack, Typography, Skeleton } from '@mui/material';
 import BlurImage from 'src/components/blurImage';
 // components

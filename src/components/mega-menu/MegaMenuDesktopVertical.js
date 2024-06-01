@@ -1,7 +1,7 @@
 'use client';
 import React from 'react';
 import PropTypes from 'prop-types';
-import RouterLink from 'src/utils/link';
+import RouterLink from 'next/link';
 import { FaAngleRight } from 'react-icons/fa6';
 
 // material

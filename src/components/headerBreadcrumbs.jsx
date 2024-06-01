@@ -9,7 +9,7 @@ import { IoMdAdd } from 'react-icons/io';
 // components
 import { MBreadcrumbs } from './@material-extend';
 // next
-import NextLink from 'src/utils/link';
+import NextLink from 'next/link';
 import { createGradient } from 'src/theme/palette';
 
 export default function HeaderBreadcrumbs({ ...props }) {

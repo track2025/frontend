@@ -99,7 +99,7 @@ export default function VerifyOTPForm() {
     onSuccess: async () => {
       setLoading(false);
       dispatch(verifyUser());
-      router.push(redirect || '/', 'isAlreadyPathname');
+      router.push(redirect || '/');
     },
     onError: () => {
       toast.error('Invalid OTP.');
