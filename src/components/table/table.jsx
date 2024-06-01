@@ -69,35 +69,37 @@ export default function CustomTable({ filters = [], ...props }) {
   return (
     <Card>
       <>
-        <Stack spacing={2} direction="row" alignItems="center" justifyContent="space-between" sx={{ p: 2 }}>
-          {heading ? (
-            <Typography variant="h4" color="text.primary" px={2} py={2}>
-              {heading}
-            </Typography>
-          ) : null}
-          {isSearch ? <Search /> : null}{' '}
-          <Stack spacing={2} direction="row">
-            {filters.map((item) => (
-              <FormControl fullWidth key={Math.random()} sx={{ maxWidth: 200, minWidth: 140, width: '100%' }}>
-                <InputLabel id={'select-' + item.name}>{item.name}</InputLabel>
-                <Select
-                  labelId={'select-' + item.name}
-                  id={'select-' + item.name}
-                  value={state[item.param] ?? ''}
-                  label={item.name}
-                  onChange={(e) => handleChange(item.param, e.target.value)}
-                >
-                  <MenuItem value="">None</MenuItem>
-                  {item.data.map((v) => (
-                    <MenuItem value={v.slug} key={Math.random()}>
-                      {v.name || v.title}
-                    </MenuItem>
-                  ))}
-                </Select>
-              </FormControl>
-            ))}
+        {!filters.length && !heading ? (
+          <Stack spacing={2} direction="row" alignItems="center" justifyContent="space-between" sx={{ p: 2 }}>
+            {heading ? (
+              <Typography variant="h4" color="text.primary" px={2} py={2}>
+                {heading}
+              </Typography>
+            ) : null}
+            {isSearch ? <Search /> : null}{' '}
+            <Stack spacing={2} direction="row">
+              {filters.map((item) => (
+                <FormControl fullWidth key={Math.random()} sx={{ maxWidth: 200, minWidth: 140, width: '100%' }}>
+                  <InputLabel id={'select-' + item.name}>{item.name}</InputLabel>
+                  <Select
+                    labelId={'select-' + item.name}
+                    id={'select-' + item.name}
+                    value={state[item.param] ?? ''}
+                    label={item.name}
+                    onChange={(e) => handleChange(item.param, e.target.value)}
+                  >
+                    <MenuItem value="">None</MenuItem>
+                    {item.data.map((v) => (
+                      <MenuItem value={v.slug} key={Math.random()}>
+                        {v.name || v.title}
+                      </MenuItem>
+                    ))}
+                  </Select>
+                </FormControl>
+              ))}
+            </Stack>
           </Stack>
-        </Stack>
+        ) : null}
 
         {!isLoading && data?.data?.length === 0 ? (
           <>

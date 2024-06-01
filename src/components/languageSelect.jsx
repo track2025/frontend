@@ -26,7 +26,7 @@ export default function LanguageSelect() {
   const [open, setOpen] = React.useState(false);
   const [value, setValue] = React.useState('1');
   const pathName = usePathname();
-  const { data, isLoading } = useQuery(['coupon-codes'], () => api.getCurrencies());
+  const { data, isLoading } = useQuery(['get-currencies'], () => api.getCurrencies());
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };

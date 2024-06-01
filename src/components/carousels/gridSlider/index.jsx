@@ -100,15 +100,6 @@ export default function ProductsCarousel({ ...props }) {
     }
   };
 
-  useEffect(() => {
-    setTimeout(() => {
-      const nextPage = page + 1;
-      if (nextPage >= 0 && nextPage <= totalSlides - 1) {
-        setPage([nextPage, 1]);
-      }
-    }, 12000);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
   return (
     <Paper
       elevation={0}

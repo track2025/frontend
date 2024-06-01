@@ -43,7 +43,6 @@ const CartWidget = dynamic(() => import('src/components/cartWidget'), {
 });
 
 const CompareWidget = dynamic(() => import('src/components/compareWidget'), {
-  ssr: false,
   loading: () => (
     <Stack direction="row" spacing={1} alignItems="center">
       <Skeleton variant="circular" width={40} height={40} />
@@ -55,17 +54,12 @@ const CompareWidget = dynamic(() => import('src/components/compareWidget'), {
   )
 });
 const Search = dynamic(() => import('src/components/dialog/search'), {
-  ssr: false,
   loading: () => <Skeleton variant="rounded" width={300} height={56} sx={{ borderRadius: '70px' }} />
 });
 const LanguageSelect = dynamic(() => import('src/components/languageSelect'), {
   ssr: false,
   loading: () => <Skeleton variant="circular" width={40} height={40} />
 });
-// const UserSelect = dynamic(() => import('src/components/select/userSelect'), {
-//   ssr: false,
-//   loading: () => <Skeleton variant="circular" width={50} height={50} />
-// });
 // const AdminDialog = dynamic(() => import('src/components/dialog/admin'));
 
 // ----------------------------------------------------------------------
@@ -104,7 +98,6 @@ export default function Navbar() {
               <MainLogo />
               <Search />
             </Stack>
-            {/* {isLoading ? <Skeletons /> : <MenuDesktop isHome={isHome} navConfig={menu} categories={data?.data} />} */}
 
             <Stack gap={2} direction="row" alignItems={'center'}>
               <LanguageSelect />
@@ -112,7 +105,6 @@ export default function Navbar() {
               <WishlistPopover />
               <CompareWidget />
               <CartWidget checkout={checkout} />
-              {/* <UserSelect /> */}
             </Stack>
           </Toolbar>
         </Container>

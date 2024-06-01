@@ -7,7 +7,7 @@ import { Grid, Typography, Box, Stack, IconButton, TextField, Button } from '@mu
 import Image from 'next/image';
 // images and Icons
 import { MdClear } from 'react-icons/md';
-import subscriptionImg from '../../../../public/images/subscription-img.png';
+import subscriptionImg from '../../../../../public/images/subscription-img.png';
 // react
 import { useMutation } from 'react-query';
 // formik
@@ -17,6 +17,7 @@ import * as api from 'src/services';
 // toast
 import { toast } from 'react-hot-toast';
 import { LoadingButton } from '@mui/lab';
+const ONE_DAY_IN_MS = 24 * 60 * 60 * 1000; // 24 hours in milliseconds
 
 export default function Subscription() {
   const [open, setOpen] = React.useState(false);
@@ -24,14 +25,22 @@ export default function Subscription() {
 
   const handleClose = () => {
     setOpen(false);
+    localStorage.setItem('subscriptionDismissedAt', Date.now().toString());
   };
   // useEffect to open the dialog when the component mounts
   React.useEffect(() => {
+    const dismissedAt = localStorage.getItem('subscriptionDismissedAt');
+    if (dismissedAt) {
+      const timeSinceDismissed = Date.now() - parseInt(dismissedAt, 10);
+      if (timeSinceDismissed < ONE_DAY_IN_MS) {
+        return;
+      }
+    }
+
     const timer = setTimeout(() => {
       setOpen(true);
-    }, 3000); // 10 seconds delay
+    }, 3000); // 3 seconds delay
 
-    // Cleanup function to clear the timeout if the component unmounts
     return () => clearTimeout(timer);
   }, []);
 

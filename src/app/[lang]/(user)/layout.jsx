@@ -4,9 +4,7 @@ import Navbar from 'src/layout/_main/navbar';
 import Footer from 'src/layout/_main/footer';
 import Topbar from 'src/layout/_main/topbar';
 import ActionBar from 'src/layout/_main/actionbar';
-import * as api from 'src/services';
-import dynamic from 'next/dynamic';
-import Subscription from 'src/layout/_main/subscription';
+// import * as api from 'src/services';
 
 // Meta information
 export const metadata = {
@@ -23,19 +21,18 @@ export const metadata = {
     images: 'https://nextall.vercel.app/opengraph-image.png?1c6a1fa20db2840f'
   }
 };
-export const revalidate = 1; // revalidate at most every hour
-export const dynamic = 'error';
+// export const revalidate = 1; // revalidate at most every hour
+// export const dynamic = 'error';
 export default async function RootLayout({ children }) {
-  const { data } = await api.getAllCategories();
+  // const { data } = await api.getAllCategories();
   return (
     <>
       <Topbar />
       <Navbar />
-      <ActionBar data={data} />
+      <ActionBar data={[]} />
       {/* <Box sx={{ height: 100, display: { xs: 'none', md: 'flex' } }} /> */}
       {children}
       <Footer />
-      <Subscription />
     </>
   );
 }
