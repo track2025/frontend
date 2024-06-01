@@ -56,7 +56,15 @@ function ParentItem({ shop, isLast, isLoading }) {
           {isLoading ? (
             <Skeleton variant="circular" width={40} height={40} />
           ) : (
-            <Image src={shop?.logo?.url} alt={shop?.title} layout="fill" objectFit="cover" />
+            <Image
+              src={shop?.logo?.url}
+              placeholder="blur"
+              blurDataURL={shop?.logo?.blurDataURL}
+              alt={shop?.title}
+              layout="fill"
+              objectFit="cover"
+              size="30vw"
+            />
           )}
         </Box>
         <Typography variant="body1" color="text.primary" fontWeight={500}>

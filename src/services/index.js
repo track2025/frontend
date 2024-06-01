@@ -481,6 +481,10 @@ export const getAllCategories = async () => {
   const { data } = await http.get(`/all-categories`);
   return data;
 };
+export const getHomeCategories = async () => {
+  const { data } = await http.get(`/home/categories`);
+  return data;
+};
 
 export const getHomeShops = async () => {
   const { data } = await http.get(`/shops?limit=5`);

@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { useState, useEffect } from 'react';
 // next
-import { useRouter } from 'next-nprogress-bar';
+import { useRouter } from 'src/hooks/useRouter';
 // material
 import typography from 'src/theme/typography';
 import { Link, Stack, Button, alpha, Box } from '@mui/material';
@@ -12,7 +12,8 @@ import { FaAngleDown } from 'react-icons/fa6';
 
 // components
 import MenuDesktopPopover from 'src/components/popover/menuDesktop';
-
+import { useQuery } from 'react-query';
+import * as api from 'src/services';
 // ----------------------------------------------------------------------
 
 MenuDesktopItem.propTypes = {
@@ -115,7 +116,15 @@ function MenuDesktopItem({ ...props }) {
 }
 
 export default function MenuDesktop({ ...props }) {
-  const { isOffset, navConfig, isLeft, data, isLoading } = props;
+  const { isOffset, navConfig, isLeft } = props;
+
+  const { data, isLoading } = useQuery(['get-categories-all'], () => api.getAllCategories());
+  // React.useEffect(() => {
+  // if (!isLoading) {
+  // dispatch(setCategories(data));
+  // }
+  // // eslint-disable-next-line react-hooks/exhaustive-deps
+  // }, [data]);
 
   const { pathname } = useRouter();
 
@@ -164,7 +173,7 @@ export default function MenuDesktop({ ...props }) {
           scrollPosition={scrollPosition}
           key={Math.random()}
           item={links}
-          data={data}
+          data={data?.data}
           isLoading={isLoading}
           pathname={pathname}
           isOpen={open}
@@ -182,6 +191,5 @@ MenuDesktop.propTypes = {
   isLeft: PropTypes.bool,
   isLoading: PropTypes.bool.isRequired,
   isOffset: PropTypes.bool.isRequired,
-  navConfig: PropTypes.array.isRequired,
-  data: PropTypes.array.isRequired
+  navConfig: PropTypes.array.isRequired
 };

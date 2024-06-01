@@ -29,7 +29,7 @@ export default async function RootLayout({ children }) {
     <>
       <Topbar />
       <Navbar />
-      <ActionBar data={[]} />
+      <ActionBar />
       {/* <Box sx={{ height: 100, display: { xs: 'none', md: 'flex' } }} /> */}
       {children}
       <Footer />

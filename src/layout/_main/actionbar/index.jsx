@@ -10,17 +10,8 @@ import config from 'src/layout/_main/config.json';
 import MenuDesktop from './menuDesktop';
 
 // ----------------------------------------------------------------------
-export default function Navbar({ data }) {
+export default function Navbar() {
   const { menu } = config;
-  // const dispatch = useDispatch();
-
-  // const { data, isLoading } = useQuery(['get-categories-all'], () => api.getAllCategories());
-  // React.useEffect(() => {
-  // if (!isLoading) {
-  // dispatch(setCategories(data));
-  // }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  // }, [data]);
 
   return (
     <>
@@ -38,7 +29,7 @@ export default function Navbar({ data }) {
       >
         <Container maxWidth="xl">
           <Toolbar className="toolbar" sx={{ minHeight: '48px!important', px: '0px!important' }}>
-            <MenuDesktop navConfig={menu} data={data} isLoading={false} />
+            <MenuDesktop navConfig={menu} />
           </Toolbar>
         </Container>
       </AppBar>

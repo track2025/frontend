@@ -7,9 +7,10 @@ import { Typography, Grid, Box, Stack, Paper, Button } from '@mui/material';
 import { IoIosArrowForward } from 'react-icons/io';
 // component
 import CategoryCard from 'src/components/cards/category';
-import { useSelector } from 'react-redux';
+import * as api from 'src/services';
+import { useQuery } from 'react-query';
 export default function Categories() {
-  const { newCategories, isLoading } = useSelector(({ categories }) => categories);
+  const { data, isLoading } = useQuery(['get-home-categories'], () => api.getHomeCategories());
   return (
     <Paper elevation={0}>
       <Stack
@@ -45,14 +46,14 @@ export default function Categories() {
 
         <Box>
           <Grid container spacing={2} justifyContent="center" alignItems="center">
-            {(isLoading ? Array.from(new Array(6)) : newCategories).map((inner) => (
+            {(isLoading ? Array.from(new Array(6)) : data?.data).map((inner) => (
               <React.Fragment key={Math.random()}>
                 <Grid item lg={2} md={3} sm={4} xs={4}>
                   <CategoryCard category={inner} isLoading={isLoading} />
                 </Grid>
               </React.Fragment>
             ))}
-            {!isLoading && !Boolean(newCategories.length) && (
+            {!isLoading && !Boolean(data?.data.length) && (
               <Typography variant="h3" color="error.main" textAlign="center">
                 Categories not found
               </Typography>
