@@ -24,7 +24,7 @@ export default function ShopComponent() {
         }}
       >
         <Stack direction="row" justifyContent="space-between" alignItems="center">
-          <Box>
+          <Box width="100%">
             <Typography variant="h2" color="text.primary" mt={{ xs: 5, md: 8 }}>
               Best Shops
             </Typography>

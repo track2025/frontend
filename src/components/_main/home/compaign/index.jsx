@@ -24,8 +24,13 @@ export default function CompaignsComponent({}) {
           mt: 5
         }}
       >
-        <Stack direction="row" justifyContent="space-between" alignItems="center">
-          <Box>
+        <Stack
+          direction="row"
+          justifyContent="space-between"
+          textAlign={{ xs: 'center', md: 'left' }}
+          alignItems="center"
+        >
+          <Box width="100%">
             <Typography variant="h2" color="text.primary" mt={{ xs: 5, md: 8 }}>
               All Compaigns
             </Typography>
@@ -38,7 +43,8 @@ export default function CompaignsComponent({}) {
             color="primary"
             size="large"
             sx={{
-              borderRadius: 6
+              borderRadius: 6,
+              display: { xs: 'none', md: 'flex' }
             }}
             endIcon={<IoIosArrowForward />}
             component={NextLink}
@@ -57,6 +63,23 @@ export default function CompaignsComponent({}) {
               </React.Fragment>
             ))}
           </Grid>
+          <Button
+            variant="text"
+            color="primary"
+            size="small"
+            sx={{
+              borderRadius: 6,
+              mx: 'auto',
+              mt: 3,
+              display: { md: 'none', xs: 'flex' },
+              maxWidth: '120px'
+            }}
+            endIcon={<IoIosArrowForward />}
+            component={NextLink}
+            href={`/compaigns`}
+          >
+            View More
+          </Button>
         </Box>
       </Stack>
     </Paper>

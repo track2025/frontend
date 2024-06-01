@@ -101,7 +101,7 @@ export default function Index() {
                 justifyContent: 'space-between',
                 borderRadius: '12px',
                 height: '100%',
-                py: 3,
+                py: { xs: 0, md: 3 },
                 px: { lg: 3, md: 1, xs: 1 },
                 position: 'relative'
               }}

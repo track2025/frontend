@@ -25,9 +25,7 @@ export default function IndexPage() {
       <Container maxWidth="xl">
         <Hero />
       </Container>
-
       <TopBanners />
-
       <Container maxWidth="xl">
         <WhyUs />
         <Categories />

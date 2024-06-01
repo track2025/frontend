@@ -1,7 +1,7 @@
 'use client';
 // react
 import React from 'react';
-import NextLink from 'next/link';
+import NextLink from 'src/utils/link';
 // mui
 import { Typography, Grid, Box, Stack, Paper, Button } from '@mui/material';
 import { IoIosArrowForward } from 'react-icons/io';
@@ -20,7 +20,12 @@ export default function Categories() {
           mt: 5
         }}
       >
-        <Stack direction="row" justifyContent="space-between" alignItems="center">
+        <Stack
+          direction="row"
+          justifyContent="space-between"
+          textAlign={{ xs: 'center', md: 'left' }}
+          alignItems="center"
+        >
           <Box>
             <Typography variant="h2" color="text.primary">
               Top Categories
@@ -34,7 +39,8 @@ export default function Categories() {
             color="primary"
             size="large"
             sx={{
-              borderRadius: 6
+              borderRadius: 6,
+              display: { xs: 'none', md: 'flex' }
             }}
             endIcon={<IoIosArrowForward />}
             component={NextLink}
@@ -59,6 +65,23 @@ export default function Categories() {
               </Typography>
             )}
           </Grid>
+          <Button
+            variant="text"
+            color="primary"
+            size="small"
+            sx={{
+              borderRadius: 6,
+              mx: 'auto',
+              mt: 3,
+              display: { md: 'none', xs: 'flex' },
+              maxWidth: '120px'
+            }}
+            endIcon={<IoIosArrowForward />}
+            component={NextLink}
+            href={`/categories`}
+          >
+            View More
+          </Button>
         </Box>
       </Stack>
     </Paper>
