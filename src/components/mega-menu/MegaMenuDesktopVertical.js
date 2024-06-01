@@ -83,7 +83,7 @@ export default function MegaMenuDesktopVertical({ ...other }) {
 
   React.useEffect(() => {
     if (!isLoading) {
-      dispatch(setShops(data));
+      dispatch(setShops(data?.data));
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [data]);
