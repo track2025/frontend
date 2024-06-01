@@ -15,12 +15,17 @@ export default function Index() {
 
   return (
     <Box>
-      <Stack direction="row" justifyContent="space-between" alignItems="center">
+      <Stack
+        direction="row"
+        justifyContent="space-between"
+        alignItems="center"
+        textAlign={{ xs: 'center', md: 'left' }}
+      >
         <Box>
-          <Typography variant="h2" color="text.primary" mt={8}>
+          <Typography variant="h2" color="text.primary" mt={{ xs: 4, md: 8 }}>
             Featured Products
           </Typography>
-          <Typography variant="body1" color="text.secondary" mb={5}>
+          <Typography variant="body1" color="text.secondary" mb={{ xs: 3, md: 5 }}>
             Lorem Ipsum Is Simply Dummy Text Of The Printing And Typesetting Industry.
           </Typography>
         </Box>
@@ -29,7 +34,10 @@ export default function Index() {
           color="primary"
           size="large"
           sx={{
-            borderRadius: 6
+            borderRadius: 6,
+            display: { xs: 'none', md: 'flex' },
+            minWidth: 130,
+            px: 1
           }}
           endIcon={<IoIosArrowForward />}
           component={NextLink}
@@ -46,6 +54,22 @@ export default function Index() {
       ) : (
         <ProductsCarousel data={data?.data || []} isLoading={isLoading} />
       )}
+      <Button
+        variant="text"
+        color="primary"
+        size="small"
+        sx={{
+          borderRadius: 6,
+          mx: 'auto',
+          display: { md: 'none', xs: 'flex' },
+          maxWidth: '120px'
+        }}
+        endIcon={<IoIosArrowForward />}
+        component={NextLink}
+        href={`/categories`}
+      >
+        View More
+      </Button>
     </Box>
   );
 }
