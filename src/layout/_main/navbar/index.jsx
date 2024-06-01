@@ -79,7 +79,6 @@ export default function Navbar() {
           pr: '0px !important',
           bgcolor: (theme) => alpha(theme.palette.background.paper, 1),
           borderTop: (theme) => `1px solid ${theme.palette.divider}`,
-          // borderBottom: (theme) => `1px solid ${theme.palette.divider}`,
           display: { md: 'block', xs: 'none' },
           '& .toolbar': {
             justifyContent: 'space-between',
