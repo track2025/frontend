@@ -196,7 +196,7 @@ export default function Sidebar({ handleDrawerClose, handleDrawerOpen, open }) {
   const [initial, setInitial] = React.useState(false);
   const isMobile = useMediaQuery(theme.breakpoints.down('md'));
   React.useEffect(() => {
-    setActive(pathname.split('/')[3]);
+    setActive(pathname);
     setInitial(true);
   }, [pathname]);
   return (
@@ -273,7 +273,7 @@ export default function Sidebar({ handleDrawerClose, handleDrawerOpen, open }) {
                   display: 'block',
                   borderRadius: '8px',
                   border: `1px solid transparent`,
-                  ...(active === item.slug &&
+                  ...(active === '/admin/' + item.slug &&
                     initial && {
                       bgcolor: (theme) => alpha(theme.palette.primary.main, 0.2),
                       border: (theme) => `1px solid ${theme.palette.primary.main}`,

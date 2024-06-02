@@ -1,7 +1,7 @@
 // react
 'use client';
 import PropTypes from 'prop-types';
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 // mui
 import { Paper, useMediaQuery, Grid, Fab, Stack } from '@mui/material';
 // icons

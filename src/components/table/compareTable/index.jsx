@@ -12,53 +12,24 @@ import {
   TableHead,
   Box,
   Stack,
+  Card,
   Rating,
   IconButton
 } from '@mui/material';
 import { styled } from '@mui/material/styles';
 // icons
-import { IoCartOutline } from 'react-icons/io5';
-import { FiHeart } from 'react-icons/fi';
 import { IoIosCloseCircle } from 'react-icons/io';
 
 import Image from 'next/image';
-
-import imageUrl from '../../../../public/images/product.png';
 import { useSelector, useDispatch } from 'react-redux';
 import { removeCompareProduct } from 'src/redux/slices/compare';
 import { useRouter } from 'next-nprogress-bar';
-import toast from 'react-hot-toast';
-import { setWishlist } from 'src/redux/slices/wishlist';
-import { useMutation } from 'react-query';
-// import { addCart } from 'src/redux/slices/product';
 import * as api from 'src/services';
-
 import { useQuery } from 'react-query';
+import { useCurrencyConvert } from 'src/hooks/convertCurrency';
+import { useCurrencyFormatter } from 'src/hooks/formatCurrency';
+import NoDataFoundIllustration from 'src/illustrations/dataNotFound';
 
-const products = [
-  {
-    id: 1,
-    imagePath: imageUrl,
-    title: 'Blue Sports Shoes',
-    price: '$699.00',
-    rating: 4.5,
-    shop: 'Clicon',
-    brand: 'Tissot',
-    stock: 'IN STOCK',
-    size: '6.7 inches, 110.5 cm'
-  },
-  {
-    id: 2,
-    imagePath: imageUrl,
-    title: 'Blue Sports Shoes',
-    price: '$599.00',
-    rating: 4.7,
-    shop: 'Apple',
-    brand: 'Apple',
-    stock: 'IN STOCK',
-    size: '6.7 inches, 101.8 cm'
-  }
-];
 const StyledTableRow = styled(TableRow)(({ theme }) => ({
   '&:nth-of-type(odd)': {
     backgroundColor: theme.palette.action.hover,
@@ -67,67 +38,24 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
 }));
 
 const CompareTable = () => {
-  const [isLoading, setLoading] = useState(false);
-
+  const cCurrency = useCurrencyConvert();
+  const fCurrency = useCurrencyFormatter();
   const dispatch = useDispatch();
   const router = useRouter();
-  const { products: compareProducts } = useSelector(({ compare }) => compare);
-  const { data, isLoading: compareLoading } = useQuery(['get-brands-user'], () =>
+  const { products: compareProducts, isLoading } = useSelector(({ compare }) => compare);
+  const { data: fetchedProducts } = useQuery(['get-brands-user'], () =>
     api.getCompareProducts(compareProducts.map((v) => v._id))
   );
-  console.log(data, 'data');
-  const { mutate } = useMutation(api.updateWishlist, {
-    onSuccess: (data) => {
-      toast.success(data.message);
-      setLoading(false);
-      dispatch(setWishlist(data.data));
-    },
-    onError: (err) => {
-      setLoading(false);
-      const message = JSON.stringify(err.response.data.message);
-      toast.error(t(message ? t('common:' + JSON.parse(message)) : t('common:something-wrong')));
-    }
-  });
-
-  const { isAuthenticated } = useSelector(({ user }) => user);
 
   const findProductById = compareProducts.find((product) => product._id);
-
-  const onClickWishList = async (event) => {
-    if (!isAuthenticated) {
-      event.stopPropagation();
-      router.push('/auth/login');
-    } else {
-      event.stopPropagation();
-      setLoading(true);
-      await mutate(findProductById._id);
-    }
-  };
-
-  // const handleAddCart = () => {
-  //   const colorSelected = compareProducts?.colors.find((_, index) => index === color);
-  //   const sizeSelected = compareProducts?.sizes.find((_, index) => index === size);
-  //   onAddCart({
-  //     pid: compareProducts._id,
-  //     sku: compareProducts.sku,
-  //     color: colorSelected,
-
-  //     image: compareProducts?.images[0].url,
-  //     size: sizeSelected,
-  //     quantity: values.quantity,
-  //     price: compareProducts.priceSale === 0 ? compareProducts.price : compareProducts.priceSale,
-  //     subtotal: (compareProducts.priceSale || compareProducts?.price) * values.quantity
-  //   });
-  //   setFieldValue('quantity', 1);
-  // };
 
   const onRemoveCompare = async (event) => {
     event.stopPropagation();
     dispatch(removeCompareProduct(findProductById._id));
   };
 
-  return (
-    <TableContainer>
+  return isLoading ? null : fetchedProducts?.data?.length ? (
+    <TableContainer component={Card}>
       <Table
         sx={{
           borderCollapse: 'separate',
@@ -140,8 +68,13 @@ const CompareTable = () => {
         <TableHead>
           <TableRow>
             <TableCell></TableCell>
-            {compareProducts.map((product) => (
-              <TableCell key={product.id} align="left" sx={{ minWidth: 292, maxWidth: 292 }}>
+            {fetchedProducts?.data?.map((product) => (
+              <TableCell
+                key={product._id}
+                align="left"
+                sx={{ minWidth: 292, maxWidth: 292, cursor: 'pointer' }}
+                onClick={() => router.push('/product/' + product.slug)}
+              >
                 <Stack sx={{ position: 'relative' }}>
                   <IconButton
                     onClick={onRemoveCompare}
@@ -161,7 +94,7 @@ const CompareTable = () => {
                   >
                     <Image
                       src={product.image.url}
-                      alt={product.title}
+                      alt={product.name}
                       fill
                       objectFit="cover"
                       placeholder="blur"
@@ -172,40 +105,6 @@ const CompareTable = () => {
                   <Typography variant="subtitle1" sx={{ marginY: { md: 2, xs: 1 } }} noWrap>
                     {product.name}
                   </Typography>
-                  <Stack direction="row" spacing={2}>
-                    <Button
-                      variant="contained"
-                      color="primary"
-                      size="large"
-                      sx={{
-                        paddingX: { md: 0, xs: '12px !important ' },
-                        minWidth: { md: 'auto', xs: '48px !important ' }
-                      }}
-                      // onClick={() => handleAddCart(product)}
-                    >
-                      <IoCartOutline style={{ fontSize: 24 }} />
-                      <Typography
-                        variant="body1"
-                        color="common.white"
-                        sx={{
-                          display: { md: 'block', xs: 'none' },
-                          ml: 1,
-                          fontWeight: 500
-                        }}
-                      >
-                        Add To Cart
-                      </Typography>
-                    </Button>
-                    <Button
-                      variant="outlined"
-                      size="large"
-                      disabled={isLoading}
-                      onClick={onClickWishList}
-                      sx={{ paddingX: '12px !important ', minWidth: '48px !important ' }}
-                    >
-                      <FiHeart style={{ fontSize: 20 }} />
-                    </Button>
-                  </Stack>
                 </Stack>
               </TableCell>
             ))}
@@ -216,8 +115,8 @@ const CompareTable = () => {
             <TableCell sx={{ minWidth: 292, maxWidth: 292, fontWeight: 600, fontSize: 16 }} component="th">
               Customer Feedback
             </TableCell>
-            {compareProducts.map((product) => (
-              <TableCell key={product.id} align="left" sx={{ fontSize: 16, color: 'text.secondary' }}>
+            {fetchedProducts?.data?.map((product) => (
+              <TableCell key={product._id} align="left" sx={{ fontSize: 16, color: 'text.secondary' }}>
                 <Stack direction="row" alignItems="center">
                   <Rating size="small" name="read-only" precision={0.5} value={product.averageRating} readOnly />(
                   {product.averageRating || 0})
@@ -229,9 +128,9 @@ const CompareTable = () => {
             <TableCell component="th" sx={{ minWidth: 292, maxWidth: 292, fontWeight: 600, fontSize: 16 }}>
               Price
             </TableCell>
-            {compareProducts.map((product) => (
-              <TableCell key={product.id} align="left" sx={{ fontWeight: 600, fontSize: 16, color: 'info.main' }}>
-                ${product.priceSale}
+            {fetchedProducts?.data?.map((product) => (
+              <TableCell key={product._id} align="left" sx={{ fontWeight: 600, fontSize: 16, color: 'primary.main' }}>
+                {fCurrency(cCurrency(product.priceSale))}
               </TableCell>
             ))}
           </StyledTableRow>
@@ -239,29 +138,29 @@ const CompareTable = () => {
             <TableCell component="th" sx={{ minWidth: 292, maxWidth: 292, fontWeight: 600, fontSize: 16 }}>
               Shop by
             </TableCell>
-            {products.map((product) => (
-              <TableCell key={product.id} align="left" sx={{ fontSize: 14 }}>
-                {product.shop}
-              </TableCell>
-            ))}
-          </StyledTableRow>
-          <StyledTableRow>
-            <TableCell component="th" sx={{ minWidth: 292, maxWidth: 292, fontWeight: 600, fontSize: 14 }}>
-              Brand
-            </TableCell>
-            {products.map((product) => (
-              <TableCell key={product.id} align="left" sx={{ fontSize: 16 }}>
-                {product.brand}
+            {fetchedProducts?.data?.map((product) => (
+              <TableCell key={product._id} align="left" sx={{ fontSize: 14 }}>
+                {product.shopName}
               </TableCell>
             ))}
           </StyledTableRow>
           <StyledTableRow>
             <TableCell component="th" sx={{ minWidth: 292, maxWidth: 292, fontWeight: 600, fontSize: 16 }}>
-              Stock status
+              Brand
             </TableCell>
-            {products.map((product) => (
-              <TableCell key={product.id} align="left" sx={{ fontSize: 16, color: 'success.main' }}>
-                {product.stock}
+            {fetchedProducts?.data?.map((product) => (
+              <TableCell key={product._id} align="left" sx={{ fontSize: 16 }}>
+                {product.brandName}
+              </TableCell>
+            ))}
+          </StyledTableRow>
+          <StyledTableRow>
+            <TableCell component="th" sx={{ minWidth: 292, maxWidth: 292, fontWeight: 600, fontSize: 16 }}>
+              Available Stock
+            </TableCell>
+            {fetchedProducts?.data?.map((product) => (
+              <TableCell key={product._id} align="left" sx={{ fontSize: 16, color: 'primary.main' }}>
+                {product.available}
               </TableCell>
             ))}
           </StyledTableRow>
@@ -269,15 +168,27 @@ const CompareTable = () => {
             <TableCell component="th" sx={{ minWidth: 292, maxWidth: 292, fontWeight: 600, fontSize: 16 }}>
               Sizes
             </TableCell>
-            {products.map((product) => (
-              <TableCell key={product.id} align="left" sx={{ fontSize: 14 }}>
-                {product.size}
+            {fetchedProducts?.data?.map((product) => (
+              <TableCell key={product._id} align="left" sx={{ fontSize: 14 }}>
+                {product.sizes.join(', ')}
+              </TableCell>
+            ))}
+          </StyledTableRow>
+          <StyledTableRow>
+            <TableCell component="th" sx={{ minWidth: 292, maxWidth: 292, fontWeight: 600, fontSize: 16 }}>
+              Colors
+            </TableCell>
+            {fetchedProducts?.data?.map((product) => (
+              <TableCell key={product._id} align="left" sx={{ fontSize: 14 }}>
+                {product.colors.join(', ')}
               </TableCell>
             ))}
           </StyledTableRow>
         </TableBody>
       </Table>
     </TableContainer>
+  ) : (
+    <NoDataFoundIllustration />
   );
 };
 

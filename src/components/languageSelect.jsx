@@ -6,7 +6,7 @@ import { MdClear } from 'react-icons/md';
 import { MdCurrencyExchange } from 'react-icons/md';
 import Typography from '@mui/material/Typography';
 import { Grid, Button, Stack, alpha, Skeleton } from '@mui/material';
-import { usePathname } from 'next/navigation';
+
 import * as api from 'src/services';
 // usequery
 import { useQuery } from 'react-query';

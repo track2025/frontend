@@ -3,7 +3,7 @@ import React from 'react';
 export default function NotFoundSVG() {
   return (
     <svg width="592" height="421" viewBox="0 0 592 421" fill="none" xmlns="http://www.w3.org/2000/svg">
-      <g clip-path="url(#clip0_2578_358)">
+      <g clipPath="url(#clip0_2578_358)">
         <path
           d="M481.992 274.158L472.797 247.185L457.443 252.416L426.082 160.396L391.119 172.308L391.224 172.621L379.947 221.299L363.902 290.549L373.262 311.215L406.276 299.965L418.294 295.868L431.673 291.307L442.596 323.365L477.56 311.453L466.636 279.395L481.992 274.158ZM418.418 265.717L410.487 268.42L395.298 273.597L405.665 222.124L406.64 217.853L422.478 264.332L418.418 265.717Z"
           fill="#EE1E50"
@@ -77,8 +77,8 @@ export default function NotFoundSVG() {
           opacity="0.25"
           d="M122.529 236.162C122.529 236.162 104.832 232.839 101.336 234.446C97.84 236.052 107.732 264.019 107.732 264.019"
           stroke="white"
-          stroke-width="0.4597"
-          stroke-miterlimit="10"
+          strokeWidth="0.4597"
+          strokeMiterlimit="10"
         />
         <path
           opacity="0.25"
@@ -166,7 +166,7 @@ export default function NotFoundSVG() {
           d="M400.596 139.243C400.412 139.386 400.188 139.492 399.907 139.556C398.588 139.855 397.659 139.598 397.158 139.363C397.048 139.028 396.965 138.811 396.965 138.811V138.807C397.016 138.834 397.071 138.857 397.126 138.88C398.703 139.519 399.613 138.651 400.155 137.671H400.16C399.99 138.011 400.445 138.438 400.596 139.243Z"
           fill="#010101"
         />
-        <path d="M413.67 -30.378V173.682" stroke="#EE1E50" stroke-miterlimit="10" />
+        <path d="M413.67 -30.378V173.682" stroke="#EE1E50" strokeMiterlimit="10" />
         <path
           d="M422.272 149.394C422.263 149.449 422.25 149.504 422.24 149.555C421.698 152.024 419.721 152.286 419.348 152.125C418.976 151.964 417.992 150.833 417.132 146.848C417.113 146.769 417.1 146.691 417.081 146.609C417.081 146.609 415.224 141.846 414.351 139.556C412.195 138.278 411.786 138.798 411.482 137.322C411.183 135.846 412.14 133.938 412.687 133.662C413.234 133.391 415.689 135.685 416.02 136.531C416.346 137.376 422.764 146.773 422.272 149.394Z"
           fill="url(#paint7_linear_2578_358)"
@@ -189,7 +189,7 @@ export default function NotFoundSVG() {
           d="M286.791 312.847C286.791 312.847 287.545 314.818 291.505 315.91C295.466 317.002 299.18 310.876 301.802 312.847C304.424 314.818 308.62 322.987 312.312 321.743C316.004 320.499 317.096 340.163 315.349 342.348C313.601 344.533 312.344 326.873 307.729 327.401C303.113 327.927 306.609 341.255 303.987 343.659C301.365 346.063 302.458 337.76 299.618 336.23C296.777 334.701 302.677 403.088 298.306 404.18C293.936 405.273 291.096 401.121 292.844 386.483C294.592 371.845 292.406 321.373 289.784 318.751C287.164 316.129 287.328 315.637 286.791 312.847Z"
           fill="#EE1E50"
         />
-        <path d="M285.705 -30.378V208.195" stroke="#2288EB" stroke-width="0.9195" stroke-miterlimit="10" />
+        <path d="M285.705 -30.378V208.195" stroke="#2288EB" strokeWidth="0.9195" strokeMiterlimit="10" />
         <path
           d="M342.425 115.938C342.425 115.938 338.944 106.393 339.23 105.655C339.517 104.918 343.341 103.525 343.622 103.934C343.901 104.344 346.318 111.759 345.908 112.291C345.498 112.824 342.425 115.938 342.425 115.938Z"
           fill="#262166"
@@ -263,15 +263,15 @@ export default function NotFoundSVG() {
           opacity="0.25"
           d="M307.728 168.785C307.728 168.785 295.929 191.956 291.504 207.859"
           stroke="#010101"
-          stroke-width="0.4597"
-          stroke-miterlimit="10"
+          strokeWidth="0.4597"
+          strokeMiterlimit="10"
         />
         <path
           opacity="0.25"
           d="M310.512 168.785C310.512 168.785 323.621 177.388 324.114 178.781C324.605 180.174 317.313 199.538 317.313 199.538"
           stroke="#010101"
-          stroke-width="0.4597"
-          stroke-miterlimit="10"
+          strokeWidth="0.4597"
+          strokeMiterlimit="10"
         />
         <path
           opacity="0.25"
@@ -316,7 +316,7 @@ export default function NotFoundSVG() {
           d="M210.721 264.853L226.26 267.519L221.571 294.814L206.032 292.148L200.46 324.583L188.111 322.462L209.816 187.033L226.715 171.742L210.721 264.853Z"
           fill="#010101"
         />
-        <path d="M200.148 -30.378V180.708" stroke="#EE1E50" stroke-width="0.9195" stroke-miterlimit="10" />
+        <path d="M200.148 -30.378V180.708" stroke="#EE1E50" strokeWidth="0.9195" strokeMiterlimit="10" />
         <path
           d="M259.631 138.623C263.161 138.623 266.022 135.762 266.022 132.232C266.022 128.702 263.161 125.841 259.631 125.841C256.102 125.841 253.24 128.702 253.24 132.232C253.24 135.762 256.102 138.623 259.631 138.623Z"
           fill="#EE1E50"
@@ -371,8 +371,8 @@ export default function NotFoundSVG() {
           y2="364.077"
           gradientUnits="userSpaceOnUse"
         >
-          <stop stop-color="#FCAF17" />
-          <stop offset="1" stop-color="#F47920" />
+          <stop stopColor="#FCAF17" />
+          <stop offset="1" stopColor="#F47920" />
         </linearGradient>
         <linearGradient
           id="paint1_linear_2578_358"
@@ -382,8 +382,8 @@ export default function NotFoundSVG() {
           y2="195.653"
           gradientUnits="userSpaceOnUse"
         >
-          <stop stop-color="#FBC4AF" />
-          <stop offset="1" stop-color="#EA8B69" />
+          <stop stopColor="#FBC4AF" />
+          <stop offset="1" stopColor="#EA8B69" />
         </linearGradient>
         <linearGradient
           id="paint2_linear_2578_358"
@@ -393,8 +393,8 @@ export default function NotFoundSVG() {
           y2="201.898"
           gradientUnits="userSpaceOnUse"
         >
-          <stop stop-color="#FBC4AF" />
-          <stop offset="1" stop-color="#EA8B69" />
+          <stop stopColor="#FBC4AF" />
+          <stop offset="1" stopColor="#EA8B69" />
         </linearGradient>
         <linearGradient
           id="paint3_linear_2578_358"
@@ -404,8 +404,8 @@ export default function NotFoundSVG() {
           y2="207.539"
           gradientUnits="userSpaceOnUse"
         >
-          <stop stop-color="#FBC4AF" />
-          <stop offset="1" stop-color="#EA8B69" />
+          <stop stopColor="#FBC4AF" />
+          <stop offset="1" stopColor="#EA8B69" />
         </linearGradient>
         <linearGradient
           id="paint4_linear_2578_358"
@@ -415,8 +415,8 @@ export default function NotFoundSVG() {
           y2="131.006"
           gradientUnits="userSpaceOnUse"
         >
-          <stop stop-color="#FBC4AF" />
-          <stop offset="1" stop-color="#EA8B69" />
+          <stop stopColor="#FBC4AF" />
+          <stop offset="1" stopColor="#EA8B69" />
         </linearGradient>
         <linearGradient
           id="paint5_linear_2578_358"
@@ -426,8 +426,8 @@ export default function NotFoundSVG() {
           y2="136.366"
           gradientUnits="userSpaceOnUse"
         >
-          <stop stop-color="#FBC4AF" />
-          <stop offset="1" stop-color="#EA8B69" />
+          <stop stopColor="#FBC4AF" />
+          <stop offset="1" stopColor="#EA8B69" />
         </linearGradient>
         <linearGradient
           id="paint6_linear_2578_358"
@@ -437,8 +437,8 @@ export default function NotFoundSVG() {
           y2="143.547"
           gradientUnits="userSpaceOnUse"
         >
-          <stop stop-color="#FBC4AF" />
-          <stop offset="1" stop-color="#EA8B69" />
+          <stop stopColor="#FBC4AF" />
+          <stop offset="1" stopColor="#EA8B69" />
         </linearGradient>
         <linearGradient
           id="paint7_linear_2578_358"
@@ -448,8 +448,8 @@ export default function NotFoundSVG() {
           y2="159.839"
           gradientUnits="userSpaceOnUse"
         >
-          <stop stop-color="#FBC4AF" />
-          <stop offset="1" stop-color="#EA8B69" />
+          <stop stopColor="#FBC4AF" />
+          <stop offset="1" stopColor="#EA8B69" />
         </linearGradient>
         <linearGradient
           id="paint8_linear_2578_358"
@@ -459,8 +459,8 @@ export default function NotFoundSVG() {
           y2="106.043"
           gradientUnits="userSpaceOnUse"
         >
-          <stop stop-color="#FBC4AF" />
-          <stop offset="1" stop-color="#EA8B69" />
+          <stop stopColor="#FBC4AF" />
+          <stop offset="1" stopColor="#EA8B69" />
         </linearGradient>
         <linearGradient
           id="paint9_linear_2578_358"
@@ -470,8 +470,8 @@ export default function NotFoundSVG() {
           y2="102.787"
           gradientUnits="userSpaceOnUse"
         >
-          <stop stop-color="#FBC4AF" />
-          <stop offset="1" stop-color="#EA8B69" />
+          <stop stopColor="#FBC4AF" />
+          <stop offset="1" stopColor="#EA8B69" />
         </linearGradient>
         <linearGradient
           id="paint10_linear_2578_358"
@@ -481,8 +481,8 @@ export default function NotFoundSVG() {
           y2="107.252"
           gradientUnits="userSpaceOnUse"
         >
-          <stop stop-color="#FBC4AF" />
-          <stop offset="1" stop-color="#EA8B69" />
+          <stop stopColor="#FBC4AF" />
+          <stop offset="1" stopColor="#EA8B69" />
         </linearGradient>
         <linearGradient
           id="paint11_linear_2578_358"
@@ -492,8 +492,8 @@ export default function NotFoundSVG() {
           y2="122.636"
           gradientUnits="userSpaceOnUse"
         >
-          <stop stop-color="#FBC4AF" />
-          <stop offset="1" stop-color="#EA8B69" />
+          <stop stopColor="#FBC4AF" />
+          <stop offset="1" stopColor="#EA8B69" />
         </linearGradient>
         <linearGradient
           id="paint12_linear_2578_358"
@@ -503,8 +503,8 @@ export default function NotFoundSVG() {
           y2="114.531"
           gradientUnits="userSpaceOnUse"
         >
-          <stop stop-color="#FBC4AF" />
-          <stop offset="1" stop-color="#EA8B69" />
+          <stop stopColor="#FBC4AF" />
+          <stop offset="1" stopColor="#EA8B69" />
         </linearGradient>
         <linearGradient
           id="paint13_linear_2578_358"
@@ -514,8 +514,8 @@ export default function NotFoundSVG() {
           y2="126.702"
           gradientUnits="userSpaceOnUse"
         >
-          <stop stop-color="#FBC4AF" />
-          <stop offset="1" stop-color="#EA8B69" />
+          <stop stopColor="#FBC4AF" />
+          <stop offset="1" stopColor="#EA8B69" />
         </linearGradient>
         <linearGradient
           id="paint14_linear_2578_358"
@@ -525,8 +525,8 @@ export default function NotFoundSVG() {
           y2="92.3354"
           gradientUnits="userSpaceOnUse"
         >
-          <stop stop-color="white" stop-opacity="0" />
-          <stop offset="1" stop-color="#9DC2E7" />
+          <stop stopColor="white" stopOpacity="0" />
+          <stop offset="1" stopColor="#9DC2E7" />
         </linearGradient>
         <linearGradient
           id="paint15_linear_2578_358"
@@ -536,8 +536,8 @@ export default function NotFoundSVG() {
           y2="200.72"
           gradientUnits="userSpaceOnUse"
         >
-          <stop stop-color="white" stop-opacity="0" />
-          <stop offset="1" stop-color="#9DC2E7" />
+          <stop stopColor="white" stopOpacity="0" />
+          <stop offset="1" stopColor="#9DC2E7" />
         </linearGradient>
         <linearGradient
           id="paint16_linear_2578_358"
@@ -547,8 +547,8 @@ export default function NotFoundSVG() {
           y2="338.296"
           gradientUnits="userSpaceOnUse"
         >
-          <stop stop-color="white" stop-opacity="0" />
-          <stop offset="1" stop-color="#9DC2E7" />
+          <stop stopColor="white" stopOpacity="0" />
+          <stop offset="1" stopColor="#9DC2E7" />
         </linearGradient>
         <linearGradient
           id="paint17_linear_2578_358"
@@ -558,8 +558,8 @@ export default function NotFoundSVG() {
           y2="355.959"
           gradientUnits="userSpaceOnUse"
         >
-          <stop stop-color="white" stop-opacity="0" />
-          <stop offset="1" stop-color="#9DC2E7" />
+          <stop stopColor="white" stopOpacity="0" />
+          <stop offset="1" stopColor="#9DC2E7" />
         </linearGradient>
         <clipPath id="clip0_2578_358">
           <rect width="591.837" height="420.775" fill="white" transform="translate(0.0820312)" />

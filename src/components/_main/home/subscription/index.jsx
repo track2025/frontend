@@ -26,6 +26,7 @@ export default function Subscription() {
   const handleClose = () => {
     setOpen(false);
     localStorage.setItem('subscriptionDismissedAt', Date.now().toString());
+    return null;
   };
   // useEffect to open the dialog when the component mounts
   React.useEffect(() => {

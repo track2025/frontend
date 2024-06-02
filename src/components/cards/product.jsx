@@ -90,14 +90,15 @@ export default function ShopProductCard({ ...props }) {
   };
   const onAddCompare = async (event) => {
     event.stopPropagation();
+    toast.success('Added to compare list');
     dispatch(addCompareProduct(product));
   };
 
   const onRemoveCompare = async (event) => {
     event.stopPropagation();
+    toast.success('Removed from compare list');
     dispatch(removeCompareProduct(_id));
   };
-
   return (
     <Card
       onMouseEnter={() => !isLoading && setOpenActions(true)}

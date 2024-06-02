@@ -32,7 +32,7 @@ import { enUS } from 'date-fns/locale';
 import { useRouter } from 'next-nprogress-bar';
 // component
 import { Popover as MenuPopover } from 'src/components/popover';
-import NoDataFoundIllustration from 'src/illustrations/noDataFound';
+import NoDataFoundIllustration from 'src/illustrations/dataNotFound';
 // ----------------------------------------------------------------------
 
 // ----------------------------------------------------------------------

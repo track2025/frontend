@@ -2,7 +2,7 @@ import React, { useState, useEffect, useCallback } from 'react';
 // mui
 import { Divider, Card, Table, TableBody, TableContainer, Stack, Typography } from '@mui/material';
 // components
-import NotFound from 'src/illustrations/noDataFound';
+import NotFound from 'src/illustrations/dataNotFound';
 import Pagination from 'src/components/pagination';
 
 import PropTypes from 'prop-types';

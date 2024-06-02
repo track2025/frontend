@@ -15,7 +15,7 @@ import { RxHamburgerMenu } from 'react-icons/rx';
 import dynamic from 'next/dynamic';
 
 // components
-import MainLogo from 'src/components/mainLogo';
+import Logo from 'src/components/logo';
 
 // import Search from 'src/components/search';
 const UserSelect = dynamic(() => import('src/components/select/userSelect'), {
@@ -60,7 +60,7 @@ export default function Topbar({ open, handleDrawerOpen, handleDrawerClose }) {
           >
             <RxHamburgerMenu size={20} />
           </IconButton>
-          {!isMobile && <MainLogo />}
+          {!isMobile && <Logo />}
           {/* {isSearch && <Search />} */}
         </Stack>
         <Stack direction="row" alignItems="center" gap={1}>
