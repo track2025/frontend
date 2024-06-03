@@ -1,9 +1,11 @@
 import React, { useState } from 'react';
+import PropTypes from 'prop-types';
+
 // mui
 import { Stack, Button, Zoom, Skeleton } from '@mui/material';
-// react
+
+// icons
 import { MdKeyboardDoubleArrowRight, MdKeyboardDoubleArrowLeft } from 'react-icons/md';
-import PropTypes from 'prop-types';
 
 SizePreview.propTypes = {
   sizes: PropTypes.array.isRequired,
@@ -14,7 +16,6 @@ SizePreview.propTypes = {
 };
 
 export default function SizePreview({ sizes, size, setSize, isDetail, loading }) {
-  // const sizes = ["xxs", "xs", "sm", "md", "lg", "xl", "xxl", "4xl"];
   const [sizeCount, setSizeCount] = useState(0);
   return (
     <Stack
@@ -74,7 +75,6 @@ export default function SizePreview({ sizes, size, setSize, isDetail, loading })
                     textTransform: 'uppercase',
                     fontSize: size === i ? 14 : 12,
                     borderWidth: 0
-                    // borderColor: (theme) => (size === i ? 'transparent' : theme.palette.divider)
                   }}
                 >
                   {v}

@@ -1,5 +1,6 @@
 import PropTypes from 'prop-types';
-// material
+
+// mui
 import { alpha, styled } from '@mui/material/styles';
 import { Box, Typography } from '@mui/material';
 

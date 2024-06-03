@@ -1,16 +1,20 @@
 import React, { useCallback } from 'react';
 import PropTypes from 'prop-types';
-import Slider, { SliderThumb } from '@mui/material/Slider';
-import { styled } from '@mui/material/styles';
-import Typography from '@mui/material/Typography';
-import Tooltip from '@mui/material/Tooltip';
-import { Box, Stack, Zoom, Button } from '@mui/material';
 import { useSearchParams } from 'next/navigation';
 import { useRouter } from 'next-nprogress-bar';
+
+// mui
+import Slider, { SliderThumb } from '@mui/material/Slider';
+import { styled } from '@mui/material/styles';
+import { Box, Stack, Zoom, Button, Typography, Tooltip } from '@mui/material';
+
 // icons
 import { IoPricetagOutline } from 'react-icons/io5';
+
+// custom hooks
 import { useCurrencyFormatter } from 'src/hooks/formatCurrency';
 import { useCurrencyConvert } from 'src/hooks/convertCurrency';
+
 CustomizedSlider.propTypes = {
   prices: PropTypes.array.isRequired,
   path: PropTypes.string.isRequired

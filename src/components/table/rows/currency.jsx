@@ -1,18 +1,17 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { capitalize } from 'lodash';
+import { useRouter } from 'next-nprogress-bar';
+
 // mui
 import { TableRow, Skeleton, TableCell, Stack, IconButton, Tooltip, useTheme } from '@mui/material';
+
+// components
+import Label from 'src/components/label';
+
 // icons
 import { MdEdit } from 'react-icons/md';
 import { MdDelete } from 'react-icons/md';
-// components
-// import { fDateShort } from 'src/utils/formatTime';
-// next
-import { useRouter } from 'next-nprogress-bar';
-// components
-import Label from 'src/components/label';
-// lodash
-import { capitalize } from 'lodash';
 
 export default function BrandsRow({ isLoading, row, handleClickOpen }) {
   const router = useRouter();

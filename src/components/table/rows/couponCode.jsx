@@ -1,16 +1,17 @@
 import React from 'react';
+import PropTypes from 'prop-types';
+import { useRouter } from 'next-nprogress-bar';
+
 // mui
 import { Box, TableRow, Skeleton, TableCell, Typography, Stack, IconButton, Tooltip } from '@mui/material';
-// icons
-import { MdEdit } from 'react-icons/md';
-import { MdDelete } from 'react-icons/md';
+
 // components
 import { fDateShort } from 'src/utils/formatTime';
 import { fCurrency } from 'src/utils/formatNumber';
-// next
-import { useRouter } from 'next-nprogress-bar';
 
-import PropTypes from 'prop-types';
+// icons
+import { MdEdit } from 'react-icons/md';
+import { MdDelete } from 'react-icons/md';
 
 CategoryRow.propTypes = {
   isLoading: PropTypes.bool.isRequired,

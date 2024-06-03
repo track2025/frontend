@@ -1,5 +1,7 @@
 'use client';
 import React from 'react';
+import PropTypes from 'prop-types';
+
 // mui
 import {
   Table,
@@ -15,12 +17,13 @@ import {
 } from '@mui/material';
 import { styled } from '@mui/material/styles';
 // components
-import { useCurrencyFormatter } from 'src/hooks/formatCurrency';
 import BlurImage from 'src/components/blurImage';
+
+// custom hooks
+import { useCurrencyFormatter } from 'src/hooks/formatCurrency';
+
 // styled
 import RootStyled from './styled';
-
-import PropTypes from 'prop-types';
 
 TableDetails.propTypes = {
   data: PropTypes.arrayOf(

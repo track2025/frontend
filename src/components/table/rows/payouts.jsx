@@ -1,16 +1,21 @@
 import React from 'react';
+import PropTypes from 'prop-types';
+import { useRouter } from 'next-nprogress-bar';
+
 // mui
 import { useTheme } from '@mui/material/styles';
 import { TableRow, Skeleton, TableCell, Stack, IconButton, Tooltip } from '@mui/material';
+
 // components
 import Label from 'src/components/label';
-import { MdEdit } from 'react-icons/md';
-import { IoEye } from 'react-icons/io5';
-import { useRouter } from 'next-nprogress-bar';
+
 // utils
 import { fCurrency } from 'src/utils/formatNumber';
 import { fDateShort } from 'src/utils/formatTime';
-import PropTypes from 'prop-types';
+
+// icons
+import { MdEdit } from 'react-icons/md';
+import { IoEye } from 'react-icons/io5';
 
 IncomeList.propTypes = {
   isLoading: PropTypes.bool.isRequired,

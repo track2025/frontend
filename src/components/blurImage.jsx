@@ -1,8 +1,7 @@
 'use client';
-// import { useState } from 'react';
 import PropTypes from 'prop-types';
-// next
 import Image from 'next/image';
+
 // mui
 import useMediaQuery from '@mui/material/useMediaQuery';
 export default function BlurImage({ ...props }) {
@@ -13,5 +12,4 @@ BlurImage.propTypes = {
   src: PropTypes.string.isRequired,
   alt: PropTypes.string.isRequired,
   static: PropTypes.boolean
-  // Additional Image props can be added based on your usage
 };

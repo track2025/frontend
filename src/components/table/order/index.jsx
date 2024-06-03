@@ -1,14 +1,18 @@
 'use client';
 import React from 'react';
+import PropTypes from 'prop-types';
+
 //  mui
 import { Typography, Skeleton, Divider, Table, TableBody, TableRow, TableCell } from '@mui/material';
+
 // components
 import OrderDetailsTable from '../orderDetail';
+
+// custom hooks
 import { useCurrencyFormatter } from 'src/hooks/formatCurrency';
+
 // styled
 import RootStyled from './styled';
-
-import PropTypes from 'prop-types';
 
 TableCard.propTypes = {
   data: PropTypes.shape({

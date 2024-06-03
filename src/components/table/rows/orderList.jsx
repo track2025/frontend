@@ -1,17 +1,22 @@
 import React from 'react';
+import PropTypes from 'prop-types';
+import { useRouter } from 'next-nprogress-bar';
+
 // mui
 import { useTheme, styled } from '@mui/material/styles';
 import { Box, TableRow, Skeleton, TableCell, Typography, Stack, IconButton, Tooltip } from '@mui/material';
+
 // components
-import { IoEye } from 'react-icons/io5';
+
 import Label from 'src/components/label';
 import BlurImage from 'src/components/blurImage';
 import { fDateShort } from 'src/utils/formatTime';
-import { useRouter } from 'next-nprogress-bar';
+
 // utils
 import { fCurrency } from 'src/utils/formatNumber';
 
-import PropTypes from 'prop-types';
+// icons
+import { IoEye } from 'react-icons/io5';
 
 OrderList.propTypes = {
   isLoading: PropTypes.bool.isRequired,

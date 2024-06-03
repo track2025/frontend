@@ -1,8 +1,13 @@
 import React from 'react';
-import { GoGitCompare } from 'react-icons/go';
-import { IconButton, alpha, Stack, Typography } from '@mui/material';
 import { useSelector } from 'react-redux';
 import Link from 'next/link';
+
+// mui
+import { IconButton, alpha, Stack, Typography } from '@mui/material';
+
+// icons
+import { GoGitCompare } from 'react-icons/go';
+
 export default function WishlistWidget() {
   const { products: compareProducts } = useSelector(({ compare }) => compare);
   return (

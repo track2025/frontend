@@ -1,4 +1,9 @@
 'use client';
+import { useRouter } from 'next-nprogress-bar';
+import { useSelector, useDispatch } from 'react-redux';
+import { removeCompareProduct } from 'src/redux/slices/compare';
+import Image from 'next/image';
+
 // mui
 import {
   Typography,
@@ -15,17 +20,19 @@ import {
   IconButton
 } from '@mui/material';
 import { styled } from '@mui/material/styles';
+
 // icons
 import { IoIosCloseCircle } from 'react-icons/io';
 
-import Image from 'next/image';
-import { useSelector, useDispatch } from 'react-redux';
-import { removeCompareProduct } from 'src/redux/slices/compare';
-import { useRouter } from 'next-nprogress-bar';
+// api
 import * as api from 'src/services';
 import { useQuery } from 'react-query';
+
+// custom hooks
 import { useCurrencyConvert } from 'src/hooks/convertCurrency';
 import { useCurrencyFormatter } from 'src/hooks/formatCurrency';
+
+// components
 import NoDataFoundIllustration from 'src/illustrations/dataNotFound';
 
 const StyledTableRow = styled(TableRow)(({ theme }) => ({

@@ -1,3 +1,6 @@
+import PropTypes from 'prop-types';
+import { useRouter } from 'next-nprogress-bar';
+
 // mui
 import {
   Box,
@@ -11,16 +14,17 @@ import {
   Tooltip,
   Link
 } from '@mui/material';
-// redux
+
 // components
 import Label from 'src/components/label';
+import BlurImage from 'src/components/blurImage';
+
+import BlurImageAvatar from 'src/components/avatar';
+
+// icons
 import { MdEdit } from 'react-icons/md';
 import { MdDelete } from 'react-icons/md';
 import { IoEye } from 'react-icons/io5';
-import { useRouter } from 'next-nprogress-bar';
-import BlurImage from 'src/components/blurImage';
-import PropTypes from 'prop-types';
-import BlurImageAvatar from 'src/components/avatar';
 export default function ProductRow({ isLoading, row, handleClickOpen }) {
   const router = useRouter();
   return (

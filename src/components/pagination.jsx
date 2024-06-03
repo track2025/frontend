@@ -1,11 +1,10 @@
 import React, { useCallback } from 'react';
-// mui
-import Pagination from '@mui/material/Pagination';
-// next
 import { useSearchParams, usePathname } from 'next/navigation';
 import { useRouter } from 'next-nprogress-bar';
-
 import PropTypes from 'prop-types';
+
+// mui
+import Pagination from '@mui/material/Pagination';
 
 PaginationRounded.propTypes = {
   data: PropTypes.shape({

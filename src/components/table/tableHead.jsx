@@ -1,4 +1,5 @@
 import PropTypes from 'prop-types';
+
 // mui
 import { TableRow, TableCell, TableHead, useTheme } from '@mui/material';
 import { createGradient } from 'src/theme/palette';
