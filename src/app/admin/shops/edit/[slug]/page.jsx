@@ -1,13 +1,15 @@
 'use client';
 import React from 'react';
+import toast from 'react-hot-toast';
+import PropTypes from 'prop-types';
+
+// components
 import EditAdminShopForm from 'src/components/forms/adminShop';
 import HeaderBreadcrumbs from 'src/components/headerBreadcrumbs';
 
+// api
 import * as api from 'src/services';
-// usequery
 import { useQuery } from 'react-query';
-import toast from 'react-hot-toast';
-import PropTypes from 'prop-types';
 
 Page.propTypes = {
   params: PropTypes.shape({

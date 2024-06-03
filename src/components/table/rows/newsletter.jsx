@@ -1,13 +1,15 @@
 import React from 'react';
+import PropTypes from 'prop-types';
+import { enUS } from 'date-fns/locale';
+
 // mui
 import { Box, TableRow, Skeleton, TableCell, Typography, IconButton, Tooltip } from '@mui/material';
-// components
+
+// utils
 import { fDateTime } from 'src/utils/formatTime';
-import { enUS } from 'date-fns/locale';
+
 // icons
 import { MdContentCopy } from 'react-icons/md';
-
-import PropTypes from 'prop-types';
 
 Newsletter.propTypes = {
   isLoading: PropTypes.bool.isRequired,

@@ -1,8 +1,10 @@
+import PropTypes from 'prop-types';
+
 // mui
-import { MAvatar } from './@material-extend';
 import { Typography } from '@mui/material';
 
-import PropTypes from 'prop-types';
+// extend
+import { MAvatar } from './@material-extend';
 
 MyAvatar.propTypes = {
   data: PropTypes.shape({

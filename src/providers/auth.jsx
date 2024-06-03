@@ -1,8 +1,10 @@
 import { useEffect } from 'react';
+
 // redux
 import { useDispatch, useSelector } from '../redux';
 import { setLogout } from '../redux/slices/user';
 import { setWishlist } from '../redux/slices/wishlist';
+
 // cookies
 import { deleteCookies } from 'src/hooks/cookies';
 

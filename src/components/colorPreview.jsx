@@ -1,7 +1,9 @@
 import PropTypes from 'prop-types';
 import React, { useState } from 'react';
+
 // mui
 import { Box, Stack, IconButton, Skeleton } from '@mui/material';
+
 // icons
 import { FaCheck } from 'react-icons/fa6';
 import { MdKeyboardDoubleArrowRight, MdKeyboardDoubleArrowLeft } from 'react-icons/md';

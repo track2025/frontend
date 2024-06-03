@@ -1,23 +1,20 @@
 'use client';
 import React from 'react';
 import PropTypes from 'prop-types';
+import dynamic from 'next/dynamic';
+
 // mui
-import { styled, alpha, useMediaQuery, useTheme } from '@mui/material';
+import { styled, alpha, useMediaQuery, useTheme, Toolbar, IconButton, Skeleton, Stack } from '@mui/material';
 import MuiAppBar from '@mui/material/AppBar';
-import Toolbar from '@mui/material/Toolbar';
-import IconButton from '@mui/material/IconButton';
-import Skeleton from '@mui/material/Skeleton';
-import Stack from '@mui/material/Stack';
-import NotificationsPopover from './NotificationPopover';
+
 // icons
 import { RxHamburgerMenu } from 'react-icons/rx';
-// next
-import dynamic from 'next/dynamic';
 
 // components
 import Logo from 'src/components/logo';
+import NotificationsPopover from './NotificationPopover';
 
-// import Search from 'src/components/search';
+// dynamic import
 const UserSelect = dynamic(() => import('src/components/select/userSelect'), {
   ssr: false,
   loading: () => <Skeleton variant="circular" width={50} height={50} />
@@ -26,6 +23,7 @@ const SettingMode = dynamic(() => import('src/components/settings/themeModeSetti
   ssr: false,
   loading: () => <Skeleton variant="circular" width={40} height={40} />
 });
+
 const AppBar = styled(MuiAppBar, {
   shouldForwardProp: (prop) => prop !== 'open'
 })(({ theme }) => ({
@@ -44,7 +42,6 @@ export default function Topbar({ open, handleDrawerOpen, handleDrawerClose }) {
   const theme = useTheme();
 
   const isMobile = useMediaQuery(theme.breakpoints.down('md'));
-  // const isSearch = Boolean(isActive[0]?.isSearch);
   return (
     <AppBar position="fixed" open={open} sx={{ borderRadius: 0, boxShadow: 'none', zIndex: 999 }}>
       <Toolbar sx={{ justifyContent: 'space-between' }}>
@@ -61,7 +58,6 @@ export default function Topbar({ open, handleDrawerOpen, handleDrawerClose }) {
             <RxHamburgerMenu size={20} />
           </IconButton>
           {!isMobile && <Logo />}
-          {/* {isSearch && <Search />} */}
         </Stack>
         <Stack direction="row" alignItems="center" gap={1}>
           <SettingMode isAdmin />

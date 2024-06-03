@@ -3,10 +3,13 @@ import PropTypes from 'prop-types';
 // mui
 import { alpha, styled } from '@mui/material/styles';
 import { Paper, Box, Typography } from '@mui/material';
+
 // component
 import { UploadIllustration } from 'src/illustrations';
-// react
+
+// react dropzone
 import { useDropzone } from 'react-dropzone';
+
 // utils
 import { fData } from 'src/utils/formatNumber';
 

@@ -1,13 +1,14 @@
 'use client';
 import { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
+import { useRouter } from 'next-nprogress-bar';
+import { toast } from 'react-hot-toast';
 
 // redux
 import { useSelector } from 'src/redux';
-import { toast } from 'react-hot-toast';
+
+// components
 import Loading from 'src/components/loading';
-// next
-import { useRouter } from 'next-nprogress-bar';
 
 export default function Guest({ children }) {
   const router = useRouter();

@@ -1,5 +1,8 @@
 import React from 'react';
+
+// components
 import Dashboard from 'src/components/_admin/dashboard';
+
 // Meta information
 export const metadata = {
   title: 'Nextall - Dashboard',

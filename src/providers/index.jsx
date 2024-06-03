@@ -1,20 +1,28 @@
 'use client';
 import { useState } from 'react';
 import PropTypes from 'prop-types';
+import dynamic from 'next/dynamic';
+
+// mui
+import { LinearProgress, Stack } from '@mui/material';
+import ThemeRegistry from 'src/theme';
+
 // redux
 import { Provider } from 'react-redux';
 import { reduxStore, persistor } from 'src/redux';
-// react
 import { PersistGate } from 'redux-persist/integration/react';
-import { QueryClient, QueryClientProvider } from 'react-query';
-import { Toaster } from 'react-hot-toast';
-// components
-import ThemeRegistry from 'src/theme';
-import GlobalStyles from 'src/theme/globalStyles';
-import { LinearProgress, Stack } from '@mui/material';
-import AuthProvider from './auth';
-import dynamic from 'next/dynamic';
 
+// react quert
+import { QueryClient, QueryClientProvider } from 'react-query';
+
+// toast
+import { Toaster } from 'react-hot-toast';
+
+// components
+import GlobalStyles from 'src/theme/globalStyles';
+import AuthProvider from './auth';
+
+// dynamic import
 const ProgressBar = dynamic(() => import('src/components/ProgressBar'), {
   ssr: false
 });

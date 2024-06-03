@@ -1,17 +1,21 @@
+import PropTypes from 'prop-types';
+import { enUS } from 'date-fns/locale';
+import { useRouter } from 'next-nprogress-bar';
+
 // mui
 import { styled } from '@mui/material/styles';
 import { Box, TableRow, Skeleton, TableCell, Typography, Stack, IconButton, Avatar, Tooltip } from '@mui/material';
-// component
+
+// utils
 import { fDateShort } from 'src/utils/formatTime';
-import { enUS } from 'date-fns/locale';
-import { useRouter } from 'next-nprogress-bar';
-import BlurImage from 'src/components/blurImage';
+
 // icons
 import { FiEye } from 'react-icons/fi';
 import { LuUser2 } from 'react-icons/lu';
 import { FaUserCheck } from 'react-icons/fa6';
 
-import PropTypes from 'prop-types';
+// component
+import BlurImage from 'src/components/blurImage';
 
 UserRow.propTypes = {
   isLoading: PropTypes.bool.isRequired,

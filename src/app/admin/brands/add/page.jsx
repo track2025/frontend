@@ -1,8 +1,9 @@
 import React from 'react';
-// Breadcrumbs
-import HeaderBreadcrumbs from 'src/components/headerBreadcrumbs';
+
 // components
 import AddBrand from 'src/components/_admin/brands/addBrand';
+import HeaderBreadcrumbs from 'src/components/headerBreadcrumbs';
+
 export default function page() {
   return (
     <div>

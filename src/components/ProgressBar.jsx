@@ -1,7 +1,7 @@
+import { AppProgressBar as ProgressBar } from 'next-nprogress-bar';
+
 // mui
 import { useTheme } from '@mui/material/styles';
-// next
-import { AppProgressBar as ProgressBar } from 'next-nprogress-bar';
 
 const Providers = () => {
   const theme = useTheme();

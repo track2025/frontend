@@ -1,9 +1,7 @@
 import React from 'react';
+
 // Components
 import CurrencyList from 'src/components/_admin/currencies/currencyList';
-// Toolbar
-
-// Breadcrumbs
 import HeaderBreadcrumbs from 'src/components/headerBreadcrumbs';
 
 // Meta information

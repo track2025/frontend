@@ -1,13 +1,13 @@
 'use client';
-// react
 import React from 'react';
 import PropTypes from 'prop-types';
-// next
 
+// mui
 import { Toolbar, AppBar, Container } from '@mui/material';
-import config from 'src/layout/_main/config.json';
 
+// components
 import MenuDesktop from './menuDesktop';
+import config from 'src/layout/_main/config.json';
 
 // ----------------------------------------------------------------------
 export default function Navbar() {

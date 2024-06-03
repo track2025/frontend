@@ -1,21 +1,17 @@
 'use client';
-// react
 import React from 'react';
-// next
 import dynamic from 'next/dynamic';
+import { useSelector } from 'react-redux';
+
 // mui
 import { alpha } from '@mui/material/styles';
 import { Toolbar, Skeleton, Stack, AppBar, useMediaQuery, Box, Container } from '@mui/material';
-// redux
-import { useSelector } from 'react-redux';
 
-// config
-
+// components
 import Logo from 'src/components/logo';
 
-const MobileBar = dynamic(() => import('src/layout/_main/mobileBar'));
-
 // dynamic import components
+const MobileBar = dynamic(() => import('src/layout/_main/mobileBar'));
 const SettingMode = dynamic(() => import('src/components/settings/themeModeSetting'), {
   loading: () => <Skeleton variant="circular" width={40} height={40} />
 });
@@ -61,7 +57,6 @@ const LanguageSelect = dynamic(() => import('src/components/languageSelect'), {
   ssr: false,
   loading: () => <Skeleton variant="circular" width={40} height={40} />
 });
-// const AdminDialog = dynamic(() => import('src/components/dialog/admin'));
 
 // ----------------------------------------------------------------------
 export default function Navbar() {
@@ -110,7 +105,6 @@ export default function Navbar() {
         </Container>
       </AppBar>
       {isMobile && <MobileBar />}
-      {/* {data?.adminPopup && <AdminDialog isOpen={data?.adminPopup} />} */}
     </>
   );
 }

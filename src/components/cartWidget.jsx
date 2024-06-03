@@ -1,16 +1,15 @@
+import PropTypes from 'prop-types';
+import { sum } from 'lodash';
+import { useSelector } from 'react-redux';
+import { useRouter } from 'next-nprogress-bar';
+
 // mui
 import { IconButton, Stack, Typography, alpha } from '@mui/material';
 import { HiOutlineShoppingBag } from 'react-icons/hi2';
 
-// react
-import PropTypes from 'prop-types';
-
-// lodash
-import { sum } from 'lodash';
+// custom hooks
 import { useCurrencyConvert } from 'src/hooks/convertCurrency';
 import { useCurrencyFormatter } from 'src/hooks/formatCurrency';
-import { useSelector } from 'react-redux';
-import { useRouter } from 'next-nprogress-bar';
 export default function CartWidget() {
   const {
     checkout: { cart }
@@ -40,7 +39,7 @@ export default function CartWidget() {
           borderColor: 'primary',
           borderWidth: 1,
           borderStyle: 'solid',
-          bgcolor: (theme) => alpha(theme.palette.primary.main, 0.2)
+          bgcolor: (theme) => alpha(theme.palette.primary.main, 0.1)
         }}
       >
         <HiOutlineShoppingBag />

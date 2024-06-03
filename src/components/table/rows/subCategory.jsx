@@ -1,20 +1,20 @@
 import React from 'react';
+import PropTypes from 'prop-types';
+import { capitalize } from 'lodash';
+import { fDateShort } from 'src/utils/formatTime';
+import { useRouter } from 'next-nprogress-bar';
+
 // mui
 import { styled } from '@mui/material/styles';
 import { Box, TableRow, Skeleton, TableCell, Typography, Stack, IconButton, Tooltip, useTheme } from '@mui/material';
+
 // icons
 import { MdEdit } from 'react-icons/md';
 import { MdDelete } from 'react-icons/md';
-// lodash
-import { capitalize } from 'lodash';
+
 // components
 import Label from 'src/components/label';
 import BlurImage from 'src/components/blurImage';
-import { fDateShort } from 'src/utils/formatTime';
-// next
-import { useRouter } from 'next-nprogress-bar';
-
-import PropTypes from 'prop-types';
 
 Category.propTypes = {
   isLoading: PropTypes.bool.isRequired,

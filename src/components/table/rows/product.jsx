@@ -1,3 +1,7 @@
+import PropTypes from 'prop-types';
+import { useRouter } from 'next-nprogress-bar';
+import { enUS } from 'date-fns/locale';
+
 // mui
 import {
   Box,
@@ -11,19 +15,19 @@ import {
   Tooltip,
   Link
 } from '@mui/material';
+
 // redux
 import { fCurrency } from 'src/utils/formatNumber';
 import { fDateShort } from 'src/utils/formatTime';
+
 // components
 import Label from 'src/components/label';
+import BlurImage from 'src/components/blurImage';
+
+// icons
 import { MdEdit } from 'react-icons/md';
 import { MdDelete } from 'react-icons/md';
 import { IoEye } from 'react-icons/io5';
-import { enUS } from 'date-fns/locale';
-import { useRouter } from 'next-nprogress-bar';
-import BlurImage from 'src/components/blurImage';
-import PropTypes from 'prop-types';
-
 export default function ProductRow({ isLoading, row, handleClickOpen, isVendor }) {
   const router = useRouter();
   return (

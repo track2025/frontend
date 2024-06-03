@@ -1,10 +1,9 @@
 import React from 'react';
-// Toolbar
 
-// Breadcrumbs
-import HeaderBreadcrumbs from 'src/components/headerBreadcrumbs';
 // components
 import AddCurrency from 'src/components/_admin/currencies/addCurrency';
+import HeaderBreadcrumbs from 'src/components/headerBreadcrumbs';
+
 export default function page() {
   return (
     <div>

@@ -1,15 +1,16 @@
+import React from 'react';
 import PropTypes from 'prop-types';
 
 // mui
 import { alpha, styled } from '@mui/material/styles';
 import { Box, List, Stack, Paper, Button, ListItem, Typography, Skeleton, IconButton } from '@mui/material';
 import CloseRoundedIcon from '@mui/icons-material/CloseRounded';
+
 // components
 import { varFadeInRight } from '../animate';
 
-// react
+// react dropzone
 import { useDropzone } from 'react-dropzone';
-import React from 'react';
 
 const DropZoneStyle = styled('div')(({ theme }) => ({
   outline: 'none',

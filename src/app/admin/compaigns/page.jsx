@@ -1,9 +1,7 @@
 import React from 'react';
+
 // Components
 import CompaignList from 'src/components/_admin/compaigns/compaignList';
-// Toolbar
-
-// Breadcrumbs
 import HeaderBreadcrumbs from 'src/components/headerBreadcrumbs';
 
 // Meta information

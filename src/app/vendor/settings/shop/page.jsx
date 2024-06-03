@@ -1,18 +1,13 @@
 'use client';
 import React from 'react';
-// Components
 
+// components
 import ShopSettingMain from 'src/components/_admin/vendor/settings/shopSettings';
 import HeaderBreadcrumbs from 'src/components/headerBreadcrumbs';
+
+// api
 import * as api from 'src/services';
-// usequery
 import { useQuery } from 'react-query';
-// Meta information
-// export const metadata = {
-//   title: 'Shop Setting - Nextall',
-//   applicationName: 'Nextall',
-//   authors: 'Nextall'
-// };
 
 export default function ShopSetting() {
   const { data, isLoading } = useQuery(['get-vendor-dhop'], () => api.getVendorShop(), {

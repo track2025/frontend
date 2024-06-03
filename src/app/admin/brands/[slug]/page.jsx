@@ -1,15 +1,15 @@
 'use client';
 import React from 'react';
-
-// breadcrumbs
-import HeaderBreadcrumbs from 'src/components/headerBreadcrumbs';
-// components
-import EditBrand from 'src/components/_admin/brands/editBrand';
-import * as api from 'src/services';
-// usequery
-import { useQuery } from 'react-query';
 import toast from 'react-hot-toast';
 import PropTypes from 'prop-types';
+
+// components
+import EditBrand from 'src/components/_admin/brands/editBrand';
+import HeaderBreadcrumbs from 'src/components/headerBreadcrumbs';
+
+// api
+import { useQuery } from 'react-query';
+import * as api from 'src/services';
 
 Page.propTypes = {
   params: PropTypes.shape({

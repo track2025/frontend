@@ -1,12 +1,14 @@
 // react
 import { useState, useEffect, useCallback } from 'react';
+import { usePathname, useSearchParams } from 'next/navigation';
+import { useRouter } from 'next-nprogress-bar';
+
 // mui ui
 import { styled } from '@mui/material/styles';
 import { Box, OutlinedInput, InputAdornment } from '@mui/material';
+
+// icons
 import { IoIosSearch } from 'react-icons/io';
-// next js
-import { usePathname, useSearchParams } from 'next/navigation';
-import { useRouter } from 'next-nprogress-bar';
 
 const RootStyle = styled(Box)(() => ({
   maxHeight: 96,

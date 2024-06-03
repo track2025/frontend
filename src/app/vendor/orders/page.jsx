@@ -1,8 +1,9 @@
 import React from 'react';
-// Components
 
+// components
 import HeaderBreadcrumbs from 'src/components/headerBreadcrumbs';
 import OrdersList from 'src/components/_admin/orders/ordersList';
+
 // Meta information
 export const metadata = {
   title: 'Order - Nextall',

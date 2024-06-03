@@ -1,9 +1,12 @@
 import React from 'react';
-// Components
-import SubCategoryList from 'src/components/_admin/subCategories/categoryList';
 
+// components
+import SubCategoryList from 'src/components/_admin/subCategories/categoryList';
 import HeaderBreadcrumbs from 'src/components/headerBreadcrumbs';
+
+// apo
 import * as api from 'src/services';
+
 // Meta information
 export const metadata = {
   title: 'Sub Categories - Nextall',

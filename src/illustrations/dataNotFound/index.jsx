@@ -1,6 +1,7 @@
 'use client';
-// mui
 import PropTypes from 'prop-types';
+
+// mui
 import { useTheme, alpha } from '@mui/material/styles';
 import RootStyled from './styled';
 

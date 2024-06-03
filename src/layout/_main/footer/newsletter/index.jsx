@@ -1,17 +1,17 @@
 'use client';
 import React from 'react';
+import { toast } from 'react-hot-toast';
+
 // mui
-import { FormControl, TextField } from '@mui/material';
-// react
-import { useMutation } from 'react-query';
+import { FormControl, TextField, Stack } from '@mui/material';
+import { LoadingButton } from '@mui/lab';
+
 // formik
 import { Form, FormikProvider, useFormik } from 'formik';
-import Stack from '@mui/material/Stack';
+
 // api
 import * as api from 'src/services';
-// toast
-import { toast } from 'react-hot-toast';
-import { LoadingButton } from '@mui/lab';
+import { useMutation } from 'react-query';
 
 export default function NewsLetter() {
   const [loading, setloading] = React.useState(false);

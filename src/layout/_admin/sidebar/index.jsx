@@ -1,15 +1,25 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-// materil ui + styling components
-import { styled, useTheme, alpha, useMediaQuery, Fab, Box } from '@mui/material';
+import { usePathname } from 'next/navigation';
+import { useRouter } from 'next-nprogress-bar';
+
+// mui
+import {
+  styled,
+  useTheme,
+  alpha,
+  useMediaQuery,
+  Fab,
+  Box,
+  ListItemText,
+  List,
+  Tooltip,
+  ListItem,
+  ListItemButton,
+  ListItemIcon
+} from '@mui/material';
 import MuiDrawer from '@mui/material/Drawer';
-import List from '@mui/material/List';
-import Tooltip from '@mui/material/Tooltip';
-import ListItem from '@mui/material/ListItem';
-import ListItemButton from '@mui/material/ListItemButton';
-import ListItemIcon from '@mui/material/ListItemIcon';
-import ListItemText from '@mui/material/ListItemText';
-// icons
+
 // icons
 import { IoIosArrowBack, IoIosArrowForward } from 'react-icons/io';
 import { LuLayoutDashboard } from 'react-icons/lu';
@@ -26,10 +36,9 @@ import { AiOutlineDollarCircle } from 'react-icons/ai';
 import { BsCashCoin } from 'react-icons/bs';
 import { LuBadgePercent } from 'react-icons/lu';
 
-// next
-import { usePathname } from 'next/navigation';
-import { useRouter } from 'next-nprogress-bar';
+// components
 import Scrollbar from 'src/components/Scrollbar';
+
 // Dashboard Side NevLinks
 export const navlinks = [
   {

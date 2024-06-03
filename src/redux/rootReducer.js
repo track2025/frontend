@@ -2,6 +2,7 @@
 import { combineReducers } from 'redux';
 import { persistReducer } from 'redux-persist';
 import storage from 'redux-persist/lib/storage'; // You can use other storage options if needed
+
 // slices
 import productReducer from './slices/product';
 import UserReducer from './slices/user';

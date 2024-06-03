@@ -1,10 +1,10 @@
 'use client';
 import { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
-// next
-import { useRouter } from 'next-nprogress-bar';
-// redux
 import { useSelector } from 'src/redux';
+import { useRouter } from 'next-nprogress-bar';
+
+// components
 import Loading from 'src/components/loading';
 export default function Guest({ children }) {
   const router = useRouter();

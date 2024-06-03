@@ -1,17 +1,17 @@
 import * as React from 'react';
-import Dialog from '@mui/material/Dialog';
-import DialogContent from '@mui/material/DialogContent';
-import IconButton from '@mui/material/IconButton';
-import { MdClear } from 'react-icons/md';
-import { MdCurrencyExchange } from 'react-icons/md';
-import Typography from '@mui/material/Typography';
-import { Grid, Button, Stack, alpha, Skeleton } from '@mui/material';
-
-import * as api from 'src/services';
-// usequery
-import { useQuery } from 'react-query';
 import { useDispatch, useSelector } from 'react-redux';
 import { handleChangeCurrency } from 'src/redux/slices/settings';
+
+// mui
+import { Grid, Button, Stack, alpha, Skeleton, Typography, IconButton, DialogContent, Dialog } from '@mui/material';
+
+// icons
+import { MdClear } from 'react-icons/md';
+import { MdCurrencyExchange } from 'react-icons/md';
+
+// api
+import * as api from 'src/services';
+import { useQuery } from 'react-query';
 
 export default function LanguageSelect() {
   const dispatch = useDispatch();
@@ -36,7 +36,7 @@ export default function LanguageSelect() {
           borderColor: 'primary',
           borderWidth: 1,
           borderStyle: 'solid',
-          bgcolor: (theme) => alpha(theme.palette.primary.main, 0.2)
+          bgcolor: (theme) => alpha(theme.palette.primary.main, 0.1)
         }}
       >
         <MdCurrencyExchange />

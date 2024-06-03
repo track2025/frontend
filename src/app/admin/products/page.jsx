@@ -1,7 +1,10 @@
 import React from 'react';
+
 // components
 import ProductList from 'src/components/_admin/products/productList';
 import HeaderBreadcrumbs from 'src/components/headerBreadcrumbs';
+
+// api
 import * as api from 'src/services';
 
 // Meta information

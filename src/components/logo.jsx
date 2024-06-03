@@ -1,9 +1,9 @@
 import PropTypes from 'prop-types';
+import { useRouter } from 'next-nprogress-bar';
+
 // mui
 import { useTheme } from '@mui/material/styles';
 import { Box } from '@mui/material';
-import { useRouter } from 'next-nprogress-bar';
-// next
 
 export const Logo = () => {
   const theme = useTheme();

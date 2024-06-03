@@ -1,7 +1,10 @@
 import React from 'react';
 
+// components
 import HeaderBreadcrumbs from 'src/components/headerBreadcrumbs';
 import AddSubCategory from 'src/components/_admin/subCategories/addCategory';
+
+// api
 import * as api from 'src/services';
 
 export default async function page() {

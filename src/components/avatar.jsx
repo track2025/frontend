@@ -1,8 +1,7 @@
 import PropTypes from 'prop-types';
+import Image from 'next/image';
 // mui
 import { Box } from '@mui/material';
-// next
-import Image from 'next/image';
 
 export default function BlurImageAvatar({ ...props }) {
   return (
@@ -20,6 +19,7 @@ export default function BlurImageAvatar({ ...props }) {
     </Box>
   );
 }
+
 BlurImageAvatar.propTypes = {
   src: PropTypes.string.isRequired
 };

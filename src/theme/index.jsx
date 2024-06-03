@@ -1,22 +1,31 @@
 'use client';
 import * as React from 'react';
 import PropTypes from 'prop-types';
+import { usePathname } from 'next/navigation';
+import { useSelector } from 'src/redux';
+
+// mui
 import { ThemeProvider } from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
-import { useSelector } from 'src/redux';
 import { createTheme } from '@mui/material/styles';
+import * as locales from '@mui/material/locale';
+
+// emotion
+import createCache from '@emotion/cache';
+import { CacheProvider } from '@emotion/react';
+
+// stylis
+import rtlPlugin from 'stylis-plugin-rtl';
+import { prefixer } from 'stylis';
+
+// custom theme
 import palette from './palette';
 import typography from './typography';
 import breakpoints from './breakpoints';
 import shape from './shape';
 import shadows, { customShadows } from './shadows';
 import componentsOverride from './overrides';
-import { usePathname } from 'next/navigation';
-import createCache from '@emotion/cache';
-import rtlPlugin from 'stylis-plugin-rtl';
-import { prefixer } from 'stylis';
-import * as locales from '@mui/material/locale';
-import { CacheProvider } from '@emotion/react';
+
 ThemeRegistry.propTypes = {
   children: PropTypes.node.isRequired
 };

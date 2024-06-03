@@ -1,10 +1,12 @@
 import { isString } from 'lodash';
 import PropTypes from 'prop-types';
+
 // mui
 import { alpha, styled } from '@mui/material/styles';
 import { Box, Typography, Paper } from '@mui/material';
 import AddPhotoAlternateRoundedIcon from '@mui/icons-material/AddPhotoAlternateRounded';
-// react
+
+// react dropzone
 import { useDropzone } from 'react-dropzone';
 
 // utils

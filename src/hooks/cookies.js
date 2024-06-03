@@ -5,9 +5,8 @@ import { cookies } from 'next/headers';
 export async function createCookies(name, token) {
   // Function to calculate the timestamp for the expiration date
 
-  // Set the cookie with a maxAge of 7 days from now
-  const OneDay = 24 * 60 * 60 * 1000; // 7 days in milliseconds
-
+  // Set the cookie with a maxAge of 1 day from now
+  const OneDay = 24 * 60 * 60 * 1000;
   cookies().set(name, token, { maxAge: OneDay });
 }
 

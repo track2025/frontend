@@ -1,4 +1,6 @@
 import React from 'react';
+
+// components
 import HeaderBreadcrumbs from 'src/components/headerBreadcrumbs';
 import AddCategory from 'src/components/_admin/categories/addCategory';
 

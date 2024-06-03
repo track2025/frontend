@@ -1,19 +1,16 @@
 import React from 'react';
-// components
 
+// components
 import HeaderBreadcrumbs from 'src/components/headerBreadcrumbs';
 import AddProduct from 'src/components/_admin/products/addProduct';
+
+// api
 import * as api from 'src/services';
+
 export default async function page() {
-  const data1 = await api.getAllCategories();
-  const data2 = await api.getAllBrandsByAdmin();
-  const data3 = await api.getAllShopsByAdmin();
-  if (!data1 || !data2 || !data3) {
-    notFound();
-  }
-  const { data: categories } = data1;
-  const { data: brands } = data2;
-  const { data: shops } = data3;
+  const { data: categories } = await api.getAllCategories();
+  const { data: brands } = await api.getAllBrandsByAdmin();
+  const { data: shops } = await api.getAllShopsByAdmin();
 
   return (
     <div>
