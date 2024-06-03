@@ -18,6 +18,7 @@ import { IoClose } from 'react-icons/io5';
 //components
 import RootStyled from './styled';
 import Incrementer from 'src/components/incrementer';
+// hooks
 import { useCurrencyConvert } from 'src/hooks/convertCurrency';
 import { useCurrencyFormatter } from 'src/hooks/formatCurrency';
 import BlurImage from 'src/components/blurImage';

@@ -1,7 +1,9 @@
-// react
 'use client';
 import { useState, useEffect } from 'react';
-
+import { useRouter } from 'next-nprogress-bar';
+import { FacebookShareButton, TwitterShareButton, LinkedinShareButton, WhatsappShareButton } from 'next-share';
+import PropTypes from 'prop-types';
+import { toast } from 'react-hot-toast';
 // mui
 import {
   Box,
@@ -14,31 +16,24 @@ import {
   Rating,
   useMediaQuery
 } from '@mui/material';
+// icons
 import { IoIosAdd, IoIosRemove } from 'react-icons/io';
 import { IoLogoWhatsapp } from 'react-icons/io5';
 import { FaFacebook } from 'react-icons/fa';
 import { FaXTwitter } from 'react-icons/fa6';
 import { FaLinkedin } from 'react-icons/fa';
 import { MdContentCopy } from 'react-icons/md';
-// next
-import { useRouter } from 'next-nprogress-bar';
 // formik
 import { useFormik, Form, FormikProvider, useField } from 'formik';
 // redux
 import { useDispatch, useSelector } from 'src/redux/store';
 import { addCart } from 'src/redux/slices/product';
-import { FacebookShareButton, TwitterShareButton, LinkedinShareButton, WhatsappShareButton } from 'next-share';
-// toast
-import { toast } from 'react-hot-toast';
 
-// styles
-import RootStyled from './styled';
 // components
 import ColorPreview from 'src/components/colorPreview';
 import SizePreview from 'src/components/sizePicker';
 import { fCurrency } from 'src/utils/formatNumber';
-
-import PropTypes from 'prop-types';
+import RootStyled from './styled';
 
 ProductDetailsSumaryMobile.propTypes = {
   product: PropTypes.object.isRequired,

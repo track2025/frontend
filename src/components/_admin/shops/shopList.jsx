@@ -1,19 +1,17 @@
 'use client';
 import React, { useState } from 'react';
-
-// toast
 import toast from 'react-hot-toast';
+import { useSearchParams } from 'next/navigation';
+import PropTypes from 'prop-types';
 // api
 import * as api from 'src/services';
-// usequery
 import { useQuery } from 'react-query';
 // mui
 import { Dialog } from '@mui/material';
+// components
 import DeleteDialog from 'src/components/dialog/delete';
 import Table from 'src/components/table/table';
 import Shop from 'src/components/table/rows/shop';
-import { useSearchParams } from 'next/navigation';
-import PropTypes from 'prop-types';
 
 const TABLE_HEAD = [
   { id: 'name', label: 'Shop', alignRight: false, sort: true },

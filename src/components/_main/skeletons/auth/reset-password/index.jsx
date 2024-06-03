@@ -1,8 +1,8 @@
 import React from 'react';
 // mui
 import { Card, Container, Skeleton, Stack, Typography } from '@mui/material';
-import ResetPassword from './reset-password';
 // component
+import ResetPassword from './reset-password';
 
 export default function Index() {
   return (

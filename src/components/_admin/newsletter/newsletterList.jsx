@@ -1,14 +1,13 @@
 'use client';
 import React from 'react';
-import * as api from 'src/services';
-import { useQuery } from 'react-query';
-// toast
+import { useSearchParams } from 'next/navigation';
 import toast from 'react-hot-toast';
 // components
 import Table from 'src/components/table/table';
 import Newsletter from 'src/components/table/rows/newsletter';
-// next
-import { useSearchParams } from 'next/navigation';
+// api
+import * as api from 'src/services';
+import { useQuery } from 'react-query';
 
 const TABLE_HEAD = [
   { id: 'email', label: 'Email', alignRight: false, sort: true },

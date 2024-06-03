@@ -1,7 +1,10 @@
 // react
 'use client';
 import { useState, useEffect } from 'react';
-
+import { toast } from 'react-hot-toast';
+import { FacebookShareButton, TwitterShareButton, LinkedinShareButton, WhatsappShareButton } from 'next-share';
+import { useRouter } from 'next-nprogress-bar';
+import PropTypes from 'prop-types';
 // mui
 import {
   Box,
@@ -18,14 +21,8 @@ import {
   alpha,
   Divider
 } from '@mui/material';
-import { IoIosAdd, IoIosRemove } from 'react-icons/io';
-import { IoLogoWhatsapp } from 'react-icons/io5';
-import { FaFacebook } from 'react-icons/fa';
-import { FaXTwitter } from 'react-icons/fa6';
-import { FaLinkedin } from 'react-icons/fa';
-import { MdContentCopy } from 'react-icons/md';
-// next
-import { useRouter } from 'next-nprogress-bar';
+import LoadingButton from '@mui/lab/LoadingButton';
+
 // formik
 import { useFormik, Form, FormikProvider, useField } from 'formik';
 // redux
@@ -33,9 +30,6 @@ import { useDispatch, useSelector } from 'src/redux/store';
 // redux
 import { setWishlist } from 'src/redux/slices/wishlist';
 import { addCart } from 'src/redux/slices/product';
-import { FacebookShareButton, TwitterShareButton, LinkedinShareButton, WhatsappShareButton } from 'next-share';
-// toast
-import { toast } from 'react-hot-toast';
 // api
 import * as api from 'src/services';
 import { useMutation } from 'react-query';
@@ -44,22 +38,27 @@ import RootStyled from './styled';
 // components
 import ColorPreview from 'src/components/colorPreview';
 import SizePreview from 'src/components/sizePicker';
-
-import PropTypes from 'prop-types';
+// hooks
+import { useCurrencyConvert } from 'src/hooks/convertCurrency';
+import { useCurrencyFormatter } from 'src/hooks/formatCurrency';
+import { addCompareProduct, removeCompareProduct } from '../../../../redux/slices/compare';
 // icons
+import { IoIosAdd, IoIosRemove } from 'react-icons/io';
+import { IoLogoWhatsapp } from 'react-icons/io5';
+import { FaFacebook } from 'react-icons/fa';
+import { FaXTwitter } from 'react-icons/fa6';
+import { FaLinkedin } from 'react-icons/fa';
+import { MdContentCopy } from 'react-icons/md';
 import { LiaShippingFastSolid } from 'react-icons/lia';
 import { MdLockOutline } from 'react-icons/md';
 import { FaRegStar } from 'react-icons/fa';
 import { TbMessage } from 'react-icons/tb';
-import LoadingButton from '@mui/lab/LoadingButton';
-import { addCompareProduct, removeCompareProduct } from '../../../../redux/slices/compare';
 import { MdOutlineShoppingBasket } from 'react-icons/md';
 import { FiShoppingCart } from 'react-icons/fi';
 import { IoBagCheckOutline } from 'react-icons/io5';
 import { FaRegHeart } from 'react-icons/fa';
 import { GoGitCompare } from 'react-icons/go';
-import { useCurrencyConvert } from 'src/hooks/convertCurrency';
-import { useCurrencyFormatter } from 'src/hooks/formatCurrency';
+
 ProductDetailsSumary.propTypes = {
   product: PropTypes.object.isRequired,
   isLoading: PropTypes.bool.isRequired,

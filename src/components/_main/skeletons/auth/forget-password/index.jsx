@@ -1,7 +1,6 @@
 import React from 'react';
 // mui
 import { Card, Container, Skeleton, Stack, Typography } from '@mui/material';
-// component
 
 export default function index() {
   return (

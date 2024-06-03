@@ -1,5 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { useRouter } from 'next-nprogress-bar';
+import { uniqueId } from 'lodash';
 // mui
 import { Grid, Paper, Typography, Skeleton, Box, Stack, IconButton, Avatar } from '@mui/material';
 import { styled } from '@mui/material/styles';
@@ -12,10 +14,6 @@ import { capitalize } from 'lodash';
 import { FiEye } from 'react-icons/fi';
 import { LuUser2 } from 'react-icons/lu';
 import { FaUserCheck } from 'react-icons/fa6';
-// next
-import { useRouter } from 'next-nprogress-bar';
-// lodash
-import { uniqueId } from 'lodash';
 
 const RootStyle = styled(Paper)(({ theme }) => ({
   padding: '10px 10px 10px 16px',

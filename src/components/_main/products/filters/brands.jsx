@@ -1,13 +1,11 @@
 import React, { useEffect, useState, useCallback } from 'react';
+import { useSearchParams } from 'next/navigation';
+import { useRouter } from 'next-nprogress-bar';
+import PropTypes from 'prop-types';
 // mui
 import { FormGroup, FormControlLabel, Radio, Grid, Typography, Button, Stack, Zoom } from '@mui/material';
 // icons
 import { MdOutlineBrandingWatermark } from 'react-icons/md';
-// next
-import { useSearchParams } from 'next/navigation';
-import { useRouter } from 'next-nprogress-bar';
-// PropTypes;
-import PropTypes from 'prop-types';
 
 const BrandMain = ({ brands, path }) => {
   const router = useRouter();

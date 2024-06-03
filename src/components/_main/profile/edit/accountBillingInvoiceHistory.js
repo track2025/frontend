@@ -1,11 +1,11 @@
 import { Icon } from '@iconify/react';
 import { useQuery } from 'react-query';
+import { useRouter } from 'next/navigation';
+
 // mui
 import { Stack, Button, Typography, Card, Divider, Box, Skeleton } from '@mui/material';
 // icons
 import arrowIosForwardFill from '@iconify/icons-eva/arrow-ios-forward-fill';
-// next js
-import { useRouter } from 'next/router';
 // utils
 import { fDate } from 'src/utils/formatTime';
 // api

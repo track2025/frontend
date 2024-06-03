@@ -1,14 +1,15 @@
 import React from 'react';
-import * as api from 'src/services';
+
+import toast from 'react-hot-toast';
+import PropTypes from 'prop-types';
 // mui
 import { DialogTitle, DialogContent, DialogContentText, DialogActions, Button, alpha, Box } from '@mui/material';
 import { LoadingButton } from '@mui/lab';
-// react
+// icons
 import { IoWarning } from 'react-icons/io5';
+// api
+import * as api from 'src/services';
 import { useMutation } from 'react-query';
-// notifecations toast
-import toast from 'react-hot-toast';
-import PropTypes from 'prop-types';
 
 DeleteDialog.propTypes = {
   onClose: PropTypes.func.isRequired,

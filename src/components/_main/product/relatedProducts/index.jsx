@@ -1,16 +1,17 @@
 'use client';
 // react
 import React from 'react';
+import PropTypes from 'prop-types';
 // mui
 import { Typography } from '@mui/material';
 // components
 import ProductsCarousel from 'src/components/carousels/gridSlider';
 // styles
 import RootStyled from './styled';
-import PropTypes from 'prop-types';
-import { useQuery } from 'react-query';
 // api
 import * as api from 'src/services';
+import { useQuery } from 'react-query';
+
 RelatedProducts.propTypes = {
   id: PropTypes.string.isRequired
 };

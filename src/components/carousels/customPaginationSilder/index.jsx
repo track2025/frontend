@@ -2,15 +2,12 @@
 'use client';
 import PropTypes from 'prop-types';
 import { useState } from 'react';
-// next
 import BlurImage from 'src/components/blurImage';
 // mui
 import { Box, Stack } from '@mui/material';
-
 // framer motion
 import { motion, AnimatePresence } from 'framer-motion';
-
-// styles override
+// styles
 import RootStyled from './styled';
 
 const variants = {

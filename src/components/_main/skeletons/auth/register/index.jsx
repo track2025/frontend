@@ -1,6 +1,7 @@
 import React from 'react';
 // mui
 import { Card, Container, Skeleton, Stack, Typography } from '@mui/material';
+// components
 import Register from './register';
 
 export default function index() {

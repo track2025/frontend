@@ -1,8 +1,8 @@
+import PropTypes from 'prop-types';
+
 // mui
 import { Alert } from '@mui/material';
 import { alpha } from '@mui/material/styles';
-
-import PropTypes from 'prop-types';
 
 const CheckoutError = ({ children }) => (
   <Alert sx={{ bgcolor: (theme) => alpha(theme.palette.error.main, 0.2), mt: 1 }} severity="error">

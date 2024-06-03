@@ -1,10 +1,10 @@
-import { Box, Card, CardContent, Grid, Stack, Typography, Skeleton } from '@mui/material';
-
 import React from 'react';
-// icons
-import { fCurrency } from 'src/utils/formatNumber';
-import Label from 'src/components/label';
 import PropTypes from 'prop-types';
+import { fCurrency } from 'src/utils/formatNumber';
+// mui
+import { Box, Card, CardContent, Grid, Stack, Typography, Skeleton } from '@mui/material';
+// components
+import Label from 'src/components/label';
 ShopDetail.propTypes = {
   data: PropTypes.array.isRequired,
   isLoading: PropTypes.bool.isRequired

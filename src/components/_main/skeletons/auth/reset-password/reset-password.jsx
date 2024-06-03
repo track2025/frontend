@@ -1,7 +1,6 @@
 import React from 'react';
 // mui
 import { Skeleton, Stack } from '@mui/material';
-// component
 
 export default function ResetPassword() {
   return (

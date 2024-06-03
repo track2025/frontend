@@ -9,9 +9,10 @@ import { IoIosArrowForward } from 'react-icons/io';
 import * as api from 'src/services';
 import { useQuery } from 'react-query';
 
-import TodayCountDown from '../todayCountDown';
 // components
 import ProductCard from 'src/components/cards/product';
+import TodayCountDown from '../todayCountDown';
+
 export default function TopCollections() {
   const { data, isLoading } = useQuery(['get-best-products'], () => api.getTopRatedProducts());
 

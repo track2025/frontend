@@ -1,10 +1,11 @@
 import React from 'react';
+import NextLink from 'next/link';
+import PropTypes from 'prop-types';
 // components
 import RootStyled from './styled';
 // material
 import { Box, ListSubheader, ListItem } from '@mui/material';
-import NextLink from 'next/link';
-import PropTypes from 'prop-types';
+
 IconBullet.propTypes = {
   type: PropTypes.string.isRequired
 };

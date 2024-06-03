@@ -2,6 +2,7 @@
 import React from 'react';
 // mui
 import { Card, CardHeader, CardContent, Typography, Box, Skeleton, Divider } from '@mui/material';
+// components
 import CartProductListSkeleton from './cartProductList';
 import CartProductMobileSkeleton from './cartProductMobile';
 // ----------------------------------------------------------------------

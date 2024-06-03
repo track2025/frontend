@@ -1,6 +1,7 @@
 import React from 'react';
-import CategoryForm from 'src/components/forms/category';
 import PropTypes from 'prop-types';
+// components
+import CategoryForm from 'src/components/forms/category';
 
 EditCategory.propTypes = {
   data: PropTypes.object.isRequired,

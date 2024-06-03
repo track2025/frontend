@@ -1,9 +1,9 @@
+import PropTypes from 'prop-types';
 // mui
 import { alpha } from '@mui/material/styles';
 import { Box, Card, Typography, Button, Skeleton } from '@mui/material';
 // icon
 import { FaUser } from 'react-icons/fa';
-import PropTypes from 'prop-types';
 
 DailyUser.propTypes = {
   data: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),

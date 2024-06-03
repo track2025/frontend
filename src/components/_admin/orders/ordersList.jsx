@@ -1,10 +1,6 @@
 'use client';
 import React, { useState } from 'react';
 import { useSearchParams } from 'next/navigation';
-// api
-import * as api from 'src/services';
-import { useQuery } from 'react-query';
-// toast
 import toast from 'react-hot-toast';
 // components
 import Table from 'src/components/table/table';
@@ -13,6 +9,9 @@ import DeleteDialog from 'src/components/dialog/delete';
 import PropTypes from 'prop-types';
 // mui
 import { Dialog } from '@mui/material';
+// api
+import * as api from 'src/services';
+import { useQuery } from 'react-query';
 const TABLE_HEAD = [
   { id: 'name', label: 'User', alignRight: false },
   { id: 'total', label: 'Total', alignRight: false, sort: true },

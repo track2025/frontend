@@ -1,6 +1,8 @@
 'use client';
 import React, { useState } from 'react';
 import { useMutation } from 'react-query';
+import { useRouter } from 'next-nprogress-bar';
+import PropTypes from 'prop-types';
 
 // mui
 import { styled } from '@mui/material/styles';
@@ -19,8 +21,6 @@ import {
 } from '@mui/material';
 // components
 import UploadSingleFile from 'src/components/upload/UploadSingleFile';
-// next
-import { useRouter } from 'next-nprogress-bar';
 // yup
 import * as Yup from 'yup';
 // axios
@@ -31,7 +31,6 @@ import toast from 'react-hot-toast';
 import { Form, FormikProvider, useFormik } from 'formik';
 // api
 import * as api from 'src/services';
-import PropTypes from 'prop-types';
 
 CategoryForm.propTypes = {
   data: PropTypes.object,

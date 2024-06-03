@@ -1,6 +1,7 @@
 import React from 'react';
 // mui
 import { Box, Container, Grid } from '@mui/material';
+// components
 import Breadcrumbs from './breadcrumbs';
 import Filter from './filters';
 import ProductList from './productList';

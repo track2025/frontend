@@ -1,7 +1,9 @@
 import React from 'react';
+// mui
 import { IconButton, Stack, Radio } from '@mui/material';
-import { IoArrowBack, IoArrowForwardOutline } from 'react-icons/io5';
 import { alpha } from '@mui/material/styles';
+// icons
+import { IoArrowBack, IoArrowForwardOutline } from 'react-icons/io5';
 import { GoDotFill, GoDot } from 'react-icons/go';
 
 export default function actions({ active, paginate, data, setPage }) {

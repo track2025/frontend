@@ -1,21 +1,19 @@
 'use client';
 import React, { useState } from 'react';
-import { useMutation } from 'react-query';
+import { useSelector } from 'react-redux';
+import toast from 'react-hot-toast';
+import PropTypes from 'prop-types';
+
 // mui
 import { Card, CardContent, Typography, Stack, Divider, TextField } from '@mui/material';
 import { LoadingButton } from '@mui/lab';
 // hook
 import { useCurrencyConvert } from 'src/hooks/convertCurrency';
 import { useCurrencyFormatter } from 'src/hooks/formatCurrency';
-// redux
-import { useSelector } from 'react-redux';
-// toast
-import toast from 'react-hot-toast';
+
 // api
 import * as api from 'src/services';
-
-import PropTypes from 'prop-types';
-
+import { useMutation } from 'react-query';
 PaymentInfo.propTypes = {
   setCouponCode: PropTypes.func.isRequired,
   setTotal: PropTypes.func.isRequired

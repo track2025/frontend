@@ -2,11 +2,11 @@
 // react
 import React from 'react';
 import { useQuery } from 'react-query';
-// mui
-import { Box } from '@mui/material';
-// next
 import { useSearchParams } from 'next/navigation';
 import dynamic from 'next/dynamic';
+// mui
+import { Box } from '@mui/material';
+
 // api
 import * as api from 'src/services';
 // components

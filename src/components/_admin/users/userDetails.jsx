@@ -1,18 +1,15 @@
 'use client';
+import { useSearchParams } from 'next/navigation';
+import PropTypes from 'prop-types';
 // mui-ui components
 import { Card } from '@mui/material';
 // component
 import Table from 'src/components/table/table';
 import OrderList from 'src/components/table/rows/orderList';
 import ProfileCover from 'src/components/_main/profile/profileCover';
-
-// react
-import { useQuery } from 'react-query';
 // api
 import * as api from 'src/services';
-// next
-import { useSearchParams } from 'next/navigation';
-import PropTypes from 'prop-types';
+import { useQuery } from 'react-query';
 
 UserProfile.propTypes = {
   id: PropTypes.string.isRequired

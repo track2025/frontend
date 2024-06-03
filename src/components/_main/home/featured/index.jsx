@@ -1,6 +1,8 @@
 'use client';
-// react
+
 import React from 'react';
+import NextLink from 'next/link';
+
 // mui
 import { Typography, Box, Button, Stack } from '@mui/material';
 // api
@@ -8,8 +10,8 @@ import * as api from 'src/services';
 import { useQuery } from 'react-query';
 // components
 import ProductsCarousel from 'src/components/carousels/gridSlider';
+// icons
 import { IoIosArrowForward } from 'react-icons/io';
-import NextLink from 'next/link';
 export default function Index() {
   const { data, isLoading } = useQuery(['featured-products'], () => api.getFeaturedProducts());
 

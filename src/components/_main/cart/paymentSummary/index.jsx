@@ -1,21 +1,17 @@
 'use client';
 import React from 'react';
-// mui
-
-import { CardContent, Typography, Stack, Divider, Skeleton, Box } from '@mui/material';
-
-import { useCurrencyConvert } from 'src/hooks/convertCurrency';
-import { useCurrencyFormatter } from 'src/hooks/formatCurrency';
-
-//  styling
-import RootStyled from './styled';
-// redux
-import { useSelector } from 'react-redux';
-
 import PropTypes from 'prop-types';
-import { LoadingButton } from '@mui/lab';
 import { useRouter } from 'next-nprogress-bar';
 import Image from 'next/image';
+import { useSelector } from 'react-redux';
+// mui
+import { CardContent, Typography, Stack, Divider, Skeleton, Box } from '@mui/material';
+import { LoadingButton } from '@mui/lab';
+// hooks components
+import { useCurrencyConvert } from 'src/hooks/convertCurrency';
+import { useCurrencyFormatter } from 'src/hooks/formatCurrency';
+import RootStyled from './styled';
+// images
 import paymentImg from '../../../../../public/images/payment-method.png';
 
 PaymentSummary.propTypes = {

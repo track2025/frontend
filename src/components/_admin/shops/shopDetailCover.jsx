@@ -1,12 +1,13 @@
 'use client';
 import NextLink from 'next/link';
+import PropTypes from 'prop-types';
+import Image from 'next/image';
 // mui
 import { styled } from '@mui/material/styles';
 import { Box, Typography, Container, Card, Skeleton, Stack, alpha } from '@mui/material';
 // components
 import MyAvatar from 'src/components/myAvatar';
-import PropTypes from 'prop-types';
-import Image from 'next/image';
+// icons
 import { IoIosArrowForward } from 'react-icons/io';
 
 const RootStyle = styled(Card)(({ theme }) => ({

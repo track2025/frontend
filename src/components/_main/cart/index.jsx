@@ -1,20 +1,18 @@
 'use client';
 import React from 'react';
-
-// next
 import dynamic from 'next/dynamic';
 // mui
 import { Box, Grid } from '@mui/material';
 // api
 import * as api from 'src/services';
-// react query
 import { useMutation } from 'react-query';
 // redux
 import { useDispatch, useSelector } from 'react-redux';
 import { getCart } from 'src/redux/slices/product';
+// components
 import PaymentSummarySkeleton from 'src/components/skeletons/cart/paymentSummary';
 import ShoppingCartSkeleton from 'src/components/skeletons/cart/shoppingcart';
-// components
+// dynamic
 const ShoppingCart = dynamic(() => import('src/components/_main/cart/shoppingCart'), {
   loading: () => <ShoppingCartSkeleton />
 });

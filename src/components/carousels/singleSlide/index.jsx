@@ -2,12 +2,11 @@
 // react
 import PropTypes from 'prop-types';
 import { useState, useEffect } from 'react';
-// next
 import Image from 'next/image';
+import { useSelector } from 'react-redux';
+
 // mui
 import { Box, Paper, Typography, Card, Stack } from '@mui/material';
-// redux
-import { useSelector } from 'react-redux';
 // framer motion
 import { motion, AnimatePresence } from 'framer-motion';
 // components

@@ -1,26 +1,21 @@
 'use client';
 import { useState } from 'react';
 import PropTypes from 'prop-types';
-// next
 import Link from 'next/link';
+import { useRouter } from 'next-nprogress-bar';
+import { useMutation } from 'react-query';
+import toast from 'react-hot-toast';
+import { useDispatch, useSelector } from 'react-redux';
 // mui
 import { Typography, Card, Box, Skeleton, Stack, Button, CardContent, Divider } from '@mui/material';
 // components
 import Image from 'src/components/blurImage';
+import { updateFollowShop } from 'src/redux/slices/user';
 // icons
 import { AiOutlineShop } from 'react-icons/ai';
 import { FaRegUser } from 'react-icons/fa6';
-// next
-import { useRouter } from 'next-nprogress-bar';
-// react
-import { useMutation } from 'react-query';
-
 // api
 import * as api from 'src/services';
-// toast
-import toast from 'react-hot-toast';
-import { useDispatch, useSelector } from 'react-redux';
-import { updateFollowShop } from 'src/redux/slices/user';
 
 export default function ShopCard({ ...props }) {
   const { shop, isLoading } = props;

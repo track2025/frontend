@@ -1,6 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { uniqueId } from 'lodash';
+import { useRouter } from 'next-nprogress-bar';
+import { capitalize } from 'lodash';
 // mui
 import { Grid, Paper, Typography, Skeleton, IconButton, Box, Stack } from '@mui/material';
 import { styled, useTheme } from '@mui/material/styles';
@@ -8,13 +10,9 @@ import { styled, useTheme } from '@mui/material/styles';
 import Label from 'src/components/label';
 import { fDateShort } from 'src/utils/formatTime';
 import BlurImage from 'src/components/blurImage';
-// lodash
-import { capitalize } from 'lodash';
-// iconsc
+// icons
 import { MdDelete } from 'react-icons/md';
 import { MdEdit } from 'react-icons/md';
-// next
-import { useRouter } from 'next-nprogress-bar';
 
 const RootStyle = styled(Paper)(({ theme }) => ({
   padding: '10px 10px 10px 16px',

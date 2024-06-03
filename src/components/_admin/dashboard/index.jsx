@@ -1,32 +1,28 @@
 'use client';
 import React from 'react';
-
-// toast
 import toast from 'react-hot-toast';
+import PropTypes from 'prop-types';
+// mui
+import { Grid, Box } from '@mui/material';
 // components
 import DashboardCard from 'src/components/_admin/dashboard/dashboardCard';
 import LowStockProducts from 'src/components/_admin/dashboard/lowStockProducts';
+import OrderChart from 'src/components/charts/Order';
+import SaleChart from 'src/components/charts/sale';
+import IncomeChart from 'src/components/charts/Income';
+import BestSelling from './bestSelling';
 // icon
 import { AiOutlineDollarCircle } from 'react-icons/ai';
 import { PiUsersThree } from 'react-icons/pi';
-
 import { BsShop } from 'react-icons/bs';
 import { BiSolidShoppingBags } from 'react-icons/bi';
 import { GrWorkshop } from 'react-icons/gr';
 import { LuFileClock } from 'react-icons/lu';
 import { FiFileText } from 'react-icons/fi';
 import { LuFileInput } from 'react-icons/lu';
-import OrderChart from 'src/components/charts/order';
-import SaleChart from 'src/components/charts/sale';
-import IncomeChart from 'src/components/charts/income';
-import BestSelling from './bestSelling';
-// mui
-import { Grid, Box } from '@mui/material';
-// react-query
-import { useQuery } from 'react-query';
 // api
 import * as api from 'src/services';
-import PropTypes from 'prop-types';
+import { useQuery } from 'react-query';
 Dashboard.propTypes = {
   isVendor: PropTypes.bool
 };

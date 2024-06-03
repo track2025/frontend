@@ -1,6 +1,5 @@
 'use client';
 import PropTypes from 'prop-types';
-// next
 import Link from 'next/link';
 // mui
 import { Typography, CardActionArea, Card, Box, Skeleton, Stack } from '@mui/material';

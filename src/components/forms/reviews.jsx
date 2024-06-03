@@ -1,24 +1,22 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { toast } from 'react-hot-toast';
+import dynamic from 'next/dynamic';
+
 // mui
 import { styled } from '@mui/material/styles';
 import { Button, TextField, Typography, FormHelperText, Stack, Rating } from '@mui/material';
 import { LoadingButton } from '@mui/lab';
-// toast
-import { toast } from 'react-hot-toast';
 // react
 import { useMutation } from 'react-query';
-// next
-import dynamic from 'next/dynamic';
 // api
 import * as api from 'src/services';
-// axios
 import axios from 'axios';
 // formik
 import { useFormik, Form, FormikProvider } from 'formik';
 // yup
 import * as Yup from 'yup';
-
+// dynamic
 const UploadMultiFile = dynamic(() => import('src/components/upload/UploadMultiFile'));
 
 const RootStyle = styled('div')(({ theme }) => ({

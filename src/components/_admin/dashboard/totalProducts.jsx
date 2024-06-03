@@ -1,10 +1,9 @@
+import PropTypes from 'prop-types';
 // mui
 import { alpha } from '@mui/material/styles';
 import { Box, Card, Typography, Button, Skeleton } from '@mui/material';
 // icon
 import { FaShop } from 'react-icons/fa6';
-
-import PropTypes from 'prop-types';
 
 DailyVisters.propTypes = {
   data: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),

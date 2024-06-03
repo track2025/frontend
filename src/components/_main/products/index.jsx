@@ -1,24 +1,26 @@
 'use client';
 // react
-import { useQuery } from 'react-query';
 import React from 'react';
-// mui
-import { useMediaQuery } from '@mui/material';
-// next
+import PropTypes from 'prop-types';
+import { useSelector } from 'react-redux';
 import dynamic from 'next/dynamic';
 import { useSearchParams } from 'next/navigation';
+
+// mui
+import { useMediaQuery } from '@mui/material';
+
 // api
 import * as api from 'src/services';
-import PropTypes from 'prop-types';
+import { useQuery } from 'react-query';
+// components
 import ProductList from './productList';
 import SortBar from './sortbar';
-import { useSelector } from 'react-redux';
 ProductListing.propTypes = {
   category: PropTypes.object,
   subCategory: PropTypes.object,
   shop: PropTypes.object
 };
-// components
+// dynamic components
 const Pagination = dynamic(() => import('src/components/pagination'));
 
 const sortData = [

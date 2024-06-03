@@ -1,15 +1,12 @@
 // react
 import React from 'react';
-
-// next
 import { useRouter } from 'next-nprogress-bar';
+import PropTypes from 'prop-types';
 
 // mui
 import { IconButton, Stack, Typography, alpha } from '@mui/material';
 import { IoMdHeartEmpty } from 'react-icons/io';
 import { useSelector } from 'react-redux';
-
-import PropTypes from 'prop-types';
 
 WishlistPopover.propTypes = {
   isAuth: PropTypes.bool.isRequired

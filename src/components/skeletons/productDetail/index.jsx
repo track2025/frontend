@@ -1,11 +1,12 @@
 import React from 'react';
+import PropTypes from 'prop-types';
+
 // mui
 import { Box, Container, Card, Grid } from '@mui/material';
 // components
 import ProductDetailsImageSkeleton from './productDetailImage';
 import BreadcrumbsSkeleton from '../breadcrumbs';
 import ProductDetailsSumarySkeleton from './productDetailsSumary';
-import PropTypes from 'prop-types';
 ProductDetailSkeleton.propTypes = {
   isPopup: PropTypes.bool
 };
