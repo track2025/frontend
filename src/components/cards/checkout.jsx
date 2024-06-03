@@ -7,10 +7,11 @@ import { Typography, Card, Stack, Box, IconButton } from '@mui/material';
 // icons
 import { MdDeleteOutline } from 'react-icons/md';
 import { styled } from '@mui/material/styles';
-// components
-// import { fCurrency } from 'src/utils/formatNumber';
+// hooks
 import { useCurrencyConvert } from 'src/hooks/convertCurrency';
 import { useCurrencyFormatter } from 'src/hooks/formatCurrency';
+// components
+
 import BlurImage from 'src/components/blurImage';
 const Incrementer = dynamic(() => import('src/components/incrementer'));
 
@@ -20,19 +21,11 @@ const ThumbImgStyle = styled(Box)(({ theme }) => ({
   minWidth: 40,
   objectFit: 'cover',
   marginRight: theme.spacing(2),
-  // borderRadius: theme.shape.borderRadiusSm,
   borderRadius: 8,
   border: `1px solid ${theme.palette.divider}`,
   position: 'relative',
   overflow: 'hidden'
 }));
-
-// const formatNumbers = (number, unitRate) => {
-//   const converted = (number * unitRate).toLocaleString(undefined, {
-//     maximumFractionDigits: 1
-//   });
-//   return converted;
-// };
 
 export default function CheckoutCard({ ...props }) {
   const { onDelete, onIncreaseQuantity, onDecreaseQuantity, cart } = props;

@@ -1,7 +1,6 @@
 'use client';
 import * as React from 'react';
 import PropTypes from 'prop-types';
-// next
 import { useRouter } from 'next-nprogress-bar';
 // mui
 import { alpha, styled } from '@mui/material/styles';
@@ -24,11 +23,10 @@ import { useMutation, useQuery } from 'react-query';
 import BlurImageAvatar from '../../avatar';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
-// api
-import * as api from 'src/services';
-
 import { useCurrencyConvert } from 'src/hooks/convertCurrency';
 import { useCurrencyFormatter } from 'src/hooks/formatCurrency';
+// api
+import * as api from 'src/services';
 
 Search.propTypes = {
   onClose: PropTypes.func.isRequired,

@@ -1,6 +1,7 @@
 import React from 'react';
 // mui
 import { Box, Card, Skeleton, TableContainer, Table } from '@mui/material';
+// components
 import TableBodyMain from './tableBody';
 import TableHeadMain from './tableHead';
 

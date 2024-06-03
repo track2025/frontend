@@ -1,16 +1,15 @@
+'use client';
 import React from 'react';
+import NextLink from 'next/link';
 // material
 import { Stack, Typography, Box, Link, Grid, IconButton } from '@mui/material';
-// import Icon from 'src/utils/icons';
-// styles
-import RootStyled from './styled';
-// form
+// components
 import ContactUs from 'src/components/forms/contact';
+import RootStyled from './styled';
+
 // icons
 import { MdEmail } from 'react-icons/md';
 import { PiPhoneCall } from 'react-icons/pi';
-
-import NextLink from 'next/link';
 
 const index = () => {
   return (

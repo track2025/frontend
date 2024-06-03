@@ -1,14 +1,14 @@
 'use client';
 import React from 'react';
 import { uniqueId } from 'lodash';
+import { capitalize } from 'lodash';
+
 // next
 import Link from 'next/link';
 import PropTypes from 'prop-types';
 // mui
 import { Card, Typography, Skeleton, CardContent, Box } from '@mui/material';
 import { useTheme } from '@mui/material/styles';
-// lodash
-import { capitalize } from 'lodash';
 // components
 import BlurImage from 'src/components/blurImage';
 

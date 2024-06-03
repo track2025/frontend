@@ -1,4 +1,5 @@
 import React, { useCallback } from 'react';
+import PropTypes from 'prop-types';
 // mui
 import { FormGroup, FormControlLabel, Checkbox, Grid, Typography, Button, Stack, Zoom } from '@mui/material';
 // icons
@@ -8,8 +9,6 @@ import { FaVenusMars } from 'react-icons/fa';
 // next
 import { useRouter } from 'next-nprogress-bar';
 import { useSearchParams } from 'next/navigation';
-// PropTypes
-import PropTypes from 'prop-types';
 
 GenderMain.propTypes = {
   genders: PropTypes.array.isRequired,

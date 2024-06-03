@@ -1,5 +1,6 @@
-import { Skeleton, Stack } from '@mui/material';
 import React from 'react';
+// mui
+import { Skeleton, Stack } from '@mui/material';
 
 export default function ChangePassword() {
   return (

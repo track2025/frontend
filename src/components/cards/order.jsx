@@ -1,5 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { capitalize } from 'lodash';
+import { useRouter } from 'next-nprogress-bar';
 // mui
 import { Grid, Paper, Typography, Skeleton, Box, Stack, IconButton } from '@mui/material';
 import { styled, useTheme } from '@mui/material/styles';
@@ -8,9 +10,6 @@ import DateRangeRoundedIcon from '@mui/icons-material/DateRangeRounded';
 // components
 import Label from 'src/components/label';
 import { fDateShort } from 'src/utils/formatTime';
-// lodash
-import { capitalize } from 'lodash';
-import { useRouter } from 'next-nprogress-bar';
 // icons
 import { IoEye } from 'react-icons/io5';
 

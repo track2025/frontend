@@ -1,6 +1,8 @@
 import React from 'react';
-import ShopSettingFrom from 'src/components/forms/shopSetting';
 import PropTypes from 'prop-types';
+
+// components
+import ShopSettingFrom from 'src/components/forms/shopSetting';
 ShopSettingMain.propTypes = {
   isLoading: PropTypes.bool.isRequired,
   data: PropTypes.object.isRequired

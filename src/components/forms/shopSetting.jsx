@@ -1,7 +1,7 @@
 'use client';
 import React, { useState } from 'react';
+import PropTypes from 'prop-types';
 import { useMutation } from 'react-query';
-
 // mui
 import { styled } from '@mui/material/styles';
 import { LoadingButton } from '@mui/lab';
@@ -18,7 +18,6 @@ import toast from 'react-hot-toast';
 import { Form, FormikProvider, useFormik } from 'formik';
 // api
 import * as api from 'src/services';
-import PropTypes from 'prop-types';
 
 ShopSettingFrom.propTypes = {
   data: PropTypes.object,

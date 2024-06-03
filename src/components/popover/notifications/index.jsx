@@ -1,6 +1,7 @@
 import React from 'react';
 // mui
 import { Badge, IconButton, Divider, Typography } from '@mui/material';
+// icons
 import { IoMdNotificationsOutline } from 'react-icons/io';
 
 // components

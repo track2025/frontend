@@ -2,13 +2,12 @@
 'use client';
 import PropTypes from 'prop-types';
 import { useState } from 'react';
+import { useSelector } from 'react-redux';
 // mui
 import { Paper, useMediaQuery, Grid, Fab, Stack } from '@mui/material';
 // icons
 import { IoArrowForward } from 'react-icons/io5';
 import { IoArrowBackOutline } from 'react-icons/io5';
-// redux
-import { useSelector } from 'react-redux';
 // framer motion
 import { motion, AnimatePresence } from 'framer-motion';
 // components

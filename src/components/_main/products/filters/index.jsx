@@ -1,14 +1,12 @@
 'use client';
 import React from 'react';
+import PropTypes from 'prop-types';
+
 // mui
 import { Card, Box, Typography, IconButton, Divider } from '@mui/material';
-
 // icons
 import { MdClear } from 'react-icons/md';
-// PropTypes;
-import PropTypes from 'prop-types';
-// react query
-import { useQuery } from 'react-query';
+
 // components
 import BrandsFilter from './brands';
 import GenderFilter from './gender';
@@ -19,7 +17,10 @@ import Brands from 'src/components/_main/skeletons/products/filters/brands';
 import Gender from 'src/components/_main/skeletons/products/filters/gander';
 import Color from 'src/components/_main/skeletons/products/filters/colors';
 import Sizes from 'src/components/_main/skeletons/products/filters/sizes';
+// api
 import * as api from 'src/services';
+import { useQuery } from 'react-query';
+
 Filter.propTypes = {
   onClose: PropTypes.func.isRequired,
   pathname: PropTypes.string.isRequired,

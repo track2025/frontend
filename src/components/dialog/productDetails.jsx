@@ -1,15 +1,16 @@
 import * as React from 'react';
-import Dialog from '@mui/material/Dialog';
-
+import PropTypes from 'prop-types';
 // api
 import * as api from 'src/services';
-// usequery
 import { useQuery } from 'react-query';
-import ProductDetailsCarousel from 'src/components/carousels/customPaginationSilder';
+// mui
 import { Grid } from '@mui/material';
-import PropTypes from 'prop-types';
+import Dialog from '@mui/material/Dialog';
+// components
 import DetailsSkeleton from 'src/components/skeletons/productDetail';
 import ProductDetailsSumaryMobile from '../_main/product/mobileSummary';
+import ProductDetailsCarousel from 'src/components/carousels/customPaginationSilder';
+
 ProductDetailsDialog.propTypes = {
   slug: PropTypes.string,
   onClose: PropTypes.func,

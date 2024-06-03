@@ -1,15 +1,13 @@
 import { useState } from 'react';
+import { useSelector } from 'react-redux';
+import { useRouter } from 'next-nprogress-bar';
+import PropTypes from 'prop-types';
 // mui
 import { Collapse, Grid, Card } from '@mui/material';
 // components
 import ReviewForm from 'src/components/forms/reviews';
 import ReviewOverview from 'src/components/_main/product/reviews/overview';
 import ReviewsList from 'src/components/lists/reviews';
-// redux
-import { useSelector } from 'react-redux';
-import { useRouter } from 'next-nprogress-bar';
-
-import PropTypes from 'prop-types';
 import NoDataFoundIllustration from 'src/illustrations/dataNotFound';
 
 ProductReview.propTypes = {

@@ -1,10 +1,11 @@
 'use client';
+import PropTypes from 'prop-types';
+
 // mui
 import { styled } from '@mui/material/styles';
 import { Box, Typography, Container, Card, alpha, Skeleton } from '@mui/material';
 // components
 import MyAvatar from 'src/components/myAvatar';
-import PropTypes from 'prop-types';
 const RootStyle = styled(Card)(({ theme }) => ({
   marginBottom: theme.spacing(3),
   height: 280,

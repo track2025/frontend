@@ -1,20 +1,16 @@
 'use client';
 import React, { useState } from 'react';
-
-// toast
 import toast from 'react-hot-toast';
+import { useSearchParams } from 'next/navigation';
+
 // api
 import * as api from 'src/services';
-// react
 import { useQuery } from 'react-query';
 import { useMutation } from 'react-query';
 // component
 import Table from 'src/components/table/table';
 import UserList from 'src/components/table/rows/usersList';
 import RoleDialog from 'src/components/dialog/role';
-
-// next
-import { useSearchParams } from 'next/navigation';
 
 const TABLE_HEAD = [
   { id: 'name', label: 'User', alignRight: false, sort: true },

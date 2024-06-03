@@ -4,6 +4,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import toast from 'react-hot-toast';
 import { capitalCase } from 'change-case';
+import { useRouter } from 'next-nprogress-bar';
+
 import { Form, FormikProvider, useFormik } from 'formik';
 // mui
 import { styled } from '@mui/material/styles';
@@ -25,13 +27,14 @@ import {
   Switch,
   InputAdornment
 } from '@mui/material';
+// api
 import * as api from 'src/services';
 import { useMutation } from 'react-query';
-// import { useNavigate, useParams } from "react-router-dom";
-import { useRouter } from 'next-nprogress-bar';
+import axios from 'axios';
+
+// components
 import UploadMultiFile from 'src/components/upload/UploadMultiFile';
 import { fCurrency } from 'src/utils/formatNumber';
-import axios from 'axios';
 // ----------------------------------------------------------------------
 
 const GENDER_OPTION = ['men', 'women', 'kids', 'others'];

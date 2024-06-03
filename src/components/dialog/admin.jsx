@@ -1,6 +1,8 @@
 'use client';
 import * as React from 'react';
 import PropTypes from 'prop-types';
+import { useRouter } from 'next-nprogress-bar';
+
 // mui
 import { Stack, Typography, IconButton } from '@mui/material';
 import { useTheme } from '@mui/material/styles';
@@ -8,9 +10,8 @@ import Button from '@mui/material/Button';
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
 import DialogTitle from '@mui/material/DialogTitle';
+// assets
 import { SuccessPopupIcon } from 'src/assets';
-// next
-import { useRouter } from 'next-nprogress-bar';
 // icons
 import { IoClose } from 'react-icons/io5';
 

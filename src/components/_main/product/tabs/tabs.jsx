@@ -1,12 +1,13 @@
 'use client';
 import { useState } from 'react';
+import PropTypes from 'prop-types';
+
 // mui
 import { styled } from '@mui/material/styles';
 import { Box, Tab, Card, Divider, Typography } from '@mui/material';
 import { TabContext, TabList, TabPanel } from '@mui/lab';
 // components
 import ProductDetailsReview from '../reviews';
-import PropTypes from 'prop-types';
 const RootStyles = styled('div')(() => ({
   overflow: 'hidden',
   position: 'relative',

@@ -1,5 +1,6 @@
-import { Skeleton, TableCell, TableHead, TableRow } from '@mui/material';
 import React from 'react';
+// mui
+import { Skeleton, TableCell, TableHead, TableRow } from '@mui/material';
 
 export default function TableHeadMain() {
   return (

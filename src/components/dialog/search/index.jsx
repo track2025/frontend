@@ -1,5 +1,5 @@
 import * as React from 'react';
-// react js
+// icons
 import { IoSearchOutline } from 'react-icons/io5';
 // mui
 import { Dialog, alpha, Stack, Typography } from '@mui/material';

@@ -1,9 +1,11 @@
 'use client';
 import Image from 'next/image';
 import { useState, useEffect } from 'react';
+// mui
 import { Box, Button, Card, Stack, Typography, useTheme } from '@mui/material';
 // import { IoIosArrowForward } from 'react-icons/io';
 import NextLink from 'next/link';
+// images
 import bgImage from '../../../../../public/images/top-banners/countdown.png';
 export default function Index() {
   const theme = useTheme();

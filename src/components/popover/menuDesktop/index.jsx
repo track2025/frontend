@@ -2,7 +2,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 // mui
 import { Grid } from '@mui/material';
-
 // components
 import MenuDesktopList from 'src/components/lists/menuDesktopList';
 import MenuPopover from 'src/components/popover/popover';

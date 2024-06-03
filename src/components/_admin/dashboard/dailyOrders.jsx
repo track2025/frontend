@@ -1,9 +1,9 @@
+import PropTypes from 'prop-types';
 // mui
 import { alpha } from '@mui/material/styles';
 import { Box, Card, Typography, Button, Skeleton } from '@mui/material';
 // icon
 import { BsClipboard2DataFill } from 'react-icons/bs';
-import PropTypes from 'prop-types';
 
 DailyOrder.propTypes = {
   data: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),

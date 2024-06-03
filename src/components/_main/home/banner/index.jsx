@@ -3,9 +3,12 @@ import React from 'react';
 import Link from 'next/link';
 // mui
 import { Box, Typography, Grid, Button, Container, Stack } from '@mui/material';
-// blur image
+// icons
 import { IoIosArrowForward } from 'react-icons/io';
+
+// blur image
 import bannerImg from '../../../../../public/images/banner-3.png';
+// components
 import BlurImage from 'src/components/blurImage';
 
 export default function Banner() {

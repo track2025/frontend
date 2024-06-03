@@ -1,8 +1,11 @@
+import PropTypes from 'prop-types';
+// stripe
 import { CardElement } from '@stripe/react-stripe-js';
+// components
 import CheckoutError from './Error';
+// mui
 import { Paper } from '@mui/material';
 import { useTheme } from '@mui/material/styles';
-import PropTypes from 'prop-types';
 
 const CheckoutForm = ({ error }) => {
   const theme = useTheme();

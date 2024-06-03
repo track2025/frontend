@@ -1,22 +1,18 @@
 'use client';
 import React from 'react';
-
-// next component
 import { useRouter } from 'next-nprogress-bar';
 import { useSearchParams } from 'next/navigation';
+import { toast } from 'react-hot-toast';
+import OtpInput from 'react-otp-input';
+import Countdown from 'react-countdown';
+import { useSelector, useDispatch } from 'react-redux';
 // api
 import * as api from 'src/services';
 import { useMutation } from 'react-query';
 import { verifyUser } from 'src/redux/slices/user';
-// toast
-import { toast } from 'react-hot-toast';
-// mui Component
+// mui
 import { Box, Card, Stack, Container, Typography } from '@mui/material';
 import { LoadingButton } from '@mui/lab';
-// react component
-import OtpInput from 'react-otp-input';
-import Countdown from 'react-countdown';
-import { useSelector, useDispatch } from 'react-redux';
 import { useTheme } from '@mui/material/styles';
 // Renderer callback with condition
 const renderer = ({ minutes, seconds }) => {

@@ -1,21 +1,17 @@
 'use client';
 import * as React from 'react';
+import { useRouter } from 'next-nprogress-bar';
+import toast from 'react-hot-toast';
+import PropTypes from 'prop-types';
 // mui
 import { Menu, MenuItem } from '@mui/material';
-// mui
+// mui lab
 import LoadingButton from '@mui/lab/LoadingButton';
 // icons
 import { IoIosArrowDown } from 'react-icons/io';
-// react
-import { useMutation } from 'react-query';
-// next
-import { useRouter } from 'next-nprogress-bar';
 // api
 import * as api from 'src/services';
-// toast
-import toast from 'react-hot-toast';
-
-import PropTypes from 'prop-types';
+import { useMutation } from 'react-query';
 
 SelectOrderStatus.propTypes = {
   data: PropTypes.object.isRequired

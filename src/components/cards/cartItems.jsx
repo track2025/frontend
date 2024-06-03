@@ -1,11 +1,11 @@
 'use client';
 import React from 'react';
 import PropTypes from 'prop-types';
+import Image from 'next/image';
+
 // mui
 import { Card, CardContent, Stack, Box, Divider, Typography, Skeleton } from '@mui/material';
-// next
-import Image from 'next/image';
-// components
+// hooks
 import { useCurrencyConvert } from 'src/hooks/convertCurrency';
 import { useCurrencyFormatter } from 'src/hooks/formatCurrency';
 

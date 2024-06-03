@@ -1,17 +1,16 @@
 // react
 'use client';
 import PropTypes from 'prop-types';
+import { useSelector } from 'react-redux';
+import Image from 'next/image';
+
 // mui
 import { Box, Typography, Card, Stack, Rating, Avatar } from '@mui/material';
 // icons
 import { GoVerified } from 'react-icons/go';
-
-import { useSelector } from 'react-redux';
-
 // framer motion
 import { motion, AnimatePresence } from 'framer-motion';
-// Next
-import Image from 'next/image';
+
 const variants = {
   enter: (direction) => {
     return {

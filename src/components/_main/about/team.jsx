@@ -1,5 +1,4 @@
 import React from 'react';
-// next
 import Image from 'next/image';
 // mui
 import { Box, Typography } from '@mui/material';
