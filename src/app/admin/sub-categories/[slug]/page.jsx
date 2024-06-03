@@ -1,13 +1,15 @@
 'use client';
 import React from 'react';
-
-import HeaderBreadcrumbs from 'src/components/headerBreadcrumbs';
-import EditSubCategory from 'src/components/_admin/subCategories/editCategory';
-import * as api from 'src/services';
-// usequery
-import { useQuery } from 'react-query';
 import toast from 'react-hot-toast';
 import PropTypes from 'prop-types';
+
+// components
+import HeaderBreadcrumbs from 'src/components/headerBreadcrumbs';
+import EditSubCategory from 'src/components/_admin/subCategories/editCategory';
+
+// api
+import * as api from 'src/services';
+import { useQuery } from 'react-query';
 
 Page.propTypes = {
   params: PropTypes.shape({

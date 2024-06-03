@@ -1,15 +1,15 @@
 'use client';
 // react
 import * as React from 'react';
-// next
+import { sum } from 'lodash';
 import { usePathname } from 'next/navigation';
 import { useRouter } from 'next-nprogress-bar';
+import { useSelector } from 'react-redux';
 
-// loadash
-import { sum } from 'lodash';
+// mui
+import { Box, Badge, Button } from '@mui/material';
 
 // icons
-import { Box, Badge, Button } from '@mui/material';
 import { HiOutlineHome, HiHome } from 'react-icons/hi';
 import { IoSearch } from 'react-icons/io5';
 import { BsShopWindow } from 'react-icons/bs';
@@ -17,14 +17,11 @@ import { HiShoppingBag, HiOutlineShoppingBag } from 'react-icons/hi';
 import { FaRegUser } from 'react-icons/fa6';
 import { FaUser } from 'react-icons/fa6';
 
-// redux
-import { useSelector } from 'react-redux';
+// styles
+import RootStyled from './styled';
 
 // config
 import config from 'src/layout/_main/config.json';
-
-// styles
-import RootStyled from './styled';
 
 const getIcon = (href, totalItems) => {
   switch (href) {

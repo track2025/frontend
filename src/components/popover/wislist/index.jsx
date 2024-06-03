@@ -47,7 +47,7 @@ export default function WishlistPopover() {
             borderColor: 'primary',
             borderWidth: 1,
             borderStyle: 'solid',
-            bgcolor: (theme) => alpha(theme.palette.primary.main, 0.2)
+            bgcolor: (theme) => alpha(theme.palette.primary.main, 0.1)
           }}
           onClick={() => {
             if (!isAuthenticated) {

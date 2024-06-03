@@ -2,14 +2,9 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { formatDistanceToNow } from 'date-fns';
 import { useRef, useState } from 'react';
-// react router do
-import { GoClock } from 'react-icons/go';
-import { IoNotificationsOutline } from 'react-icons/io5';
-import { TbCheck } from 'react-icons/tb';
-import { TbChecks } from 'react-icons/tb';
+import { useRouter } from 'next-nprogress-bar';
+import { enUS } from 'date-fns/locale';
 
-import { useQuery } from 'react-query';
-import * as api from 'src/services';
 // mui
 import {
   Box,
@@ -27,13 +22,20 @@ import {
   ListItemButton,
   IconButton
 } from '@mui/material';
-import { enUS } from 'date-fns/locale';
-// next
-import { useRouter } from 'next-nprogress-bar';
-// component
+
+// icons
+import { GoClock } from 'react-icons/go';
+import { IoNotificationsOutline } from 'react-icons/io5';
+import { TbCheck } from 'react-icons/tb';
+import { TbChecks } from 'react-icons/tb';
+
+// components
 import { Popover as MenuPopover } from 'src/components/popover';
 import NoDataFoundIllustration from 'src/illustrations/dataNotFound';
-// ----------------------------------------------------------------------
+
+// api
+import { useQuery } from 'react-query';
+import * as api from 'src/services';
 
 // ----------------------------------------------------------------------
 

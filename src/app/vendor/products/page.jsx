@@ -2,8 +2,8 @@ import React from 'react';
 
 // components
 import ProductList from 'src/components/_admin/products/productList';
-
 import HeaderBreadcrumbs from 'src/components/headerBreadcrumbs';
+
 // Meta information
 export const metadata = {
   title: 'Products - Nextall',

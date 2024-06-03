@@ -1,7 +1,7 @@
 import React from 'react';
+
 // Components
 import BrandList from 'src/components/_admin/brands/brandList';
-// Breadcrumbs
 import HeaderBreadcrumbs from 'src/components/headerBreadcrumbs';
 
 // Meta information
@@ -10,6 +10,7 @@ export const metadata = {
   applicationName: 'Nextall',
   authors: 'Nextall'
 };
+
 export default function Brands() {
   return (
     <>

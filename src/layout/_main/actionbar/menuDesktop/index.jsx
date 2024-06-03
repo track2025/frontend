@@ -1,19 +1,24 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { useState, useEffect } from 'react';
-// next
-import { useRouter } from 'src/hooks/useRouter';
+import NextLink from 'next/link';
+import { useRouter } from 'next-nprogress-bar';
+
 // material
 import typography from 'src/theme/typography';
 import { Link, Stack, Button, alpha, Box } from '@mui/material';
-import NextLink from 'next/link';
+
+// icons
 import { RxDashboard } from 'react-icons/rx';
 import { FaAngleDown } from 'react-icons/fa6';
 
 // components
 import MenuDesktopPopover from 'src/components/popover/menuDesktop';
+
+// api
 import { useQuery } from 'react-query';
 import * as api from 'src/services';
+
 // ----------------------------------------------------------------------
 
 MenuDesktopItem.propTypes = {
@@ -24,7 +29,6 @@ MenuDesktopItem.propTypes = {
   isOpen: PropTypes.bool.isRequired,
   onOpen: PropTypes.func.isRequired,
   data: PropTypes.array.isRequired,
-
   isOffset: PropTypes.bool.isRequired,
   scrollPosition: PropTypes.any
 };
@@ -119,12 +123,6 @@ export default function MenuDesktop({ ...props }) {
   const { isOffset, navConfig, isLeft } = props;
 
   const { data, isLoading } = useQuery(['get-categories-all'], () => api.getAllCategories());
-  // React.useEffect(() => {
-  // if (!isLoading) {
-  // dispatch(setCategories(data));
-  // }
-  // // eslint-disable-next-line react-hooks/exhaustive-deps
-  // }, [data]);
 
   const { pathname } = useRouter();
 

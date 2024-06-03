@@ -1,15 +1,15 @@
 'use client';
 import React from 'react';
-// Toolbar
-
-// Breadcrumbs
-import HeaderBreadcrumbs from 'src/components/headerBreadcrumbs';
-// components
-import EditCompaign from 'src/components/_admin/compaigns/editCompaign';
-import * as api from 'src/services';
-// usequery
-import { useQuery } from 'react-query';
 import toast from 'react-hot-toast';
+
+// components
+import HeaderBreadcrumbs from 'src/components/headerBreadcrumbs';
+import EditCompaign from 'src/components/_admin/compaigns/editCompaign';
+
+// api
+import * as api from 'src/services';
+import { useQuery } from 'react-query';
+
 export default function Page({ params }) {
   const { data, isLoading } = useQuery(['get-admin-compaign'], () => api.getCompaignByAdmin(params.slug), {
     onError: (err) => {

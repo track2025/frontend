@@ -1,5 +1,6 @@
 import React from 'react';
 
+// components
 import HeaderBreadcrumbs from 'src/components/headerBreadcrumbs';
 import UsersDetails from 'src/components/_admin/users/userDetails';
 

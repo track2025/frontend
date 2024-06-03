@@ -1,11 +1,13 @@
 'use client';
 import React from 'react';
 import dynamic from 'next/dynamic';
-// redux
+import NextLink from 'next/link';
 import { useSelector } from 'react-redux';
+
 // mui
 import { Toolbar, Container, Stack, useTheme, Link, Divider, Skeleton } from '@mui/material';
-import NextLink from 'next/link';
+
+// icons
 import { MdOutlinePhone } from 'react-icons/md';
 import { MdOutlineMail } from 'react-icons/md';
 
@@ -33,7 +35,6 @@ export default function UserTopbar() {
           justifyContent: 'space-between',
           display: { xs: 'none', md: 'flex' },
           position: 'static',
-          // top: 0,
           zIndex: 999,
           width: '100%',
           px: '0px!important'

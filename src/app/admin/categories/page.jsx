@@ -1,13 +1,16 @@
 import React from 'react';
+
 // Components
 import CategoryList from 'src/components/_admin/categories/categoryList';
 import HeaderBreadcrumbs from 'src/components/headerBreadcrumbs';
+
 // Meta information
 export const metadata = {
   title: 'Categories - Nextall',
   applicationName: 'Nextall',
   authors: 'Nextall'
 };
+
 export default function Categories() {
   return (
     <>

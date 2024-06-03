@@ -29,11 +29,10 @@ const GREY = {
 };
 
 const PRIMARY = {
-  light: '#F5656B',
+  light: '#F14B73',
   main: '#EE1E50',
-  dark: '#C33338',
-  contrastText: '#fff',
-  extraLight: '#FFCFAF'
+  dark: '#BE1840',
+  contrastText: '#fff'
 };
 const SECONDARY = {
   light: '#609DDE',
@@ -45,8 +44,7 @@ const INFO = {
   light: '#85D3F0',
   main: '#33B5E6',
   dark: '#2991B8',
-  contrastText: '#fff',
-  extraLight: '#0061C80D'
+  contrastText: '#fff'
 };
 const SUCCESS = {
   light: '#7DDAC0',
@@ -113,15 +111,15 @@ const palette = {
   light: {
     ...COMMON,
     divider: GREY[400],
-    text: { primary: GREY[800], secondary: GREY[600], disabled: GREY[500] },
-    background: { paper: '#fff', default: '#F3F6F9' },
+    text: { primary: GREY[900], secondary: GREY[600], disabled: GREY[500] },
+    background: { paper: GREY[0], default: GREY[100] },
     action: { active: GREY[600], ...COMMON.action }
   },
   dark: {
     ...COMMON,
     divider: GREY[700],
-    text: { primary: '#fff', secondary: GREY[500], disabled: GREY[600] },
-    background: { paper: '#162031', default: '#0F172B' },
+    text: { primary: GREY[0], secondary: GREY[500], disabled: GREY[600] },
+    background: { paper: GREY[800], default: GREY[900] },
     action: { active: GREY[500], ...COMMON.action }
   }
 };

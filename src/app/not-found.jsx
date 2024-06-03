@@ -1,10 +1,12 @@
 'use client';
 import React from 'react';
+import { useRouter } from 'next-nprogress-bar';
+
 // mui
 import { Box, Button, Typography } from '@mui/material';
+
 // svg
 import { NotFoundIllustration } from 'src/illustrations';
-import { useRouter } from 'next-nprogress-bar';
 
 export default function NotFound() {
   const router = useRouter();

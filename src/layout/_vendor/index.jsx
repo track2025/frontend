@@ -1,6 +1,9 @@
 'use client';
 import * as React from 'react';
 import PropTypes from 'prop-types';
+import { useDispatch } from 'src/redux';
+import { toggleSidebar } from 'src/redux/slices/settings';
+
 // mui
 import { styled } from '@mui/material/styles';
 import Box from '@mui/material/Box';
@@ -8,9 +11,6 @@ import Box from '@mui/material/Box';
 // components
 import DashboardAppbar from './topbar';
 import DashboardSidebar from './sidebar';
-// redux
-import { useDispatch } from 'src/redux';
-import { toggleSidebar } from 'src/redux/slices/settings';
 
 const DrawerHeader = styled('div')(({ theme }) => ({
   display: 'flex',

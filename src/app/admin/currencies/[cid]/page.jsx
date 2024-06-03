@@ -1,15 +1,15 @@
 'use client';
 import React from 'react';
-// Toolbar
+import toast from 'react-hot-toast';
 
-// Breadcrumbs
-import HeaderBreadcrumbs from 'src/components/headerBreadcrumbs';
 // components
 import EditCurrency from 'src/components/_admin/currencies/editCurrency';
+import HeaderBreadcrumbs from 'src/components/headerBreadcrumbs';
+
+// api
 import * as api from 'src/services';
-// usequery
 import { useQuery } from 'react-query';
-import toast from 'react-hot-toast';
+
 export default function Page({ params }) {
   const { data, isLoading } = useQuery(['get-admin-currency'], () => api.getCurrencyByAdmin(params.cid), {
     onError: (err) => {

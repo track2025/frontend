@@ -14,10 +14,10 @@ export const useCurrencyFormatter = (curr) => {
       });
       setFormatter(newFormatter);
     }
-  }, [currency, locale, curr]); // Update formatter on currency or locale change
+  }, [currency, locale, curr]);
 
   const formatCurrency = (number) => {
-    if (!formatter) return number; // Handle cases where currency or locale haven't loaded yet
+    if (!formatter) return number;
     return formatter.format(Number(number)).slice(0, -1);
   };
 

@@ -22,7 +22,7 @@ const renderer = ({ days, hours, minutes, seconds }) => {
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'center',
-          bgcolor: (theme) => alpha(theme.palette.primary.main, 0.2),
+          bgcolor: (theme) => alpha(theme.palette.primary.main, 0.1),
           borderRadius: 2
         }
       }}

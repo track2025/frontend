@@ -1,23 +1,22 @@
 'use client';
 import React from 'react';
 import PropTypes from 'prop-types';
-// mui
-import { styled, alpha, useMediaQuery, useTheme } from '@mui/material';
-import MuiAppBar from '@mui/material/AppBar';
-import Toolbar from '@mui/material/Toolbar';
-import IconButton from '@mui/material/IconButton';
-import Skeleton from '@mui/material/Skeleton';
-import Stack from '@mui/material/Stack';
-// icons
-import { RxHamburgerMenu } from 'react-icons/rx';
-// next
 import { usePathname } from 'next/navigation';
 import dynamic from 'next/dynamic';
+
+// mui
+import { styled, alpha, useMediaQuery, useTheme, Toolbar, IconButton, Skeleton, Stack } from '@mui/material';
+import MuiAppBar from '@mui/material/AppBar';
+
+// icons
+import { RxHamburgerMenu } from 'react-icons/rx';
 
 // components
 import Logo from 'src/components/logo';
 import { navlinks } from '../sidebar';
 import Search from 'src/components/search';
+
+// dynamic imports
 const UserSelect = dynamic(() => import('src/components/select/userSelect'), {
   ssr: false,
   loading: () => <Skeleton variant="circular" width={50} height={50} />
@@ -26,6 +25,7 @@ const SettingMode = dynamic(() => import('src/components/settings/themeModeSetti
   ssr: false,
   loading: () => <Skeleton variant="circular" width={40} height={40} />
 });
+
 const AppBar = styled(MuiAppBar, {
   shouldForwardProp: (prop) => prop !== 'open'
 })(({ theme }) => ({

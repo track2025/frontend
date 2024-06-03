@@ -1,17 +1,20 @@
 'use client';
 import React from 'react';
-// mui
-import { Container, Grid, Box, Alert, Skeleton } from '@mui/material';
-import OrderDetails from 'src/components/_main/orders/orderDetails';
-import TableCard from 'src/components/table/order';
-
-import HeaderBreadcrumbs from 'src/components/headerBreadcrumbs';
-import OrderToolbarActions from 'src/components/_admin/orders/orderToolbarActions';
-import * as api from 'src/services';
-// usequery
-import { useQuery } from 'react-query';
 import toast from 'react-hot-toast';
 import PropTypes from 'prop-types';
+
+// mui
+import { Container, Grid, Box, Alert, Skeleton } from '@mui/material';
+
+// components
+import OrderDetails from 'src/components/_main/orders/orderDetails';
+import TableCard from 'src/components/table/order';
+import HeaderBreadcrumbs from 'src/components/headerBreadcrumbs';
+import OrderToolbarActions from 'src/components/_admin/orders/orderToolbarActions';
+
+// api
+import * as api from 'src/services';
+import { useQuery } from 'react-query';
 
 OrderDetail.propTypes = {
   params: PropTypes.shape({

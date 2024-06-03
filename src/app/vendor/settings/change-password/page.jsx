@@ -1,8 +1,12 @@
 import React from 'react';
-import HeaderBreadcrumbs from 'src/components/headerBreadcrumbs';
 
-import AccountChangePassword from 'src/components/_main/profile/edit/accountChangePassword';
+// mui
 import { Card, Container, Stack, Typography } from '@mui/material';
+
+// components
+import HeaderBreadcrumbs from 'src/components/headerBreadcrumbs';
+import AccountChangePassword from 'src/components/_main/profile/edit/accountChangePassword';
+
 export default function page() {
   return (
     <div>

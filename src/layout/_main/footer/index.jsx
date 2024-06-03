@@ -1,15 +1,15 @@
 'use client';
-// react
 import React from 'react';
+import NextLink from 'next/link';
 
 // mui
 import { alpha, useTheme } from '@mui/material/styles';
 import { Typography, Container, Stack, Box, IconButton, Grid, Link, Fab, Divider } from '@mui/material';
-// next
-import NextLink from 'next/link';
+
 // components
 import NewsLetter from './newsletter';
 import Logo from 'src/components/logo';
+
 // icons
 import { FaFacebookF, FaInstagram, FaLinkedinIn } from 'react-icons/fa';
 import { MdOutlineLocationOn } from 'react-icons/md';

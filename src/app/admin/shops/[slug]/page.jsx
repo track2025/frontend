@@ -1,16 +1,25 @@
 'use client';
 import React from 'react';
-import * as api from 'src/services';
-import { useQuery } from 'react-query';
+import PropTypes from 'prop-types';
+
+// mui
+import { useTheme } from '@mui/material';
+
+// components
 import ShopDetailCover from 'src/components/_admin/shops/shopDetailCover';
 import ShopDetail from 'src/components/_admin/shops/shopDetail';
 import ShopIcomeList from '../../../../components/_admin/shops/shopIncome';
+
+// icons
 import { FaGifts } from 'react-icons/fa6';
 import { HiOutlineClipboardList } from 'react-icons/hi';
 import { TbChartArrowsVertical } from 'react-icons/tb';
 import { FaWallet } from 'react-icons/fa6';
-import { useTheme } from '@mui/material';
-import PropTypes from 'prop-types';
+
+// api
+import * as api from 'src/services';
+import { useQuery } from 'react-query';
+
 Page.propTypes = {
   params: PropTypes.object.isRequired
 };

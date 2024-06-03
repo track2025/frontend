@@ -1,9 +1,12 @@
 import React from 'react';
-// Components
 
+// components
 import HeaderBreadcrumbs from 'src/components/headerBreadcrumbs';
 import PayoutsList from 'src/components/_admin/payouts';
+
+// api
 import * as api from 'src/services';
+
 // Meta information
 export const metadata = {
   title: 'Payouts - Nextall',

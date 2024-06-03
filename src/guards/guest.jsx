@@ -1,12 +1,11 @@
 'use client';
 import { useEffect, useState } from 'react';
-// next
-import { useRouter } from 'next-nprogress-bar';
-// redux
-import { useSelector } from 'src/redux';
-import Loading from 'src/components/loading';
-// PropTypes;
 import PropTypes from 'prop-types';
+import { useRouter } from 'next-nprogress-bar';
+import { useSelector } from 'src/redux';
+
+// components
+import Loading from 'src/components/loading';
 
 Guest.propTypes = {
   children: PropTypes.node.isRequired

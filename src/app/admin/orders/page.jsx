@@ -1,7 +1,10 @@
 import React from 'react';
-// Components
+
+// components
 import HeaderBreadcrumbs from 'src/components/headerBreadcrumbs';
 import OrdersList from 'src/components/_admin/orders/ordersList';
+
+// api
 import * as api from 'src/services';
 // Meta information
 export const metadata = {

@@ -1,23 +1,21 @@
 'use client';
 import React, { useState } from 'react';
-
-// toast
+import { useSearchParams } from 'next/navigation';
 import toast from 'react-hot-toast';
+
 // api
 import * as api from 'src/services';
-// usequery
 import { useQuery } from 'react-query';
+
 // mui
 import { Dialog } from '@mui/material';
 
 // components
 import DeleteDialog from 'src/components/dialog/delete';
 import Table from 'src/components/table/table';
-
 import CouponCode from 'src/components/table/rows/couponCode';
-import { useSearchParams } from 'next/navigation';
-
 import HeaderBreadcrumbs from 'src/components/headerBreadcrumbs';
+
 // ----------------------------------------------------------------------
 
 const TABLE_HEAD = [
@@ -26,9 +24,9 @@ const TABLE_HEAD = [
   { id: 'type', label: 'Type', alignRight: false },
   { id: 'discount', label: 'Discount', alignRight: false, sort: true },
   { id: 'expire', label: 'Expire', alignRight: false, sort: true },
-
   { id: '', label: 'actions', alignRight: true }
 ];
+
 // ----------------------------------------------------------------------
 export default function Catgeories() {
   const searchParams = useSearchParams();
