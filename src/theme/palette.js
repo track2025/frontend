@@ -53,9 +53,9 @@ const SUCCESS = {
   contrastText: '#fff'
 };
 const WARNING = {
-  light: '#F5D69A',
-  main: '#EEBA56',
-  dark: '#C49845',
+  light: '#FAB833',
+  main: '#F9A600',
+  dark: '#C78500',
   contrastText: '#fff'
 };
 const ERROR = {
