@@ -3,8 +3,11 @@
 import { useMutation, useQuery } from 'react-query';
 import React from 'react';
 import { useCallback } from 'react';
+import { toast } from 'react-hot-toast';
+import { usePathname } from 'next/navigation';
+import { useRouter } from 'next-nprogress-bar';
+// icons
 import { MdVerified } from 'react-icons/md';
-
 // mui
 import { Box, Grid, Card, Stack, TextField, Typography, FormHelperText, Skeleton } from '@mui/material';
 import { LoadingButton } from '@mui/lab';
@@ -23,10 +26,6 @@ import axios from 'axios';
 import { useDispatch } from 'react-redux';
 import { setLogin } from 'src/redux/slices/user';
 import { useSelector } from 'react-redux';
-// notification toast
-import { toast } from 'react-hot-toast';
-import { usePathname } from 'next/navigation';
-import { useRouter } from 'next-nprogress-bar';
 
 export default function AccountGeneral() {
   const { user: adminUser } = useSelector(({ user }) => user);

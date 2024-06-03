@@ -1,13 +1,10 @@
 import { useEffect, useState, useCallback } from 'react';
 import PropTypes from 'prop-types';
-
-// mui
-import { FormGroup, FormControlLabel, Checkbox, Grid, Typography, Button, Zoom, Stack } from '@mui/material';
-// next
 import { useRouter } from 'next-nprogress-bar';
 import { useSearchParams } from 'next/navigation';
-
-// data
+// mui
+import { FormGroup, FormControlLabel, Checkbox, Grid, Typography, Button, Zoom, Stack } from '@mui/material';
+// icons
 import { RiFontSize2 } from 'react-icons/ri';
 
 const label = { inputProps: { 'aria-label': 'Checkbox demo' } };

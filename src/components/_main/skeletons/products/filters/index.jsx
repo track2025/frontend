@@ -1,6 +1,7 @@
 import React from 'react';
 // mui
 import { Card, Typography, Skeleton, Divider, Box } from '@mui/material';
+// components
 import Brands from './brands';
 import Gander from './gander';
 import Colors from './colors';

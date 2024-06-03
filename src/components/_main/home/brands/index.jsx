@@ -1,12 +1,13 @@
 'use client';
 import React from 'react';
+import { useRouter } from 'next-nprogress-bar';
+// components
 import Image from 'src/components/blurImage';
 // mui
 import { Typography, Box, Stack, Card, Grid, Skeleton, CardActionArea } from '@mui/material';
 // // api
 import * as api from 'src/services';
 import { useQuery } from 'react-query';
-import { useRouter } from 'next-nprogress-bar';
 
 export default function Brands() {
   const { push } = useRouter();

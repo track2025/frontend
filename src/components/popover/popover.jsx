@@ -1,7 +1,8 @@
+// mui
 import { useTheme } from '@mui/material';
+import PropTypes from 'prop-types';
 // styled
 import RootStyled from './styled';
-import PropTypes from 'prop-types';
 
 MenuPopover.propTypes = {
   open: PropTypes.bool.isRequired,

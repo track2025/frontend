@@ -1,7 +1,7 @@
 import React from 'react';
-import CouponCodeForm from 'src/components/forms/couponCode';
-
 import PropTypes from 'prop-types';
+// components
+import CouponCodeForm from 'src/components/forms/couponCode';
 
 EditCategory.propTypes = {
   data: PropTypes.object.isRequired,

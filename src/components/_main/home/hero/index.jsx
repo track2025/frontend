@@ -1,11 +1,13 @@
 import React from 'react';
+import { Suspense } from 'react';
+
 // components
 import SingleSlideCarousel from 'src/components/carousels/singleSlide';
 import MegaMenu from 'src/components/mega-menu/MegaMenuDesktopVertical';
 // slides data
 import { data } from './data';
+// mui
 import { Stack } from '@mui/material';
-import { Suspense } from 'react';
 
 export default function Hero({}) {
   return (

@@ -1,5 +1,4 @@
 import React from 'react';
-
 // mui
 import { Box, Typography } from '@mui/material';
 // styled

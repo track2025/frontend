@@ -1,15 +1,15 @@
 'use client';
 import React from 'react';
+import PropTypes from 'prop-types';
+
 // mui
 import { Card, CardContent, FormControlLabel, Radio, Typography, Stack, RadioGroup, Collapse } from '@mui/material';
 // icons
 import { BsStripe } from 'react-icons/bs';
 import { FaPaypal } from 'react-icons/fa';
 import { IoCash } from 'react-icons/io5';
-// redux
+// componenets
 import StripeCheckoutForm from 'src/components/stripe/Form';
-
-import PropTypes from 'prop-types';
 
 PaymentMethodCard.propTypes = {
   value: PropTypes.string.isRequired,

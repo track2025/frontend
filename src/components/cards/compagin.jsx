@@ -1,5 +1,4 @@
 'use client';
-// next
 import Link from 'next/link';
 // mui
 import { Typography, Card, Box, Stack, CardContent, alpha, Skeleton } from '@mui/material';

@@ -1,11 +1,9 @@
+import PropTypes from 'prop-types';
 // mui
 import { alpha } from '@mui/material/styles';
 import { Box, Card, Typography, Button, Skeleton } from '@mui/material';
-
 // utils
 import { fCurrency } from 'src/utils/formatNumber';
-
-import PropTypes from 'prop-types';
 
 DailyEaring.propTypes = {
   title: PropTypes.string.required,

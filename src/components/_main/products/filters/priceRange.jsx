@@ -1,16 +1,15 @@
 import React from 'react';
+import dynamic from 'next/dynamic';
+
+import PropTypes from 'prop-types';
 // mui
 import { Typography, Stack, Skeleton } from '@mui/material';
-// next
-import dynamic from 'next/dynamic';
-// PropTypes;
-import PropTypes from 'prop-types';
 
 PriceRange.propTypes = {
   prices: PropTypes.array.isRequired,
   path: PropTypes.string.isRequired
 };
-
+// dynamic
 const Slider = dynamic(() => import('src/components/slider'), {
   loading: () => (
     <Stack>

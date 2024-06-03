@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 // mui
 import { Grid, Paper, Typography, Skeleton, IconButton, Box, Tooltip } from '@mui/material';
 import { styled } from '@mui/material/styles';
-// utils
+// components
 import { fDateShort } from 'src/utils/formatTime';
 // icons
 import { MdContentCopy } from 'react-icons/md';

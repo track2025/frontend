@@ -1,9 +1,10 @@
 'use client';
 import React from 'react';
 import PropTypes from 'prop-types';
+// api
 import * as api from 'src/services';
-// usequery
 import { useQuery } from 'react-query';
+// components
 import ProductDetailsReview from '../reviews';
 TabsIndex.propTypes = {
   product: PropTypes.object.isRequired,

@@ -1,40 +1,35 @@
 'use client';
 import React, { useState } from 'react';
-// next
 import dynamic from 'next/dynamic';
 import { useRouter } from 'next-nprogress-bar';
+import { useDispatch, useSelector } from 'react-redux';
+import { useMutation } from 'react-query';
+import { toast } from 'react-hot-toast';
+import { sum } from 'lodash';
 // mui
 import { Box, Collapse, Grid } from '@mui/material';
 import LoadingButton from '@mui/lab/LoadingButton';
-
-// redux
-import { useDispatch, useSelector } from 'react-redux';
-import { useMutation } from 'react-query';
 // yup
 import * as Yup from 'yup';
 // formik
 import { useFormik, Form, FormikProvider } from 'formik';
 // api
 import * as api from 'src/services';
-
 // stripe
 import { useStripe, useElements } from '@stripe/react-stripe-js';
-// toast
-import { toast } from 'react-hot-toast';
+
 // Componensts
 import { resetCart, getCart } from 'src/redux/slices/product';
 import PayPalPaymentMethod from 'src/components/paypal/paypal';
-
 import countries from './countries.json';
-// lodash
-import { sum } from 'lodash';
-// paypal
-import { PayPalScriptProvider } from '@paypal/react-paypal-js';
 import CheckoutGuestFormSkeleton from '../skeletons/checkout/checkoutForm';
 import PaymentInfoSkeleton from '../skeletons/checkout/paymentInfo';
 import PaymentMethodCardSkeleton from '../skeletons/checkout/paymentMethod';
 import CardItemSekelton from '../skeletons/checkout/cartItems';
+// hooks
 import { useCurrencyConvert } from 'src/hooks/convertCurrency';
+// paypal
+import { PayPalScriptProvider } from '@paypal/react-paypal-js';
 // dynamic components
 const CheckoutForm = dynamic(() => import('src/components/forms/checkout'), {
   loading: () => <CheckoutGuestFormSkeleton />

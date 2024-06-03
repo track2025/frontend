@@ -1,13 +1,16 @@
 'use client';
 import React, { useEffect } from 'react';
-import ShopForm from 'src/components/forms/shopSetting';
-import { Typography, Skeleton } from '@mui/material';
-import * as api from 'src/services';
-// usequery
-import { useQuery } from 'react-query';
 import toast from 'react-hot-toast';
 import { useRouter } from 'next-nprogress-bar';
 import { useDispatch, useSelector } from 'react-redux';
+// mui
+import { Typography, Skeleton } from '@mui/material';
+// api
+import * as api from 'src/services';
+import { useQuery } from 'react-query';
+
+// components
+import ShopForm from 'src/components/forms/shopSetting';
 import { updateStatus } from 'src/redux/slices/user';
 export default function ShopSettingMain() {
   const router = useRouter();

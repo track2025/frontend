@@ -1,7 +1,7 @@
 'use client';
 import React, { useState } from 'react';
-// toast
 import toast from 'react-hot-toast';
+import { useSearchParams } from 'next/navigation';
 // api
 import * as api from 'src/services';
 // usequery
@@ -12,8 +12,6 @@ import { Dialog } from '@mui/material';
 import DeleteDialog from 'src/components/dialog/delete';
 import Table from 'src/components/table/table';
 import Category from 'src/components/table/rows/category';
-// next
-import { useSearchParams } from 'next/navigation';
 
 const TABLE_HEAD = [
   { id: 'name', label: 'Category', alignRight: false, sort: true },

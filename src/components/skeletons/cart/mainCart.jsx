@@ -1,6 +1,7 @@
 import React from 'react';
 // mui
 import { Box, Grid, Skeleton } from '@mui/material';
+// components
 import PaymentSummarySkeleton from './paymentSummary';
 import ShoppingCartSkeleton from './shoppingcart';
 

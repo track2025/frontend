@@ -2,6 +2,8 @@
 import PropTypes from 'prop-types';
 import { useState, useEffect, useCallback } from 'react';
 import dynamic from 'next/dynamic';
+import { isString } from 'lodash';
+
 // mui
 import { Stack, Drawer } from '@mui/material';
 import { Typography, Skeleton, Button } from '@mui/material';
@@ -13,9 +15,7 @@ import { usePathname, useSearchParams } from 'next/navigation';
 import { useRouter } from 'next-nprogress-bar';
 // icon
 import { MdTune } from 'react-icons/md';
-// lodash
-import { isString } from 'lodash';
-//  component
+// dynamic component
 const Filter = dynamic(() => import('src/components/_main/products/filters'), {
   loading: () => <Skeleton variant="rounded" width={'100%'} height={185} />
 });

@@ -2,14 +2,14 @@
 // react
 import React from 'react';
 import NextLink from 'next/link';
+import { useSelector } from 'react-redux';
+
 // mui
 import { Typography, Grid, Box, Stack, Paper, Button } from '@mui/material';
 // icons
-import { IoIosArrowForward } from 'react-icons/io';
-
+import { IoIosArrowForward } from 'react-icons/io';s
 // component
 import ShopCard from 'src/components/cards/shop';
-import { useSelector } from 'react-redux';
 
 export default function ShopComponent() {
   const { shops = [], isLoading } = useSelector(({ shops }) => shops);

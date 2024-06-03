@@ -1,6 +1,9 @@
 'use client';
 import React, { useState } from 'react';
 import { useMutation } from 'react-query';
+import axios from 'axios';
+import toast from 'react-hot-toast';
+import PropTypes from 'prop-types';
 
 // mui
 import { styled } from '@mui/material/styles';
@@ -23,15 +26,10 @@ import UploadSingleFile from 'src/components/upload/UploadSingleFile';
 import { useRouter } from 'next-nprogress-bar';
 // yup
 import * as Yup from 'yup';
-// axios
-import axios from 'axios';
-// toast
-import toast from 'react-hot-toast';
 // formik
 import { Form, FormikProvider, useFormik } from 'formik';
 // api
 import * as api from 'src/services';
-import PropTypes from 'prop-types';
 // countries
 import countries from 'src/components/_main/checkout/countries.json';
 

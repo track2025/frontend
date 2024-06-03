@@ -1,15 +1,14 @@
 'use client';
 import React from 'react';
 import Link from 'next/link';
-
+import { usePathname } from 'next/navigation';
+import { useRouter } from 'next-nprogress-bar';
 // mui
 import { Avatar, IconButton, Typography, Stack, Divider, Box } from '@mui/material';
 import KeyboardArrowDownRoundedIcon from '@mui/icons-material/KeyboardArrowDownRounded';
 
 // components
 import MenuPopover from 'src/components/popover/popover';
-import { usePathname } from 'next/navigation';
-import { useRouter } from 'next-nprogress-bar';
 import { PATH_PAGE } from 'src/routes/paths';
 import { UserList } from 'src/components/lists';
 import BlurImageAvatar from 'src/components/avatar';

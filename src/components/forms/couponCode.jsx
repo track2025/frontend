@@ -2,6 +2,7 @@
 import React from 'react';
 import { useMutation } from 'react-query';
 import PropTypes from 'prop-types';
+import toast from 'react-hot-toast';
 
 // mui
 import { styled } from '@mui/material/styles';
@@ -26,8 +27,6 @@ import * as api from 'src/services';
 import { useRouter } from 'next-nprogress-bar';
 // yup
 import * as Yup from 'yup';
-// toast
-import toast from 'react-hot-toast';
 // formik
 import { Form, FormikProvider, useFormik } from 'formik';
 

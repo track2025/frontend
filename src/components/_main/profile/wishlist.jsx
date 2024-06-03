@@ -1,18 +1,17 @@
 'use client';
 import React from 'react';
+import { useSelector } from 'react-redux';
+
 // mui
 import { Card, Grid } from '@mui/material';
-// next js
 
-// redux
-import { useSelector } from 'react-redux';
 // components
 import NoDataFound from 'src/illustrations/dataNotFound';
+import ProductCard from 'src/components/cards/product';
+
 // api
 import * as api from 'src/services';
-// usequery
 import { useQuery } from 'react-query';
-import ProductCard from 'src/components/cards/product';
 
 export default function Wishlist() {
   const { wishlist } = useSelector(({ wishlist }) => wishlist);

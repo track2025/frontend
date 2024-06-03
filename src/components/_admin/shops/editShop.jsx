@@ -1,11 +1,12 @@
 'use client';
 import React from 'react';
-import ProductForm from 'src/components/forms/product';
-import PropTypes from 'prop-types';
-import * as api from 'src/services';
-// usequery
-import { useQuery } from 'react-query';
 import toast from 'react-hot-toast';
+import PropTypes from 'prop-types';
+// components
+import ProductForm from 'src/components/forms/product';
+// api
+import * as api from 'src/services';
+import { useQuery } from 'react-query';
 EditProduct.propTypes = {
   brands: PropTypes.array.isRequired,
   categories: PropTypes.array.isRequired,

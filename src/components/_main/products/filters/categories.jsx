@@ -1,18 +1,21 @@
 'use client';
 import React from 'react';
 import { useEffect, useState, useCallback } from 'react';
+import { useRouter } from 'next-nprogress-bar';
+import { useSearchParams } from 'next/navigation';
+// mui
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
-import { IoIosArrowDown } from 'react-icons/io';
 import Popover from '@mui/material/Popover';
 import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
 import ListItemButton from '@mui/material/ListItemButton';
 import Divider from '@mui/material/Divider';
 import ListItemText from '@mui/material/ListItemText';
+// icons
+import { IoIosArrowDown } from 'react-icons/io';
 import { RxDashboard } from 'react-icons/rx';
-import { useRouter } from 'next-nprogress-bar';
-import { useSearchParams } from 'next/navigation';
+
 export default function Filters() {
   const [anchorEl, setAnchorEl] = React.useState(null);
   const path = '/products';

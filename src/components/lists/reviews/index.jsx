@@ -1,12 +1,13 @@
 import Image from 'src/components/blurImage';
 import PropTypes from 'prop-types';
+// icons
 import { MdVerified } from 'react-icons/md';
-
 // mui
 import { Box, List, ListItem, Typography, Divider, Grid, Avatar } from '@mui/material';
+import Rating from '@mui/material/Rating';
 // utils
 import { fDate } from 'src/utils/formatTime';
-import Rating from '@mui/material/Rating';
+// components
 import BlurImage from 'src/components/blurImage';
 
 ReviewItem.propTypes = {

@@ -1,22 +1,19 @@
 import React, { useCallback } from 'react';
-// mui
-import { Button, ListItemIcon, Box } from '@mui/material';
-
-// next
 import { useRouter } from 'next-nprogress-bar';
 import { useSearchParams } from 'next/navigation';
-// PropTypes
 import PropTypes from 'prop-types';
-
-import { IoIosArrowDown } from 'react-icons/io';
+// mui
+import { Button, ListItemIcon, Box } from '@mui/material';
 import Popover from '@mui/material/Popover';
 import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
 import ListItemButton from '@mui/material/ListItemButton';
 import Divider from '@mui/material/Divider';
 import ListItemText from '@mui/material/ListItemText';
+// icons
 import { FaCheck } from 'react-icons/fa6';
 import { MdOutlineBrandingWatermark } from 'react-icons/md';
+import { IoIosArrowDown } from 'react-icons/io';
 
 GenderMain.propTypes = {
   genders: PropTypes.array.isRequired,

@@ -1,4 +1,5 @@
 import React from 'react';
+// mui
 import { Box, Skeleton } from '@mui/material';
 export default function BannerSkeleton() {
   return (

@@ -2,7 +2,7 @@ import { motion } from 'framer-motion';
 import PropTypes from 'prop-types';
 // mui
 import { Box } from '@mui/material';
-//
+// components
 import { varWrapEnter } from './variants';
 
 // ----------------------------------------------------------------------

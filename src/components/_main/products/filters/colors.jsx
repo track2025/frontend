@@ -8,7 +8,6 @@ import { MdFormatColorFill } from 'react-icons/md';
 // next
 import { useRouter } from 'next-nprogress-bar';
 import { useSearchParams } from 'next/navigation';
-
 // data
 import { capitalCase } from 'change-case';
 

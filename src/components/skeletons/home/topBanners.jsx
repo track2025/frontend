@@ -1,6 +1,7 @@
 'use client';
-import { Box, Grid, Skeleton } from '@mui/material';
 import React from 'react';
+// mui
+import { Box, Grid, Skeleton } from '@mui/material';
 
 export default function TopBanners() {
   return (

@@ -1,6 +1,8 @@
 'use client';
 
 import React from 'react';
+import toast from 'react-hot-toast';
+
 // material ui
 import { Box, Stack, Grid, TextField } from '@mui/material';
 import { LoadingButton } from '@mui/lab';
@@ -8,10 +10,6 @@ import { LoadingButton } from '@mui/lab';
 import * as Yup from 'yup';
 // formik
 import { useFormik, Form, FormikProvider } from 'formik';
-// toast
-import toast from 'react-hot-toast';
-// import * as api from 'src/services';
-// import { useMutation } from 'react-query';
 const ContactUs = () => {
   const [loading, setLoading] = React.useState(false);
   const ResetPasswordSchema = Yup.object().shape({

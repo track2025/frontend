@@ -1,22 +1,22 @@
 'use client';
 import { useState } from 'react';
 import PropTypes from 'prop-types';
+import { toast } from 'react-hot-toast';
+
 // yup
 import * as Yup from 'yup';
-// react query
-import { useMutation } from 'react-query';
 // formik
 import { Form, FormikProvider, useFormik } from 'formik';
 // mui
 import { TextField, Stack, InputAdornment, Typography } from '@mui/material';
 import { LoadingButton } from '@mui/lab';
+// icons
 import { IoMdMail } from 'react-icons/io';
-// hooks
+// components
 import useIsMountedRef from 'src/hooks/useIsMountedRef';
 // api
 import * as api from 'src/services';
-// toast
-import { toast } from 'react-hot-toast';
+import { useMutation } from 'react-query';
 
 export default function ForgetPasswordForm({ ...props }) {
   const { onSent, onGetEmail } = props;

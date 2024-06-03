@@ -4,9 +4,9 @@ import React from 'react';
 import { Typography, Card, CardContent, Stack, Fab, Grid, Skeleton } from '@mui/material';
 import { IoPersonSharp } from 'react-icons/io5';
 import { HiCurrencyDollar } from 'react-icons/hi2';
-// Component
+// hooks
+
 import { useCurrencyFormatter } from 'src/hooks/formatCurrency';
-// styles
 import RootStyled from './styled';
 
 import PropTypes from 'prop-types';

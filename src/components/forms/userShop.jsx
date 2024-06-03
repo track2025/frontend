@@ -3,27 +3,24 @@ import React, { useState } from 'react';
 import { useMutation } from 'react-query';
 import { updateUserRole } from 'src/redux/slices/user';
 import { useDispatch } from 'react-redux';
+import toast from 'react-hot-toast';
+import PropTypes from 'prop-types';
+import { useRouter } from 'next-nprogress-bar';
 // mui
 import { styled } from '@mui/material/styles';
 import { LoadingButton } from '@mui/lab';
 import { Card, Stack, TextField, Typography, Box, FormHelperText, Grid } from '@mui/material';
 // components
 import UploadSingleFile from 'src/components/upload/UploadSingleFile';
-// next
-import { useRouter } from 'next-nprogress-bar';
+import countries from 'src/components/_main/checkout/countries.json';
 // yup
 import * as Yup from 'yup';
 // axios
 import axios from 'axios';
-// toast
-import toast from 'react-hot-toast';
 // formik
 import { Form, FormikProvider, useFormik } from 'formik';
 // api
 import * as api from 'src/services';
-import PropTypes from 'prop-types';
-// data
-import countries from 'src/components/_main/checkout/countries.json';
 
 CreateShopSettingFrom.propTypes = {
   data: PropTypes.object,

@@ -7,6 +7,7 @@ import { Typography, Grid, Box, Stack, Paper, Button } from '@mui/material';
 import { IoIosArrowForward } from 'react-icons/io';
 // component
 import CategoryCard from 'src/components/cards/category';
+// api
 import * as api from 'src/services';
 import { useQuery } from 'react-query';
 export default function Categories() {

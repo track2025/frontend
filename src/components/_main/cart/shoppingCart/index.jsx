@@ -1,20 +1,16 @@
 'use client';
 import React from 'react';
-// proptypes
 import PropTypes from 'prop-types';
-// mui
-import { Card, Button, CardHeader, Typography, Box, Skeleton, Stack, Divider } from '@mui/material';
-// next
 import dynamic from 'next/dynamic';
 import { useRouter } from 'next-nprogress-bar';
-// lodash
+// mui
+import { Card, Button, CardHeader, Typography, Box, Skeleton, Stack, Divider } from '@mui/material';
 import { sum } from 'lodash';
 // formik
 import { useFormik, Form, FormikProvider } from 'formik';
 // icons
 import { IoArrowBackOutline } from 'react-icons/io5';
 import { MdOutlineShoppingCart } from 'react-icons/md';
-
 // redux
 import { useDispatch, useSelector } from 'react-redux';
 import { deleteCart, increaseQuantity, decreaseQuantity, getCart, resetCart } from 'src/redux/slices/product';

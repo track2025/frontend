@@ -1,5 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { capitalize } from 'lodash';
+import { uniqueId } from 'lodash';
 // mui
 import { Grid, Paper, Typography, Skeleton, IconButton, Box, Stack, Rating } from '@mui/material';
 import { styled, useTheme } from '@mui/material/styles';
@@ -8,9 +10,6 @@ import Label from 'src/components/label';
 import { fDateShort } from 'src/utils/formatTime';
 import BlurImage from 'src/components/blurImage';
 import { fCurrency } from 'src/utils/formatNumber';
-// lodash
-import { capitalize } from 'lodash';
-import { uniqueId } from 'lodash';
 // icons ;
 import { MdEdit, MdDelete } from 'react-icons/md';
 import { useRouter } from 'next-nprogress-bar';

@@ -6,7 +6,6 @@ import ReactApexChart from 'react-apexcharts';
 import { Card, CardHeader, Box, Tabs, Tab, Skeleton, useMediaQuery, useTheme } from '@mui/material';
 // components
 import BaseOptionChart from './BaseOptionChart';
-// utils
 import { fCurrency } from 'src/utils/formatNumber';
 
 export default function IncomeChart({ income, commission, isVendor, isLoading }) {

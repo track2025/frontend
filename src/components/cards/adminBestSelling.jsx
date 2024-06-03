@@ -1,13 +1,13 @@
 import React from 'react';
-// next
 import NextLink from 'next/link';
+import PropTypes from 'prop-types';
+
+// mui
 import { Card, CardContent, CardHeader, Divider, Box, Stack, Typography, Skeleton } from '@mui/material';
 import BlurImage from 'src/components/blurImage';
 // components
 import ColorPreviewGroup from '../colorPreviewGroup';
 import NoDataFoundIllustration from 'src/illustrations/dataNotFound';
-
-import PropTypes from 'prop-types';
 
 AdminBestSelling.propTypes = {
   loading: PropTypes.bool.isRequired,

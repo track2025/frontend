@@ -1,5 +1,6 @@
 import { Box, Grid, Skeleton } from '@mui/material';
 import React from 'react';
+// components
 import CheckoutGuestFormSkeleton from './checkoutForm';
 import PaymentInfoSkeleton from './paymentInfo';
 import CardItemSekelton from './cartItems';
