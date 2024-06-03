@@ -66,7 +66,7 @@ export default function OrderRowas({ ...props }) {
             />
           ) : row?.items.length > 0 ? (
             <ThumbImgStyle>
-              <BlurImage priority fill alt={row?.items[0].fullName} src={row?.items[0].imageUrl} />
+              <BlurImage priority fill alt={row?.items[0].fullName} src={row?.items[0].imageUrl} objectFit="cover" />
             </ThumbImgStyle>
           ) : (
             <Avatar>{row?.items[0]?.name}</Avatar>

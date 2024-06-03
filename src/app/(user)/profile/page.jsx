@@ -1,6 +1,7 @@
 import React from 'react';
+
+// components
 import MobileSetting from 'src/components/_main/profile/mobileSetting';
-// redux
 export default function Profile() {
   return (
     <>

@@ -10,10 +10,12 @@ import { sum } from 'lodash';
 import { useCurrencyConvert } from 'src/hooks/convertCurrency';
 import { useCurrencyFormatter } from 'src/hooks/formatCurrency';
 import { useSelector } from 'react-redux';
+import { useRouter } from 'next-nprogress-bar';
 export default function CartWidget() {
   const {
     checkout: { cart }
   } = useSelector(({ product }) => product);
+  const router = useRouter();
   const totalItems = sum(cart?.map((item) => item.quantity));
   const subtotal = sum(cart?.map((product) => (product.priceSale || product.price) * product.quantity));
   const total = subtotal;

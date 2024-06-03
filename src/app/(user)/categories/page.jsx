@@ -2,10 +2,12 @@
 import React from 'react';
 // mui
 import { Typography, Grid, Box, Stack, Container } from '@mui/material';
-// api
-import * as api from 'src/services';
+
 // component
 import CategoryCard from 'src/components/cards/category';
+
+// api
+import * as api from 'src/services';
 
 export default async function Categories() {
   const data = await api.getAllCategoriesByUser();

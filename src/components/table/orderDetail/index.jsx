@@ -78,7 +78,7 @@ export default function TableDetails({ ...props }) {
                   {row ? (
                     <Stack direction="row" spacing={2} alignItems="center">
                       <ThumbImgStyle>
-                        <BlurImage priority fill alt={row?.name} src={row?.imageUrl} />
+                        <BlurImage priority fill alt={row?.name} src={row?.imageUrl} objectFit="cover" />
                       </ThumbImgStyle>
                       <Stack spacing={0.5}>
                         <Typography variant={'subtitle2'} noWrap fontSize={{ xs: '12px', sm: '0.875rem' }}>

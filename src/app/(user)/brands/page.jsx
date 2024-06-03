@@ -1,14 +1,14 @@
 'use client';
-// react
 import React from 'react';
 
 // mui
 import { Typography, Grid, Box, Stack, Container } from '@mui/material';
 
-// api
-import * as api from 'src/services';
 // component
 import UserBrandsCard from 'src/components/cards/brand';
+
+// api
+import * as api from 'src/services';
 import { useQuery } from 'react-query';
 
 export default function BrandPage() {

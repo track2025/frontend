@@ -55,6 +55,7 @@ export default function ProductRow({ isLoading, row, handleClickOpen, isVendor }
             >
               <BlurImage
                 alt={row?.name}
+                placeholder="blur"
                 blurDataURL={row?.image.blurDataURL}
                 src={row?.image.url}
                 layout="fill"
@@ -123,11 +124,13 @@ export default function ProductRow({ isLoading, row, handleClickOpen, isVendor }
           </Stack>
         ) : (
           <Stack direction="row" justifyContent="flex-end">
-            <Link target="_blank" href={`/product/${row.slug}`}>
-              <IconButton>
-                <IoEye />
-              </IconButton>
-            </Link>
+            <Tooltip title="Preview">
+              <Link target="_blank" href={`/product/${row.slug}`}>
+                <IconButton>
+                  <IoEye />
+                </IconButton>
+              </Link>
+            </Tooltip>
             <Tooltip title="Edit">
               <IconButton onClick={() => router.push(`/${isVendor ? 'vendor' : 'admin'}/products/${row.slug}`)}>
                 <MdEdit />

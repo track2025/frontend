@@ -1,6 +1,7 @@
 import React from 'react';
-// next
 import dynamic from 'next/dynamic';
+
+// dynamic import
 const Search = dynamic(() => import('src/components/dialog/search/search'));
 
 export default function Searchs() {

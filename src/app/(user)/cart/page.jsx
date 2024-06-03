@@ -1,10 +1,12 @@
 import React from 'react';
+
 // mui
 import { Container } from '@mui/material';
+
 // component
 import CartMain from 'src/components/_main/cart';
-// Skeletons
 import HeaderBreadcrumbs from 'src/components/headerBreadcrumbs';
+
 // Meta information
 export const metadata = {
   title: 'Nextall Shopping Cart | Nextall - Convenient Shopping Cart for Easy Checkout',

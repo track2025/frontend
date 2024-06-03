@@ -1,11 +1,13 @@
 import React from 'react';
+
+// mui
+import { Toolbar } from '@mui/material';
+
 // components
 import Navbar from 'src/layout/_main/navbar';
 import Footer from 'src/layout/_main/footer';
 import Topbar from 'src/layout/_main/topbar';
 import ActionBar from 'src/layout/_main/actionbar';
-import { Toolbar } from '@mui/material';
-// import * as api from 'src/services';
 
 // Meta information
 export const metadata = {
@@ -22,10 +24,8 @@ export const metadata = {
     images: 'https://nextall.vercel.app/opengraph-image.png?1c6a1fa20db2840f'
   }
 };
-// export const revalidate = 1; // revalidate at most every hour
-// export const dynamic = 'error';
+
 export default async function RootLayout({ children }) {
-  // const { data } = await api.getAllCategories();
   return (
     <>
       <Topbar />

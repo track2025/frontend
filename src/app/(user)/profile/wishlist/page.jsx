@@ -1,18 +1,14 @@
 import React from 'react';
+import dynamic from 'next/dynamic';
+
 // mui
 import { Container, Grid } from '@mui/material';
-// next
-import dynamic from 'next/dynamic';
-// skeletons
+
+// components
 import BreadcrumbsSkeleton from 'src/components/_main/skeletons/products/breadcrumbs';
 import ProductCard from 'src/components/_main/skeletons/products/productCard';
-// Meta information
-export const metadata = {
-  title: 'Wishlist | Nextall - Save Your Favorite Items for Later',
-  applicationName: 'Nextall',
-  authors: 'Nextall'
-};
-// components
+
+// dynamic import
 const HeaderBreadcrumbs = dynamic(() => import('src/components/headerBreadcrumbs'), {
   loading: () => <BreadcrumbsSkeleton />
 });
@@ -29,6 +25,13 @@ const WishlistMain = dynamic(() => import('src/components/_main/profile/wishlist
     </>
   )
 });
+
+// Meta information
+export const metadata = {
+  title: 'Wishlist | Nextall - Save Your Favorite Items for Later',
+  applicationName: 'Nextall',
+  authors: 'Nextall'
+};
 
 export default function Wishlist() {
   return (

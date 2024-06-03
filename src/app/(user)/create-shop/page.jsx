@@ -1,9 +1,14 @@
 'use client';
-import { Container } from '@mui/material';
 import React, { useEffect } from 'react';
-import ShopForm from 'src/components/forms/userShop';
-import { useSelector } from 'react-redux';
 import { useRouter } from 'next-nprogress-bar';
+import { useSelector } from 'react-redux';
+
+// mui
+import { Container } from '@mui/material';
+
+// components
+import ShopForm from 'src/components/forms/userShop';
+
 export default function Page() {
   const { user } = useSelector((state) => state.user);
   const router = useRouter();

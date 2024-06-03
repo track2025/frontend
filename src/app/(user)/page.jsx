@@ -1,13 +1,15 @@
 'use client';
-// import { Suspense } from 'react';
 import dynamic from 'next/dynamic';
-// mui
-import { Container } from '@mui/material';
-// components
-import Hero from 'src/components/_main/home/hero';
-import WhyUs from 'src/components/_main/home/whyUs';
-import TopBanners from 'src/components/_main/home/topBanners';
 
+// mui
+import { Container } from '@mui/material'; // Importing Container component from MUI (Material-UI) library.
+
+// components
+import Hero from 'src/components/_main/home/hero'; // Importing the Hero component.
+import WhyUs from 'src/components/_main/home/whyUs'; // Importing the WhyUs component.
+import TopBanners from 'src/components/_main/home/topBanners'; // Importing the TopBanners component.
+
+// Dynamic imports
 const Categories = dynamic(() => import('src/components/_main/home/categories'));
 const BestSellingProducs = dynamic(() => import('src/components/_main/home/bestSelling'));
 const Banner = dynamic(() => import('src/components/_main/home/banner'));
@@ -17,7 +19,9 @@ const Shops = dynamic(() => import('src/components/_main/home/shop'));
 const Compaigns = dynamic(() => import('src/components/_main/home/compaign'));
 const Testimonials = dynamic(() => import('src/components/_main/home/testimonials'));
 const FeaturedProducts = dynamic(() => import('src/components/_main/home/featured'));
-const SubscriptionModal = dynamic(() => import('src/components/_main/home/subscription'));
+const SubscriptionModal = dynamic(() => import('src/components/_main/home/subscription'), {
+  ssr: false
+});
 
 export default function IndexPage() {
   return (

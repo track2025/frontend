@@ -44,7 +44,14 @@ export default function BrandsRow({ isLoading, row, handleClickOpen }) {
             <Skeleton variant="rectangular" width={50} height={50} sx={{ borderRadius: 1 }} />
           ) : (
             <ThumbImgStyle>
-              <BlurImage priority fill alt={row?.name} src={row?.logo?.url} />
+              <BlurImage
+                priority
+                fill
+                alt={row?.name}
+                src={row?.logo?.url}
+                placeholder="blur"
+                blurDataURL={row?.logo.blurDataURL}
+              />
             </ThumbImgStyle>
           )}
           <Typography variant="subtitle2" noWrap>

@@ -23,3 +23,18 @@ const nextConfig = {
 };
 
 module.exports = nextConfig;
+
+// remotePatterns: [
+//   {
+//     protocol: 'https',
+//     hostname: 'res.cloudinary.com',
+//     port: '',
+//     pathname: ''
+//   },
+//   {
+//     protocol: 'https',
+//     hostname: 'nextall.vercel.app',
+//     port: '',
+//     pathname: ''
+//   }
+// ]

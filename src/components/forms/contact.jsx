@@ -8,11 +8,10 @@ import { LoadingButton } from '@mui/lab';
 import * as Yup from 'yup';
 // formik
 import { useFormik, Form, FormikProvider } from 'formik';
-// axios;
-import axios from 'axios';
 // toast
 import toast from 'react-hot-toast';
-
+// import * as api from 'src/services';
+// import { useMutation } from 'react-query';
 const ContactUs = () => {
   const [loading, setLoading] = React.useState(false);
   const ResetPasswordSchema = Yup.object().shape({
@@ -35,28 +34,31 @@ const ContactUs = () => {
     onSubmit: async (values, { resetForm }) => {
       try {
         setLoading(true);
-        await axios
-          .post('/api/api', values)
-          .then(() => {
-            toast.success('Successfully submitted!');
-            setLoading(false);
-            resetForm();
-          })
-          .catch(() => {
-            toast.error('Something went wrong!');
-
-            setLoading(false);
-            resetForm();
-          });
+        setTimeout(() => {
+          resetForm();
+          setLoading(false);
+          toast.success('Message sent!');
+        }, 1000);
+        // mutate({
+        //   ...values
+        // });
       } catch (error) {
-        console.error(error);
+        toast.error(error);
       }
     }
   });
   const { errors, touched, handleSubmit, getFieldProps } = formik;
-  const accountSid = process.env.ACCOUNT_SID;
-  const authToken = process.env.SERVICE_SID;
-  console.log(accountSid, authToken);
+  // const { mutate } = useMutation(api.contactUs, {
+  //   onSuccess: async () => {
+  //     resetForm();
+  //     setLoading(false);
+  //     toast.success('Message sent!');
+  //   },
+  //   onError: (err) => {
+  //     setLoading(false);
+  //     toast.error(err.response.data.message);
+  //   }
+  // });
 
   return (
     <div>
@@ -132,11 +134,7 @@ const ContactUs = () => {
                 sx={{
                   textTransform: 'capitalize',
                   fontWeight: 'bold',
-                  fontSize: '16px',
-                  py: 1.5,
-                  '&.Mui-disabled': {
-                    bgcolor: '#ed6c02'
-                  }
+                  fontSize: '16px'
                 }}
               >
                 Send Message

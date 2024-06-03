@@ -29,7 +29,10 @@ import {
   TextField,
   IconButton,
   InputAdornment,
-  FormControlLabel
+  FormControlLabel,
+  Button,
+  Alert,
+  AlertTitle
 } from '@mui/material';
 import { LoadingButton } from '@mui/lab';
 // icons
@@ -65,8 +68,8 @@ export default function LoginForm() {
   });
   const formik = useFormik({
     initialValues: {
-      email: 'test@nextall.com',
-      password: 'test1234',
+      email: '',
+      password: '',
       remember: true
     },
     validationSchema: LoginSchema,
@@ -77,81 +80,130 @@ export default function LoginForm() {
       mutate({ email, password });
     }
   });
-  const { errors, touched, values, handleSubmit, getFieldProps } = formik;
+  const { errors, touched, setFieldValue, values, handleSubmit, getFieldProps } = formik;
   return (
-    <FormikProvider value={formik}>
-      <Form autoComplete="off" noValidate onSubmit={handleSubmit}>
-        <Stack spacing={3}>
-          <Stack gap={0.5} width={1}>
-            <Typography variant="overline" color="text.primary" htmlFor="email" component={'label'}>
-              Email
-            </Typography>
-            <TextField
-              id="email"
-              fullWidth
-              autoComplete="username"
-              type="email"
-              {...getFieldProps('email')}
-              error={Boolean(touched.email && errors.email)}
-              helperText={touched.email && errors.email}
-              InputProps={{
-                startAdornment: (
-                  <InputAdornment position="start">
-                    <IoMdMail size={24} />
-                  </InputAdornment>
-                )
+    <>
+      <Stack
+        mb={3}
+        gap={2}
+        sx={{
+          '& .MuiAlert-action': {
+            alignItems: 'center'
+          }
+        }}
+      >
+        <Alert
+          severity="primary"
+          action={
+            <Button
+              color="inherit"
+              size="small"
+              onClick={() => {
+                setFieldValue('email', 'admin@nextall.com');
+                setFieldValue('password', 'test1234');
               }}
-            />
-          </Stack>
+            >
+              Copy
+            </Button>
+          }
+        >
+          <AlertTitle>Admin</AlertTitle>
+          <b>Email:</b> admin@test.com | <b>password:</b> test1234
+        </Alert>
+        <Alert
+          severity="secondary"
+          action={
+            <Button
+              color="inherit"
+              size="small"
+              onClick={() => {
+                setFieldValue('email', 'vendor@nextall.com');
+                setFieldValue('password', 'test1234');
+              }}
+            >
+              Copy
+            </Button>
+          }
+        >
+          <AlertTitle>Vendor</AlertTitle>
+          <b>Email:</b> vendor@test.com | <b>password:</b> test1234
+        </Alert>
+      </Stack>
 
-          <Stack gap={0.5} width={1}>
-            <Typography variant="overline" color="text.primary" htmlFor="password" component={'label'}>
-              Password
-            </Typography>
-            <TextField
-              id="password"
-              fullWidth
-              autoComplete="current-password"
-              type={showPassword ? 'text' : 'password'}
-              {...getFieldProps('password')}
-              InputProps={{
-                startAdornment: (
-                  <InputAdornment position="start">
-                    <MdLock size={24} />
-                  </InputAdornment>
-                ),
-                endAdornment: (
-                  <InputAdornment position="end">
-                    <IconButton edge="end" onClick={() => setShowPassword((prev) => !prev)}>
-                      {showPassword ? <MdOutlineVisibility size={24} /> : <MdOutlineVisibilityOff size={24} />}
-                    </IconButton>
-                  </InputAdornment>
-                )
-              }}
-              error={Boolean(touched.password && errors.password)}
-              helperText={touched.password && errors.password}
-            />
+      <FormikProvider value={formik}>
+        <Form autoComplete="off" noValidate onSubmit={handleSubmit}>
+          <Stack spacing={3}>
+            <Stack gap={0.5} width={1}>
+              <Typography variant="overline" color="text.primary" htmlFor="email" component={'label'}>
+                Email
+              </Typography>
+              <TextField
+                id="email"
+                fullWidth
+                autoComplete="username"
+                type="email"
+                {...getFieldProps('email')}
+                error={Boolean(touched.email && errors.email)}
+                helperText={touched.email && errors.email}
+                InputProps={{
+                  startAdornment: (
+                    <InputAdornment position="start">
+                      <IoMdMail size={24} />
+                    </InputAdornment>
+                  )
+                }}
+              />
+            </Stack>
+
+            <Stack gap={0.5} width={1}>
+              <Typography variant="overline" color="text.primary" htmlFor="password" component={'label'}>
+                Password
+              </Typography>
+              <TextField
+                id="password"
+                fullWidth
+                autoComplete="current-password"
+                type={showPassword ? 'text' : 'password'}
+                {...getFieldProps('password')}
+                InputProps={{
+                  startAdornment: (
+                    <InputAdornment position="start">
+                      <MdLock size={24} />
+                    </InputAdornment>
+                  ),
+                  endAdornment: (
+                    <InputAdornment position="end">
+                      <IconButton edge="end" onClick={() => setShowPassword((prev) => !prev)}>
+                        {showPassword ? <MdOutlineVisibility size={24} /> : <MdOutlineVisibilityOff size={24} />}
+                      </IconButton>
+                    </InputAdornment>
+                  )
+                }}
+                error={Boolean(touched.password && errors.password)}
+                helperText={touched.password && errors.password}
+              />
+            </Stack>
           </Stack>
-        </Stack>
-        <Stack direction="row" alignItems="center" justifyContent="space-between" sx={{ my: 2 }}>
-          <FormControlLabel
-            control={<Checkbox {...getFieldProps('remember')} checked={values.remember} />}
-            label="Remember me"
-          />
-          <Link component={RouterLink} variant="subtitle2" href="/auth/forget-password">
-            Forgot password
-          </Link>
-        </Stack>
-        <LoadingButton fullWidth size="large" type="submit" variant="contained" loading={loading}>
-          login
-        </LoadingButton>
-        <Typography variant="subtitle2" mt={3} textAlign="center">
-          Don{`'`}t you have an account? &nbsp;
-          <Link href={`/auth/register${redirect ? '?redirect=' + redirect : ''}`} component={RouterLink}>
-            Register
-          </Link>
-        </Typography>
-      </Form>
-    </FormikProvider>
+          <Stack direction="row" alignItems="center" justifyContent="space-between" sx={{ my: 2 }}>
+            <FormControlLabel
+              control={<Checkbox {...getFieldProps('remember')} checked={values.remember} />}
+              label="Remember me"
+            />
+            <Link component={RouterLink} variant="subtitle2" href="/auth/forget-password">
+              Forgot password
+            </Link>
+          </Stack>
+          <LoadingButton fullWidth size="large" type="submit" variant="contained" loading={loading}>
+            login
+          </LoadingButton>
+          <Typography variant="subtitle2" mt={3} textAlign="center">
+            Don{`'`}t you have an account? &nbsp;
+            <Link href={`/auth/register${redirect ? '?redirect=' + redirect : ''}`} component={RouterLink}>
+              Register
+            </Link>
+          </Typography>
+        </Form>
+      </FormikProvider>
+    </>
   );
 }

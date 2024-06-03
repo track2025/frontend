@@ -5,11 +5,11 @@ import React from 'react';
 // mui
 import { Typography, Grid, Box, Stack, Container } from '@mui/material';
 
-// api
-import * as api from 'src/services';
-// component
 // component
 import CompaginCard from 'src/components/cards/compagin';
+
+// api
+import * as api from 'src/services';
 import { useQuery } from 'react-query';
 
 export default function CompaignPage() {

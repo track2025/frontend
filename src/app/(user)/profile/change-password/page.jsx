@@ -1,17 +1,21 @@
 import React from 'react';
+
 // mui
 import { Card, Container, Stack, Typography } from '@mui/material';
+
 // next
 import dynamic from 'next/dynamic';
+
+// components
+import ChangePasswordSkeleton from 'src/components/_main/skeletons/auth/change-password/change-password';
+import BreadcrumbsSkeleton from 'src/components/_main/skeletons/products/breadcrumbs';
+
 // Meta information
 export const metadata = {
   title: 'Change Password | Nextall - Update Your Account Password Securely',
   applicationName: 'Nextall',
   authors: 'Nextall'
 };
-
-import ChangePasswordSkeleton from 'src/components/_main/skeletons/auth/change-password/change-password';
-import BreadcrumbsSkeleton from 'src/components/_main/skeletons/products/breadcrumbs';
 
 // components
 const HeaderBreadcrumbs = dynamic(() => import('src/components/headerBreadcrumbs'), {

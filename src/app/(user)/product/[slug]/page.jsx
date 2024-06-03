@@ -1,5 +1,6 @@
 import React from 'react';
 import { Suspense } from 'react';
+
 // mui
 import { Box, Container, Stack, Grid } from '@mui/material';
 
@@ -10,8 +11,13 @@ import ProductAdditionalInfo from 'src/components/_main/product/additionalInfo';
 import ProductDetailsCarousel from 'src/components/carousels/customPaginationSilder';
 import ProductDetailsSumary from 'src/components/_main/product/summary';
 import HeaderBreadcrumbs from 'src/components/headerBreadcrumbs';
+
+// api
 import * as api from 'src/services';
+
+export const revalidate = 10;
 export const dynamic = 'error';
+
 export async function generateStaticParams() {
   const { data } = await api.getProductSlugs();
   return data?.map((product) => {
@@ -52,7 +58,7 @@ export default async function ProductDetail({ params: { slug } }) {
                 href: '/'
               },
               {
-                name: 'Product',
+                name: 'Products',
                 href: '/products'
               },
               {

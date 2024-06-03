@@ -6,6 +6,9 @@ import { useSelector } from 'react-redux';
 // mui
 import { Toolbar, Container, Stack, useTheme, Link, Divider, Skeleton } from '@mui/material';
 import NextLink from 'next/link';
+import { MdOutlinePhone } from 'react-icons/md';
+import { MdOutlineMail } from 'react-icons/md';
+
 const UserSelect = dynamic(() => import('src/components/select/userSelect'), {
   ssr: false,
   loading: () => (
@@ -37,12 +40,20 @@ export default function UserTopbar() {
         }}
       >
         <Stack direction="row" alignItems="center" spacing={1}>
-          <Link component={NextLink} href={'/'} sx={{ color: 'text.primary', fontSize: 14 }}>
-            Quick Help
+          <Link
+            component={NextLink}
+            href={'tel:+13866883295'}
+            sx={{ color: 'text.primary', fontSize: 14, display: 'flex', alignItems: 'center', gap: 1 }}
+          >
+            <MdOutlinePhone /> +1 386-688-3295
           </Link>
           <Divider orientation="vertical" flexItem />
-          <Link component={NextLink} href={'/'} sx={{ color: 'text.primary', fontSize: 14 }}>
-            Order Tracking
+          <Link
+            component={NextLink}
+            href={'mailto:johndoe@yahoo.com'}
+            sx={{ color: 'text.primary', fontSize: 14, display: 'flex', alignItems: 'center', gap: 1 }}
+          >
+            <MdOutlineMail /> johndoe@yahoo.com
           </Link>
         </Stack>
         <Stack direction="row" alignItems="center" spacing={1}>

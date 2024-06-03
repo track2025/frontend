@@ -1,12 +1,16 @@
 // mui
-import { Box } from '@mui/material';
-import Container from '@mui/material/Container';
+import { Box, Container } from '@mui/material';
 
 // components
 import HeaderBreadcrumbs from 'src/components/headerBreadcrumbs';
 import ProductList from 'src/components/_main/products';
+
+// api
 import * as api from 'src/services';
+
 export const dynamic = 'error';
+export const revalidate = 10;
+
 export async function generateStaticParams() {
   const { data } = await api.getCategorySlugs();
   const mapped = data?.map((cat) => {

@@ -50,26 +50,26 @@ const ADDRESS = [
 
 const MAIN_LINKS = [
   {
-    heading: 'Resource',
-    listText1: 'About us',
-    listLink1: '/about',
-    listText2: 'Contact us',
-    listLink2: '/contact',
+    heading: 'Resources',
+    listText1: 'Contact us',
+    listLink1: '/contact',
+    listText2: 'Products',
+    listLink2: '/products',
     listText3: 'Shops',
     listLink3: '/shops',
-    listText4: 'Brands',
-    listLink4: '/products?brand'
+    listText4: 'Compaigns',
+    listLink4: '/compaigns'
   },
   {
-    heading: 'Company',
-    listText1: 'Product',
-    listLink1: '#',
-    listText2: 'Men',
-    listLink2: '#',
-    listText3: 'Women',
-    listLink3: '#',
-    listText4: 'Kids',
-    listLink4: '#'
+    heading: 'About us',
+    listText1: 'About us',
+    listLink1: '/about',
+    listText2: 'Privacy policy',
+    listLink2: '/privacy-policy',
+    listText3: 'Term and conditions',
+    listLink3: '/terms-and-conditions',
+    listText4: 'Refund return policy',
+    listLink4: '/refund-return-policy'
   }
 ];
 

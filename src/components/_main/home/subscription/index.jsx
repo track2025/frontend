@@ -26,7 +26,6 @@ export default function Subscription() {
   const handleClose = () => {
     setOpen(false);
     localStorage.setItem('subscriptionDismissedAt', Date.now().toString());
-    return null;
   };
   // useEffect to open the dialog when the component mounts
   React.useEffect(() => {
@@ -40,7 +39,7 @@ export default function Subscription() {
 
     const timer = setTimeout(() => {
       setOpen(true);
-    }, 10000); // 3 seconds delay
+    }, 10000); //
 
     return () => clearTimeout(timer);
   }, []);
@@ -92,11 +91,11 @@ export default function Subscription() {
         onClose={handleClose}
       >
         <Grid container justifyContent="center" alignItems="center" spacing={2}>
-          <Grid item xs={12} md={5}>
+          <Grid item xs={12} md={6}>
             <Box
               sx={{
                 position: 'relative',
-                height: 400,
+                height: 500,
                 width: '100%',
                 display: { xs: 'none', md: 'block' }
               }}
@@ -113,7 +112,7 @@ export default function Subscription() {
               />
             </Box>
           </Grid>
-          <Grid item xs={12} md={7}>
+          <Grid item xs={12} md={6}>
             <DialogContent>
               <Box
                 sx={{

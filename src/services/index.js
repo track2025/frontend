@@ -615,3 +615,7 @@ export const followShop = async (shopId) => {
   const { data } = await http.put(`/shops/${shopId}/follow`);
   return data;
 };
+// export const contactUs = async (payload) => {
+//   const { data } = await http.post(`/contact-us`, payload);
+//   return data;
+// };

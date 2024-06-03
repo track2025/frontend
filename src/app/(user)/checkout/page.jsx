@@ -2,15 +2,19 @@ import React from 'react';
 
 // mui
 import { Container } from '@mui/material';
+
 // next
 import dynamic from 'next/dynamic';
+
 // components
 import CheckoutMain from 'src/components/_main/checkout';
-// skeleton
 import HeaderBreadcrumbsSkeleton from 'src/components/skeletons/breadcrumbs';
+
+// dynamic import
 const HeaderBreadcrumbs = dynamic(() => import('src/components/headerBreadcrumbs'), {
   loading: () => <HeaderBreadcrumbsSkeleton />
 });
+
 // Meta information
 export const metadata = {
   title: 'Checkout | Nextall - Secure and Convenient Checkout for Your Shopping',

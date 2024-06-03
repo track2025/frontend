@@ -87,14 +87,7 @@ export default function AdminShopForm({ data: currentShop, isLoading: shopLoadin
     cover: Yup.mixed().required('Cover is required'),
     logo: Yup.mixed().required('logo is required'),
     slug: Yup.string().required('Slug is required'),
-    message:
-      currentShop &&
-      (currentShop.status === 'cancel' || currentShop.status === 'closed' || currentShop.status === 'action required')
-        ? Yup.string()
-            .min(10, 'Message must be at least 10 words')
-            .max(50, 'Message must be at most 50 words')
-            .required('Message is required')
-        : Yup.string().nullable().notRequired(), // No validation if message is not required
+    message: Yup.string().min(10, 'Message must be at least 10 words').max(50, 'Message must be at most 50 words'),
     description: Yup.string().required('Description is required'),
     metaTitle: Yup.string().required('Meta title is required'),
     metaDescription: Yup.string().required('Meta description is required'),
@@ -112,7 +105,6 @@ export default function AdminShopForm({ data: currentShop, isLoading: shopLoadin
       streetAddress: Yup.string().required('Street Address is required')
     })
   });
-  console.log(currentShop, 'currentShop');
   const formik = useFormik({
     initialValues: {
       title: currentShop?.title || '',
@@ -121,14 +113,15 @@ export default function AdminShopForm({ data: currentShop, isLoading: shopLoadin
       logo: currentShop?.logo || null,
       description: currentShop?.description || '',
       metaDescription: currentShop?.metaDescription || '',
-      status: STATUS_OPTIONS[0],
-      // ...(currentShop && {
-      //   status: currentShop ? currentShop.status : STATUS_OPTIONS[0], // Only include message if currentShop exists
-      //   message:
-      //     currentShop.status === 'cancel' || currentShop.status === 'closed' || currentShop.status === 'action required'
-      //       ? currentShop.message
-      //       : ''
-      // }),
+      ...(currentShop && {
+        status: currentShop ? currentShop.status : STATUS_OPTIONS[0], // Only include message if currentShop exists
+        message:
+          currentShop?.status === 'cancel' ||
+          currentShop?.status === 'closed' ||
+          currentShop?.status === 'action required'
+            ? currentShop.message
+            : ''
+      }),
       fileLogo: currentShop?.logo || '',
       fileCover: currentShop?.cover || '',
       slug: currentShop?.slug || '',

@@ -11,7 +11,7 @@ import ProductsCarousel from 'src/components/carousels/gridSlider';
 import { IoIosArrowForward } from 'react-icons/io';
 import NextLink from 'next/link';
 export default function Index() {
-  const { data, isLoading } = useQuery(['get-best-products'], () => api.getBestSellingProducts());
+  const { data, isLoading } = useQuery(['get-top-products'], () => api.getTopRatedProducts());
 
   return (
     <Box>

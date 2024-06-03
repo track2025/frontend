@@ -22,6 +22,8 @@ import { Form, FormikProvider, useFormik } from 'formik';
 // api
 import * as api from 'src/services';
 import PropTypes from 'prop-types';
+// data
+import countries from 'src/components/_main/checkout/countries.json';
 
 CreateShopSettingFrom.propTypes = {
   data: PropTypes.object,
@@ -75,7 +77,6 @@ export default function CreateShopSettingFrom() {
       AccountNo: Yup.number().required('Account No is required')
     }),
     address: Yup.object().shape({
-      country: Yup.string().required('Country is required'),
       city: Yup.string().required('City is required'),
       state: Yup.string().required('State is required'),
       streetAddress: Yup.string().required('Street Address is required')
@@ -431,11 +432,20 @@ export default function CreateShopSettingFrom() {
 
                         <TextField
                           id="country"
+                          select
                           fullWidth
+                          placeholder="Country"
                           {...getFieldProps('address.country')}
-                          error={Boolean(touched.address?.country && errors.address?.country)}
-                          helperText={touched.address?.country && errors.address?.country}
-                        />
+                          SelectProps={{ native: true }}
+                          error={Boolean(touched?.address?.country && errors?.address?.country)}
+                          helperText={touched?.address?.country && errors?.address?.country}
+                        >
+                          {countries.map((option) => (
+                            <option key={option.code} value={option.label}>
+                              {option.label}
+                            </option>
+                          ))}
+                        </TextField>
                       </div>
                       <div>
                         <LabelStyle component={'label'} htmlFor="city">

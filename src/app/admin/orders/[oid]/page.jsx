@@ -1,7 +1,7 @@
 'use client';
 import React from 'react';
 // mui
-import { Container, Grid, Box } from '@mui/material';
+import { Container, Grid, Box, Alert, Skeleton } from '@mui/material';
 import OrderDetails from 'src/components/_main/orders/orderDetails';
 import TableCard from 'src/components/table/order';
 
@@ -52,6 +52,14 @@ export default function OrderDetail({ params }) {
       <Container maxWidth="xl">
         <Grid container direction={{ xs: 'row', md: 'row-reverse' }} spacing={2}>
           <Grid item xs={12} md={4}>
+            {isLoading ? (
+              <Skeleton variant="rounded" height={48} width="100%" />
+            ) : data?.data?.description ? (
+              <Alert severity="success" color="warning">
+                {data?.data?.description}
+              </Alert>
+            ) : null}
+            {isLoading || data?.data?.description ? <br /> : null}
             <OrderDetails data={data?.data} isLoading={isLoading} currency={'$'} />
           </Grid>
           <Grid item xs={12} md={8}>

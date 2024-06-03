@@ -1,13 +1,13 @@
-// react
 import React from 'react';
 
 // mui
 import { Typography, Grid, Box, Stack, Container } from '@mui/material';
 
+// components
+import ShopCard from 'src/components/cards/shop';
+
 // api
 import * as api from 'src/services';
-// component
-import ShopCard from 'src/components/cards/shop';
 
 export default async function ShopComponent() {
   const data = await api.getShops();

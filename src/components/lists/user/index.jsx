@@ -1,6 +1,5 @@
 import React from 'react';
 import { useRouter } from 'next-nprogress-bar';
-import { usePathname } from 'next/navigation';
 
 // reduxt
 import { useDispatch } from 'react-redux';
@@ -33,7 +32,6 @@ UserList.propTypes = {
 
 export default function UserList({ ...props }) {
   const { openUser, user, setOpen } = props;
-  const pathname = usePathname();
   const router = useRouter();
   const dispatch = useDispatch();
 
@@ -42,7 +40,9 @@ export default function UserList({ ...props }) {
     dispatch(setLogout());
     dispatch(resetWishlist());
     setOpen(false);
-    location.href = '/' + pathname.split('/')[1] + '/auth/login';
+    setTimeout(() => {
+      location.href = '/auth/login';
+    }, 1000);
   };
 
   return (

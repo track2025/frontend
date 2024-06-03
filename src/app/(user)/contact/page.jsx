@@ -1,11 +1,15 @@
-import { Container } from '@mui/material';
 import React from 'react';
+import dynamic from 'next/dynamic';
+
+// mui
+import { Container } from '@mui/material';
+
 // component
 import ContactUs from 'src/components/_main/contactUs';
-// next
-import dynamic from 'next/dynamic';
-// skeleton
+
 import HeaderBreadcrumbsSkeleton from 'src/components/skeletons/breadcrumbs';
+// skeleton
+
 const HeaderBreadcrumbs = dynamic(() => import('src/components/headerBreadcrumbs'), {
   loading: () => <HeaderBreadcrumbsSkeleton />
 });

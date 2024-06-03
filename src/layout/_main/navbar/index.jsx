@@ -54,6 +54,7 @@ const CompareWidget = dynamic(() => import('src/components/compareWidget'), {
   )
 });
 const Search = dynamic(() => import('src/components/dialog/search'), {
+  srr: false,
   loading: () => <Skeleton variant="rounded" width={300} height={56} sx={{ borderRadius: '70px' }} />
 });
 const LanguageSelect = dynamic(() => import('src/components/languageSelect'), {

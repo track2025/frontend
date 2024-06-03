@@ -39,6 +39,7 @@ export default async function Login() {
                 Login to your account to continue
               </Typography>
             </Stack>
+
             <LoginMain />
           </Card>
         </Container>
