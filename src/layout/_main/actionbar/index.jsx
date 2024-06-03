@@ -5,7 +5,6 @@ import PropTypes from 'prop-types';
 // mui
 import { Toolbar, AppBar, Container } from '@mui/material';
 
-
 // components
 import MenuDesktop from './menuDesktop';
 import config from 'src/layout/_main/config.json';

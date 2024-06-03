@@ -13,7 +13,6 @@ import { Form, FormikProvider, useFormik } from 'formik';
 import * as api from 'src/services';
 import { useMutation } from 'react-query';
 
-
 export default function NewsLetter() {
   const [loading, setloading] = React.useState(false);
 
