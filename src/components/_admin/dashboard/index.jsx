@@ -7,9 +7,9 @@ import { Grid, Box } from '@mui/material';
 // components
 import DashboardCard from 'src/components/_admin/dashboard/dashboardCard';
 import LowStockProducts from 'src/components/_admin/dashboard/lowStockProducts';
-import OrderChart from 'src/components/charts/Order';
+import OrderChart from 'src/components/charts/order';
 import SaleChart from 'src/components/charts/sale';
-import IncomeChart from 'src/components/charts/Income';
+import IncomeChart from 'src/components/charts/income';
 import BestSelling from './bestSelling';
 // icon
 import { AiOutlineDollarCircle } from 'react-icons/ai';
