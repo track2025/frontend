@@ -35,7 +35,7 @@ export default function Page({ params }) {
           },
           {
             name: 'Brands',
-            href: '/admin/brands'
+            href: '/admin/locations'
           },
           {
             name: data?.data.name

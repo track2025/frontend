@@ -1,38 +1,37 @@
 import React from 'react';
 
-// Components
-import CategoryList from 'src/components/_admin/categories/categoryList';
+// components
 import HeaderBreadcrumbs from 'src/components/headerBreadcrumbs';
+import AddCategory from 'src/components/_admin/categories/addCategory';
 
 // Meta information
 export const metadata = {
-  title: 'Categories - Nextall',
+  title: 'Add Vehicle Make - Nextall',
   applicationName: 'Nextall',
   authors: 'Nextall'
 };
 
-export default function Categories() {
+export default function page() {
   return (
-    <>
+    <div>
       <HeaderBreadcrumbs
         admin
-        heading="Categories List"
+        heading="Vehicle Make List"
         links={[
           {
             name: 'Dashboard',
             href: '/admin'
           },
           {
-            name: 'Categories'
+            name: 'Vehicle Make',
+            href: '/admin/categories'
+          },
+          {
+            name: 'Add Vehicle Make'
           }
         ]}
-        action={{
-          href: `/admin/categories/add`,
-          title: 'Add Category'
-        }}
       />
-
-      <CategoryList />
-    </>
+      <AddCategory />
+    </div>
   );
 }

@@ -20,19 +20,19 @@ export default async function Categories() {
     <>
       <HeaderBreadcrumbs
         admin
-        heading="Sub Categories List"
+        heading="Vehicle Model List"
         links={[
           {
             name: 'Dashboard',
             href: '/admin'
           },
           {
-            name: 'Sub Categories'
+            name: 'Vehicle Model'
           }
         ]}
         action={{
-          href: `/admin/sub-categories/add`,
-          title: 'Add Sub Category'
+          href: `/admin/vehicle-models/add`,
+          title: 'Add Vehicle Model'
         }}
       />
       <SubCategoryList categories={categories} />

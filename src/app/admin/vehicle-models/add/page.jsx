@@ -7,6 +7,12 @@ import AddSubCategory from 'src/components/_admin/subCategories/addCategory';
 // api
 import * as api from 'src/services';
 
+export const metadata = {
+  title: 'Add Vehicle Model - Nextall',
+  applicationName: 'Nextall',
+  authors: 'Nextall'
+};
+
 export default async function page() {
   const data = await api.getAllCategories();
   if (!data) {
@@ -17,18 +23,18 @@ export default async function page() {
     <div>
       <HeaderBreadcrumbs
         admin
-        heading="Sub Categories List"
+        heading="Vehicle Model List"
         links={[
           {
             name: 'Dashboard',
             href: '/admin'
           },
           {
-            name: 'Sub Categories',
-            href: '/admin/sub-categories'
+            name: 'Vehicle Model',
+            href: '/admin/vehicle-models'
           },
           {
-            name: 'Add Sub Category'
+            name: 'Add Model'
           }
         ]}
       />

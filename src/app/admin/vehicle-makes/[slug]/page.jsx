@@ -26,7 +26,7 @@ export default function Page({ params }) {
     <div>
       <HeaderBreadcrumbs
         admin
-        heading="Categories List"
+        heading="Vehicle Make List"
         links={[
           {
             name: 'Dashboard',
@@ -34,7 +34,7 @@ export default function Page({ params }) {
           },
           {
             name: 'Categories',
-            href: '/admin/categories'
+            href: '/admin/vehicle-makes'
           },
           {
             name: data?.data?.name

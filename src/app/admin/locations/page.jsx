@@ -6,7 +6,7 @@ import HeaderBreadcrumbs from 'src/components/headerBreadcrumbs';
 
 // Meta information
 export const metadata = {
-  title: 'Brands - Nextall',
+  title: 'Track Locations - Nextall',
   applicationName: 'Nextall',
   authors: 'Nextall'
 };
@@ -16,19 +16,19 @@ export default function Brands() {
     <>
       <HeaderBreadcrumbs
         admin
-        heading="Brands List"
+        heading="Locations List"
         links={[
           {
             name: 'Admin Dashboard',
             href: '/admin'
           },
           {
-            name: 'Brands'
+            name: 'Locations'
           }
         ]}
         action={{
-          href: `/admin/brands/add`,
-          title: 'Add brand'
+          href: `/admin/locations/add`,
+          title: 'Add A Location'
         }}
       />
       <BrandList />

@@ -1,30 +1,30 @@
 import React from 'react';
 
 // components
-import AddBrand from 'src/components/_admin/brands/addBrand';
+import AdminShopForm from 'src/components/forms/adminShop';
 import HeaderBreadcrumbs from 'src/components/headerBreadcrumbs';
 
-export default function page() {
+export default function Page() {
   return (
-    <div>
+    <>
       <HeaderBreadcrumbs
+        heading="Dashboard"
         admin
-        heading="Brands List"
         links={[
           {
-            name: 'Dashboard',
+            name: 'Admin',
             href: '/admin'
           },
           {
-            name: 'Brands',
-            href: '/admin/brands'
+            name: 'Photographers',
+            href: '/admin/Photographer'
           },
           {
-            name: 'Add brand'
+            name: 'Add'
           }
         ]}
       />
-      <AddBrand />
-    </div>
+      <AdminShopForm />
+    </>
   );
 }

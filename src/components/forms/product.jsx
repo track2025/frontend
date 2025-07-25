@@ -1,6 +1,6 @@
 'use client';
 import * as Yup from 'yup';
-import React from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import toast from 'react-hot-toast';
 import { capitalCase } from 'change-case';
@@ -35,10 +35,12 @@ import axios from 'axios';
 // components
 import UploadMultiFile from 'src/components/upload/UploadMultiFile';
 import { fCurrency } from 'src/utils/formatNumber';
+import uploadToSpaces from 'src/utils/upload';
+import imageCompression from 'browser-image-compression';
+
+
 // ----------------------------------------------------------------------
 
-const GENDER_OPTION = ['men', 'women', 'kids', 'others'];
-const STATUS_OPTIONS = ['sale', 'new', 'regular', 'disabled'];
 const LabelStyle = styled(Typography)(({ theme }) => ({
   ...theme.typography.subtitle2,
   color: theme.palette.text.secondary,
@@ -79,54 +81,36 @@ export default function ProductForm({
       }
     }
   );
+
+   const [state, setstate] = useState({
+      loading: false,
+      name: '',
+      search: '',
+      open: false
+    });
+    
   const NewProductSchema = Yup.object().shape({
-    name: Yup.string().required('Product name is required'),
-    code: Yup.string().required('Product code is required'),
-    tags: Yup.array().min(1, 'Tags is required'),
-    status: Yup.string().required('Status is required'),
-    description: Yup.string().required('Description is required'),
-    category: Yup.string().required('Category is required'),
-    shop: isVendor ? Yup.string().nullable().notRequired() : Yup.string().required('Shop is required'),
-    subCategory: Yup.string().required('Sub Category is required'),
-    slug: Yup.string().required('Slug is required'),
-    brand: Yup.string().required('brand is required'),
-    metaTitle: Yup.string().required('Meta title is required'),
-    metaDescription: Yup.string().required('Meta description is required'),
+    name: Yup.string().required('Car Registration is required'),
+    category: Yup.string().required('Vehicle make is required'),
+    shop: isVendor ? Yup.string().nullable().notRequired() : Yup.string().required('Photographer is required'),
+    subCategory: Yup.string().required('Vehicle model is required'),
+    brand: Yup.string().required('Location is required'),
     images: Yup.array().min(1, 'Images is required'),
-    sku: Yup.string().required('Sku is required'),
-    available: Yup.number().required('Quantaty is required'),
-    colors: Yup.array().required('Color is required'),
-    sizes: Yup.array().required('Size is required'),
-    price: Yup.number().required('Price is required'),
-    priceSale: Yup.number()
-      .required('Sale price is required')
-      .lessThan(Yup.ref('price'), 'Sale price should be smaller than price')
+    // price: Yup.number().required('Price is required'),
+    priceSale: Yup.number().required('Sale price is required')
   });
 
   const formik = useFormik({
     enableReinitialize: true,
     initialValues: {
       name: currentProduct?.name || '',
-      description: currentProduct?.description || '',
-      code: currentProduct?.code || '',
       slug: currentProduct?.slug || '',
-      metaTitle: currentProduct?.metaTitle || '',
-      metaDescription: currentProduct?.metaDescription || '',
       brand: currentProduct?.brand || brands[0]?._id || '',
-      tags: currentProduct?.tags || [],
-      gender: currentProduct?.gender || '',
       category: currentProduct?.category || (categories.length && categories[0]?._id) || '',
       shop: isVendor ? null : currentProduct?.shop || (shops?.length && shops[0]?._id) || '',
       subCategory: currentProduct?.subCategory || (categories.length && categories[0].subCategories[0]?._id) || '',
-      status: currentProduct?.status || STATUS_OPTIONS[0],
-      blob: currentProduct?.blob || [],
       isFeatured: currentProduct?.isFeatured || false,
-      sku: currentProduct?.sku || '',
-      price: currentProduct?.price || '',
       priceSale: currentProduct?.priceSale || '',
-      colors: currentProduct?.colors || '',
-      sizes: currentProduct?.sizes || '',
-      available: currentProduct?.available || '',
       images: currentProduct?.images || []
     },
 
@@ -136,8 +120,8 @@ export default function ProductForm({
       try {
         mutate({
           ...rest,
-          priceSale: values.priceSale || values.price,
-          ...(currentProduct && { currentSlug: currentProduct.slug })
+          ...(currentProduct && { currentSlug: currentProduct.slug }),
+          orignalImage: orignalImage
         });
       } catch (error) {
         console.error(error);
@@ -151,27 +135,168 @@ export default function ProductForm({
     }
   });
   // handle drop
-  const handleDrop = (acceptedFiles) => {
-    setloading(true);
-    const uploaders = acceptedFiles.map((file) => {
-      const formData = new FormData();
-      formData.append('file', file);
-      formData.append('upload_preset', 'my-uploads');
-      setFieldValue('blob', values.blob.concat(acceptedFiles));
-      return axios.post(`https://api.cloudinary.com/v1_1/${process.env.CLOUDINARY_CLOUD_NAME}/image/upload`, formData);
+  // const handleDrop = (acceptedFiles) => {
+  //   setloading(true);
+  //   const uploaders = acceptedFiles.map((file) => {
+  //     const formData = new FormData();
+  //     formData.append('file', file);
+  //     formData.append('upload_preset', 'my-uploads');
+  //     setFieldValue('blob', values.blob.concat(acceptedFiles));
+  //     return axios.post(`https://api.cloudinary.com/v1_1/${process.env.CLOUDINARY_CLOUD_NAME}/image/upload`, formData);
+  //   });
+
+  //   axios.all(uploaders).then((data) => {
+  //     const newImages = data.map(({ data }) => ({
+  //       url: data.secure_url,
+  //       _id: data.public_id
+  //       // blob: blobs[i],
+  //     }));
+  //     setloading(false);
+  //     setFieldValue('images', values.images.concat(newImages));
+  //   });
+  // };
+  // handleAddVariants
+
+  // const handleDrop = async (acceptedFiles) => {
+  //   setstate({ ...state, loading: 2 });
+
+  //   const filesWithPreview = acceptedFiles.map((file) => {
+  //     Object.assign(file, {
+  //       preview: URL.createObjectURL(file),
+  //     });
+  //     return file;
+  //   });
+
+  //   //setFieldValue('blob', values.blob.concat(filesWithPreview));
+  //   setFieldValue('blob', (values.blob || []).concat(filesWithPreview));
+
+
+  //   try {
+  //     const uploads = await Promise.all(
+  //       filesWithPreview.map((file) =>
+  //         uploadToSpaces(file, (progress) => {
+  //           setstate((prev) => ({ ...prev, loading: progress }));
+  //         })
+  //       )
+  //     );
+
+  //     setFieldValue('images', values.images.concat(uploads));
+  //     setstate({ ...state, loading: false });
+  //   } catch (err) {
+  //     console.error('Upload failed:', err);
+  //     setstate({ ...state, loading: false });
+  //   }
+  // };
+
+  const addWatermark = (imageFile, watermarkText) =>
+    new Promise((resolve) => {
+      const img = new Image();
+      img.src = URL.createObjectURL(imageFile);
+      img.onload = () => {
+        const canvas = document.createElement('canvas');
+        const ctx = canvas.getContext('2d');
+
+        // Resize image to a max width of 800px
+        const maxWidth = 800;
+        const scale = maxWidth / img.width;
+        canvas.width = maxWidth;
+        canvas.height = img.height * scale;
+
+        // Draw resized image
+        ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+
+        // Watermark style
+        const fontSize = 40;
+        ctx.font = `${fontSize}px Arial`;
+        ctx.fillStyle = 'rgba(255, 255, 255, 0.25)';
+        ctx.textAlign = 'center';
+        ctx.textBaseline = 'middle';
+
+        // Rotate canvas diagonally (↗️ direction)
+        ctx.translate(canvas.width / 2, canvas.height / 2);
+        ctx.rotate(-Math.atan(canvas.height / canvas.width)); // Diagonal rotation
+
+        // Calculate spacing
+        const horizontalSpacing = 350; // Increased to avoid overlap
+        const verticalSpacing = 150;
+
+        const xStart = -canvas.width;
+        const xEnd = canvas.width * 2;
+        const yStart = -canvas.height;
+        const yEnd = canvas.height * 2;
+
+        for (let x = xStart; x < xEnd; x += horizontalSpacing) {
+          for (let y = yStart; y < yEnd; y += verticalSpacing) {
+            ctx.fillText(watermarkText, x, y);
+          }
+        }
+
+        // Reset transformation
+        ctx.setTransform(1, 0, 0, 1, 0, 0);
+
+        // Export as new file
+        canvas.toBlob((blob) => {
+          const watermarkedFile = new File([blob], `wm_${imageFile.name}`, { type: 'image/jpeg' });
+          resolve(watermarkedFile);
+        }, 'image/jpeg', 0.8);
+      };
     });
 
-    axios.all(uploaders).then((data) => {
-      const newImages = data.map(({ data }) => ({
-        url: data.secure_url,
-        _id: data.public_id
-        // blob: blobs[i],
-      }));
-      setloading(false);
-      setFieldValue('images', values.images.concat(newImages));
+
+  const [orignalImage,  setorignalImageValue] = useState();
+
+  const handleDrop = async (acceptedFiles) => {
+    setstate({ ...state, loading: 2 });
+
+    const filesWithPreview = acceptedFiles.map((file) => {
+      Object.assign(file, { preview: URL.createObjectURL(file) });
+      return file;
     });
+
+    setFieldValue('blob', (values.blob || []).concat(filesWithPreview));
+
+    try {
+      const uploads = await Promise.all(
+        filesWithPreview.map(async (file) => {
+          // 1. Create watermarked version
+          setstate((prev) => ({ ...prev, loading: 2 }))
+          const watermarked = await addWatermark(file, 'RaceTrackRegistry');
+
+          // 2. Upload original
+          const originalUrl = await uploadToSpaces(file, (progress) =>
+            setstate((prev) => ({ ...prev, loading: progress }))
+          );
+
+          // 3. Upload watermarked version
+          const watermarkedUrl = await uploadToSpaces(watermarked, (progress) =>
+            setstate((prev) => ({ ...prev, loading: progress }))
+          );
+
+          return {
+            original: originalUrl,
+            watermarked: watermarkedUrl,
+          };
+        })
+      );
+      console.log('uploads', uploads)
+
+      // Save to form field
+      if(uploads) {
+        const watermarkedImageArray = uploads?.map(fileObj => fileObj?.watermarked)
+        const originalImageArray = uploads?.map(fileObj => fileObj?.original)
+        setFieldValue('images', values.images.concat(watermarkedImageArray));
+        setorignalImageValue(originalImageArray);
+
+      }
+
+      setstate({ ...state, loading: false });
+    } catch (err) {
+      console.error('Upload failed:', err);
+      setstate({ ...state, loading: false });
+    }
   };
-  // handleAddVariants
+
+
 
   // handleRemoveAll
   const handleRemoveAll = () => {
@@ -214,7 +339,7 @@ export default function ProductForm({
                         <Skeleton variant="text" width={140} />
                       ) : (
                         <LabelStyle component={'label'} htmlFor="product-name">
-                          {'Product Name'}
+                          {'Car Registration'}
                         </LabelStyle>
                       )}
                       {isInitialized ? (
@@ -239,7 +364,7 @@ export default function ProductForm({
                                 <Skeleton variant="text" width={100} />
                               ) : (
                                 <LabelStyle component={'label'} htmlFor="shop-select">
-                                  {'Shop'}
+                                  {'Photographer'}
                                 </LabelStyle>
                               )}
 
@@ -266,7 +391,7 @@ export default function ProductForm({
                               <Skeleton variant="text" width={100} />
                             ) : (
                               <LabelStyle component={'label'} htmlFor="grouped-native-select">
-                                {'Category'}
+                                {'Vehicle Make'}
                               </LabelStyle>
                             )}
                             {!categoryLoading ? (
@@ -300,7 +425,7 @@ export default function ProductForm({
                               <Skeleton variant="text" width={100} />
                             ) : (
                               <LabelStyle component={'label'} htmlFor="grouped-native-select-subCategory">
-                                {'Sub Category'}
+                                {'Vehicle Model'}
                               </LabelStyle>
                             )}
                             {!categoryLoading ? (
@@ -336,7 +461,7 @@ export default function ProductForm({
                               <Skeleton variant="text" width={100} />
                             ) : (
                               <LabelStyle component={'label'} htmlFor="brand-name">
-                                {'Brand'}
+                                {'Location'}
                               </LabelStyle>
                             )}
 
@@ -355,250 +480,11 @@ export default function ProductForm({
                             )}
                           </FormControl>
                         </Grid>
-                        <Grid item xs={12} md={6}>
-                          <LabelStyle component={'label'} htmlFor="size">
-                            {'Sizes'}
-                          </LabelStyle>
 
-                          <Autocomplete
-                            id="size"
-                            multiple
-                            freeSolo
-                            value={values.sizes}
-                            onChange={(event, newValue) => {
-                              setFieldValue('sizes', newValue);
-                            }}
-                            options={[]}
-                            renderTags={(value, getTagProps) =>
-                              value.map((option, index) => (
-                                <Chip {...getTagProps({ index })} key={option} size="small" label={option} />
-                              ))
-                            }
-                            renderInput={(params) => (
-                              <TextField
-                                id=""
-                                {...params}
-                                error={Boolean(touched.sizes && errors.sizes)}
-                                helperText={touched.sizes && errors.sizes}
-                              />
-                            )}
-                          />
-                        </Grid>
-                        <Grid item xs={12} md={6}>
-                          <LabelStyle component={'label'} htmlFor="color">
-                            {'Colors'}
-                          </LabelStyle>
-
-                          <Autocomplete
-                            id="color"
-                            multiple
-                            freeSolo
-                            value={values.colors}
-                            onChange={(event, newValue) => {
-                              setFieldValue('colors', newValue);
-                            }}
-                            options={[]}
-                            renderTags={(value, getTagProps) =>
-                              value.map((option, index) => (
-                                <Chip {...getTagProps({ index })} key={option} size="small" label={option} />
-                              ))
-                            }
-                            renderInput={(params) => (
-                              <TextField
-                                id=""
-                                {...params}
-                                error={Boolean(touched.colors && errors.colors)}
-                                helperText={touched.colors && errors.colors}
-                              />
-                            )}
-                          />
-                        </Grid>
-
-                        <Grid item xs={12} md={6}>
-                          <FormControl fullWidth>
-                            {isInitialized ? (
-                              <Skeleton variant="text" width={80} />
-                            ) : (
-                              <LabelStyle component={'label'} htmlFor="gander">
-                                {'Gender'}
-                              </LabelStyle>
-                            )}
-                            {isInitialized ? (
-                              <Skeleton variant="rectangular" width="100%" height={56} />
-                            ) : (
-                              <Select
-                                id="gander"
-                                native
-                                {...getFieldProps('gender')}
-                                error={Boolean(touched.gender && errors.gender)}
-                              >
-                                <option value={''}>
-                                  <em>None</em>
-                                </option>
-                                {GENDER_OPTION.map((gender) => (
-                                  <option key={gender} value={gender}>
-                                    {capitalCase(gender)}
-                                  </option>
-                                ))}
-                              </Select>
-                            )}
-                          </FormControl>
-                        </Grid>
-                        <Grid item xs={12} md={4}>
-                          <FormControl fullWidth>
-                            {isInitialized ? (
-                              <Skeleton variant="text" width={80} />
-                            ) : (
-                              <LabelStyle component={'label'} htmlFor="status">
-                                {'Status'}
-                              </LabelStyle>
-                            )}
-                            {isInitialized ? (
-                              <Skeleton variant="rectangular" width="100%" height={56} />
-                            ) : (
-                              <Select
-                                id="status"
-                                native
-                                {...getFieldProps('status')}
-                                error={Boolean(touched.status && errors.status)}
-                              >
-                                <option value="" style={{ display: 'none' }} />
-                                {STATUS_OPTIONS.map((status) => (
-                                  <option key={status} value={status}>
-                                    {capitalCase(status)}
-                                  </option>
-                                ))}
-                              </Select>
-                            )}
-                            {touched.status && errors.status && (
-                              <FormHelperText error sx={{ px: 2, mx: 0 }}>
-                                {touched.status && errors.status}
-                              </FormHelperText>
-                            )}
-                          </FormControl>
-                        </Grid>
-                        <Grid item xs={12} md={4}>
-                          <div>
-                            {isInitialized ? (
-                              <Skeleton variant="text" width={120} />
-                            ) : (
-                              <LabelStyle component={'label'} htmlFor="product-code">
-                                {'Product Code'}
-                              </LabelStyle>
-                            )}
-                            {isInitialized ? (
-                              <Skeleton variant="rectangular" width="100%" height={56} />
-                            ) : (
-                              <TextField
-                                id="product-code"
-                                fullWidth
-                                {...getFieldProps('code')}
-                                error={Boolean(touched.code && errors.code)}
-                                helperText={touched.code && errors.code}
-                              />
-                            )}
-                          </div>
-                        </Grid>
-                        <Grid item xs={12} md={4}>
-                          <div>
-                            <LabelStyle component={'label'} htmlFor="product-sku">
-                              {'Product Sku'}
-                            </LabelStyle>
-                            <TextField
-                              id="product-sku"
-                              fullWidth
-                              {...getFieldProps('sku')}
-                              error={Boolean(touched.sku && errors.sku)}
-                              helperText={touched.sku && errors.sku}
-                            />
-                          </div>
-                        </Grid>
-                        <Grid item xs={12} md={12}>
-                          {isInitialized ? (
-                            <Skeleton variant="text" width={70} />
-                          ) : (
-                            <LabelStyle component={'label'} htmlFor="tags">
-                              {'Tags'}
-                            </LabelStyle>
-                          )}
-                          {isInitialized ? (
-                            <Skeleton variant="rectangular" width="100%" height={56} />
-                          ) : (
-                            <Autocomplete
-                              id="tags"
-                              multiple
-                              freeSolo
-                              value={values.tags}
-                              onChange={(event, newValue) => {
-                                setFieldValue('tags', newValue);
-                              }}
-                              options={[]}
-                              renderTags={(value, getTagProps) =>
-                                value.map((option, index) => (
-                                  <Chip {...getTagProps({ index })} key={option} size="small" label={option} />
-                                ))
-                              }
-                              renderInput={(params) => (
-                                <TextField
-                                  id=""
-                                  {...params}
-                                  error={Boolean(touched.tags && errors.tags)}
-                                  helperText={touched.tags && errors.tags}
-                                />
-                              )}
-                            />
-                          )}
-                        </Grid>
-                        <Grid item xs={12} md={12}>
-                          <div>
-                            {isInitialized ? (
-                              <Skeleton variant="text" width={100} />
-                            ) : (
-                              <LabelStyle component={'label'} htmlFor="meta-title">
-                                {'Meta Title'}
-                              </LabelStyle>
-                            )}
-                            {isInitialized ? (
-                              <Skeleton variant="rectangular" width="100%" height={56} />
-                            ) : (
-                              <TextField
-                                id="meta-title"
-                                fullWidth
-                                {...getFieldProps('metaTitle')}
-                                error={Boolean(touched.metaTitle && errors.metaTitle)}
-                                helperText={touched.metaTitle && errors.metaTitle}
-                              />
-                            )}
-                          </div>
-                        </Grid>
-                        <Grid item xs={12} md={12}>
-                          <div>
-                            {isInitialized ? (
-                              <Skeleton variant="text" width={120} />
-                            ) : (
-                              <LabelStyle component={'label'} htmlFor="description">
-                                {'Description'}{' '}
-                              </LabelStyle>
-                            )}
-                            {isInitialized ? (
-                              <Skeleton variant="rectangular" width="100%" height={240} />
-                            ) : (
-                              <TextField
-                                id="description"
-                                fullWidth
-                                {...getFieldProps('description')}
-                                error={Boolean(touched.description && errors.description)}
-                                helperText={touched.description && errors.description}
-                                rows={9}
-                                multiline
-                              />
-                            )}
-                          </div>
-                        </Grid>
                         <Grid item xs={12} md={12}>
                           <div>
                             <LabelStyle component={'label'} htmlFor="product-image">
-                              {'Products Images'} <span>1080 * 1080</span>
+                              {'Pictures/Videos'} <span>1080 * 1080</span>
                             </LabelStyle>
                             <UploadMultiFile
                               id="product-image"
@@ -629,80 +515,7 @@ export default function ProductForm({
             <Grid item xs={12} md={5}>
               <Card sx={{ p: 3 }}>
                 <Stack spacing={3} pb={1}>
-                  <div>
-                    {isInitialized ? (
-                      <Skeleton variant="text" width={70} />
-                    ) : (
-                      <LabelStyle component={'label'} htmlFor="slug">
-                        {'Slug'}
-                      </LabelStyle>
-                    )}
-                    {isInitialized ? (
-                      <Skeleton variant="rectangular" width="100%" height={56} />
-                    ) : (
-                      <TextField
-                        id="slug"
-                        fullWidth
-                        {...getFieldProps('slug')}
-                        error={Boolean(touched.slug && errors.slug)}
-                        helperText={touched.slug && errors.slug}
-                      />
-                    )}
-                  </div>
-                  <div>
-                    {isInitialized ? (
-                      <Skeleton variant="text" width={140} />
-                    ) : (
-                      <LabelStyle component={'label'} htmlFor="meta-description">
-                        {'Meta Description'}{' '}
-                      </LabelStyle>
-                    )}
-                    {isInitialized ? (
-                      <Skeleton variant="rectangular" width="100%" height={240} />
-                    ) : (
-                      <TextField
-                        id="meta-description"
-                        fullWidth
-                        {...getFieldProps('metaDescription')}
-                        error={Boolean(touched.metaDescription && errors.metaDescription)}
-                        helperText={touched.metaDescription && errors.metaDescription}
-                        rows={9}
-                        multiline
-                      />
-                    )}
-                  </div>
 
-                  <div>
-                    <LabelStyle component={'label'} htmlFor="quantity">
-                      {'Quantity'}
-                    </LabelStyle>
-                    <TextField
-                      id="quantity"
-                      fullWidth
-                      type="number"
-                      {...getFieldProps('available')}
-                      error={Boolean(touched.available && errors.available)}
-                      helperText={touched.available && errors.available}
-                    />
-                  </div>
-
-                  <div>
-                    <LabelStyle component={'label'} htmlFor="regular-price">
-                      {'Regular Price'}
-                    </LabelStyle>
-                    <TextField
-                      id="regular-price"
-                      fullWidth
-                      placeholder="0.00"
-                      {...getFieldProps('price')}
-                      InputProps={{
-                        startAdornment: <InputAdornment position="start">{fCurrency(0)?.split('0')[0]}</InputAdornment>,
-                        type: 'number'
-                      }}
-                      error={Boolean(touched.price && errors.price)}
-                      helperText={touched.price && errors.price}
-                    />
-                  </div>
                   <div>
                     <LabelStyle component={'label'} htmlFor="sale-price">
                       {'Sale Price'}
@@ -729,7 +542,7 @@ export default function ProductForm({
                             checked={values.isFeatured}
                           />
                         }
-                        label={'Featured Product'}
+                        label={'Featured'}
                       />
                     </FormGroup>
                   </div>
@@ -738,7 +551,7 @@ export default function ProductForm({
                       <Skeleton variant="rectangular" width="100%" height={56} />
                     ) : (
                       <LoadingButton type="submit" variant="contained" size="large" fullWidth loading={updateLoading}>
-                        {currentProduct ? 'Update Product' : 'Create Product'}
+                        {currentProduct ? 'Update Photos' : 'Upload Photos'}
                       </LoadingButton>
                     )}
                   </Stack>

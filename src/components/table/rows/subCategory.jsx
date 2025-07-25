@@ -43,11 +43,12 @@ const ThumbImgStyle = styled(Box)(({ theme }) => ({
   position: 'relative',
   overflow: 'hidden'
 }));
-export default function Category({ isLoading, row, handleClickOpen }) {
+export default function Category({ isLoading, row, handleClickOpen, sn }) {
   const router = useRouter();
   const theme = useTheme();
   return (
     <TableRow hover key={Math.random()}>
+      <TableCell>{isLoading ? <Skeleton variant="text" /> : <>{sn}</>}</TableCell>
       <TableCell component="th" scope="row">
         <Box
           sx={{
@@ -55,27 +56,12 @@ export default function Category({ isLoading, row, handleClickOpen }) {
             alignItems: 'center'
           }}
         >
-          {isLoading ? (
-            <Skeleton variant="rectangular" width={50} height={50} sx={{ borderRadius: 1 }} />
-          ) : (
-            <ThumbImgStyle>
-              <BlurImage
-                priority
-                fill
-                alt={row?.name}
-                src={row?.cover?.url}
-                placeholder="blur"
-                blurDataURL={row?.cover.blurDataURL}
-                objectFit="cover"
-              />
-            </ThumbImgStyle>
-          )}
+          
           <Typography variant="subtitle2" noWrap>
             {isLoading ? <Skeleton variant="text" width={120} sx={{ ml: 1 }} /> : row?.name}
           </Typography>
         </Box>
       </TableCell>
-      <TableCell>{isLoading ? <Skeleton variant="text" /> : row.description.slice(0, 50)}</TableCell>
       <TableCell>
         {isLoading ? (
           <Skeleton variant="text" />
@@ -99,7 +85,7 @@ export default function Category({ isLoading, row, handleClickOpen }) {
           ) : (
             <>
               <Tooltip title="Edit">
-                <IconButton onClick={() => router.push(`/admin/sub-categories/${row?.slug}`)}>
+                <IconButton onClick={() => router.push(`/admin/vehicle-models/${row?.slug}`)}>
                   <MdEdit />
                 </IconButton>
               </Tooltip>

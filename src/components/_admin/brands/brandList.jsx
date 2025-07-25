@@ -15,7 +15,6 @@ import Brand from 'src/components/table/rows/brand';
 
 const TABLE_HEAD = [
   { id: 'name', label: 'Brands', alignRight: false, sort: true },
-  { id: 'description', label: 'Description', alignRight: false },
   { id: 'status', label: 'Status', alignRight: false },
   { id: 'createdAt', label: 'Date', alignRight: false, sort: true },
   { id: '', label: 'Actions', alignRight: true }
@@ -53,9 +52,9 @@ export default function BrandList() {
           id={id}
           apicall={setApicall}
           endPoint="deleteBrandByAdmin"
-          type={'Brand deleted'}
+          type={'Record deleted'}
           deleteMessage={
-            'Are you sure you want to delete this brand? Please consider carefully before making irreversible changes.'
+            'Are you sure you want to delete this Location? Please consider carefully before making irreversible changes.'
           }
         />
       </Dialog>

@@ -25,10 +25,11 @@ import BlurImageAvatar from 'src/components/avatar';
 import { MdEdit } from 'react-icons/md';
 import { MdDelete } from 'react-icons/md';
 import { IoEye } from 'react-icons/io5';
-export default function ProductRow({ isLoading, row, handleClickOpen }) {
+export default function ProductRow({ isLoading, row, handleClickOpen, sn }) {
   const router = useRouter();
   return (
     <TableRow hover key={Math.random()}>
+      <TableCell>{isLoading ? <Skeleton variant="text" /> : <>{sn}</>}</TableCell>
       <TableCell component="th" scope="row" sx={{ maxWidth: 300 }}>
         <Box
           sx={{
@@ -135,13 +136,13 @@ export default function ProductRow({ isLoading, row, handleClickOpen }) {
           </Stack>
         ) : (
           <Stack direction="row" justifyContent="flex-end">
-            <Link href={`/admin/shops/${row.slug}`}>
+            <Link href={`/admin/photographers/${row.slug}`}>
               <IconButton>
                 <IoEye />
               </IconButton>
             </Link>
             <Tooltip title="Edit">
-              <IconButton onClick={() => router.push(`/admin/shops/edit/${row.slug}`)}>
+              <IconButton onClick={() => router.push(`/admin/photographers/edit/${row.slug}`)}>
                 <MdEdit />
               </IconButton>
             </Tooltip>

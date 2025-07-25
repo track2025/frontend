@@ -31,6 +31,8 @@ import toast from 'react-hot-toast';
 import { Form, FormikProvider, useFormik } from 'formik';
 // api
 import * as api from 'src/services';
+import uploadToSpaces from 'src/utils/upload';
+
 
 CategoryForm.propTypes = {
   data: PropTypes.object,
@@ -67,7 +69,7 @@ export default function CategoryForm({ data: currentCategory, isLoading: categor
       onSuccess: (data) => {
         toast.success(data.message);
 
-        router.push('/admin/categories');
+        router.push('/admin/vehicle-makes');
       },
       onError: (error) => {
         toast.error(error.response.data.message);
@@ -83,18 +85,18 @@ export default function CategoryForm({ data: currentCategory, isLoading: categor
     name: Yup.string().required('Name is required'),
     cover: Yup.mixed().required('Cover is required'),
     slug: Yup.string().required('Slug is required'),
-    description: Yup.string().required('Description is required'),
-    metaTitle: Yup.string().required('Meta title is required'),
-    metaDescription: Yup.string().required('Meta description is required')
+    //description: Yup.string().required('Description is required'),
+    //metaTitle: Yup.string().required('Meta title is required'),
+    //metaDescription: Yup.string().required('Meta description is required')
   });
 
   const formik = useFormik({
     initialValues: {
       name: currentCategory?.name || '',
-      metaTitle: currentCategory?.metaTitle || '',
+      metaTitle: currentCategory?.name || '',
       cover: currentCategory?.cover || null,
       description: currentCategory?.description || '',
-      metaDescription: currentCategory?.metaDescription || '',
+      metaDescription: currentCategory?.description || '',
       file: currentCategory?.cover || '',
       slug: currentCategory?.slug || '',
       status: currentCategory?.status || STATUS_OPTIONS[0]
@@ -120,37 +122,31 @@ export default function CategoryForm({ data: currentCategory, isLoading: categor
   const handleDrop = async (acceptedFiles) => {
     setstate({ ...state, loading: 2 });
     const file = acceptedFiles[0];
+
     if (file) {
       Object.assign(file, {
         preview: URL.createObjectURL(file)
       });
     }
+
     setFieldValue('file', file);
-    const formData = new FormData();
-    formData.append('file', file);
-    formData.append('upload_preset', 'my-uploads');
-    const config = {
-      onUploadProgress: (progressEvent) => {
-        const { loaded, total } = progressEvent;
-        const percentage = Math.floor((loaded * 100) / total);
-        setstate({ ...state, loading: percentage });
-      }
-    };
-    await axios
-      .post(`https://api.cloudinary.com/v1_1/${process.env.CLOUDINARY_CLOUD_NAME}/image/upload`, formData, config)
-      .then(({ data }) => {
-        setFieldValue('cover', {
-          _id: data.public_id,
-          url: data.secure_url
-        });
-        setstate({ ...state, loading: false });
-      })
-      .then(() => {
-        if (values.file) {
-          deleteMutate(values.cover._id);
-        }
-        setstate({ ...state, loading: false });
+
+    try {
+      const uploaded = await uploadToSpaces(file, (progress) => {
+        setstate({ ...state, loading: progress });
       });
+
+      setFieldValue('cover', uploaded);
+
+      if (values.file && values.cover?._id) {
+        deleteMutate(values.cover._id);
+      }
+
+      setstate({ ...state, loading: false });
+    } catch (err) {
+      console.error('Upload failed:', err);
+      setstate({ ...state, loading: false });
+    }
   };
 
   const handleTitleChange = (event) => {
@@ -176,7 +172,7 @@ export default function CategoryForm({ data: currentCategory, isLoading: categor
                     ) : (
                       <LabelStyle component={'label'} htmlFor="category-name">
                         {' '}
-                        {'Category Name'}{' '}
+                        {'Make'}{' '}
                       </LabelStyle>
                     )}
                     {categoryLoading ? (
@@ -192,47 +188,8 @@ export default function CategoryForm({ data: currentCategory, isLoading: categor
                       />
                     )}
                   </div>
-                  <div>
-                    {categoryLoading ? (
-                      <Skeleton variant="text" width={100} />
-                    ) : (
-                      <LabelStyle component={'label'} htmlFor="meta-title">
-                        {'Meta Title'}
-                      </LabelStyle>
-                    )}
-                    {categoryLoading ? (
-                      <Skeleton variant="rectangular" width="100%" height={56} />
-                    ) : (
-                      <TextField
-                        id="meta-title"
-                        fullWidth
-                        {...getFieldProps('metaTitle')}
-                        error={Boolean(touched.metaTitle && errors.metaTitle)}
-                        helperText={touched.metaTitle && errors.metaTitle}
-                      />
-                    )}
-                  </div>
-                  <div>
-                    {categoryLoading ? (
-                      <Skeleton variant="text" width={70} />
-                    ) : (
-                      <LabelStyle component={'label'} htmlFor="slug">
-                        {' '}
-                        {'Slug'}
-                      </LabelStyle>
-                    )}
-                    {categoryLoading ? (
-                      <Skeleton variant="rectangular" width="100%" height={56} />
-                    ) : (
-                      <TextField
-                        fullWidth
-                        id="slug"
-                        {...getFieldProps('slug')}
-                        error={Boolean(touched.slug && errors.slug)}
-                        helperText={touched.slug && errors.slug}
-                      />
-                    )}
-                  </div>
+                
+                  
                   <div>
                     {categoryLoading ? (
                       <Skeleton variant="text" width={100} />
@@ -270,29 +227,7 @@ export default function CategoryForm({ data: currentCategory, isLoading: categor
                 <Stack spacing={3}>
                   <Card sx={{ p: 3 }}>
                     <Stack spacing={3}>
-                      <div>
-                        {categoryLoading ? (
-                          <Skeleton variant="text" width={150} />
-                        ) : (
-                          <LabelStyle component={'label'} htmlFor="meta-description">
-                            {' '}
-                            {'Meta Description'}{' '}
-                          </LabelStyle>
-                        )}
-                        {categoryLoading ? (
-                          <Skeleton variant="rectangular" width="100%" height={240} />
-                        ) : (
-                          <TextField
-                            id="meta-description"
-                            fullWidth
-                            {...getFieldProps('metaDescription')}
-                            error={Boolean(touched.metaDescription && errors.metaDescription)}
-                            helperText={touched.metaDescription && errors.metaDescription}
-                            rows={9}
-                            multiline
-                          />
-                        )}
-                      </div>
+                 
 
                       <div>
                         <Stack direction="row" justifyContent="space-between">
@@ -373,7 +308,7 @@ export default function CategoryForm({ data: currentCategory, isLoading: categor
                       loading={isLoading}
                       sx={{ ml: 'auto', mt: 3 }}
                     >
-                      {currentCategory ? 'Edit Category' : 'Create Category'}
+                      {currentCategory ? 'Edit Make' : 'Add New Make'}
                     </LoadingButton>
                   )}
                 </Stack>

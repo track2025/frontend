@@ -28,6 +28,8 @@ import axios from 'axios';
 // formik
 import { Form, FormikProvider, useFormik } from 'formik';
 import UploadSingleFile from 'src/components/upload/UploadSingleFile';
+import uploadToSpaces from 'src/utils/upload';
+
 
 const LabelStyle = styled(Typography)(({ theme }) => ({
   ...theme.typography.subtitle2,
@@ -58,7 +60,7 @@ export default function BrandsForm({ data: currentBrand, isLoading: brandLoading
       retry: false,
       onSuccess: (data) => {
         toast.success(data.message);
-        router.push('/admin/brands');
+        router.push('/admin/locations');
       },
       onError: (error) => {
         toast.error(error.response.data.message);
@@ -74,19 +76,13 @@ export default function BrandsForm({ data: currentBrand, isLoading: brandLoading
     name: Yup.string().required('Brand name is required'),
     logo: Yup.mixed().required('Logo is required'),
     slug: Yup.string().required('Slug is required'),
-    description: Yup.string().required('Description is required'),
-    metaTitle: Yup.string().required('Meta title is required'),
-    metaDescription: Yup.string().required('Meta description is required')
   });
 
   const formik = useFormik({
     initialValues: {
       name: currentBrand?.name || '',
-      metaTitle: currentBrand?.metaTitle || '',
       logo: currentBrand?.logo || null,
       description: currentBrand?.description || '',
-      metaDescription: currentBrand?.metaDescription || '',
-      file: currentBrand?.logo || '',
       slug: currentBrand?.slug || '',
       status: currentBrand?.status || STATUS_OPTIONS[0]
     },
@@ -117,31 +113,23 @@ export default function BrandsForm({ data: currentBrand, isLoading: brandLoading
       });
     }
     setFieldValue('file', file);
-    const formData = new FormData();
-    formData.append('file', file);
-    formData.append('upload_preset', 'my-uploads');
-    const config = {
-      onUploadProgress: (progressEvent) => {
-        const { loaded, total } = progressEvent;
-        const percentage = Math.floor((loaded * 100) / total);
-        setstate({ ...state, loading: percentage });
-      }
-    };
-    await axios
-      .post(`https://api.cloudinary.com/v1_1/${process.env.CLOUDINARY_CLOUD_NAME}/image/upload`, formData, config)
-      .then(({ data }) => {
-        setFieldValue('logo', {
-          _id: data.public_id,
-          url: data.secure_url
-        });
-        setstate({ ...state, loading: false });
-      })
-      .then(() => {
-        if (values.file) {
-          deleteMutate(values.cover._id);
-        }
-        setstate({ ...state, loading: false });
+    
+    try {
+      const uploaded = await uploadToSpaces(file, (progress) => {
+        setstate({ ...state, loading: progress });
       });
+
+      setFieldValue('logo', uploaded);
+
+      if (values.file && values.cover?._id) {
+        deleteMutate(values.cover._id);
+      }
+
+      setstate({ ...state, loading: false });
+    } catch (err) {
+      console.error('Upload failed:', err);
+      setstate({ ...state, loading: false });
+    }
   };
 
   const handleTitleChange = (event) => {
@@ -167,7 +155,7 @@ export default function BrandsForm({ data: currentBrand, isLoading: brandLoading
                     ) : (
                       <LabelStyle component={'label'} htmlFor="brand-name">
                         {' '}
-                        {'Brand Name'}{' '}
+                        {'Location Title'}{' '}
                       </LabelStyle>
                     )}
                     {brandLoading ? (
@@ -183,47 +171,8 @@ export default function BrandsForm({ data: currentBrand, isLoading: brandLoading
                       />
                     )}
                   </div>
-                  <div>
-                    {brandLoading ? (
-                      <Skeleton variant="text" width={100} />
-                    ) : (
-                      <LabelStyle component={'label'} htmlFor="brand-meta-title">
-                        {'Meta Title'}
-                      </LabelStyle>
-                    )}
-                    {brandLoading ? (
-                      <Skeleton variant="rectangular" width="100%" height={56} />
-                    ) : (
-                      <TextField
-                        id="brand-meta-title"
-                        fullWidth
-                        {...getFieldProps('metaTitle')}
-                        error={Boolean(touched.metaTitle && errors.metaTitle)}
-                        helperText={touched.metaTitle && errors.metaTitle}
-                      />
-                    )}
-                  </div>
-                  <div>
-                    {brandLoading ? (
-                      <Skeleton variant="text" width={70} />
-                    ) : (
-                      <LabelStyle component={'label'} htmlFor="brand-slug">
-                        {' '}
-                        {'Slug'}
-                      </LabelStyle>
-                    )}
-                    {brandLoading ? (
-                      <Skeleton variant="rectangular" width="100%" height={56} />
-                    ) : (
-                      <TextField
-                        fullWidth
-                        id="brand-slug"
-                        {...getFieldProps('slug')}
-                        error={Boolean(touched.slug && errors.slug)}
-                        helperText={touched.slug && errors.slug}
-                      />
-                    )}
-                  </div>
+              
+
                   <div>
                     {brandLoading ? (
                       <Skeleton variant="text" width={100} />
@@ -261,29 +210,6 @@ export default function BrandsForm({ data: currentBrand, isLoading: brandLoading
                 <Stack spacing={3}>
                   <Card sx={{ p: 3 }}>
                     <Stack spacing={3}>
-                      <div>
-                        {brandLoading ? (
-                          <Skeleton variant="text" width={150} />
-                        ) : (
-                          <LabelStyle component={'label'} htmlFor="brand-meta-description">
-                            {' '}
-                            {'Meta Description'}{' '}
-                          </LabelStyle>
-                        )}
-                        {brandLoading ? (
-                          <Skeleton variant="rectangular" width="100%" height={240} />
-                        ) : (
-                          <TextField
-                            id="brand-meta-description"
-                            fullWidth
-                            {...getFieldProps('metaDescription')}
-                            error={Boolean(touched.metaDescription && errors.metaDescription)}
-                            helperText={touched.metaDescription && errors.metaDescription}
-                            rows={9}
-                            multiline
-                          />
-                        )}
-                      </div>
 
                       <div>
                         <Stack direction="row" justifyContent="space-between">
@@ -291,7 +217,7 @@ export default function BrandsForm({ data: currentBrand, isLoading: brandLoading
                             <Skeleton variant="text" width={150} />
                           ) : (
                             <LabelStyle variant="body1" component={'label'} color="text.primary">
-                              Image
+                              Logo
                             </LabelStyle>
                           )}
                           {brandLoading ? (
@@ -365,7 +291,7 @@ export default function BrandsForm({ data: currentBrand, isLoading: brandLoading
                       loading={isLoading}
                       sx={{ ml: 'auto', mt: 3 }}
                     >
-                      {currentBrand ? 'Edit Brand' : 'Create Brand'}
+                      {currentBrand ? 'Update Location' : 'Add Location'}
                     </LoadingButton>
                   )}
                 </Stack>

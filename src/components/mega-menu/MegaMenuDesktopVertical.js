@@ -116,7 +116,7 @@ export default function MegaMenuDesktopVertical({ ...other }) {
       }}
     >
       <div>
-        {(isLoading ? Array.from(new Array(5)) : data?.data.slice(0, 5)).map((shop, i) => (
+        {(isLoading ? Array.from(new Array(5)) : data?.data.slice(0, 5))?.map((shop, i) => (
           <MegaMenuItem key={Math.random()} isLoading={isLoading} shop={shop} isLast={i === 4} />
         ))}
       </div>
