@@ -32,6 +32,8 @@ import { Form, FormikProvider, useFormik } from 'formik';
 import * as api from 'src/services';
 // countries
 import countries from 'src/components/_main/checkout/countries.json';
+import uploadToSpaces from 'src/utils/upload';
+
 
 AdminShopForm.propTypes = {
   data: PropTypes.object,
@@ -67,8 +69,8 @@ export default function AdminShopForm({ data: currentShop, isLoading: shopLoadin
       }),
       retry: false,
       onSuccess: (data) => {
-        toast.success(currentShop ? data.message : 'Shop is under review!');
-        router.push('/admin/shops');
+        toast.success(currentShop ? data.message : 'Photograper is under review!');
+        router.push('/admin/photographers');
       },
       onError: (error) => {
         toast.error(error.response.data.message);
@@ -84,11 +86,7 @@ export default function AdminShopForm({ data: currentShop, isLoading: shopLoadin
     title: Yup.string().required('title is required'),
     cover: Yup.mixed().required('Cover is required'),
     logo: Yup.mixed().required('logo is required'),
-    slug: Yup.string().required('Slug is required'),
-    message: Yup.string().min(10, 'Message must be at least 10 words').max(50, 'Message must be at most 50 words'),
     description: Yup.string().required('Description is required'),
-    metaTitle: Yup.string().required('Meta title is required'),
-    metaDescription: Yup.string().required('Meta description is required'),
     phone: Yup.string().required('Phone Number is required'),
     paymentInfo: Yup.object().shape({
       holderName: Yup.string().required('Holder Name is required'),
@@ -106,11 +104,9 @@ export default function AdminShopForm({ data: currentShop, isLoading: shopLoadin
   const formik = useFormik({
     initialValues: {
       title: currentShop?.title || '',
-      metaTitle: currentShop?.metaTitle || '',
       cover: currentShop?.cover || null,
       logo: currentShop?.logo || null,
       description: currentShop?.description || '',
-      metaDescription: currentShop?.metaDescription || '',
       ...(currentShop && {
         status: currentShop ? currentShop.status : STATUS_OPTIONS[0], // Only include message if currentShop exists
         message:
@@ -164,32 +160,24 @@ export default function AdminShopForm({ data: currentShop, isLoading: shopLoadin
       });
     }
     setFieldValue('file', file);
-    const formData = new FormData();
-    formData.append('file', file);
-    formData.append('upload_preset', 'my-uploads');
-    const config = {
-      onUploadProgress: (progressEvent) => {
-        const { loaded, total } = progressEvent;
-        const percentage = Math.floor((loaded * 100) / total);
-        setstate({ ...state, logoLoading: percentage });
-      }
-    };
-    await axios
-      .post(`https://api.cloudinary.com/v1_1/${process.env.CLOUDINARY_CLOUD_NAME}/image/upload`, formData, config)
-      .then(({ data }) => {
-        setFieldValue('logo', {
-          _id: data.public_id,
-          url: data.secure_url
-        });
-        setstate({ ...state, loading: false });
-      })
-      .then(() => {
-        if (values?.fileLogo) {
-          deleteMutate(values.logo._id);
-        }
-        setstate({ ...state, loading: false });
+    try {
+      const uploaded = await uploadToSpaces(file, (progress) => {
+        setstate({ ...state, loading: progress });
       });
+
+      setFieldValue('logo', uploaded);
+
+      if (values.file && values.logo?._id) {
+        deleteMutate(values.logo._id);
+      }
+
+      setstate({ ...state, loading: false });
+    } catch (err) {
+      console.error('Upload failed:', err);
+      setstate({ ...state, loading: false });
+    }
   };
+
   // handle drop cover
   const handleDropCover = async (acceptedFiles) => {
     setstate({ ...state, loading: 2 });
@@ -200,32 +188,24 @@ export default function AdminShopForm({ data: currentShop, isLoading: shopLoadin
       });
     }
     setFieldValue('file', file);
-    const formData = new FormData();
-    formData.append('file', file);
-    formData.append('upload_preset', 'my-uploads');
-    const config = {
-      onUploadProgress: (progressEvent) => {
-        const { loaded, total } = progressEvent;
-        const percentage = Math.floor((loaded * 100) / total);
-        setstate({ ...state, loading: percentage });
-      }
-    };
-    await axios
-      .post(`https://api.cloudinary.com/v1_1/${process.env.CLOUDINARY_CLOUD_NAME}/image/upload`, formData, config)
-      .then(({ data }) => {
-        setFieldValue('cover', {
-          _id: data.public_id,
-          url: data.secure_url
-        });
-        setstate({ ...state, loading: false });
-      })
-      .then(() => {
-        if (values.fileCover) {
-          deleteMutate(values.cover._id);
-        }
-        setstate({ ...state, loading: false });
+    try {
+      const uploaded = await uploadToSpaces(file, (progress) => {
+        setstate({ ...state, loading: progress });
       });
+
+      setFieldValue('cover', uploaded);
+
+      if (values.file && values.cover?._id) {
+        deleteMutate(values.cover._id);
+      }
+
+      setstate({ ...state, loading: false });
+    } catch (err) {
+      console.error('Upload failed:', err);
+      setstate({ ...state, loading: false });
+    }
   };
+
   const handleTitleChange = (event) => {
     const title = event.target.value;
     const slug = title
@@ -251,7 +231,64 @@ export default function AdminShopForm({ data: currentShop, isLoading: shopLoadin
             <Grid item xs={12} md={8}>
               <Card sx={{ p: 3 }}>
                 <Stack direction="row" spacing={3} flexGrow="wrap">
+                  <Box sx={{ width: '50%' }}>
+                    <div>
+                      {shopLoading ? (
+                        <Skeleton variant="text" width={140} />
+                      ) : (
+                        <LabelStyle component={'label'} htmlFor="title">
+                          Brand Name or Company Name
+                        </LabelStyle>
+                      )}
+                      {shopLoading ? (
+                        <Skeleton variant="rectangular" width="100%" height={56} />
+                      ) : (
+                        <TextField
+                          id="title"
+                          fullWidth
+                          {...getFieldProps('title')}
+                          onChange={handleTitleChange} // add onChange handler for title
+                          error={Boolean(touched.title && errors.title)}
+                          helperText={touched.title && errors.title}
+                          sx={{ mt: 1 }}
+                        />
+                      )}
+                    </div>
+                  </Box>
+                  
+                </Stack>
+                <Stack direction="row" spacing={3} flexGrow="wrap">
+                  
                   <Box sx={{ width: '100%' }}>
+                    {shopLoading ? (
+                      <Skeleton variant="text" width={100} />
+                    ) : (
+                      <LabelStyle component={'label'} htmlFor="description">
+                        {' '}
+                        {'Description'}{' '}
+                      </LabelStyle>
+                    )}
+                    {shopLoading ? (
+                      <Skeleton variant="rectangular" width="100%" height={240} />
+                    ) : (
+                      <TextField
+                        fullWidth
+                        id="description"
+                        {...getFieldProps('description')}
+                        error={Boolean(touched.description && errors.description)}
+                        helperText={touched.description && errors.description}
+                        rows={9}
+                        multiline
+                      />
+                    )}
+                  </Box>
+                </Stack>
+                <Stack mt={3} spacing={3} direction="row" flexGrow="wrap">
+                  
+                  
+                </Stack>
+
+                <Box sx={{ width: '100%' }}>
                     <Stack direction="row" justifyContent="space-between">
                       {shopLoading ? (
                         <Skeleton variant="text" width={150} />
@@ -287,120 +324,7 @@ export default function AdminShopForm({ data: currentShop, isLoading: shopLoadin
                       </FormHelperText>
                     )}
                   </Box>
-                  <Box sx={{ width: '100%' }}>
-                    <div>
-                      {shopLoading ? (
-                        <Skeleton variant="text" width={140} />
-                      ) : (
-                        <LabelStyle component={'label'} htmlFor="title">
-                          Title
-                        </LabelStyle>
-                      )}
-                      {shopLoading ? (
-                        <Skeleton variant="rectangular" width="100%" height={56} />
-                      ) : (
-                        <TextField
-                          id="title"
-                          fullWidth
-                          {...getFieldProps('title')}
-                          onChange={handleTitleChange} // add onChange handler for title
-                          error={Boolean(touched.title && errors.title)}
-                          helperText={touched.title && errors.title}
-                          sx={{ mt: 1 }}
-                        />
-                      )}
-                    </div>
-                    <div>
-                      {shopLoading ? (
-                        <Skeleton variant="text" width={70} />
-                      ) : (
-                        <LabelStyle component={'label'} htmlFor="slug">
-                          {' '}
-                          {'Slug'}
-                        </LabelStyle>
-                      )}
-                      {shopLoading ? (
-                        <Skeleton variant="rectangular" width="100%" height={56} />
-                      ) : (
-                        <TextField
-                          fullWidth
-                          id="slug"
-                          {...getFieldProps('slug')}
-                          error={Boolean(touched.slug && errors.slug)}
-                          helperText={touched.slug && errors.slug}
-                        />
-                      )}
-                    </div>
-                    <div>
-                      {shopLoading ? (
-                        <Skeleton variant="text" width={100} />
-                      ) : (
-                        <LabelStyle component={'label'} htmlFor="meta-title">
-                          {'Meta Title'}
-                        </LabelStyle>
-                      )}
-                      {shopLoading ? (
-                        <Skeleton variant="rectangular" width="100%" height={56} />
-                      ) : (
-                        <TextField
-                          id="meta-title"
-                          fullWidth
-                          {...getFieldProps('metaTitle')}
-                          error={Boolean(touched.metaTitle && errors.metaTitle)}
-                          helperText={touched.metaTitle && errors.metaTitle}
-                        />
-                      )}
-                    </div>
-                  </Box>
-                </Stack>
-                <Stack mt={3} spacing={3} direction="row" flexGrow="wrap">
-                  <Box sx={{ width: '100%' }}>
-                    {shopLoading ? (
-                      <Skeleton variant="text" width={100} />
-                    ) : (
-                      <LabelStyle component={'label'} htmlFor="description">
-                        {' '}
-                        {'Description'}{' '}
-                      </LabelStyle>
-                    )}
-                    {shopLoading ? (
-                      <Skeleton variant="rectangular" width="100%" height={240} />
-                    ) : (
-                      <TextField
-                        fullWidth
-                        id="description"
-                        {...getFieldProps('description')}
-                        error={Boolean(touched.description && errors.description)}
-                        helperText={touched.description && errors.description}
-                        rows={9}
-                        multiline
-                      />
-                    )}
-                  </Box>
-                  <Box sx={{ width: '100%' }}>
-                    {shopLoading ? (
-                      <Skeleton variant="text" width={150} />
-                    ) : (
-                      <LabelStyle component={'label'} htmlFor="meta-description">
-                        {' '}
-                        {'Meta Description'}{' '}
-                      </LabelStyle>
-                    )}
-                    {shopLoading ? (
-                      <Skeleton variant="rectangular" width="100%" height={240} />
-                    ) : (
-                      <TextField
-                        id="meta-description"
-                        fullWidth
-                        {...getFieldProps('metaDescription')}
-                        error={Boolean(touched.metaDescription && errors.metaDescription)}
-                        helperText={touched.metaDescription && errors.metaDescription}
-                        rows={9}
-                        multiline
-                      />
-                    )}
-                  </Box>
-                </Stack>
+                  
                 <Box mt={3}>
                   <Stack direction="row" justifyContent="space-between">
                     {shopLoading ? (
@@ -455,7 +379,7 @@ export default function AdminShopForm({ data: currentShop, isLoading: shopLoadin
                           <Skeleton variant="text" width={150} />
                         ) : (
                           <LabelStyle component={'label'} htmlFor="holder-name">
-                            Holder Name
+                            Full Name
                           </LabelStyle>
                         )}
                         {shopLoading ? (
@@ -475,7 +399,7 @@ export default function AdminShopForm({ data: currentShop, isLoading: shopLoadin
                           <Skeleton variant="text" width={150} />
                         ) : (
                           <LabelStyle component={'label'} htmlFor="holder-email">
-                            Holder Email
+                            Email
                           </LabelStyle>
                         )}
                         {shopLoading ? (

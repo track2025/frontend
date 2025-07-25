@@ -14,8 +14,7 @@ import Table from 'src/components/table/table';
 import SubCategory from 'src/components/table/rows/subCategory';
 
 const TABLE_HEAD = [
-  { id: 'name', label: 'Category', alignRight: false, sort: true },
-  { id: 'description', label: 'Description', alignRight: false },
+  { id: 'name', label: 'Model', alignRight: false, sort: true },
   { id: 'status', label: 'Status', alignRight: false },
   { id: 'createdAt', label: 'Date', alignRight: false, sort: true },
   { id: '', label: 'Actions', alignRight: true }
@@ -51,8 +50,8 @@ export default function SubCategoryList({ categories }) {
           id={id}
           apicall={setApicall}
           endPoint="deleteSubCategoryByAdmin"
-          type={'Category deleted'}
-          deleteMessage={'Deleting this category will permanently remove it. Are you sure you want to proceed?'}
+          type={'Record deleted'}
+          deleteMessage={'Deleting this record will permanently remove it. Are you sure you want to proceed?'}
         />
       </Dialog>
       <Table
@@ -64,8 +63,8 @@ export default function SubCategoryList({ categories }) {
         isSearch
         filters={[
           {
-            name: 'Category',
-            param: 'category',
+            name: 'Model',
+            param: 'Model',
             data: categories
           }
         ]}

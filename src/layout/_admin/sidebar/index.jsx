@@ -49,28 +49,28 @@ export const navlinks = [
   },
   {
     id: 2,
-    title: 'Categories',
-    slug: 'categories',
+    title: 'Vehicle Makes',
+    slug: 'vehicle-makes',
     icon: <TbCategory2 />,
     isSearch: true
   },
   {
     id: 3,
-    title: 'Sub Categories',
-    slug: 'sub-categories',
+    title: 'Vehicle Models',
+    slug: 'vehicle-models',
     icon: <TbCategory2 />,
     isSearch: true
   },
   {
     id: 3,
-    title: 'Brands',
-    slug: 'brands',
+    title: 'Race Locations',
+    slug: 'locations',
     icon: <FaRegBuilding />,
     isSearch: true
   },
   {
     id: 4,
-    title: 'Products',
+    title: 'Media Files',
     slug: 'products',
     icon: <BsShop />,
     isSearch: true
@@ -85,8 +85,8 @@ export const navlinks = [
   },
   {
     id: 6,
-    title: 'Shops',
-    slug: 'shops',
+    title: 'Photographers',
+    slug: 'photographers',
     icon: <BsBuildings />,
     isSearch: true
   },

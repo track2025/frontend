@@ -44,11 +44,12 @@ IncomeList.propTypes = {
   handleClickOpen: PropTypes.func
 };
 
-export default function IncomeList({ isLoading, row, handleClickOpen }) {
+export default function IncomeList({ isLoading, row, handleClickOpen, sn }) {
   const theme = useTheme();
   const router = useRouter();
   return (
     <TableRow hover key={Math.random()}>
+      <TableCell>{isLoading ? <Skeleton variant="text" /> : <>{sn}</>}</TableCell>
       <TableCell>{isLoading ? <Skeleton variant="text" /> : row.orders.length}</TableCell>
       <TableCell>{isLoading ? <Skeleton variant="text" /> : fCurrency(row.total)}</TableCell>
       <TableCell>{isLoading ? <Skeleton variant="text" /> : fCurrency(row.totalIncome)}</TableCell>

@@ -16,18 +16,18 @@ export default async function page({ params }) {
     <div>
       <HeaderBreadcrumbs
         admin
-        heading="Product List"
+        heading="Media"
         links={[
           {
             name: 'Dashboard',
             href: '/admin'
           },
           {
-            name: 'Products',
+            name: 'Media',
             href: '/admin/products'
           },
           {
-            name: 'Add Product'
+            name: 'Upload New Media'
           }
         ]}
       />

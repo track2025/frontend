@@ -78,7 +78,7 @@ export default function SubCategoryForm({
       onSuccess: (data) => {
         toast.success(data.message);
 
-        router.push('/admin/sub-categories');
+        router.push('/admin/vehicle-models');
       },
       onError: (error) => {
         toast.error(error.response.data.message);
@@ -92,22 +92,15 @@ export default function SubCategoryForm({
   });
   const NewCategorySchema = Yup.object().shape({
     name: Yup.string().required('Name is required'),
-    cover: Yup.mixed().required('Cover is required'),
     slug: Yup.string().required('Slug is required'),
-    description: Yup.string().required('Description is required'),
-    metaTitle: Yup.string().required('Meta title is required'),
-    metaDescription: Yup.string().required('Meta description is required'),
-    parentCategory: Yup.string().required('Category is required')
+    // description: Yup.string().required('Description is required'),
+    parentCategory: Yup.string().required('Vehicle Make is required')
   });
 
   const formik = useFormik({
     initialValues: {
       name: currentCategory?.name || '',
-      metaTitle: currentCategory?.metaTitle || '',
-      cover: currentCategory?.cover || null,
       description: currentCategory?.description || '',
-      metaDescription: currentCategory?.metaDescription || '',
-      file: currentCategory?.cover || '',
       slug: currentCategory?.slug || '',
       status: currentCategory?.status || STATUS_OPTIONS[0],
       parentCategory: currentCategory?.category || (categories && categories[0]?._id) || ''
@@ -130,41 +123,6 @@ export default function SubCategoryForm({
   });
   const { errors, values, touched, handleSubmit, setFieldValue, getFieldProps } = formik;
 
-  const handleDrop = async (acceptedFiles) => {
-    setstate({ ...state, loading: 2 });
-    const file = acceptedFiles[0];
-    if (file) {
-      Object.assign(file, {
-        preview: URL.createObjectURL(file)
-      });
-    }
-    setFieldValue('file', file);
-    const formData = new FormData();
-    formData.append('file', file);
-    formData.append('upload_preset', 'my-uploads');
-    const config = {
-      onUploadProgress: (progressEvent) => {
-        const { loaded, total } = progressEvent;
-        const percentage = Math.floor((loaded * 100) / total);
-        setstate({ ...state, loading: percentage });
-      }
-    };
-    await axios
-      .post(`https://api.cloudinary.com/v1_1/${process.env.CLOUDINARY_CLOUD_NAME}/image/upload`, formData, config)
-      .then(({ data }) => {
-        setFieldValue('cover', {
-          _id: data.public_id,
-          url: data.secure_url
-        });
-        setstate({ ...state, loading: false });
-      })
-      .then(() => {
-        if (values.cover) {
-          deleteMutate(values.cover._id);
-        }
-        setstate({ ...state, loading: false });
-      });
-  };
 
   const handleTitleChange = (event) => {
     const title = event.target.value;
@@ -190,7 +148,7 @@ export default function SubCategoryForm({
                     ) : (
                       <LabelStyle component={'label'} htmlFor="category-name">
                         {' '}
-                        {'Category Name'}{' '}
+                        {'Model Name'}{' '}
                       </LabelStyle>
                     )}
                     {categoryLoading ? (
@@ -207,32 +165,12 @@ export default function SubCategoryForm({
                     )}
                   </div>
                   <div>
-                    {categoryLoading ? (
-                      <Skeleton variant="text" width={100} />
-                    ) : (
-                      <LabelStyle component={'label'} htmlFor="meta-title">
-                        {'Meta Title'}
-                      </LabelStyle>
-                    )}
-                    {categoryLoading ? (
-                      <Skeleton variant="rectangular" width="100%" height={56} />
-                    ) : (
-                      <TextField
-                        id="meta-title"
-                        fullWidth
-                        {...getFieldProps('metaTitle')}
-                        error={Boolean(touched.metaTitle && errors.metaTitle)}
-                        helperText={touched.metaTitle && errors.metaTitle}
-                      />
-                    )}
-                  </div>
-                  <div>
                     <FormControl fullWidth>
                       {isInitialized ? (
                         <Skeleton variant="text" width={100} />
                       ) : (
                         <LabelStyle component={'label'} htmlFor="grouped-native-select">
-                          {'Category'}
+                          {'Vehicle Make'}
                         </LabelStyle>
                       )}
                       {!categoryLoading ? (
@@ -262,27 +200,6 @@ export default function SubCategoryForm({
                   </div>
                   <div>
                     {categoryLoading ? (
-                      <Skeleton variant="text" width={70} />
-                    ) : (
-                      <LabelStyle component={'label'} htmlFor="slug">
-                        {' '}
-                        {'Slug'}
-                      </LabelStyle>
-                    )}
-                    {categoryLoading ? (
-                      <Skeleton variant="rectangular" width="100%" height={56} />
-                    ) : (
-                      <TextField
-                        fullWidth
-                        id="slug"
-                        {...getFieldProps('slug')}
-                        error={Boolean(touched.slug && errors.slug)}
-                        helperText={touched.slug && errors.slug}
-                      />
-                    )}
-                  </div>
-                  <div>
-                    {categoryLoading ? (
                       <Skeleton variant="text" width={100} />
                     ) : (
                       <LabelStyle component={'label'} htmlFor="description">
@@ -304,80 +221,14 @@ export default function SubCategoryForm({
                       />
                     )}
                   </div>
-                </Stack>
-              </Card>
-            </Grid>
-            <Grid item xs={12} md={4}>
-              <div
+                    <div
                 style={{
                   position: '-webkit-sticky',
                   position: 'sticky',
                   top: 0
                 }}
               >
-                <Stack spacing={3}>
-                  <Card sx={{ p: 3 }}>
-                    <Stack spacing={3}>
-                      <div>
-                        {categoryLoading ? (
-                          <Skeleton variant="text" width={150} />
-                        ) : (
-                          <LabelStyle component={'label'} htmlFor="meta-description">
-                            {' '}
-                            {'Meta Description'}{' '}
-                          </LabelStyle>
-                        )}
-                        {categoryLoading ? (
-                          <Skeleton variant="rectangular" width="100%" height={240} />
-                        ) : (
-                          <TextField
-                            id="meta-description"
-                            fullWidth
-                            {...getFieldProps('metaDescription')}
-                            error={Boolean(touched.metaDescription && errors.metaDescription)}
-                            helperText={touched.metaDescription && errors.metaDescription}
-                            rows={9}
-                            multiline
-                          />
-                        )}
-                      </div>
 
-                      <div>
-                        <Stack direction="row" justifyContent="space-between">
-                          {categoryLoading ? (
-                            <Skeleton variant="text" width={150} />
-                          ) : (
-                            <LabelStyle variant="body1" component={'label'} color="text.primary">
-                              Image
-                            </LabelStyle>
-                          )}
-                          {categoryLoading ? (
-                            <Skeleton variant="text" width={150} />
-                          ) : (
-                            <LabelStyle component={'label'} htmlFor="file">
-                              <span>512 * 512</span>
-                            </LabelStyle>
-                          )}
-                        </Stack>
-                        {categoryLoading ? (
-                          <Skeleton variant="rectangular" width="100%" height={225} />
-                        ) : (
-                          <UploadSingleFile
-                            id="file"
-                            file={values.cover}
-                            onDrop={handleDrop}
-                            error={Boolean(touched.cover && errors.cover)}
-                            category
-                            accept="image/*"
-                            loading={state.loading}
-                          />
-                        )}
-                        {touched.cover && errors.cover && (
-                          <FormHelperText error sx={{ px: 2, mx: 0 }}>
-                            {touched.cover && errors.cover}
-                          </FormHelperText>
-                        )}
-                      </div>
                       <FormControl fullWidth sx={{ select: { textTransform: 'capitalize' } }}>
                         {categoryLoading ? (
                           <Skeleton variant="text" width={70} />
@@ -409,8 +260,6 @@ export default function SubCategoryForm({
                           </FormHelperText>
                         )}
                       </FormControl>
-                    </Stack>
-                  </Card>
                   {categoryLoading ? (
                     <Skeleton variant="rectangular" width="100%" height={56} />
                   ) : (
@@ -421,12 +270,15 @@ export default function SubCategoryForm({
                       loading={isLoading}
                       sx={{ ml: 'auto', mt: 3 }}
                     >
-                      {currentCategory ? 'Edit Sub Category' : 'Create Sub Category'}
+                      {currentCategory ? 'Update Model' : 'Add New Model'}
                     </LoadingButton>
                   )}
-                </Stack>
+              
               </div>
+                </Stack>
+              </Card>
             </Grid>
+           
           </Grid>
         </Form>
       </FormikProvider>

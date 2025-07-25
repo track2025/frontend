@@ -51,11 +51,12 @@ const ThumbImgStyle = styled(Box)(({ theme }) => ({
   position: 'relative',
   overflow: 'hidden'
 }));
-export default function OrderList({ isLoading, row, isUser, isVendor }) {
+export default function OrderList({ isLoading, row, isUser, isVendor, sn }) {
   const theme = useTheme();
   const router = useRouter();
   return (
     <TableRow hover key={Math.random()}>
+      <TableCell>{isLoading ? <Skeleton variant="text" /> : <>{sn}</>}</TableCell>
       <TableCell component="th" scope="row">
         <Box
           sx={{

@@ -13,11 +13,12 @@ import Label from 'src/components/label';
 import { MdEdit } from 'react-icons/md';
 import { MdDelete } from 'react-icons/md';
 
-export default function BrandsRow({ isLoading, row, handleClickOpen }) {
+export default function BrandsRow({ isLoading, row, handleClickOpen, sn }) {
   const router = useRouter();
   const theme = useTheme();
   return (
     <TableRow hover key={Math.random()}>
+      <TableCell>{isLoading ? <Skeleton variant="text" /> : <>{sn}</>}</TableCell>
       <TableCell>{isLoading ? <Skeleton variant="text" /> : row.name + ` (${row.code})`}</TableCell>
 
       <TableCell>{isLoading ? <Skeleton variant="text" /> : <> {row.country} </>}</TableCell>

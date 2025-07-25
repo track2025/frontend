@@ -32,11 +32,12 @@ const ThumbImgStyle = styled(Box)(({ theme }) => ({
   position: 'relative',
   overflow: 'hidden'
 }));
-export default function BrandsRow({ isLoading, row, handleClickOpen }) {
+export default function BrandsRow({ isLoading, row, handleClickOpen, sn }) {
   const router = useRouter();
   const theme = useTheme();
   return (
     <TableRow hover key={Math.random()}>
+      <TableCell>{isLoading ? <Skeleton variant="text" /> : <>{sn}</>}</TableCell>
       <TableCell component="th" scope="row">
         <Box
           sx={{
@@ -63,7 +64,6 @@ export default function BrandsRow({ isLoading, row, handleClickOpen }) {
           </Typography>
         </Box>
       </TableCell>
-      <TableCell>{isLoading ? <Skeleton variant="text" /> : row.description.slice(0, 50)}</TableCell>
       <TableCell>
         {isLoading ? (
           <Skeleton variant="text" />
@@ -88,7 +88,7 @@ export default function BrandsRow({ isLoading, row, handleClickOpen }) {
           ) : (
             <>
               <Tooltip title="Edit">
-                <IconButton onClick={() => router.push(`/admin/brands/${row?.slug}`)}>
+                <IconButton onClick={() => router.push(`/admin/locations/${row?.slug}`)}>
                   <MdEdit />
                 </IconButton>
               </Tooltip>
@@ -106,6 +106,7 @@ export default function BrandsRow({ isLoading, row, handleClickOpen }) {
 }
 BrandsRow.propTypes = {
   isLoading: PropTypes.bool.isRequired,
+  sn: PropTypes.number,
   row: PropTypes.shape({
     name: PropTypes.string,
     logo: PropTypes.shape({

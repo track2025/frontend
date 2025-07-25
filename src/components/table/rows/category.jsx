@@ -45,11 +45,12 @@ const ThumbImgStyle = styled(Box)(({ theme }) => ({
   position: 'relative',
   overflow: 'hidden'
 }));
-export default function Category({ isLoading, row, handleClickOpen }) {
+export default function Category({ isLoading, row, handleClickOpen, sn }) {
   const router = useRouter();
   const theme = useTheme();
   return (
     <TableRow hover key={Math.random()}>
+      <TableCell>{isLoading ? <Skeleton variant="text" /> : <>{sn}</>}</TableCell>
       <TableCell component="th" scope="row">
         <Box
           sx={{
@@ -101,7 +102,7 @@ export default function Category({ isLoading, row, handleClickOpen }) {
           ) : (
             <>
               <Tooltip title="Edit">
-                <IconButton onClick={() => router.push(`/admin/categories/${row?.slug}`)}>
+                <IconButton onClick={() => router.push(`/admin/vehicle-makes/${row?.slug}`)}>
                   <MdEdit />
                 </IconButton>
               </Tooltip>

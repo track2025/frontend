@@ -34,8 +34,8 @@ export default function Page({ params }) {
             href: '/admin'
           },
           {
-            name: 'Shops',
-            href: '/admin/shops'
+            name: 'Photographers',
+            href: '/admin/photographers'
           },
           {
             name: 'Edit'

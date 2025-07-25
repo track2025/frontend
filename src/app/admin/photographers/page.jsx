@@ -6,7 +6,7 @@ import HeaderBreadcrumbs from 'src/components/headerBreadcrumbs';
 
 // Meta information
 export const metadata = {
-  title: 'Products - Nextall',
+  title: 'Photographers - Nextall',
   applicationName: 'Nextall',
   authors: 'Nextall'
 };
@@ -16,19 +16,19 @@ export default async function AdminProducts() {
     <>
       <HeaderBreadcrumbs
         admin
-        heading="Shops"
+        heading="Photographers"
         links={[
           {
             name: 'Dashboard',
             href: '/admin'
           },
           {
-            name: 'Shops'
+            name: 'Photographers'
           }
         ]}
         action={{
-          href: `/admin/shops/add`,
-          title: 'Add Shop'
+          href: `/admin/photographers/add`,
+          title: 'Add Photographer'
         }}
       />
       <ShopList />

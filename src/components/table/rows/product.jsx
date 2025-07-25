@@ -28,10 +28,11 @@ import BlurImage from 'src/components/blurImage';
 import { MdEdit } from 'react-icons/md';
 import { MdDelete } from 'react-icons/md';
 import { IoEye } from 'react-icons/io5';
-export default function ProductRow({ isLoading, row, handleClickOpen, isVendor }) {
+export default function ProductRow({ isLoading, row, handleClickOpen, isVendor, sn }) {
   const router = useRouter();
   return (
     <TableRow hover key={Math.random()}>
+      <TableCell>{isLoading ? <Skeleton variant="text" /> : <>{sn}</>}</TableCell>
       <TableCell component="th" scope="row" sx={{ maxWidth: 300 }}>
         <Box
           sx={{
@@ -76,25 +77,7 @@ export default function ProductRow({ isLoading, row, handleClickOpen, isVendor }
         <Skeleton variant="text" />
       </TableCell> */}
       <TableCell>{isLoading ? <Skeleton variant="text" /> : <>{fDateShort(row?.createdAt, enUS)}</>}</TableCell>
-      <TableCell>
-        {isLoading ? (
-          <Skeleton variant="text" />
-        ) : (
-          <Label
-            variant={'filled'}
-            color={
-              (row?.available < 1 && 'error') ||
-              (row?.available < 20 && 'warning') ||
-              (row?.available >= 20 && 'success') ||
-              'primary'
-            }
-          >
-            {(row?.available < 1 && 'Out of stock') ||
-              (row?.available < 20 && 'Low stock') ||
-              (row?.available >= 20 && 'In stock')}
-          </Label>
-        )}
-      </TableCell>
+      
       <TableCell align="left">
         {isLoading ? (
           <Skeleton variant="text" />
@@ -153,7 +136,7 @@ export default function ProductRow({ isLoading, row, handleClickOpen, isVendor }
 }
 ProductRow.propTypes = {
   isLoading: PropTypes.bool.isRequired,
-
+  sn: PropTypes.number,
   row: PropTypes.shape({
     image: PropTypes.object.isRequired,
     name: PropTypes.string.isRequired,
