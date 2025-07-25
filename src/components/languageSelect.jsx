@@ -33,10 +33,10 @@ export default function LanguageSelect() {
         onClick={handleClickOpen}
         color="primary"
         sx={{
-          borderColor: 'primary',
-          borderWidth: 1,
-          borderStyle: 'solid',
-          bgcolor: (theme) => alpha(theme.palette.primary.main, 0.1)
+          // borderColor: 'primary',
+          // borderWidth: 1,
+          // borderStyle: 'solid',
+          // bgcolor: (theme) => alpha(theme.palette.primary.main, 0.1)
         }}
       >
         <MdCurrencyExchange />
@@ -66,7 +66,7 @@ export default function LanguageSelect() {
             Choose a currency
           </Typography>
           <Grid container justifyContent="center" spacing={2}>
-            {(isLoading ? Array.from(new Array(12)) : data?.data).map((cur) => (
+            {(isLoading ? Array.from(new Array(12)) : data?.data)?.map((cur) => (
               <Grid key={Math.random()} item xs={12} sm={6} md={4}>
                 <Button
                   onClick={() =>

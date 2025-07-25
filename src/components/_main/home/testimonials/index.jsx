@@ -64,8 +64,8 @@ export default function Testimonials() {
     >
       <Image priority src={bgImage} alt="centered-banner" layout="fill" objectFit="cover" static draggable="false" />
       <Container maxWidth="xl">
-        <Grid container spacing={2}>
-          <Grid item xs={12} md={6}>
+        <Grid container  className="row">
+          <Grid item xs={12} md={6} className="col-md-6">
             <Typography
               variant="h3"
               mb={2}
@@ -118,7 +118,7 @@ export default function Testimonials() {
               </Fab>
             </Stack>
           </Grid>
-          <Grid item xs={12} md={6}>
+          <Grid item xs={12} md={6} className="col-md-6">
             <TestimonialCarousel
               images={data}
               direction={direction}

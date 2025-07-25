@@ -37,7 +37,7 @@ export default function Featured() {
         </Box>
         <Button
           variant="contained"
-          color="primary"
+          color="#000000"
           size="large"
           sx={{
             borderRadius: 6,
@@ -62,7 +62,7 @@ export default function Featured() {
       )}
       <Button
         variant="text"
-        color="primary"
+        color="#000000"
         size="small"
         sx={{
           borderRadius: 6,

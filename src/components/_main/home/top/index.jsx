@@ -24,7 +24,7 @@ export default function Index() {
       >
         <Box width="100%">
           <Typography variant="h2" color="text.primary" mt={{ xs: 4, md: 8 }}>
-            Top Collection
+          Recently Added
           </Typography>
           <Typography variant="body1" color="text.secondary" mb={{ xs: 3, md: 5 }}>
             Lorem Ipsum Is Simply Dummy Text Of The Printing And Typesetting Industry.
@@ -32,7 +32,7 @@ export default function Index() {
         </Box>
         <Button
           variant="contained"
-          color="primary"
+          color="#000000"
           size="large"
           sx={{
             borderRadius: 6,
@@ -56,7 +56,7 @@ export default function Index() {
       )}
       <Button
         variant="text"
-        color="primary"
+        color="#000000"
         size="small"
         sx={{
           borderRadius: 6,

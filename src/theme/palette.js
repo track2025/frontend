@@ -34,6 +34,18 @@ const PRIMARY = {
   dark: '#BE1840',
   contrastText: '#fff'
 };
+// const PRIMARY = {
+//   light: '#b7b8b0',       // lighter shade of #a7a89f
+//   main: '#a7a89f',        // base color
+//   dark: '#8c8d86',        // darker shade of #a7a89f
+//   contrastText: '#fff'
+// };
+// const PRIMARY = {
+//   light: '#000000',       // white (same as main, no lighter possible)
+//   main: '#000000',        // pure white
+//   dark: '#e0e0e0',        // light gray for "darker" variant
+//   contrastText: '#eee' // black text for contrast on white
+// };
 const SECONDARY = {
   light: '#609DDE',
   main: '#2288EB',

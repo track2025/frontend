@@ -109,7 +109,8 @@ export default function ShopProductCard({ ...props }) {
     >
       <Box
         sx={{
-          position: 'relative'
+          position: 'relative',
+
         }}
       >
         {!loading && product?.available < 1 && (
@@ -137,11 +138,12 @@ export default function ShopProductCard({ ...props }) {
             bgcolor: isLoading || loading ? 'transparent' : 'common.white',
             position: 'relative',
             cursor: 'pointer',
-
+            height:'140px',
             '&:after': {
               content: `""`,
               display: 'block',
-              paddingBottom: '100%'
+              paddingBottom: '100%',
+
             },
             width: '100%'
           }}
@@ -307,7 +309,7 @@ export default function ShopProductCard({ ...props }) {
           )}
         </Stack>
 
-        <Stack spacing={0.5} direction="row" justifyContent={'space-between'} alignItems="center">
+        {/* <Stack spacing={0.5} direction="row" justifyContent={'space-between'} alignItems="center">
           <Typography
             variant={isTablet ? 'body1' : 'h5'}
             component="p"
@@ -334,7 +336,7 @@ export default function ShopProductCard({ ...props }) {
               </>
             )}
           </Typography>
-        </Stack>
+        </Stack> */}
       </Stack>
       {open && <ProductDetailsDialog slug={product.slug} open={open} onClose={() => setOpen(false)} />}
     </Card>

@@ -55,7 +55,7 @@ function CarouselItem({ ...props }) {
       elevation={0}
       sx={{
         position: 'relative',
-        pb: { md: '38%', sm: '82%', xs: '142%' },
+        // pb: { md: '38%', sm: '82%', xs: '142%' },
         zIndex: 11,
         bgcolor: 'transparent',
         borderRadius: 0
@@ -108,19 +108,19 @@ export default function ProductsCarousel({ ...props }) {
         width: '100%',
         marginLeft: 0,
         '& .slide-wrapper ': {
-          paddingBottom: '60%'
+          // paddingBottom: '60%'
         }
       }}
     >
       <Paper
-        className="main-paper"
+        className="main-paper w-100   col-md-12"
         elevation={0}
         sx={{
           position: 'relative',
           display: 'flex',
           justifyContent: 'center',
           alignItems: 'center',
-          pt: { lg: '35%', md: '44%', sm: '73%', xs: '86%' },
+          // pt: { lg: '35%', md: '44%', sm: '73%', xs: '86%' },
           overflow: 'hidden',
           width: { xs: '100%', sm: 'calc(100% + 48px)' },
           // width: 'calc(100% + 48px)',
@@ -131,7 +131,7 @@ export default function ProductsCarousel({ ...props }) {
           }
         }}
       >
-        <AnimatePresence initial={false} custom={direction}>
+        {/* <AnimatePresence initial={false} custom={direction}>
           <motion.div
             className="motion-dev"
             style={{
@@ -162,13 +162,13 @@ export default function ProductsCarousel({ ...props }) {
                 paginate(-1);
               }
             }}
-          >
-            <Grid container spacing={2} justifyContent="center">
+          > */}
+            <Grid container justifyContent="center" className="w-100 row  " >
               {(isLoading
                 ? Array.from(new Array(4))
                 : data?.slice(imageIndex * slidesToShow, (imageIndex + 1) * slidesToShow)
               ).map((item) => (
-                <Grid item lg={3} md={4} sm={6} xs={6} key={Math.random()}>
+                <Grid item  className="col-lg-3 col-md-4  col-sm-6  col-xs-6 " key={Math.random()}>
                   <CarouselItem
                     themeMode={themeMode}
                     item={data ? item : null}
@@ -181,8 +181,8 @@ export default function ProductsCarousel({ ...props }) {
                 </Grid>
               ))}
             </Grid>
-          </motion.div>
-        </AnimatePresence>
+          {/* </motion.div>
+        </AnimatePresence> */}
       </Paper>
       {!isLoading && (
         <Stack

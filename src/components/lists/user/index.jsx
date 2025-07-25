@@ -100,7 +100,7 @@ export default function UserList({ ...props }) {
           <ListItemIcon className="menu-icon">
             <CiShop />
           </ListItemIcon>
-          Become a seller
+          Join as Photographer
         </MenuItem>
       )}
       <MenuItem

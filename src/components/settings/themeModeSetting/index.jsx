@@ -18,12 +18,12 @@ export default function SettingMode({ isAdmin }) {
       size="medium"
       color={isAdmin ? 'default' : 'primary'}
       sx={{
-        ...(!isAdmin && {
-          borderColor: 'primary',
-          borderWidth: 1,
-          borderStyle: 'solid',
-          bgcolor: (theme) => alpha(theme.palette.primary.main, 0.1)
-        })
+        // ...(!isAdmin && {
+        //   borderColor: 'primary',
+        //   borderWidth: 1,
+        //   borderStyle: 'solid',
+        //   bgcolor: (theme) => alpha(theme.palette.primary.main, 0.1)
+        // })
       }}
     >
       {themeMode === 'dark' ? <IoSunny size={24} /> : <IoMoonOutline size={24} />}

@@ -17,9 +17,12 @@ const nextConfig = {
     JWT_SECRET: process.env.JWT_SECRET,
     PAYPAL_CLIENT_ID: process.env.PAYPAL_CLIENT_ID
   },
+  // images: {
+  //   domains: ['nextall.vercel.app"', 'res.cloudinary.com']
+  // }
   images: {
-    domains: ['nextall.vercel.app"', 'res.cloudinary.com']
-  }
+    domains: ['shouttymedia.nyc3.digitaloceanspaces.com'],
+  },
 };
 
 module.exports = nextConfig;

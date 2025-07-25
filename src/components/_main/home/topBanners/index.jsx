@@ -8,8 +8,8 @@ import { Box, Card, Grid, Stack, Typography, Button, Container } from '@mui/mate
 import useMediaQuery from '@mui/material/useMediaQuery';
 import { useTheme } from '@mui/material/styles';
 // images
-import banner1Img from '../../../../../public/images/banner-1.png';
-import banner2Img from '../../../../../public/images/banner-2.png';
+import banner1Img from '../../../../../public/images/buggati.png';
+import banner2Img from '../../../../../public/images/photographer.png';
 
 export default function Index() {
   const theme = useTheme();
@@ -18,9 +18,9 @@ export default function Index() {
 
   return (
     <Box mb={2} mt={2}>
-      <Container maxWidth="xl">
-        <Grid container spacing={2}>
-          <Grid item lg={6} md={6} xs={12} sm={6}>
+      <Container maxWidth="xl" >
+        <Grid container  className="row d-md-flex" >
+          <Grid  item xl={12}  lg={6} md={6} xs={12} sm={6}  className="col-md-6 mb-3 mb-md-0">
             <Card
               sx={{
                 display: 'flex',
@@ -50,6 +50,7 @@ export default function Index() {
                   variant={'h4'}
                   lineHeight={1.3}
                   sx={{
+                    color: "#ffffff",
                     width: {
                       xl: '320px !important',
                       lg: '300px !important',
@@ -65,7 +66,7 @@ export default function Index() {
                     }
                   }}
                 >
-                  Shop the latest from top brands
+                  Your Car's <br className='d-md-block d-none'></br> Perfect   Shot             
                 </Typography>
 
                 <Typography
@@ -73,8 +74,12 @@ export default function Index() {
                   mb={2}
                   display={{ md: 'block', xs: 'none' }}
                   width={{ xl: 270 }}
+                  sx={{
+                    color: "#ffffff",
+
+                  }}
                 >
-                  Fully Comforable and Smooth Product
+                  Discover  high-quality photographs of vehicles from professional photographers worldwide.
                 </Typography>
                 <Box>
                   <Button
@@ -84,7 +89,8 @@ export default function Index() {
                     color={'primary'}
                     size={isDeskTopBtn ? 'large' : 'small'}
                     sx={{
-                      borderRadius: 6
+                      borderRadius: 6,
+                      color:"#000000",
                     }}
                   >
                     View Collection
@@ -94,7 +100,7 @@ export default function Index() {
             </Card>
           </Grid>
           {/* card 2  */}
-          <Grid item lg={6} md={6} xs={12} sm={6}>
+          <Grid item lg={6} md={6} xs={12} sm={6} className="col-md-6 mb-3 mb-md-0">
             <Card
               sx={{
                 display: 'flex',
@@ -138,7 +144,7 @@ export default function Index() {
                     }
                   }}
                 >
-                  Shop the latest from top brands
+                  Are you a Photographer?
                 </Typography>
 
                 <Typography
@@ -147,7 +153,7 @@ export default function Index() {
                   display={{ md: 'block', xs: 'none' }}
                   width={{ xl: 270 }}
                 >
-                  Fully Comforable and Smooth Product
+                  Join our platform to sell your car photographs. Easily upload, manage and track your sales.
                 </Typography>
                 <Box>
                   <Button

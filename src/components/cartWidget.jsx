@@ -4,7 +4,7 @@ import { useSelector } from 'react-redux';
 import { useRouter } from 'next-nprogress-bar';
 
 // mui
-import { IconButton, Stack, Typography, alpha } from '@mui/material';
+import { IconButton, Stack, Typography, alpha, useTheme } from '@mui/material';
 import { HiOutlineShoppingBag } from 'react-icons/hi2';
 
 // custom hooks
@@ -20,6 +20,8 @@ export default function CartWidget() {
   const total = subtotal;
   const cCurrency = useCurrencyConvert();
   const fCurrency = useCurrencyFormatter();
+  const theme = useTheme();
+
   return (
     <Stack
       onClick={() => router.push('/cart')}
@@ -36,19 +38,16 @@ export default function CartWidget() {
         disableRipple
         color="primary"
         sx={{
-          borderColor: 'primary',
-          borderWidth: 1,
-          borderStyle: 'solid',
-          bgcolor: (theme) => alpha(theme.palette.primary.main, 0.1)
+         
         }}
       >
         <HiOutlineShoppingBag />
       </IconButton>
       <Stack>
-        <Typography variant="subtitle2" color="text.primary" mb={-0.6}>
+        <Typography variant="subtitle2" mb={-0.6} sx={{color: 'text.primary'}}>
           Cart ({totalItems})
         </Typography>
-        <Typography variant="body1" color="text.secondary">
+        <Typography variant="body1" sx={{color: 'text.primary'}}>
           {fCurrency(cCurrency(total))}
         </Typography>
       </Stack>

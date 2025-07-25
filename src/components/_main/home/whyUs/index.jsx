@@ -7,6 +7,7 @@ import { Typography, Card, Stack, Divider } from '@mui/material';
 // icons
 import { MdOutlineSupportAgent } from 'react-icons/md';
 import { AiOutlineShoppingCart } from 'react-icons/ai';
+import { AiOutlineCamera } from 'react-icons/ai';
 import { VscFeedback } from 'react-icons/vsc';
 import { MdSettingsBackupRestore } from 'react-icons/md';
 import { RiExchangeDollarLine } from 'react-icons/ri';
@@ -14,19 +15,14 @@ import { RiExchangeDollarLine } from 'react-icons/ri';
 export default function WhyUs() {
   const data = [
     {
-      title: 'Free Shipping',
-      icon: <AiOutlineShoppingCart size={40} />,
+      title: 'High quality videos and pictures',
+      icon: <AiOutlineCamera size={40} />,
       description: ' When you spend $100+'
     },
     {
       title: 'Feedbacks',
       icon: <VscFeedback size={40} />,
       description: '100% Customer'
-    },
-    {
-      title: 'Free Return',
-      icon: <MdSettingsBackupRestore size={40} />,
-      description: '30 Day Returns Policy'
     },
     {
       title: 'Secure System',
@@ -76,7 +72,7 @@ export default function WhyUs() {
                 </Typography>
               </Stack>
             </Stack>
-            {i !== 4 ? <Divider orientation="vertical" flexItem /> : null}
+            {i !== 3 ? <Divider orientation="vertical" flexItem /> : null}
           </React.Fragment>
         ))}
       </Stack>

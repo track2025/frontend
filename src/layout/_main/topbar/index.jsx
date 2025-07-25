@@ -34,11 +34,15 @@ export default function UserTopbar() {
           background: theme.palette.background.default,
           justifyContent: 'space-between',
           display: { xs: 'none', md: 'flex' },
-          position: 'static',
+          position: 'sticky',
           zIndex: 999,
-          width: '100%',
-          px: '0px!important'
+          width: '100% !important',
+          px: '0px!important',
+          mx: '0px !important',
+          left: '0px !important'
         }}
+       
+    
       >
         <Stack direction="row" alignItems="center" spacing={1}>
           <Link
@@ -68,7 +72,7 @@ export default function UserTopbar() {
                   href={isAuthenticated ? '/create-shop' : '/auth/register?redirect=/create-shop'}
                   sx={{ color: 'text.primary', fontSize: 14 }}
                 >
-                  Become a seller
+                   Join as Photographer
                 </Link>
               </>
             )
@@ -80,7 +84,7 @@ export default function UserTopbar() {
                 href={isAuthenticated ? '/create-shop' : '/auth/register?redirect=/create-shop'}
                 sx={{ color: 'text.primary', fontSize: 14 }}
               >
-                Become a seller
+                 Join as Photographer
               </Link>
             </>
           )}

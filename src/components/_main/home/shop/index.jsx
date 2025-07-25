@@ -25,15 +25,15 @@ export default function ShopComponent() {
       >
         <Box width="100%">
           <Typography variant="h2" color="text.primary" mt={{ xs: 4, md: 8 }}>
-            Best Shops
+            Photographers
           </Typography>
           <Typography variant="body1" color="text.secondary" mb={{ xs: 3, md: 5 }}>
-            Our Highest Rated Shops Where You Can Find What You Are Looking For
+            Our Highest Rated Photographers. You Can Find the best pictures and videos You Are Looking For.
           </Typography>
         </Box>
         <Button
           variant="contained"
-          color="primary"
+          color="#000000"
           size="large"
           sx={{
             borderRadius: 6,
@@ -66,7 +66,7 @@ export default function ShopComponent() {
         </Grid>
         <Button
           variant="text"
-          color="primary"
+          color="#000000"
           size="small"
           sx={{
             borderRadius: 6,

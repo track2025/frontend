@@ -3,13 +3,14 @@ import PropTypes from 'prop-types';
 import { useState, useEffect } from 'react';
 import NextLink from 'next/link';
 import { useRouter } from 'next-nprogress-bar';
+import dynamic from 'next/dynamic';
 
 // material
 import typography from 'src/theme/typography';
-import { Link, Stack, Button, alpha, Box } from '@mui/material';
+import { Link, Stack, Button, alpha, Box, Skeleton } from '@mui/material';
 
 // icons
-import { RxDashboard } from 'react-icons/rx';
+import { RxDashboard, RxMagnifyingGlass } from 'react-icons/rx';
 import { FaAngleDown } from 'react-icons/fa6';
 
 // components
@@ -33,6 +34,10 @@ MenuDesktopItem.propTypes = {
   scrollPosition: PropTypes.any
 };
 
+const Search = dynamic(() => import('src/components/dialog/search/new'), {
+  srr: false,
+  loading: () => <Skeleton variant="rounded" width={200} height={56} sx={{ borderRadius: '70px' }} />
+});
 function MenuDesktopItem({ ...props }) {
   const { item, pathname, isHome, isOpen, isOffset, onOpen, scrollPosition, onClose, isLoading, data } = props;
   const { title, path, isDropdown } = item;
@@ -47,7 +52,7 @@ function MenuDesktopItem({ ...props }) {
             flexGrow: 1
           }}
         >
-          <Button
+          {/* <Button
             ref={anchorRef}
             className={` ${isOffset && isHome && 'offset'}`}
             id="composition-button"
@@ -71,7 +76,35 @@ function MenuDesktopItem({ ...props }) {
             endIcon={<FaAngleDown size={14} className="arrow-icon" />}
           >
             {title}
-          </Button>
+          </Button> */}
+          {/* <Button
+            ref={anchorRef}
+            className={` ${isOffset && isHome && 'offset'}`}
+            id="composition-button"
+            aria-controls={isOpen ? 'composition-menu' : undefined}
+            aria-expanded={isOpen ? 'true' : undefined}
+            aria-haspopup="true"
+            onClick={onOpen}
+            variant="contained"
+            color="primary"
+            size="large"
+            sx={{
+              boxShadow: 'none',
+              borderRadius: 0,
+              width: 280,
+              bgcolor: (theme) => alpha(theme.palette.common.black, 0.1),
+              '&.arrow-icon': {
+                transform: isOpen ? 'rotate(180deg)' : 'rotate(0deg)'
+              }
+            }}
+            startIcon={<RxMagnifyingGlass />}
+            endIcon={<FaAngleDown size={14} className="arrow-icon" />}
+          >
+            {title}
+          </Button> */}
+          
+          <Search />
+
         </Box>
         <MenuDesktopPopover
           isOpen={isOpen}
@@ -93,7 +126,7 @@ function MenuDesktopItem({ ...props }) {
       className={` ${isActive && 'active'}`}
       sx={{
         ...typography.subtitle1,
-        color: 'common.white',
+        color: 'text.primary',
         textDecoration: 'none',
         fontWeight: 500,
         transition: '.2s ease-in',

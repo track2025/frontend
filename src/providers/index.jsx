@@ -57,7 +57,14 @@ export default function Providers(props) {
                     zIndex: 11
                   }}
                 >
-                  <LinearProgress />
+                  <LinearProgress
+                      sx={{
+                        backgroundColor: '#e0e0e0', // light gray track (optional)
+                        '& .MuiLinearProgress-bar': {
+                          backgroundColor: '#000000', // black progress bar
+                        }
+                      }}
+                    />
                 </Stack>
               }
               persistor={persistor}

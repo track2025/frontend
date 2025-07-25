@@ -29,15 +29,16 @@ export default function Categories() {
         >
           <Box>
             <Typography variant="h2" color="text.primary">
-              Top Categories
+              Browse Photos
             </Typography>
             <Typography variant="body1" color="text.secondary">
-              Lorem Ipsum Is Simply Dummy Text Of The Printing And Typesetting Industry.
-            </Typography>
+            Discover a diverse gallery of captivating images across various styles, themes, and moments. Whether you're seeking inspiration or the perfect shot, explore visuals that speak louder than words.
+
+</Typography>
           </Box>
           <Button
             variant="contained"
-            color="primary"
+            color="#000000"
             size="large"
             sx={{
               borderRadius: 6,
@@ -70,7 +71,7 @@ export default function Categories() {
           </Grid>
           <Button
             variant="text"
-            color="primary"
+            color="#000000"
             size="small"
             sx={{
               borderRadius: 6,

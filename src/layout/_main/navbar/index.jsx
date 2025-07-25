@@ -2,6 +2,9 @@
 import React from 'react';
 import dynamic from 'next/dynamic';
 import { useSelector } from 'react-redux';
+import { useEffect, useState } from 'react';
+import { usePathname } from 'next/navigation';
+import { Button } from '@mui/material';
 
 // mui
 import { alpha } from '@mui/material/styles';
@@ -9,6 +12,9 @@ import { Toolbar, Skeleton, Stack, AppBar, useMediaQuery, Box, Container } from 
 
 // components
 import Logo from 'src/components/logo';
+import MenuDesktop from '../actionbar/menuDesktop';
+import config from 'src/layout/_main/config.json';
+
 
 // dynamic import components
 const MobileBar = dynamic(() => import('src/layout/_main/mobileBar'));
@@ -49,7 +55,7 @@ const CompareWidget = dynamic(() => import('src/components/compareWidget'), {
     </Stack>
   )
 });
-const Search = dynamic(() => import('src/components/dialog/search'), {
+const Search = dynamic(() => import('src/components/dialog/search/new'), {
   srr: false,
   loading: () => <Skeleton variant="rounded" width={300} height={56} sx={{ borderRadius: '70px' }} />
 });
@@ -62,10 +68,15 @@ const LanguageSelect = dynamic(() => import('src/components/languageSelect'), {
 export default function Navbar() {
   const { checkout } = useSelector(({ product }) => product);
   const isMobile = useMediaQuery('(max-width:768px)');
+  const { menu } = config;
+  const pathname = usePathname();
+const isHome = pathname === '/';
 
+  // Scroll listener: only attach if on home page
+  
   return (
     <>
-      <AppBar
+ <AppBar
         sx={{
           boxShadow: 'none',
           position: 'sticky',
@@ -75,6 +86,7 @@ export default function Navbar() {
           pr: '0px !important',
           bgcolor: (theme) => alpha(theme.palette.background.paper, 1),
           borderTop: (theme) => `1px solid ${theme.palette.divider}`,
+          borderBottom: (theme) => `1px solid ${theme.palette.divider}`,
           display: { md: 'block', xs: 'none' },
           '& .toolbar': {
             justifyContent: 'space-between',
@@ -87,24 +99,47 @@ export default function Navbar() {
           }
         }}
       >
-        <Container maxWidth="xl">
-          <Toolbar disableGutters className="toolbar" sx={{ px: '0px!important' }}>
+        <Container maxWidth="xl" className=''>
+          <Toolbar disableGutters className="toolbar bg-none" sx={{ px: '0px!important' }}>
             <Stack gap={4} direction="row" alignItems={'center'}>
               <Logo />
-              <Search />
+            </Stack>
+            <Stack gap={4} direction="row" alignItems={'center'}>
+                <MenuDesktop navConfig={menu} />
+                <Button
+                className='text-nowrap'
+                  variant="contained"
+                  href="/signin"
+                  sx={{
+                    bgcolor: 'text.primary',
+                    color: 'background.paper',
+                    textTransform: 'none',
+                    '&:hover': {
+                      bgcolor: 'text.primary', // keeps color consistent on hover
+                      opacity: 0.9
+                    }
+                  }}
+                >
+                  Sign In
+                </Button>
             </Stack>
 
             <Stack gap={2} direction="row" alignItems={'center'}>
+
               <LanguageSelect />
               <SettingMode />
-              <WishlistPopover />
-              <CompareWidget />
+              {/* <WishlistPopover />
+              <CompareWidget /> */}
               <CartWidget checkout={checkout} />
             </Stack>
           </Toolbar>
         </Container>
       </AppBar>
+
+
       {isMobile && <MobileBar />}
     </>
+
+      
   );
 }

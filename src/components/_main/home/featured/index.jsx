@@ -25,15 +25,15 @@ export default function Index() {
       >
         <Box>
           <Typography variant="h2" color="text.primary" mt={{ xs: 4, md: 8 }}>
-            Featured Products
+          Featured Photos
           </Typography>
           <Typography variant="body1" color="text.secondary" mb={{ xs: 3, md: 5 }}>
-            Lorem Ipsum Is Simply Dummy Text Of The Printing And Typesetting Industry.
+          A curated collection of standout images that capture beauty, emotion, and storytelling at a glance. Explore the shots that define our visual style and celebrate creativity in every frame.
           </Typography>
         </Box>
         <Button
           variant="contained"
-          color="primary"
+          color="#000000"
           size="large"
           sx={{
             borderRadius: 6,
@@ -58,7 +58,7 @@ export default function Index() {
       )}
       <Button
         variant="text"
-        color="primary"
+        color="#000000"
         size="small"
         sx={{
           borderRadius: 6,

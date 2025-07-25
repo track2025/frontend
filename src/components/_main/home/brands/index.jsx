@@ -21,7 +21,7 @@ export default function Brands() {
       }}
     >
       <Typography variant="h2" color="text.primary" textAlign="center">
-        Brands
+        Locations
       </Typography>
       <Typography
         variant="body1"

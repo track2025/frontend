@@ -50,6 +50,7 @@ function ProgressItem({ ...props }) {
   return (
     <Stack direction="row" alignItems="center" spacing={1.5} mb={1}>
       <Typography variant="subtitle2">{name}</Typography>
+      SJSJJSJSJ
       <LinearProgress
         variant="determinate"
         value={(star / total) * 100}

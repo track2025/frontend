@@ -29,7 +29,7 @@ export default function TopCollections() {
         </Box>
         <Button
           variant="contained"
-          color="primary"
+          color="#000000"
           size="large"
           sx={{
             borderRadius: 6

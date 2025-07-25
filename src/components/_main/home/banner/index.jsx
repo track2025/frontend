@@ -7,7 +7,7 @@ import { Box, Typography, Grid, Button, Container, Stack } from '@mui/material';
 import { IoIosArrowForward } from 'react-icons/io';
 
 // blur image
-import bannerImg from '../../../../../public/images/banner-3.png';
+import bannerImg from '../../../../../public/images/banner-33.png';
 // components
 import BlurImage from 'src/components/blurImage';
 
@@ -34,20 +34,20 @@ export default function Banner() {
           placeholder="blur"
           layout="fill"
           static
-          sizes="700px"
+          sizes="800px"
           objectFit="cover"
         />
         <Container maxWidth="xl">
           <Grid container alignItems="center" spacing={4}>
             <Grid item xs={6} md={6}>
               <Stack spacing={2}>
-                <Typography sx={{ zIndex: 11 }} variant="h2" fontWeight={900}>
-                  UK Premier Store for Wrist Watches
+                <Typography sx={{ zIndex: 11, color:'#fff' }} className='col-md-6' variant="h2" fontWeight={900}>
+                The Marketplace for <br className='d-md-block d-none'></br> Race Track Car Media
                 </Typography>
-                <Typography sx={{ zIndex: 11 }} variant="body1" color="text.success">
-                  Welcome to our world of horological excellence, where timepieces become timeless statements of
-                  elegance. Our collection showcases an unparalleled selection of premium watches, curated from renowned
-                  luxury brands around the globe.
+                <Typography className='col-md-6' sx={{ zIndex: 11, color:'#fff', fontSize: '18px' }} variant="body1" color="text.success">
+                  Welcome to our world of Photography and Videography excellence, where timepieces become timeless statements of
+                  elegance. Our collection showcases an unparalleled selection of premium car pictures and vides, curated from renowned
+                  Race track Photographers around the globe.
                 </Typography>
                 <Box>
                   <Button

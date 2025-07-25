@@ -8,6 +8,7 @@ import { Container } from '@mui/material'; // Importing Container component from
 import Hero from 'src/components/_main/home/hero'; // Importing the Hero component.
 import WhyUs from 'src/components/_main/home/whyUs'; // Importing the WhyUs component.
 import TopBanners from 'src/components/_main/home/topBanners'; // Importing the TopBanners component.
+import Image from 'next/image';
 
 // Dynamic imports
 const Categories = dynamic(() => import('src/components/_main/home/categories'));
@@ -25,22 +26,47 @@ const SubscriptionModal = dynamic(() => import('src/components/_main/home/subscr
 
 export default function IndexPage() {
   return (
+  
     <>
-      <Container maxWidth="xl">
-        <Hero />
-      </Container>
+      {/* <div maxWidth="xl">
+        <img
+          src="/images/rrr.jpg"
+          height="550px"
+          width="100%"
+          style={{ objectFit: 'cover', width: '100%', height: '850px' }}
+          alt="Banner"
+        /> 
+     </div> */}
+     <div style={{ maxWidth: '100%', overflow: 'hidden' }}>
+  <video
+    autoPlay
+    muted
+    loop
+    playsInline
+    style={{
+      width: '100%',
+      height: '700px',
+      objectFit: 'cover',
+    }}
+  >
+    <source src="/images/banner-vid.mp4" type="video/mp4" />
+    Your browser does not support the video tag.
+  </video>
+</div>
       <TopBanners />
       <Container maxWidth="xl">
-        <WhyUs />
-        <Categories />
-        <BestSellingProducs />
+        <WhyUs />      
+          <FeaturedProducts />
+
+        {/* <BestSellingProducs /> */}
         <Compaigns />
       </Container>
       <Banner />
       <Container maxWidth="xl">
-        <TopCollection />
+        <TopCollection />       
+         <Categories />
+
         <Shops />
-        <FeaturedProducts />
       </Container>
       <Testimonials />
       <Container maxWidth="xl">
