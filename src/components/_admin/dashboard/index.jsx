@@ -52,8 +52,8 @@ export default function Dashboard({ isVendor }) {
 
   return (
     <Box>
-      <Grid container spacing={3}>
-        <Grid item xs={12} sm={6} md={3}>
+      <Grid container className="row">
+        <Grid item xs={12} sm={6} md={3} className="col-md-3 col-sm-6 col-xs-12 mb-3">
           <DashboardCard
             color="primary"
             isAmount
@@ -63,7 +63,7 @@ export default function Dashboard({ isVendor }) {
             isLoading={isLoading}
           />
         </Grid>
-        <Grid item xs={12} sm={6} md={3}>
+        <Grid item xs={12} sm={6} md={3}  className="col-md-3 col-sm-6 col-xs-12 mb-3">
           <DashboardCard
             color="secondary"
             title="Daily Orders"
@@ -73,7 +73,7 @@ export default function Dashboard({ isVendor }) {
           />
         </Grid>
         {!isVendor && (
-          <Grid item xs={12} sm={6} md={3}>
+          <Grid item xs={12} sm={6} md={3}  className="col-md-3 col-sm-6 col-xs-12 mb-3">
             <DashboardCard
               color="warning"
               title="Total Users"
@@ -84,17 +84,17 @@ export default function Dashboard({ isVendor }) {
           </Grid>
         )}
 
-        <Grid item xs={12} sm={isVendor ? 12 : 6} md={3}>
+        <Grid item xs={12} sm={isVendor ? 12 : 6} md={3}  className={`col-md-3 ${isVendor ? 'col-sm-12' : 'col-sm-6'} col-xs-12 mb-3`}>
           <DashboardCard
             color="error"
-            title="Total Photos"
+            title="Total Photos" 
             value={totalProducts}
             icon={<BiSolidShoppingBags size={24} />}
             isLoading={isLoading}
           />
         </Grid>
         {!isVendor && (
-          <Grid item xs={12} sm={isVendor ? 12 : 6} md={3}>
+          <Grid item xs={12} sm={isVendor ? 12 : 6} md={3} className={`col-md-3 ${isVendor ? 'col-sm-12' : 'col-sm-6'} col-xs-12 mb-3`}>
             <DashboardCard
               color="success"
               title="Total Vendors"
@@ -105,7 +105,7 @@ export default function Dashboard({ isVendor }) {
           </Grid>
         )}
         {!isVendor && (
-          <Grid item xs={12} sm={isVendor ? 12 : 6} md={3}>
+          <Grid item xs={12} sm={isVendor ? 12 : 6} md={3} className={`col-md-3 ${isVendor ? 'col-sm-12' : 'col-sm-6'} col-xs-12 mb-3`}>
             <DashboardCard
               color="info"
               title="Total Shop"
@@ -116,7 +116,7 @@ export default function Dashboard({ isVendor }) {
           </Grid>
         )}
 
-        <Grid item xs={12} sm={isVendor ? 12 : 6} md={3}>
+        <Grid item xs={12} sm={isVendor ? 12 : 6} md={3} className={`col-md-3 ${isVendor ? 'col-sm-12' : 'col-sm-6'} col-xs-12 mb-3`}>
           <DashboardCard
             color="#01838F"
             title="Pending Orders"
@@ -126,7 +126,7 @@ export default function Dashboard({ isVendor }) {
           />
         </Grid>
         {!isVendor && (
-          <Grid item xs={12} sm={isVendor ? 12 : 6} md={3}>
+          <Grid item xs={12} sm={isVendor ? 12 : 6} md={3} className={`col-md-3 ${isVendor ? 'col-sm-12' : 'col-sm-6'} col-xs-12 mb-3`}>
             <DashboardCard
               color="#AFB42B"
               title="Retruned Orders"
@@ -137,26 +137,16 @@ export default function Dashboard({ isVendor }) {
           </Grid>
         )}
 
-        <Grid item xs={12} md={7} lg={7}>
-          <SaleChart data={sales_report} isLoading={isLoading} />
+        <Grid item xs={12} md={7} lg={7} className="col-xs-12 mb-3 col-md-7 col-lg-7">
+          <SaleChart data={sales_report} isLoading={isLoading} className="h-100"/>
         </Grid>
-        <Grid item xs={12} md={5} lg={5}>
+        <Grid item xs={12} md={5} lg={5} className="col-xs-12 mb-3 col-md-5 col-lg-5 ">
           <OrderChart data={orders_report} isLoading={isLoading} />
         </Grid>
-        <Grid item sx={{
-              width: {
-                xs: '100%', // mobile
-                md: '30%'   // desktop
-              }
-            }} lg={4}>
+        <Grid item xs={12} md={4} lg={4} className="col-xs-12 mb-3 col-md-4 col-lg-4">
           <BestSelling data={bestSellingProducts} loading={isLoading} isVendor={isVendor} />
         </Grid>
-        <Grid item sx={{
-              width: {
-                xs: '100%', // mobile
-                md: '60%'   // desktop
-              }
-            }} lg={8}>
+        <Grid item xs={12} md={8} lg={8} className="col-xs-12 mb-3 col-md-8 col-lg-8">
           <IncomeChart
             income={income_report}
             commission={commission_report}
@@ -164,7 +154,7 @@ export default function Dashboard({ isVendor }) {
             isLoading={isLoading}
           />
         </Grid>
-        <Grid item xs={12}>
+        <Grid item xs={12} className="col-xs-12 mb-3 col-md-12 col-lg-12">
           <LowStockProducts isVendor={isVendor} />
         </Grid>
       </Grid>

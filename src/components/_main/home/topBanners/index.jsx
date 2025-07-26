@@ -82,19 +82,24 @@ export default function Index() {
                   Discover  high-quality photographs of vehicles from professional photographers worldwide.
                 </Typography>
                 <Box>
-                  <Button
-                    component={Link}
-                    href="/products"
-                    variant="contained"
-                    color={'primary'}
-                    size={isDeskTopBtn ? 'large' : 'small'}
-                    sx={{
-                      borderRadius: 6,
-                      color:"#000000",
-                    }}
-                  >
-                    View Collection
-                  </Button>
+                    <Button
+                  component={Link}
+                  href="/products"
+                  variant="contained"
+                  size={isDeskTopBtn ? 'large' : 'small'}
+                  sx={{
+                    bgcolor: '#ffffff',        // white background
+                    color: '#000000',          // black text
+                    borderRadius: 6,
+                    textTransform: 'none',
+                    transition: 'background-color 0.3s ease',
+                    '&:hover': {
+                      bgcolor: '#f0f0f0'       // light gray on hover
+                    }
+                  }}
+                >
+                  View Collection
+                </Button>
                 </Box>
               </Stack>
             </Card>
@@ -129,6 +134,7 @@ export default function Index() {
                   variant={'h4'}
                   lineHeight={1.3}
                   sx={{
+                    color: "#000000",
                     width: {
                       xl: '320px !important',
                       lg: '300px !important',
@@ -152,22 +158,33 @@ export default function Index() {
                   mb={2}
                   display={{ md: 'block', xs: 'none' }}
                   width={{ xl: 270 }}
+                  sx={{
+                    color: "#000000",
+
+                  }}
                 >
                   Join our platform to sell your car photographs. Easily upload, manage and track your sales.
                 </Typography>
                 <Box>
-                  <Button
-                    component={Link}
-                    href="/products"
-                    variant="contained"
-                    color={'secondary'}
-                    size={isDeskTopBtn ? 'large' : 'small'}
-                    sx={{
-                      borderRadius: 6
-                    }}
-                  >
-                    View Collection
-                  </Button>
+                <Button
+                  component={Link}
+                  href="/products"
+                  variant="contained"
+                  size={isDeskTopBtn ? 'large' : 'small'}
+                  sx={{
+                    bgcolor: '#000000',       // black background
+                    color: '#ffffff',         // white text
+                    borderRadius: 6,
+                    textTransform: 'none',
+                    '&:hover': {
+                      bgcolor: '#1a1a1a',     // remain black on hover
+                      opacity: 0.9            // subtle hover effect
+                    }
+                  }}
+                >
+                  View Collection
+                </Button>
+
                 </Box>
               </Stack>
             </Card>

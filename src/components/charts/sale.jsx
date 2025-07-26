@@ -32,7 +32,7 @@ export default function Income({ data, isLoading }) {
   });
 
   return (
-    <Card sx={{ pb: 1.5 }}>
+    <Card sx={{ pb: 1.5 }} className='h-100'>
       <CardHeader title={'Sales Report'} />
 
       {isLoading ? (

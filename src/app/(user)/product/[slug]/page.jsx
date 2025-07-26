@@ -66,17 +66,14 @@ export default async function ProductDetail({ params: { slug } }) {
               }
             ]}
           />
-          <Grid container spacing={2} justifyContent="center">
-            <Grid item xs={12} sm={6} md={4} lg={4}>
+          <Grid container  justifyContent="center" className="w-100 row ">
+       
+
+            <Grid item  className="col-md-4 col-sm-6 col-12 ">
               <ProductDetailsCarousel slug={slug} product={data} data={data} />
             </Grid>
-            <Grid item sx={{
-              width: {
-                xs: '100%', // mobile
-                md: '60%'   // desktop
-              }
-            }} lg={8}>
-              <ProductDetailsSumary
+            <Grid item className="col-md-8 h-100 col-12">
+              <ProductDetailsSumary className="h-100"
                 id={data?._id}
                 product={data}
                 brand={brand}

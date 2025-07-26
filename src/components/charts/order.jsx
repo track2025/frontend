@@ -41,8 +41,9 @@ export default function Order({ data, isLoading }) {
 
   return (
     <Card
+    className='h-100'
       sx={{
-        pb: 2,
+        pb: 1.5,
         '& .apexcharts-canvas': {
           margin: '0 auto'
         }

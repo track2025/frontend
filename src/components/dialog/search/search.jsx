@@ -146,7 +146,7 @@ export default function Search({ ...props }) {
       <Stack gap={1} direction="row" p={1}>
         <FormControl fullWidth>
           <LabelStyle component={'label'} htmlFor="shops">
-            Shop
+            Photographers
           </LabelStyle>
           {filtersLoading ? (
             <Skeleton variant="rounded" height={40} width="100%" />
@@ -169,7 +169,7 @@ export default function Search({ ...props }) {
         </FormControl>
         <FormControl fullWidth>
           <LabelStyle component={'label'} htmlFor="category">
-            Category
+            Car make
           </LabelStyle>
           {filtersLoading ? (
             <Skeleton variant="rounded" height={40} width="100%" />
@@ -192,7 +192,7 @@ export default function Search({ ...props }) {
         </FormControl>
         <FormControl fullWidth>
           <LabelStyle component={'label'} htmlFor="subCategory">
-            SubCategory
+            Car model
           </LabelStyle>
           {filtersLoading ? (
             <Skeleton variant="rounded" height={40} width="100%" />
