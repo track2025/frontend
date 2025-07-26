@@ -247,16 +247,11 @@ export default function ProductDetailsSumary({ ...props }) {
                     <Stack direction="row" alignItems="center" spacing={1} color="text.secondary">
                       <TbMessage size={18} />
                       <Typography variant="subtitle2" color="text.secondary">
-                        {product?.reviews.length}{' '}
-                        <span>{Number(product?.reviews.length) > 1 ? 'Reviews' : 'Review'}</span>
+                        {product?.reviews?.length}{' '}
+                        <span>{Number(product?.reviews?.length) > 1 ? 'Reviews' : 'Review'}</span>
                       </Typography>
                     </Stack>
-                    <Stack direction="row" alignItems="center" spacing={1} color="text.secondary">
-                      <MdOutlineShoppingBasket size={18} />
-                      <Typography variant="subtitle2" color="text.secondary">
-                        {product?.sold} sold
-                      </Typography>
-                    </Stack>
+                   
                   </Stack>
                   <Stack direction="row" alignItems="center" spacing={1} mt={1.5}>
                     <Typography variant="subtitle1">Brand:</Typography>
@@ -279,55 +274,20 @@ export default function ProductDetailsSumary({ ...props }) {
                       </Typography>
                     </Stack>
                   )}
-                  <Stack direction="row" alignItems="center" spacing={2} pt={1}>
-                    <Typography variant="subtitle1">Color:</Typography>
-                    <ColorPreview color={color} setColor={setColor} colors={product?.colors} isDetail />
-                  </Stack>
-                  <Stack direction="row" alignItems="center" spacing={2} pt={1}>
-                    <Typography variant="subtitle1">Size:</Typography>
-                    <SizePreview size={size} setSize={setSize} sizes={product?.sizes} isDetail />
-                  </Stack>
+                  
+          
                 </Stack>
-                <Typography variant="subtitle1">Description:</Typography>
-                <Typography variant="body1"> {product?.description}</Typography>
+                {/* <Typography variant="subtitle1">Description:</Typography>
+                <Typography variant="body1"> {product?.description}</Typography> */}
               </Card>
             </Grid>
             <Grid item xs={12} md={5}>
               <Card sx={{ p: 2, position: 'sticky', top: 156 }}>
                 <Typography variant="h4" className="text-price">
                   {!isLoading && isLoaded && fCurrency(cCurrency(product?.priceSale))} &nbsp;
-                  {product?.price <= product?.priceSale ? null : (
-                    <Typography component="span" className="old-price" color="text.secondary">
-                      {!isLoading && isLoaded && fCurrency(cCurrency(product?.price))}
-                    </Typography>
-                  )}
+                  
                 </Typography>
-                <Stack direction="row" alignItems="center" spacing={1} className="incrementer-wrapper" my={2}>
-                  {isLoading ? (
-                    <Box sx={{ float: 'right' }}>
-                      <Skeleton variant="rounded" width={120} height={40} />
-                    </Box>
-                  ) : (
-                    <div>
-                      <Incrementer name="quantity" available={product?.available} />
-                      {touched.quantity && errors.quantity && (
-                        <FormHelperText error>{touched.quantity && errors.quantity}</FormHelperText>
-                      )}
-                    </div>
-                  )}
-                  <Typography
-                    variant="subtitle2"
-                    color="text.secondary"
-                    fontWeight={400}
-                    sx={{
-                      span: {
-                        color: 'error.main'
-                      }
-                    }}
-                  >
-                    {product?.available > 0 ? `${product?.available} Items` : <span>Out of stock</span>}
-                  </Typography>
-                </Stack>
+               
 
                 <Stack spacing={1} className="contained-buttons" mb={2}>
                   <Button
@@ -359,55 +319,9 @@ export default function ProductDetailsSumary({ ...props }) {
                   >
                     Buy Now
                   </Button>
-                  {wishlist?.filter((v) => v === product?._id).length > 0 ? (
-                    <LoadingButton
-                      fullWidth
-                      loading={loading}
-                      onClick={onClickWishList}
-                      type="button"
-                      color="secondary"
-                      variant="contained"
-                      startIcon={<FaRegHeart />}
-                    >
-                      Remove from Wishlist
-                    </LoadingButton>
-                  ) : (
-                    <LoadingButton
-                      fullWidth
-                      loading={loading}
-                      onClick={onClickWishList}
-                      type="button"
-                      color="secondary"
-                      variant="contained"
-                      startIcon={<FaRegHeart />}
-                    >
-                      Add to Wishlist
-                    </LoadingButton>
-                  )}
+                 
 
-                  {compareProducts?.filter((v) => v._id === product._id).length > 0 ? (
-                    <Button
-                      startIcon={<GoGitCompare />}
-                      fullWidth
-                      onClick={onRemoveCompare}
-                      type="button"
-                      color="error"
-                      variant="contained"
-                    >
-                      Remove from Compare
-                    </Button>
-                  ) : (
-                    <Button
-                      startIcon={<GoGitCompare />}
-                      fullWidth
-                      onClick={onAddCompare}
-                      type="button"
-                      color="error"
-                      variant="contained"
-                    >
-                      Add to Compare
-                    </Button>
-                  )}
+                 
 
                   <Stack direction="row" spacing={0.5} justifyContent={'center'}>
                     <Tooltip title="Copy Prooduct URL">
@@ -485,15 +399,12 @@ export default function ProductDetailsSumary({ ...props }) {
 
 const shippingData = [
   {
-    icon: <LiaShippingFastSolid size={20} />,
-    name: 'Worldwide shipping'
+    icon: <FaRegStar size={20} />,
+    name: 'High Resolution'
   },
   {
     icon: <MdLockOutline size={20} />,
     name: 'Secure payment'
   },
-  {
-    icon: <FaRegStar size={20} />,
-    name: '2 years full warranty'
-  }
+  
 ];

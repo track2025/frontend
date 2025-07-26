@@ -23,10 +23,10 @@ export default async function ShopComponent() {
       >
         <Box>
           <Typography variant="h2" color="text.primary" textAlign="center">
-            All Shops
+            Photographers
           </Typography>
           <Typography variant="body1" color="text.secondary" textAlign="center">
-            Lorem Ipsum Is Simply Dummy Text Of The Printing And Typesetting Industry.
+            Talented photographers who capture car moments for you
           </Typography>
         </Box>
         <Box>

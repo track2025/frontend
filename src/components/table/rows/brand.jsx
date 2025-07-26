@@ -68,12 +68,7 @@ export default function BrandsRow({ isLoading, row, handleClickOpen, sn }) {
         {isLoading ? (
           <Skeleton variant="text" />
         ) : (
-          <Label
-            variant={theme.palette.mode === 'light' ? 'ghost' : 'filled'}
-            color={row?.status?.toLowerCase() === 'active' ? 'success' : 'error'}
-          >
-            {capitalize(row?.status)}
-          </Label>
+         capitalize(row?.status)
         )}
       </TableCell>
       <TableCell>{isLoading ? <Skeleton variant="text" /> : <> {fDateShort(row.createdAt)} </>}</TableCell>

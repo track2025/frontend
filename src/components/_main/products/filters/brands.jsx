@@ -56,7 +56,7 @@ const BrandMain = ({ brands, path }) => {
           }}
           color="text.primary"
         >
-          <MdOutlineBrandingWatermark fontSize="large" /> Brand
+          <MdOutlineBrandingWatermark fontSize="large" /> Location
         </Typography>
         <Zoom in={Boolean(selectedBrand)}>
           <Button

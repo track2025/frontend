@@ -46,7 +46,7 @@ export default function Page() {
     },
 
     {
-      name: 'Total Products',
+      name: 'Total Photos',
       items: data?.totalProducts,
       color: theme.palette.primary.main,
       icon: <FaGifts size={30} />

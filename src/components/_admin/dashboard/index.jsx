@@ -87,7 +87,7 @@ export default function Dashboard({ isVendor }) {
         <Grid item xs={12} sm={isVendor ? 12 : 6} md={3}>
           <DashboardCard
             color="error"
-            title="Total Products"
+            title="Total Photos"
             value={totalProducts}
             icon={<BiSolidShoppingBags size={24} />}
             isLoading={isLoading}

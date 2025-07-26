@@ -13,6 +13,9 @@ import ShopCard from 'src/components/cards/shop';
 
 export default function ShopComponent() {
   const { shops = [], isLoading } = useSelector(({ shops }) => shops);
+const state = useSelector((state) => state);
+
+  console.log('state', state)
 
   return (
     <Paper elevation={0}>
@@ -43,7 +46,7 @@ export default function ShopComponent() {
           }}
           endIcon={<IoIosArrowForward />}
           component={NextLink}
-          href={`/shops`}
+          href={`/photographers`}
         >
           View More
         </Button>
@@ -60,7 +63,7 @@ export default function ShopComponent() {
           ))}
           {!isLoading && !Boolean(shops?.length) && (
             <Typography variant="h3" color="error.main" textAlign="center">
-              Shop not found
+              Photographers not found
             </Typography>
           )}
         </Grid>
@@ -77,7 +80,7 @@ export default function ShopComponent() {
           }}
           endIcon={<IoIosArrowForward />}
           component={NextLink}
-          href={`/shops`}
+          href={`/photographers`}
         >
           View More
         </Button>

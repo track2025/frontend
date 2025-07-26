@@ -60,6 +60,7 @@ export default function Filter({ ...props }) {
           <MdClear />
         </IconButton>
       </Box>
+      
       <Box
         sx={{
           height: 'calc(100vh - 56px)',
@@ -75,42 +76,7 @@ export default function Filter({ ...props }) {
             </Box>
           )
         )}
-        {isLoading ? (
-          <Gender />
-        ) : (
-          Boolean(filters?.genders?.length) && (
-            <>
-              <Divider />
-              <Box p={2}>
-                <GenderFilter genders={filters?.genders} path={pathname} />
-              </Box>
-            </>
-          )
-        )}
-        {isLoading ? (
-          <Color />
-        ) : (
-          Boolean(filters?.colors?.length) && (
-            <>
-              <Divider />
-              <Box p={2}>
-                <ColorsFilter colors={filters?.colors} path={pathname} />
-              </Box>
-            </>
-          )
-        )}
-        {isLoading ? (
-          <Sizes />
-        ) : (
-          Boolean(filters?.sizes?.length) && (
-            <>
-              <Divider />
-              <Box p={2}>
-                <SizesFilter sizes={filters?.sizes} path={pathname} />
-              </Box>
-            </>
-          )
-        )}
+      
         <Divider />
         {Boolean(filters?.prices?.length) && (
           <Box p={2}>

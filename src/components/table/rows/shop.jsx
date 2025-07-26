@@ -48,7 +48,7 @@ export default function ProductRow({ isLoading, row, handleClickOpen, sn }) {
                 height: 50,
                 bgcolor: 'background.default',
                 mr: 2,
-                border: (theme) => '1px solid ' + theme.palette.divider,
+                border: '1px solid #666',
                 borderRadius: '6px',
                 img: {
                   borderRadius: '2px'
@@ -100,32 +100,7 @@ export default function ProductRow({ isLoading, row, handleClickOpen, sn }) {
       <TableCell>
         {isLoading ? (
           <Skeleton variant="text" />
-        ) : (
-          <Label
-            variant="filled"
-            sx={{
-              bgcolor:
-                row?.status === 'approved'
-                  ? 'success.light'
-                  : row?.status === 'pending'
-                    ? 'info.light'
-                    : row?.status === 'rejected' || row?.status === 'blocked'
-                      ? 'error.light'
-                      : 'warning.light',
-              color:
-                row?.status === 'approved'
-                  ? 'success.dark'
-                  : row?.status === 'pending'
-                    ? 'info.dark'
-                    : row?.status === 'rejected' || row?.status === 'blocked'
-                      ? 'error.dark'
-                      : 'warning.dark',
-              textTransform: 'capitalize'
-            }}
-          >
-            {row?.status}
-          </Label>
-        )}
+        ) : ( row?.status )}
       </TableCell>
       <TableCell align="right">
         {isLoading ? (

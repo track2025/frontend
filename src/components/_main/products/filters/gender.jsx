@@ -129,11 +129,11 @@ export default function GenderMain({ ...props }) {
               <FormControlLabel
                 sx={{ textTransform: 'capitalize' }}
                 name="gender"
-                defaultChecked={state.genders.includes(v)}
-                checked={state.genders.includes(v)}
+                defaultChecked={state?.genders?.includes(v)}
+                checked={state?.genders?.includes(v)}
                 onChange={(e) => handleChange(v, e)}
-                control={<Checkbox {...label} icon={icons[v?.toLowerCase()]} checkedIcon={icons[v.toLowerCase()]} />}
-                label={v.toLowerCase()}
+                control={<Checkbox {...label} icon={icons[v?.toLowerCase()]} checkedIcon={icons[v?.toLowerCase()]} />}
+                label={v?.toLowerCase()}
               />
             </FormGroup>
           </Grid>

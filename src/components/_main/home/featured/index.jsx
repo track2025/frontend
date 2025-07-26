@@ -68,7 +68,7 @@ export default function Index() {
         }}
         endIcon={<IoIosArrowForward />}
         component={NextLink}
-        href={`/categories`}
+        href={`/vehicle-makes`}
       >
         View More
       </Button>

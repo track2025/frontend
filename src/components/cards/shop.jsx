@@ -23,7 +23,7 @@ export default function ShopCard({ ...props }) {
   const [loading, setLoading] = useState(false);
   const dispatch = useDispatch();
   const router = useRouter();
-  const baseUrl = '/shops/';
+  const baseUrl = '/photographers/';
   const { mutate } = useMutation(api.followShop, {
     onSuccess: (data) => {
       toast.success(data.message);
@@ -242,7 +242,7 @@ export default function ShopCard({ ...props }) {
           </Stack> */}
           <Stack alignItems="center">
             <Typography variant="subtitle2" color="text.secondary">
-              {isLoading ? <Skeleton variant="text" width={50} /> : 'Total Products'}
+              {isLoading ? <Skeleton variant="text" width={50} /> : 'Total Photos'}
             </Typography>
             <Typography variant="h5" color="text.primary">
               {isLoading ? <Skeleton variant="text" width={100} /> : shop?.products?.length}

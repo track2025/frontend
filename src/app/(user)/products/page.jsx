@@ -11,14 +11,14 @@ export default async function Listing() {
       <Box sx={{ bgcolor: 'background.default' }}>
         <Container maxWidth="xl">
           <HeaderBreadcrumbs
-            heading="Products"
+            heading="Media"
             links={[
               {
                 name: 'Home',
                 href: '/'
               },
               {
-                name: 'Products'
+                name: 'Media'
               }
             ]}
           />

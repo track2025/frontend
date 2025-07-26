@@ -55,8 +55,8 @@ const MAIN_LINKS = [
     listLink1: '/contact',
     listText2: 'Products',
     listLink2: '/products',
-    listText3: 'Shops',
-    listLink3: '/shops',
+    listText3: 'Photographers',
+    listLink3: '/photographer',
     listText4: 'Compaigns',
     listLink4: '/compaigns'
   },

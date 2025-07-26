@@ -45,7 +45,7 @@ export default function IndexPage() {
     playsInline
     style={{
       width: '100%',
-      height: '700px',
+      height: '500px',
       objectFit: 'cover',
     }}
   >
@@ -64,7 +64,7 @@ export default function IndexPage() {
       <Banner />
       <Container maxWidth="xl">
         <TopCollection />       
-         <Categories />
+         {/* <Categories /> */}
 
         <Shops />
       </Container>

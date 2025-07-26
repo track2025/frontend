@@ -1,7 +1,7 @@
 {
   "menu": [
     {
-      "title": "Categories",
+      "title": "Vehicle Makes",
       "path": "",
       "isDropdown": true
     },
@@ -48,7 +48,7 @@
   },
   "footer_links": [
     {
-      "headline": "Product",
+      "headline": "Media",
       "children": [
         { "name": "application", "href": "#" },
         { "name": "features", "href": "#" },

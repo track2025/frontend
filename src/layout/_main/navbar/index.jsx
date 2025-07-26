@@ -109,7 +109,7 @@ const isHome = pathname === '/';
                 <Button
                 className='text-nowrap'
                   variant="contained"
-                  href="/signin"
+                  href="/auth/login"
                   sx={{
                     bgcolor: 'text.primary',
                     color: 'background.paper',
