@@ -44,7 +44,7 @@ export const navlinks = [
   {
     id: 2,
     title: 'Media Files',
-    slug: 'profile',
+    slug: 'products',
     icon: <BsShop />,
     isSearch: true
   },

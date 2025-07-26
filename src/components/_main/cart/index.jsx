@@ -46,10 +46,20 @@ export default function CartMain() {
     <Box>
       <Box py={5}>
         <Grid container spacing={2}>
-          <Grid item xs={12} md={8}>
+          <Grid item sx={{
+              width: {
+                xs: '100%', // mobile
+                md: '60%'   // desktop
+              }
+            }}>
             <ShoppingCart loading={loading} />
           </Grid>
-          <Grid item xs={12} md={4}>
+          <Grid item sx={{
+              width: {
+                xs: '100%', // mobile
+                md: '30%'   // desktop
+              }
+            }}>
             <PaymentSummary loading={loading} cart={cart} />
             {/* <Box mt={2}>
               <LoadingButton

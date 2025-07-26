@@ -163,7 +163,12 @@ export default function CategoryForm({ data: currentCategory, isLoading: categor
       <FormikProvider value={formik}>
         <Form noValidate autoComplete="off" onSubmit={handleSubmit}>
           <Grid container spacing={2}>
-            <Grid item xs={12} md={8}>
+            <Grid item sx={{
+              width: {
+                xs: '100%', // mobile
+                md: '60%'   // desktop
+              }
+            }} >
               <Card sx={{ p: 3 }}>
                 <Stack spacing={3}>
                   <div>
@@ -216,7 +221,12 @@ export default function CategoryForm({ data: currentCategory, isLoading: categor
                 </Stack>
               </Card>
             </Grid>
-            <Grid item xs={12} md={4}>
+            <Grid item sx={{
+              width: {
+                xs: '100%', // mobile
+                md: '30%'   // desktop
+              }
+            }}>
               <div
                 style={{
                   position: '-webkit-sticky',

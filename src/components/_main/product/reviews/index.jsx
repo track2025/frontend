@@ -37,7 +37,12 @@ export default function ProductReview({ ...props }) {
 
   return (
     <Grid container spacing={3}>
-      <Grid item xs={12} md={8}>
+      <Grid item sx={{
+              width: {
+                xs: '100%', // mobile
+                md: '60%'   // desktop
+              }
+            }}>
         <Collapse in={reviewBox}>
           <Card sx={{ mb: 3 }}>
             <ReviewForm
@@ -59,7 +64,12 @@ export default function ProductReview({ ...props }) {
           </Card>
         </Collapse>
       </Grid>
-      <Grid item xs={12} md={4}>
+      <Grid item sx={{
+              width: {
+                xs: '100%', // mobile
+                md: '30%'   // desktop
+              }
+            }}>
         <Card sx={{ position: 'sticky', top: 156 }}>
           <ReviewOverview
             totalRating={totalRating}

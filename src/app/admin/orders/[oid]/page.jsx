@@ -54,7 +54,12 @@ export default function OrderDetail({ params }) {
       />
       <Container maxWidth="xl">
         <Grid container direction={{ xs: 'row', md: 'row-reverse' }} spacing={2}>
-          <Grid item xs={12} md={4}>
+          <Grid item sx={{
+              width: {
+                xs: '100%', // mobile
+                md: '30%'   // desktop
+              }
+            }}>
             {isLoading ? (
               <Skeleton variant="rounded" height={48} width="100%" />
             ) : data?.data?.description ? (
@@ -65,7 +70,12 @@ export default function OrderDetail({ params }) {
             {isLoading || data?.data?.description ? <br /> : null}
             <OrderDetails data={data?.data} isLoading={isLoading} currency={'$'} />
           </Grid>
-          <Grid item xs={12} md={8}>
+          <Grid item sx={{
+              width: {
+                xs: '100%', // mobile
+                md: '60%'   // desktop
+              }
+            }}>
             <TableCard data={data?.data} isLoading={isLoading} />
           </Grid>
         </Grid>

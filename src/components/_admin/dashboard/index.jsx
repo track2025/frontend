@@ -143,10 +143,20 @@ export default function Dashboard({ isVendor }) {
         <Grid item xs={12} md={5} lg={5}>
           <OrderChart data={orders_report} isLoading={isLoading} />
         </Grid>
-        <Grid item xs={12} md={4} lg={4}>
+        <Grid item sx={{
+              width: {
+                xs: '100%', // mobile
+                md: '30%'   // desktop
+              }
+            }} lg={4}>
           <BestSelling data={bestSellingProducts} loading={isLoading} isVendor={isVendor} />
         </Grid>
-        <Grid item xs={12} md={8} lg={8}>
+        <Grid item sx={{
+              width: {
+                xs: '100%', // mobile
+                md: '60%'   // desktop
+              }
+            }} lg={8}>
           <IncomeChart
             income={income_report}
             commission={commission_report}

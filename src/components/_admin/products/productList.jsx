@@ -74,18 +74,18 @@ export default function AdminProducts({ brands, categories, shops, isVendor }) {
             ? []
             : [
                 {
-                  name: 'Shop',
-                  param: 'shop',
+                  name: 'Photographer',
+                  param: 'photographer',
                   data: shops
                 },
                 {
-                  name: 'Category',
-                  param: 'category',
+                  name: 'Vehicle Make',
+                  param: 'vehicle-makes',
                   data: categories
                 },
                 {
-                  name: 'Brand',
-                  param: 'brand',
+                  name: 'Location',
+                  param: 'location',
                   data: brands
                 }
               ]

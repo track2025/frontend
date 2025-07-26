@@ -106,19 +106,10 @@ export default function IncomeList({ isLoading, row, handleClickOpen, isPayout, 
       <TableCell>
         {isLoading ? (
           <Skeleton variant="text" />
-        ) : (
-          <Label
-            variant={theme.palette.mode === 'light' ? 'ghost' : 'filled'}
-            color={
-              (row?.status === 'paid' && 'success') ||
-              (row?.status === 'hold' && 'error') ||
-              (row?.status === 'pending' && 'info') ||
-              'error'
-            }
-          >
-            {row.status}
-          </Label>
-        )}
+        ) : 
+            row.status
+
+        }
       </TableCell>
       <TableCell>{isLoading ? <Skeleton variant="text" /> : <>{fDateShort(row.date).slice(3)}</>}</TableCell>
 

@@ -21,6 +21,8 @@ import axios from 'axios';
 import { Form, FormikProvider, useFormik } from 'formik';
 // api
 import * as api from 'src/services';
+import uploadToSpaces from 'src/utils/upload';
+
 
 CreateShopSettingFrom.propTypes = {
   data: PropTypes.object,
@@ -64,8 +66,6 @@ export default function CreateShopSettingFrom() {
     logo: Yup.mixed().required('logo is required'),
     slug: Yup.string().required('Slug is required'),
     description: Yup.string().required('Description is required'),
-    metaTitle: Yup.string().required('Meta title is required'),
-    metaDescription: Yup.string().required('Meta description is required'),
     phone: Yup.string().required('Phone Number is required'),
     paymentInfo: Yup.object().shape({
       holderName: Yup.string().required('Holder Name is required'),
@@ -82,11 +82,9 @@ export default function CreateShopSettingFrom() {
   const formik = useFormik({
     initialValues: {
       title: '',
-      metaTitle: '',
       cover: null,
       logo: null,
       description: '',
-      metaDescription: '',
       file: '',
       slug: '',
       phone: '',
@@ -119,77 +117,136 @@ export default function CreateShopSettingFrom() {
   });
   const { errors, values, touched, handleSubmit, setFieldValue, getFieldProps } = formik;
   // handle drop logo
-  const handleDropLogo = async (acceptedFiles) => {
-    setstate({ ...state, loading: 2 });
-    const file = acceptedFiles[0];
-    if (file) {
-      Object.assign(file, {
-        preview: URL.createObjectURL(file)
-      });
-    }
-    setFieldValue('file', file);
-    const formData = new FormData();
-    formData.append('file', file);
-    formData.append('upload_preset', 'my-uploads');
-    const config = {
-      onUploadProgress: (progressEvent) => {
-        const { loaded, total } = progressEvent;
-        const percentage = Math.floor((loaded * 100) / total);
-        setstate({ ...state, logoLoading: percentage });
+  // const handleDropLogo = async (acceptedFiles) => {
+  //   setstate({ ...state, loading: 2 });
+  //   const file = acceptedFiles[0];
+  //   if (file) {
+  //     Object.assign(file, {
+  //       preview: URL.createObjectURL(file)
+  //     });
+  //   }
+  //   setFieldValue('file', file);
+  //   const formData = new FormData();
+  //   formData.append('file', file);
+  //   formData.append('upload_preset', 'my-uploads');
+  //   const config = {
+  //     onUploadProgress: (progressEvent) => {
+  //       const { loaded, total } = progressEvent;
+  //       const percentage = Math.floor((loaded * 100) / total);
+  //       setstate({ ...state, logoLoading: percentage });
+  //     }
+  //   };
+  //   await axios
+  //     .post(`https://api.cloudinary.com/v1_1/${process.env.CLOUDINARY_CLOUD_NAME}/image/upload`, formData, config)
+  //     .then(({ data }) => {
+  //       setFieldValue('logo', {
+  //         _id: data.public_id,
+  //         url: data.secure_url
+  //       });
+  //       setstate({ ...state, loading: false });
+  //     })
+  //     .then(() => {
+  //       // if (values.file) {
+  //       //   deleteMutate(values.logo._id);
+  //       // }
+  //       setstate({ ...state, loading: false });
+  //     });
+  // };
+
+
+   const handleDropLogo = async (acceptedFiles) => {
+      setstate({ ...state, loading: 2 });
+      const file = acceptedFiles[0];
+      if (file) {
+        Object.assign(file, {
+          preview: URL.createObjectURL(file)
+        });
+      }
+      setFieldValue('file', file);
+      try {
+        const uploaded = await uploadToSpaces(file, (progress) => {
+          setstate({ ...state, loading: progress });
+        });
+  
+        setFieldValue('logo', uploaded);
+  
+        if (values.file && values.logo?._id) {
+          deleteMutate(values.logo._id);
+        }
+  
+        setstate({ ...state, loading: false });
+      } catch (err) {
+        console.error('Upload failed:', err);
+        setstate({ ...state, loading: false });
       }
     };
-    await axios
-      .post(`https://api.cloudinary.com/v1_1/${process.env.CLOUDINARY_CLOUD_NAME}/image/upload`, formData, config)
-      .then(({ data }) => {
-        setFieldValue('logo', {
-          _id: data.public_id,
-          url: data.secure_url
-        });
-        setstate({ ...state, loading: false });
-      })
-      .then(() => {
-        // if (values.file) {
-        //   deleteMutate(values.logo._id);
-        // }
-        setstate({ ...state, loading: false });
-      });
-  };
+
+
   // handle drop cover
-  const handleDropCover = async (acceptedFiles) => {
-    setstate({ ...state, loading: 2 });
-    const file = acceptedFiles[0];
-    if (file) {
-      Object.assign(file, {
-        preview: URL.createObjectURL(file)
-      });
-    }
-    setFieldValue('file', file);
-    const formData = new FormData();
-    formData.append('file', file);
-    formData.append('upload_preset', 'my-uploads');
-    const config = {
-      onUploadProgress: (progressEvent) => {
-        const { loaded, total } = progressEvent;
-        const percentage = Math.floor((loaded * 100) / total);
-        setstate({ ...state, loading: percentage });
+  // const handleDropCover = async (acceptedFiles) => {
+  //   setstate({ ...state, loading: 2 });
+  //   const file = acceptedFiles[0];
+  //   if (file) {
+  //     Object.assign(file, {
+  //       preview: URL.createObjectURL(file)
+  //     });
+  //   }
+  //   setFieldValue('file', file);
+  //   const formData = new FormData();
+  //   formData.append('file', file);
+  //   formData.append('upload_preset', 'my-uploads');
+  //   const config = {
+  //     onUploadProgress: (progressEvent) => {
+  //       const { loaded, total } = progressEvent;
+  //       const percentage = Math.floor((loaded * 100) / total);
+  //       setstate({ ...state, loading: percentage });
+  //     }
+  //   };
+  //   await axios
+  //     .post(`https://api.cloudinary.com/v1_1/${process.env.CLOUDINARY_CLOUD_NAME}/image/upload`, formData, config)
+  //     .then(({ data }) => {
+  //       setFieldValue('cover', {
+  //         _id: data.public_id,
+  //         url: data.secure_url
+  //       });
+  //       setstate({ ...state, loading: false });
+  //     })
+  //     .then(() => {
+  //       // if (values.file) {
+  //       //   deleteMutate(values.cover._id);
+  //       // }
+  //       setstate({ ...state, loading: false });
+  //     });
+  // };
+
+    const handleDropCover = async (acceptedFiles) => {
+      setstate({ ...state, loading: 2 });
+      const file = acceptedFiles[0];
+      if (file) {
+        Object.assign(file, {
+          preview: URL.createObjectURL(file)
+        });
+      }
+      setFieldValue('file', file);
+      try {
+        const uploaded = await uploadToSpaces(file, (progress) => {
+          setstate({ ...state, loading: progress });
+        });
+  
+        setFieldValue('cover', uploaded);
+  
+        if (values.file && values.cover?._id) {
+          deleteMutate(values.cover._id);
+        }
+  
+        setstate({ ...state, loading: false });
+      } catch (err) {
+        console.error('Upload failed:', err);
+        setstate({ ...state, loading: false });
       }
     };
-    await axios
-      .post(`https://api.cloudinary.com/v1_1/${process.env.CLOUDINARY_CLOUD_NAME}/image/upload`, formData, config)
-      .then(({ data }) => {
-        setFieldValue('cover', {
-          _id: data.public_id,
-          url: data.secure_url
-        });
-        setstate({ ...state, loading: false });
-      })
-      .then(() => {
-        // if (values.file) {
-        //   deleteMutate(values.cover._id);
-        // }
-        setstate({ ...state, loading: false });
-      });
-  };
+
+
   const handleTitleChange = (event) => {
     const title = event.target.value;
     const slug = title
@@ -202,16 +259,58 @@ export default function CreateShopSettingFrom() {
 
   return (
     <Box position="relative">
-      <Typography variant="h2" color="text-primary" textAlign="center" py={6}>
+      <Typography variant="h2" color="text-primary" py={6}>
         Create Shop
       </Typography>
       <FormikProvider value={formik}>
         <Form noValidate autoComplete="off" onSubmit={handleSubmit}>
           <Grid container spacing={2}>
-            <Grid item xs={12} md={8}>
+            <Grid item sx={{
+              width: {
+                xs: '100%', // mobile
+                md: '60%'   // desktop
+              }
+            }}>
               <Card sx={{ p: 3 }}>
                 <Stack direction="row" spacing={3} flexGrow="wrap">
+                 
                   <Box sx={{ width: '100%' }}>
+                    <div>
+                      <LabelStyle component={'label'} htmlFor="title">
+                        Title
+                      </LabelStyle>
+
+                      <TextField
+                        id="title"
+                        fullWidth
+                        {...getFieldProps('title')}
+                        onChange={handleTitleChange} // add onChange handler for title
+                        error={Boolean(touched.title && errors.title)}
+                        helperText={touched.title && errors.title}
+                        sx={{ mt: 1 }}
+                      />
+                    </div>
+                  </Box>
+                </Stack>
+                <Stack mt={3} spacing={3} direction="row" flexGrow="wrap">
+                  <Box sx={{ width: '100%' }}>
+                    <LabelStyle component={'label'} htmlFor="description">
+                      {' '}
+                      {'Description'}{' '}
+                    </LabelStyle>
+
+                    <TextField
+                      fullWidth
+                      id="description"
+                      {...getFieldProps('description')}
+                      error={Boolean(touched.description && errors.description)}
+                      helperText={touched.description && errors.description}
+                      rows={9}
+                      multiline
+                    />
+                  </Box>
+                </Stack>
+                 <Box mt={3}>
                     <Stack direction="row" justifyContent="space-between">
                       <LabelStyle variant="body1" component={'label'} color="text.primary">
                         Logo
@@ -238,85 +337,6 @@ export default function CreateShopSettingFrom() {
                       </FormHelperText>
                     )}
                   </Box>
-                  <Box sx={{ width: '100%' }}>
-                    <div>
-                      <LabelStyle component={'label'} htmlFor="title">
-                        Title
-                      </LabelStyle>
-
-                      <TextField
-                        id="title"
-                        fullWidth
-                        {...getFieldProps('title')}
-                        onChange={handleTitleChange} // add onChange handler for title
-                        error={Boolean(touched.title && errors.title)}
-                        helperText={touched.title && errors.title}
-                        sx={{ mt: 1 }}
-                      />
-                    </div>
-                    <div>
-                      <LabelStyle component={'label'} htmlFor="slug">
-                        {' '}
-                        {'Slug'}
-                      </LabelStyle>
-
-                      <TextField
-                        fullWidth
-                        id="slug"
-                        {...getFieldProps('slug')}
-                        error={Boolean(touched.slug && errors.slug)}
-                        helperText={touched.slug && errors.slug}
-                      />
-                    </div>
-                    <div>
-                      <LabelStyle component={'label'} htmlFor="meta-title">
-                        {'Meta Title'}
-                      </LabelStyle>
-
-                      <TextField
-                        id="meta-title"
-                        fullWidth
-                        {...getFieldProps('metaTitle')}
-                        error={Boolean(touched.metaTitle && errors.metaTitle)}
-                        helperText={touched.metaTitle && errors.metaTitle}
-                      />
-                    </div>
-                  </Box>
-                </Stack>
-                <Stack mt={3} spacing={3} direction="row" flexGrow="wrap">
-                  <Box sx={{ width: '100%' }}>
-                    <LabelStyle component={'label'} htmlFor="description">
-                      {' '}
-                      {'Description'}{' '}
-                    </LabelStyle>
-
-                    <TextField
-                      fullWidth
-                      id="description"
-                      {...getFieldProps('description')}
-                      error={Boolean(touched.description && errors.description)}
-                      helperText={touched.description && errors.description}
-                      rows={9}
-                      multiline
-                    />
-                  </Box>
-                  <Box sx={{ width: '100%' }}>
-                    <LabelStyle component={'label'} htmlFor="meta-description">
-                      {' '}
-                      {'Meta Description'}{' '}
-                    </LabelStyle>
-
-                    <TextField
-                      id="meta-description"
-                      fullWidth
-                      {...getFieldProps('metaDescription')}
-                      error={Boolean(touched.metaDescription && errors.metaDescription)}
-                      helperText={touched.metaDescription && errors.metaDescription}
-                      rows={9}
-                      multiline
-                    />
-                  </Box>
-                </Stack>
                 <Box mt={3}>
                   <Stack direction="row" justifyContent="space-between">
                     <LabelStyle variant="body1" component={'label'} color="text.primary">
@@ -346,7 +366,12 @@ export default function CreateShopSettingFrom() {
                 </Box>{' '}
               </Card>
             </Grid>
-            <Grid item xs={12} md={4}>
+            <Grid item sx={{
+              width: {
+                xs: '100%', // mobile
+                md: '30%'   // desktop
+              }
+            }}>
               <div
                 style={{
                   position: '-webkit-sticky',
@@ -359,7 +384,7 @@ export default function CreateShopSettingFrom() {
                     <Stack spacing={2}>
                       <div>
                         <LabelStyle component={'label'} htmlFor="holder-name">
-                          Holder Name
+                          Full Name
                         </LabelStyle>
 
                         <TextField
@@ -372,7 +397,7 @@ export default function CreateShopSettingFrom() {
                       </div>
                       <div>
                         <LabelStyle component={'label'} htmlFor="holder-email">
-                          Holder Email
+                          Email
                         </LabelStyle>
 
                         <TextField

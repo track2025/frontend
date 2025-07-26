@@ -178,7 +178,12 @@ export default function AccountGeneral() {
     <FormikProvider value={formik}>
       <Form autoComplete="off" noValidate onSubmit={handleSubmit}>
         <Grid container spacing={3} mt={3}>
-          <Grid item xs={12} md={4}>
+          <Grid item sx={{
+              width: {
+                xs: '100%', // mobile
+                md: '30%'   // desktop
+              }
+            }}>
             <Card sx={{ py: 11.8, px: 3, textAlign: 'center' }}>
               {isLoading || avatarLoading || loadingUpload ? (
                 <Stack alignItems="center">
@@ -237,7 +242,12 @@ export default function AccountGeneral() {
             </Card>
           </Grid>
 
-          <Grid item xs={12} md={8}>
+          <Grid item sx={{
+              width: {
+                xs: '100%', // mobile
+                md: '60%'   // desktop
+              }
+            }}>
             <Card
               sx={{
                 p: 3,

@@ -274,7 +274,12 @@ const CheckoutMain = () => {
       <Form autoComplete="off" noValidate onSubmit={handleSubmit}>
         <Box py={5}>
           <Grid container spacing={2}>
-            <Grid item xs={12} md={8}>
+            <Grid item sx={{
+              width: {
+                xs: '100%', // mobile
+                md: '60%'   // desktop
+              }
+            }}>
               <CheckoutForm
                 getFieldProps={getFieldProps}
                 touched={touched}
@@ -287,7 +292,12 @@ const CheckoutMain = () => {
                 <ShipmentCheckoutForm getFieldProps={getFieldProps} touched={touched} errors={errors} />
               </Collapse>
             </Grid>
-            <Grid item xs={12} md={4}>
+            <Grid item sx={{
+              width: {
+                xs: '100%', // mobile
+                md: '30%'   // desktop
+              }
+            }}>
               <CartItemsCard cart={cart} loading={loading} />
               <PaymentInfo loading={loading} setCouponCode={setCouponCode} setTotal={(v) => setTotalWithDiscount(v)} />
               <PaymentMethodCard

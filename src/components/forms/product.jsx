@@ -358,7 +358,12 @@ export default function ProductForm({
                     <div>
                       <Grid container spacing={2}>
                         {isVendor ? null : (
-                          <Grid item xs={12} md={6}>
+                          <Grid item sx={{
+                            width: {
+                              xs: '100%', // mobile
+                              md: '100%'   // desktop
+                            }
+                          }}>
                             <FormControl fullWidth>
                               {isInitialized ? (
                                 <Skeleton variant="text" width={100} />
@@ -385,7 +390,12 @@ export default function ProductForm({
                           </Grid>
                         )}
 
-                        <Grid item xs={12} md={6}>
+                        <Grid item sx={{
+                            width: {
+                              xs: '100%', // mobile
+                              md: '100%'   // desktop
+                            }
+                          }}>
                           <FormControl fullWidth>
                             {isInitialized ? (
                               <Skeleton variant="text" width={100} />
@@ -419,7 +429,12 @@ export default function ProductForm({
                             )}
                           </FormControl>
                         </Grid>
-                        <Grid item xs={12} md={6}>
+                        <Grid item sx={{
+                            width: {
+                              xs: '100%', // mobile
+                              md: '100%'   // desktop
+                            }
+                          }}>
                           <FormControl fullWidth>
                             {isInitialized ? (
                               <Skeleton variant="text" width={100} />
@@ -455,7 +470,12 @@ export default function ProductForm({
                             )}
                           </FormControl>
                         </Grid>
-                        <Grid item xs={12} md={6}>
+                        <Grid item sx={{
+                            width: {
+                              xs: '100%', // mobile
+                              md: '100%'   // desktop
+                            }
+                          }}>
                           <FormControl fullWidth>
                             {isInitialized ? (
                               <Skeleton variant="text" width={100} />
@@ -481,7 +501,12 @@ export default function ProductForm({
                           </FormControl>
                         </Grid>
 
-                        <Grid item xs={12} md={12}>
+                        <Grid item sx={{
+                            width: {
+                              xs: '100%', // mobile
+                              md: '100%'   // desktop
+                            }
+                          }}>
                           <div>
                             <LabelStyle component={'label'} htmlFor="product-image">
                               {'Pictures/Videos'} <span>1080 * 1080</span>
@@ -512,7 +537,12 @@ export default function ProductForm({
                 </Card>
               </Stack>
             </Grid>
-            <Grid item xs={12} md={5}>
+            <Grid item sx={{
+                            width: {
+                              xs: '100%', // mobile
+                              md: '30%'   // desktop
+                            }
+                          }}>
               <Card sx={{ p: 3 }}>
                 <Stack spacing={3} pb={1}>
 

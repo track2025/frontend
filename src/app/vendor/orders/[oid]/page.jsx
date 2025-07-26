@@ -47,10 +47,20 @@ export default function Page({ params }) {
       />
       <Container maxWidth="xl">
         <Grid container direction={{ xs: 'row', md: 'row-reverse' }} spacing={2}>
-          <Grid item xs={12} md={4}>
+          <Grid item sx={{
+              width: {
+                xs: '100%', // mobile
+                md: '30%'   // desktop
+              }
+            }}>
             <OrderDetails data={data?.data} isLoading={isLoading} currency={'$'} />
           </Grid>
-          <Grid item xs={12} md={8}>
+          <Grid item sx={{
+              width: {
+                xs: '100%', // mobile
+                md: '60%'   // desktop
+              }
+            }}>
             <TableCard data={data?.data} isLoading={isLoading} />
           </Grid>
         </Grid>

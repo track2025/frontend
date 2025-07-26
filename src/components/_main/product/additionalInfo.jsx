@@ -12,7 +12,12 @@ export default function AdditionalInfo() {
   return (
     <Grid container spacing={3}>
       {PRODUCT_DESCRIPTION.map((item) => (
-        <Grid item xs={12} md={4} key={item.title}>
+        <Grid item sx={{
+              width: {
+                xs: '100%', // mobile
+                md: '30%'   // desktop
+              }
+            }} key={item.title}>
           <Card
             sx={{
               borderRadius: '8px',
