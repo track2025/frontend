@@ -6,9 +6,9 @@ import AddCategory from 'src/components/_admin/categories/addCategory';
 
 // Meta information
 export const metadata = {
-  title: 'Add Vehicle Make - Nextall',
-  applicationName: 'Nextall',
-  authors: 'Nextall'
+  title: 'Add Vehicle Make - RaceTrackRegistry',
+  applicationName: 'RaceTrackRegistry',
+  authors: 'RaceTrackRegistry'
 };
 
 export default function page() {

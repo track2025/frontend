@@ -97,13 +97,13 @@ export default function ShopDetailCover({ data, isLoading, isUser, page }) {
                   <Typography
                     variant="body1"
                     component={NextLink}
-                    href={page}
+                    href={'/photographers'}
                     color="common.white"
                     sx={{
                       textTransform: 'capitalize'
                     }}
                   >
-                    {page}
+                    Photographers
                   </Typography>
                   <IoIosArrowForward size={12} />
                   <Typography variant="body1">{data?.title || data?.name}</Typography>

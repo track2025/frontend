@@ -9,9 +9,9 @@ import * as api from 'src/services';
 
 // Meta information
 export const metadata = {
-  title: 'Products - Nextall',
-  applicationName: 'Nextall',
-  authors: 'Nextall'
+  title: 'Products - RaceTrackRegistry',
+  applicationName: 'RaceTrackRegistry',
+  authors: 'RaceTrackRegistry'
 };
 
 export default async function AdminProducts() {

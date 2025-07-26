@@ -6,9 +6,9 @@ import HeaderBreadcrumbs from 'src/components/headerBreadcrumbs';
 
 // Meta information
 export const metadata = {
-  title: 'Photographers - Nextall',
-  applicationName: 'Nextall',
-  authors: 'Nextall'
+  title: 'Photographers - RaceTrackRegistry',
+  applicationName: 'RaceTrackRegistry',
+  authors: 'RaceTrackRegistry'
 };
 
 export default async function AdminProducts() {

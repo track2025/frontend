@@ -249,7 +249,7 @@ export default function Footer() {
         </Grid>
         <Divider sx={{ my: 3 }} />
         <Typography variant="body1" color="text.primary" textAlign="center">
-          © 2024 Nextall. All rights reserved
+          © 2024 RaceTrackRegistry. All rights reserved
         </Typography>
       </Container>
     </Box>

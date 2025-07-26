@@ -12,9 +12,9 @@ import BreadcrumbsSkeleton from 'src/components/_main/skeletons/products/breadcr
 
 // Meta information
 export const metadata = {
-  title: 'Change Password | Nextall - Update Your Account Password Securely',
-  applicationName: 'Nextall',
-  authors: 'Nextall'
+  title: 'Change Password | RaceTrackRegistry - Update Your Account Password Securely',
+  applicationName: 'RaceTrackRegistry',
+  authors: 'RaceTrackRegistry'
 };
 
 // components

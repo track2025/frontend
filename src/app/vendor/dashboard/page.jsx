@@ -5,11 +5,11 @@ import Dashboard from 'src/components/_admin/dashboard';
 
 // Meta information
 export const metadata = {
-  title: 'Nextall - Dashboard',
-  description: 'Welcome to the Nextall Dashboard. Manage your e-commerce operations with ease.',
-  applicationName: 'Nextall Dashboard',
-  authors: 'Nextall',
-  keywords: 'dashboard, e-commerce, management, Nextall',
+  title: 'RaceTrackRegistry - Dashboard',
+  description: 'Welcome to the RaceTrackRegistry Dashboard. Manage your e-commerce operations with ease.',
+  applicationName: 'RaceTrackRegistry Dashboard',
+  authors: 'RaceTrackRegistry',
+  keywords: 'dashboard, e-commerce, management, RaceTrackRegistry',
   icons: {
     icon: '/favicon.png'
   }

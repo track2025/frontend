@@ -8,9 +8,9 @@ import AddSubCategory from 'src/components/_admin/subCategories/addCategory';
 import * as api from 'src/services';
 
 export const metadata = {
-  title: 'Add Vehicle Model - Nextall',
-  applicationName: 'Nextall',
-  authors: 'Nextall'
+  title: 'Add Vehicle Model - RaceTrackRegistry',
+  applicationName: 'RaceTrackRegistry',
+  authors: 'RaceTrackRegistry'
 };
 
 export default async function page() {

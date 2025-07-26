@@ -8,12 +8,12 @@ import LoginMain from 'src/components/_main/auth/login';
 
 // Meta information
 export const metadata = {
-  title: 'Login to Nextall | Your Gateway to Seamless Shopping and Secure Transactions',
+  title: 'Login to RaceTrackRegistry | Your Gateway to Seamless Shopping and Secure Transactions',
   description:
-    'Log in to Nextall for secure access to your account. Enjoy seamless shopping, personalized experiences, and hassle-free transactions. Your trusted portal to a world of convenience awaits. Login now!',
-  applicationName: 'Nextall',
-  authors: 'Nextall',
-  keywords: 'ecommerce, Nextall, Commerce, Login Nextall, LoginFrom Nextall'
+    'Log in to RaceTrackRegistry for secure access to your account. Enjoy seamless shopping, personalized experiences, and hassle-free transactions. Your trusted portal to a world of convenience awaits. Login now!',
+  applicationName: 'RaceTrackRegistry',
+  authors: 'RaceTrackRegistry',
+  keywords: 'ecommerce, RaceTrackRegistry, Commerce, Login RaceTrackRegistry, LoginFrom RaceTrackRegistry'
 };
 
 export default async function Login() {

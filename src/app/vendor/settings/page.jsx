@@ -6,9 +6,9 @@ import AccountGeneral from 'src/components/_main/profile/edit/accountGeneral';
 
 // Meta information
 export const metadata = {
-  title: 'Setting - Nextall',
-  applicationName: 'Nextall',
-  authors: 'Nextall'
+  title: 'Setting - RaceTrackRegistry',
+  applicationName: 'RaceTrackRegistry',
+  authors: 'RaceTrackRegistry'
 };
 export default function page() {
   return (

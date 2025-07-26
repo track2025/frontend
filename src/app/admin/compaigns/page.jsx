@@ -6,9 +6,9 @@ import HeaderBreadcrumbs from 'src/components/headerBreadcrumbs';
 
 // Meta information
 export const metadata = {
-  title: 'Compaigns - Nextall',
-  applicationName: 'Nextall',
-  authors: 'Nextall'
+  title: 'Compaigns - RaceTrackRegistry',
+  applicationName: 'RaceTrackRegistry',
+  authors: 'RaceTrackRegistry'
 };
 export default function Compaigns() {
   return (

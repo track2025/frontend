@@ -11,12 +11,12 @@ import ActionBar from 'src/layout/_main/actionbar';
 
 // Meta information
 export const metadata = {
-  title: 'Nextall E-commerce Script | Your Gateway to Seamless Shopping and Secure Transactions',
+  title: 'RaceTrackRegistry | Your Gateway to Seamless Car Race Photos and Videos',
   description:
-    'Log in to Nextall for secure access to your account. Enjoy seamless shopping, personalized experiences, and hassle-free transactions. Your trusted portal to a world of convenience awaits. Login now!',
-  applicationName: 'Nextall',
-  authors: 'Nextall',
-  keywords: 'ecommerce, Nextall, Commerce, Login Nextall, LoginFrom Nextall',
+    'Log in to RaceTrackRegistry for secure access to your account. Enjoy seamless car race photo and video shopping, personalized experiences, and hassle-free transactions. Your trusted portal to a world of convenience awaits. Login now!',
+  applicationName: 'RaceTrackRegistry',
+  authors: 'RaceTrackRegistry',
+  keywords: 'race, track, fast cars, RaceTrackRegistry, Commerce, RaceTrackRegistry,  RaceTrackRegistry',
   icons: {
     icon: '/favicon.png'
   },

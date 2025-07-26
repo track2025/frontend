@@ -5,9 +5,9 @@ import AddBrand from 'src/components/_admin/brands/addBrand';
 import HeaderBreadcrumbs from 'src/components/headerBreadcrumbs';
 
 export const metadata = {
-  title: 'Add Track Location - Nextall',
-  applicationName: 'Nextall',
-  authors: 'Nextall'
+  title: 'Add Track Location - RaceTrackRegistry',
+  applicationName: 'RaceTrackRegistry',
+  authors: 'RaceTrackRegistry'
 };
 
 export default function page() {
