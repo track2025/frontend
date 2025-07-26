@@ -73,7 +73,7 @@ export default function ShopProductCard({ ...props }) {
     }
   });
 
-  const { name, slug, image, _id, averageRating } = !loading && product;
+  const { name, slug, image, _id, averageRating, priceSale } = !loading && product;
   const linkTo = `/product/${slug ? slug : ''}`;
 
   const onClickWishList = async (event) => {
@@ -97,6 +97,7 @@ export default function ShopProductCard({ ...props }) {
     toast.success('Removed from compare list');
     dispatch(removeCompareProduct(_id));
   };
+  
   return (
     <Card
       onMouseEnter={() => !isLoading && setOpenActions(true)}
@@ -138,7 +139,7 @@ export default function ShopProductCard({ ...props }) {
             bgcolor: isLoading || loading ? 'transparent' : 'common.white',
             position: 'relative',
             cursor: 'pointer',
-            height:'140px',
+            height:'170px',
             '&:after': {
               content: `""`,
               display: 'block',
@@ -266,25 +267,36 @@ export default function ShopProductCard({ ...props }) {
           }
         }}
       >
-        <Box sx={{ display: 'grid' }}>
-          {' '}
-          <Typography
-            sx={{
-              cursor: 'pointer',
-              textTransform: 'capitalize'
-              // fontWeight: 500,
-            }}
-            {...(product?.available > 0 && {
-              component: Link,
-              href: linkTo
-            })}
-            variant={'subtitle1'}
-            noWrap
-          >
-            {loading ? <Skeleton variant="text" width={120} /> : name}
-          </Typography>
-        </Box>
-        <Stack direction="row" alignItems="center" justifyContent="space-between" spacing={1}>
+       <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+        <Typography
+          sx={{
+            cursor: 'pointer',
+            textTransform: 'capitalize'
+          }}
+          {...(product?.available > 0 && {
+            component: Link,
+            href: linkTo
+          })}
+          variant="subtitle1"
+          noWrap
+        >
+          {loading ? <Skeleton variant="text" width={120} /> : name}
+        </Typography>
+
+        <Typography
+          variant="subtitle1"
+          sx={{ fontWeight: 'bold' }}
+        >
+          {loading ? (
+            <Skeleton variant="text" width={60} />
+          ) : (
+            `$${Number(priceSale).toFixed(2)}`
+          )}
+        </Typography>
+      </Box>
+
+
+        {/* <Stack direction="row" alignItems="center" justifyContent="space-between" spacing={1}>
           <Typography
             variant="subtitle2"
             color="text.primary"
@@ -307,7 +319,7 @@ export default function ShopProductCard({ ...props }) {
           ) : (
             <ColorPreviewGroup limit={3} colors={product?.colors} sx={{ minWidth: 72 }} />
           )}
-        </Stack>
+        </Stack> */}
 
         {/* <Stack spacing={0.5} direction="row" justifyContent={'space-between'} alignItems="center">
           <Typography

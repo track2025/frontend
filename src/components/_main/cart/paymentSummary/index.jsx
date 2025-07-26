@@ -44,7 +44,7 @@ export default function PaymentSummary({ loading, cart }) {
               {loading ? <Skeleton variant="text" width={80} /> : fCurrency(cCurrency(subtotal))}
             </Typography>
           </Stack>
-          <Stack direction="row" alignItem="center" justifyContent="space-between" spacing={2}>
+          {/* <Stack direction="row" alignItem="center" justifyContent="space-between" spacing={2}>
             <Typography variant="subtitle2" color="text.secondary">
               Shipping:
             </Typography>
@@ -57,7 +57,7 @@ export default function PaymentSummary({ loading, cart }) {
                 fCurrency(cCurrency(parseInt(shipping)))
               )}
             </Typography>
-          </Stack>
+          </Stack> */}
         </Stack>
         <Divider />
         <Stack direction="row" alignItem="center" justifyContent="space-between" spacing={2} mt={2}>

@@ -229,8 +229,8 @@ export default function ProductDetailsSumary({ ...props }) {
     <RootStyled>
       <FormikProvider value={formik}>
         <Form autoComplete="off" noValidate onSubmit={handleSubmit}>
-          <Grid container spacing={2}>
-            <Grid item xs={12} md={7}>
+          <Grid container className="row">
+            <Grid item xs={12} md={7} className="col-12 col-md-7">
               <Card sx={{ p: 2 }}>
                 <Typography noWrap variant="h4" paragraph className="heading">
                   {product?.name}
@@ -281,7 +281,7 @@ export default function ProductDetailsSumary({ ...props }) {
                 <Typography variant="body1"> {product?.description}</Typography> */}
               </Card>
             </Grid>
-            <Grid item xs={12} md={5}>
+            <Grid item xs={12} md={5} className="col-12 col-md-5">
               <Card sx={{ p: 2, position: 'sticky', top: 156 }}>
                 <Typography variant="h4" className="text-price">
                   {!isLoading && isLoaded && fCurrency(cCurrency(product?.priceSale))} &nbsp;
