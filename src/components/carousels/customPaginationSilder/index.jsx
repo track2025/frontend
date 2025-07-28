@@ -82,8 +82,8 @@ export default function CarouselAnimation({ ...props }) {
   };
 
   return (
-    <RootStyled>
-      <div className="carousel-wrap">
+    <RootStyled className='mb-3'>
+      <div className="carousel-wrap ">
         <AnimatePresence initial={false} custom={direction}>
           <motion.div
             className="motion-dev"
@@ -112,7 +112,7 @@ export default function CarouselAnimation({ ...props }) {
             <ProductDetailsCarousel item={images[imageIndex]} />
           </motion.div>
         </AnimatePresence>
-        <Stack
+        {/* <Stack
           direction="row"
           justifyContent={images.length < 6 ? 'center' : 'left'}
           spacing={1}
@@ -138,7 +138,7 @@ export default function CarouselAnimation({ ...props }) {
               />
             </Box>
           ))}
-        </Stack>
+        </Stack> */}
       </div>
     </RootStyled>
   );
