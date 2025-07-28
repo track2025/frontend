@@ -47,14 +47,14 @@ export default function CartProductList({ ...props }) {
         <TableHead>
           <TableRow className="table-head-row">
             <TableCell>{isLoading ? <Skeleton variant="text" width={100} /> : 'Product'}</TableCell>
-            <TableCell align="center">
+            {/* <TableCell align="center">
               {isLoading ? <Skeleton variant="text" width={80} sx={{ mx: 'auto' }} /> : 'Price'}
-            </TableCell>
-            <TableCell align="center">
+            </TableCell> */}
+            {/* <TableCell align="center">
               {isLoading ? <Skeleton variant="text" width={80} sx={{ mx: 'auto' }} /> : 'Quantity'}
-            </TableCell>
+            </TableCell> */}
 
-            <TableCell align="center">
+            <TableCell align="left">
               {isLoading ? <Skeleton variant="text" width={63} sx={{ mx: 'auto' }} /> : 'Total Price'}
             </TableCell>
             <TableCell align="right">
@@ -90,7 +90,7 @@ export default function CartProductList({ ...props }) {
                         {isLoading ? <Skeleton variant="text" width={150} /> : name}
                       </Typography>
 
-                      <Stack>
+                      {/* <Stack>
                         <Stack direction="row" gap={2}>
                           {isLoading ? (
                             <Skeleton variant="text" width={60} />
@@ -107,11 +107,11 @@ export default function CartProductList({ ...props }) {
                             </Typography>
                           )}
                         </Stack>
-                      </Stack>
+                      </Stack> */}
                     </Box>
                   </Box>
                 </TableCell>
-                <TableCell>
+                {/* <TableCell>
                   {isLoading ? (
                     <Skeleton variant="text" width={52} sx={{ mx: 'auto' }} />
                   ) : (
@@ -119,8 +119,8 @@ export default function CartProductList({ ...props }) {
                       ${price}
                     </Typography>
                   )}
-                </TableCell>
-                <TableCell
+                </TableCell> */}
+                {/* <TableCell
                   align="center"
                   sx={{
                     '& > div': {
@@ -141,8 +141,8 @@ export default function CartProductList({ ...props }) {
                       onIncrease={() => onIncreaseQuantity(sku)}
                     />
                   )}
-                </TableCell>
-                <TableCell align="center">
+                </TableCell> */}
+                <TableCell align="left">
                   {isLoading ? (
                     <Skeleton variant="text" width={52} sx={{ mx: 'auto' }} />
                   ) : (

@@ -106,88 +106,89 @@ export default function Index() {
           </Grid>
           {/* card 2  */}
           <Grid item lg={6} md={6} xs={12} sm={6} className="col-md-6 mb-3 mb-md-0">
-            <Card
-              sx={{
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'space-between',
-                borderRadius: '12px',
-                height: '100%',
-                py: { xs: 0, md: 3 },
-                px: { lg: 3, md: 1, xs: 1 },
-                position: 'relative'
-              }}
-            >
-              <Image
+         <Card
+        sx={{
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'space-between',
+          borderRadius: '12px',
+          height: '100%',
+          px: { lg: 3, md: 1 },
+          position: 'relative'
+        }}
+
+        >
+          <Image
                 draggable="false"
                 src={banner2Img}
-                alt="banner-1"
+                alt="banner-2"
                 placeholder="blur"
                 layout="fill"
                 static
                 sizes="100vw"
                 objectFit="cover"
               />
+          {/* Left Content */}
+          <Stack spacing={isDeskTop ? 1 : 1.5} sx={{ p: { sm: '24px', xs: '12px' }, zIndex: 1, flex: 0 }}>
+            <Typography
+              variant={'h4'}
+              lineHeight={1.3}
+              sx={{
+                width: {
+                  xl: '320px !important',
+                  lg: '300px !important',
+                  md: '220px !important',
+                  xs: '170px !important'
+                },
+                fontSize: {
+                  xl: 38,
+                  lg: 38,
+                  md: 28,
+                  sm: 20,
+                  xs: 20
+                },
+                color:'#fff',
+              }}
+            >
+              Are you a Photographer?
+            </Typography>
 
-              <Stack spacing={isDeskTop ? 1 : 1.5} sx={{ p: { sm: '24px', xs: '12px', zIndex: 99 } }}>
-                <Typography
-                  variant={'h4'}
-                  lineHeight={1.3}
-                  sx={{
-                    color: "#000000",
-                    width: {
-                      xl: '320px !important',
-                      lg: '300px !important',
-                      md: '220px !important',
-                      xs: '170px !important'
-                    },
-                    fontSize: {
-                      xl: 38,
-                      lg: 38,
-                      md: 28,
-                      sm: 20,
-                      xs: 20
-                    }
-                  }}
-                >
-                  Are you a Photographer?
-                </Typography>
+            <Typography
+              variant={isDeskTop ? 'body1' : 'body2'}
+              mb={2}
+              display={{ md: 'block', xs: 'none' }}
+              width={{ xl: 270 }}
+              color='#fff'
+            >
+              Join our platform to sell your car photographs. Easily upload, manage and track your sales.
+            </Typography>
 
-                <Typography
-                  variant={isDeskTop ? 'body1' : 'body2'}
-                  mb={2}
-                  display={{ md: 'block', xs: 'none' }}
-                  width={{ xl: 270 }}
-                  sx={{
-                    color: "#000000",
+            <Box>
+              <Button
+                component={Link}
+                href="/products"
+                variant="contained"
+                size={isDeskTopBtn ? 'large' : 'small'}
+                sx={{
+                  bgcolor: '#000000',
+                  color: '#ffffff',
+                  borderRadius: 6,
+                  textTransform: 'none',
+                  '&:hover': {
+                    bgcolor: '#1a1a1a',
+                    opacity: 0.9
+                  }
+                }}
+              >
+                View Collection
+              </Button>
+            </Box>
+          </Stack>
 
-                  }}
-                >
-                  Join our platform to sell your car photographs. Easily upload, manage and track your sales.
-                </Typography>
-                <Box>
-                <Button
-                  component={Link}
-                  href="/products"
-                  variant="contained"
-                  size={isDeskTopBtn ? 'large' : 'small'}
-                  sx={{
-                    bgcolor: '#000000',       // black background
-                    color: '#ffffff',         // white text
-                    borderRadius: 6,
-                    textTransform: 'none',
-                    '&:hover': {
-                      bgcolor: '#1a1a1a',     // remain black on hover
-                      opacity: 0.9            // subtle hover effect
-                    }
-                  }}
-                >
-                  View Collection
-                </Button>
 
-                </Box>
-              </Stack>
-            </Card>
+          </Card>
+
+
           </Grid>
         </Grid>
       </Container>
