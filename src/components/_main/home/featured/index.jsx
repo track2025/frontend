@@ -28,7 +28,7 @@ export default function Index() {
           Featured Photos
           </Typography>
           <Typography variant="body1" color="text.secondary" mb={{ xs: 3, md: 5 }}>
-          A curated collection of standout images that capture beauty, emotion, and storytelling at a glance. Explore the shots that define our visual style and celebrate creativity in every frame.
+          A curated showcase of powerful images that capture beauty, emotion, and story in a single frame.
           </Typography>
         </Box>
         <Button
@@ -51,27 +51,11 @@ export default function Index() {
 
       {!isLoading && !Boolean(data?.data.length) ? (
         <Typography variant="h3" color="error.main" textAlign="center">
-          Products not found
+          No Photos yet
         </Typography>
       ) : (
         <ProductsCarousel data={data?.data || []} isLoading={isLoading} />
       )}
-      <Button
-        variant="text"
-        color="#000000"
-        size="small"
-        sx={{
-          borderRadius: 6,
-          mx: 'auto',
-          display: { md: 'none', xs: 'flex' },
-          maxWidth: '120px'
-        }}
-        endIcon={<IoIosArrowForward />}
-        component={NextLink}
-        href={`/vehicle-makes`}
-      >
-        View More
-      </Button>
     </Box>
   );
 }

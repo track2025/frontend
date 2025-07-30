@@ -14,27 +14,27 @@ import { RiExchangeDollarLine } from 'react-icons/ri';
 
 export default function WhyUs() {
   const data = [
-    {
-      title: 'High quality videos and pictures',
-      icon: <AiOutlineCamera size={40} />,
-      description: ' When you spend $100+'
-    },
-    {
-      title: 'Feedbacks',
-      icon: <VscFeedback size={40} />,
-      description: '100% Customer'
-    },
-    {
-      title: 'Secure System',
-      icon: <RiExchangeDollarLine size={40} />,
-      description: '100% Secure Gaurantee'
-    },
-    {
-      title: 'Online Supports',
-      icon: <MdOutlineSupportAgent size={40} />,
-      description: '24/7 Dedicated Support.'
-    }
-  ];
+  {
+    title: 'Capture the Moment',
+    icon: <AiOutlineCamera size={40} />,
+    description: 'Stunning high-res photos and videos of your race — just like pros get.'
+  },
+  {
+    title: 'Loved by Drivers',
+    icon: <VscFeedback size={40} />,
+    description: 'Hundreds of racers trust us to relive their best laps.'
+  },
+  {
+    title: 'Fast & Secure',
+    icon: <RiExchangeDollarLine size={40} />,
+    description: 'Instant delivery, secure payments, no worries.'
+  },
+  {
+    title: 'Always Here',
+    icon: <MdOutlineSupportAgent size={40} />,
+    description: 'Trackside or online — we’ve got your back 24/7.'
+  }
+];
   return (
     <Card
       sx={{

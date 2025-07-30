@@ -20,9 +20,9 @@ const HeaderBreadcrumbs = dynamic(() => import('src/components/headerBreadcrumbs
 
 // Meta information
 export const metadata = {
-  title: 'RaceTrackRegistry - Your Gateway to Seamless Shopping and Secure Transactions',
-  applicationName: 'RaceTrackRegistry',
-  authors: 'RaceTrackRegistry'
+  title: 'Lap Snaps - Your Gateway to Seamless Shopping and Secure Transactions',
+  applicationName: 'Lap Snaps',
+  authors: 'Lap Snaps'
 };
 
 export default function General() {

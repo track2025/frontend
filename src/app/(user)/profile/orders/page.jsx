@@ -18,9 +18,9 @@ const InvoiceHistory = dynamic(() => import('src/components/_main/profile/invoic
 
 // Meta information
 export const metadata = {
-  title: 'Invoice | RaceTrackRegistry - Your Order Details and Payment Confirmation',
-  applicationName: 'RaceTrackRegistry',
-  authors: 'RaceTrackRegistry'
+  title: 'Invoice | Lap Snaps - Your Order Details and Payment Confirmation',
+  applicationName: 'Lap Snaps',
+  authors: 'Lap Snaps'
 };
 
 export default async function OrderPage() {

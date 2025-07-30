@@ -9,13 +9,13 @@ import TableCard from 'src/components/table/order';
 
 // Meta information
 export const metadata = {
-  title: 'Order Confirmation | RaceTrackRegistry - Your Order Has Been Successfully Placed',
+  title: 'Order Confirmation | Lap Snaps - Your Order Has Been Successfully Placed',
   description:
-    'Congratulations! Your order has been successfully placed on RaceTrackRegistry. Thank you for choosing us for your shopping needs. Expect fast processing and delivery. Stay tuned for updates on your order status. Shop more with RaceTrackRegistry!',
-  applicationName: 'RaceTrackRegistry',
-  authors: 'RaceTrackRegistry',
+    'Congratulations! Your order has been successfully placed on Lap Snaps. Thank you for choosing us for your shopping needs. Expect fast processing and delivery. Stay tuned for updates on your order status. Shop more with Lap Snaps!',
+  applicationName: 'Lap Snaps',
+  authors: 'Lap Snaps',
   keywords:
-    'order confirmation, RaceTrackRegistry, order placed, successful order, order processing, order delivery, order status, order updates, fast delivery, shopping confirmation, shopping success, shopping updates, online shopping'
+    'order confirmation, Lap Snaps, order placed, successful order, order processing, order delivery, order status, order updates, fast delivery, shopping confirmation, shopping success, shopping updates, online shopping'
 };
 
 export default async function OrderMain({ params }) {

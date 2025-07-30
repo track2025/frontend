@@ -6,9 +6,9 @@ import HeaderBreadcrumbs from 'src/components/headerBreadcrumbs';
 
 // Meta information
 export const metadata = {
-  title: 'Products - RaceTrackRegistry',
-  applicationName: 'RaceTrackRegistry',
-  authors: 'RaceTrackRegistry'
+  title: 'Products - Lap Snaps',
+  applicationName: 'Lap Snaps',
+  authors: 'Lap Snaps'
 };
 export default async function AdminProducts() {
   return (

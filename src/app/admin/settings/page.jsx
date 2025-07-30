@@ -6,9 +6,9 @@ import AccountGeneral from 'src/components/_main/profile/edit/accountGeneral';
 
 // Meta information
 export const metadata = {
-  title: 'Setting - RaceTrackRegistry',
-  applicationName: 'RaceTrackRegistry',
-  authors: 'RaceTrackRegistry'
+  title: 'Setting - Lap Snaps',
+  applicationName: 'Lap Snaps',
+  authors: 'Lap Snaps'
 };
 export default function page() {
   return (

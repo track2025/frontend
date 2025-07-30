@@ -73,7 +73,7 @@ export default function AdminDialog({ isOpen }) {
               }}
               textAlign="center"
             >
-              WELCOME TO RaceTrackRegistry
+              WELCOME TO Lap Snaps
             </DialogTitle>
             <Typography variant="body1" textAlign="center" color="GrayText">
               Attention: Please ensure all necessary environment variables are set.

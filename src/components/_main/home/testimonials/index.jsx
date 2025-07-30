@@ -18,27 +18,27 @@ import { useSelector } from 'react-redux';
 const data = [
   {
     cover: { url: AvatarImg },
-    name: 'Alex Thompson',
-    jobTitle: 'Software Engineer',
+    name: 'Emily Ross',
+    jobTitle: 'Trackside Photographer',
     reviewdetail:
-      'Exceptional shopping experience! The user-friendly interface and seamless navigation make finding and purchasing products a breeze. As a Marketing Manager, I appreciate the...',
-    reviews: 4
-  },
-  {
-    cover: { url: AvatarImg },
-    name: 'John Thompson',
-    jobTitle: 'Web Developer Engineer',
-    reviewdetail:
-      'Exceptional shopping experience! The user-friendly interface and seamless navigation make finding and purchasing products a breeze. As a Marketing Manager, I appreciate the...',
+      'LapSnap gives my work the spotlight it deserves. Uploading and selling race-day shots has never been easier!',
     reviews: 5
   },
   {
     cover: { url: AvatarImg },
-    name: 'John Doe',
-    jobTitle: 'Software Engineer',
+    name: 'David Kim',
+    jobTitle: 'Motorsport Enthusiast',
     reviewdetail:
-      'Exceptional shopping experience! The user-friendly interface and seamless navigation make finding and purchasing products a breeze. As a Marketing Manager, I appreciate the...',
-    reviews: 3
+      'I found high-quality shots of my car right after the event. The platform is smooth, fast, and reliable.',
+    reviews: 4
+  },
+  {
+    cover: { url: AvatarImg },
+    name: 'Sofia Mendes',
+    jobTitle: 'Videographer',
+    reviewdetail:
+      'Selling race footage through LapSnap has been a game changer. It connects me directly with passionate drivers and fans.',
+    reviews: 5
   }
 ];
 
@@ -73,13 +73,12 @@ export default function Testimonials() {
               lineHeight={1.2}
               textAlign={{ xs: 'center', md: 'left' }}
             >
-              Let's explore customer sentiments towards our offerings.
+              What our community is saying about LapSnaps
             </Typography>
             <Stack sx={{ display: { xs: 'none', md: 'flex' } }}>
-              <Typography variant="body1" color="text.secondary" mb={2} maxWidth={{ xs: '100%', md: 550 }}>
-                Discover what customers are saying about our products. Dive into the feedback on the quality and
-                performance of our offerings. Gain insights into how our customers perceive our products and their
-                overall satisfaction. Your opinions matter, and we're here to listen..
+              <Typography variant="body1" color="text.secondary" mb={4} maxWidth={{ xs: '100%', md: 550 }}>
+                Hear from photographers, racers, and fans who use LapSnaps to buy and sell authentic race track visuals.
+                Real stories. Real impact.
               </Typography>
             </Stack>
             <Stack

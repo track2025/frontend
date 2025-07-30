@@ -260,7 +260,7 @@ export default function ProductForm({
         filesWithPreview.map(async (file) => {
           // 1. Create watermarked version
           setstate((prev) => ({ ...prev, loading: 2 }))
-          const watermarked = await addWatermark(file, 'RaceTrackRegistry');
+          const watermarked = await addWatermark(file, 'Lap Snaps');
 
           // 2. Upload original
           const originalUrl = await uploadToSpaces(file, (progress) =>

@@ -48,72 +48,8 @@ export default function CheckoutCard({ cart, loading }) {
                     {loading ? <Skeleton variant="text" width={160} /> : value.name.slice(0, 18)}
                   </Typography>
                   <Stack direction="row" gap={1}>
-                    <Typography
-                      variant="body2"
-                      sx={{
-                        span: {
-                          color: 'text.secondary',
-                          textTransform: 'capitalize'
-                        }
-                      }}
-                    >
-                      {loading ? (
-                        <Skeleton
-                          variant="text"
-                          width={80}
-                          sx={{
-                            span: {
-                              textTransform: 'uppercase'
-                            }
-                          }}
-                        />
-                      ) : (
-                        <>
-                          <b>Color:</b> <span>{value.color}</span>
-                        </>
-                      )}
-                    </Typography>
-                    <Typography
-                      variant="body2"
-                      sx={{
-                        span: {
-                          color: 'text.secondary'
-                        }
-                      }}
-                    >
-                      {loading ? (
-                        <Skeleton
-                          variant="text"
-                          width={80}
-                          sx={{
-                            span: {
-                              textTransform: 'uppercase'
-                            }
-                          }}
-                        />
-                      ) : (
-                        <>
-                          <b>Size:</b> <span>{value.size}</span>
-                        </>
-                      )}
-                    </Typography>
+                    
                   </Stack>
-                  <Typography
-                    variant="body2"
-                    sx={{
-                      span: {
-                        color: 'text.secondary'
-                      }
-                    }}
-                  >
-                    {loading ? (
-                      <Skeleton variant="text" width={120} />
-                    ) : (
-                      <>
-                        <b>Quantity:</b> <span>{value.quantity}</span>
-                      </>
-                    )}
-                  </Typography>
                 </Box>
               </Stack>
               <Typography variant="subtitle1">

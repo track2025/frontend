@@ -47,18 +47,18 @@ export default function UserTopbar() {
         <Stack direction="row" alignItems="center" spacing={1}>
           <Link
             component={NextLink}
-            href={'tel:+13866883295'}
+            href={'tel:+971500000000'}
             sx={{ color: 'text.primary', fontSize: 14, display: 'flex', alignItems: 'center', gap: 1 }}
           >
-            <MdOutlinePhone /> +1 386-688-3295
+            <MdOutlinePhone /> +971 50 000 0000
           </Link>
           <Divider orientation="vertical" flexItem />
           <Link
             component={NextLink}
-            href={'mailto:johndoe@yahoo.com'}
+            href={'mailto:info@lapsnaps.com'}
             sx={{ color: 'text.primary', fontSize: 14, display: 'flex', alignItems: 'center', gap: 1 }}
           >
-            <MdOutlineMail /> johndoe@yahoo.com
+            <MdOutlineMail /> info@lapsnaps.com
           </Link>
         </Stack>
         <Stack direction="row" alignItems="center" spacing={1}>

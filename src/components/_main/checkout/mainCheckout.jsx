@@ -119,25 +119,25 @@ const CheckoutMain = () => {
     lastName: Yup.string().required('Last name is required'),
     phone: Yup.string().required('Phone is required'),
     email: Yup.string().email('Enter email Valid').required('Email is required'),
-    address: Yup.string().required('Address is required'),
-    city: Yup.string().required('City is required'),
-    state: Yup.string().required('State is required'),
-    country: Yup.string().required('Country is required'),
-    zip: Yup.string().required('Postal is required'),
+    // address: Yup.string().required('Address is required'),
+    // city: Yup.string().required('City is required'),
+    // state: Yup.string().required('State is required'),
+    // country: Yup.string().required('Country is required'),
+    // zip: Yup.string().required('Postal is required'),
     // shipping: Yup.boolean().required('Postal is required'),
-    shippingAddress: checked
-      ? Yup.object().shape({
-          firstName: Yup.string().required('First name is required'),
-          lastName: Yup.string().required('Last name is required'),
-          phone: Yup.string().required('Phone is required'),
-          email: Yup.string().email('Enter email Valid').required('Email is required'),
-          address: Yup.string().required('Address is required'),
-          city: Yup.string().required('City is required'),
-          state: Yup.string().required('State is required'),
-          country: Yup.string().required('Country is required'),
-          zip: Yup.string().required('Postal is required')
-        })
-      : Yup.string().nullable().notRequired()
+    // shippingAddress: checked
+    //   ? Yup.object().shape({
+    //       firstName: Yup.string().required('First name is required'),
+    //       lastName: Yup.string().required('Last name is required'),
+    //       phone: Yup.string().required('Phone is required'),
+    //       email: Yup.string().email('Enter email Valid').required('Email is required'),
+    //       address: Yup.string().required('Address is required'),
+    //       city: Yup.string().required('City is required'),
+    //       state: Yup.string().required('State is required'),
+    //       country: Yup.string().required('Country is required'),
+    //       zip: Yup.string().required('Postal is required')
+    //     })
+    //   : Yup.string().nullable().notRequired()
   });
 
   // Define initial values
@@ -147,23 +147,23 @@ const CheckoutMain = () => {
       lastName: userData?.lastName || '',
       phone: userData?.phone || '',
       email: userData?.email || '',
-      address: userData?.address || '',
-      city: userData?.city || '',
-      state: userData?.state || '',
-      country: userData?.country || 'Pakistan',
-      zip: userData?.zip || '',
-      note: '',
-      ...(checked && {
-        shippingAddress: {
-          firstName: '',
-          lastName: '',
-          address: '',
-          city: '',
-          state: '',
-          country: 'Pakistan',
-          zip: ''
-        }
-      })
+      // address: userData?.address || '',
+      // city: userData?.city || '',
+      // state: userData?.state || '',
+      // country: userData?.country || 'Pakistan',
+      // zip: userData?.zip || '',
+      // note: '',
+      // ...(checked && {
+      //   shippingAddress: {
+      //     firstName: '',
+      //     lastName: '',
+      //     address: '',
+      //     city: '',
+      //     state: '',
+      //     country: 'Pakistan',
+      //     zip: ''
+      //   }
+      // })
     },
     enableReinitialize: true,
     validationSchema: NewAddressSchema,
@@ -193,17 +193,17 @@ const CheckoutMain = () => {
   const onSubmit = async ({ ...data }) => {
     setProcessingTo(true);
     setCheckoutError(null);
-    const selected = countries.find((v) => v.label.toLowerCase() === values.country.toLowerCase());
+    // const selected = countries.find((v) => v.label.toLowerCase() === values.country.toLowerCase());
     const billingDetails = {
       name: values.firstName + ' ' + values.lastName,
       email: values.email,
-      address: {
-        city: values.city,
-        line1: values.address,
-        state: values.state,
-        postal_code: values.zip,
-        country: selected?.code.toLocaleLowerCase() || 'us'
-      }
+      // address: {
+      //   city: values.city,
+      //   line1: values.address,
+      //   state: values.state,
+      //   postal_code: values.zip,
+      //   country: selected?.code.toLocaleLowerCase() || 'us'
+      // }
     };
 
     const cardElement = elements.getElement('card');
@@ -274,12 +274,7 @@ const CheckoutMain = () => {
       <Form autoComplete="off" noValidate onSubmit={handleSubmit}>
         <Box py={5}>
           <Grid container spacing={2}>
-            <Grid item sx={{
-              width: {
-                xs: '100%', // mobile
-                md: '60%'   // desktop
-              }
-            }}>
+            <Grid item xs={12} md={8} flexGrow={1} >
               <CheckoutForm
                 getFieldProps={getFieldProps}
                 touched={touched}
@@ -292,12 +287,7 @@ const CheckoutMain = () => {
                 <ShipmentCheckoutForm getFieldProps={getFieldProps} touched={touched} errors={errors} />
               </Collapse>
             </Grid>
-            <Grid item sx={{
-              width: {
-                xs: '100%', // mobile
-                md: '30%'   // desktop
-              }
-            }}>
+            <Grid item xs={12} md={4} flexGrow={1}>
               <CartItemsCard cart={cart} loading={loading} />
               <PaymentInfo loading={loading} setCouponCode={setCouponCode} setTotal={(v) => setTotalWithDiscount(v)} />
               <PaymentMethodCard

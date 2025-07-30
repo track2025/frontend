@@ -27,7 +27,7 @@ export default function Index() {
           Recently Added
           </Typography>
           <Typography variant="body1" color="text.secondary" mb={{ xs: 3, md: 5 }}>
-            Lorem Ipsum Is Simply Dummy Text Of The Printing And Typesetting Industry.
+            Fresh from the Track — Explore the Latest Uploads from Our Photographers.
           </Typography>
         </Box>
         <Button

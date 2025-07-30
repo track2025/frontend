@@ -15,6 +15,8 @@ import { FaFacebookF, FaInstagram, FaLinkedinIn } from 'react-icons/fa';
 import { MdOutlineLocationOn } from 'react-icons/md';
 import { FiMail } from 'react-icons/fi';
 import { MdOutlineCall } from 'react-icons/md';
+import Image from 'next/image';
+
 
 const SOCIAL_MEDIA_LINK = [
   {
@@ -33,16 +35,16 @@ const SOCIAL_MEDIA_LINK = [
 
 const ADDRESS = [
   {
-    name: 'Ohio St. South Gate, CA 90280',
+    name: 'Al Meydan, Dubai',
     icon: <MdOutlineLocationOn />
   },
   {
-    name: 'johndoe@yahoo.com',
+    name: 'info@lapsnaps.com',
     linkPath: '/',
     icon: <FiMail fontSize={20} />
   },
   {
-    name: '+1 386-688-3295',
+    name: '+971 50 000 0000',
     linkPath: '/',
     icon: <MdOutlineCall />
   }
@@ -53,12 +55,12 @@ const MAIN_LINKS = [
     heading: 'Resources',
     listText1: 'Contact us',
     listLink1: '/contact',
-    listText2: 'Products',
+    listText2: 'Our Collections',
     listLink2: '/products',
     listText3: 'Photographers',
     listLink3: '/photographer',
-    listText4: 'Compaigns',
-    listLink4: '/compaigns'
+    listText4: 'Locations',
+    listLink4: '/products'
   },
   {
     heading: 'About us',
@@ -91,12 +93,19 @@ export default function Footer() {
       }}
     >
       <Container maxWidth="xl">
-        <Grid container spacing={4}>
-          <Grid item md={3}>
+        <Grid container spacing={4} justifyContent="space-between">
+          <Grid item md={4} xs={12} flexGrow={1}>
             <Stack spacing={3}>
-              <Logo />
+              
+                    <Image
+                      src="/logo.png"
+                      alt="Logo"
+                      width={300}
+                      height={20}
+                    />
+              
               <Typography variant="body1" color="text.secondary">
-                Lorem Ipsum is simply dummy text of the printing and typesetting industry.
+                Your Car's Perfect Shot
               </Typography>
               <Stack>
                 {ADDRESS.map((item, idx) => (
@@ -129,7 +138,11 @@ export default function Footer() {
             </Stack>
           </Grid>
           {MAIN_LINKS.map((item, idx) => (
-            <Grid item md={2} key={idx}>
+            <Grid item 
+        md={4} 
+        xs={12} 
+        flexGrow={1} // Add flexGrow
+        key={idx}>
               <Stack spacing={3}>
                 <Typography variant="h4" color="text.primary">
                   {item.heading}
@@ -220,36 +233,10 @@ export default function Footer() {
               </Stack>
             </Grid>
           ))}
-
-          <Grid item md={5}>
-            <Stack spacing={3}>
-              <Typography variant="h4" color="text.primary">
-                Join a Newsletter
-              </Typography>
-              <NewsLetter />
-
-              <Stack direction="row" alignItems="center" spacing={2}>
-                {SOCIAL_MEDIA_LINK.map((item, idx) => (
-                  <Fab
-                    size="small"
-                    color="primary"
-                    key={idx}
-                    component={NextLink}
-                    href={item.linkPath}
-                    sx={{
-                      zIndex: 1
-                    }}
-                  >
-                    {item.icon}
-                  </Fab>
-                ))}
-              </Stack>
-            </Stack>
-          </Grid>
         </Grid>
         <Divider sx={{ my: 3 }} />
         <Typography variant="body1" color="text.primary" textAlign="center">
-          © 2024 RaceTrackRegistry. All rights reserved
+          © 2025 Lap Snaps. All rights reserved
         </Typography>
       </Container>
     </Box>

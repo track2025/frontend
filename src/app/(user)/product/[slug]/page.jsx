@@ -69,10 +69,10 @@ export default async function ProductDetail({ params: { slug } }) {
           <Grid container  justifyContent="center" className="w-100 row ">
        
 
-            <Grid item  className="col-md-12 col-sm-12 col-12 ">
+            <Grid item  className="col-md-8 col-sm-12 col-8 ">
               <ProductDetailsCarousel slug={slug} product={data} data={data} />
             </Grid>
-            <Grid item className="col-md-12 h-100 col-12">
+            <Grid item className="col-md-4 h-100 col-4 col-sm-12">
               <ProductDetailsSumary className="h-100"
                 id={data?._id}
                 product={data}

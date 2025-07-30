@@ -84,7 +84,7 @@ export default function PaymentMethodCard({ value, setValue, error }) {
         </Stack>
         <Collapse in={value === 'stripe'}>
           <Typography variant="subtitle1" color="text.secondary" mt={1} mb={1}>
-            Creadit Card
+            Credit Card
           </Typography>
           <StripeCheckoutForm error={error} />
         </Collapse>

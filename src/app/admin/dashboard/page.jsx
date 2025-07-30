@@ -5,11 +5,11 @@ import Dashboard from 'src/components/_admin/dashboard';
 
 // Meta information
 export const metadata = {
-  title: 'RaceTrackRegistry - Dashboard',
-  description: 'Welcome to the RaceTrackRegistry Dashboard. Manage your e-commerce operations with ease.',
-  applicationName: 'RaceTrackRegistry Dashboard',
-  authors: 'RaceTrackRegistry',
-  keywords: 'dashboard, e-commerce, management, RaceTrackRegistry',
+  title: 'Lap Snaps - Dashboard',
+  description: 'Welcome to the Lap Snaps Dashboard. Manage your e-commerce operations with ease.',
+  applicationName: 'Lap Snaps Dashboard',
+  authors: 'Lap Snaps',
+  keywords: 'dashboard, e-commerce, management, Lap Snaps',
   icons: {
     icon: '/favicon.png'
   }

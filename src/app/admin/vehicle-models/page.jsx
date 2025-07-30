@@ -9,9 +9,9 @@ import * as api from 'src/services';
 
 // Meta information
 export const metadata = {
-  title: 'Sub Categories - RaceTrackRegistry',
-  applicationName: 'RaceTrackRegistry',
-  authors: 'RaceTrackRegistry'
+  title: 'Sub Categories - Lap Snaps',
+  applicationName: 'Lap Snaps',
+  authors: 'Lap Snaps'
 };
 
 export default async function Categories() {

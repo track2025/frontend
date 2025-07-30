@@ -6,9 +6,9 @@ import NewsletterList from 'src/components/_admin/newsletter/newsletterList';
 
 // Meta information
 export const metadata = {
-  title: 'Newsletter - RaceTrackRegistry',
-  applicationName: 'RaceTrackRegistry',
-  authors: 'RaceTrackRegistry'
+  title: 'Newsletter - Lap Snaps',
+  applicationName: 'Lap Snaps',
+  authors: 'Lap Snaps'
 };
 export default function page() {
   return (

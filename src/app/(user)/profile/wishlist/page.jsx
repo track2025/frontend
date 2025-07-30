@@ -28,9 +28,9 @@ const WishlistMain = dynamic(() => import('src/components/_main/profile/wishlist
 
 // Meta information
 export const metadata = {
-  title: 'Wishlist | RaceTrackRegistry - Save Your Favorite Items for Later',
-  applicationName: 'RaceTrackRegistry',
-  authors: 'RaceTrackRegistry'
+  title: 'Wishlist | Lap Snaps - Save Your Favorite Items for Later',
+  applicationName: 'Lap Snaps',
+  authors: 'Lap Snaps'
 };
 
 export default function Wishlist() {

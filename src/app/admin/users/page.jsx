@@ -6,9 +6,9 @@ import UsersList from 'src/components/_admin/users/userList';
 
 // Meta information
 export const metadata = {
-  title: 'User - RaceTrackRegistry',
-  applicationName: 'RaceTrackRegistry',
-  authors: 'RaceTrackRegistry'
+  title: 'User - Lap Snaps',
+  applicationName: 'Lap Snaps',
+  authors: 'Lap Snaps'
 };
 export default function page() {
   return (

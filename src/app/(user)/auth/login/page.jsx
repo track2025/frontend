@@ -8,12 +8,12 @@ import LoginMain from 'src/components/_main/auth/login';
 
 // Meta information
 export const metadata = {
-  title: 'Login to RaceTrackRegistry | Your Gateway to Seamless Shopping and Secure Transactions',
+  title: 'Login to Lap Snaps | Your Gateway to Seamless Shopping and Secure Transactions',
   description:
-    'Log in to RaceTrackRegistry for secure access to your account. Enjoy seamless shopping, personalized experiences, and hassle-free transactions. Your trusted portal to a world of convenience awaits. Login now!',
-  applicationName: 'RaceTrackRegistry',
-  authors: 'RaceTrackRegistry',
-  keywords: 'ecommerce, RaceTrackRegistry, Commerce, Login RaceTrackRegistry, LoginFrom RaceTrackRegistry'
+    'Log in to Lap Snaps for secure access to your account. Enjoy seamless shopping, personalized experiences, and hassle-free transactions. Your trusted portal to a world of convenience awaits. Login now!',
+  applicationName: 'Lap Snaps',
+  authors: 'Lap Snaps',
+  keywords: 'ecommerce, Lap Snaps, Commerce, Login Lap Snaps, LoginFrom Lap Snaps'
 };
 
 export default async function Login() {

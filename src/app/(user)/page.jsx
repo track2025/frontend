@@ -1,13 +1,9 @@
 'use client';
 import dynamic from 'next/dynamic';
-
-// mui
-import { Container } from '@mui/material'; // Importing Container component from MUI (Material-UI) library.
-
-// components
-import Hero from 'src/components/_main/home/hero'; // Importing the Hero component.
-import WhyUs from 'src/components/_main/home/whyUs'; // Importing the WhyUs component.
-import TopBanners from 'src/components/_main/home/topBanners'; // Importing the TopBanners component.
+import { Container } from '@mui/material'; 
+import Hero from 'src/components/_main/home/hero'; 
+import WhyUs from 'src/components/_main/home/whyUs'; 
+import TopBanners from 'src/components/_main/home/topBanners'; 
 import Image from 'next/image';
 
 // Dynamic imports
@@ -17,27 +13,14 @@ const Banner = dynamic(() => import('src/components/_main/home/banner'));
 const Brands = dynamic(() => import('src/components/_main/home/brands'));
 const TopCollection = dynamic(() => import('src/components/_main/home/top'));
 const Shops = dynamic(() => import('src/components/_main/home/shop'));
-const Compaigns = dynamic(() => import('src/components/_main/home/compaign'));
 const Testimonials = dynamic(() => import('src/components/_main/home/testimonials'));
 const FeaturedProducts = dynamic(() => import('src/components/_main/home/featured'));
-const SubscriptionModal = dynamic(() => import('src/components/_main/home/subscription'), {
-  ssr: false
-});
 
 export default function IndexPage() {
   return (
   
     <>
-      {/* <div maxWidth="xl">
-        <img
-          src="/images/rrr.jpg"
-          height="550px"
-          width="100%"
-          style={{ objectFit: 'cover', width: '100%', height: '850px' }}
-          alt="Banner"
-        /> 
-     </div> */}
-     <div style={{ maxWidth: '100%', overflow: 'hidden' }}>
+  <div style={{ maxWidth: '100%', overflow: 'hidden' }}>
   <video
     autoPlay
     muted
@@ -57,22 +40,18 @@ export default function IndexPage() {
       <Container maxWidth="xl">
         <WhyUs />      
           <FeaturedProducts />
-
-        {/* <BestSellingProducs /> */}
-        <Compaigns />
       </Container>
       <Banner />
       <Container maxWidth="xl">
         <TopCollection />       
          {/* <Categories /> */}
 
-        <Shops />
+        {/* <Shops /> */}
       </Container>
       <Testimonials />
       <Container maxWidth="xl">
         <Brands />
       </Container>
-      <SubscriptionModal />
     </>
   );
 }

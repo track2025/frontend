@@ -6,9 +6,9 @@ import OrdersList from 'src/components/_admin/orders/ordersList';
 
 // Meta information
 export const metadata = {
-  title: 'Order - RaceTrackRegistry',
-  applicationName: 'RaceTrackRegistry',
-  authors: 'RaceTrackRegistry'
+  title: 'Order - Lap Snaps',
+  applicationName: 'Lap Snaps',
+  authors: 'Lap Snaps'
 };
 export default function page() {
   return (

@@ -5,9 +5,9 @@ import AddBrand from 'src/components/_admin/brands/addBrand';
 import HeaderBreadcrumbs from 'src/components/headerBreadcrumbs';
 
 export const metadata = {
-  title: 'Add Track Location - RaceTrackRegistry',
-  applicationName: 'RaceTrackRegistry',
-  authors: 'RaceTrackRegistry'
+  title: 'Add Track Location - Lap Snaps',
+  applicationName: 'Lap Snaps',
+  authors: 'Lap Snaps'
 };
 
 export default function page() {

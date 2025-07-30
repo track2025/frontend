@@ -96,12 +96,12 @@ export default function PaymentInfo({ setCouponCode, setTotal }) {
             </Typography>
             <Typography variant="subtitle2">-{fCurrency(cCurrency(appliedDiscount || 0))}</Typography>
           </Stack>
-          <Stack direction="row" alignItem="center" justifyContent="space-between" spacing={2}>
+          {/* <Stack direction="row" alignItem="center" justifyContent="space-between" spacing={2}>
             <Typography variant="subtitle2" color="text.secondary">
               Shipping:
             </Typography>
             <Typography variant="subtitle2">{!shipping ? 'Free' : fCurrency(cCurrency(shipping))}</Typography>
-          </Stack>
+          </Stack> */}
 
           <Stack direction={'row'} gap={1}>
             <TextField

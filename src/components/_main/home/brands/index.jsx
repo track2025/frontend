@@ -34,7 +34,7 @@ export default function Brands() {
           mb: 5
         }}
       >
-        Lorem Ipsum Is Simply Dummy Text Of The Printing And Typesetting Industry.
+        Explore iconic race tracks from around the world—captured through the lens of passion, speed, and precision
       </Typography>
 
       {isLoading ? (
@@ -75,7 +75,7 @@ export default function Brands() {
                         {v.name}
                       </Typography>
                       <Typography variant="body1" noWrap>
-                        {v.totalProducts + ' ' + (v.totalProducts <= 1 ? 'Product' : 'Products')}
+                        {v.totalProducts + ' ' + (v.totalProducts <= 1 ? 'Photo' : 'Photos')}
                       </Typography>
                     </Stack>
                   </Stack>

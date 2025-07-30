@@ -73,7 +73,7 @@ export default function Index() {
                   variant={isDeskTop ? 'body1' : 'body2'}
                   mb={2}
                   display={{ md: 'block', xs: 'none' }}
-                  width={{ xl: 270 }}
+                  width={{ xl: 270, md: 270 }}
                   sx={{
                     color: "#ffffff",
 
@@ -160,13 +160,13 @@ export default function Index() {
               width={{ xl: 270 }}
               color='#fff'
             >
-              Join our platform to sell your car photographs. Easily upload, manage and track your sales.
+              Sell your car photos with ease. Upload, manage, and track your sales — all in one place.
             </Typography>
 
             <Box>
               <Button
                 component={Link}
-                href="/products"
+                href="/create-shop"
                 variant="contained"
                 size={isDeskTopBtn ? 'large' : 'small'}
                 sx={{
@@ -180,7 +180,7 @@ export default function Index() {
                   }
                 }}
               >
-                View Collection
+                Start Selling Now
               </Button>
             </Box>
           </Stack>

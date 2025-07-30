@@ -196,15 +196,10 @@ export default function ProductDetailsSumary({ ...props }) {
 
   const { values, touched, errors, setFieldValue, handleSubmit } = formik;
   const handleAddCart = () => {
-    const colorSelected = product?.colors.find((_, index) => index === color);
-    const sizeSelected = product?.sizes.find((_, index) => index === size);
     onAddCart({
       pid: product._id,
-      sku: product.sku,
-      color: colorSelected,
       shop: product.shop,
       image: product?.images[0].url,
-      size: sizeSelected,
       quantity: values.quantity,
       price: product.priceSale === 0 ? product.price : product.priceSale,
       subtotal: (product.priceSale || product?.price) * values.quantity
@@ -229,8 +224,8 @@ export default function ProductDetailsSumary({ ...props }) {
     <RootStyled>
       <FormikProvider value={formik}>
         <Form autoComplete="off" noValidate onSubmit={handleSubmit}>
-          <Grid container className="row">
-            <Grid item xs={12} md={7} className="col-12 col-md-7">
+          <Grid container className="column">
+            <Grid item xs={12} md={12} className="col-12 col-md-12">
               <Card sx={{ p: 2 }}>
                 <Typography noWrap variant="h4" paragraph className="heading">
                   {product?.name}
@@ -254,15 +249,15 @@ export default function ProductDetailsSumary({ ...props }) {
                    
                   </Stack>
                   <Stack direction="row" alignItems="center" spacing={1} mt={1.5}>
-                    <Typography variant="subtitle1">Brand:</Typography>
+                    <Typography variant="subtitle1">Location:</Typography>
                     <Typography variant="subtitle1" color="text.secondary" fontWeight={400}>
-                      {brand?.name || 'RaceTrackRegistry'}
+                      {brand?.name || 'Lap Snaps'}
                     </Typography>
                   </Stack>
                   <Stack direction="row" alignItems="center" spacing={1}>
-                    <Typography variant="subtitle1">Category:</Typography>
+                    <Typography variant="subtitle1">Vehicle Make:</Typography>
                     <Typography variant="subtitle1" color="text.secondary" fontWeight={400}>
-                      {category?.name || 'RaceTrackRegistry'}
+                      {category?.name || 'Lap Snaps'}
                     </Typography>
                   </Stack>
                   {product?.price > product?.priceSale && (
@@ -281,7 +276,7 @@ export default function ProductDetailsSumary({ ...props }) {
                 <Typography variant="body1"> {product?.description}</Typography> */}
               </Card>
             </Grid>
-            <Grid item xs={12} md={5} className="col-12 col-md-5">
+            <Grid item xs={12} md={12} className="col-12 col-md-12 mt-3">
               <Card sx={{ p: 2, position: 'sticky', top: 156 }}>
                 <Typography variant="h4" className="text-price">
                   {!isLoading && isLoaded && fCurrency(cCurrency(product?.priceSale))} &nbsp;

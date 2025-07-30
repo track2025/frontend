@@ -7,12 +7,12 @@ import RegisterMain from 'src/components/_main/auth/register';
 
 // Meta information
 export const metadata = {
-  title: 'Create Your RaceTrackRegistry Account | Join Us for Exclusive Deals and Seamless Shopping',
+  title: 'Create Your Lap Snaps Account | Join Us for Exclusive Deals and Seamless Shopping',
   description:
-    'Register with RaceTrackRegistry today to unlock a world of exclusive deals, personalized recommendations, and secure transactions. Join our community for a seamless shopping experience. Sign up now and elevate your online shopping journey!',
-  applicationName: 'RaceTrackRegistry',
-  authors: 'RaceTrackRegistry',
-  keywords: 'ecommerce, RaceTrackRegistry, Commerce, Register RaceTrackRegistry, RegisterFrom RaceTrackRegistry'
+    'Register with Lap Snaps today to unlock a world of exclusive deals, personalized recommendations, and secure transactions. Join our community for a seamless shopping experience. Sign up now and elevate your online shopping journey!',
+  applicationName: 'Lap Snaps',
+  authors: 'Lap Snaps',
+  keywords: 'ecommerce, Lap Snaps, Commerce, Register Lap Snaps, RegisterFrom Lap Snaps'
 };
 
 export default async function Register() {

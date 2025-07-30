@@ -6,9 +6,9 @@ import AddCategory from 'src/components/_admin/categories/addCategory';
 
 // Meta information
 export const metadata = {
-  title: 'Add Vehicle Make - RaceTrackRegistry',
-  applicationName: 'RaceTrackRegistry',
-  authors: 'RaceTrackRegistry'
+  title: 'Add Vehicle Make - Lap Snaps',
+  applicationName: 'Lap Snaps',
+  authors: 'Lap Snaps'
 };
 
 export default function page() {
