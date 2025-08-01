@@ -34,7 +34,7 @@ export default function BrandList() {
     ['brands', apicall, searchParam, pageParam],
     () => api.getCurrenciesByAdmin(+pageParam || 1, searchParam || ''),
     {
-      onError: (err) => toast.error(err.response.data.message || 'Something went wrong!')
+      onError: (err) => toast.error(err.response.data.message || 'We ran into an issue. Please refresh the page or try again.')
     }
   );
 
@@ -56,7 +56,7 @@ export default function BrandList() {
           endPoint="deleteCurrencyByAdmin"
           type={'Currency deleted'}
           deleteMessage={
-            'Are you sure you want to delete this currency? Please consider carefully before making irreversible changes.'
+            'Are you sure you want to delete this currency? This action is irreversible—please proceed with caution.'
           }
         />
       </Dialog>

@@ -33,7 +33,7 @@ export default function CartMain() {
     onError: (err) => {
       const message = JSON.stringify(err.response.data.message);
       setLoading(false);
-      toast.error(message ? JSON.parse(message) : 'Something went wrong!');
+      toast.error(message ? JSON.parse(message) : 'We ran into an issue. Please refresh the page or try again.');
     }
   });
   React.useEffect(() => {

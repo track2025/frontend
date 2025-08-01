@@ -13,7 +13,8 @@ import {
   TableContainer,
   Box,
   Skeleton,
-  Stack
+  Stack, 
+  Button
 } from '@mui/material';
 import { styled } from '@mui/material/styles';
 // components
@@ -21,6 +22,7 @@ import BlurImage from 'src/components/blurImage';
 
 // custom hooks
 import { useCurrencyFormatter } from 'src/hooks/formatCurrency';
+
 
 // styled
 import RootStyled from './styled';
@@ -66,9 +68,7 @@ export default function TableDetails({ ...props }) {
           <TableHead>
             <TableRow className="head-row">
               <TableCell className="head-row-cell">Product</TableCell>
-              <TableCell className="head-row-cell active">Color</TableCell>
-              <TableCell className="head-row-cell active">Size</TableCell>
-              <TableCell className="head-row-cell">Quantity</TableCell>
+              <TableCell className="head-row-cell active">Download</TableCell>
               <TableCell className="head-row-cell" align="right">
                 Price
               </TableCell>
@@ -87,25 +87,7 @@ export default function TableDetails({ ...props }) {
                         <Typography variant={'subtitle2'} noWrap fontSize={{ xs: '12px', sm: '0.875rem' }}>
                           {row?.name.slice(0, 50)}
                         </Typography>
-                        <Stack
-                          spacing={1}
-                          direction="row"
-                          alignItems="center"
-                          sx={{ display: { xs: 'flex', sm: 'none' } }}
-                        >
-                          <Typography
-                            variant="body2"
-                            fontSize={10}
-                            sx={{
-                              textTransform: 'capitalize'
-                            }}
-                          >
-                            <b>Color :</b> {row.color}
-                          </Typography>
-                          <Typography variant="body2" fontSize={10}>
-                            <b>Size :</b> {row.size}
-                          </Typography>
-                        </Stack>
+                       
                       </Stack>
                     </Stack>
                   ) : (
@@ -115,23 +97,16 @@ export default function TableDetails({ ...props }) {
                     </Stack>
                   )}
                 </TableCell>
-                <TableCell
-                  className="body-column-cell"
-                  sx={{
-                    textTransform: 'capitalize'
-                  }}
-                >
-                  {row ? row.color : <Skeleton variant="text" width={100} />}
-                </TableCell>
-                <TableCell
-                  className="body-column-cell"
-                  sx={{
-                    textTransform: 'uppercase'
-                  }}
-                >
-                  {row ? row?.size : <Skeleton variant="text" width={100} />}
-                </TableCell>
-                <TableCell>{row ? row?.quantity : <Skeleton variant="text" width={100} />}</TableCell>
+                
+                <TableCell>{row ? <Button
+                                    variant="contained"
+                                    color="black"
+                                    size="small"
+                                    href={`/api/download?fileUrl=${encodeURIComponent(row?.orignalImageUrl)}`}
+                                  >
+                                    Download Media
+                                  </Button>
+: <Skeleton variant="text" width={100} />}</TableCell>
 
                 <TableCell align="right">
                   {row ? (

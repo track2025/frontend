@@ -49,10 +49,10 @@ export default function LoginForm() {
       dispatch(setWishlist(data.user.wishlist));
       await createCookies('token', data.token);
       setloading(false);
-      toast.success('Logged in successfully!');
       const isAdmin = data.user.role.includes('admin');
       const isVendor = data.user.role.includes('vendor');
-      push(redirect || isAdmin ? '/admin/dashboard' : isVendor ? '/vendor/dashboard' : '/');
+      toast.success('Logged in successfully! ');
+      push(redirect ? redirect : isAdmin ? '/admin/dashboard' : isVendor ? '/vendor/dashboard': '/');
     },
     onError: (err) => {
       setloading(false);
@@ -146,7 +146,7 @@ export default function LoginForm() {
             </Link>
           </Stack>
           <LoadingButton fullWidth size="large" type="submit" variant="contained" loading={loading}>
-            login
+             {!redirect ? 'Login' : 'Continue'}
           </LoadingButton>
           <Typography variant="subtitle2" mt={3} textAlign="center">
             Don{`'`}t you have an account? &nbsp;

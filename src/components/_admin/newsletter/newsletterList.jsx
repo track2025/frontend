@@ -20,7 +20,7 @@ export default function EcommerceProductList() {
   const pageParam = searchParams.get('page');
   const { data, isLoading } = useQuery(['newsletter', pageParam], () => api.getNewsletter(+pageParam || 1), {
     onError: (err) => {
-      toast.error(`common:errors.${err.response.data.message}` || 'Something went wrong!');
+      toast.error(`common:errors.${err.response.data.message}` || 'We ran into an issue. Please refresh the page or try again.');
     }
   });
   return (

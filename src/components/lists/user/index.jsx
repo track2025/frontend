@@ -16,6 +16,7 @@ import { LuLayoutDashboard } from 'react-icons/lu';
 import { SlHome } from 'react-icons/sl';
 import { TbUserSquareRounded } from 'react-icons/tb';
 import { CiShop } from 'react-icons/ci';
+import LogoutButton from 'src/components/logoutButton';
 
 // styles
 import RootStyled from './styled';
@@ -93,7 +94,7 @@ export default function UserList({ ...props }) {
       ) : (
         <MenuItem
           onClick={() => {
-            router.push('/create-shop');
+            router.push(isAuthenticated ? '/create-shop' : '/auth/register?redirect=/create-shop');
             setOpen(false);
           }}
         >
@@ -160,9 +161,7 @@ export default function UserList({ ...props }) {
         Change Password
       </MenuItem>
       <Box px={2} mt={1}>
-        <Button onClick={onLogout} variant="outlined" color="inherit" startIcon={<LuLogOut />} fullWidth>
-          Logout
-        </Button>
+        <LogoutButton />
       </Box>
     </RootStyled>
   );

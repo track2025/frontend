@@ -25,13 +25,13 @@ export default function ForgetPasswordForm({ ...props }) {
   const { mutate } = useMutation(api.forgetPassword, {
     onSuccess: () => {
       onSent();
-      toast.success('Email sent check inbox');
+      toast.success("We've sent you an email — please check your inbox.");
       setloading(false);
     },
     onError: (err) => {
       const message = JSON.stringify(err.response.data.message);
       setloading(false);
-      toast.error(message || 'Email incorrect please try again.');
+      toast.error(message || 'The email address you entered seems incorrect. Please double-check and try again.');
     }
   });
 

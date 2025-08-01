@@ -32,7 +32,7 @@ export default function Dashboard({ isVendor }) {
     api[isVendor ? 'vendorDashboardAnalytics' : 'adminDashboardAnalytics'],
     {
       // refetchInterval: 10000,
-      onError: (error) => toast.error(error.message || 'Something went wrong!')
+      onError: (error) => toast.error(error.message || 'We ran into an issue. Please refresh the page or try again.')
     }
   );
   const data = dashboard?.data || {};
@@ -58,7 +58,7 @@ export default function Dashboard({ isVendor }) {
             color="primary"
             isAmount
             icon={<AiOutlineDollarCircle size={24} />}
-            title="Daily Earning"
+            title="Daily Earnings"
             value={daily_earning}
             isLoading={isLoading}
           />
@@ -87,7 +87,7 @@ export default function Dashboard({ isVendor }) {
         <Grid item xs={12} sm={isVendor ? 12 : 6} md={3}  className={`col-md-3 ${isVendor ? 'col-sm-12' : 'col-sm-6'} col-xs-12 mb-3`}>
           <DashboardCard
             color="error"
-            title="Total Photos" 
+            title="Total Photos/Videos" 
             value={totalProducts}
             icon={<BiSolidShoppingBags size={24} />}
             isLoading={isLoading}
@@ -97,7 +97,7 @@ export default function Dashboard({ isVendor }) {
           <Grid item xs={12} sm={isVendor ? 12 : 6} md={3} className={`col-md-3 ${isVendor ? 'col-sm-12' : 'col-sm-6'} col-xs-12 mb-3`}>
             <DashboardCard
               color="success"
-              title="Total Vendors"
+              title="Photographers"
               value={totalVendors}
               icon={<GrWorkshop size={24} />}
               isLoading={isLoading}
@@ -116,7 +116,7 @@ export default function Dashboard({ isVendor }) {
           </Grid>
         )}
 
-        <Grid item xs={12} sm={isVendor ? 12 : 6} md={3} className={`col-md-3 ${isVendor ? 'col-sm-12' : 'col-sm-6'} col-xs-12 mb-3`}>
+        {/* <Grid item xs={12} sm={isVendor ? 12 : 6} md={3} className={`col-md-3 ${isVendor ? 'col-sm-12' : 'col-sm-6'} col-xs-12 mb-3`}>
           <DashboardCard
             color="#01838F"
             title="Pending Orders"
@@ -124,8 +124,8 @@ export default function Dashboard({ isVendor }) {
             icon={<LuFileClock size={24} />}
             isLoading={isLoading}
           />
-        </Grid>
-        {!isVendor && (
+        </Grid> */}
+        {/* {!isVendor && (
           <Grid item xs={12} sm={isVendor ? 12 : 6} md={3} className={`col-md-3 ${isVendor ? 'col-sm-12' : 'col-sm-6'} col-xs-12 mb-3`}>
             <DashboardCard
               color="#AFB42B"
@@ -135,7 +135,7 @@ export default function Dashboard({ isVendor }) {
               isLoading={isLoading}
             />
           </Grid>
-        )}
+        )} */}
 
         <Grid item xs={12} md={7} lg={7} className="col-xs-12 mb-3 col-md-7 col-lg-7">
           <SaleChart data={sales_report} isLoading={isLoading} className="h-100"/>

@@ -16,7 +16,7 @@ export default function Guest({ children }) {
   useEffect(() => {
     if (!isAuthenticated || user?.role !== 'vendor') {
       setVendor(false);
-      toast.error("You're not allowed to access vendor dashboard");
+      toast.error("Your logged-in session has ended. Please log in again to continue.");
       router.push('/');
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps

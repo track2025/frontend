@@ -17,6 +17,9 @@ const Testimonials = dynamic(() => import('src/components/_main/home/testimonial
 const FeaturedProducts = dynamic(() => import('src/components/_main/home/featured'));
 
 export default function IndexPage() {
+
+
+  
   return (
   
     <>

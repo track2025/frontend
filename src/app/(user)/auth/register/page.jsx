@@ -34,7 +34,7 @@ export default async function Register() {
               Sign up
             </Typography>
             <Typography color="text.secondary" mb={5} textAlign="center">
-              Create your account
+              Let’s get you started — create your account!
             </Typography>
             <RegisterMain />
           </Card>

@@ -31,7 +31,7 @@ export default function NewsLetter() {
         setloading(true);
         mutate(values);
       } else {
-        toast.error('Invalid email!');
+        toast.error('Please enter a valid email address');
       }
     }
   });

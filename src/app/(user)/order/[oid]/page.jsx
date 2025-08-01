@@ -31,8 +31,7 @@ export default async function OrderMain({ params }) {
         <Stack spacing={1} textAlign="center" mt={8} mb={5} justifyContent="center" alignItems="center">
           <Typography variant="h3">Thank you for your purchase!</Typography>
           <Typography variant="subtitle1" color="text.secondary" sx={{ maxWidth: 600 }}>
-            Thank you for choosing us! Your purchase is appreciated. We're committed to providing top-notch products and
-            service. Stay tuned for updates on your order.
+            Thank you for your purchase. We truly value your business and are committed to providing outstanding service. You can download your order using the link below or the one sent to your email.
           </Typography>
           <Typography
             variant="subtitle1"

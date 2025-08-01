@@ -2,6 +2,8 @@
 import React from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
+import { useSelector } from 'react-redux';
+
 
 // mui
 import { Box, Card, Grid, Stack, Typography, Button, Container } from '@mui/material';
@@ -15,6 +17,8 @@ export default function Index() {
   const theme = useTheme();
   const isDeskTop = useMediaQuery(theme.breakpoints.up('xl'));
   const isDeskTopBtn = useMediaQuery(theme.breakpoints.up('lg'));
+  const { isAuthenticated } = useSelector(({ user }) => user);
+  
 
   return (
     <Box mb={2} mt={2}>
@@ -166,7 +170,7 @@ export default function Index() {
             <Box>
               <Button
                 component={Link}
-                href="/create-shop"
+                href={isAuthenticated ? '/create-shop' : '/auth/register?redirect=/create-shop'}
                 variant="contained"
                 size={isDeskTopBtn ? 'large' : 'small'}
                 sx={{

@@ -30,7 +30,7 @@ export default function SubCategoryList({ categories }) {
     ['categories', apicall, searchParams.toString()],
     () => api.getSubCategoriesByAdmin(searchParams.toString()),
     {
-      onError: (err) => toast.error(err.response.data.message || 'Something went wrong!')
+      onError: (err) => toast.error(err.response.data.message || 'We ran into an issue. Please refresh the page or try again.')
     }
   );
 

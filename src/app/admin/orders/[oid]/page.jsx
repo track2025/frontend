@@ -24,7 +24,7 @@ OrderDetail.propTypes = {
 export default function OrderDetail({ params }) {
   const { data, isLoading } = useQuery(['order-by-admin'], () => api.getOrderByAdmin(params.oid), {
     onError: (err) => {
-      toast.error(err?.response?.data?.message || 'Something went wrong!');
+      toast.error(err?.response?.data?.message || 'We ran into an issue. Please refresh the page or try again.');
     }
   });
   return (

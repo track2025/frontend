@@ -34,7 +34,7 @@ export default function ShopIcomeList({ slug, onUpdatePayment, isVendor }) {
     () => api[isVendor ? 'getIncomeByVendor' : 'getShopIncomeByAdmin'](slug, pageParam),
     {
       onSuccess: () => onUpdatePayment(),
-      onError: (err) => toast.error(err.response.data.message || 'Something went wrong!')
+      onError: (err) => toast.error(err.response.data.message || 'We ran into an issue. Please refresh the page or try again.')
     }
   );
 

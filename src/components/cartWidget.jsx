@@ -31,7 +31,7 @@ export default function CartWidget() {
       spacing={1}
       alignItems="center"
       width="auto"
-      sx={{ cursor: 'pointer' }}
+      sx={{ cursor: 'pointer', display: { md: 'flex', xs: 'none' } }}
     >
       <Badge badgeContent={totalItems} color="error" overlap="circular">
         <IconButton name="cart" disableRipple color="primary">

@@ -34,7 +34,7 @@ export default function AdminProducts() {
     () => api.getUserByAdminsByAdmin(+pageParam || 1, searchParam || ''),
     {
       onError: (err) => {
-        toast.error(err.response.data.message || 'Something went wrong!');
+        toast.error(err.response.data.message || 'We ran into an issue. Please refresh the page or try again.');
       }
     }
   );

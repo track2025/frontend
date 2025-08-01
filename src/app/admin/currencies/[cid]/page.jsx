@@ -13,7 +13,7 @@ import { useQuery } from 'react-query';
 export default function Page({ params }) {
   const { data, isLoading } = useQuery(['get-admin-currency'], () => api.getCurrencyByAdmin(params.cid), {
     onError: (err) => {
-      toast.error(err.response.data.message || 'Something went wrong!');
+      toast.error(err.response.data.message || 'We ran into an issue. Please refresh the page or try again.');
     }
   });
   return (

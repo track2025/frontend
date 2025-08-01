@@ -311,6 +311,10 @@ export default function ProductDetailsSumary({ ...props }) {
                     variant="contained"
                     color="primary"
                     startIcon={<IoBagCheckOutline />}
+                    onClick={() => { 
+                  handleAddCart(product)
+                  router.push('/cart')
+                }}
                   >
                     Buy Now
                   </Button>

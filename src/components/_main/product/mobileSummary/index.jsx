@@ -114,16 +114,10 @@ export default function ProductDetailsSumaryMobile({ ...props }) {
       try {
         const alreadyProduct = !isLoading && checkout.cart.filter((item) => item.pid === values.pid);
         if (!Boolean(alreadyProduct.length)) {
-          const colorSelected = product?.colors.find((_, index) => index === color);
-          const sizeSelected = product?.sizes.find((_, index) => index === size);
           onAddCart({
             pid: product._id,
-            sku: product.sku,
-            color: colorSelected,
-            size: sizeSelected,
             image: product?.images[0].url,
             quantity: values.quantity,
-            price: product.priceSale === 0 ? product.price : product.priceSale,
             subtotal: (product.priceSale || product?.price) * values.quantity
           });
           setFieldValue('quantity', 1);
@@ -139,18 +133,12 @@ export default function ProductDetailsSumaryMobile({ ...props }) {
 
   const { values, touched, errors, setFieldValue, handleSubmit } = formik;
   const handleAddCart = () => {
-    const colorSelected = product?.colors.find((_, index) => index === color);
-    const sizeSelected = product?.sizes.find((_, index) => index === size);
     onAddCart({
       pid: product._id,
-      sku: product.sku,
-      color: colorSelected,
-
       image: product?.images[0].url,
-      size: sizeSelected,
       quantity: values.quantity,
-      price: product.priceSale === 0 ? product.price : product.priceSale,
-      subtotal: (product.priceSale || product?.price) * values.quantity
+      price:  product.priceSale,
+      subtotal: product.priceSale  * values.quantity
     });
     setFieldValue('quantity', 1);
   };
@@ -164,7 +152,22 @@ export default function ProductDetailsSumaryMobile({ ...props }) {
       <FormikProvider value={formik}>
         <Form autoComplete="off" noValidate onSubmit={handleSubmit}>
           <Typography noWrap variant="h4" paragraph className="heading">
-            {product?.name}
+            <Stack direction="row" alignItems="center" spacing={2}>
+    {product?.images?.[0]?.url && (
+      <Box
+        component="img"
+        src={product.images[0].url}
+        alt={product.name}
+        sx={{
+          width: 56,
+          height: 56,
+          objectFit: 'cover',
+          borderRadius: 1,
+        }}
+      />
+    )}
+    <span>{product?.name}</span>
+  </Stack>
           </Typography>
           <Stack direction="row" alignItems="center" className="rating-wrapper" spacing={1}>
             <Rating value={totalRating} precision={0.1} size="small" readOnly />
@@ -173,11 +176,7 @@ export default function ProductDetailsSumaryMobile({ ...props }) {
             </Typography>
 
             <Typography variant="h4" className="text-price">
-              {product?.price <= product?.priceSale ? null : (
-                <Box component="span" className="old-price">
-                  {!isLoading && isLoaded && fCurrency(product?.price)}
-                </Box>
-              )}
+              
               <Box component="span">
                 &nbsp;
                 {!isLoading && isLoaded && fCurrency(product?.priceSale)}
@@ -186,17 +185,17 @@ export default function ProductDetailsSumaryMobile({ ...props }) {
           </Stack>
           <Stack spacing={1} my={3}>
             <Stack direction="row" alignItems="center" spacing={1} mt={1.5}>
-              <Typography variant="subtitle1">Brand:</Typography>
+              <Typography variant="subtitle1">Location:</Typography>
               <Typography variant="subtitle1" color="text.secondary" fontWeight={400}>
                 {brand?.name || 'Commercehope'}
               </Typography>
             </Stack>
-            <Stack direction="row" alignItems="center" spacing={1}>
-              <Typography variant="subtitle1">Category:</Typography>
+            {category?.name && <Stack direction="row" alignItems="center" spacing={1}>
+              <Typography variant="subtitle1">Vehicle Make:</Typography>
               <Typography variant="subtitle1" color="text.secondary" fontWeight={400}>
                 {category?.name || 'Commercehope'}
               </Typography>
-            </Stack>
+            </Stack> }
             {product?.price > product?.priceSale && (
               <Stack direction="row" alignItems="center" spacing={1}>
                 <Typography variant="subtitle1">Discount:</Typography>
@@ -206,45 +205,10 @@ export default function ProductDetailsSumaryMobile({ ...props }) {
                 </Typography>
               </Stack>
             )}
-            <Stack direction="row" alignItems="center" spacing={1}>
-              <Typography variant="subtitle1">Available:</Typography>
-              <Typography
-                variant="subtitle1"
-                color="text.secondary"
-                fontWeight={400}
-                sx={{
-                  span: {
-                    color: 'error.main'
-                  }
-                }}
-              >
-                {product?.available > 0 ? `${product?.available} Items` : <span>Out of stock</span>}
-              </Typography>
-            </Stack>
-            <Stack direction="row" alignItems="center" spacing={2} pt={1}>
-              <Typography variant="subtitle1">Color:</Typography>
-              <ColorPreview color={color} setColor={setColor} colors={product?.colors} isDetail />
-            </Stack>
-            <Stack direction="row" alignItems="center" spacing={2} pt={1}>
-              <Typography variant="subtitle1">Size:</Typography>
-              <SizePreview size={size} setSize={setSize} sizes={product?.sizes} isDetail />
-            </Stack>
+            
+            
           </Stack>
-          <Stack direction="row" alignItems="center" spacing={2} className="incrementer-wrapper">
-            <Typography variant="subtitle1">Quantity:</Typography>
-            {isLoading ? (
-              <Box sx={{ float: 'right' }}>
-                <Skeleton variant="rounded" width={120} height={40} />
-              </Box>
-            ) : (
-              <div>
-                <Incrementer name="quantity" available={product?.available} />
-                {touched.quantity && errors.quantity && (
-                  <FormHelperText error>{touched.quantity && errors.quantity}</FormHelperText>
-                )}
-              </div>
-            )}
-          </Stack>
+          
           <Stack spacing={2} className="detail-actions-wrapper">
             <Stack spacing={2} direction={{ xs: 'row', sm: 'row' }} className="contained-buttons">
               <Button
@@ -266,6 +230,10 @@ export default function ProductDetailsSumaryMobile({ ...props }) {
                 type="submit"
                 variant="contained"
                 color="secondary"
+                 onClick={() => { 
+                  handleAddCart(product)
+                  router.push('/cart')
+                }}
               >
                 Buy Now
               </Button>

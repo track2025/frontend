@@ -26,16 +26,7 @@ export default function BrandsRow({ isLoading, row, handleClickOpen, sn }) {
       <TableCell>{isLoading ? <Skeleton variant="text" /> : <> {row.rate || 'Default rate'} </>}</TableCell>
 
       <TableCell>
-        {isLoading ? (
-          <Skeleton variant="text" />
-        ) : (
-          <Label
-            variant={theme.palette.mode === 'light' ? 'ghost' : 'filled'}
-            color={row?.status?.toLowerCase() === 'active' ? 'success' : 'error'}
-          >
             {capitalize(row?.status)}
-          </Label>
-        )}
       </TableCell>
       <TableCell align="right">
         <Stack direction="row" justifyContent="flex-end">

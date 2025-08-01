@@ -16,7 +16,7 @@ Page.propTypes = {
 export default function Page({ params }) {
   const { data, isLoading } = useQuery(['coupon-codes'], () => api.getCouponCodeByAdmin(params.id), {
     onError: (err) => {
-      toast.error(err.response.data.message || 'Something went wrong!');
+      toast.error(err.response.data.message || 'We ran into an issue. Please refresh the page or try again.');
     }
   });
   return (

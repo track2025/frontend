@@ -14,6 +14,8 @@ import { Toolbar, Skeleton, Stack, AppBar, useMediaQuery, Box, Container } from 
 import Logo from 'src/components/logo';
 import MenuDesktop from '../actionbar/menuDesktop';
 import config from 'src/layout/_main/config.json';
+import LogoutButton from 'src/components/logoutButton';
+
 
 
 // dynamic import components
@@ -34,7 +36,7 @@ const WishlistPopover = dynamic(() => import('src/components/popover/wislist'), 
 });
 const CartWidget = dynamic(() => import('src/components/cartWidget'), {
   loading: () => (
-    <Stack direction="row" spacing={1} alignItems="center">
+    <Stack direction="row" spacing={1} alignItems="center" >
       <Skeleton variant="circular" width={40} height={40} />
       <Box>
         <Skeleton variant="text" width={60} sx={{ mb: 0.6 }} />
@@ -67,6 +69,8 @@ const LanguageSelect = dynamic(() => import('src/components/languageSelect'), {
 // ----------------------------------------------------------------------
 export default function Navbar() {
   const { checkout } = useSelector(({ product }) => product);
+  const { user, isAuthenticated } = useSelector(({ user }) => user);
+  
   const isMobile = useMediaQuery('(max-width:768px)');
   const { menu } = config;
   const pathname = usePathname();
@@ -87,7 +91,6 @@ const isHome = pathname === '/';
           bgcolor: (theme) => alpha(theme.palette.background.paper, 1),
           borderTop: (theme) => `1px solid ${theme.palette.divider}`,
           borderBottom: (theme) => `1px solid ${theme.palette.divider}`,
-          display: { md: 'block', xs: 'none' },
           '& .toolbar': {
             justifyContent: 'space-between',
             backdropFilter: 'blur(6px)',
@@ -104,9 +107,10 @@ const isHome = pathname === '/';
             <Stack gap={4} direction="row" alignItems={'center'}>
               <Logo />
             </Stack>
-            <Stack gap={4} direction="row" alignItems={'center'}>
+            <Stack gap={4} direction="row" alignItems={'center'} sx={{ display: { md: 'block', xs: 'none' }
+}}>
                 <MenuDesktop navConfig={menu} />
-                <Button
+                 { !isAuthenticated && <Button
                 className='text-nowrap'
                   variant="contained"
                   href="/auth/login"
@@ -121,16 +125,17 @@ const isHome = pathname === '/';
                   }}
                 >
                   Sign In
-                </Button>
+                </Button> 
+                }
             </Stack>
 
             <Stack gap={2} direction="row" alignItems={'center'}>
 
               <LanguageSelect />
-              <SettingMode />
+              <SettingMode  />
               {/* <WishlistPopover />
               <CompareWidget /> */}
-              <CartWidget checkout={checkout} />
+              <CartWidget checkout={checkout}  />
             </Stack>
           </Toolbar>
         </Container>

@@ -21,6 +21,8 @@ export default function InvoiceHistory() {
     api.getUserInvoice(`?page=${pageParam || 1}`)
   );
 
+  console.log('dataxx', data)
+
   const tableData = {
     data: isLoading ? null : data?.data,
 
@@ -29,9 +31,8 @@ export default function InvoiceHistory() {
 
   const TABLE_HEAD = [
     { id: 'name', label: 'Product', alignRight: false },
-    { id: 'items', label: 'Items', alignRight: false },
     { id: 'total', label: 'Total', alignRight: false, sort: true },
-    { id: 'inventoryType', label: 'Status', alignRight: false, sort: true },
+    { id: 'download', label: 'Download', alignRight: false, sort: true },
     { id: 'createdAt', label: 'Date', alignRight: false, sort: true },
     { id: 'action', label: 'Action', alignRight: true, sort: true }
   ];

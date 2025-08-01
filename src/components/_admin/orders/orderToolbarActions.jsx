@@ -30,7 +30,7 @@ export default function OrderToolbarActions({ data }) {
       router.push('/admin/orders');
     },
     onError: () => {
-      toast.error('Something went wrong!');
+      toast.error('We ran into an issue. Please refresh the page or try again.');
       router.push('/404');
     }
   });

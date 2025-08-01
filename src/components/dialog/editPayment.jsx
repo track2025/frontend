@@ -49,7 +49,7 @@ export default function FormDialog({ open, handleClose, data, setCount }) {
       handleClose();
     },
     onError: () => {
-      toast.error('Something went wrong!');
+      toast.error('We ran into an issue. Please refresh the page or try again.');
     }
   });
   useEffect(() => {

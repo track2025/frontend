@@ -206,7 +206,7 @@ export default function ProductForm({
         ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
 
         // Watermark style
-        const fontSize = 40;
+        const fontSize = 70;
         ctx.font = `${fontSize}px Arial`;
         ctx.fillStyle = 'rgba(255, 255, 255, 0.25)';
         ctx.textAlign = 'center';

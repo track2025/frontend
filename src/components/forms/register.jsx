@@ -29,6 +29,8 @@ import { MdLocalPhone } from 'react-icons/md';
 import { FaTransgender } from 'react-icons/fa6';
 // hooks
 import { createCookies } from 'src/hooks/cookies';
+import { verifyUser } from 'src/redux/slices/user';
+
 
 export default function RegisterForm() {
   const router = useRouter();
@@ -43,15 +45,15 @@ export default function RegisterForm() {
     firstName: Yup.string().max(50, 'Too long!').required('First name is required'),
     lastName: Yup.string().max(50, 'Too long!').required('Last name is required'),
     email: Yup.string().email('Enter valid email').required('Email is required'),
-    phone: Yup.string().matches(phoneRegExp, 'Phone number is not valid').required('Phone number is required'),
+    // phone: Yup.string().matches(phoneRegExp, 'Phone number is not valid').required('Phone number is required'),
     password: Yup.string().required('Password is required').min(8, 'Password should be 8 characters or longer.')
   });
   const formik = useFormik({
     initialValues: {
       firstName: '',
       lastName: '',
-      phone: '',
-      gender: 'male',
+      // phone: '',
+      // gender: 'male',
       email: '',
       password: ''
     },
@@ -67,13 +69,24 @@ export default function RegisterForm() {
     onSuccess: async (data) => {
       dispatch(setLogin(data.user));
       await createCookies('token', data.token);
-      toast.success('OTP sent to your email' + ' ' + data.user.firstName);
+      toast.success(
+        `Welcome, ${data.user.firstName}! You’re all set. Start exploring and shop amazing track race photos and videos from your favorite photographers.`,
+        { autoClose: 4000 }
+      );
+      //toast.success(`Welcome, ${data.user.firstName}! We’ve sent a one-time password (OTP) to your email. Please check your inbox.`);
       setloading(false);
-      router.push(redirect ? `/auth/verify-otp?redirect=${redirect}` : `/auth/verify-otp`);
+      dispatch(verifyUser());
+      router.push(redirect || '/');
+      //router.push(redirect ? `/auth/verify-otp?redirect=${redirect}` : `/auth/verify-otp`);
     },
     onError: (err) => {
       const message = JSON.stringify(err.response.data.message);
-      toast.error(message ? JSON.parse(message) : 'Something went wrong!');
+      let errorMessage = parseMongooseError(message)
+      toast.error(message ? errorMessage : 'We ran into an issue. Please refresh the page or try again.', {
+              autoClose: false,        // Prevents auto-dismissal
+              closeOnClick: true,      // Allows clicking on the close icon
+              draggable: true,         // Allows dragging to dismiss
+            });
       setloading(false);
     }
   });
@@ -124,7 +137,7 @@ export default function RegisterForm() {
               />
             </Stack>
           </Stack>
-          <Stack direction={{ xs: 'column', sm: 'row' }} spacing={2}>
+          {/* <Stack direction={{ xs: 'column', sm: 'row' }} spacing={2}>
             <Stack gap={0.5} width={1}>
               <Typography variant="overline" color="text.primary" htmlFor="gender" component={'label'}>
                 Gender
@@ -177,7 +190,7 @@ export default function RegisterForm() {
                 }}
               />
             </Stack>
-          </Stack>
+          </Stack> */}
           <Stack gap={0.5} width={1}>
             <Typography variant="overline" color="text.primary" htmlFor="email" component={'label'}>
               Email
@@ -228,8 +241,20 @@ export default function RegisterForm() {
             />
           </Stack>
 
+          <Typography variant="body2" align="center" color="text.secondary" mt={2}>
+              By registering, I agree to Lap Snaps&nbsp;
+              <Link underline="always" color="text.primary" href="#" fontWeight={700}>
+                Terms
+              </Link>
+              &nbsp;and&nbsp;
+              <Link underline="always" color="text.primary" href="#" fontWeight={700}>
+                Privacy policy
+              </Link>
+              .
+        </Typography>
+
           <LoadingButton fullWidth size="large" type="submit" variant="contained" loading={loading}>
-            Register
+            {redirect ? 'Continue' : 'Register'}
           </LoadingButton>
         </Stack>
 
@@ -242,17 +267,7 @@ export default function RegisterForm() {
             Login
           </Link>
         </Typography>
-        <Typography variant="body2" align="center" color="text.secondary" mt={2}>
-          By registering, I agree to Lap Snaps&nbsp;
-          <Link underline="always" color="text.primary" href="#" fontWeight={700}>
-            Terms
-          </Link>
-          &nbsp;and&nbsp;
-          <Link underline="always" color="text.primary" href="#" fontWeight={700}>
-            Privacy policy
-          </Link>
-          .
-        </Typography>
+      
       </Form>
     </FormikProvider>
   );

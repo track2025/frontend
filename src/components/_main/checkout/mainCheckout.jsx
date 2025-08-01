@@ -80,7 +80,7 @@ const CheckoutMain = () => {
   const { mutate, isLoading } = useMutation('order', api.placeOrder, {
     onSuccess: (data) => {
       debugger;
-      toast.success('Order placed!');
+      toast.success("🎉 Your order was successful! We've emailed you the download link. You can also find it anytime in the 'My Orders' section of your account.");
       setProcessingTo(false);
 
       router.push(`/order/${data.orderId}`);
@@ -101,7 +101,7 @@ const CheckoutMain = () => {
     onError: (err) => {
       const message = JSON.stringify(err.response.data.message);
       setLoading(false);
-      toast.error(message ? JSON.parse(message) : 'Something went wrong!');
+      toast.error(message ? JSON.parse(message) : 'We ran into an issue. Please refresh the page or try again.');
     }
   });
   React.useEffect(() => {

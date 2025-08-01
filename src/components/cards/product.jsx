@@ -114,22 +114,7 @@ export default function ShopProductCard({ ...props }) {
 
         }}
       >
-        {!loading && product?.available < 1 && (
-          <Label
-            variant="filled"
-            color={'error'}
-            sx={{
-              top: isTablet ? 8 : 12,
-              left: isTablet ? 8 : 12,
-              zIndex: 9,
-              position: 'absolute',
-              textTransform: 'uppercase',
-              fontSize: isTablet ? 8 : 12
-            }}
-          >
-            Out of Stock
-          </Label>
-        )}
+        
         <Box
           {...(product?.available > 0 && {
             component: Link,
@@ -201,30 +186,7 @@ export default function ShopProductCard({ ...props }) {
                 </Tooltip>
               }
 
-              {wishlist?.filter((v) => v === _id).length > 0 ? (
-                <Tooltip title="Remove from cart">
-                  <IconButton
-                    disabled={isLoading}
-                    onClick={onClickWishList}
-                    aria-label="Remove from cart"
-                    color="primary"
-                    size={isTablet ? 'small' : 'medium'}
-                  >
-                    <IoIosHeart />
-                  </IconButton>
-                </Tooltip>
-              ) : (
-                <Tooltip title="Add to wishlist">
-                  <IconButton
-                    disabled={isLoading}
-                    onClick={onClickWishList}
-                    aria-label="add to wishlist"
-                    size={isTablet ? 'small' : 'medium'}
-                  >
-                    <IoMdHeartEmpty />
-                  </IconButton>
-                </Tooltip>
-              )}
+              
               {compareProducts?.filter((v) => v._id === _id).length > 0 ? (
                 <Tooltip title="Remove from cart">
                   <IconButton
@@ -290,7 +252,7 @@ export default function ShopProductCard({ ...props }) {
           {loading ? (
             <Skeleton variant="text" width={60} />
           ) : (
-            `$${Number(priceSale).toFixed(2)}`
+            `${fCurrency(cCurrency(product?.priceSale))}`
           )}
         </Typography>
       </Box>

@@ -21,7 +21,7 @@ export default function EditProduct({ brands, categories, slug, shops, isVendor 
     () => api[isVendor ? 'getVendorProductBySlug' : 'getProductBySlug'](slug),
     {
       onError: (err) => {
-        toast.error(err.response.data.message || 'Something went wrong!');
+        toast.error(err.response.data.message || 'We ran into an issue. Please refresh the page or try again.');
       }
     }
   );

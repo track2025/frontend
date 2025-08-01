@@ -26,7 +26,7 @@ function PayPalCheckout({ onSuccess, values, total, isValid }) {
     if (data.paymentID) {
       await onSuccess(data.paymentID);
     } else {
-      toast.error('Payment is not successful');
+      toast.error('We couldn’t complete your payment. Please verify your payment method or try a different one.');
     }
   };
 

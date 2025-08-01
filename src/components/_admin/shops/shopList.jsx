@@ -33,7 +33,7 @@ export default function AdminProducts() {
     ['admin-shops', apicall, searchParam, pageParam],
     () => api.getShopsByAdmin(+pageParam || 1, searchParam || ''),
     {
-      onError: (err) => toast.error(err.response.data.message || 'Something went wrong!')
+      onError: (err) => toast.error(err.response.data.message || 'We ran into an issue. Please refresh the page or try again.')
     }
   );
   console.log(data, 'data123');

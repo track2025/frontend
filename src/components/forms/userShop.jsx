@@ -1,5 +1,5 @@
 'use client';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useMutation } from 'react-query';
 import { updateUserRole } from 'src/redux/slices/user';
 import { useDispatch } from 'react-redux';
@@ -9,10 +9,15 @@ import { useRouter } from 'next-nprogress-bar';
 // mui
 import { styled } from '@mui/material/styles';
 import { LoadingButton } from '@mui/lab';
-import { Card, Stack, TextField, Typography, Box, FormHelperText, Grid } from '@mui/material';
+import { Card, Stack, TextField, Typography, Box, FormHelperText, Grid, MenuItem } from '@mui/material';
 // components
 import UploadSingleFile from 'src/components/upload/UploadSingleFile';
 import countries from 'src/components/_main/checkout/countries.json';
+import { useQuery } from 'react-query';
+import { useSelector } from 'react-redux';
+import parseMongooseError from 'src/utils/errorHandler'
+
+
 // yup
 import * as Yup from 'yup';
 // axios
@@ -48,30 +53,55 @@ export default function CreateShopSettingFrom() {
     open: false
   });
 
+  const { user, isAuthenticated } = useSelector(({ user }) => user);
+  useEffect(() => {
+    if (!isAuthenticated) {
+      // Redirect with the current page or fixed redirect path
+      router.replace('/auth/register?redirect=/create-shop');
+    }
+  }, [isAuthenticated, router]);
+
+
+  
+
+  const { data } = useQuery(['get-currencies'], () => api.getCurrencies());
+
   const { mutate, isLoading } = useMutation('new-user-shop', api.addShopByUser, {
     retry: false,
     onSuccess: () => {
-      toast.success('Shop is under review!');
+      toast.success('Your photographer account is now under review.', {
+        autoClose: 4000
+      });      
       dispatch(updateUserRole());
       router.push('/vendor/dashboard');
     },
     onError: (error) => {
-      toast.error(error.response.data.message);
+      let errorMessage = parseMongooseError(error.response.data.message)
+      toast.error(errorMessage, {
+        autoClose: false,        // Prevents auto-dismissal
+        closeOnClick: true,      // Allows clicking on the close icon
+        draggable: true,         // Allows dragging to dismiss
+      });
     }
   });
 
   const ShopSettingScema = Yup.object().shape({
-    title: Yup.string().required('title is required'),
+    username: Yup.string().required('username is required')
+    .matches(
+      /^[a-zA-Z0-9][a-zA-Z0-9._]{2,29}$/,
+      'Username must start with a letter or number and can contain letters, numbers, dots, and underscores. Length must be between 3 and 30 characters.'
+    ),
     cover: Yup.mixed().required('Cover is required'),
     logo: Yup.mixed().required('logo is required'),
     slug: Yup.string().required('Slug is required'),
-    description: Yup.string().required('Description is required'),
+    description: Yup.string().required('Payoff line is required'),
     phone: Yup.string().required('Phone Number is required'),
+    defaultPrice: Yup.number().required('Default Price is required'),
     paymentInfo: Yup.object().shape({
       holderName: Yup.string().required('Holder Name is required'),
       holderEmail: Yup.string().required('Holder email is required'),
-      bankName: Yup.string().required('Bank name is required'),
-      AccountNo: Yup.number().required('Account No is required')
+      // bankName: Yup.string().required('Bank name is required'),
+      // AccountNo: Yup.number().required('Account No is required')
     }),
     address: Yup.object().shape({
       city: Yup.string().required('City is required'),
@@ -81,21 +111,23 @@ export default function CreateShopSettingFrom() {
   });
   const formik = useFormik({
     initialValues: {
-      title: '',
+      username: '',
       cover: null,
       logo: null,
       description: '',
       file: '',
       slug: '',
       phone: '',
+      defaultCurrency: 'AED',
+      defaultPrice:100,
       paymentInfo: {
-        holderName: '',
-        holderEmail: '',
-        bankName: '',
-        AccountNo: ''
+        holderName: user?.firstName + ' ' + user?.lastName,
+        holderEmail: user?.email,
+        // bankName: '',
+        // AccountNo: ''
       },
       address: {
-        country: '',
+        country: 'United Arab Emirates',
         city: '',
         state: '',
         streetAddress: ''
@@ -104,8 +136,8 @@ export default function CreateShopSettingFrom() {
     enableReinitialize: true,
     validationSchema: ShopSettingScema,
     onSubmit: async (values) => {
+      console.log(values)
       const { file, ...rest } = values;
-      console.log(file, '');
       try {
         mutate({
           ...rest
@@ -260,12 +292,12 @@ export default function CreateShopSettingFrom() {
   return (
     <Box position="relative">
       <Typography variant="h2" color="text-primary" py={6}>
-        Create Shop
+        Complete your photographer profile
       </Typography>
       <FormikProvider value={formik}>
         <Form noValidate autoComplete="off" onSubmit={handleSubmit}>
           <Grid container spacing={2}>
-            <Grid item sx={{
+                        <Grid item sx={{
               width: {
                 xs: '100%', // mobile
                 md: '60%'   // desktop
@@ -276,17 +308,17 @@ export default function CreateShopSettingFrom() {
                  
                   <Box sx={{ width: '100%' }}>
                     <div>
-                      <LabelStyle component={'label'} htmlFor="title">
-                        Title
+                      <LabelStyle component={'label'} htmlFor="username">
+                        Username
                       </LabelStyle>
 
                       <TextField
-                        id="title"
+                        id="username"
                         fullWidth
-                        {...getFieldProps('title')}
+                        {...getFieldProps('username')}
                         onChange={handleTitleChange} // add onChange handler for title
-                        error={Boolean(touched.title && errors.title)}
-                        helperText={touched.title && errors.title}
+                        error={Boolean(touched.username && errors.username)}
+                        helperText={touched.username && errors.username}
                         sx={{ mt: 1 }}
                       />
                     </div>
@@ -296,7 +328,7 @@ export default function CreateShopSettingFrom() {
                   <Box sx={{ width: '100%' }}>
                     <LabelStyle component={'label'} htmlFor="description">
                       {' '}
-                      {'Description'}{' '}
+                      {'Pay Off Line'}{' '}
                     </LabelStyle>
 
                     <TextField
@@ -305,11 +337,45 @@ export default function CreateShopSettingFrom() {
                       {...getFieldProps('description')}
                       error={Boolean(touched.description && errors.description)}
                       helperText={touched.description && errors.description}
-                      rows={9}
+                      rows={3}
                       multiline
                     />
                   </Box>
+
                 </Stack>
+
+<Stack mt={3} spacing={2} direction="row" spacing={3} flexGrow="wrap">
+    <Box sx={{ width: '100%' }}>
+  <LabelStyle>Default Price</LabelStyle>
+
+  <Stack direction="row" spacing={2}>
+    <TextField
+      select
+      label="Currency"
+      fullWidth
+      {...getFieldProps('defaultCurrency')}
+       error={Boolean(touched.defaultCurrency && errors.defaultCurrency)}
+       helperText={touched.defaultCurrency && errors.defaultCurrency}
+    >
+      {(data?.data)?.map((cur, index) => (
+        <MenuItem key={index} value={cur.code}>
+          {cur.code}
+        </MenuItem>
+      ))}
+    </TextField>
+
+    <TextField
+      type="number"
+      label={`Price (${values.defaultCurrency})`}
+      fullWidth
+      {...getFieldProps('defaultPrice')}
+      error={Boolean(touched.defaultPrice && errors.defaultPrice)}
+      helperText={touched.defaultPrice && errors.defaultPrice}
+    />
+  </Stack>
+  </Box>
+</Stack>
+
                  <Box mt={3}>
                     <Stack direction="row" justifyContent="space-between">
                       <LabelStyle variant="body1" component={'label'} color="text.primary">
@@ -366,6 +432,7 @@ export default function CreateShopSettingFrom() {
                 </Box>{' '}
               </Card>
             </Grid>
+
             <Grid item sx={{
               width: {
                 xs: '100%', // mobile
@@ -382,7 +449,7 @@ export default function CreateShopSettingFrom() {
                 <Stack spacing={3}>
                   <Card sx={{ p: 3 }}>
                     <Stack spacing={2}>
-                      <div>
+                      {/* <div>
                         <LabelStyle component={'label'} htmlFor="holder-name">
                           Full Name
                         </LabelStyle>
@@ -407,8 +474,8 @@ export default function CreateShopSettingFrom() {
                           error={Boolean(touched.paymentInfo?.holderEmail && errors.paymentInfo?.holderEmail)}
                           helperText={touched.paymentInfo?.holderEmail && errors.paymentInfo?.holderEmail}
                         />
-                      </div>
-                      <div>
+                      </div> */}
+                      {/* <div>
                         <LabelStyle component={'label'} htmlFor="bank-name">
                           Bank Name
                         </LabelStyle>
@@ -433,7 +500,7 @@ export default function CreateShopSettingFrom() {
                           error={Boolean(touched.paymentInfo?.AccountNo && errors.paymentInfo?.AccountNo)}
                           helperText={touched.paymentInfo?.AccountNo && errors.paymentInfo?.AccountNo}
                         />
-                      </div>
+                      </div> */}
                       <div>
                         <LabelStyle component={'label'} htmlFor="phone">
                           Phone Number

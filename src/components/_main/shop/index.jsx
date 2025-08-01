@@ -20,31 +20,31 @@ export default function ShopSettingMain() {
     onSuccess: (res) => {
       if (res.data) {
         if (res.data.status === 'approved') {
-          toast.success('Welcome, Your shop is approved!');
+          toast.success("🎉 Welcome! Your shop has been approved — you're all set to start selling!");
           dispatch(updateStatus('vendor'));
           router.push('/vendor/dashboard');
         }
         if (res.data.status === 'not approved') {
-          toast.error('apologize, Your shop is not approved!');
+          toast.error('Oops! Your shop isn’t approved yet. Don’t worry — Please contact our support team and we’ll guide you through the next steps.');
         }
         if (res.data.status === 'canceled') {
-          toast.error('apologize, Your shop is not approved!');
+          toast.error('Oops! Your shop isn’t approved yet. Don’t worry — Please contact our support team and we’ll guide you through the next steps.');
         }
         if (res.data.status === 'closed') {
-          toast.error('Welcome, Your shop is closed!');
+          toast.error('Your shop is currently closed. You can reopen it from your dashboard anytime');
         }
       }
     },
 
     onError: (err) => {
-      toast.error(err.response.data.message || 'Something went wrong!');
+      toast.error(err.response.data.message || 'We ran into an issue. Please refresh the page or try again.');
       router.push('/');
     }
   });
   useEffect(() => {
     if (!user?.isVerified) {
       router.push('/');
-      toast.error('Verify your email!');
+      toast.error('Just one more step — check your inbox to verify your email!');
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);

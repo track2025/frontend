@@ -28,7 +28,7 @@ export default function OrdersAdminList({ isVendor, shops }) {
     ['orders', apicall, searchParams.toString()],
     () => api[isVendor ? 'getOrdersByVendor' : 'getOrdersByAdmin'](searchParams.toString()),
     {
-      onError: (err) => toast.error(err.response.data.message || 'Something went wrong!')
+      onError: (err) => toast.error(err.response.data.message || 'We ran into an issue. Please refresh the page or try again.')
     }
   );
   const [open, setOpen] = useState(false);

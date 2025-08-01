@@ -23,7 +23,7 @@ export default function Details({ ...props }) {
   return (
     <RootStyled>
       <Grid spacing={2} container>
-        <Grid item xs={12} md={12}>
+        {/* <Grid item xs={12} md={12}>
           <Card className="detail-card">
             <CardContent className="detail-card-content">
               <Stack spacing={2} direction="row" justifyContent="flex-start" alignItems="center">
@@ -60,15 +60,15 @@ export default function Details({ ...props }) {
                     <Typography className="email-haeding" variant="body2">
                       <strong>Email</strong>: {user?.email}
                     </Typography>
-                    <Typography variant="body2">
+                    {/* <Typography variant="body2">
                       <strong>Address</strong>: {user?.address} {user?.zip}, {user?.city} {user?.state}, {user?.country}
-                    </Typography>
-                  </>
+                    </Typography> */}
+                  {/* </>
                 )}
               </Stack>
             </CardContent>
           </Card>
-        </Grid>
+        </Grid> */} 
         <Grid item xs={12} md={12}>
           <Card className="detail-card">
             <CardContent className="detail-card-content">
@@ -111,12 +111,12 @@ export default function Details({ ...props }) {
                       </Typography>
                     )}
 
-                    <Typography variant="body2" textTransform="capitalize">
+                    {/* <Typography variant="body2" textTransform="capitalize">
                       <strong>Status</strong>: {data?.status}
-                    </Typography>
-                    <Typography variant="body2" textTransform="capitalize">
+                    </Typography> */}
+                    {/* <Typography variant="body2" textTransform="capitalize">
                       <strong>Shipping Fee</strong>: {fCurrency(data?.shipping * data?.conversionRate)}
-                    </Typography>
+                    </Typography> */}
                     <Typography variant="body2">
                       <strong>Order Date</strong>:{' '}
                       {data?.createdAt &&

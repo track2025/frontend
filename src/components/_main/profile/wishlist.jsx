@@ -17,7 +17,7 @@ export default function Wishlist() {
   const { wishlist } = useSelector(({ wishlist }) => wishlist);
 
   const { data, isLoading } = useQuery(['get-wishlist-products', wishlist], () => api.getWishlist(wishlist), {
-    onError: (err) => toast.error(err.response.data.message || 'Something went wrong!')
+    onError: (err) => toast.error(err.response.data.message || 'We ran into an issue. Please refresh the page or try again.')
   });
 
   return (

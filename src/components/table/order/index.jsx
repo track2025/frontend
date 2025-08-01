@@ -62,7 +62,7 @@ export default function TableCard({ ...props }) {
             </TableCell>
           </TableRow>
 
-          <TableRow>
+          {/* <TableRow>
             <TableCell colSpan={4}></TableCell>
             <TableCell align="right">
               {isLoading ? (
@@ -79,7 +79,7 @@ export default function TableCard({ ...props }) {
                 <strong>{fCurrency(data?.shipping * conversionRate)}</strong>
               )}
             </TableCell>
-          </TableRow>
+          </TableRow> */}
           <TableRow>
             <TableCell colSpan={4}></TableCell>
             <TableCell align="right">

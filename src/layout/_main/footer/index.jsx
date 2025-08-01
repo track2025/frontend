@@ -109,7 +109,7 @@ export default function Footer() {
               </Typography>
               <Stack>
                 {ADDRESS.map((item, idx) => (
-                  <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }} key={idx}>
+                  <Box sx={{ display: 'flex', gap: 2 }} key={idx}>
                     <IconButton
                       sx={{
                         svg: {

@@ -42,7 +42,7 @@ export default function Page({ params: { pid } }) {
   const searchParams = useSearchParams();
   const pageParam = searchParams.get('page');
   const { data, isLoading } = useQuery(['shop-payment', pageParam], () => api.getIncomeDetailsByAdmin(pid, pageParam), {
-    onError: (err) => toast.error(err.response.data.message || 'Something went wrong!')
+    onError: (err) => toast.error(err.response.data.message || 'We ran into an issue. Please refresh the page or try again.')
   });
 
   const dataMain = [

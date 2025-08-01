@@ -31,12 +31,12 @@ export default function ResetPasswordForm({ ...props }) {
     onSuccess: () => {
       setloading(false);
       push('/auth/login');
-      toast.success('Password successfully updated.');
+      toast.success('✅ Your password has been updated successfully!');
     },
     onError: (err) => {
       const message = JSON.stringify(err.response.data.message);
       setloading(false);
-      toast.error(message || 'Reset failed. try again');
+      toast.error(message || 'Password reset failed. Please check your details and try again.');
     }
   });
 
