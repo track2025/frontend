@@ -168,7 +168,7 @@ export default function ProductsCarousel({ ...props }) {
                 ? Array.from(new Array(4))
                 : data?.slice(imageIndex * slidesToShow, (imageIndex + 1) * slidesToShow)
               ).map((item) => (
-                <Grid item  className="col-lg-3 col-md-4  col-sm-6  col-xs-6 " key={Math.random()}>
+                <Grid item  className="col-lg-3 col-md-4  col-sm-6  col-xs-6  mb-3" key={Math.random()}>
                   <CarouselItem
                     themeMode={themeMode}
                     item={data ? item : null}

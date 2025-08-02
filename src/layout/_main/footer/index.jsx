@@ -103,8 +103,9 @@ export default function Footer() {
                     <Image
                       src="/logo.png"
                       alt="Logo"
-                      width={300}
+                      width={250}
                       height={20}
+                      className='img-fluid'
                     />
                   </Link>
                     

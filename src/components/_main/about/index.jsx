@@ -39,42 +39,31 @@ export default function Index() {
   return (
     <>
       <Box sx={{ my: 8 }}>
-        <Grid container spacing={3}>
-          <Grid item md={6} xs={12}>
-            <Stack direction="row" spacing={3} mt={5}>
-              <Box sx={{ position: 'relative', width: '100%', height: 418, borderRadius: 4, overflow: 'hidden' }}>
-                <Image src={AboutImage} alt="" fill placeholder="blur" objectFit="cover" />
-              </Box>
-              <Box
-                sx={{
-                  position: 'relative',
-                  width: '100%',
-                  height: 418,
-                  borderRadius: 4,
-                  overflow: 'hidden',
-                  transform: 'translateY(-40px)'
-                }}
-              >
-                <Image src={AboutImage2} alt="" fill placeholder="blur" objectFit="cover" />
-              </Box>
-            </Stack>
-          </Grid>
+        <Grid container>
+          
           <Grid item md={6} xs={12} sx={{ display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
             <Typography variant="h6" fontSize="16px" textTransform="uppercase" color="primary">
               Who We Are?
             </Typography>
             <Typography variant="h2" fontWeight={800}>
-              Creating a World Where Fashion is a Lifestyle
+            A Platform Where Race Cars Live Forever in Frames
             </Typography>
             <Typography variant="body1" fontWeight={400} color="text.secondary" mt={2}>
-              Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the
-              industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and
-              scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into
-              electronic typesetting, remaining essentially unchanged. Lorem Ipsum has survived not only five centuries,
-              but also the leap into electronic typesetting, remaining essentially unchanged. Lorem Ipsum is simply
-              dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy
-              text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type
-              specimen book.
+            Lap Snaps is the world’s first dedicated marketplace for high-quality race car photography — a platform where speed, precision, and visual storytelling converge. Built exclusively for motorsport photographers and enthusiasts, Lap Snaps offers a seamless environment where stunning images of race cars are bought and sold with ease, efficiency, and purpose. Our mission is simple but powerful: to elevate the value of race car photography and connect creators with those who appreciate, collect, and need the most dynamic automotive visuals available.
+<br></br> <br></br>
+In the world of motorsports, every fraction of a second matters — and so does every frame. Photographers across the globe capture breathtaking moments from race tracks, pit lanes, staging areas, and victory podiums, often under intense conditions and with a deep understanding of both the sport and the machine. These are more than just pictures — they’re time capsules of speed, performance, emotion, and engineering excellence. Until now, there hasn't been a dedicated platform where these photographs could live, thrive, and be accessed by a global audience. That’s where Lap Snaps comes in.
+<br></br> <br></br>
+Lap Snaps is designed to be a creative hub and professional sales tool for motorsport photographers. Whether you're shooting Formula 1, endurance racing, touring cars, drag events, rallycross, or grassroots time attack competitions, this platform gives you the ability to upload your images, organize your portfolio, set prices, and track every sale from a clean, intuitive dashboard. We've made it easy for photographers to monetize their craft without jumping through the hoops of traditional licensing platforms or generic stock photo websites. Every image you upload to Lap Snaps is presented to an audience that genuinely values motorsport content — from racing teams and automotive brands to media houses, collectors, sponsors, content creators, and passionate fans.
+<br></br> <br></br>
+For buyers, Lap Snaps is a goldmine of exclusive, high-resolution race car photography. Whether you need dramatic action shots for editorial use, sponsor decks, brand campaigns, or personal collections, you’ll find an unparalleled range of imagery here. Our library includes thousands of photos from international circuits and local tracks alike — showcasing cars in motion, technical details, car liveries, driver portraits, night races, pre-grid intensity, pit stop chaos, and finish-line glory. With our advanced search features, users can explore images by series, event, team, location, car type, and even photographer — making it easy to find exactly what you're looking for in seconds.
+<br></br> <br></br>
+What sets Lap Snaps apart is our unwavering focus on the racing world. This isn't a platform where your work competes with wedding photos, travel shots, or lifestyle content. Every photo, every buyer, and every tool is designed with one purpose in mind: motorsport photography. We are building a dedicated ecosystem where creators are respected, work is protected, and value is shared fairly between artist and audience.
+<br></br> <br></br>
+Our commitment goes beyond just being a marketplace. We are creating a living archive of racing history through the eyes of the photographers who capture it. Lap Snaps supports independent professionals, emerging talents, and seasoned veterans alike, offering a level playing field where quality and passion rise to the top. As the world of racing evolves, with new technologies, disciplines, and audiences, our platform will continue to grow — serving as the digital home for the most iconic and undiscovered race car images in the world.
+<br></br> <br></br>
+At Lap Snaps, we believe race cars are more than machines — they are legends in motion. And the photographs that capture them are not just files; they are art, history, and inspiration. Whether you're here to sell your work, build your brand, find the perfect shot, or simply explore the beauty of motorsport through a photographer’s lens, Lap Snaps welcomes you to a world where the thrill of racing meets the power of photography.
+
+
             </Typography>
           </Grid>
         </Grid>
@@ -95,9 +84,9 @@ export default function Index() {
       {/* WhyUs  */}
       <WhyUs />
       <Box sx={{ marginY: { md: 10, sm: 8, xs: 5 } }}>
-        <Grid container spacing={3}>
+        <Grid container className="row" >
           {Data.map((item, idx) => (
-            <Grid item md={3} sm={6} xs={12} key={Math.random()}>
+            <Grid item md={3} sm={6} xs={12} key={Math.random()} className="mb-3 col-md-3 col-sm-6 col-xs-12">
               <Stack
                 textAlign="center"
                 sx={{ border: `1px solid ${theme.palette.divider}`, borderRadius: 2, p: 2 }}
@@ -134,9 +123,9 @@ export default function Index() {
         >
           Meet out expert team members.
         </Typography>
-        <Grid container spacing={3} mt={5}>
+        <Grid container className="row" mt={5}>
           {[1, 2, 3, 4].map((index) => (
-            <Grid item md={3} sm={2} xs={6} key={index}>
+            <Grid item md={3} sm={2} xs={6} key={index}  className="col-md-3 col-sm-2 col-xs-6 mb-3">
               <Team />
             </Grid>
           ))}

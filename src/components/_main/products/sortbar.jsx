@@ -159,9 +159,7 @@ export default function SortBar({ compaign, productData, shop, isLoading, sortDa
           <FormControl
             size="small"
             fullWidth
-            sx={{
-              minWidth: 180
-            }}
+           
           >
             {state || state === '' ? (
               <Select id="sort-select" value={state} onChange={handleChange}>
