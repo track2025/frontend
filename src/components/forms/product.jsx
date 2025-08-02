@@ -25,7 +25,7 @@ import {
   FormGroup,
   Skeleton,
   Switch,
-  InputAdornment
+  InputAdornment,
 } from '@mui/material';
 // api
 import * as api from 'src/services';
@@ -90,10 +90,22 @@ export default function ProductForm({
     });
     
   const NewProductSchema = Yup.object().shape({
-    name: Yup.string().required('Car Registration is required'),
-    category: Yup.string().required('Vehicle make is required'),
+    // name: Yup.string().when('Multiple', {
+    //     is: false, // If `Multiple` is false, then `name` is required
+    //     then: Yup.string().required('Car Registration is required'),
+    //     otherwise: Yup.string().notRequired(), // If `Multiple` is true, not required
+    //   }),   
+    // category: Yup.string().when('Multiple', {
+    //   is: false,
+    //   then: Yup.string().required('Vehicle make is required'),
+    //   otherwise: Yup.string().notRequired(),
+    // }),
     shop: isVendor ? Yup.string().nullable().notRequired() : Yup.string().required('Photographer is required'),
-    subCategory: Yup.string().required('Vehicle model is required'),
+    // subCategory: Yup.string().when('Multiple', {
+    //   is: false,
+    //   then: Yup.string().required('Vehicle model is required'),
+    //   otherwise: Yup.string().notRequired(),
+    // }),
     brand: Yup.string().required('Location is required'),
     images: Yup.array().min(1, 'Images is required'),
     // price: Yup.number().required('Price is required'),
@@ -111,7 +123,9 @@ export default function ProductForm({
       subCategory: currentProduct?.subCategory || (categories.length && categories[0].subCategories[0]?._id) || '',
       isFeatured: currentProduct?.isFeatured || false,
       priceSale: currentProduct?.priceSale || '',
-      images: currentProduct?.images || []
+      images: currentProduct?.images || [],
+      dateCaptured: currentProduct?.dateCaptured || new Date().toISOString().split('T')[0],
+      Multiple: false
     },
 
     validationSchema: NewProductSchema,
@@ -330,11 +344,29 @@ export default function ProductForm({
       <FormikProvider value={formik}>
         <Form noValidate autoComplete="off" onSubmit={handleSubmit}>
           <Grid container spacing={3}>
-            <Grid item xs={12} md={7}>
+            <Grid item sx={{
+                            width: {
+                              xs: '100%', // mobile
+                              md: '65%'   // desktop
+                            }
+                          }}>
               <Stack spacing={3}>
                 <Card sx={{ p: 3 }}>
+                  <div>
+                          <FormGroup>
+                            <FormControlLabel
+                              control={
+                                <Switch
+                                  onChange={(e) => setFieldValue('Multiple', e.target.checked)}
+                                  checked={values.Multiple}
+                                />
+                              }
+                              label={'Check this if uploading pictures of multiple vehicles makes/model'}
+                            />
+                          </FormGroup>
+                  </div>
                   <Stack spacing={3}>
-                    <div>
+                    { !values.Multiple && <div>
                       {isInitialized ? (
                         <Skeleton variant="text" width={140} />
                       ) : (
@@ -352,10 +384,12 @@ export default function ProductForm({
                           onChange={handleTitleChange} // add onChange handler for title
                           error={Boolean(touched.name && errors.name)}
                           helperText={touched.name && errors.name}
+                          
                         />
                       )}
-                    </div>
-                    <div>
+                       
+                    </div> }
+                     <div>
                       <Grid container spacing={2}>
                         {isVendor ? null : (
                           <Grid item sx={{
@@ -390,7 +424,7 @@ export default function ProductForm({
                           </Grid>
                         )}
 
-                        <Grid item sx={{
+                       { !values.Multiple &&  <Grid item sx={{
                             width: {
                               xs: '100%', // mobile
                               md: '100%'   // desktop
@@ -428,8 +462,8 @@ export default function ProductForm({
                               </FormHelperText>
                             )}
                           </FormControl>
-                        </Grid>
-                        <Grid item sx={{
+                        </Grid>}
+                        { !values.Multiple &&  <Grid item sx={{
                             width: {
                               xs: '100%', // mobile
                               md: '100%'   // desktop
@@ -469,37 +503,104 @@ export default function ProductForm({
                               </FormHelperText>
                             )}
                           </FormControl>
-                        </Grid>
+                        </Grid> }
                         <Grid item sx={{
                             width: {
                               xs: '100%', // mobile
                               md: '100%'   // desktop
                             }
                           }}>
-                          <FormControl fullWidth>
-                            {isInitialized ? (
-                              <Skeleton variant="text" width={100} />
-                            ) : (
-                              <LabelStyle component={'label'} htmlFor="brand-name">
-                                {'Location'}
-                              </LabelStyle>
-                            )}
+                                        <FormControl fullWidth>
+                                          {isInitialized ? (
+                                            <Skeleton variant="text" width={100} />
+                                          ) : (
+                                            <LabelStyle component={'label'} htmlFor="location">
+                                              {'Location'}
+                                            </LabelStyle>
+                                          )}
 
-                            <Select native {...getFieldProps('brand')} value={values.brand} id="grouped-native-select">
-                              {brands?.map((brand) => (
-                                <option key={brand._id} value={brand._id}>
-                                  {brand.name}
-                                </option>
-                              ))}
-                            </Select>
+                                          <Autocomplete
+                                            freeSolo
+                                            id="location-select"
+                                            options={brands?.map((brand) => ({
+                                              id: brand._id,
+                                              label: brand.name
+                                            })) || []}
+                                            value={values.brand ? { 
+                                              id: values.brand, 
+                                              label: brands?.find(b => b._id === values.brand)?.name || values.brand 
+                                            } : null}
+                                            onChange={(event, newValue) => {
+                                              // Handle both selected option and free text input
+                                              const newValueId = newValue?.id || newValue;
+                                              setFieldValue('brand', newValueId);
+                                            }}
+                                            onInputChange={(event, newInputValue) => {
+                                              // If you want to update the field value as user types (optional)
+                                              // setFieldValue('brand', newInputValue);
+                                            }}
+                                            renderInput={(params) => (
+                                              <TextField
+                                                {...params}
+                                                error={touched.brand && Boolean(errors.brand)}
+                                              />
+                                            )}
+                                          />
 
-                            {touched.brand && errors.brand && (
-                              <FormHelperText error sx={{ px: 2, mx: 0 }}>
-                                {touched.brand && errors.brand}
-                              </FormHelperText>
-                            )}
-                          </FormControl>
+                                          {touched.brand && errors.brand && (
+                                            <FormHelperText error sx={{ px: 2, mx: 0 }}>
+                                              {touched.brand && errors.brand}
+                                            </FormHelperText>
+                                          )}
+                                        </FormControl>                        
+
                         </Grid>
+
+                        <Grid item sx={{
+                            width: {
+                              xs: '100%', // mobile
+                              md: '100%'   // desktop
+                            }
+                          }}>
+                                        <FormControl fullWidth>
+                                          {isInitialized ? (
+                                            <Skeleton variant="text" width={100} />
+                                          ) : (
+                                            <LabelStyle component={'label'} htmlFor="DateTaken">
+                                              {'Date Captured'}
+                                            </LabelStyle>
+                                          )}
+
+                                          <TextField
+                                            //label="Date Captured"
+                                            type="date"
+                                            InputLabelProps={{
+                                              shrink: true,
+                                            }}
+                                            sx={{  width: {
+                                              xs: '100%', // mobile
+                                              md: '100%'   // desktop
+                                            } }}
+                                            value={values.dateCaptured}
+                                            onChange={(e) => {
+                                               formik.setFieldValue('dateCaptured', e.target.value)
+                                            }}
+                                            inputProps={{
+                                              max: new Date().toISOString().split('T')[0] // Disable future dates
+                                            }}
+
+                                          />
+
+                                          
+                                          {touched.dateCaptured && errors.dateCaptured && (
+                                            <FormHelperText error sx={{ px: 2, mx: 0 }}>
+                                              {touched.dateCaptured && errors.dateCaptured}
+                                            </FormHelperText>
+                                          )}
+                                        </FormControl>                        
+
+                        </Grid>
+
 
                         <Grid item sx={{
                             width: {

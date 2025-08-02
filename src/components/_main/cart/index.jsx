@@ -18,7 +18,7 @@ const ShoppingCart = dynamic(() => import('src/components/_main/cart/shoppingCar
 });
 const PaymentSummary = dynamic(() => import('src/components/_main/cart/paymentSummary'), {
   loading: () => <PaymentSummarySkeleton />
-});
+}); 
 
 export default function CartMain() {
   const dispatch = useDispatch();
