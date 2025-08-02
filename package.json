@@ -5,7 +5,7 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
-    "start": "next start",
+    "start": "next start -p 3001",
     "lint": "next lint",
     "prod": "next build && next start"
   },
@@ -65,6 +65,7 @@
     "redux-logger": "^3.0.6",
     "redux-persist": "^6.0.0",
     "server-only": "^0.0.1",
+    "sharp": "^0.34.3",
     "simplebar-react": "^3.2.4",
     "stripe": "^14.9.0",
     "stylis": "^4.3.0",

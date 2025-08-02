@@ -28,9 +28,9 @@ export async function generateMetadata({ params }) {
     title: response.metaTitle,
     description: response.metaDescription,
     title: response.name,
-    openGraph: {
-      images: [response.cover.url]
-    }
+    // openGraph: {
+    //   images: [response?.cover?.url]
+    // }
   };
 }
 
