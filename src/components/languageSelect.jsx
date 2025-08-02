@@ -18,7 +18,7 @@ import { FaExchangeAlt } from 'react-icons/md';
 // api
 import * as api from 'src/services';
 import { useQuery } from 'react-query';
-import getLocation from 'src/utils/geolocation';
+// import getLocation from 'src/utils/geolocation';
 
 export default function LanguageSelect() {
   const dispatch = useDispatch();

@@ -96,13 +96,18 @@ export default function Footer() {
         <Grid container spacing={4} justifyContent="space-between">
           <Grid item md={4} xs={12} flexGrow={1}>
             <Stack spacing={3}>
-              
+                  <Link
+                    href={`/`}
+                   
+                  >
                     <Image
                       src="/logo.png"
                       alt="Logo"
                       width={300}
                       height={20}
                     />
+                  </Link>
+                    
               
               <Typography variant="body1" color="text.secondary">
                 Your Car's Perfect Shot

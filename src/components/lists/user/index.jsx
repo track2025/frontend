@@ -16,7 +16,7 @@ import { LuLayoutDashboard } from 'react-icons/lu';
 import { SlHome } from 'react-icons/sl';
 import { TbUserSquareRounded } from 'react-icons/tb';
 import { CiShop } from 'react-icons/ci';
-import LogoutButton from 'src/components/logoutButton';
+// import LogoutButton from 'src/components/logoutButton';
 
 // styles
 import RootStyled from './styled';
