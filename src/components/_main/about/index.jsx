@@ -93,10 +93,10 @@ At Lap Snaps, we believe race cars are more than machines — they are legends i
                 key={idx}
               >
                 <Typography variant="h3" color="text.secondary">
-                  {item.range}
+                  {item?.range}
                 </Typography>
                 <Typography variant="h3" color="text.primary">
-                  {item.name}
+                  {item?.name}
                 </Typography>
                 <Typography
                   variant="body1"
@@ -104,7 +104,7 @@ At Lap Snaps, we believe race cars are more than machines — they are legends i
                   color="text.secondary"
                   sx={{ maxWidth: 350, textAlign: 'center', mx: 'auto' }}
                 >
-                  {item.description}
+                  {item?.description}
                 </Typography>
               </Stack>
             </Grid>

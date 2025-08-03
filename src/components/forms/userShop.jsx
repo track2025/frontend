@@ -39,7 +39,7 @@ const LabelStyle = styled(Typography)(({ theme }) => ({
   color: theme.palette.text.secondary,
   marginBottom: theme.spacing(1),
   lineHeight: 2.5
-}));
+})); 
 
 export default function CreateShopSettingFrom() {
   const router = useRouter();
@@ -297,7 +297,7 @@ export default function CreateShopSettingFrom() {
       <FormikProvider value={formik}>
         <Form noValidate autoComplete="off" onSubmit={handleSubmit}>
           <Grid container spacing={2}>
-                        <Grid item sx={{
+            <Grid item sx={{
               width: {
                 xs: '100%', // mobile
                 md: '60%'   // desktop
@@ -341,7 +341,6 @@ export default function CreateShopSettingFrom() {
                       multiline
                     />
                   </Box>
-
                 </Stack>
 
 <Stack mt={3} spacing={2} direction="row" spacing={3} flexGrow="wrap">

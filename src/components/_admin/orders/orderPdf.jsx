@@ -112,9 +112,9 @@ export default function InvoicePDF({ data }) {
           <View style={styles.col6}>
             <Text style={[styles.overline, styles.mb8]}>Invoice from</Text>
             <Text style={styles.body1}>Lap Snaps</Text>
-            <Text style={styles.body1}>London, England</Text>
-            <Text style={styles.body1}>+123 4567 890</Text>
-            <Text style={styles.body1}> info@nextall.com</Text>
+            <Text style={styles.body1}>Dubai , UAE</Text>
+            <Text style={styles.body1}>+971500000000</Text>
+            <Text style={styles.body1}> info@lapsnaps.com</Text>
           </View>
           <View style={styles.col6}>
             <Text style={[styles.overline, styles.mb8]}>Invoice to</Text>
@@ -139,12 +139,6 @@ export default function InvoicePDF({ data }) {
                 <Text style={styles.subtitle2}>Product Name</Text>
               </View>
               <View style={styles.tableCell_3}>
-                <Text style={styles.subtitle2}>Color</Text>
-              </View>
-              <View style={styles.tableCell_3}>
-                <Text style={styles.subtitle2}>Size</Text>
-              </View>
-              <View style={styles.tableCell_3}>
                 <Text style={styles.subtitle2}>Qty</Text>
               </View>
               <View style={styles.tableCell_3}>
@@ -158,24 +152,18 @@ export default function InvoicePDF({ data }) {
 
           <View style={styles.tableBody}>
             {data?.items.map((item, index) => (
-              <View style={styles.tableRow} key={item.id}>
+              <View style={styles.tableRow} key={item?.id}>
                 <View style={styles.tableCell_1}>
                   <Text>{index + 1}</Text>
                 </View>
                 <View style={styles.tableCell_2}>
-                  <Text style={styles.subtitle2}>{item.name}</Text>
+                  <Text style={styles.subtitle2}>{item?.name}</Text>
                 </View>
                 <View style={styles.tableCell_3}>
-                  <Text>{item.color}</Text>
+                  <Text>{item?.quantity}</Text>
                 </View>
                 <View style={styles.tableCell_3}>
-                  <Text>{item.size}</Text>
-                </View>
-                <View style={styles.tableCell_3}>
-                  <Text>{item.quantity}</Text>
-                </View>
-                <View style={styles.tableCell_3}>
-                  <Text>{item.price}</Text>
+                  <Text>{item?.price}</Text>
                 </View>
                 <View style={[styles.tableCell_3, styles.alignRight]}>
                   <Text>{fCurrency(item.price * item.quantity)}</Text>
@@ -240,7 +228,7 @@ export default function InvoicePDF({ data }) {
           </View>
           <View style={[styles.col4, styles.alignRight]}>
             <Text style={styles.subtitle2}>Have a Question?</Text>
-            <Text> info@nextall.com</Text>
+            <Text> info@lapsnaps.com</Text>
           </View>
         </View>
       </Page>

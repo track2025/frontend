@@ -20,7 +20,7 @@ export default function LogoutButton() {
     dispatch(resetWishlist());
     //setOpen(false);
     setTimeout(() => {
-      location.href = '/auth/login';
+      location.href = '/';
     }, 1000);
   };
 

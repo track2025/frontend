@@ -6,7 +6,7 @@ import { createSlice } from '@reduxjs/toolkit';
 const initialState = {
   themeMode: 'light',
   openSidebar: false,
-  currency: process.env.BASE_CURRENCY || 'USD',
+  currency: process.env.BASE_CURRENCY || 'AED',
   rate: 1
 };
 

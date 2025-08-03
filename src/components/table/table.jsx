@@ -95,12 +95,12 @@ export default function CustomTable({ filters = [], ...props }) {
             <Stack spacing={2} direction="row">
               {filters.map((item) => (
                 <FormControl fullWidth key={Math.random()} sx={{ maxWidth: 200, minWidth: 140, width: '100%' }}>
-                  <InputLabel id={'select-' + item.name}>{item.name}</InputLabel>
+                  <InputLabel id={'select-' + item?.name}>{item?.name}</InputLabel>
                   <Select
-                    labelId={'select-' + item.name}
-                    id={'select-' + item.name}
+                    labelId={'select-' + item?.name}
+                    id={'select-' + item?.name}
                     value={state[item.param] ?? ''}
-                    label={item.name}
+                    label={item?.name}
                     onChange={(e) => handleChange(item.param, e.target.value)}
                   >
                     <MenuItem value="">None</MenuItem>

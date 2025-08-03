@@ -76,7 +76,7 @@ function TestimonialDetailsCarousel({ ...props }) {
               }}
             />
             <Stack spacing={0.5} alignItems="center" justifyContent="center" textAlign="center">
-              <Typography variant="subtitle1">{item.name}</Typography>
+              <Typography variant="subtitle1">{item?.name}</Typography>
               <Typography variant="body1">{item.jobTitle}</Typography>
             </Stack>
           </Stack>

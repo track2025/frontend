@@ -25,7 +25,6 @@ export default function LanguageSelect() {
   const { currency } = useSelector(({ settings }) => settings);
   const [open, setOpen] = React.useState(false);
   const { data, isLoading } = useQuery(['get-currencies'], () => api.getCurrencies());
-
   const handleClickOpen = () => {
     setOpen(true);
   };
@@ -51,6 +50,7 @@ export default function LanguageSelect() {
     const autoChangeCurrency = async () => {
       try {
         const currentLocation = await getLocation();
+        console.log('currentLocation', currentLocation)
         const selectedCurrency = data?.data?.find(
           (cur) => cur.code === currentLocation?.currency_code
         );
@@ -77,7 +77,7 @@ export default function LanguageSelect() {
             const currency = await autoChangeCurrency();
             dispatch(handleChangeCurrency({
               currency: currency.code,
-              rate: currency.rate
+              rate: currency.rate || 1
             }));
           } catch (error) {
             const usdCurrency = data?.data?.find((cur) => cur.code === 'USD');

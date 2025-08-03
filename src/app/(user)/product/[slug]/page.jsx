@@ -31,10 +31,10 @@ export async function generateMetadata({ params }) {
   const { data: response } = await api.getProductDetails(params.slug);
 
   return {
-    title: response?.metaTitle,
-    description: response?.metaDescription,
-    keywords: response?.tags,
-    title: response?.name,
+    title: (response?.name || '') + " " + (response?.location || ''),
+    description: (response?.name || '') + " " + (response?.location || ''),
+    keywords: (response?.name || '') + " " + (response?.location || ''),
+    title: (response?.name || '') + " " + (response?.location || ''),
     openGraph: {
       images: response?.images.map((v) => v.url)
     }

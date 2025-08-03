@@ -25,7 +25,7 @@ import {
   FormGroup,
   Skeleton,
   Switch,
-  InputAdornment,
+  InputAdornment, MenuItem, Box
 } from '@mui/material';
 // api
 import * as api from 'src/services';
@@ -37,6 +37,9 @@ import UploadMultiFile from 'src/components/upload/UploadMultiFile';
 import { fCurrency } from 'src/utils/formatNumber';
 import uploadToSpaces from 'src/utils/upload';
 import imageCompression from 'browser-image-compression';
+import { useQuery } from 'react-query';
+import parseMongooseError from 'src/utils/errorHandler';
+ 
 
 
 // ----------------------------------------------------------------------
@@ -77,7 +80,15 @@ export default function ProductForm({
         router.push((isVendor ? '/vendor' : '/admin') + '/products');
       },
       onError: (error) => {
-        toast.error(error.response.data.message);
+        const status = error?.response?.status;
+        if (status === 401) {
+          toast.error('Session expired. Please log in again.');
+          deleteCookies('token');
+          dispatch(setLogout());
+          router.push('/auth/login'); // or whatever your login route is
+        } else {
+          toast.error(error?.response?.data?.message || 'An error occurred');
+        }
       }
     }
   );
@@ -109,7 +120,8 @@ export default function ProductForm({
     brand: Yup.string().required('Location is required'),
     images: Yup.array().min(1, 'Images is required'),
     // price: Yup.number().required('Price is required'),
-    priceSale: Yup.number().required('Sale price is required')
+    priceSale: Yup.number().required('Sale price is required'),
+    currency: Yup.string().required('Currency is required')
   });
 
   const formik = useFormik({
@@ -117,20 +129,48 @@ export default function ProductForm({
     initialValues: {
       name: currentProduct?.name || '',
       slug: currentProduct?.slug || '',
-      brand: currentProduct?.brand || brands[0]?._id || '',
+      brand: currentProduct?.location || currentProduct?.brand || brands[0]?._id ||   '',
       category: currentProduct?.category || (categories.length && categories[0]?._id) || '',
       shop: isVendor ? null : currentProduct?.shop || (shops?.length && shops[0]?._id) || '',
       subCategory: currentProduct?.subCategory || (categories.length && categories[0].subCategories[0]?._id) || '',
       isFeatured: currentProduct?.isFeatured || false,
       priceSale: currentProduct?.priceSale || '',
+      currency: currentProduct?.currency || '',
       images: currentProduct?.images || [],
-      dateCaptured: currentProduct?.dateCaptured || new Date().toISOString().split('T')[0],
-      Multiple: false
+      dateCaptured: (currentProduct?.dateCaptured && new Date(currentProduct?.dateCaptured).toISOString().split('T')[0]) || new Date().toISOString().split('T')[0],
+      Multiple: currentProduct?.Multiple || false
     },
 
     validationSchema: NewProductSchema,
     onSubmit: async (values) => {
-      const { ...rest } = values;
+      const isPresetLocation = /^[a-f\d]{24}$/i.test(values?.brand);
+      let cleanedValues = { ...values}
+      if(!isPresetLocation) cleanedValues = {...cleanedValues, location: values?.brand, brand: null} 
+      
+      const getNameById = (array, id) => array?.find(item => item._id?.toString() === id?.toString())?.name || null;
+      const selectedCategoryName = getNameById(categories, values?.category);
+      const selectedBrandName = getNameById(brands, values?.brand);
+      const allSubCategories = categories.flatMap(category => category.subCategories || []);
+      const selectedSubCategoryName = getNameById(allSubCategories, values?.subCategory);
+      const selectedShopName = getNameById(shops, values?.shop);
+
+
+      if(selectedBrandName)   cleanedValues = {...cleanedValues, location: selectedBrandName} 
+      if(selectedCategoryName)   cleanedValues = {...cleanedValues, vehicle_make: selectedCategoryName} 
+      if(selectedSubCategoryName)   cleanedValues = {...cleanedValues, vehicle_model: selectedSubCategoryName} 
+
+      if (values?.Multiple) cleanedValues = {
+          ...cleanedValues,
+          category: null,
+          name: null,
+          subCategory: null,
+          vehicle_make:null,
+          vehicle_model: null,
+          slug: `${Date.now()}-${Math.random().toString(36).substring(2, 8)}`
+      };
+      
+    
+      const { ...rest } = cleanedValues;
       try {
         mutate({
           ...rest,
@@ -145,7 +185,13 @@ export default function ProductForm({
   const { errors, values, touched, handleSubmit, setFieldValue, getFieldProps } = formik;
   const { mutate: deleteMutate } = useMutation(api.singleDeleteFile, {
     onError: (error) => {
-      toast.error(error.response.data.message);
+       let errorMessage = parseMongooseError(error.response.data.message)
+        toast.error(errorMessage, {
+          autoClose: false,        // Prevents auto-dismissal
+          closeOnClick: true,      // Allows clicking on the close icon
+          draggable: true,         // Allows dragging to dismiss
+        });
+      // toast.error(error.response.data.message);
     }
   });
   // handle drop
@@ -204,6 +250,7 @@ export default function ProductForm({
 
   const addWatermark = (imageFile, watermarkText) =>
     new Promise((resolve) => {
+     
       const img = new Image();
       img.src = URL.createObjectURL(imageFile);
       img.onload = () => {
@@ -220,7 +267,7 @@ export default function ProductForm({
         ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
 
         // Watermark style
-        const fontSize = 70;
+        const fontSize = 100;
         ctx.font = `${fontSize}px Arial`;
         ctx.fillStyle = 'rgba(255, 255, 255, 0.25)';
         ctx.textAlign = 'center';
@@ -231,7 +278,7 @@ export default function ProductForm({
         ctx.rotate(-Math.atan(canvas.height / canvas.width)); // Diagonal rotation
 
         // Calculate spacing
-        const horizontalSpacing = 350; // Increased to avoid overlap
+        const horizontalSpacing = 550; // Increased to avoid overlap
         const verticalSpacing = 150;
 
         const xStart = -canvas.width;
@@ -261,7 +308,7 @@ export default function ProductForm({
 
   const handleDrop = async (acceptedFiles) => {
     setstate({ ...state, loading: 2 });
-
+     setloading(true);
     const filesWithPreview = acceptedFiles.map((file) => {
       Object.assign(file, { preview: URL.createObjectURL(file) });
       return file;
@@ -292,7 +339,6 @@ export default function ProductForm({
           };
         })
       );
-      console.log('uploads', uploads)
 
       // Save to form field
       if(uploads) {
@@ -304,9 +350,11 @@ export default function ProductForm({
       }
 
       setstate({ ...state, loading: false });
+      setloading(false);
     } catch (err) {
       console.error('Upload failed:', err);
       setstate({ ...state, loading: false });
+      setloading(false);
     }
   };
 
@@ -317,7 +365,11 @@ export default function ProductForm({
     values.images.forEach((image) => {
       deleteMutate(image._id);
     });
+    values.blob.forEach((b) => {
+      deleteMutate(b);
+    });
     setFieldValue('images', []);
+    setFieldValue('blob', []);
   };
   // handleRemove
   const handleRemove = (file) => {
@@ -339,6 +391,9 @@ export default function ProductForm({
     formik.setFieldValue('slug', slug); // set the value of slug in the formik state
     formik.handleChange(event); // handle the change in formik
   };
+
+  const { data } = useQuery(['get-currencies'], () => api.getCurrencies());
+  
   return (
     <Stack spacing={3}>
       <FormikProvider value={formik}>
@@ -645,25 +700,44 @@ export default function ProductForm({
                             }
                           }}>
               <Card sx={{ p: 3 }}>
-                <Stack spacing={3} pb={1}>
 
-                  <div>
-                    <LabelStyle component={'label'} htmlFor="sale-price">
-                      {'Sale Price'}
-                    </LabelStyle>
+                <Stack mt={3} spacing={2} direction="row" spacing={3} flexGrow="wrap">
+                    <Box sx={{ width: '100%' }}>
+                  <LabelStyle>Price</LabelStyle>
+                
+                  <Stack direction="row" spacing={2}>
+                    <TextField
+                      select
+                      label="Currency"
+                      fullWidth
+                      {...getFieldProps('currency')}
+                        error={Boolean(touched.currency && errors.currency)}
+                        helperText={touched.currency && errors.currency}
+                    >
+                      {(data?.data)?.map((cur, index) => (
+                        <MenuItem key={index} value={cur.code}>
+                          {cur.code}
+                        </MenuItem>
+                      ))}
+                    </TextField>
+                
                     <TextField
                       id="sale-price"
+                      type="number"
+                      label={`Price ${values?.currency || '' }`}
                       fullWidth
-                      placeholder="0.00"
                       {...getFieldProps('priceSale')}
-                      InputProps={{
-                        startAdornment: <InputAdornment position="start">{fCurrency(0)?.split('0')[0]}</InputAdornment>,
-                        type: 'number'
-                      }}
                       error={Boolean(touched.priceSale && errors.priceSale)}
                       helperText={touched.priceSale && errors.priceSale}
                     />
-                  </div>
+                  </Stack>
+                  </Box>
+                </Stack>
+
+
+                <Stack spacing={3} pb={1}>
+
+                  
                   <div>
                     <FormGroup>
                       <FormControlLabel

@@ -19,7 +19,7 @@ export default function BrandsRow({ isLoading, row, handleClickOpen, sn }) {
   return (
     <TableRow hover key={Math.random()}>
       <TableCell>{isLoading ? <Skeleton variant="text" /> : <>{sn}</>}</TableCell>
-      <TableCell>{isLoading ? <Skeleton variant="text" /> : row.name + ` (${row.code})`}</TableCell>
+      <TableCell>{isLoading ? <Skeleton variant="text" /> : row?.name + ` (${row.code})`}</TableCell>
 
       <TableCell>{isLoading ? <Skeleton variant="text" /> : <> {row.country} </>}</TableCell>
 

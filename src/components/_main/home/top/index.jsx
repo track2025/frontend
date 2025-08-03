@@ -49,7 +49,7 @@ export default function Index() {
       </Stack>
       {!isLoading && !Boolean(data?.data.length) ? (
         <Typography variant="h3" color="error.main" textAlign="center">
-          Products not found
+          No Photos yet
         </Typography>
       ) : (
         <ProductsCarousel data={data?.data || []} isLoading={isLoading} />

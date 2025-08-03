@@ -240,10 +240,10 @@ export default function ProductDetailsSumary({ ...props }) {
                       </Typography>
                     </Stack>
                     <Stack direction="row" alignItems="center" spacing={1} color="text.secondary">
-                      <TbMessage size={18} />
+                      {/* <TbMessage size={18} /> */}
                       <Typography variant="subtitle2" color="text.secondary">
                         {product?.reviews?.length}{' '}
-                        <span>{Number(product?.reviews?.length) > 1 ? 'Reviews' : 'Review'}</span>
+                        {/* <span>{Number(product?.reviews?.length) > 1 ? 'Reviews' : 'Review'}</span> */}
                       </Typography>
                     </Stack>
                    
@@ -251,15 +251,15 @@ export default function ProductDetailsSumary({ ...props }) {
                   <Stack direction="row" alignItems="center" spacing={1} mt={1.5}>
                     <Typography variant="subtitle1">Location:</Typography>
                     <Typography variant="subtitle1" color="text.secondary" fontWeight={400}>
-                      {brand?.name || 'Lap Snaps'}
+                      {product?.location || brand?.name || 'Lap Snaps'}
                     </Typography>
                   </Stack>
-                  <Stack direction="row" alignItems="center" spacing={1}>
+                  { category?.name  && <Stack direction="row" alignItems="center" spacing={1}>
                     <Typography variant="subtitle1">Vehicle Make:</Typography>
                     <Typography variant="subtitle1" color="text.secondary" fontWeight={400}>
                       {category?.name || 'Lap Snaps'}
                     </Typography>
-                  </Stack>
+                  </Stack> }
                   {product?.price > product?.priceSale && (
                     <Stack direction="row" alignItems="center" spacing={1}>
                       <Typography variant="subtitle1">Discount:</Typography>
@@ -383,7 +383,7 @@ export default function ProductDetailsSumary({ ...props }) {
                   >
                     {item.icon}
                     <Typography variant="subtitle2" color="text.secondary">
-                      {item.name}
+                      {item?.name}
                     </Typography>
                   </Stack>
                 ))}

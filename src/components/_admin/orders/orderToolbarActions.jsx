@@ -63,7 +63,7 @@ export default function OrderToolbarActions({ data }) {
         >
           {'Delete'}
         </LoadingButton>
-        <OrderStatus data={data} />
+        {/* <OrderStatus data={data} /> */}
       </Stack>
     </Box>
   );

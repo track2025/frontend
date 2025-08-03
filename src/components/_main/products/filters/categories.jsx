@@ -134,7 +134,7 @@ export default function Filters() {
                       selected={state.categories.includes(item.slug)}
                       onClick={handleChange(item.slug, !state.categories.includes(item.slug))}
                     >
-                      <ListItemText primary={item.name} />
+                      <ListItemText primary={item?.name} />
                     </ListItemButton>
                   </ListItem>
                   <Divider />

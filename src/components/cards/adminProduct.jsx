@@ -107,7 +107,7 @@ export default function AdminProductCard({ item, isLoading, handleClickOpen, isD
             )}
             <Stack spacing={0.3}>
               <Typography noWrap variant="h6" lineHeight={1.3}>
-                {isLoading ? <Skeleton variant="text" /> : capitalize(item.name).slice(0, 20)}
+                {isLoading ? <Skeleton variant="text" /> : capitalize(item?.name).slice(0, 20)}
               </Typography>
               <Stack alignItems="center" spacing={2} direction="row">
                 <Typography className="time-slot" fontWeight={600}>

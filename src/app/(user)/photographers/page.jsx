@@ -40,7 +40,7 @@ export default async function ShopComponent() {
             ))}
             {!Boolean(data?.data.length) && (
               <Typography variant="h3" color="error.main" textAlign="center">
-                Shop not found
+                No photographers registered yet
               </Typography>
             )}
           </Grid>

@@ -26,11 +26,11 @@ export async function generateMetadata({ params }) {
 
   // const images = category.images.map((img) => img.url);
   return {
-    title: response.metaTitle,
-    description: response.metaDescription,
-    title: response.name,
+    title: response?.metaTitle,
+    description: response?.metaDescription,
+    title: response?.name,
     openGraph: {
-      images: [response.cover.url]
+      images: [response?.cover?.url]
     }
   };
 }

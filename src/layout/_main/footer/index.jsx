@@ -136,7 +136,7 @@ export default function Footer() {
                         }
                       }}
                     >
-                      {item.name}
+                      {item?.name}
                     </Typography>
                   </Box>
                 ))}

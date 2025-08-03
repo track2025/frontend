@@ -92,23 +92,7 @@ export default function OrderList({ isLoading, row, isUser, isVendor, sn }) {
 
       <TableCell>{isLoading ? <Skeleton variant="text" /> : fCurrency(row.total)}</TableCell>
       <TableCell>{isLoading ? <Skeleton variant="text" /> : row.items.length}</TableCell>
-      <TableCell>
-        {isLoading ? (
-          <Skeleton variant="text" />
-        ) : (
-          <Label
-            variant={theme.palette.mode === 'light' ? 'ghost' : 'filled'}
-            color={
-              (row?.status === 'delivered' && 'success') ||
-              (row?.status === 'ontheway' && 'warning') ||
-              (row?.status === 'pending' && 'info') ||
-              'error'
-            }
-          >
-            {row.status}
-          </Label>
-        )}
-      </TableCell>
+      
       <TableCell>{isLoading ? <Skeleton variant="text" /> : <> {fDateShort(row.createdAt)} </>}</TableCell>
 
       <TableCell align="right">

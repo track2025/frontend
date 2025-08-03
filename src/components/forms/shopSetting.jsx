@@ -5,7 +5,7 @@ import { useMutation } from 'react-query';
 // mui
 import { styled } from '@mui/material/styles';
 import { LoadingButton } from '@mui/lab';
-import { Card, Stack, TextField, Typography, Box, FormHelperText, Grid, Skeleton } from '@mui/material';
+import { Card, Stack, TextField, Typography, Box, FormHelperText, Grid, Skeleton, MenuItem } from '@mui/material';
 // components
 import UploadSingleFile from 'src/components/upload/UploadSingleFile';
 // yup
@@ -18,6 +18,10 @@ import toast from 'react-hot-toast';
 import { Form, FormikProvider, useFormik } from 'formik';
 // api
 import * as api from 'src/services';
+
+import { useQuery } from 'react-query';
+import parseMongooseError from 'src/utils/errorHandler'
+
 
 ShopSettingFrom.propTypes = {
   data: PropTypes.object,
@@ -38,7 +42,7 @@ export default function ShopSettingFrom({ data: currentShop, isLoading: category
     name: '',
     search: '',
     open: false
-  });
+  }); 
 
   const { mutate, isLoading } = useMutation(
     currentShop ? 'update' : 'new',
@@ -49,11 +53,17 @@ export default function ShopSettingFrom({ data: currentShop, isLoading: category
       }),
       retry: false,
       onSuccess: (data) => {
-        toast.success(currentShop ? data.message : 'Shop is under review!');
+        toast.success(currentShop ? data.message : "our photographer profile is currently under review. We’ll notify you once it’s approved.");
         // router.push('/dashboard/categories');
       },
       onError: (error) => {
-        toast.error(error.response.data.message);
+       // toast.error(error.response.data.message);
+         let errorMessage = parseMongooseError(error.response.data.message)
+              toast.error(errorMessage, {
+                autoClose: false,        // Prevents auto-dismissal
+                closeOnClick: true,      // Allows clicking on the close icon
+                draggable: true,         // Allows dragging to dismiss
+              });
       }
     }
   );
@@ -63,14 +73,17 @@ export default function ShopSettingFrom({ data: currentShop, isLoading: category
   //   }
   // });
   const ShopSettingScema = Yup.object().shape({
-    title: Yup.string().required('title is required'),
+    username: Yup.string().required('username is required')
+        .matches(
+          /^[a-zA-Z0-9][a-zA-Z0-9._]{2,29}$/,
+          'Username must start with a letter or number and can contain letters, numbers, dots, and underscores. Length must be between 3 and 30 characters.'
+        ),
     cover: Yup.mixed().required('Cover is required'),
     logo: Yup.mixed().required('logo is required'),
     slug: Yup.string().required('Slug is required'),
     description: Yup.string().required('Description is required'),
-    metaTitle: Yup.string().required('Meta title is required'),
-    metaDescription: Yup.string().required('Meta description is required'),
     phone: Yup.string().required('Phone Number is required'),
+    defaultPrice: Yup.number().required('Default Price is required'),
     paymentInfo: Yup.object().shape({
       holderName: Yup.string().required('Holder Name is required'),
       holderEmail: Yup.string().required('Holder email is required'),
@@ -87,12 +100,12 @@ export default function ShopSettingFrom({ data: currentShop, isLoading: category
   console.log(currentShop, 'currentShop');
   const formik = useFormik({
     initialValues: {
-      title: currentShop?.title || '',
-      metaTitle: currentShop?.metaTitle || '',
+      username: currentShop?.username || '',
+      defaultCurrency: currentShop?.defaultCurrency || 'AED',
+      defaultPrice: currentShop?.defaultPrice || 100,
       cover: currentShop?.cover || null,
       logo: currentShop?.logo || null,
       description: currentShop?.description || '',
-      metaDescription: currentShop?.metaDescription || '',
       file: currentShop?.cover || '',
       slug: currentShop?.slug || '',
       phone: currentShop?.phone || Number,
@@ -128,77 +141,140 @@ export default function ShopSettingFrom({ data: currentShop, isLoading: category
   });
   const { errors, values, touched, handleSubmit, setFieldValue, getFieldProps } = formik;
   // handle drop logo
-  const handleDropLogo = async (acceptedFiles) => {
-    setstate({ ...state, loading: 2 });
-    const file = acceptedFiles[0];
-    if (file) {
-      Object.assign(file, {
-        preview: URL.createObjectURL(file)
-      });
-    }
-    setFieldValue('file', file);
-    const formData = new FormData();
-    formData.append('file', file);
-    formData.append('upload_preset', 'my-uploads');
-    const config = {
-      onUploadProgress: (progressEvent) => {
-        const { loaded, total } = progressEvent;
-        const percentage = Math.floor((loaded * 100) / total);
-        setstate({ ...state, logoLoading: percentage });
-      }
-    };
-    await axios
-      .post(`https://api.cloudinary.com/v1_1/${process.env.CLOUDINARY_CLOUD_NAME}/image/upload`, formData, config)
-      .then(({ data }) => {
-        setFieldValue('logo', {
-          _id: data.public_id,
-          url: data.secure_url
-        });
-        setstate({ ...state, loading: false });
-      })
-      .then(() => {
-        // if (values.file) {
-        //   deleteMutate(values.logo._id);
-        // }
-        setstate({ ...state, loading: false });
-      });
-  };
+
+  // const handleDropLogo = async (acceptedFiles) => {
+  //   setstate({ ...state, loading: 2 });
+  //   const file = acceptedFiles[0];
+  //   if (file) {
+  //     Object.assign(file, {
+  //       preview: URL.createObjectURL(file)
+  //     });
+  //   }
+  //   setFieldValue('file', file);
+  //   const formData = new FormData();
+  //   formData.append('file', file);
+  //   formData.append('upload_preset', 'my-uploads');
+  //   const config = {
+  //     onUploadProgress: (progressEvent) => {
+  //       const { loaded, total } = progressEvent;
+  //       const percentage = Math.floor((loaded * 100) / total);
+  //       setstate({ ...state, logoLoading: percentage });
+  //     }
+  //   };
+  //   await axios
+  //     .post(`https://api.cloudinary.com/v1_1/${process.env.CLOUDINARY_CLOUD_NAME}/image/upload`, formData, config)
+  //     .then(({ data }) => {
+  //       setFieldValue('logo', {
+  //         _id: data.public_id,
+  //         url: data.secure_url
+  //       });
+  //       setstate({ ...state, loading: false });
+  //     })
+  //     .then(() => {
+  //       // if (values.file) {
+  //       //   deleteMutate(values.logo._id);
+  //       // }
+  //       setstate({ ...state, loading: false });
+  //     });
+  // };
+
+    const { data } = useQuery(['get-currencies'], () => api.getCurrencies());
+  
+
+    const handleDropLogo = async (acceptedFiles) => {
+        setstate({ ...state, loading: 2 });
+        const file = acceptedFiles[0];
+        if (file) {
+          Object.assign(file, {
+            preview: URL.createObjectURL(file)
+          });
+        }
+        setFieldValue('file', file);
+        try {
+          const uploaded = await uploadToSpaces(file, (progress) => {
+            setstate({ ...state, loading: progress });
+          });
+    
+          setFieldValue('logo', uploaded);
+    
+          if (values.file && values.logo?._id) {
+            deleteMutate(values.logo._id);
+          }
+    
+          setstate({ ...state, loading: false });
+        } catch (err) {
+          console.error('Upload failed:', err);
+          setstate({ ...state, loading: false });
+        }
+      };
+
   // handle drop cover
-  const handleDropCover = async (acceptedFiles) => {
-    setstate({ ...state, loading: 2 });
-    const file = acceptedFiles[0];
-    if (file) {
-      Object.assign(file, {
-        preview: URL.createObjectURL(file)
-      });
-    }
-    setFieldValue('file', file);
-    const formData = new FormData();
-    formData.append('file', file);
-    formData.append('upload_preset', 'my-uploads');
-    const config = {
-      onUploadProgress: (progressEvent) => {
-        const { loaded, total } = progressEvent;
-        const percentage = Math.floor((loaded * 100) / total);
-        setstate({ ...state, loading: percentage });
+
+  // const handleDropCover = async (acceptedFiles) => {
+  //   setstate({ ...state, loading: 2 });
+  //   const file = acceptedFiles[0];
+  //   if (file) {
+  //     Object.assign(file, {
+  //       preview: URL.createObjectURL(file)
+  //     });
+  //   }
+  //   setFieldValue('file', file);
+  //   const formData = new FormData();
+  //   formData.append('file', file);
+  //   formData.append('upload_preset', 'my-uploads');
+  //   const config = {
+  //     onUploadProgress: (progressEvent) => {
+  //       const { loaded, total } = progressEvent;
+  //       const percentage = Math.floor((loaded * 100) / total);
+  //       setstate({ ...state, loading: percentage });
+  //     }
+  //   };
+  //   await axios
+  //     .post(`https://api.cloudinary.com/v1_1/${process.env.CLOUDINARY_CLOUD_NAME}/image/upload`, formData, config)
+  //     .then(({ data }) => {
+  //       setFieldValue('cover', {
+  //         _id: data.public_id,
+  //         url: data.secure_url
+  //       });
+  //       setstate({ ...state, loading: false });
+  //     })
+  //     .then(() => {
+  //       // if (values.file) {
+  //       //   deleteMutate(values.cover._id);
+  //       // }
+  //       setstate({ ...state, loading: false });
+  //     });
+  // };
+
+    const handleDropCover = async (acceptedFiles) => {
+      setstate({ ...state, loading: 2 });
+      const file = acceptedFiles[0];
+      if (file) {
+        Object.assign(file, {
+          preview: URL.createObjectURL(file)
+        });
+      }
+      setFieldValue('file', file);
+      try {
+        const uploaded = await uploadToSpaces(file, (progress) => {
+          setstate({ ...state, loading: progress });
+        });
+  
+        setFieldValue('cover', uploaded);
+  
+        if (values.file && values.cover?._id) {
+          deleteMutate(values.cover._id);
+        }
+  
+        setstate({ ...state, loading: false });
+      } catch (err) {
+        console.error('Upload failed:', err);
+        setstate({ ...state, loading: false });
       }
     };
-    await axios
-      .post(`https://api.cloudinary.com/v1_1/${process.env.CLOUDINARY_CLOUD_NAME}/image/upload`, formData, config)
-      .then(({ data }) => {
-        setFieldValue('cover', {
-          _id: data.public_id,
-          url: data.secure_url
-        });
-        setstate({ ...state, loading: false });
-      })
-      .then(() => {
-        // if (values.file) {
-        //   deleteMutate(values.cover._id);
-        // }
-        setstate({ ...state, loading: false });
-      });
-  };
+
+
+
   const handleTitleChange = (event) => {
     const title = event.target.value;
     const slug = title
@@ -212,6 +288,7 @@ export default function ShopSettingFrom({ data: currentShop, isLoading: category
     <Box position="relative">
       <FormikProvider value={formik}>
         <Form noValidate autoComplete="off" onSubmit={handleSubmit}>
+          
           <Grid container spacing={2}>
             <Grid item sx={{
               width: {
@@ -219,8 +296,83 @@ export default function ShopSettingFrom({ data: currentShop, isLoading: category
                 md: '60%'   // desktop
               }
             }}>
+
+
               <Card sx={{ p: 3 }}>
-                <Stack direction="row" spacing={3} flexGrow="wrap">
+
+                 <Stack direction="row" spacing={3} flexGrow="wrap">
+                                 
+                  <Box sx={{ width: '100%' }}>
+                    <div>
+                      <LabelStyle component={'label'} htmlFor="username">
+                        Username
+                      </LabelStyle>
+
+                      <TextField
+                        id="username"
+                        fullWidth
+                        {...getFieldProps('username')}
+                        onChange={handleTitleChange} // add onChange handler for title
+                        error={Boolean(touched.username && errors.username)}
+                        helperText={touched.username && errors.username}
+                        sx={{ mt: 1 }}
+                      />
+                    </div>
+                  </Box>
+                </Stack>
+                <Stack mt={3} spacing={3} direction="row" flexGrow="wrap">
+                  <Box sx={{ width: '100%' }}>
+                    <LabelStyle component={'label'} htmlFor="description">
+                      {' '}
+                      {'Pay Off Line'}{' '}
+                    </LabelStyle>
+
+                    <TextField
+                      fullWidth
+                      id="description"
+                      {...getFieldProps('description')}
+                      error={Boolean(touched.description && errors.description)}
+                      helperText={touched.description && errors.description}
+                      rows={3}
+                      multiline
+                    />
+                  </Box>
+                </Stack>
+                
+                <Stack mt={3} spacing={2} direction="row" spacing={3} flexGrow="wrap">
+                    <Box sx={{ width: '100%' }}>
+                  <LabelStyle>Default Price</LabelStyle>
+                
+                  <Stack direction="row" spacing={2}>
+                    <TextField
+                      select
+                      label="Currency"
+                      fullWidth
+                      {...getFieldProps('defaultCurrency')}
+                       error={Boolean(touched.defaultCurrency && errors.defaultCurrency)}
+                       helperText={touched.defaultCurrency && errors.defaultCurrency}
+                    >
+                      {(data?.data)?.map((cur, index) => (
+                        <MenuItem key={index} value={cur.code}>
+                          {cur.code}
+                        </MenuItem>
+                      ))}
+                    </TextField>
+                
+                    <TextField
+                      type="number"
+                      label={`Price (${values.defaultCurrency})`}
+                      fullWidth
+                      {...getFieldProps('defaultPrice')}
+                      error={Boolean(touched.defaultPrice && errors.defaultPrice)}
+                      helperText={touched.defaultPrice && errors.defaultPrice}
+                    />
+                  </Stack>
+                  </Box>
+                </Stack>
+
+
+                <Stack mt={3} direction="row" spacing={3} flexGrow="wrap">
                   <Box sx={{ width: '100%' }}>
                     <Stack direction="row" justifyContent="space-between">
                       {categoryLoading ? (
@@ -257,120 +409,8 @@ export default function ShopSettingFrom({ data: currentShop, isLoading: category
                       </FormHelperText>
                     )}
                   </Box>
-                  <Box sx={{ width: '100%' }}>
-                    <div>
-                      {categoryLoading ? (
-                        <Skeleton variant="text" width={140} />
-                      ) : (
-                        <LabelStyle component={'label'} htmlFor="title">
-                          Title
-                        </LabelStyle>
-                      )}
-                      {categoryLoading ? (
-                        <Skeleton variant="rectangular" width="100%" height={56} />
-                      ) : (
-                        <TextField
-                          id="title"
-                          fullWidth
-                          {...getFieldProps('title')}
-                          onChange={handleTitleChange} // add onChange handler for title
-                          error={Boolean(touched.title && errors.title)}
-                          helperText={touched.title && errors.title}
-                          sx={{ mt: 1 }}
-                        />
-                      )}
-                    </div>
-                    <div>
-                      {categoryLoading ? (
-                        <Skeleton variant="text" width={70} />
-                      ) : (
-                        <LabelStyle component={'label'} htmlFor="slug">
-                          {' '}
-                          {'Slug'}
-                        </LabelStyle>
-                      )}
-                      {categoryLoading ? (
-                        <Skeleton variant="rectangular" width="100%" height={56} />
-                      ) : (
-                        <TextField
-                          fullWidth
-                          id="slug"
-                          {...getFieldProps('slug')}
-                          error={Boolean(touched.slug && errors.slug)}
-                          helperText={touched.slug && errors.slug}
-                        />
-                      )}
-                    </div>
-                    <div>
-                      {categoryLoading ? (
-                        <Skeleton variant="text" width={100} />
-                      ) : (
-                        <LabelStyle component={'label'} htmlFor="meta-title">
-                          {'Meta Title'}
-                        </LabelStyle>
-                      )}
-                      {categoryLoading ? (
-                        <Skeleton variant="rectangular" width="100%" height={56} />
-                      ) : (
-                        <TextField
-                          id="meta-title"
-                          fullWidth
-                          {...getFieldProps('metaTitle')}
-                          error={Boolean(touched.metaTitle && errors.metaTitle)}
-                          helperText={touched.metaTitle && errors.metaTitle}
-                        />
-                      )}
-                    </div>
-                  </Box>
                 </Stack>
-                <Stack mt={3} spacing={3} direction="row" flexGrow="wrap">
-                  <Box sx={{ width: '100%' }}>
-                    {categoryLoading ? (
-                      <Skeleton variant="text" width={100} />
-                    ) : (
-                      <LabelStyle component={'label'} htmlFor="description">
-                        {' '}
-                        {'Description'}{' '}
-                      </LabelStyle>
-                    )}
-                    {categoryLoading ? (
-                      <Skeleton variant="rectangular" width="100%" height={240} />
-                    ) : (
-                      <TextField
-                        fullWidth
-                        id="description"
-                        {...getFieldProps('description')}
-                        error={Boolean(touched.description && errors.description)}
-                        helperText={touched.description && errors.description}
-                        rows={9}
-                        multiline
-                      />
-                    )}
-                  </Box>
-                  <Box sx={{ width: '100%' }}>
-                    {categoryLoading ? (
-                      <Skeleton variant="text" width={150} />
-                    ) : (
-                      <LabelStyle component={'label'} htmlFor="meta-description">
-                        {' '}
-                        {'Meta Description'}{' '}
-                      </LabelStyle>
-                    )}
-                    {categoryLoading ? (
-                      <Skeleton variant="rectangular" width="100%" height={240} />
-                    ) : (
-                      <TextField
-                        id="meta-description"
-                        fullWidth
-                        {...getFieldProps('metaDescription')}
-                        error={Boolean(touched.metaDescription && errors.metaDescription)}
-                        helperText={touched.metaDescription && errors.metaDescription}
-                        rows={9}
-                        multiline
-                      />
-                    )}
-                  </Box>
-                </Stack>
+                
                 <Box mt={3}>
                   <Stack direction="row" justifyContent="space-between">
                     {categoryLoading ? (
@@ -425,46 +465,8 @@ export default function ShopSettingFrom({ data: currentShop, isLoading: category
                 <Stack spacing={3}>
                   <Card sx={{ p: 3 }}>
                     <Stack spacing={2}>
-                      <div>
-                        {categoryLoading ? (
-                          <Skeleton variant="text" width={150} />
-                        ) : (
-                          <LabelStyle component={'label'} htmlFor="holder-name">
-                            Holder Name
-                          </LabelStyle>
-                        )}
-                        {categoryLoading ? (
-                          <Skeleton variant="rectangular" width="100%" height={240} />
-                        ) : (
-                          <TextField
-                            id="holder-name"
-                            fullWidth
-                            {...getFieldProps('paymentInfo.holderName')}
-                            error={Boolean(touched.paymentInfo?.holderName && errors.paymentInfo?.holderName)}
-                            helperText={touched.paymentInfo?.holderName && errors.paymentInfo?.holderName}
-                          />
-                        )}
-                      </div>
-                      <div>
-                        {categoryLoading ? (
-                          <Skeleton variant="text" width={150} />
-                        ) : (
-                          <LabelStyle component={'label'} htmlFor="holder-email">
-                            Holder Email
-                          </LabelStyle>
-                        )}
-                        {categoryLoading ? (
-                          <Skeleton variant="rectangular" width="100%" height={240} />
-                        ) : (
-                          <TextField
-                            id="holder-email"
-                            fullWidth
-                            {...getFieldProps('paymentInfo.holderEmail')}
-                            error={Boolean(touched.paymentInfo?.holderEmail && errors.paymentInfo?.holderEmail)}
-                            helperText={touched.paymentInfo?.holderEmail && errors.paymentInfo?.holderEmail}
-                          />
-                        )}
-                      </div>
+                      
+                      
                       <div>
                         {categoryLoading ? (
                           <Skeleton variant="text" width={150} />

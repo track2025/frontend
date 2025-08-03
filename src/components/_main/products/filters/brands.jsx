@@ -80,9 +80,9 @@ const BrandMain = ({ brands, path }) => {
             <FormGroup>
               <FormControlLabel
                 control={<Radio />}
-                label={brand.name}
-                value={brand.slug}
-                checked={selectedBrand === brand.slug}
+                label={brand?.name}
+                value={brand?.slug}
+                checked={selectedBrand === brand?.slug}
                 onChange={handleChange}
               />
             </FormGroup>

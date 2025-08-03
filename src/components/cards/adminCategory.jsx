@@ -89,7 +89,7 @@ export default function AgendaCodeMobile({ item, isLoading, handleClickOpen }) {
             )}
             <Stack spacing={0.5}>
               <Typography noWrap variant="h6">
-                {isLoading ? <Skeleton variant="text" /> : capitalize(item.name).slice(0, 20)}
+                {isLoading ? <Skeleton variant="text" /> : capitalize(item?.name).slice(0, 20)}
               </Typography>
 
               <Typography className="date">

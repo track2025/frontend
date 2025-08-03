@@ -38,7 +38,7 @@ export default function Page({ params }) {
             href: '/admin/locations'
           },
           {
-            name: data?.data.name
+            name: data?.data?.name
           }
         ]}
       />

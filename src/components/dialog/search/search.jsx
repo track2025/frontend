@@ -51,7 +51,8 @@ export default function Search({ ...props }) {
     initialized: false,
     category: '',
     subCategory: '',
-    shop: ''
+    shop: '',
+    date_captured:''
   });
 
   const router = useRouter();
@@ -87,7 +88,7 @@ export default function Search({ ...props }) {
   };
   React.useEffect(() => {
     const delayDebounceFn = setTimeout(() => {
-      mutate({ query: search, category: state.category, subCategory: state.subCategory, shop: state.shop });
+      mutate({ query: search, category: state.category, subCategory: state.subCategory, dateCaptured: state.date_captured });
     }, 1000);
 
     return () => clearTimeout(delayDebounceFn);
@@ -95,16 +96,16 @@ export default function Search({ ...props }) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [search]);
   React.useEffect(() => {
-    mutate({ query: search, category: state.category, subCategory: state.subCategory, shop: state.shop });
+    mutate({ query: search, category: state.category, subCategory: state.subCategory, dateCaptured: state.date_captured });
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [state.category, state.subCategory, state.shop]);
+  }, [state.category, state.subCategory, state.date_captured]);
 
   return (
     <>
       <TextField
         id="standard-basic"
         variant="standard"
-        placeholder="Search products"
+        placeholder="Type a location, registration number, make or model"
         onFocus={() => setFocus(true)}
         onKeyDown={onKeyDown}
         onChange={(e) => {
@@ -144,32 +145,10 @@ export default function Search({ ...props }) {
         }}
       />
       <Stack gap={1} direction="row" p={1}>
-        <FormControl fullWidth>
-          <LabelStyle component={'label'} htmlFor="shops">
-            Photographers
-          </LabelStyle>
-          {filtersLoading ? (
-            <Skeleton variant="rounded" height={40} width="100%" />
-          ) : (
-            <Select
-              id="shops"
-              size="small"
-              labelId="demo-simple-select-label"
-              value={state.shop}
-              onChange={(e) => setstate({ ...state, shop: e.target.value })}
-            >
-              <MenuItem value="">None</MenuItem>
-              {filters?.shops.map((shop) => (
-                <MenuItem value={shop._id} key={shop._id}>
-                  {shop.title}
-                </MenuItem>
-              ))}
-            </Select>
-          )}
-        </FormControl>
+       
         <FormControl fullWidth>
           <LabelStyle component={'label'} htmlFor="category">
-            Car make
+            Car Make
           </LabelStyle>
           {filtersLoading ? (
             <Skeleton variant="rounded" height={40} width="100%" />
@@ -192,7 +171,7 @@ export default function Search({ ...props }) {
         </FormControl>
         <FormControl fullWidth>
           <LabelStyle component={'label'} htmlFor="subCategory">
-            Car model
+            Car Model
           </LabelStyle>
           {filtersLoading ? (
             <Skeleton variant="rounded" height={40} width="100%" />
@@ -216,6 +195,25 @@ export default function Search({ ...props }) {
             </Select>
           )}
         </FormControl>
+      <FormControl fullWidth>
+        <LabelStyle component="label" htmlFor="date">
+          Date Captured
+        </LabelStyle>
+
+        {filtersLoading ? (
+          <Skeleton variant="rounded" height={40} width="100%" />
+        ) : (
+          <TextField
+            id="date"
+            type="date"
+            size="small"
+            fullWidth
+            value={state.date_captured || ''}
+            onChange={(e) => setstate({ ...state, date_captured: e.target.value })}
+            InputLabelProps={{ shrink: true }}
+          />
+        )}
+      </FormControl>
       </Stack>
       <Divider />
       <Box className="scroll-main">

@@ -12,7 +12,6 @@ import AWS from 'aws-sdk';
 
 const uploadToSpaces = (file, onProgress) => {
 
-    console.log('buckets',  process.env.DO_SPACES_SECRET, process.env.DO_SPACES_BUCKET)
 
     const spaceEndpoint = new AWS.Endpoint('nyc3.digitaloceanspaces.com'); // Change region if needed
 
@@ -23,7 +22,7 @@ const uploadToSpaces = (file, onProgress) => {
     });
 
   return new Promise((resolve, reject) => {
-    const fileKey = `track/${Date.now()}-${file.name}`;
+    const fileKey = `track/${Date.now()}-${file?.name}`;
 
     const upload = s3.upload({
       Bucket: process.env.DO_SPACES_BUCKET,

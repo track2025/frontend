@@ -111,7 +111,7 @@ export default function Wishlist({ ...props }) {
                 <ListItemAvatar>
                   <Avatar
                     onClick={() => router.push(linkTo)}
-                    alt={item.name}
+                    alt={item?.name}
                     src={item.cover}
                     className="list-item-avatar"
                   />
@@ -131,7 +131,7 @@ export default function Wishlist({ ...props }) {
                         }
                       }}
                     >
-                      {item.name.slice(0, 40)}
+                      {item?.name.slice(0, 40)}
                     </Typography>
                     <Typography className="list-item-text-span" component="span" variant="body2" color="text.primary">
                       In Stock: {''}

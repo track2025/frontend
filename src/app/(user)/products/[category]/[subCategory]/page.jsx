@@ -25,9 +25,9 @@ export async function generateMetadata({ params }) {
   const { data: response } = await api.getSubCategoryBySlug(params.subCategory);
 
   return {
-    title: response.metaTitle,
-    description: response.metaDescription,
-    title: response.name,
+    title: response?.metaTitle,
+    description: response?.metaDescription,
+    title: response?.name,
     // openGraph: {
     //   images: [response?.cover?.url]
     // }

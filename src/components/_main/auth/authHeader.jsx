@@ -12,9 +12,9 @@ export default function AuthHeader() {
           Welcome
         </Typography>
         <Typography textAlign="center" variant="h2" color="primary.contrastText" className="company-name">
-          NextAll
+          LapSnaps
         </Typography>
-        <Typography
+        {/* <Typography
           textAlign="center"
           variant="body2"
           lineHeight={0.9}
@@ -23,7 +23,7 @@ export default function AuthHeader() {
           color="primary.contrastText"
         >
           React Ecommerce script
-        </Typography>
+        </Typography> */}
       </Box>
     </RootStyles>
   );

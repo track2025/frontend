@@ -14,11 +14,7 @@ export const Logo = () => {
     <Box
       sx={{
         cursor: 'pointer',
-
-        svg: {
-          width: 150,
-          height: 'auto'
-        }
+        width: { xs: 150, md: 250}
       }}
       onClick={() => push('/')}
     >

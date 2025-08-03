@@ -68,7 +68,7 @@ const PrivacyPolicy = () => {
         Contact Us
       </Typography>
       <Typography variant="body1" paragraph>
-        If you have any questions about this Privacy Policy, please contact us at privacy@nextall.com.
+        If you have any questions about this Privacy Policy, please contact us at privacy@lapsnaps.com.
       </Typography>
     </Container>
   );

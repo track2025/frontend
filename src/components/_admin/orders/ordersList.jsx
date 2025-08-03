@@ -16,7 +16,6 @@ const TABLE_HEAD = [
   { id: 'name', label: 'User', alignRight: false },
   { id: 'total', label: 'Total', alignRight: false, sort: true },
   { id: 'items', label: 'items', alignRight: false },
-  { id: 'inventoryType', label: 'status', alignRight: false, sort: true },
   { id: 'createdAt', label: 'Date', alignRight: false, sort: true },
   { id: '', label: 'actions', alignRight: true }
 ];
