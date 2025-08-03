@@ -69,7 +69,12 @@ export default function Details({ ...props }) {
             </CardContent>
           </Card>
         </Grid> */} 
-        <Grid item xs={12} md={12}>
+        <Grid item xs={12} md={12} sx={{
+              width: {
+                xs: '100%', // mobile
+                md: '100%'   // desktop
+              }
+            }}>
           <Card className="detail-card">
             <CardContent className="detail-card-content">
               <Stack spacing={2} direction="row" justifyContent="flex-start" alignItems="center">

@@ -107,7 +107,7 @@ const isHome = pathname === '/';
             <Stack gap={4} direction="row" alignItems={'center'}>
               <Logo />
             </Stack>
-            <Stack gap={4} direction="row" alignItems={'center'} sx={{ display: { md: 'block', xs: 'none' }
+            <Stack gap={4} direction="row" alignItems={'center'} sx={{ display: { md: 'flex', xs: 'none' }
 }}>
                 <MenuDesktop navConfig={menu} />
                  { !isAuthenticated && <Button

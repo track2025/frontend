@@ -68,7 +68,7 @@ export default function TableDetails({ ...props }) {
           <TableHead>
             <TableRow className="head-row">
               <TableCell className="head-row-cell">Product</TableCell>
-              <TableCell className="head-row-cell active">Download</TableCell>
+              <TableCell className="head-row-cell">Download</TableCell>
               <TableCell className="head-row-cell" align="right">
                 Price
               </TableCell>

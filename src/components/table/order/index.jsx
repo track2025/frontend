@@ -32,7 +32,7 @@ export default function TableCard({ ...props }) {
   const fCurrency = useCurrencyFormatter(data?.currency);
   const conversionRate = data?.conversionRate;
   return (
-    <RootStyled>
+    <RootStyled sx={{ marginBottom: "50px"}}>
       {isLoading ? (
         <Skeleton variant="text" width={100} className="skeleton-h5" />
       ) : (

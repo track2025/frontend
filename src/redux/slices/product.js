@@ -41,7 +41,7 @@ const slice = createSlice({
       const product = action.payload;
       const updatedProduct = {
         ...product,
-        sku: `${product.sku}-${product.size}-${product.color}`
+        sku: `${product.pid}`
       };
       const isEmptyCart = state.checkout.cart.length === 0;
       if (isEmptyCart) {
@@ -52,7 +52,8 @@ const slice = createSlice({
           if (isExisted) {
             return {
               ..._product,
-              quantity: _product.quantity + product.quantity
+              //quantity: _product.quantity + product.quantity
+              quantity: 1
             };
           }
           return _product;

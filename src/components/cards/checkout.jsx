@@ -28,7 +28,7 @@ const ThumbImgStyle = styled(Box)(({ theme }) => ({
 }));
 
 export default function CheckoutCard({ ...props }) {
-  const { onDelete, onIncreaseQuantity, onDecreaseQuantity, cart } = props;
+  const { onDelete,  cart } = props;
   const cCurrency = useCurrencyConvert();
   const fCurrency = useCurrencyFormatter();
   return (
@@ -67,14 +67,7 @@ export default function CheckoutCard({ ...props }) {
                 {/* <Typography variant="body2" color="text.primary" mb={0.5}>
                   {name}
                 </Typography> */}
-                <Typography variant="body2" color="text.primary" mb={0.5}>
-                  <b>Color:</b> {color}
-                  {/* { formatNumbers(Number(priceSale), Number(unitRate))} */}
-                </Typography>
-                <Typography variant="body2" color="text.primary" mb={0.5}>
-                  <b>Size:</b>
-                  {size}
-                </Typography>
+                
                 <Typography variant="body2" color="text.primary" mb={0.5}>
                   <b>subtotal:</b> {fCurrency(cCurrency(priceSale * quantity))}
                   {/* { formatNumbers(Number(priceSale), Number(unitRate))} */}
@@ -85,12 +78,12 @@ export default function CheckoutCard({ ...props }) {
                 </Typography> */}
               </Box>
               <Box textAlign="right">
-                <Incrementer
+                {/* <Incrementer
                   quantity={quantity}
                   available={available}
                   onDecrease={() => onDecreaseQuantity(sku)}
                   onIncrease={() => onIncreaseQuantity(sku)}
-                />
+                /> */}
                 <IconButton color="primary" onClick={() => onDelete(sku)} sx={{ mt: 1 }}>
                   <MdDeleteOutline className="delete-icon" />
                 </IconButton>

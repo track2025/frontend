@@ -52,10 +52,10 @@ export default function ShoppingCart({ loading }) {
     setCount((prev) => prev + 1);
   };
 
-  const handleDecreaseQuantity = (productId) => {
-    dispatch(decreaseQuantity(productId));
-    setCount((prev) => prev + 1);
-  };
+  // const handleDecreaseQuantity = (productId) => {
+  //   dispatch(decreaseQuantity(productId));
+  //   setCount((prev) => prev + 1);
+  // };
   const formik = useFormik({
     enableReinitialize: true,
     initialValues: { products: [] },
@@ -95,16 +95,16 @@ export default function ShoppingCart({ loading }) {
                 <CheckoutCard
                   formik={formik}
                   onDelete={handleDeleteCart}
-                  onIncreaseQuantity={handleIncreaseQuantity}
-                  onDecreaseQuantity={handleDecreaseQuantity}
+                  // onIncreaseQuantity={handleIncreaseQuantity}
+                  // onDecreaseQuantity={handleDecreaseQuantity}
                   cart={cart}
                 />
                 <Box className="product-list">
                   <CheckoutProductList
                     formik={formik}
                     onDelete={handleDeleteCart}
-                    onIncreaseQuantity={handleIncreaseQuantity}
-                    onDecreaseQuantity={handleDecreaseQuantity}
+                    // onIncreaseQuantity={handleIncreaseQuantity}
+                    // onDecreaseQuantity={handleDecreaseQuantity}
                     isLoading={loading}
                     cart={cart}
                   />
