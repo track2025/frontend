@@ -21,7 +21,7 @@ export const metadata = {
     icon: '/favicon.png'
   },
   openGraph: {
-    images: '/opengraph-image.png'
+    images: 'https://frontend-pi-rose-29.vercel.app/opengraph-image.png'
   }
 };
 

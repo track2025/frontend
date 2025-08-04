@@ -106,7 +106,6 @@ export default function ShopProductCard({ ...props }) {
         display: 'block',
         boxShadow:
           theme.palette.mode === 'light' ? '0 6px 16px rgba(145, 158, 171, 25%)' : '0 6px 16px rgb(5 6 6 / 25%)',
-        marginBottom:10
       }}
     >
       <Box
