@@ -40,6 +40,8 @@ export default function ShopIcomeList({ slug, onUpdatePayment, isVendor }) {
 
   const isLoading = loadingList;
 
+  console.log('data', data)
+
   return (
     <>
       <Typography variant="h5" color="text.primary" my={2}>
