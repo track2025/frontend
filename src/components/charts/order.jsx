@@ -10,17 +10,14 @@ import BaseOptionChart from './BaseOptionChart';
 export default function Order({ data, isLoading }) {
   const theme = useTheme();
   const chartOptions = merge(BaseOptionChart('donut'), {
-    labels: ['Pending', 'On the way', 'Delivered', 'Returned', 'Cancelled'],
+    labels: ['Pending', 'Downloaded'],
     legend: {
       position: 'bottom',
       horizontalAlign: 'center'
     },
     colors: [
       theme.palette.primary.main,
-      theme.palette.secondary.main,
       theme.palette.success.main,
-      theme.palette.error.main,
-      theme.palette.warning.main
     ],
     stroke: { colors: [theme.palette.background.paper] },
     dataLabels: {
@@ -62,8 +59,6 @@ export default function Order({ data, isLoading }) {
             }}
           >
             <Skeleton variant="text" sx={{ width: '30%' }} />
-            <Skeleton variant="text" sx={{ width: '30%' }} />
-            <Skeleton variant="text" sx={{ width: '30%' }} />
           </Box>
           <Box
             sx={{
@@ -74,8 +69,6 @@ export default function Order({ data, isLoading }) {
               px: 3
             }}
           >
-            <Skeleton variant="text" sx={{ width: '30%' }} />
-            <Skeleton variant="text" sx={{ width: '30%' }} />
           </Box>
         </Box>
       ) : (

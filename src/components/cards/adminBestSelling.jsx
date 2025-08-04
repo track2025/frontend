@@ -21,7 +21,7 @@ export default function AdminBestSelling({ ...props }) {
   return (
     <>
       <Card sx={{ height: '100%' }}>
-        <CardHeader title={'Best Selling'} />
+        <CardHeader title={'Best Selling Photographers'} />
         {data?.length < 1 ? (
           <NoDataFoundIllustration
             sx={{
@@ -34,7 +34,7 @@ export default function AdminBestSelling({ ...props }) {
             {(loading ? Array.from(new Array(5)) : data)?.map((value, index, array) => (
               <React.Fragment key={index}>
                 <Stack direction="row" alignItems="center" justifyContent="space-between" spacing={2} py={1}>
-                  <Stack direction="row" alignItems="center" spacing={2}>
+                  {/* <Stack direction="row" alignItems="center" spacing={2}>
                     {loading ? (
                       <Skeleton variant="rounded" width={64} height={64} />
                     ) : (
@@ -74,7 +74,7 @@ export default function AdminBestSelling({ ...props }) {
                         {loading ? <Skeleton variant="text" width={60} /> : <> {value?.sold} sold</>}
                       </Typography>
                     </Box>
-                  </Stack>
+                  </Stack> */}
                   {loading ? (
                     <Skeleton variant="text" width={72} />
                   ) : (
