@@ -83,7 +83,7 @@ export default function AdminShopForm({ data: currentShop, isLoading: shopLoadin
     }
   });
   const ShopSettingScema = Yup.object().shape({
-    title: Yup.string().required('title is required'),
+    username: Yup.string().required('username is required'),
     cover: Yup.mixed().required('Cover is required'),
     logo: Yup.mixed().required('logo is required'),
     description: Yup.string().required('Description is required'),
@@ -91,8 +91,8 @@ export default function AdminShopForm({ data: currentShop, isLoading: shopLoadin
     paymentInfo: Yup.object().shape({
       holderName: Yup.string().required('Holder Name is required'),
       holderEmail: Yup.string().required('Holder email is required'),
-      bankName: Yup.string().required('Bank name is required'),
-      AccountNo: Yup.number().required('Account No is required')
+      // bankName: Yup.string().required('Bank name is required'),
+      // AccountNo: Yup.number().required('Account No is required')
     }),
     address: Yup.object().shape({
       country: Yup.string().required('Country is required'),
@@ -103,6 +103,7 @@ export default function AdminShopForm({ data: currentShop, isLoading: shopLoadin
   });
   const formik = useFormik({
     initialValues: {
+      username: currentShop?.username || '',
       title: currentShop?.title || '',
       cover: currentShop?.cover || null,
       logo: currentShop?.logo || null,
@@ -140,6 +141,7 @@ export default function AdminShopForm({ data: currentShop, isLoading: shopLoadin
       try {
         mutate({
           ...rest,
+          title: currentShop.username,
           ...(currentShop && {
             currentSlug: currentShop.slug
           })
@@ -213,6 +215,7 @@ export default function AdminShopForm({ data: currentShop, isLoading: shopLoadin
       .replace(/[^a-zA-Z0-9\s]+/g, '')
       .replace(/\s+/g, '-'); // convert to lowercase, remove special characters, and replace spaces with hyphens
     formik.setFieldValue('slug', slug); // set the value of slug in the formik state
+    formik.setFieldValue('title', title); // set the value of slug in the formik state
     formik.handleChange(event); // handle the change in formik
   };
 
@@ -236,25 +239,25 @@ export default function AdminShopForm({ data: currentShop, isLoading: shopLoadin
             }} >
               <Card sx={{ p: 3 }}>
                 <Stack direction="row" spacing={3} flexGrow="wrap">
-                  <Box sx={{ width: '50%' }}>
+                  <Box sx={{ width: '100%' }}>
                     <div>
                       {shopLoading ? (
                         <Skeleton variant="text" width={140} />
                       ) : (
                         <LabelStyle component={'label'} htmlFor="title">
-                          Brand Name or Company Name
+                          Username
                         </LabelStyle>
                       )}
                       {shopLoading ? (
                         <Skeleton variant="rectangular" width="100%" height={56} />
                       ) : (
                         <TextField
-                          id="title"
+                          id="username"
                           fullWidth
-                          {...getFieldProps('title')}
+                          {...getFieldProps('username')}
                           onChange={handleTitleChange} // add onChange handler for title
-                          error={Boolean(touched.title && errors.title)}
-                          helperText={touched.title && errors.title}
+                          error={Boolean(touched.username && errors.username)}
+                          helperText={touched.username && errors.username}
                           sx={{ mt: 1 }}
                         />
                       )}
