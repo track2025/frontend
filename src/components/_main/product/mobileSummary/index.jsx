@@ -171,9 +171,7 @@ export default function ProductDetailsSumaryMobile({ ...props }) {
           </Typography>
           <Stack direction="row" alignItems="center" className="rating-wrapper" spacing={1}>
             <Rating value={totalRating} precision={0.1} size="small" readOnly />
-            <Typography variant="body1" color="primary">
-              {totalReviews} <span>{Number(totalReviews) > 1 ? 'Reviews' : 'Review'}</span>
-            </Typography>
+            
 
             <Typography variant="h4" className="text-price">
               
@@ -187,13 +185,13 @@ export default function ProductDetailsSumaryMobile({ ...props }) {
             <Stack direction="row" alignItems="center" spacing={1} mt={1.5}>
               <Typography variant="subtitle1">Location:</Typography>
               <Typography variant="subtitle1" color="text.secondary" fontWeight={400}>
-                {brand?.name || 'Commercehope'}
+                {product?.location || ''}
               </Typography>
             </Stack>
             {category?.name && <Stack direction="row" alignItems="center" spacing={1}>
               <Typography variant="subtitle1">Vehicle Make:</Typography>
               <Typography variant="subtitle1" color="text.secondary" fontWeight={400}>
-                {category?.name || 'Commercehope'}
+                {product?.vehicle_make || ''}
               </Typography>
             </Stack> }
             {product?.price > product?.priceSale && (
