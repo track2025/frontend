@@ -111,13 +111,13 @@ export const navlinks = [
     icon: <RiCoupon5Line />,
     isSearch: true
   },
-  {
-    id: 122,
-    title: 'Compaigns',
-    slug: 'compaigns',
-    icon: <LuBadgePercent />,
-    isSearch: true
-  },
+  // {
+  //   id: 122,
+  //   title: 'Compaigns',
+  //   slug: 'compaigns',
+  //   icon: <LuBadgePercent />,
+  //   isSearch: true
+  // },
   {
     id: 11,
     title: 'Currencies',
@@ -126,13 +126,13 @@ export const navlinks = [
     isSearch: true
   },
 
-  {
-    id: 12,
-    title: 'Newsletter',
-    slug: 'newsletter',
-    icon: <SlEnvolopeLetter />,
-    isSearch: false
-  },
+  // {
+  //   id: 12,
+  //   title: 'Newsletter',
+  //   slug: 'newsletter',
+  //   icon: <SlEnvolopeLetter />,
+  //   isSearch: false
+  // },
   {
     id: 13,
     title: 'Settings',
