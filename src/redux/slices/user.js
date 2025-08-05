@@ -24,6 +24,9 @@ const slice = createSlice({
     setLogout(state) {
       state.user = null;
       state.isAuthenticated = false;
+      document.cookie = 'token=; path=/; expires=Thu, 01 Jan 1970 00:00:00 GMT';
+      document.cookie = 'userRole=; path=/; expires=Thu, 01 Jan 1970 00:00:00 GMT';
+      
     },
 
     setCount(state) {

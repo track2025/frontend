@@ -21,6 +21,8 @@ import * as api from 'src/services';
 
 import { useQuery } from 'react-query';
 import parseMongooseError from 'src/utils/errorHandler'
+import uploadToSpaces from 'src/utils/upload';
+
 
 
 ShopSettingFrom.propTypes = {
@@ -97,7 +99,6 @@ export default function ShopSettingFrom({ data: currentShop, isLoading: category
       streetAddress: Yup.string().required('Street Address is required')
     })
   });
-  console.log(currentShop, 'currentShop');
   const formik = useFormik({
     initialValues: {
       username: currentShop?.username || '',
@@ -182,7 +183,7 @@ export default function ShopSettingFrom({ data: currentShop, isLoading: category
   
 
     const handleDropLogo = async (acceptedFiles) => {
-        setstate({ ...state, loading: 2 });
+        setstate({ ...state, logoLoading: 2 });
         const file = acceptedFiles[0];
         if (file) {
           Object.assign(file, {
@@ -192,7 +193,7 @@ export default function ShopSettingFrom({ data: currentShop, isLoading: category
         setFieldValue('file', file);
         try {
           const uploaded = await uploadToSpaces(file, (progress) => {
-            setstate({ ...state, loading: progress });
+            setstate({ ...state, logoLoading: progress });
           });
     
           setFieldValue('logo', uploaded);
@@ -201,10 +202,10 @@ export default function ShopSettingFrom({ data: currentShop, isLoading: category
             deleteMutate(values.logo._id);
           }
     
-          setstate({ ...state, loading: false });
+          setstate({ ...state, logoLoading: false });
         } catch (err) {
           console.error('Upload failed:', err);
-          setstate({ ...state, loading: false });
+          setstate({ ...state, logoLoading: false });
         }
       };
 

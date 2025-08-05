@@ -154,7 +154,7 @@ export default function AdminShopForm({ data: currentShop, isLoading: shopLoadin
   const { errors, values, touched, handleSubmit, setFieldValue, getFieldProps } = formik;
   // handle drop logo
   const handleDropLogo = async (acceptedFiles) => {
-    setstate({ ...state, loading: 2 });
+    setstate({ ...state, logoLoading: 2 });
     const file = acceptedFiles[0];
     if (file) {
       Object.assign(file, {
@@ -164,7 +164,7 @@ export default function AdminShopForm({ data: currentShop, isLoading: shopLoadin
     setFieldValue('file', file);
     try {
       const uploaded = await uploadToSpaces(file, (progress) => {
-        setstate({ ...state, loading: progress });
+        setstate({ ...state, logoLoading: progress });
       });
 
       setFieldValue('logo', uploaded);
@@ -173,10 +173,10 @@ export default function AdminShopForm({ data: currentShop, isLoading: shopLoadin
         deleteMutate(values.logo._id);
       }
 
-      setstate({ ...state, loading: false });
+      setstate({ ...state, logoLoading: false });
     } catch (err) {
       console.error('Upload failed:', err);
-      setstate({ ...state, loading: false });
+      setstate({ ...state, logoLoading: false });
     }
   };
 

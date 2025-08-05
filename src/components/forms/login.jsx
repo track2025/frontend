@@ -47,7 +47,27 @@ export default function LoginForm() {
     onSuccess: async (data) => {
       dispatch(setLogin(data.user));
       dispatch(setWishlist(data.user.wishlist));
-      await createCookies('token', data.token);
+      //await createCookies('token', data.token);
+
+      // Set both token and role cookies
+      const cookieOptions = {
+        path: '/',
+        secure: process.env.NODE_ENV === 'production',
+        sameSite: 'strict',
+        maxAge: 86400 // 1 day in seconds
+      };
+      
+      // Set token cookie
+      document.cookie = `token=${data.token}; ${Object.entries(cookieOptions)
+        .map(([key, value]) => `${key}=${value}`)
+        .join('; ')}`;
+      
+      // Set role cookie (for middleware access)
+      document.cookie = `userRole=${data.user.role}; ${Object.entries(cookieOptions)
+        .map(([key, value]) => `${key}=${value}`)
+        .join('; ')}`;
+
+
       setloading(false);
       const isAdmin = data.user.role.includes('admin');
       const isVendor = data.user.role.includes('vendor');
