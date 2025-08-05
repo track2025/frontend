@@ -1,14 +1,19 @@
 'use client';
+import React, {useState} from 'react';
+
 import NextLink from 'next/link';
 import PropTypes from 'prop-types';
 import Image from 'next/image';
+import { useRouter } from 'next/router';
 // mui
 import { styled } from '@mui/material/styles';
-import { Box, Typography, Container, Card, Skeleton, Stack, alpha } from '@mui/material';
+import { Box, Typography, Container, Card, Skeleton, Stack, alpha, IconButton, Dialog, DialogContent, Button } from '@mui/material';
 // components
 import MyAvatar from 'src/components/myAvatar';
 // icons
 import { IoIosArrowForward } from 'react-icons/io';
+import QrCode2Icon from '@mui/icons-material/QrCode2';
+import QRCode from 'react-qr-code';
 
 const RootStyle = styled(Card)(({ theme }) => ({
   marginBottom: theme.spacing(3),
@@ -46,17 +51,85 @@ const CoverImgStyle = styled('div')({
 });
 
 export default function ShopDetailCover({ data, isLoading, isUser, page }) {
+  const [openQR, setOpenQR] = useState(false);
+  const [qrValue, setQrValue] = useState('');
+
+  const handleOpenQR = () => {
+  // Get the current base URL from the browser
+  const baseUrl = typeof window !== 'undefined' ? window.location.origin : '';
+  
+  // Combine with your path
+  const fullUrl = `${baseUrl}/photographers/${data?.slug}`;
+  
+  setQrValue(fullUrl);
+  setOpenQR(true);
+};
+
+const handleDownloadQR = () => {
+  try {
+    // Create a canvas element
+    const canvas = document.createElement('canvas');
+    const ctx = canvas.getContext('2d');
+    
+    // Set canvas dimensions
+    canvas.width = 300;
+    canvas.height = 300;
+    
+    // Create a temporary image
+    const img = new Image();
+    img.onload = () => {
+      // Draw white background
+      ctx.fillStyle = '#ffffff';
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+      
+      // Draw the QR code
+      ctx.drawImage(img, 50, 50, 200, 200);
+      
+      // Convert to PNG and trigger download
+      const pngUrl = canvas.toDataURL('image/png');
+      const downloadLink = document.createElement('a');
+      downloadLink.download = `${data?.title || data?.name || 'photographer'}-qr-code.png`;
+      downloadLink.href = pngUrl;
+      document.body.appendChild(downloadLink);
+      downloadLink.click();
+      document.body.removeChild(downloadLink);
+    };
+    
+    // Convert SVG to data URL
+    const svg = document.getElementById('qr-code-svg');
+    const svgData = new XMLSerializer().serializeToString(svg);
+    img.src = 'data:image/svg+xml;base64,' + btoa(unescape(encodeURIComponent(svgData)));
+  } catch (error) {
+    console.error('Error downloading QR code:', error);
+    alert('Failed to download QR code. Please try again.');
+  }
+};
   return (
     <RootStyle>
       {!isLoading && (
-        <Image
-          src={data?.cover?.url}
-          alt={data?.title || data?.name}
-          placeholder="blur"
-          blurDataURL={data?.cover?.blurDataURL}
-          objectFit="cover"
-          fill
-        />
+        <>
+          <Image
+            src={data?.cover?.url}
+            alt={data?.title || data?.name}
+            placeholder="blur"
+            blurDataURL={data?.cover?.blurDataURL}
+            objectFit="cover"
+            fill
+          />
+          <Box sx={{ position: 'absolute', top: 16, right: 16, zIndex: 10 }}>
+            <IconButton 
+              onClick={handleOpenQR}
+              sx={{ 
+                backgroundColor: alpha('#fff', 0.8),
+                '&:hover': {
+                  backgroundColor: '#fff'
+                }
+              }}
+            >
+              <QrCode2Icon />
+            </IconButton>
+          </Box>
+        </>
       )}
 
       <div>
@@ -118,87 +191,50 @@ export default function ShopDetailCover({ data, isLoading, isUser, page }) {
           <CoverImgStyle />
         </Container>
       </div>
-      {/* <Toolbar
-        sx={{
-          position: 'absolute',
-          bottom: 0,
-          width: '100%',
-          bgcolor: 'background.paper',
-          minHeight: `48px !important`
-        }}
-      >
-        <Stack
-          direction="row"
-          alignItems="center"
-          justifyContent="end"
-          spacing={3}
-          sx={{
-            width: '100% !important',
-            position: 'relative',
-            '.MuiTypography-root': {
-              display: 'flex !important'
-            }
-          }}
-        >
-          {data?.approved ? (
-            <Stack direction="row" alignItems="center" justifyContent="end" spacing={1}>
-              <MdVerified color="#3F95FE" />
-              <Typography variant="body2">
-                {isLoading ? <Skeleton variant="text" width={80} /> : fDateShort(data?.approvedAt)}
-              </Typography>
-            </Stack>
-          ) : null}
 
-          {!isUser && (
-            <>
-              <Stack direction="row" alignItems="center" justifyContent="end" spacing={1}>
-                <BiMap />
-                <Typography variant="body2">
-                  {isLoading ? (
-                    <Skeleton variant="text" width={100} />
-                  ) : (
-                    data?.address?.streetAddress +
-                    ' ' +
-                    data?.address?.city +
-                    ' ' +
-                    data?.address?.state +
-                    ' ' +
-                    data?.address?.country
-                  )}
-                </Typography>
-              </Stack>
-              <Stack direction="row" alignItems="center" justifyContent="end" spacing={1}>
-                <IoCall />
-                <Typography variant="body2">
-                  {isLoading ? <Skeleton variant="text" width={100} /> : data?.phone}
-                </Typography>
-              </Stack>
-            </>
-          )}
-        </Stack>
-      </Toolbar> */}
+      {/* QR Code Dialog */}
+      <Dialog open={openQR} onClose={() => setOpenQR(false)}>
+        <DialogContent sx={{ textAlign: 'center', p: 4 }}>
+          <Typography variant="h6" gutterBottom>
+            {data?.title || data?.name}
+          </Typography>
+          <Box sx={{ p: 2, bgcolor: 'white', display: 'inline-block', mb: 2 }}>
+            <QRCode 
+  id="qr-code-svg"
+  value={qrValue} 
+  size={200} 
+  level="H"
+  style={{ height: "auto", maxWidth: "100%", width: "100%" }}
+/>
+          </Box>
+          <Button 
+            variant="contained" 
+            onClick={handleDownloadQR}
+            fullWidth
+            disabled={true}
+          >
+            Download QR Code
+          </Button>
+        </DialogContent>
+      </Dialog>
     </RootStyle>
   );
 }
 
-// Add PropTypes
 ShopDetailCover.propTypes = {
   data: PropTypes.shape({
     cover: PropTypes.shape({
-      url: PropTypes.string.isRequired
+      url: PropTypes.string.isRequired,
+      blurDataURL: PropTypes.string
     }),
     logo: PropTypes.shape({
       url: PropTypes.string.isRequired
     }),
-
-    title: PropTypes.string.isRequired,
-    approved: PropTypes.bool,
-    approvedAt: PropTypes.bool,
-    address: PropTypes.object.isRequired,
-    phone: PropTypes.any,
-    description: PropTypes.string.isRequired,
-    email: PropTypes.string.isRequired
-  }).isRequired,
+    title: PropTypes.string,
+    name: PropTypes.string,
+    description: PropTypes.string,
+  }),
   isLoading: PropTypes.bool.isRequired,
-  isUser: PropTypes.bool
+  isUser: PropTypes.bool,
+  page: PropTypes.string
 };

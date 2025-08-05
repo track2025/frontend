@@ -25,7 +25,11 @@ import {
   FormGroup,
   Skeleton,
   Switch,
-  InputAdornment, MenuItem, Box
+  InputAdornment, 
+  MenuItem, 
+  Box, 
+  CircularProgress, 
+  Backdrop
 } from '@mui/material';
 // api
 import * as api from 'src/services';
@@ -39,15 +43,12 @@ import uploadToSpaces from 'src/utils/upload';
 import imageCompression from 'browser-image-compression';
 import { useQuery } from 'react-query';
 import parseMongooseError from 'src/utils/errorHandler';
- 
-
 
 // ----------------------------------------------------------------------
 
 const LabelStyle = styled(Typography)(({ theme }) => ({
   ...theme.typography.subtitle2,
   color: theme.palette.text.secondary,
-
   lineHeight: 2.5
 }));
 
@@ -63,7 +64,10 @@ export default function ProductForm({
   isVendor
 }) {
   const router = useRouter();
-  const [loading, setloading] = React.useState(false);
+  const [loading, setLoading] = React.useState(false);
+  const [uploadProgress, setUploadProgress] = useState(0);
+  const [isUploading, setIsUploading] = useState(false);
+
   const { mutate, isLoading: updateLoading } = useMutation(
     currentProduct ? 'update' : 'new',
     currentProduct
@@ -76,7 +80,6 @@ export default function ProductForm({
     {
       onSuccess: (data) => {
         toast.success(data.message);
-
         router.push((isVendor ? '/vendor' : '/admin') + '/products');
       },
       onError: (error) => {
@@ -85,7 +88,7 @@ export default function ProductForm({
           toast.error('Session expired. Please log in again.');
           deleteCookies('token');
           dispatch(setLogout());
-          router.push('/auth/login'); // or whatever your login route is
+          router.push('/auth/login');
         } else {
           toast.error(error?.response?.data?.message || 'An error occurred');
         }
@@ -93,33 +96,17 @@ export default function ProductForm({
     }
   );
 
-   const [state, setstate] = useState({
-      loading: false,
-      name: '',
-      search: '',
-      open: false
-    });
+  const [state, setState] = useState({
+    loading: false,
+    name: '',
+    search: '',
+    open: false
+  });
     
   const NewProductSchema = Yup.object().shape({
-    // name: Yup.string().when('Multiple', {
-    //     is: false, // If `Multiple` is false, then `name` is required
-    //     then: Yup.string().required('Car Registration is required'),
-    //     otherwise: Yup.string().notRequired(), // If `Multiple` is true, not required
-    //   }),   
-    // category: Yup.string().when('Multiple', {
-    //   is: false,
-    //   then: Yup.string().required('Vehicle make is required'),
-    //   otherwise: Yup.string().notRequired(),
-    // }),
     shop: isVendor ? Yup.string().nullable().notRequired() : Yup.string().required('Photographer is required'),
-    // subCategory: Yup.string().when('Multiple', {
-    //   is: false,
-    //   then: Yup.string().required('Vehicle model is required'),
-    //   otherwise: Yup.string().notRequired(),
-    // }),
     brand: Yup.string().required('Location is required'),
     images: Yup.array().min(1, 'Images is required'),
-    // price: Yup.number().required('Price is required'),
     priceSale: Yup.number().required('Sale price is required'),
     currency: Yup.string().required('Currency is required')
   });
@@ -129,7 +116,7 @@ export default function ProductForm({
     initialValues: {
       name: currentProduct?.name || '',
       slug: currentProduct?.slug || '',
-      brand: currentProduct?.location || currentProduct?.brand || brands[0]?._id ||   '',
+      brand: currentProduct?.location || currentProduct?.brand || brands[0]?._id || '',
       category: currentProduct?.category || (categories.length && categories[0]?._id) || '',
       shop: isVendor ? null : currentProduct?.shop || (shops?.length && shops[0]?._id) || '',
       subCategory: currentProduct?.subCategory || (categories.length && categories[0].subCategories[0]?._id) || '',
@@ -140,11 +127,10 @@ export default function ProductForm({
       dateCaptured: (currentProduct?.dateCaptured && new Date(currentProduct?.dateCaptured).toISOString().split('T')[0]) || new Date().toISOString().split('T')[0],
       Multiple: currentProduct?.Multiple || false
     },
-
     validationSchema: NewProductSchema,
     onSubmit: async (values) => {
       const isPresetLocation = /^[a-f\d]{24}$/i.test(values?.brand);
-      let cleanedValues = { ...values}
+      let cleanedValues = { ...values }
       if(!isPresetLocation) cleanedValues = {...cleanedValues, location: values?.brand, brand: null} 
       
       const getNameById = (array, id) => array?.find(item => item._id?.toString() === id?.toString())?.name || null;
@@ -154,10 +140,9 @@ export default function ProductForm({
       const selectedSubCategoryName = getNameById(allSubCategories, values?.subCategory);
       const selectedShopName = getNameById(shops, values?.shop);
 
-
-      if(selectedBrandName)   cleanedValues = {...cleanedValues, location: selectedBrandName} 
-      if(selectedCategoryName)   cleanedValues = {...cleanedValues, vehicle_make: selectedCategoryName} 
-      if(selectedSubCategoryName)   cleanedValues = {...cleanedValues, vehicle_model: selectedSubCategoryName} 
+      if(selectedBrandName) cleanedValues = {...cleanedValues, location: selectedBrandName} 
+      if(selectedCategoryName) cleanedValues = {...cleanedValues, vehicle_make: selectedCategoryName} 
+      if(selectedSubCategoryName) cleanedValues = {...cleanedValues, vehicle_model: selectedSubCategoryName} 
 
       if (values?.Multiple) cleanedValues = {
           ...cleanedValues,
@@ -169,7 +154,6 @@ export default function ProductForm({
           slug: `${Date.now()}-${Math.random().toString(36).substring(2, 8)}`
       };
       
-    
       const { ...rest } = cleanedValues;
       try {
         mutate({
@@ -182,83 +166,29 @@ export default function ProductForm({
       }
     }
   });
+
   const { errors, values, touched, handleSubmit, setFieldValue, getFieldProps } = formik;
   const { mutate: deleteMutate } = useMutation(api.singleDeleteFile, {
     onError: (error) => {
-       let errorMessage = parseMongooseError(error.response.data.message)
-        toast.error(errorMessage, {
-          autoClose: false,        // Prevents auto-dismissal
-          closeOnClick: true,      // Allows clicking on the close icon
-          draggable: true,         // Allows dragging to dismiss
-        });
-      // toast.error(error.response.data.message);
+      let errorMessage = parseMongooseError(error.response.data.message)
+      toast.error(errorMessage, {
+        autoClose: false,
+        closeOnClick: true,
+        draggable: true,
+      });
     }
   });
-  // handle drop
-  // const handleDrop = (acceptedFiles) => {
-  //   setloading(true);
-  //   const uploaders = acceptedFiles.map((file) => {
-  //     const formData = new FormData();
-  //     formData.append('file', file);
-  //     formData.append('upload_preset', 'my-uploads');
-  //     setFieldValue('blob', values.blob.concat(acceptedFiles));
-  //     return axios.post(`https://api.cloudinary.com/v1_1/${process.env.CLOUDINARY_CLOUD_NAME}/image/upload`, formData);
-  //   });
-
-  //   axios.all(uploaders).then((data) => {
-  //     const newImages = data.map(({ data }) => ({
-  //       url: data.secure_url,
-  //       _id: data.public_id
-  //       // blob: blobs[i],
-  //     }));
-  //     setloading(false);
-  //     setFieldValue('images', values.images.concat(newImages));
-  //   });
-  // };
-  // handleAddVariants
-
-  // const handleDrop = async (acceptedFiles) => {
-  //   setstate({ ...state, loading: 2 });
-
-  //   const filesWithPreview = acceptedFiles.map((file) => {
-  //     Object.assign(file, {
-  //       preview: URL.createObjectURL(file),
-  //     });
-  //     return file;
-  //   });
-
-  //   //setFieldValue('blob', values.blob.concat(filesWithPreview));
-  //   setFieldValue('blob', (values.blob || []).concat(filesWithPreview));
-
-
-  //   try {
-  //     const uploads = await Promise.all(
-  //       filesWithPreview.map((file) =>
-  //         uploadToSpaces(file, (progress) => {
-  //           setstate((prev) => ({ ...prev, loading: progress }));
-  //         })
-  //       )
-  //     );
-
-  //     setFieldValue('images', values.images.concat(uploads));
-  //     setstate({ ...state, loading: false });
-  //   } catch (err) {
-  //     console.error('Upload failed:', err);
-  //     setstate({ ...state, loading: false });
-  //   }
-  // };
 
   const addWatermark = (imageFile, watermarkText) =>
     new Promise((resolve) => {
-     
       const img = new Image();
       img.src = URL.createObjectURL(imageFile);
       img.onload = () => {
         const canvas = document.createElement('canvas');
         const ctx = canvas.getContext('2d');
 
-        // Resize image to a max width of 800px
-        const maxWidth = 800;
+        // Resize image to a max width of 1200px
+        const maxWidth = 1200;
         const scale = maxWidth / img.width;
         canvas.width = maxWidth;
         canvas.height = img.height * scale;
@@ -275,10 +205,10 @@ export default function ProductForm({
 
         // Rotate canvas diagonally (↗️ direction)
         ctx.translate(canvas.width / 2, canvas.height / 2);
-        ctx.rotate(-Math.atan(canvas.height / canvas.width)); // Diagonal rotation
+        ctx.rotate(-Math.atan(canvas.height / canvas.width));
 
         // Calculate spacing
-        const horizontalSpacing = 550; // Increased to avoid overlap
+        const horizontalSpacing = 550;
         const verticalSpacing = 150;
 
         const xStart = -canvas.width;
@@ -303,12 +233,15 @@ export default function ProductForm({
       };
     });
 
-
-  const [orignalImage,  setorignalImageValue] = useState();
+  const [orignalImage, setorignalImageValue] = useState();
 
   const handleDrop = async (acceptedFiles) => {
-    setstate({ ...state, loading: 2 });
-     setloading(true);
+    if (isUploading) return; // Prevent new uploads if one is already in progress
+    
+    setIsUploading(true);
+    setLoading(true);
+    setUploadProgress(0);
+
     const filesWithPreview = acceptedFiles.map((file) => {
       Object.assign(file, { preview: URL.createObjectURL(file) });
       return file;
@@ -320,18 +253,17 @@ export default function ProductForm({
       const uploads = await Promise.all(
         filesWithPreview.map(async (file) => {
           // 1. Create watermarked version
-          setstate((prev) => ({ ...prev, loading: 2 }))
           const watermarked = await addWatermark(file, 'Lap Snaps');
 
           // 2. Upload original
-          const originalUrl = await uploadToSpaces(file, (progress) =>
-            setstate((prev) => ({ ...prev, loading: progress }))
-          );
+          const originalUrl = await uploadToSpaces(file, (progress) => {
+            setUploadProgress(progress);
+          });
 
           // 3. Upload watermarked version
-          const watermarkedUrl = await uploadToSpaces(watermarked, (progress) =>
-            setstate((prev) => ({ ...prev, loading: progress }))
-          );
+          const watermarkedUrl = await uploadToSpaces(watermarked, (progress) => {
+            setUploadProgress(progress);
+          });
 
           return {
             original: originalUrl,
@@ -340,27 +272,22 @@ export default function ProductForm({
         })
       );
 
-      // Save to form field
       if(uploads) {
-        const watermarkedImageArray = uploads?.map(fileObj => fileObj?.watermarked)
-        const originalImageArray = uploads?.map(fileObj => fileObj?.original)
+        const watermarkedImageArray = uploads?.map(fileObj => fileObj?.watermarked);
+        const originalImageArray = uploads?.map(fileObj => fileObj?.original);
         setFieldValue('images', values.images.concat(watermarkedImageArray));
         setorignalImageValue(originalImageArray);
-
       }
-
-      setstate({ ...state, loading: false });
-      setloading(false);
     } catch (err) {
       console.error('Upload failed:', err);
-      setstate({ ...state, loading: false });
-      setloading(false);
+      toast.error('Upload failed. Please try again.');
+    } finally {
+      setIsUploading(false);
+      setLoading(false);
+      setUploadProgress(0);
     }
   };
 
-
-
-  // handleRemoveAll
   const handleRemoveAll = () => {
     values.images.forEach((image) => {
       deleteMutate(image._id);
@@ -371,7 +298,7 @@ export default function ProductForm({
     setFieldValue('images', []);
     setFieldValue('blob', []);
   };
-  // handleRemove
+
   const handleRemove = (file) => {
     const removeImage = values.images.filter((_file) => {
       if (_file._id === file._id) {
@@ -387,9 +314,9 @@ export default function ProductForm({
     const slug = title
       .toLowerCase()
       .replace(/[^a-zA-Z0-9\s]+/g, '')
-      .replace(/\s+/g, '-'); // convert to lowercase, remove special characters, and replace spaces with hyphens
-    formik.setFieldValue('slug', slug); // set the value of slug in the formik state
-    formik.handleChange(event); // handle the change in formik
+      .replace(/\s+/g, '-');
+    formik.setFieldValue('slug', slug);
+    formik.handleChange(event);
   };
 
   const { data } = useQuery(['get-currencies'], () => api.getCurrencies());
@@ -400,28 +327,28 @@ export default function ProductForm({
         <Form noValidate autoComplete="off" onSubmit={handleSubmit}>
           <Grid container spacing={3}>
             <Grid item sx={{
-                            width: {
-                              xs: '100%', // mobile
-                              md: '65%'   // desktop
-                            }
-                          }}>
+              width: {
+                xs: '100%',
+                md: '65%'
+              }
+            }}>
               <Stack spacing={3}>
                 <Card sx={{ p: 3 }}>
                   <div>
-                          <FormGroup>
-                            <FormControlLabel
-                              control={
-                                <Switch
-                                  onChange={(e) => setFieldValue('Multiple', e.target.checked)}
-                                  checked={values.Multiple}
-                                />
-                              }
-                              label={'Check this if uploading pictures of multiple vehicles makes/model'}
-                            />
-                          </FormGroup>
+                    <FormGroup>
+                      <FormControlLabel
+                        control={
+                          <Switch
+                            onChange={(e) => setFieldValue('Multiple', e.target.checked)}
+                            checked={values.Multiple}
+                          />
+                        }
+                        label={'Check this if uploading pictures of multiple vehicles makes/model'}
+                      />
+                    </FormGroup>
                   </div>
                   <Stack spacing={3}>
-                    { !values.Multiple && <div>
+                    {!values.Multiple && <div>
                       {isInitialized ? (
                         <Skeleton variant="text" width={140} />
                       ) : (
@@ -436,21 +363,19 @@ export default function ProductForm({
                           id="product-name"
                           fullWidth
                           {...getFieldProps('name')}
-                          onChange={handleTitleChange} // add onChange handler for title
+                          onChange={handleTitleChange}
                           error={Boolean(touched.name && errors.name)}
                           helperText={touched.name && errors.name}
-                          
                         />
                       )}
-                       
-                    </div> }
-                     <div>
+                    </div>}
+                    <div>
                       <Grid container spacing={2}>
                         {isVendor ? null : (
                           <Grid item sx={{
                             width: {
-                              xs: '100%', // mobile
-                              md: '100%'   // desktop
+                              xs: '100%',
+                              md: '100%'
                             }
                           }}>
                             <FormControl fullWidth>
@@ -479,12 +404,12 @@ export default function ProductForm({
                           </Grid>
                         )}
 
-                       { !values.Multiple &&  <Grid item sx={{
-                            width: {
-                              xs: '100%', // mobile
-                              md: '100%'   // desktop
-                            }
-                          }}>
+                        {!values.Multiple && <Grid item sx={{
+                          width: {
+                            xs: '100%',
+                            md: '100%'
+                          }
+                        }}>
                           <FormControl fullWidth>
                             {isInitialized ? (
                               <Skeleton variant="text" width={100} />
@@ -504,8 +429,6 @@ export default function ProductForm({
                                   <option key={category._id} value={category._id}>
                                     {category.name}
                                   </option>
-
-                                  // </optgroup>
                                 ))}
                               </Select>
                             ) : (
@@ -518,12 +441,12 @@ export default function ProductForm({
                             )}
                           </FormControl>
                         </Grid>}
-                        { !values.Multiple &&  <Grid item sx={{
-                            width: {
-                              xs: '100%', // mobile
-                              md: '100%'   // desktop
-                            }
-                          }}>
+                        {!values.Multiple && <Grid item sx={{
+                          width: {
+                            xs: '100%',
+                            md: '100%'
+                          }
+                        }}>
                           <FormControl fullWidth>
                             {isInitialized ? (
                               <Skeleton variant="text" width={100} />
@@ -545,8 +468,6 @@ export default function ProductForm({
                                     <option key={subCategory._id} value={subCategory._id}>
                                       {subCategory.name}
                                     </option>
-
-                                    // </optgroup>
                                   ))}
                               </Select>
                             ) : (
@@ -558,128 +479,144 @@ export default function ProductForm({
                               </FormHelperText>
                             )}
                           </FormControl>
-                        </Grid> }
+                        </Grid>}
                         <Grid item sx={{
-                            width: {
-                              xs: '100%', // mobile
-                              md: '100%'   // desktop
-                            }
-                          }}>
-                                        <FormControl fullWidth>
-                                          {isInitialized ? (
-                                            <Skeleton variant="text" width={100} />
-                                          ) : (
-                                            <LabelStyle component={'label'} htmlFor="location">
-                                              {'Location'}
-                                            </LabelStyle>
-                                          )}
+                          width: {
+                            xs: '100%',
+                            md: '100%'
+                          }
+                        }}>
+                          <FormControl fullWidth>
+                            {isInitialized ? (
+                              <Skeleton variant="text" width={100} />
+                            ) : (
+                              <LabelStyle component={'label'} htmlFor="location">
+                                {'Location'}
+                              </LabelStyle>
+                            )}
 
-                                          <Autocomplete
-                                            freeSolo
-                                            id="location-select"
-                                            options={brands?.map((brand) => ({
-                                              id: brand._id,
-                                              label: brand.name
-                                            })) || []}
-                                            value={values.brand ? { 
-                                              id: values.brand, 
-                                              label: brands?.find(b => b._id === values.brand)?.name || values.brand 
-                                            } : null}
-                                            onChange={(event, newValue) => {
-                                              // Handle both selected option and free text input
-                                              const newValueId = newValue?.id || newValue;
-                                              setFieldValue('brand', newValueId);
-                                            }}
-                                            onInputChange={(event, newInputValue) => {
-                                              // If you want to update the field value as user types (optional)
-                                              // setFieldValue('brand', newInputValue);
-                                            }}
-                                            renderInput={(params) => (
-                                              <TextField
-                                                {...params}
-                                                error={touched.brand && Boolean(errors.brand)}
-                                              />
-                                            )}
-                                          />
+                            <Autocomplete
+                              freeSolo
+                              id="location-select"
+                              options={brands?.map((brand) => ({
+                                id: brand._id,
+                                label: brand.name
+                              })) || []}
+                              value={values.brand ? { 
+                                id: values.brand, 
+                                label: brands?.find(b => b._id === values.brand)?.name || values.brand 
+                              } : null}
+                              onChange={(event, newValue) => {
+                                const newValueId = newValue?.id || newValue;
+                                setFieldValue('brand', newValueId);
+                              }}
+                              renderInput={(params) => (
+                                <TextField
+                                  {...params}
+                                  error={touched.brand && Boolean(errors.brand)}
+                                />
+                              )}
+                            />
 
-                                          {touched.brand && errors.brand && (
-                                            <FormHelperText error sx={{ px: 2, mx: 0 }}>
-                                              {touched.brand && errors.brand}
-                                            </FormHelperText>
-                                          )}
-                                        </FormControl>                        
-
+                            {touched.brand && errors.brand && (
+                              <FormHelperText error sx={{ px: 2, mx: 0 }}>
+                                {touched.brand && errors.brand}
+                              </FormHelperText>
+                            )}
+                          </FormControl>
                         </Grid>
 
                         <Grid item sx={{
-                            width: {
-                              xs: '100%', // mobile
-                              md: '100%'   // desktop
-                            }
-                          }}>
-                                        <FormControl fullWidth>
-                                          {isInitialized ? (
-                                            <Skeleton variant="text" width={100} />
-                                          ) : (
-                                            <LabelStyle component={'label'} htmlFor="DateTaken">
-                                              {'Date Captured'}
-                                            </LabelStyle>
-                                          )}
+                          width: {
+                            xs: '100%',
+                            md: '100%'
+                          }
+                        }}>
+                          <FormControl fullWidth>
+                            {isInitialized ? (
+                              <Skeleton variant="text" width={100} />
+                            ) : (
+                              <LabelStyle component={'label'} htmlFor="DateTaken">
+                                {'Date Captured'}
+                              </LabelStyle>
+                            )}
 
-                                          <TextField
-                                            //label="Date Captured"
-                                            type="date"
-                                            InputLabelProps={{
-                                              shrink: true,
-                                            }}
-                                            sx={{  width: {
-                                              xs: '100%', // mobile
-                                              md: '100%'   // desktop
-                                            } }}
-                                            value={values.dateCaptured}
-                                            onChange={(e) => {
-                                               formik.setFieldValue('dateCaptured', e.target.value)
-                                            }}
-                                            inputProps={{
-                                              max: new Date().toISOString().split('T')[0] // Disable future dates
-                                            }}
+                            <TextField
+                              type="date"
+                              InputLabelProps={{
+                                shrink: true,
+                              }}
+                              sx={{ width: {
+                                xs: '100%',
+                                md: '100%'
+                              }}}
+                              value={values.dateCaptured}
+                              onChange={(e) => {
+                                formik.setFieldValue('dateCaptured', e.target.value)
+                              }}
+                              inputProps={{
+                                max: new Date().toISOString().split('T')[0]
+                              }}
+                            />
 
-                                          />
-
-                                          
-                                          {touched.dateCaptured && errors.dateCaptured && (
-                                            <FormHelperText error sx={{ px: 2, mx: 0 }}>
-                                              {touched.dateCaptured && errors.dateCaptured}
-                                            </FormHelperText>
-                                          )}
-                                        </FormControl>                        
-
+                            {touched.dateCaptured && errors.dateCaptured && (
+                              <FormHelperText error sx={{ px: 2, mx: 0 }}>
+                                {touched.dateCaptured && errors.dateCaptured}
+                              </FormHelperText>
+                            )}
+                          </FormControl>
                         </Grid>
 
-
                         <Grid item sx={{
-                            width: {
-                              xs: '100%', // mobile
-                              md: '100%'   // desktop
-                            }
-                          }}>
+                          width: {
+                            xs: '100%',
+                            md: '100%'
+                          }
+                        }}>
                           <div>
                             <LabelStyle component={'label'} htmlFor="product-image">
                               {'Pictures/Videos'} <span>1080 * 1080</span>
                             </LabelStyle>
-                            <UploadMultiFile
-                              id="product-image"
-                              showPreview
-                              maxSize={3145728}
-                              accept="image/*"
-                              files={values?.images}
-                              loading={loading}
-                              onDrop={handleDrop}
-                              onRemove={handleRemove}
-                              onRemoveAll={handleRemoveAll}
-                              blob={values.blob}
-                              error={Boolean(touched.images && errors.images)}
-                            />
+                            <Box sx={{ position: 'relative' }}>
+                              {isUploading && (
+                                <Backdrop
+                                  open={true}
+                                  sx={{
+                                    position: 'absolute',
+                                    top: 0,
+                                    left: 0,
+                                    right: 0,
+                                    bottom: 0,
+                                    zIndex: 10,
+                                    display: 'flex',
+                                    flexDirection: 'column',
+                                    alignItems: 'center',
+                                    justifyContent: 'center',
+                                    backgroundColor: 'rgba(0,0,0,0.5)',
+                                    borderRadius: 1,
+                                  }}
+                                >
+                                  <CircularProgress color="inherit" />
+                                  <Typography variant="body2" sx={{ mt: 2, color: 'common.white' }}>
+                                    Uploading {Math.round(uploadProgress * 100)}%
+                                  </Typography>
+                                </Backdrop>
+                              )}
+                              <UploadMultiFile
+                                id="product-image"
+                                showPreview
+                                maxSize={3145728}
+                                accept="image/*"
+                                files={values?.images}
+                                loading={loading}
+                                onDrop={handleDrop}
+                                onRemove={handleRemove}
+                                onRemoveAll={handleRemoveAll}
+                                blob={values.blob}
+                                error={Boolean(touched.images && errors.images)}
+                                isUploading={isUploading}
+                              />
+                            </Box>
                             {touched.images && errors.images && (
                               <FormHelperText error sx={{ px: 2 }}>
                                 {touched.images && errors.images}
@@ -694,51 +631,45 @@ export default function ProductForm({
               </Stack>
             </Grid>
             <Grid item sx={{
-                            width: {
-                              xs: '100%', // mobile
-                              md: '30%'   // desktop
-                            }
-                          }}>
+              width: {
+                xs: '100%',
+                md: '30%'
+              }
+            }}>
               <Card sx={{ p: 3 }}>
-
                 <Stack mt={3} spacing={2} direction="row" spacing={3} flexGrow="wrap">
-                    <Box sx={{ width: '100%' }}>
-                  <LabelStyle>Price</LabelStyle>
-                
-                  <Stack direction="row" spacing={2}>
-                    <TextField
-                      select
-                      label="Currency"
-                      fullWidth
-                      {...getFieldProps('currency')}
+                  <Box sx={{ width: '100%' }}>
+                    <LabelStyle>Price</LabelStyle>
+                    <Stack direction="row" spacing={2}>
+                      <TextField
+                        select
+                        label="Currency"
+                        fullWidth
+                        {...getFieldProps('currency')}
                         error={Boolean(touched.currency && errors.currency)}
                         helperText={touched.currency && errors.currency}
-                    >
-                      {(data?.data)?.map((cur, index) => (
-                        <MenuItem key={index} value={cur.code}>
-                          {cur.code}
-                        </MenuItem>
-                      ))}
-                    </TextField>
-                
-                    <TextField
-                      id="sale-price"
-                      type="number"
-                      label={`Price ${values?.currency || '' }`}
-                      fullWidth
-                      {...getFieldProps('priceSale')}
-                      error={Boolean(touched.priceSale && errors.priceSale)}
-                      helperText={touched.priceSale && errors.priceSale}
-                    />
-                  </Stack>
+                      >
+                        {(data?.data)?.map((cur, index) => (
+                          <MenuItem key={index} value={cur.code}>
+                            {cur.code}
+                          </MenuItem>
+                        ))}
+                      </TextField>
+                      <TextField
+                        id="sale-price"
+                        type="number"
+                        label={`Price ${values?.currency || ''}`}
+                        fullWidth
+                        {...getFieldProps('priceSale')}
+                        error={Boolean(touched.priceSale && errors.priceSale)}
+                        helperText={touched.priceSale && errors.priceSale}
+                      />
+                    </Stack>
                   </Box>
                 </Stack>
 
-
                 <Stack spacing={3} pb={1}>
-
-                  
-                  <div>
+                  {!isVendor && <div>
                     <FormGroup>
                       <FormControlLabel
                         control={
@@ -750,12 +681,19 @@ export default function ProductForm({
                         label={'Featured'}
                       />
                     </FormGroup>
-                  </div>
-                  <Stack spacing={2}>
+                  </div>}
+                  <Stack spacing={2} pt={3}>
                     {isInitialized ? (
                       <Skeleton variant="rectangular" width="100%" height={56} />
                     ) : (
-                      <LoadingButton type="submit" variant="contained" size="large" fullWidth loading={updateLoading}>
+                      <LoadingButton 
+                        type="submit" 
+                        variant="contained" 
+                        size="large" 
+                        fullWidth 
+                        loading={updateLoading}
+                        disabled={isUploading} // Disable submit button during upload
+                      >
                         {currentProduct ? 'Update Photos' : 'Upload Photos'}
                       </LoadingButton>
                     )}
@@ -769,13 +707,13 @@ export default function ProductForm({
     </Stack>
   );
 }
+
 ProductForm.propTypes = {
   categories: PropTypes.arrayOf(
     PropTypes.shape({
       _id: PropTypes.string.isRequired,
       name: PropTypes.string.isRequired,
       subCategories: PropTypes.array.isRequired
-      // ... add other required properties for category
     })
   ).isRequired,
   currentProduct: PropTypes.shape({
@@ -801,7 +739,6 @@ ProductForm.propTypes = {
     sizes: PropTypes.arrayOf(PropTypes.string),
     available: PropTypes.number,
     images: PropTypes.array
-    // ... add other optional properties for currentProduct
   }),
   categoryLoading: PropTypes.bool,
   isInitialized: PropTypes.bool,
@@ -810,7 +747,6 @@ ProductForm.propTypes = {
     PropTypes.shape({
       _id: PropTypes.string.isRequired,
       name: PropTypes.string.isRequired
-      // ... add other required properties for brands
     })
   )
 };

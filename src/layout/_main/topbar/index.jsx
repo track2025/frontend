@@ -5,7 +5,7 @@ import NextLink from 'next/link';
 import { useSelector } from 'react-redux';
 
 // mui
-import { Toolbar, Container, Stack, useTheme, Link, Divider, Skeleton } from '@mui/material';
+import { Toolbar, Container, Stack, useTheme, Link, Divider, Skeleton, Typography } from '@mui/material';
 
 // icons
 import { MdOutlinePhone } from 'react-icons/md';
@@ -45,21 +45,12 @@ export default function UserTopbar() {
     
       >
         <Stack direction="row" alignItems="center" spacing={1}>
-          <Link
-            component={NextLink}
-            href={'tel:+971500000000'}
+          
+          <Typography
             sx={{ color: 'text.primary', fontSize: 14, display: 'flex', alignItems: 'center', gap: 1 }}
           >
-            <MdOutlinePhone /> +971 50 000 0000
-          </Link>
-          <Divider orientation="vertical" flexItem />
-          <Link
-            component={NextLink}
-            href={'mailto:info@lapsnaps.com'}
-            sx={{ color: 'text.primary', fontSize: 14, display: 'flex', alignItems: 'center', gap: 1 }}
-          >
-            <MdOutlineMail /> info@lapsnaps.com
-          </Link>
+            Welcome to Lap Snaps. high-quality photographs of vehicles
+          </Typography>
         </Stack>
         <Stack direction="row" alignItems="center" spacing={1}>
           <UserSelect />

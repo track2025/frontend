@@ -113,7 +113,7 @@ export default function Footer() {
               <Typography variant="body1" color="text.secondary">
                 Your Car's Perfect Shot
               </Typography>
-              <Stack>
+              {/* <Stack>
                 {ADDRESS.map((item, idx) => (
                   <Box sx={{ display: 'flex', gap: 2 }} key={idx}>
                     <IconButton
@@ -140,7 +140,7 @@ export default function Footer() {
                     </Typography>
                   </Box>
                 ))}
-              </Stack>
+              </Stack> */}
             </Stack>
           </Grid>
           {MAIN_LINKS.map((item, idx) => (
