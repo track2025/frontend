@@ -666,7 +666,7 @@ export default function ProductForm({
                               <UploadMultiFile
                                 id="product-image"
                                 showPreview
-                                maxSize={3145728}
+                                maxSize={20485760}
                                 accept="image/*"
                                 files={values?.images}
                                 loading={loading}

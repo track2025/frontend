@@ -23,7 +23,7 @@ export default async function page({ params }) {
           },
           {
             name: 'Products',
-            href: '/dashboard/products'
+            href: '/vendor/products'
           },
           {
             name: 'Add Product'
