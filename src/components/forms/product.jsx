@@ -193,7 +193,7 @@ export default function ProductForm({
       const ctx = canvas.getContext('2d');
 
       // 1. Calculate dimensions while maintaining aspect ratio
-      const maxWidth = 800;
+      const maxWidth = 1200;
       const scale = Math.min(maxWidth / img.width, 1); // Never scale up
       canvas.width = maxWidth;
       canvas.height = img.height * scale;
