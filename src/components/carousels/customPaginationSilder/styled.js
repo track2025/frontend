@@ -7,7 +7,7 @@ const RootStyled = styled(Box)(({ theme }) => ({
     width: '100%',
     position: 'relative',
     overflow: 'hidden',
-    aspectRatio: '1/1', // Modern aspect-ratio control
+    aspectRatio: '3/2.1', // Modern aspect-ratio control
     borderRadius: 0,
     
     '& .slide-wrapper': {
@@ -22,8 +22,6 @@ const RootStyled = styled(Box)(({ theme }) => ({
       
       '& img': {
         position: 'absolute',
-        width: '100%',
-        height: '100%',
         objectFit: 'cover',
         objectPosition: 'top center', // Align to top
         borderRadius: '8px',

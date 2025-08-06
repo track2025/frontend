@@ -33,7 +33,7 @@ export default function ProductImageDisplay({ product }) {
   const mainImage = product?.images?.[0] || {};
 
   return (
-    <RootStyled className='mb-3'>
+    <RootStyled>
       <div className="carousel-wrap">
         <ProductImage item={mainImage} />
       </div>
