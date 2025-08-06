@@ -108,7 +108,7 @@ export default function Search({ ...props }) {
       <TextField
         id="standard-basic"
         variant="standard"
-        placeholder="Type a location, reg. number, make or model"
+        placeholder="Enter a location, reg. #, model or make"
         onFocus={() => setFocus(true)}
         onKeyDown={onKeyDown}
         onChange={(e) => {
@@ -172,7 +172,7 @@ export default function Search({ ...props }) {
             </Select>
           )}
         </FormControl>
-        <FormControl fullWidth>
+        {/* <FormControl fullWidth>
           <LabelStyle component={'label'} htmlFor="subCategory">
             Car Model
           </LabelStyle>
@@ -197,7 +197,7 @@ export default function Search({ ...props }) {
                 ))}
             </Select>
           )}
-        </FormControl>
+        </FormControl> */}
 
 <FormControl fullWidth>
   <LabelStyle component="label" htmlFor="date">

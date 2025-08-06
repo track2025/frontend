@@ -61,7 +61,8 @@ export default function ProductForm({
   isInitialized = false,
   brands,
   shops,
-  isVendor
+  isVendor,
+  pricing
 }) {
   const router = useRouter();
   const [loading, setLoading] = React.useState(false);
@@ -121,17 +122,20 @@ export default function ProductForm({
       shop: isVendor ? null : currentProduct?.shop || (shops?.length && shops[0]?._id) || '',
       subCategory: currentProduct?.subCategory || (categories.length && categories[0].subCategories[0]?._id) || '',
       isFeatured: currentProduct?.isFeatured || false,
-      priceSale: currentProduct?.priceSale || '',
-      currency: currentProduct?.currency || '',
+      priceSale: currentProduct?.priceSale || pricing?.defaultPrice || '',
+      currency: currentProduct?.currency || pricing?.defaultCurrency || '',
       images: currentProduct?.images || [],
       dateCaptured: (currentProduct?.dateCaptured && new Date(currentProduct?.dateCaptured).toISOString().split('T')[0]) || new Date().toISOString().split('T')[0],
       Multiple: currentProduct?.Multiple || false
+
     },
     validationSchema: NewProductSchema,
     onSubmit: async (values) => {
       const isPresetLocation = /^[a-f\d]{24}$/i.test(values?.brand);
       let cleanedValues = { ...values }
       if(!isPresetLocation) cleanedValues = {...cleanedValues, location: values?.brand, brand: null} 
+      console.log("cleanedValues", values?.subCategory)
+
       
       const getNameById = (array, id) => array?.find(item => item._id?.toString() === id?.toString())?.name || null;
       const selectedCategoryName = getNameById(categories, values?.category);
@@ -143,6 +147,7 @@ export default function ProductForm({
       if(selectedBrandName) cleanedValues = {...cleanedValues, location: selectedBrandName} 
       if(selectedCategoryName) cleanedValues = {...cleanedValues, vehicle_make: selectedCategoryName} 
       if(selectedSubCategoryName) cleanedValues = {...cleanedValues, vehicle_model: selectedSubCategoryName} 
+      if(!selectedSubCategoryName) cleanedValues = {...cleanedValues, vehicle_model: values?.subCategory, subCategory: null } 
 
       if (values?.Multiple) cleanedValues = {
           ...cleanedValues,
@@ -456,20 +461,63 @@ export default function ProductForm({
                               </LabelStyle>
                             )}
                             {!categoryLoading ? (
-                              <Select
-                                native
-                                {...getFieldProps('subCategory')}
-                                value={values.subCategory}
-                                id="grouped-native-select-subCategory"
-                              >
-                                {categories
-                                  .find((v) => v._id.toString() === values.category)
-                                  ?.subCategories?.map((subCategory) => (
-                                    <option key={subCategory._id} value={subCategory._id}>
-                                      {subCategory.name}
-                                    </option>
-                                  ))}
-                              </Select>
+                              <Autocomplete
+                                freeSolo
+                                  onChange={(event, newValue) => {
+                                  if (typeof newValue === 'string') {
+                                    // Handle free text input
+                                    setFieldValue('subCategory', newValue);
+                                  } else if (newValue && newValue.id) {
+                                    // Handle selection from dropdown
+                                    setFieldValue('subCategory', newValue.id);
+                                  } else {
+                                    // Handle clear/empty case
+                                    setFieldValue('subCategory', '');
+                                  }
+                                }}
+                                  onInputChange={(event, newInputValue) => {
+                                  if (typeof newInputValue === 'string') {
+                                    // Handle free text input
+                                    setFieldValue('subCategory', newInputValue);
+                                  } else if (newInputValue && newInputValue.id) {
+                                    // Handle selection from dropdown
+                                    setFieldValue('subCategory', newInputValue.id);
+                                  } else {
+
+                                    setFieldValue('subCategory', '');
+                                  }
+                                }}
+                                id="subCategory-select"
+                                options={
+                                  categories
+                                    .find((v) => v._id.toString() === values.category)
+                                    ?.subCategories?.map((subCategory) => ({
+                                      id: subCategory._id,
+                                      label: subCategory.name,
+                                    })) || []
+                                }
+                                value={
+                                  values.subCategory
+                                    ? {
+                                        id: values.subCategory,
+                                        label:
+                                          categories
+                                            .find((v) => v._id.toString() === values.category)
+                                            ?.subCategories?.find((s) => s._id === values.subCategory)?.name || 
+                                          values.subCategory,
+                                      }
+                                    : null
+                                }
+
+                                renderInput={(params) => (
+                                  <TextField
+                                    {...params}
+                                    error={touched.subCategory && Boolean(errors.subCategory)}
+                                    helperText={touched.subCategory && errors.subCategory}
+                                  />
+                                )}
+                              />
+
                             ) : (
                               <Skeleton variant="rectangular" width={'100%'} height={56} />
                             )}
@@ -598,7 +646,7 @@ export default function ProductForm({
                                 >
                                   <CircularProgress color="inherit" />
                                   <Typography variant="body2" sx={{ mt: 2, color: 'common.white' }}>
-                                    Uploading {Math.round(uploadProgress * 100)}%
+                                    Uploading {Math.round(uploadProgress)}%
                                   </Typography>
                                 </Backdrop>
                               )}

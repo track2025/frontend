@@ -67,7 +67,7 @@ export default function Page() {
           }
         ]}
       />
-      <AddProduct brands={brands} categories={categories} isVendor={isVendor} />
+      <AddProduct brands={brands} categories={categories} isVendor={isVendor} pricing={{defaultCurrency: user?.defaultCurrency, defaultPrice: user?.defaultPrice}} />
     </div>
   );
 }

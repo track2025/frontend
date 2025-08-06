@@ -2,7 +2,7 @@ import React from 'react';
 // components
 import ProductForm from 'src/components/forms/product';
 
-export default function addProduct({ brands, categories, subCategories, isVendor, shops }) {
+export default function addProduct({ brands, categories, subCategories, isVendor, shops, pricing }) {
   return (
     <div>
       <ProductForm
@@ -11,6 +11,7 @@ export default function addProduct({ brands, categories, subCategories, isVendor
         subCategories={subCategories}
         shops={shops}
         isVendor={isVendor}
+        pricing={pricing}
       />
     </div>
   );
