@@ -91,12 +91,6 @@ export default function ShopSettingFrom({ data: currentShop, isLoading: category
       holderEmail: Yup.string().required('Holder email is required'),
       bankName: Yup.string().required('Bank name is required'),
       AccountNo: Yup.number().required('Account No is required')
-    }),
-    address: Yup.object().shape({
-      country: Yup.string().required('Country is required'),
-      city: Yup.string().required('City is required'),
-      state: Yup.string().required('State is required'),
-      streetAddress: Yup.string().required('Street Address is required')
     })
   });
   const formik = useFormik({
@@ -387,7 +381,7 @@ export default function ShopSettingFrom({ data: currentShop, isLoading: category
                         <Skeleton variant="text" width={150} />
                       ) : (
                         <LabelStyle component={'label'} htmlFor="file">
-                          <span>512 * 512</span>
+                          <span></span>
                         </LabelStyle>
                       )}
                     </Stack>
@@ -425,7 +419,7 @@ export default function ShopSettingFrom({ data: currentShop, isLoading: category
                       <Skeleton variant="text" width={150} />
                     ) : (
                       <LabelStyle component={'label'} htmlFor="file">
-                        <span>990 * 300</span>
+                        <span></span>
                       </LabelStyle>
                     )}
                   </Stack>
@@ -528,7 +522,7 @@ export default function ShopSettingFrom({ data: currentShop, isLoading: category
                           />
                         )}
                       </div>
-                      <div>
+                      {/* <div>
                         {categoryLoading ? (
                           <Skeleton variant="text" width={150} />
                         ) : (
@@ -607,7 +601,7 @@ export default function ShopSettingFrom({ data: currentShop, isLoading: category
                             helperText={touched.address?.streetAddress && errors.address?.streetAddress}
                           />
                         )}
-                      </div>
+                      </div> */}
 
                       {/* <FormControl fullWidth sx={{ select: { textTransform: 'capitalize' } }}>
                         {categoryLoading ? (

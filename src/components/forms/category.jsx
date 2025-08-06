@@ -252,7 +252,7 @@ export default function CategoryForm({ data: currentCategory, isLoading: categor
                             <Skeleton variant="text" width={150} />
                           ) : (
                             <LabelStyle component={'label'} htmlFor="file">
-                              <span>512 * 512</span>
+                              <span></span>
                             </LabelStyle>
                           )}
                         </Stack>

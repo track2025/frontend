@@ -234,7 +234,7 @@ export default function BrandsForm({ data: currentBrand, isLoading: brandLoading
                             <Skeleton variant="text" width={150} />
                           ) : (
                             <LabelStyle component={'label'} htmlFor="brand-image">
-                              <span>512 * 512</span>
+                              <span></span>
                             </LabelStyle>
                           )}
                         </Stack>

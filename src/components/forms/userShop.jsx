@@ -1,7 +1,7 @@
 'use client';
 import React, { useEffect, useState } from 'react';
 import { useMutation } from 'react-query';
-import { updateUserRole } from 'src/redux/slices/user';
+import { setLogout, updateUserRole } from 'src/redux/slices/user';
 import { useDispatch } from 'react-redux';
 import toast from 'react-hot-toast';
 import PropTypes from 'prop-types';
@@ -69,10 +69,11 @@ export default function CreateShopSettingFrom() {
   const { mutate, isLoading } = useMutation('new-user-shop', api.addShopByUser, {
     retry: false,
     onSuccess: () => {
-      toast.success('Your photographer account is now under review.', {
-        autoClose: 4000
+      toast.success('Your photographer account is now under review. Please login into you account again to access your dashboard', {
+        autoClose: 10000
       });      
       dispatch(updateUserRole());
+      dispatch(setLogout());
       router.push('/vendor/dashboard');
     },
     onError: (error) => {
@@ -102,11 +103,6 @@ export default function CreateShopSettingFrom() {
       holderEmail: Yup.string().required('Holder email is required'),
       // bankName: Yup.string().required('Bank name is required'),
       // AccountNo: Yup.number().required('Account No is required')
-    }),
-    address: Yup.object().shape({
-      city: Yup.string().required('City is required'),
-      state: Yup.string().required('State is required'),
-      streetAddress: Yup.string().required('Street Address is required')
     })
   });
   const formik = useFormik({
@@ -382,7 +378,7 @@ export default function CreateShopSettingFrom() {
                       </LabelStyle>
 
                       <LabelStyle component={'label'} htmlFor="file">
-                        <span>512 * 512</span>
+                        <span></span>
                       </LabelStyle>
                     </Stack>
 
@@ -409,7 +405,7 @@ export default function CreateShopSettingFrom() {
                     </LabelStyle>
 
                     <LabelStyle component={'label'} htmlFor="file">
-                      <span>990 * 300</span>
+                      <span></span>
                     </LabelStyle>
                   </Stack>
 
@@ -513,7 +509,7 @@ export default function CreateShopSettingFrom() {
                           helperText={touched.phone && errors.phone}
                         />
                       </div>
-                      <div>
+                      {/* <div>
                         <LabelStyle component={'label'} htmlFor="country">
                           Country
                         </LabelStyle>
@@ -573,7 +569,7 @@ export default function CreateShopSettingFrom() {
                           error={Boolean(touched.address?.streetAddress && errors.address?.streetAddress)}
                           helperText={touched.address?.streetAddress && errors.address?.streetAddress}
                         />
-                      </div>
+                      </div> */}
                     </Stack>
                   </Card>
 
