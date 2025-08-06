@@ -218,7 +218,7 @@ export default function ProductForm({
       ctx.rotate(angle);
 
       // 6. Better watermark positioning
-      const horizontalSpacing = canvas.width * 0.4;
+      const horizontalSpacing = canvas.width * 0.6;
       const verticalSpacing = canvas.height * 0.2;
 
       // 7. Draw watermark pattern
@@ -271,7 +271,7 @@ export default function ProductForm({
       const uploads = await Promise.all(
         filesWithPreview.map(async (file) => {
           // 1. Create watermarked version
-          const watermarked = await addWatermark(file, 'Lap Snaps');
+          const watermarked = await addWatermark(file, 'LapSnaps');
 
           // 2. Upload original
           const originalUrl = await uploadToSpaces(file, (progress) => {
