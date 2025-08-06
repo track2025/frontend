@@ -185,58 +185,71 @@ export default function ProductForm({
   });
 
   const addWatermark = (imageFile, watermarkText) =>
-    new Promise((resolve) => {
-      const img = new Image();
-      img.src = URL.createObjectURL(imageFile);
-      img.onload = () => {
-        const canvas = document.createElement('canvas');
-        const ctx = canvas.getContext('2d');
+  new Promise((resolve) => {
+    const img = new Image();
+    img.src = URL.createObjectURL(imageFile);
+    img.onload = () => {
+      const canvas = document.createElement('canvas');
+      const ctx = canvas.getContext('2d');
 
-        // Resize image to a max width of 1200px
-        const maxWidth = 1200;
-        const scale = maxWidth / img.width;
-        canvas.width = maxWidth;
-        canvas.height = img.height * scale;
+      // 1. Calculate dimensions while maintaining aspect ratio
+      const maxWidth = 800;
+      const scale = Math.min(maxWidth / img.width, 1); // Never scale up
+      canvas.width = maxWidth;
+      canvas.height = img.height * scale;
 
-        // Draw resized image
-        ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+      // 2. Enable high-quality image scaling
+      ctx.imageSmoothingEnabled = true;
+      ctx.imageSmoothingQuality = 'high';
 
-        // Watermark style
-        const fontSize = 100;
-        ctx.font = `${fontSize}px Arial`;
-        ctx.fillStyle = 'rgba(255, 255, 255, 0.25)';
-        ctx.textAlign = 'center';
-        ctx.textBaseline = 'middle';
+      // 3. Draw image with better interpolation
+      ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
 
-        // Rotate canvas diagonally (↗️ direction)
-        ctx.translate(canvas.width / 2, canvas.height / 2);
-        ctx.rotate(-Math.atan(canvas.height / canvas.width));
+      // 4. Improved watermark styling
+      const fontSize = Math.max(canvas.width * 0.08, 40); // Responsive font size
+      ctx.font = `bold ${fontSize}px Arial`;
+      ctx.fillStyle = 'rgba(255, 255, 255, 0.35)'; // Slightly more visible
+      ctx.textAlign = 'center';
+      ctx.textBaseline = 'middle';
 
-        // Calculate spacing
-        const horizontalSpacing = 550;
-        const verticalSpacing = 150;
+      // 5. Rotate canvas for diagonal watermark
+      ctx.translate(canvas.width / 2, canvas.height / 2);
+      const angle = -Math.atan(canvas.height / canvas.width);
+      ctx.rotate(angle);
 
-        const xStart = -canvas.width;
-        const xEnd = canvas.width * 2;
-        const yStart = -canvas.height;
-        const yEnd = canvas.height * 2;
+      // 6. Better watermark positioning
+      const horizontalSpacing = canvas.width * 0.4;
+      const verticalSpacing = canvas.height * 0.2;
 
-        for (let x = xStart; x < xEnd; x += horizontalSpacing) {
-          for (let y = yStart; y < yEnd; y += verticalSpacing) {
-            ctx.fillText(watermarkText, x, y);
-          }
+      // 7. Draw watermark pattern
+      for (let x = -canvas.width; x < canvas.width * 2; x += horizontalSpacing) {
+        for (let y = -canvas.height; y < canvas.height * 2; y += verticalSpacing) {
+          ctx.fillText(watermarkText, x, y);
         }
+      }
 
-        // Reset transformation
-        ctx.setTransform(1, 0, 0, 1, 0, 0);
+      // 8. Reset transformations
+      ctx.setTransform(1, 0, 0, 1, 0, 0);
 
-        // Export as new file
-        canvas.toBlob((blob) => {
-          const watermarkedFile = new File([blob], `wm_${imageFile.name}`, { type: 'image/jpeg' });
-          resolve(watermarkedFile);
-        }, 'image/jpeg', 0.8);
-      };
-    });
+      // 9. Export with higher quality
+      canvas.toBlob(
+        (blob) => {
+          resolve(
+            new File([blob], `watermarked_${imageFile.name}`, {
+              type: 'image/jpeg',
+              lastModified: Date.now()
+            })
+          );
+        },
+        'image/jpeg',
+        0.92 // Increased quality (0.85-0.95 is optimal)
+      );
+    };
+    img.onerror = () => {
+      console.error('Image loading failed');
+      resolve(imageFile); // Fallback to original if error occurs
+    };
+  });
 
   const [orignalImage, setorignalImageValue] = useState();
 
