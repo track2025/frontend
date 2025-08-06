@@ -218,7 +218,7 @@ export default function ProductForm({
       ctx.rotate(angle);
 
       // 6. Better watermark positioning
-      const horizontalSpacing = canvas.width * 0.1;
+      const horizontalSpacing = canvas.width * 0.5;
       const verticalSpacing = canvas.height * 0.2;
 
       // 7. Draw watermark pattern
