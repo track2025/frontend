@@ -1,6 +1,8 @@
 import axios from 'axios';
-import { store } from 'src/redux/store';
+import { reduxStore } from 'src/redux/store';
 import { setLogout } from 'src/redux/slices/user'; // Import your logout action
+
+
 
 function getToken() {
   const cname = 'token';
@@ -71,7 +73,7 @@ http.interceptors.response.use(
       clearAuthCookies();
       
       // Dispatch Redux logout action
-      store.dispatch(setLogout());
+      reduxStore.dispatch(setLogout());
       
       // Redirect to login (handles both CSR and SSR)
       if (typeof window !== 'undefined') {
