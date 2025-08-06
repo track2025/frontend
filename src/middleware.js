@@ -36,7 +36,6 @@ export async function middleware(request) {
     }
   }
 
-  console.log('Access granted');
   return NextResponse.next();
 }
 
