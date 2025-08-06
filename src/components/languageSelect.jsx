@@ -50,7 +50,6 @@ export default function LanguageSelect() {
     const autoChangeCurrency = async () => {
       try {
         const currentLocation = await getLocation();
-        console.log('currentLocation', currentLocation)
         const selectedCurrency = data?.data?.find(
           (cur) => cur.code === currentLocation?.currency_code
         );
