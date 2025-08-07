@@ -19,7 +19,7 @@ export async function middleware(request) {
     console.log('Admin route access attempt');
     if (!isAuthenticated || !['admin', 'super admin'].includes(userRole)) {
       console.log('Admin access denied - redirecting to login');
-      const loginUrl = new URL('/auth/login', request.url);
+      const loginUrl = new URL('/auth/session', request.url);
       loginUrl.searchParams.set('redirect', pathname);
       return NextResponse.redirect(loginUrl);
     }
@@ -30,7 +30,7 @@ export async function middleware(request) {
     console.log('Vendor route access attempt');
     if (!isAuthenticated || userRole !== 'vendor') {
       console.log('Vendor access denied - redirecting to login');
-      const loginUrl = new URL('/auth/login', request.url);
+      const loginUrl = new URL('/auth/session', request.url);
       loginUrl.searchParams.set('redirect', pathname);
       return NextResponse.redirect(loginUrl);
     }
