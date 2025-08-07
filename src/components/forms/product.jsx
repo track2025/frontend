@@ -118,9 +118,9 @@ export default function ProductForm({
       name: currentProduct?.name || '',
       slug: currentProduct?.slug || '',
       brand: currentProduct?.location || currentProduct?.brand || brands[0]?._id || '',
-      category: currentProduct?.category || (categories.length && categories[0]?._id) || '',
+      category: currentProduct?.vehicle_make || currentProduct?.category || (categories.length && categories[0]?._id) || '',
       shop: isVendor ? null : currentProduct?.shop || (shops?.length && shops[0]?._id) || '',
-      subCategory: currentProduct?.subCategory || (categories.length && categories[0].subCategories[0]?._id) || '',
+      subCategory: currentProduct?.vehicle_model || currentProduct?.subCategory || (categories.length && categories[0].subCategories[0]?.name) || '',
       isFeatured: currentProduct?.isFeatured || false,
       priceSale: currentProduct?.priceSale || pricing?.defaultPrice || '',
       currency: currentProduct?.currency || pricing?.defaultCurrency || '',
@@ -134,18 +134,21 @@ export default function ProductForm({
       const isPresetLocation = /^[a-f\d]{24}$/i.test(values?.brand);
       let cleanedValues = { ...values }
       if(!isPresetLocation) cleanedValues = {...cleanedValues, location: values?.brand, brand: null} 
-      console.log("cleanedValues", values?.subCategory)
 
+      const isPresetMake = /^[a-f\d]{24}$/i.test(values?.category);
+      if(!isPresetMake) cleanedValues = {...cleanedValues, vehicle_make: values?.category, brand: null} 
       
       const getNameById = (array, id) => array?.find(item => item._id?.toString() === id?.toString())?.name || null;
-      const selectedCategoryName = getNameById(categories, values?.category);
+      const selectedCategoryName = isPresetMake ? getNameById(categories, values?.category) : null;
       const selectedBrandName = getNameById(brands, values?.brand);
       const allSubCategories = categories.flatMap(category => category.subCategories || []);
       const selectedSubCategoryName = getNameById(allSubCategories, values?.subCategory);
       const selectedShopName = getNameById(shops, values?.shop);
 
+
       if(selectedBrandName) cleanedValues = {...cleanedValues, location: selectedBrandName} 
       if(selectedCategoryName) cleanedValues = {...cleanedValues, vehicle_make: selectedCategoryName} 
+      if(!selectedCategoryName) cleanedValues = {...cleanedValues, category: null} 
       if(selectedSubCategoryName) cleanedValues = {...cleanedValues, vehicle_model: selectedSubCategoryName} 
       if(!selectedSubCategoryName) cleanedValues = {...cleanedValues, vehicle_model: values?.subCategory, subCategory: null } 
 
@@ -218,7 +221,7 @@ export default function ProductForm({
       ctx.rotate(angle);
 
       // 6. Better watermark positioning
-      const horizontalSpacing = canvas.width * 0.5;
+      const horizontalSpacing = canvas.width * 0.4;
       const verticalSpacing = canvas.height * 0.2;
 
       // 7. Draw watermark pattern
@@ -428,36 +431,56 @@ export default function ProductForm({
                             md: '100%'
                           }
                         }}>
-                          <FormControl fullWidth>
-                            {isInitialized ? (
-                              <Skeleton variant="text" width={100} />
-                            ) : (
-                              <LabelStyle component={'label'} htmlFor="grouped-native-select">
-                                {'Vehicle Make'}
-                              </LabelStyle>
-                            )}
-                            {!categoryLoading ? (
-                              <Select
-                                native
-                                {...getFieldProps('category')}
-                                value={values.category}
-                                id="grouped-native-select"
-                              >
-                                {categories?.map((category) => (
-                                  <option key={category._id} value={category._id}>
-                                    {category.name}
-                                  </option>
-                                ))}
-                              </Select>
-                            ) : (
-                              <Skeleton variant="rectangular" width={'100%'} height={56} />
-                            )}
-                            {touched.category && errors.category && (
-                              <FormHelperText error sx={{ px: 2, mx: 0 }}>
-                                {touched.category && errors.category}
-                              </FormHelperText>
-                            )}
-                          </FormControl>
+                         <FormControl fullWidth>
+  {isInitialized ? (
+    <Skeleton variant="text" width={100} />
+  ) : (
+    <LabelStyle component={'label'} htmlFor="category-select">
+      {'Vehicle Make'}
+    </LabelStyle>
+  )}
+  
+  {!categoryLoading ? (
+    <Autocomplete
+     freeSolo
+      id="category-select"
+      options={categories?.map((category) => ({
+        id: category._id,
+        label: category.name
+      })) || []}
+      value={values.category ? { 
+        id: values.category, 
+        label: categories?.find(c => c._id === values.category)?.name || values.category 
+      } : null}
+
+      onInputChange={(event, newInputValue) => {
+        if (typeof newInputValue === 'string') {
+          // Handle free text input
+          setFieldValue('category', newInputValue);
+        } else if (newInputValue && newInputValue.id) {
+          // Handle selection from dropdown
+          setFieldValue('category', newInputValue.id);
+        } else {
+          setFieldValue('category', '');
+        }
+      }}
+      renderInput={(params) => (
+        <TextField
+          {...params}
+          error={touched.category && Boolean(errors.category)}
+        />
+      )}
+    />
+  ) : (
+    <Skeleton variant="rectangular" width={'100%'} height={56} />
+  )}
+  
+  {touched.category && errors.category && (
+    <FormHelperText error sx={{ px: 2, mx: 0 }}>
+      {touched.category && errors.category}
+    </FormHelperText>
+  )}
+</FormControl>
                         </Grid>}
                         {!values.Multiple && <Grid item sx={{
                           width: {
@@ -666,8 +689,8 @@ export default function ProductForm({
                               <UploadMultiFile
                                 id="product-image"
                                 showPreview
-                                maxSize={20485760}
-                                accept="image/*"
+                               maxSize={20971520} // 20MB in bytes (20 * 1024 * 1024)
+                               maxFiles={100}
                                 files={values?.images}
                                 loading={loading}
                                 onDrop={handleDrop}
