@@ -1,22 +1,25 @@
-'use client'; // Mark as Client Component
+'use client';
 
+import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { setLogout } from 'src/redux/slices/user';
 import { resetWishlist } from 'src/redux/slices/wishlist';
 import { deleteCookies } from 'src/hooks/cookies';
-import { redirect } from 'next/navigation';
+import { useRouter } from 'next/navigation';
 
 export default function SessionPage() {
   const dispatch = useDispatch();
+  const router = useRouter();
 
-  // Perform logout actions
-  deleteCookies('token');
-  dispatch(setLogout());
-  dispatch(resetWishlist());
-  
-  // Redirect immediately
-  redirect('/auth/login');
+  useEffect(() => {
+    // Perform logout actions
+    deleteCookies('token');
+    dispatch(setLogout());
+    dispatch(resetWishlist());
+    
+    // Redirect after state updates are complete
+    router.push('/auth/login');
+  }, [dispatch, router]);
 
-  // This won't actually render as redirect will interrupt
-  return null;
+  return null; // Or a loading spinner if needed
 }
