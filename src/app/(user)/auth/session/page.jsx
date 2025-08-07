@@ -1,22 +1,22 @@
-import React from 'react';
+'use client'; // Mark as Client Component
+
 import { useDispatch } from 'react-redux';
 import { setLogout } from 'src/redux/slices/user';
 import { resetWishlist } from 'src/redux/slices/wishlist';
 import { deleteCookies } from 'src/hooks/cookies';
-import { useRouter } from 'next/router';
+import { redirect } from 'next/navigation';
 
-function Session() {
+export default function SessionPage() {
   const dispatch = useDispatch();
-  const router = useRouter();
 
-  // This will run immediately when the component mounts on the client
+  // Perform logout actions
   deleteCookies('token');
   dispatch(setLogout());
   dispatch(resetWishlist());
-  router.push('/auth/login');
+  
+  // Redirect immediately
+  redirect('/auth/login');
 
-  return null; // Or a loading spinner if you prefer
+  // This won't actually render as redirect will interrupt
+  return null;
 }
-
-// Export the component with no SSR
-export default dynamic(() => Promise.resolve(Session), { ssr: false });
