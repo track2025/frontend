@@ -1,34 +1,22 @@
-import React, { useEffect } from 'react';
-// redux
+import React from 'react';
 import { useDispatch } from 'react-redux';
 import { setLogout } from 'src/redux/slices/user';
 import { resetWishlist } from 'src/redux/slices/wishlist';
-// mui
-import { Button } from '@mui/material';
-// icons
-import { LuLogOut } from 'react-icons/lu';
 import { deleteCookies } from 'src/hooks/cookies';
 import { useRouter } from 'next/router';
 
-export default function Session() {
+function Session() {
   const dispatch = useDispatch();
   const router = useRouter();
 
-  const onLogout = () => {
-    deleteCookies('token');
-    dispatch(setLogout());
-    dispatch(resetWishlist());
-    router.push('/auth/login');
-  };
+  // This will run immediately when the component mounts on the client
+  deleteCookies('token');
+  dispatch(setLogout());
+  dispatch(resetWishlist());
+  router.push('/auth/login');
 
-  useEffect(() => {
-    // Automatically logout when component mounts/lands
-    onLogout();
-  }, []);
-
-  return (
-    <>
-      {/* You can keep this empty or add a loading state if needed */}
-    </>
-  );
+  return null; // Or a loading spinner if you prefer
 }
+
+// Export the component with no SSR
+export default dynamic(() => Promise.resolve(Session), { ssr: false });
