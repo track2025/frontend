@@ -21,9 +21,10 @@ Page.propTypes = {
   }).isRequired
 };
 export default function Page({ params }) {
-  const { data, isLoading } = useQuery(['order-by-admin'], () => api.getOrderByAdmin(params.oid), {
+  const { data, isLoading } = useQuery(['order-by-admin'], () => api.getOrderByVendor(params.oid), {
     onError: (err) => {
-      toast.error(err.response.data.message || 'We ran into an issue. Please refresh the page or try again.');
+      console.log(err)
+      toast.error(err?.response?.data?.message || 'We ran into an issue. Please refresh the page or try again.');
     }
   });
   return (

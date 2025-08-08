@@ -137,6 +137,10 @@ export const getOrderByAdmin = async (id) => {
   const { data } = await http.get(`/admin/orders/${id}`);
   return data;
 };
+export const getOrderByVendor = async (id) => {
+  const { data } = await http.get(`/vendor/orders/${id}`);
+  return data;
+};
 export const deleteOrderByAdmin = async (id) => {
   const { data } = await http.delete(`/admin/orders/${id}`);
   return data;
