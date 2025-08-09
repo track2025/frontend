@@ -88,7 +88,7 @@ export default function Index() {
                 <Box>
                     <Button
                   component={Link}
-                  href="/products"
+                  href="/products?top=1"
                   variant="contained"
                   size={isDeskTopBtn ? 'large' : 'small'}
                   sx={{
