@@ -1,7 +1,7 @@
 'use client';
 // react
 import { useMutation, useQuery } from 'react-query';
-import React from 'react';
+import React , { useEffect, useState} from 'react';
 import { useCallback } from 'react';
 import { toast } from 'react-hot-toast';
 import { usePathname } from 'next/navigation';
@@ -26,6 +26,7 @@ import axios from 'axios';
 import { useDispatch } from 'react-redux';
 import { setLogin } from 'src/redux/slices/user';
 import { useSelector } from 'react-redux';
+import uploadToSpaces from 'src/utils/upload';
 
 export default function AccountGeneral() {
   const { user: adminUser } = useSelector(({ user }) => user);
@@ -55,19 +56,27 @@ export default function AccountGeneral() {
   const [loading, setLoading] = React.useState(100);
   const [verifyLoading, setVerifyLoading] = React.useState(false);
   const [avatarId, setAvatarId] = React.useState(null);
+  const [isVendor, setIsVendor] = useState(false);
+  
   const callbackLoading = useCallback(
     (value) => {
       setLoading(value);
     },
     [setLoading]
   );
-  console.log(user, 'user data');
+
+  useEffect(() => {
+      if (adminUser?.role === 'vendor') {
+        setIsVendor(true);
+      }
+    }, [adminUser]);
+
 
   const UpdateUserSchema = Yup.object().shape({
     firstName: Yup.string().required('First name required'),
     lastName: Yup.string().required('Last name required'),
-    phoneNumber: Yup.string().required('Phone required'),
-    gender: Yup.string().required('Gender required')
+    //phoneNumber: Yup.string().required('Phone required'),
+    //gender: Yup.string().required('Gender required')
   });
   const formik = useFormik({
     enableReinitialize: true,
@@ -110,40 +119,38 @@ export default function AccountGeneral() {
   });
 
   const { values, errors, touched, handleSubmit, getFieldProps, setFieldValue } = formik;
-  const handleDrop = async (acceptedFiles) => {
-    const file = acceptedFiles[0];
-    if (file) {
-      setLoadingUpload(true);
-      setFieldValue('file', file);
-      setFieldValue('photoURL', {
-        ...file,
-        preview: URL.createObjectURL(file)
-      });
-      const formData = new FormData();
-      formData.append('file', file);
-      formData.append('upload_preset', 'my-uploads');
 
-      const config = {
-        onUploadProgress: (progressEvent) => {
-          const { loaded, total } = progressEvent;
-          const percentage = Math.floor((loaded * 100) / total);
-          callbackLoading(percentage);
-        }
-      };
-      await axios
-        .post(`https://api.cloudinary.com/v1_1/${process.env.CLOUDINARY_CLOUD_NAME}/image/upload`, formData, config)
-        .then(({ data }) => {
-          setFieldValue('cover', {
-            _id: data.public_id,
-            url: data.secure_url
-          });
-        })
-        .then(() => {
-          avatarId && avatarMutate(avatarId);
-          setLoadingUpload(false);
-        });
+  const handleDrop = async (acceptedFiles) => {
+  setLoadingUpload(true);
+  const file = acceptedFiles[0];
+  
+  if (file) {
+    setFieldValue('file', file);
+    setFieldValue('photoURL', {
+      ...file,
+      preview: URL.createObjectURL(file)
+    });
+
+    try {
+      const uploaded = await uploadToSpaces(file, (progress) => {
+        // You can use callbackLoading here if needed, or keep it as is
+        const percentage = Math.floor(progress);
+        callbackLoading(percentage);
+      });
+
+      setFieldValue('cover', uploaded);
+
+      if (avatarId) {
+        avatarMutate(avatarId);
+      }
+
+      setLoadingUpload(false);
+    } catch (err) {
+      console.error('Upload failed:', err);
+      setLoadingUpload(false);
     }
-  };
+  }
+};
 
   React.useEffect(() => {
     if (!pathname.includes('dashboard') && adminUser?.role.includes('admin')) {
@@ -178,7 +185,7 @@ export default function AccountGeneral() {
     <FormikProvider value={formik}>
       <Form autoComplete="off" noValidate onSubmit={handleSubmit}>
         <Grid container spacing={3} mt={3}>
-          <Grid item sx={{
+         { !isVendor && <Grid item sx={{
               width: {
                 xs: '100%', // mobile
                 md: '30%'   // desktop
@@ -240,7 +247,7 @@ export default function AccountGeneral() {
                 </LoadingButton>
               )}
             </Card>
-          </Grid>
+          </Grid> }
 
           <Grid item sx={{
               width: {

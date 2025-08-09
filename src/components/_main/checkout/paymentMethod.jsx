@@ -60,7 +60,7 @@ export default function PaymentMethodCard({ value, setValue, error }) {
                 </Stack>
               }
             />
-            <FormControlLabel
+            {/* <FormControlLabel
               value="paypal"
               control={<Radio />}
               label={
@@ -79,7 +79,7 @@ export default function PaymentMethodCard({ value, setValue, error }) {
                   <Typography variant="subtitle2">PayPal</Typography>
                 </Stack>
               }
-            />
+            /> */}
           </RadioGroup>
         </Stack>
         <Collapse in={value === 'stripe'}>

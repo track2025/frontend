@@ -53,7 +53,7 @@ export default function CheckoutGuestForm({ getFieldProps, touched, errors, hand
             />
           </Stack>
 
-          <Stack gap={0.5} width={1}>
+          {/* <Stack gap={0.5} width={1}>
             <Typography variant="overline" color="text.primary" for="phone" component={'label'}>
               Phone
             </Typography>
@@ -66,7 +66,7 @@ export default function CheckoutGuestForm({ getFieldProps, touched, errors, hand
               error={Boolean(touched.phone && errors.phone)}
               helperText={touched.phone && errors.phone}
             />
-          </Stack>
+          </Stack> */}
           {/* <TextField
                 fullWidth
                 label="Phone"
@@ -143,7 +143,7 @@ export default function CheckoutGuestForm({ getFieldProps, touched, errors, hand
             ))}
           </TextField>
         </Stack> */}
-        <Stack spacing={0.5} width={1}>
+        {/* <Stack spacing={0.5} width={1}>
           <Typography variant="overline" color="text.primary" for="note" component={'label'}>
             Note
           </Typography>
@@ -157,7 +157,7 @@ export default function CheckoutGuestForm({ getFieldProps, touched, errors, hand
             helperText={touched.note && errors.note}
             type="text"
           />
-        </Stack> 
+        </Stack>  */}
          {/* <FormControlLabel
           control={<Checkbox onChange={handleChangeShipping} checked={checked} />}
           label="Ship to a different address?"

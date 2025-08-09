@@ -117,7 +117,7 @@ const CheckoutMain = () => {
   const NewAddressSchema = Yup.object().shape({
     firstName: Yup.string().required('First name is required'),
     lastName: Yup.string().required('Last name is required'),
-    phone: Yup.string().required('Phone is required'),
+    // phone: Yup.string().required('Phone is required'),
     email: Yup.string().email('Enter email Valid').required('Email is required'),
     // address: Yup.string().required('Address is required'),
     // city: Yup.string().required('City is required'),
@@ -145,7 +145,7 @@ const CheckoutMain = () => {
     initialValues: {
       firstName: userData?.firstName || '',
       lastName: userData?.lastName || '',
-      phone: userData?.phone || '',
+      // phone: userData?.phone || '',
       email: userData?.email || '',
       // address: userData?.address || '',
       // city: userData?.city || '',
@@ -275,6 +275,8 @@ const CheckoutMain = () => {
         <Box py={5}>
           <Grid container spacing={2}>
             <Grid item xs={12} md={8} flexGrow={1} >
+                            <CartItemsCard cart={cart} loading={loading} />
+
               <CheckoutForm
                 getFieldProps={getFieldProps}
                 touched={touched}
@@ -283,12 +285,11 @@ const CheckoutMain = () => {
                 handleChangeShipping={handleChangeShipping}
                 checked={checked}
               />
-              <Collapse in={checked}>
+              {/* <Collapse in={checked}>
                 <ShipmentCheckoutForm getFieldProps={getFieldProps} touched={touched} errors={errors} />
-              </Collapse>
+              </Collapse> */}
             </Grid>
             <Grid item xs={12} md={4} flexGrow={1}>
-              <CartItemsCard cart={cart} loading={loading} />
               <PaymentInfo loading={loading} setCouponCode={setCouponCode} setTotal={(v) => setTotalWithDiscount(v)} />
               <PaymentMethodCard
                 loading={loading}
@@ -298,7 +299,7 @@ const CheckoutMain = () => {
               />
               <br />
 
-              <Collapse in={paymentMethod === 'paypal'}>
+              {/* <Collapse in={paymentMethod === 'paypal'}>
                 <PayPalScriptProvider options={initialOptions}>
                   <PayPalPaymentMethod
                     onSuccess={onSuccessPaypal}
@@ -310,7 +311,7 @@ const CheckoutMain = () => {
                     currency={currency}
                   />
                 </PayPalScriptProvider>
-              </Collapse>
+              </Collapse> */}
 
               <Collapse in={paymentMethod !== 'paypal'}>
                 <LoadingButton

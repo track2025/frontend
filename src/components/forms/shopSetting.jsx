@@ -55,7 +55,7 @@ export default function ShopSettingFrom({ data: currentShop, isLoading: category
       }),
       retry: false,
       onSuccess: (data) => {
-        toast.success(currentShop ? data.message : "our photographer profile is currently under review. We’ll notify you once it’s approved.");
+        toast.success(currentShop ? data.message : "Your photographer profile is currently under review. We’ll notify you once it’s approved.");
         // router.push('/dashboard/categories');
       },
       onError: (error) => {
@@ -193,7 +193,7 @@ export default function ShopSettingFrom({ data: currentShop, isLoading: category
           setFieldValue('logo', uploaded);
     
           if (values.file && values.logo?._id) {
-            deleteMutate(values.logo._id);
+            //deleteMutate(values.logo._id);
           }
     
           setstate({ ...state, logoLoading: false });
@@ -258,7 +258,7 @@ export default function ShopSettingFrom({ data: currentShop, isLoading: category
         setFieldValue('cover', uploaded);
   
         if (values.file && values.cover?._id) {
-          deleteMutate(values.cover._id);
+          //deleteMutate(values.cover._id);
         }
   
         setstate({ ...state, loading: false });
@@ -412,7 +412,7 @@ export default function ShopSettingFrom({ data: currentShop, isLoading: category
                       <Skeleton variant="text" width={150} />
                     ) : (
                       <LabelStyle variant="body1" component={'label'} color="text.primary">
-                        Cover
+                        Cover (500kb max size)
                       </LabelStyle>
                     )}
                     {categoryLoading ? (
@@ -434,6 +434,7 @@ export default function ShopSettingFrom({ data: currentShop, isLoading: category
                       category
                       accept="image/*"
                       loading={state.loading}
+                      maxSize={500 * 1024}
                     />
                   )}
                   {touched.cover && errors.cover && (

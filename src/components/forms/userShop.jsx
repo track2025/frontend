@@ -74,7 +74,7 @@ export default function CreateShopSettingFrom() {
       });      
       dispatch(updateUserRole());
       dispatch(setLogout());
-      router.push('/vendor/dashboard');
+      router.push('/auth/login');
     },
     onError: (error) => {
       let errorMessage = parseMongooseError(error.response.data.message)
@@ -94,16 +94,11 @@ export default function CreateShopSettingFrom() {
     ),
     cover: Yup.mixed().required('Cover is required'),
     logo: Yup.mixed().required('logo is required'),
-    slug: Yup.string().required('Slug is required'),
-    description: Yup.string().required('Payoff line is required'),
+    //slug: Yup.string().required('Slug is required'),
+    // description: Yup.string().required('Payoff line is required'),
     phone: Yup.string().required('Phone Number is required'),
     defaultPrice: Yup.number().required('Default Price is required'),
-    paymentInfo: Yup.object().shape({
-      holderName: Yup.string().required('Holder Name is required'),
-      holderEmail: Yup.string().required('Holder email is required'),
-      // bankName: Yup.string().required('Bank name is required'),
-      // AccountNo: Yup.number().required('Account No is required')
-    })
+   
   });
   const formik = useFormik({
     initialValues: {
@@ -320,7 +315,7 @@ export default function CreateShopSettingFrom() {
                     </div>
                   </Box>
                 </Stack>
-                <Stack mt={3} spacing={3} direction="row" flexGrow="wrap">
+                {/* <Stack mt={3} spacing={3} direction="row" flexGrow="wrap">
                   <Box sx={{ width: '100%' }}>
                     <LabelStyle component={'label'} htmlFor="description">
                       {' '}
@@ -337,7 +332,7 @@ export default function CreateShopSettingFrom() {
                       multiline
                     />
                   </Box>
-                </Stack>
+                </Stack> */}
 
 <Stack mt={3} spacing={2} direction="row" spacing={3} flexGrow="wrap">
     <Box sx={{ width: '100%' }}>

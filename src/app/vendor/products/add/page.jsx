@@ -14,7 +14,7 @@ export default function Page() {
   const [categories, setCategories] = useState([]);
   const [brands, setBrands] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
-  const [isVendor, setIsVendor] = useState(false);
+  const [isVendor, setIsVendor] = useState(false); 
   
   const { isAuthenticated, user } = useSelector(({ user }) => user);
 
