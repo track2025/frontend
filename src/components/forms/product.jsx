@@ -659,7 +659,7 @@ export default function ProductForm({
                         }}>
                           <div>
                             <LabelStyle component={'label'} htmlFor="product-image">
-                              {'Pictures/Videos'} <span>1080 * 1080</span>
+                              {'Pictures/Videos'} <span></span>
                             </LabelStyle>
                             <Box sx={{ position: 'relative' }}>
                               {isUploading && (

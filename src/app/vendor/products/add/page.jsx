@@ -39,7 +39,7 @@ export default function Page() {
   }, []);
 
   useEffect(() => {
-    if (!isAuthenticated || user?.role === 'vendor') {
+    if (isAuthenticated && user?.role === 'vendor') {
       setIsVendor(true);
     }
   }, [isAuthenticated, user]);

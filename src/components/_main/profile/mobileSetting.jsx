@@ -87,14 +87,33 @@ export default function MobileSetting() {
                 <ListItem disablePadding>
                   <ListItemButton
                     onClick={() => {
-                      router.push('/dashboard');
+                      router.push('/admin/dashboard');
                     }}
                     sx={{ py: 2 }}
                   >
                     <ListItemIcon>
                       <LuLayoutDashboard size={20} />
                     </ListItemIcon>
-                    <ListItemText primary="Dashboard" />
+                    <ListItemText primary="Admin Dashboard" />
+                  </ListItemButton>
+                </ListItem>
+                <Divider />
+              </>
+            ) : null}
+             <Divider />
+            {user?.role === 'vendor'  ? (
+              <>
+                <ListItem disablePadding>
+                  <ListItemButton
+                    onClick={() => {
+                      router.push('/vendor/dashboard');
+                    }}
+                    sx={{ py: 2 }}
+                  >
+                    <ListItemIcon>
+                      <LuLayoutDashboard size={20} />
+                    </ListItemIcon>
+                    <ListItemText primary="Vendor Dashboard" />
                   </ListItemButton>
                 </ListItem>
                 <Divider />
