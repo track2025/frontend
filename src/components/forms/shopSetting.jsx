@@ -5,7 +5,7 @@ import { useMutation } from 'react-query';
 // mui
 import { styled } from '@mui/material/styles';
 import { LoadingButton } from '@mui/lab';
-import { Card, Stack, TextField, Typography, Box, FormHelperText, Grid, Skeleton, MenuItem } from '@mui/material';
+import { Card, Stack, TextField, Typography, Box, FormHelperText, Grid, Skeleton, MenuItem, FormControl, Select } from '@mui/material';
 // components
 import UploadSingleFile from 'src/components/upload/UploadSingleFile';
 // yup
@@ -83,15 +83,16 @@ export default function ShopSettingFrom({ data: currentShop, isLoading: category
     cover: Yup.mixed().required('Cover is required'),
     logo: Yup.mixed().required('logo is required'),
     slug: Yup.string().required('Slug is required'),
-    description: Yup.string().required('Description is required'),
+    // description: Yup.string().required('Description is required'),
     phone: Yup.string().required('Phone Number is required'),
     defaultPrice: Yup.number().required('Default Price is required'),
-    paymentInfo: Yup.object().shape({
-      holderName: Yup.string().required('Holder Name is required'),
-      holderEmail: Yup.string().required('Holder email is required'),
-      bankName: Yup.string().required('Bank name is required'),
-      AccountNo: Yup.number().required('Account No is required')
-    })
+    // paymentInfo: Yup.object().shape({
+    //   holderName: Yup.string().required('Holder Name is required'),
+    //   iban: Yup.string().required('Iban is required'),
+    //   holderEmail: Yup.string().required('Holder email is required'),
+    //   bankName: Yup.string().required('Bank name is required'),
+    //   AccountNo: Yup.number().required('Account No is required')
+    // })
   });
   const formik = useFormik({
     initialValues: {
@@ -103,18 +104,19 @@ export default function ShopSettingFrom({ data: currentShop, isLoading: category
       description: currentShop?.description || '',
       file: currentShop?.cover || '',
       slug: currentShop?.slug || '',
-      phone: currentShop?.phone || Number,
+      phone: currentShop?.phone || '',
       paymentInfo: {
         holderName: currentShop?.paymentInfo?.holderName || '',
         holderEmail: currentShop?.paymentInfo?.holderEmail || '',
         bankName: currentShop?.paymentInfo?.bankName || '',
-        AccountNo: currentShop?.paymentInfo?.AccountNo || Number
+        iban: currentShop?.paymentInfo?.iban || '',
+        AccountNo: currentShop?.paymentInfo?.AccountNo || ''
       },
       address: {
-        country: currentShop?.address.country || '',
-        city: currentShop?.address.city || '',
-        state: currentShop?.address.state || '',
-        streetAddress: currentShop?.address.streetAddress || ''
+        country: currentShop?.address?.country || '',
+        city: currentShop?.address?.city || '',
+        state: currentShop?.address?.state || '',
+        streetAddress: currentShop?.address?.streetAddress || ''
       }
     },
     enableReinitialize: true,
@@ -315,7 +317,7 @@ export default function ShopSettingFrom({ data: currentShop, isLoading: category
                     </div>
                   </Box>
                 </Stack>
-                <Stack mt={3} spacing={3} direction="row" flexGrow="wrap">
+                {/* <Stack mt={3} spacing={3} direction="row" flexGrow="wrap">
                   <Box sx={{ width: '100%' }}>
                     <LabelStyle component={'label'} htmlFor="description">
                       {' '}
@@ -332,7 +334,7 @@ export default function ShopSettingFrom({ data: currentShop, isLoading: category
                       multiline
                     />
                   </Box>
-                </Stack>
+                </Stack> */}
                 
                 <Stack mt={3} spacing={2} direction="row" spacing={3} flexGrow="wrap">
                     <Box sx={{ width: '100%' }}>
@@ -462,7 +464,46 @@ export default function ShopSettingFrom({ data: currentShop, isLoading: category
                   <Card sx={{ p: 3 }}>
                     <Stack spacing={2}>
                       
-                      
+                      <div>
+                        {categoryLoading ? (
+                          <Skeleton variant="text" width={150} />
+                        ) : (
+                          <LabelStyle component={'label'} htmlFor="holderName">
+                            Full Name (As registered with bank)
+                          </LabelStyle>
+                        )}
+                        {categoryLoading ? (
+                          <Skeleton variant="rectangular" width="100%" height={240} />
+                        ) : (
+                          <TextField
+                            id="holderName"
+                            fullWidth
+                            {...getFieldProps('paymentInfo.holderName')}
+                            error={Boolean(touched.paymentInfo?.holderName && errors.paymentInfo?.holderName)}
+                            helperText={touched.paymentInfo?.holderName && errors.paymentInfo?.holderName}
+                          />
+                        )}
+                      </div>
+                      <div>
+                        {categoryLoading ? (
+                          <Skeleton variant="text" width={150} />
+                        ) : (
+                          <LabelStyle component={'label'} htmlFor="phone">
+                            Phone Number
+                          </LabelStyle>
+                        )}
+                        {categoryLoading ? (
+                          <Skeleton variant="rectangular" width="100%" height={240} />
+                        ) : (
+                          <TextField
+                            id="phone"
+                            fullWidth
+                            {...getFieldProps('phone')}
+                            error={Boolean(touched.phone && errors.phone)}
+                            helperText={touched.phone && errors.phone}
+                          />
+                        )}
+                      </div>
                       <div>
                         {categoryLoading ? (
                           <Skeleton variant="text" width={150} />
@@ -488,7 +529,7 @@ export default function ShopSettingFrom({ data: currentShop, isLoading: category
                           <Skeleton variant="text" width={150} />
                         ) : (
                           <LabelStyle component={'label'} htmlFor="account-number">
-                            Account Number
+                            Account Number/Sort Code
                           </LabelStyle>
                         )}
                         {categoryLoading ? (
@@ -507,19 +548,19 @@ export default function ShopSettingFrom({ data: currentShop, isLoading: category
                         {categoryLoading ? (
                           <Skeleton variant="text" width={150} />
                         ) : (
-                          <LabelStyle component={'label'} htmlFor="phone">
-                            Phone Number
+                          <LabelStyle component={'label'} htmlFor="iban">
+                            IBAN
                           </LabelStyle>
                         )}
                         {categoryLoading ? (
                           <Skeleton variant="rectangular" width="100%" height={240} />
                         ) : (
                           <TextField
-                            id="phone"
+                            id="iban"
                             fullWidth
-                            {...getFieldProps('phone')}
-                            error={Boolean(touched.phone && errors.phone)}
-                            helperText={touched.phone && errors.phone}
+                            {...getFieldProps('paymentInfo.iban')}
+                            error={Boolean(touched.paymentInfo?.iban && errors.paymentInfo?.iban)}
+                            helperText={touched.paymentInfo?.iban && errors.paymentInfo?.iban}
                           />
                         )}
                       </div>
@@ -542,8 +583,8 @@ export default function ShopSettingFrom({ data: currentShop, isLoading: category
                             helperText={touched.address?.country && errors.address?.country}
                           />
                         )}
-                      </div>
-                      <div>
+                      </div> */}
+                      {/* <div>
                         {categoryLoading ? (
                           <Skeleton variant="text" width={150} />
                         ) : (
@@ -562,8 +603,8 @@ export default function ShopSettingFrom({ data: currentShop, isLoading: category
                             helperText={touched.address?.city && errors.address?.city}
                           />
                         )}
-                      </div>
-                      <div>
+                      </div> */}
+                      {/* <div>
                         {categoryLoading ? (
                           <Skeleton variant="text" width={150} />
                         ) : (
@@ -582,13 +623,13 @@ export default function ShopSettingFrom({ data: currentShop, isLoading: category
                             helperText={touched.address?.state && errors.address?.state}
                           />
                         )}
-                      </div>
+                      </div> */}
                       <div>
                         {categoryLoading ? (
                           <Skeleton variant="text" width={150} />
                         ) : (
                           <LabelStyle component={'label'} htmlFor="streetAddress">
-                            Street Address
+                            Address
                           </LabelStyle>
                         )}
                         {categoryLoading ? (
@@ -602,7 +643,7 @@ export default function ShopSettingFrom({ data: currentShop, isLoading: category
                             helperText={touched.address?.streetAddress && errors.address?.streetAddress}
                           />
                         )}
-                      </div> */}
+                      </div>
 
                       {/* <FormControl fullWidth sx={{ select: { textTransform: 'capitalize' } }}>
                         {categoryLoading ? (

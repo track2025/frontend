@@ -222,6 +222,10 @@ export const getIncomeDetailsByAdmin = async (pid, page) => {
   const { data } = await http.get(`/admin/payments/${pid}?page=${page || 1}`);
   return data;
 };
+export const getIncomeDetailsByVendor = async (pid, page) => {
+  const { data } = await http.get(`/vendor/payments/${pid}?page=${page || 1}`);
+  return data;
+};
 export const editPaymentByAdmin = async ({ pid, ...payload }) => {
   const { data } = await http.put(`/admin/payments/${pid}`, { ...payload });
   return data;
@@ -617,6 +621,10 @@ export const getCompaignTitle = async (slug) => {
 
 export const followShop = async (shopId) => {
   const { data } = await http.put(`/shops/${shopId}/follow`);
+  return data;
+};
+export const requestRemoval = async ({ ...payload }) => {
+  const { data } = await http.post(`/users/request-removal`, { ...payload });
   return data;
 };
 // export const contactUs = async (payload) => {

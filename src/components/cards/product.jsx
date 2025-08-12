@@ -1,5 +1,5 @@
 'use client';
-import { useState } from 'react';
+import { useState, useRef } from 'react';
 import PropTypes from 'prop-types';
 import { useMutation } from 'react-query';
 import { useSelector } from 'react-redux';
@@ -40,8 +40,16 @@ import { GoEye } from 'react-icons/go';
 import { GoGitCompare } from 'react-icons/go';
 import { IoIosHeart } from 'react-icons/io';
 import { FaRegStar } from 'react-icons/fa';
+import PlayArrowIcon from '@mui/icons-material/PlayArrow';
+
 // dynamic
 const ProductDetailsDialog = dynamic(() => import('../dialog/productDetails'));
+
+// Helper function to check if URL is a video
+function isVideo(url) {
+  return /\.(mp4|webm|ogg|mov)$/i.test(url);
+}
+
 export default function ShopProductCard({ ...props }) {
   const { product, loading } = props;
   const cCurrency = useCurrencyConvert();
@@ -52,10 +60,10 @@ export default function ShopProductCard({ ...props }) {
   const theme = useTheme();
   const router = useRouter();
   const dispatch = useDispatch();
-  // type error
+
+  const videoRef = useRef(null);
   const { wishlist } = useSelector(({ wishlist }) => wishlist);
   const { products: compareProducts } = useSelector(({ compare }) => compare);
-
   const { isAuthenticated } = useSelector(({ user }) => user);
   const isTablet = useMediaQuery('(max-width:900px)');
   const [isLoading, setLoading] = useState(false);
@@ -69,7 +77,7 @@ export default function ShopProductCard({ ...props }) {
     onError: (err) => {
       setLoading(false);
       const message = JSON.stringify(err.response.data.message);
-      toast.error(t(message ? t('common:' + JSON.parse(message)) : t('common:something-wrong')));
+      toast.error(message ? JSON.parse(message) : 'Something went wrong');
     }
   });
 
@@ -97,7 +105,23 @@ export default function ShopProductCard({ ...props }) {
     toast.success('Removed from compare list');
     dispatch(removeCompareProduct(_id));
   };
-  
+
+  // Handlers for video play/pause on hover
+  const handleMediaMouseEnter = () => {
+    setOpenActions(true);
+    if (videoRef.current) {
+      videoRef.current.play();
+    }
+  };
+
+  const handleMediaMouseLeave = () => {
+    setOpenActions(false);
+    if (videoRef.current) {
+      videoRef.current.pause();
+      videoRef.current.currentTime = 0;
+    }
+  };
+
   return (
     <Card
       onMouseEnter={() => !isLoading && setOpenActions(true)}
@@ -105,116 +129,75 @@ export default function ShopProductCard({ ...props }) {
       sx={{
         display: 'block',
         boxShadow:
-          theme.palette.mode === 'light' ? '0 6px 16px rgba(145, 158, 171, 25%)' : '0 6px 16px rgb(5 6 6 / 25%)',
+          theme.palette.mode === 'light'
+            ? '0 6px 16px rgba(145, 158, 171, 25%)'
+            : '0 6px 16px rgb(5 6 6 / 25%)'
       }}
     >
-      <Box
-        sx={{
-          position: 'relative',
-
-        }}
-      >
-        
-        <Box
-          {...(product?.available > 0 && {
-            component: Link,
-            href: linkTo
-          })}
+    <Box
+      {...(product?.available >= 0 && {
+        component: Link,
+        href: linkTo
+      })}
+      sx={{
+        bgcolor: isLoading || loading ? 'transparent' : 'common.white',
+        position: 'relative',
+        cursor: 'pointer',
+        height: '170px',
+        '&:after': {
+          content: `""`,
+          display: 'block',
+          paddingBottom: '100%'
+        },
+        width: '100%'
+      }}
+      onMouseEnter={isVideo(image?.url) ? handleMediaMouseEnter : undefined}
+      onMouseLeave={isVideo(image?.url) ? handleMediaMouseLeave : undefined}
+    >
+      {loading ? (
+        <Skeleton
+          variant="rectangular"
+          width="100%"
           sx={{
-            bgcolor: isLoading || loading ? 'transparent' : 'common.white',
-            position: 'relative',
-            cursor: 'pointer',
-            height:'170px',
-            '&:after': {
-              content: `""`,
-              display: 'block',
-              paddingBottom: '100%',
-
-            },
-            width: '100%'
+            height: '100%',
+            position: 'absolute'
           }}
-        >
-          {loading ? (
-            <Skeleton
-              variant="rectangular"
-              width="100%"
-              sx={{
-                height: '100%',
-                position: 'absolute'
-              }}
-            />
-          ) : (
-            <Box component={Link} href={linkTo}>
-              <BlurImage
-                alt={name}
-                src={image.url}
-                fill
-                draggable="false"
-                objectFit="cover"
-                placeholder="blur"
-                blurDataURL={image?.blurDataURL}
-              />
-            </Box>
-          )}
+        />
+      ) : isVideo(image?.url) ? (
+        <Box component={Link} href={linkTo}>
+        <video
+          ref={videoRef}
+          src={image.url}
+          preload="metadata" // or "auto" to preload more data if needed
+          muted
+          loop
+          playsInline
+          //poster={image?.blurDataURL || ''} // placeholder image
+          style={{
+            width: '100%',
+            height: '100%',
+            objectFit: 'cover',
+            position: 'absolute',
+            top: 0,
+            left: 0,
+            display: 'block', // Make sure video is visible
+          }}
+        />
+         </Box>
+      ) : (
+        <Box component={Link} href={linkTo}>
+          <BlurImage
+            alt={name}
+            src={image.url}
+            fill
+            draggable="false"
+            objectFit="cover"
+            placeholder="blur"
+            blurDataURL={image?.blurDataURL}
+          />
         </Box>
-        <Zoom in={openActions}>
-          <Box>
-            {}
-            <Stack
-              direction={'row'}
-              sx={{
-                position: 'absolute',
-                bottom: 8,
-                left: '50%',
-                transform: 'translate(-50%, 0px)',
-                bgcolor: 'background.paper',
-                borderRadius: '27px',
-                p: '2px',
-                zIndex: 11
-              }}
-            >
-              {
-                <Tooltip title="Add to cart">
-                  <IconButton
-                    aria-label="add to cart"
-                    disabled={loading || product?.available < 1}
-                    onClick={() => setOpen(true)}
-                    size={isTablet ? 'small' : 'medium'}
-                  >
-                    <GoEye />
-                  </IconButton>
-                </Tooltip>
-              }
-
-              
-              {compareProducts?.filter((v) => v._id === _id).length > 0 ? (
-                <Tooltip title="Remove from cart">
-                  <IconButton
-                    disabled={isLoading}
-                    onClick={onRemoveCompare}
-                    aria-label="Remove from compare"
-                    color="primary"
-                    size={isTablet ? 'small' : 'medium'}
-                  >
-                    <GoGitCompare />
-                  </IconButton>
-                </Tooltip>
-              ) : (
-                <Tooltip title="Add to compare">
-                  <IconButton
-                    disabled={isLoading}
-                    onClick={onAddCompare}
-                    aria-label="add to compare"
-                    size={isTablet ? 'small' : 'medium'}
-                  >
-                    <GoGitCompare />
-                  </IconButton>
-                </Tooltip>
-              )}
-            </Stack>
-          </Box>
-        </Zoom>
-      </Box>
+      )}
+    </Box>
 
       <Stack
         justifyContent="center"
@@ -222,42 +205,34 @@ export default function ShopProductCard({ ...props }) {
           zIndex: 111,
           p: 1,
           width: '100%',
-
           a: {
             color: 'text.primary',
             textDecoration: 'none'
           }
         }}
       >
-       <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-        <Typography
-          sx={{
-            cursor: 'pointer',
-            textTransform: 'capitalize'
-          }}
-          {...(product?.available > 0 && {
-            component: Link,
-            href: linkTo
-          })}
-          variant="subtitle1"
-          noWrap
-        >
-          {loading ? <Skeleton variant="text" width={120} /> : name}
-        </Typography>
+        <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+          <Typography
+            sx={{
+              cursor: 'pointer',
+              textTransform: 'capitalize'
+            }}
+            {...(product?.available > 0 && {
+              component: Link,
+              href: linkTo
+            })}
+            variant="subtitle1"
+            noWrap
+          >
+            {loading ? <Skeleton variant="text" width={120} /> : name}
+          </Typography>
 
-        <Typography
-          variant="subtitle1"
-          sx={{ fontWeight: 'bold' }}
-        >
-          {loading ? (
-            <Skeleton variant="text" width={60} />
-          ) : (
-            `${fCurrency(cCurrency(product?.priceSale))}`
-          )}
-        </Typography>
-      </Box>
+          <Typography variant="subtitle1" sx={{ fontWeight: 'bold' }}>
+            {loading ? <Skeleton variant="text" width={60} /> : `${fCurrency(cCurrency(product?.priceSale))}`}
+          </Typography>
+        </Box>
 
-
+        {/* If you want to uncomment this block, uncomment in original code */}
         {/* <Stack direction="row" alignItems="center" justifyContent="space-between" spacing={1}>
           <Typography
             variant="subtitle2"
@@ -276,59 +251,20 @@ export default function ShopProductCard({ ...props }) {
               </>
             )}
           </Typography>
-          {loading ? (
-            <Skeleton variant="text" width={72} />
-          ) : (
-            <ColorPreviewGroup limit={3} colors={product?.colors} sx={{ minWidth: 72 }} />
-          )}
-        </Stack> */}
-
-        {/* <Stack spacing={0.5} direction="row" justifyContent={'space-between'} alignItems="center">
-          <Typography
-            variant={isTablet ? 'body1' : 'h5'}
-            component="p"
-            sx={{
-              fontWeight: 700,
-              display: 'flex',
-              alignItems: 'center',
-              '& .discount': {
-                fontSize: { md: 14, xs: 12 },
-                fontWeight: 600,
-                color: 'error.main',
-                ml: 0.5
-              }
-            }}
-          >
-            {loading ? (
-              <Skeleton variant="text" width={120} />
-            ) : (
-              <>
-                <span>{fCurrency(cCurrency(product?.priceSale))}</span>
-                <span className="discount">
-                  ({`-${(100 - (product?.priceSale / product?.price) * 100).toFixed()}%`})
-                </span>
-              </>
-            )}
-          </Typography>
         </Stack> */}
       </Stack>
-      {open && <ProductDetailsDialog slug={product.slug} open={open} onClose={() => setOpen(false)} />}
+
+      <ProductDetailsDialog product={product} open={open} onClose={() => setOpen(false)} />
     </Card>
   );
 }
+
 ShopProductCard.propTypes = {
-  product: PropTypes.shape({
-    _id: PropTypes.string.isRequired,
-    name: PropTypes.string.isRequired,
-    slug: PropTypes.string,
-    sku: PropTypes.string,
-    status: PropTypes.string,
-    image: PropTypes.object.isRequired,
-    price: PropTypes.number.isRequired,
-    priceSale: PropTypes.number,
-    available: PropTypes.number,
-    colors: PropTypes.array,
-    averageRating: PropTypes.number
-  }),
-  loading: PropTypes.bool.isRequired
+  product: PropTypes.object,
+  loading: PropTypes.bool
+};
+
+ShopProductCard.defaultProps = {
+  product: {},
+  loading: false
 };

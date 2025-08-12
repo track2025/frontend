@@ -1,6 +1,6 @@
 'use client';
 import * as Yup from 'yup';
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import PropTypes from 'prop-types';
 import toast from 'react-hot-toast';
 import { capitalCase } from 'change-case';
@@ -43,6 +43,10 @@ import uploadToSpaces from 'src/utils/upload';
 import imageCompression from 'browser-image-compression';
 import { useQuery } from 'react-query';
 import parseMongooseError from 'src/utils/errorHandler';
+import { FFmpeg } from '@ffmpeg/ffmpeg';
+import { fetchFile, toBlobURL } from '@ffmpeg/util';
+
+
 
 // ----------------------------------------------------------------------
 
@@ -53,6 +57,19 @@ const LabelStyle = styled(Typography)(({ theme }) => ({
 }));
 
 // ----------------------------------------------------------------------
+let ffmpeg;
+const loadFFmpeg = async () => {
+  if (ffmpeg) return ffmpeg;
+  
+  ffmpeg = new FFmpeg();
+  const baseURL = 'https://unpkg.com/@ffmpeg/core@0.12.4/dist/umd';
+  await ffmpeg.load({
+    coreURL: await toBlobURL(`${baseURL}/ffmpeg-core.js`, 'text/javascript'),
+    wasmURL: await toBlobURL(`${baseURL}/ffmpeg-core.wasm`, 'application/wasm'),
+  });
+  return ffmpeg;
+};
+
 
 export default function ProductForm({
   categories,
@@ -68,6 +85,9 @@ export default function ProductForm({
   const [loading, setLoading] = React.useState(false);
   const [uploadProgress, setUploadProgress] = useState(0);
   const [isUploading, setIsUploading] = useState(false);
+
+  const ffmpegRef = useRef(null);
+
 
   const { mutate, isLoading: updateLoading } = useMutation(
     currentProduct ? 'update' : 'new',
@@ -187,6 +207,117 @@ export default function ProductForm({
     }
   });
 
+
+const ensureFileObject = (file) => {
+  if (file instanceof File) return file;
+  if (file instanceof Blob) return new File([file], 'uploaded_file', { type: file.type });
+  if (file instanceof Uint8Array) return new File([file], 'uploaded_file');
+  return new File([JSON.stringify(file)], 'uploaded_file');
+};
+
+const getFileType = (file) => {
+  // First check the explicit type property
+  if (file.type) return file.type;
+  
+  // Fallback to filename extension
+  const fileName = file.name || '';
+  if (fileName.endsWith('.mp4')) return 'video/mp4';
+  if (fileName.endsWith('.mov')) return 'video/quicktime';
+  if (fileName.endsWith('.avi')) return 'video/x-msvideo';
+  
+  // Default to empty string if unknown
+  return '';
+};
+
+const createWatermarkImage = async () => {
+  // Create a canvas with your watermark design
+  const canvas = document.createElement('canvas');
+  canvas.width = 200;
+  canvas.height = 100;
+  const ctx = canvas.getContext('2d');
+  
+  // Draw your watermark design
+  ctx.fillStyle = 'rgba(0, 0, 0, 0.5)';
+  ctx.fillRect(0, 0, canvas.width, canvas.height);
+  ctx.fillStyle = 'white';
+  ctx.font = '20px Arial';
+  ctx.fillText('LapSnaps', 10, 50);
+  
+  // Convert to blob
+  return new Promise(resolve => {
+    canvas.toBlob(resolve, 'image/png');
+  });
+};
+
+
+const generateVideoPreview = async (videoFile) => {
+  let ffmpeg;
+  let inputFilename, watermarkFilename, outputFilename;
+
+  try {
+    ffmpeg = await loadFFmpeg();
+
+    const timestamp = Date.now();
+    inputFilename = `input_${timestamp}${getFileExtension(videoFile.name)}`;
+    watermarkFilename = `watermark_${timestamp}.png`; // we'll write fetched file as this
+    outputFilename = `output_${timestamp}.mp4`;
+
+    // Load watermark from public folder
+    const watermarkResponse = await fetch('/watermark.png');
+    if (!watermarkResponse.ok) throw new Error('Failed to load watermark.png');
+    const watermarkBlob = await watermarkResponse.blob();
+    const watermarkData = new Uint8Array(await watermarkBlob.arrayBuffer());
+
+    // Convert video to Uint8Array
+    const videoData = new Uint8Array(await videoFile.arrayBuffer());
+
+    // Write input files to ffmpeg FS
+    await ffmpeg.writeFile(inputFilename, videoData);
+    await ffmpeg.writeFile(watermarkFilename, watermarkData);
+
+    // Overlay watermark covering the whole video at 0:0
+    await ffmpeg.exec([
+      '-i', inputFilename,
+      '-i', watermarkFilename,
+      '-filter_complex', 'overlay=0:0',
+      '-t', '10',
+      '-c:v', 'libx264',
+      '-preset', 'ultrafast',
+      '-crf', '28',
+      '-c:a', 'aac',
+      '-b:a', '96k',
+      '-movflags', '+faststart',
+      '-y',
+      outputFilename
+    ]);
+
+    const outputData = await ffmpeg.readFile(outputFilename);
+    if (!outputData || outputData.length === 0) throw new Error('Empty output generated');
+
+    return new Blob([outputData.buffer], { type: 'video/mp4' });
+
+  } catch (error) {
+    console.error('Video processing failed:', error);
+    return videoFile.slice(0, 20 * 1000 * 1000);
+  } finally {
+    if (ffmpeg?.deleteFile) {
+      try { inputFilename && await ffmpeg.deleteFile(inputFilename); } catch {}
+      try { watermarkFilename && await ffmpeg.deleteFile(watermarkFilename); } catch {}
+      try { outputFilename && await ffmpeg.deleteFile(outputFilename); } catch {}
+    }
+  }
+};
+
+
+
+// Helper function
+const getFileExtension = (filename) => {
+  return filename?.match(/\.[0-9a-z]+$/i)?.[0] || '';
+};
+
+
+
+
   const addWatermark = (imageFile, watermarkText) =>
   new Promise((resolve) => {
     const img = new Image();
@@ -256,58 +387,139 @@ export default function ProductForm({
 
   const [orignalImage, setorignalImageValue] = useState();
 
-  const handleDrop = async (acceptedFiles) => {
-    if (isUploading) return; // Prevent new uploads if one is already in progress
-    
-    setIsUploading(true);
-    setLoading(true);
-    setUploadProgress(0);
+// 1. Enhanced File Type Detection
+const VIDEO_MIME_TYPES = [
+  'video/mp4',
+  'application/mp4',
+  'video/x-m4v',
+  'video/quicktime', // MOV
+  'video/x-msvideo', // AVI
+  'video/webm',
+  'video/x-matroska', // MKV
+  'video/ogg'
+];
 
-    const filesWithPreview = acceptedFiles.map((file) => {
-      Object.assign(file, { preview: URL.createObjectURL(file) });
-      return file;
-    });
+const VIDEO_EXTENSIONS = ['.mp4', '.mov', '.avi', '.webm', '.mkv', '.ogv'];
 
-    setFieldValue('blob', (values.blob || []).concat(filesWithPreview));
+const isVideoFile = (file) => {
+  // Check MIME type first
+  if (file.type && VIDEO_MIME_TYPES.includes(file.type.toLowerCase())) {
+    return true;
+  }
+  
+  // Fallback to file extension
+  const fileName = file.name || '';
+  return VIDEO_EXTENSIONS.some(ext => fileName.toLowerCase().endsWith(ext));
+};
 
-    try {
-      const uploads = await Promise.all(
-        filesWithPreview.map(async (file) => {
-          // 1. Create watermarked version
+// 2. Updated handleDrop Function
+const handleDrop = async (acceptedFiles) => {
+  if (isUploading) return;
+  
+  setIsUploading(true);
+  setLoading(true);
+  setUploadProgress(0);
+
+  const filesWithPreview = acceptedFiles.map((file) => {
+    const preview = isVideoFile(file) 
+      ? URL.createObjectURL(file)
+      : URL.createObjectURL(file);
+    return file;
+  });
+
+
+  setFieldValue('blob', (values.blob || []).concat(filesWithPreview));
+
+  try {
+    const uploads = await Promise.all(
+      filesWithPreview.map(async (file) => {
+
+        if (isVideoFile(file)) {
+          try {
+            // Ensure proper File object
+            const videoFile = file instanceof File 
+              ? file 
+              : new File([file], file.name || 'video.mp4', { 
+                  type: file.type || 'video/mp4' 
+                });
+
+            // Generate preview (converts all formats to MP4)
+            const watermarkedPreview = await generateVideoPreview(videoFile);
+            
+            const originalUrl = await uploadToSpaces(videoFile);
+            const previewUrl = await uploadToSpaces(
+              new File([watermarkedPreview], `preview_${file.name.replace(/\.[^/.]+$/, '.mp4')}`, { 
+                type: 'video/mp4',
+                lastModified: Date.now()
+              })
+            );
+
+            console.log({
+              type: 'video',
+              original: originalUrl,
+              preview: previewUrl,
+            })
+            
+            return {
+              type: 'video',
+              original: originalUrl,
+              preview: previewUrl,
+            };
+          } catch (error) {
+            console.error('Video processing failed:', error);
+            toast.error('Video processing failed');
+            throw new Error('Video processing failed:', error);
+
+            // Fallback to original as preview
+            // const originalUrl = await uploadToSpaces(file);
+            // return {
+            //   type: 'video',
+            //   original: originalUrl,
+            //   preview: originalUrl,
+            // };
+          }
+        }
+        else if (file.type?.startsWith('image/')) {
+          // Existing image processing
           const watermarked = await addWatermark(file, 'LapSnaps');
-
-          // 2. Upload original
-          const originalUrl = await uploadToSpaces(file, (progress) => {
-            setUploadProgress(progress);
-          });
-
-          // 3. Upload watermarked version
-          const watermarkedUrl = await uploadToSpaces(watermarked, (progress) => {
-            setUploadProgress(progress);
-          });
-
+          const originalUrl = await uploadToSpaces(file);
+          const watermarkedUrl = await uploadToSpaces(watermarked);
+          
           return {
+            type: 'image',
             original: originalUrl,
-            watermarked: watermarkedUrl,
+            preview: watermarkedUrl,
           };
-        })
-      );
+        }
+        else {
+          toast.error('Unsupported file type');
+          throw new Error('Unsupported file type');
+        }
+      })
+    );
 
-      if(uploads) {
-        const watermarkedImageArray = uploads?.map(fileObj => fileObj?.watermarked);
-        const originalImageArray = uploads?.map(fileObj => fileObj?.original);
-        setFieldValue('images', values.images.concat(watermarkedImageArray));
-        setorignalImageValue(originalImageArray);
-      }
-    } catch (err) {
-      console.error('Upload failed:', err);
-      toast.error('Upload failed. Please try again.');
-    } finally {
-      setIsUploading(false);
-      setLoading(false);
-      setUploadProgress(0);
+    if (uploads) {
+      const previewUrls = uploads.map(fileObj => fileObj.preview);
+      const originalUrls = uploads.map(fileObj => fileObj.original);
+      
+      setFieldValue('images', values.images.concat(previewUrls));
+      setorignalImageValue(originalUrls);
     }
-  };
+  } catch (err) {
+    console.error('Upload failed:', err);
+    toast.error(
+      err.message.includes('Unsupported') 
+        ? 'Please upload only images or supported videos (MP4, MOV, AVI, WebM)'
+        : 'Upload failed. Please try again.'
+    );
+  } finally {
+    setIsUploading(false);
+    setLoading(false);
+    setUploadProgress(0);
+  }
+};
+
+
 
   const handleRemoveAll = () => {
     values.images.forEach((image) => {

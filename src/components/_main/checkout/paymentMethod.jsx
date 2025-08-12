@@ -30,7 +30,7 @@ export default function PaymentMethodCard({ value, setValue, error }) {
 
         <Stack spacing={1} mt={1}>
           <RadioGroup value={value} onChange={handleChange} sx={{ pl: 1 }}>
-            <FormControlLabel
+            {/* <FormControlLabel
               value="COD"
               control={<Radio />}
               label={
@@ -39,7 +39,7 @@ export default function PaymentMethodCard({ value, setValue, error }) {
                   <Typography variant="subtitle2">Cash On Delivery</Typography>
                 </Stack>
               }
-            />
+            /> */}
             <FormControlLabel
               value="stripe"
               control={<Radio />}

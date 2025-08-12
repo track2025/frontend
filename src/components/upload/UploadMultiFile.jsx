@@ -11,6 +11,8 @@ import { varFadeInRight } from '../animate';
 
 // react dropzone
 import { useDropzone } from 'react-dropzone';
+import PlayCircleOutlineIcon from '@mui/icons-material/PlayCircleOutline';
+
 
 const DropZoneStyle = styled('div')(({ theme }) => ({
   outline: 'none',
@@ -46,9 +48,39 @@ export default function UploadMultiFile({ ...props }) {
   const { error, files, onRemove, blob, isEdit, onRemoveAll, loading, isUploading, sx, ...other } = props;
   const hasFile = files.length > 0;
   const { getRootProps, getInputProps, isDragActive, isDragReject } = useDropzone({
+      accept: {
+      'image/jpeg': ['.jpeg', '.jpg'],
+      'image/png': ['.png'],
+      'video/mp4': ['.mp4'],
+      'video/quicktime': ['.mov'],
+      'video/x-msvideo': ['.avi'],
+      'video/webm': ['.webm']
+    },
     ...other,
     disabled: !!isUploading // Disable dropzone when uploading
   });
+
+  const VIDEO_MIME_TYPES = [
+  'video/mp4',
+  'application/mp4',
+  'video/x-m4v',
+  'video/quicktime', // MOV
+  'video/x-msvideo', // AVI
+  'video/webm',
+  'video/x-matroska', // MKV
+  'video/ogg'
+];
+
+function containsVideoExtension(url) {
+  // List of common video file extensions (add more if needed)
+  const videoExtensions = ['.mp4', '.mov', '.avi', '.wmv', '.flv', '.mkv', '.webm'];
+
+  // Convert url to lowercase to make check case-insensitive
+  const lowerUrl = url.toLowerCase();
+
+  // Check if url ends with any of the video extensions
+  return videoExtensions.some(ext => lowerUrl.includes(ext));
+}
 
   return (
     <Box sx={{ width: '100%', position: 'relative', ...sx }}>
@@ -80,7 +112,7 @@ export default function UploadMultiFile({ ...props }) {
         </Backdrop>
       )}
 
-      <DropZoneStyle
+<DropZoneStyle
         {...getRootProps()}
         sx={{
           ...(isDragActive && { opacity: 0.72 }),
@@ -89,29 +121,23 @@ export default function UploadMultiFile({ ...props }) {
             borderColor: 'error.light',
             bgcolor: 'error.lighter'
           }),
-          ...(isUploading && { pointerEvents: 'none' }) // Disable pointer events when uploading
+          ...(isUploading && { pointerEvents: 'none' })
         }}
       >
         <input {...getInputProps()} disabled={loading || isUploading} />
         <Box sx={{ p: 3, ml: { md: 2 } }}>
           <Typography gutterBottom variant="h5">
-            Drop or Select Images
+            Drop or Select Images/Videos
           </Typography>
-
           <Typography variant="body2" sx={{ color: 'text.secondary' }}>
-            Drop images here or click through your machine.
-            {isUploading && (
-              <Typography component="span" variant="body2" sx={{ display: 'block', mt: 1, color: 'text.primary' }}>
-                Upload in progress...
-              </Typography>
-            )}
+            Drop files here or click to browse
           </Typography>
         </Box>
       </DropZoneStyle>
 
       <List disablePadding sx={{ ...(hasFile && { my: 3 }) }}>
         {(loading ? [...Array(isEdit ? files?.length + blob?.length : blob?.length)] : files).map((file, i) => (
-          <React.Fragment key={'image' + i}>
+          <React.Fragment key={'file' + i}>
             {loading ? (
               <ListItem
                 {...varFadeInRight}
@@ -160,17 +186,44 @@ export default function UploadMultiFile({ ...props }) {
                 >
                   <CloseRoundedIcon fontSize="small" />
                 </IconButton>
-                <Paper
-                  variant="outlined"
-                  component="img"
-                  src={!file.blob ? file.url : file.blob}
-                  sx={{
-                    width: '100%',
-                    height: '100%',
-                    objectFit: 'cover',
-                    position: 'absolute'
-                  }}
-                />
+                
+                { containsVideoExtension(file?.url) ? (
+                  <>
+                    <video
+                      style={{
+                        width: '100%',
+                        height: '100%',
+                        objectFit: 'cover',
+                        position: 'absolute'
+                      }}
+                    >
+                      <source src={file?.url} type="video/mp4" />
+                    </video>
+                    <PlayCircleOutlineIcon
+                      sx={{
+                        position: 'absolute',
+                        top: '50%',
+                        left: '50%',
+                        transform: 'translate(-50%, -50%)',
+                        color: 'white',
+                        fontSize: 40,
+                        zIndex: 1000
+                      }} 
+                    />
+                  </>
+                ) : (
+                  <Paper
+                    variant="outlined"
+                    component="img"
+                    src={file.url || file.preview}
+                    sx={{
+                      width: '100%',
+                      height: '100%',
+                      objectFit: 'cover',
+                      position: 'absolute'
+                    }}
+                  />
+                )}
               </ListItem>
             )}
           </React.Fragment>

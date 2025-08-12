@@ -36,7 +36,6 @@ export default function AdminProducts() {
       onError: (err) => toast.error(err.response.data.message || 'We ran into an issue. Please refresh the page or try again.')
     }
   );
-  console.log(data, 'data123');
   const handleClickOpen = (prop) => () => {
     setId(prop);
     setOpen(true);

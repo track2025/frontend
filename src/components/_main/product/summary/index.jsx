@@ -58,6 +58,8 @@ import { FiShoppingCart } from 'react-icons/fi';
 import { IoBagCheckOutline } from 'react-icons/io5';
 import { FaRegHeart } from 'react-icons/fa';
 import { GoGitCompare } from 'react-icons/go';
+import ReportRemovalModal from 'src/components/dialog/ReportRemovalModal';
+
 
 ProductDetailsSumary.propTypes = {
   product: PropTypes.object.isRequired,
@@ -113,6 +115,8 @@ export default function ProductDetailsSumary({ ...props }) {
   const [isClient, setIsClient] = useState(false);
   const [color, setColor] = useState(0);
   const [size, setSize] = useState(0);
+const [openRemovalModal, setOpenRemovalModal] = useState(false);
+
   useEffect(() => {
     setIsClient(true);
   }, []);
@@ -387,11 +391,27 @@ export default function ProductDetailsSumary({ ...props }) {
                     </Typography>
                   </Stack>
                 ))}
+                <Divider />
+                
+                    <Button 
+                      variant="text" 
+                      color="error" 
+                      onClick={() => setOpenRemovalModal(true)}
+                      sx={{ textAlign: 'right', width: '100%', mt: 1 }}
+                    >
+                      Request Removal
+                    </Button>
+
               </Card>
             </Grid>
           </Grid>
         </Form>
       </FormikProvider>
+      <ReportRemovalModal 
+        open={openRemovalModal}
+        onClose={() => setOpenRemovalModal(false)}
+        product={product}
+      />
     </RootStyled>
   );
 }
@@ -403,7 +423,7 @@ const shippingData = [
   },
   {
     icon: <MdLockOutline size={20} />,
-    name: 'Secure payment'
+    name: 'Secure Payment'
   },
   
 ];

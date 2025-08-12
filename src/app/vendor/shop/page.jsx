@@ -56,7 +56,7 @@ export default function Page() {
     <div>
       <ShopDetailCover data={data?.data} isLoading={isLoading} />
       <ShopDetail data={dataMain} isLoading={isLoading} />
-      <ShopIcomeList IncomeData={dataMain?.slug} isVendor onUpdatePayment={() => console.log('clicked')} count={0} />
+      <ShopIcomeList IncomeData={dataMain?.slug} isVendor onUpdatePayment={() => {}} count={0} />
     </div>
   );
 }

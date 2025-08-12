@@ -131,7 +131,7 @@ export default function SortBar({ compaign, productData, shop, isLoading, sortDa
           )}
         </Typography>
         <Stack direction="row" gap={1} alignItems="center">
-          {compaign ? null : (
+          {/* {compaign ? null : (
             <Button
               onClick={() => setOpenDrawer(true)}
               variant="outlined"
@@ -144,7 +144,7 @@ export default function SortBar({ compaign, productData, shop, isLoading, sortDa
             >
               Filters
             </Button>
-          )}
+          )} */}
 
           {/* <IconButton
             onClick={() => setOpenDrawer(true)}

@@ -120,7 +120,7 @@ export default function IncomeList({ isLoading, row, handleClickOpen, isPayout, 
           ) : row?.thisMonth ? null : (
             !isVendor && (
               <Tooltip title="Edit">
-                <IconButton onClick={() => handleClickOpen(row)}>
+                <IconButton onClick={() => handleClickOpen(row)} disabled={row.status === 'paid'}>
                   <MdEdit />
                 </IconButton>
               </Tooltip>
@@ -130,7 +130,7 @@ export default function IncomeList({ isLoading, row, handleClickOpen, isPayout, 
             <Skeleton variant="circular" width={34} height={34} sx={{ mr: 1 }} />
           ) : row?._id ? (
             <Tooltip title="Preview">
-              <IconButton onClick={() => router.push(`/${isVendor ? 'vendor' : 'admin'}/payments/${row._id}`)}>
+              <IconButton onClick={() => router.push(`/${isVendor ? 'vendor' : 'admin'}/payments/${row._id}`)} >
                 <IoEye />
               </IconButton>
             </Tooltip>

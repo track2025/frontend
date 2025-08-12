@@ -62,14 +62,19 @@ export default function FormDialog({ open, handleClose, data, setCount }) {
     totalIncome: Yup.string().required('Total Income is required'),
     totalCommission: Yup.string().required('Total Commission is required'),
     status: Yup.string().required('Status is required'),
-    paidAt: Yup.date().when('eventStartDate', (eventStartDate, schema) => schema.min(new Date(), 'Date is required'))
+    // paidAt: Yup.date().when('eventStartDate', (eventStartDate, schema) => schema.min(new Date(), 'Date is required'))
+    paidAt: Yup.date()
+      .when('eventStartDate', (eventStartDate, schema) =>
+        schema.max(new Date(), 'Date cannot be in the future')
+      )
+
     // tip: Yup.string().required('Tip is required')
   });
   const formik = useFormik({
     initialValues: {
-      total: data?.total || '',
-      totalIncome: data?.totalIncome || '',
-      totalCommission: data?.totalCommission || '',
+      total: data?.total || 0,
+      totalIncome: data?.totalIncome || 0,
+      totalCommission: data?.totalCommission || 0,
       status: data?.status,
       paidAt: data?.paidAt?.split('T')[0],
       tip: data?.tip
@@ -77,13 +82,14 @@ export default function FormDialog({ open, handleClose, data, setCount }) {
     enableReinitialize: true,
     validationSchema: EditPaymentSchema,
 
-    onSubmit: async (event, values) => {
-      event.preventDefault();
+    onSubmit: async (values) => {
+      //event.preventDefault();
+      console.log('values', values)
       const { ...rest } = values;
       await mutate({
         ...rest,
         shop: data.shop,
-        orders: data.orders,
+        orders: data?.orders,
         date: data?.date,
         pid: data?._id || null
       });
@@ -118,7 +124,7 @@ export default function FormDialog({ open, handleClose, data, setCount }) {
             <DialogTitle>Edit Payment</DialogTitle>
             <DialogContent>
               <DialogContentText>
-                To subscribe to this website, please enter your email address here. We will send updates occasionally.
+                The breakdown of the payout amount for the selected month is as follows. You may edit and update it as needed.
               </DialogContentText>
 
               <Stack gap={2} mt={4}>
@@ -174,7 +180,7 @@ export default function FormDialog({ open, handleClose, data, setCount }) {
                       id="status"
                       {...getFieldProps('status')}
                       error={Boolean(touched.status && errors.status)}
-                      onChange={(e) => setStatus(e.target.value)}
+                      // onChange={(e) => setStatus(e.target.value)}
                     >
                       <MenuItem value="pending">Pending</MenuItem>
                       <MenuItem value="paid">Paid</MenuItem>
@@ -203,7 +209,7 @@ export default function FormDialog({ open, handleClose, data, setCount }) {
                       helperText={touched.paidAt && errors.paidAt}
                     />
 
-                    <TextField
+                    {/* <TextField
                       id="tip"
                       name="tip"
                       label="Tip to pay vendor"
@@ -214,7 +220,7 @@ export default function FormDialog({ open, handleClose, data, setCount }) {
                       {...getFieldProps('tip')}
                       error={Boolean(touched.tip && errors.tip)}
                       helperText={touched.tip && errors.tip}
-                    />
+                    /> */}
                   </Stack>
                 )}
               </Stack>
@@ -223,7 +229,7 @@ export default function FormDialog({ open, handleClose, data, setCount }) {
               <Button color="secondary" onClick={handleClose}>
                 Cancel
               </Button>
-              <Button type="submit" variant="contained" disabled={isLoading}>
+              <Button type="submit" variant="contained" disabled={isLoading || data?.totalIncome == 0}>
                 Save
               </Button>
             </DialogActions>

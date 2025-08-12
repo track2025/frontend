@@ -57,9 +57,12 @@ export default function CreateShopSettingFrom() {
   useEffect(() => {
     if (!isAuthenticated) {
       // Redirect with the current page or fixed redirect path
-      router.replace('/auth/register?redirect=/create-shop');
+      toast.success('Please log in or register to complete your photographer account creation', {
+        autoClose: 10000
+      });
+      router.replace('/auth/login?redirect=/create-shop');
     }
-  }, [isAuthenticated, router]);
+  }, []);
 
 
   
@@ -74,7 +77,7 @@ export default function CreateShopSettingFrom() {
       });      
       dispatch(updateUserRole());
       dispatch(setLogout());
-      router.push('/auth/login');
+      router.replace('/auth/login');
     },
     onError: (error) => {
       let errorMessage = parseMongooseError(error.response.data.message)

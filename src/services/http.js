@@ -68,7 +68,7 @@ http.interceptors.response.use(
 
     // Auto-logout on 401/403
     if (status === 401 || status === 403) {
-      alert(status)
+      // alert(status)
       // Clear auth cookies
       clearAuthCookies();
       

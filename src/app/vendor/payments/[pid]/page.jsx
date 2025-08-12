@@ -42,7 +42,7 @@ export default function Page({ params: { pid } }) {
   const theme = useTheme();
   const searchParams = useSearchParams();
   const pageParam = searchParams.get('page');
-  const { data, isLoading } = useQuery(['shop-payment', pageParam], () => api.getIncomeDetailsByAdmin(pid, pageParam), {
+  const { data, isLoading } = useQuery(['shop-payment', pageParam], () => api.getIncomeDetailsByVendor(pid, pageParam), {
     onError: (err) => toast.error(err.response.data.message || 'We ran into an issue. Please refresh the page or try again.')
   });
 
@@ -91,7 +91,7 @@ export default function Page({ params: { pid } }) {
         data={data?.data}
         isLoading={isLoading}
         row={OrderList}
-        handleClickOpen={() => console.log('clicked')}
+        handleClickOpen={() => {}}
       />
     </div>
   );

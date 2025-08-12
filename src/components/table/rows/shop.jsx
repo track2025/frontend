@@ -66,7 +66,7 @@ export default function ProductRow({ isLoading, row, handleClickOpen, sn }) {
             </Box>
           )}
           <Typography variant="subtitle2" noWrap>
-            {isLoading ? <Skeleton variant="text" width={120} sx={{ ml: 1 }} /> : row?.title}
+            {isLoading ? <Skeleton variant="text" width={120} sx={{ ml: 1 }} /> : row?.slug}
           </Typography>
         </Box>
       </TableCell>

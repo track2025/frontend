@@ -9,6 +9,12 @@ import AWS from 'aws-sdk';
  * @returns {Promise<{ _id: string, url: string }>}
  */
 
+function ensureHttps(url) {
+  if (!url.startsWith('https://')) {
+    return 'https://' + url;
+  }
+  return url;
+} 
 
 const uploadToSpaces = (file, onProgress) => {
 
@@ -43,7 +49,7 @@ const uploadToSpaces = (file, onProgress) => {
       if (err) return reject(err);
       resolve({
         _id: fileKey,
-        url: data.Location,
+        url: ensureHttps(data.Location),
       });
     });
   });
