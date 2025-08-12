@@ -391,6 +391,7 @@ export const getRelatedProducts = async (pid) => {
   return data;
 };
 export const getProductBySlug = async (slug) => {
+  if(!slug) return null
   const { data } = await http.get(`/products/${slug}`);
   return data;
 };
