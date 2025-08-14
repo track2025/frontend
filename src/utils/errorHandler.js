@@ -1,49 +1,47 @@
-function parseMongooseError(error) {
-  if (typeof error === 'string') {
-    // Handle duplicate key error string with parsing
-    if (error.includes('E11000 duplicate key error')) {
-      // Try parsing field and value from string
-      const regex = /index: ([^ ]+) dup key: \{ ([^:]+): ?"([^"]+)" \}/i;
-      const match = error.match(regex);
+function parseMongooseError(errorStr) {
+  if (!errorStr || typeof errorStr !== 'string') return 'An unknown error occurred';
 
-      if (match) {
-        const field = match[2];
-        const value = match[3];
-        return `${capitalize(field)} "${value}" is already in use.`;
-      }
-      return 'Duplicate key error: A unique value already exists.';
+  // Handle duplicate key errors (E11000)
+  if (errorStr.includes('E11000') || errorStr.includes('duplicate key')) {
+    const regex = /dup key: { (\w+): "(.+?)" }/g;
+    const messages = [];
+    let match;
+    while ((match = regex.exec(errorStr)) !== null) {
+      const field = capitalize(match[1]);
+      const value = match[2];
+      messages.push(`${field} "${value}" already exists. Please choose another or login if you are the owner.`);
     }
-
-    // You can add more string error parsing here if needed
-
-    return error; // Return string as is if no special handling
+    if (messages.length) return messages.join(', ');
+    return 'Duplicate key error. Please check your input.';
   }
 
-  // If error is an object (Mongoose error object)
-  if (error.code === 11000 && error.keyValue) {
-    const duplicatedField = Object.keys(error.keyValue)[0];
-    const duplicatedValue = error.keyValue[duplicatedField];
-    return `${capitalize(duplicatedField)} "${duplicatedValue}" is already in use.`;
+  // Handle Mongoose validation errors in string form
+  if (errorStr.includes('ValidationError')) {
+    const regex = /path "(.*?)" is (.*?)(?:,|$)/g;
+    const messages = [];
+    let match;
+    while ((match = regex.exec(errorStr)) !== null) {
+      messages.push(`${capitalize(match[1])} ${match[2]}`);
+    }
+    if (messages.length) return messages.join(', ');
   }
 
-  if (error.name === 'ValidationError') {
-    const messages = Object.values(error.errors).map(err => err.message);
-    return messages.join(', ');
+  // Handle cast errors in string form
+  if (errorStr.includes('Cast to')) {
+    const regex = /Cast to (\w+) failed for value "(.*?)" at path "(.*?)"/;
+    const match = errorStr.match(regex);
+    if (match) {
+      return `Invalid value for ${match[3]}: "${match[2]}"`;
+    }
   }
 
-  if (error.name === 'CastError') {
-    return `Invalid value for ${error.path}: "${error.value}"`;
-  }
-
-  console.log(error.message || error.toString())
-
-  return error.message || error.toString();
+  // Fallback: return the original string
+  return errorStr;
 }
 
 function capitalize(str) {
   if (!str) return '';
   return str.charAt(0).toUpperCase() + str.slice(1);
 }
-
 
 export default parseMongooseError;

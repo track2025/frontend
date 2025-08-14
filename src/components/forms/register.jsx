@@ -30,6 +30,7 @@ import { FaTransgender } from 'react-icons/fa6';
 // hooks
 import { createCookies } from 'src/hooks/cookies';
 import { verifyUser } from 'src/redux/slices/user';
+import parseMongooseError from 'src/utils/errorHandler';
 
 
 export default function RegisterForm() {
@@ -80,15 +81,13 @@ export default function RegisterForm() {
       //router.push(redirect ? `/auth/verify-otp?redirect=${redirect}` : `/auth/verify-otp`);
     },
     onError: (err) => {
-      const message = JSON.stringify(err.response.data.message);
-      let errorMessage = parseMongooseError(message)
-      toast.error(message ? errorMessage : 'We ran into an issue. Please refresh the page or try again.', {
+      setloading(false);
+      let errorMessage = parseMongooseError(err?.message)
+      toast.error(errorMessage || 'We ran into an issue. Please refresh the page or try again.', {
               autoClose: false,        // Prevents auto-dismissal
               closeOnClick: true,      // Allows clicking on the close icon
-              draggable: true,         // Allows dragging to dismiss
             });
-      setloading(false);
-    }
+          }
   });
   const { errors, touched, handleSubmit, values, getFieldProps } = formik;
   return (

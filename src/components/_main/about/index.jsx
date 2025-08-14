@@ -67,70 +67,12 @@ At Lap Snaps, we believe race cars are more than machines — they are legends i
             </Typography>
           </Grid>
         </Grid>
-        <Box sx={{ marginTop: 5 }}>
-          <Typography variant="h3" fontWeight={700} textAlign="center">
-            Our Services
-          </Typography>
-          <Typography
-            variant="body1"
-            fontWeight={400}
-            color="text.secondary"
-            sx={{ maxWidth: 350, textAlign: 'center', mx: 'auto' }}
-          >
-            Customer service should not be a department. It should be the entire company.
-          </Typography>
-        </Box>
+        
       </Box>
       {/* WhyUs  */}
       <WhyUs />
-      <Box sx={{ marginY: { md: 10, sm: 8, xs: 5 } }}>
-        <Grid container className="row" >
-          {Data.map((item, idx) => (
-            <Grid item md={3} sm={6} xs={12} key={Math.random()} className="mb-3 col-md-3 col-sm-6 col-xs-12">
-              <Stack
-                textAlign="center"
-                sx={{ border: `1px solid ${theme.palette.divider}`, borderRadius: 2, p: 2 }}
-                key={idx}
-              >
-                <Typography variant="h3" color="text.secondary">
-                  {item?.range}
-                </Typography>
-                <Typography variant="h3" color="text.primary">
-                  {item?.name}
-                </Typography>
-                <Typography
-                  variant="body1"
-                  fontWeight={400}
-                  color="text.secondary"
-                  sx={{ maxWidth: 350, textAlign: 'center', mx: 'auto' }}
-                >
-                  {item?.description}
-                </Typography>
-              </Stack>
-            </Grid>
-          ))}
-        </Grid>
-      </Box>
-      <Box sx={{ paddingBottom: 10 }}>
-        <Typography variant="h3" fontWeight={700} textAlign="center">
-          Our Team
-        </Typography>
-        <Typography
-          variant="body1"
-          fontWeight={400}
-          color="text.secondary"
-          sx={{ maxWidth: 350, textAlign: 'center', mx: 'auto' }}
-        >
-          Meet out expert team members.
-        </Typography>
-        <Grid container className="row" mt={5}>
-          {[1, 2, 3, 4].map((index) => (
-            <Grid item md={3} sm={2} xs={6} key={index}  className="col-md-3 col-sm-2 col-xs-6 mb-3">
-              <Team />
-            </Grid>
-          ))}
-        </Grid>
-      </Box>
+      
+     
     </>
   );
 }

@@ -25,9 +25,7 @@ const index = () => {
           alignItems="center"
         >
           <Stack>
-            <Typography variant="h6" fontSize="16px" textTransform="uppercase" color="primary">
-              Best Your Website
-            </Typography>
+            
             <Typography variant="h1" fontWeight={800} sx={{ marginY: 2 }}>
               Get in touch <span>Today!</span>
             </Typography>
@@ -36,57 +34,9 @@ const index = () => {
               services, seeking collaborations, or simply want to connect, our team is ready to provide personalized
               support.
             </Typography>
-            <Grid container spacing={2}>
-              <Grid item xs={12} sm={6} md={6}>
-                <Stack spacing={2} direction="row" alignItems="center" className="mail-box">
-                  <IconButton className="choose-btn">
-                    <MdEmail />
-                  </IconButton>
-                  <Box textAlign="left">
-                    <Typography variant="h6" fontSize="18px!important" color="text.primary">
-                      Email Address
-                    </Typography>
-                    <Link
-                      href="mailto:info@commercehope.com"
-                      variant="subtitle2"
-                      fontSize="14px"
-                      fontWeight={600}
-                      color="text.secondary"
-                      component={NextLink}
-                    >
-                      info@techgater.com
-                    </Link>
-                  </Box>
-                </Stack>
-              </Grid>
-              <Grid item xs={12} sm={6} md={6}>
-                <Stack spacing={2} direction="row" alignItems="center" className="phone-box">
-                  <IconButton className="choose-btn">
-                    <PiPhoneCall />
-                  </IconButton>
-                  <Box textAlign="left">
-                    <Typography variant="h6" fontSize="18px!important" color="text.primary">
-                      Phone
-                    </Typography>
-                    <Link
-                      href="tel:+923035501602"
-                      variant="subtitle2"
-                      fontSize="14px"
-                      fontWeight={600}
-                      color="text.secondary"
-                      component={NextLink}
-                    >
-                      +92 303 5501602
-                    </Link>
-                  </Box>
-                </Stack>
-              </Grid>
-            </Grid>
           </Stack>
         </Grid>
-        <Grid item xs={12} md={6}>
           <ContactUs />
-        </Grid>
       </Grid>
     </RootStyled>
   );

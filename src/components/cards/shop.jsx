@@ -153,10 +153,10 @@ export default function ShopCard({ ...props }) {
             lineHeight={0.5}
             sx={{ textTransform: 'capitalize', pt: 2 }}
           >
-            {isLoading ? <Skeleton variant="text" width={100} sx={{ mx: 'auto' }} /> : shop?.title}
+            {isLoading ? <Skeleton variant="text" width={100} sx={{ mx: 'auto' }} /> : shop?.slug}
           </Typography>
           <Typography color="text.secondary" variant="body1" textAlign="center">
-            {isLoading ? <Skeleton variant="text" width={'100%'} /> : shop.description}
+            {isLoading ? <Skeleton variant="text" width={'100%'} /> : shop?.description}
           </Typography>
         </Stack>
         <Stack direction="row" spacing={1.5} justifyContent="center" mt={1}>

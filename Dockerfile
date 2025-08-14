@@ -1,11 +1,11 @@
 #FROM 658919911873.dkr.ecr.us-east-1.amazonaws.com/shoutty-front:latest as BUILD_IMAGE
 # Stage 1: Build
-FROM node:18-alpine AS builder
+FROM node:22-alpine AS builder
 
 WORKDIR /app
 
 # 1. Install system dependencies
-RUN apk add --no-cache python3 make g++
+# RUN apk add --no-cache python3 make g++
 
 # 2. Copy package files first for better caching
 COPY package.json package-lock.json ./
@@ -26,7 +26,7 @@ RUN npm run build || \
     (echo "Build failed again, retrying one last time..." && npm run build)
 
 # Stage 2: Production
-FROM node:18-alpine
+FROM node:22-alpine
 
 WORKDIR /app
 

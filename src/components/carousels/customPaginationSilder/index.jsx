@@ -27,6 +27,7 @@ function ProductImage({ item }) {
         <video
           src={item.url}
           controls={true}
+          autoPlay={true}
           muted
           loop
           playsInline

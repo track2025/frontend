@@ -80,7 +80,7 @@ export default function CreateShopSettingFrom() {
       router.replace('/auth/login');
     },
     onError: (error) => {
-      let errorMessage = parseMongooseError(error.response.data.message)
+      let errorMessage = parseMongooseError(error?.message)
       toast.error(errorMessage, {
         autoClose: false,        // Prevents auto-dismissal
         closeOnClick: true,      // Allows clicking on the close icon
@@ -130,14 +130,13 @@ export default function CreateShopSettingFrom() {
     enableReinitialize: true,
     validationSchema: ShopSettingScema,
     onSubmit: async (values) => {
-      console.log(values)
       const { file, ...rest } = values;
       try {
         mutate({
           ...rest
         });
       } catch (error) {
-        console.error(error);
+        //console.error(error);
       }
     }
   });

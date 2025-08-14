@@ -62,7 +62,7 @@ export default function Banner() {
                 <Box>
                   <Button
                     component={Link}
-                    href="/products"
+                    href="/products?top=1"
                     variant="contained"
                     color="secondary"
                     size="large"

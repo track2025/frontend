@@ -56,11 +56,9 @@ const MAIN_LINKS = [
     listText1: 'Contact us',
     listLink1: '/contact',
     listText2: 'Our Collections',
-    listLink2: '/products',
+    listLink2: '/products?top=1',
     listText3: 'Photographers',
-    listLink3: '/photographer',
-    listText4: 'Locations',
-    listLink4: '/products'
+    listLink3: '/photographers',
   },
   {
     heading: 'About us',
@@ -70,8 +68,6 @@ const MAIN_LINKS = [
     listLink2: '/privacy-policy',
     listText3: 'Term and conditions',
     listLink3: '/terms-and-conditions',
-    listText4: 'Refund return policy',
-    listLink4: '/refund-return-policy'
   }
 ];
 

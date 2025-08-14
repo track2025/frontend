@@ -59,7 +59,7 @@ const ContactUs = () => {
   // });
 
   return (
-    <div>
+    <div >
       {/* from section  */}
       <Stack className="form-section">
         <Box className="form-feed">
