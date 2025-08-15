@@ -35,6 +35,7 @@ import { LoadingButton } from '@mui/lab';
 // icons
 import { MdOutlineVisibility, MdLock, MdOutlineVisibilityOff } from 'react-icons/md';
 import { IoMdMail } from 'react-icons/io';
+import parseMongooseError from 'src/utils/errorHandler';
 
 export default function LoginForm() {
   const { push } = useRouter();
@@ -76,8 +77,12 @@ export default function LoginForm() {
     },
     onError: (err) => {
       setloading(false);
-      toast.error(err.response.data.message);
-    }
+      let errorMessage = parseMongooseError(err?.message)
+      toast.error(errorMessage || 'We ran into an issue. Please refresh the page or try again.', {
+              autoClose: false,        // Prevents auto-dismissal
+              closeOnClick: true,      // Allows clicking on the close icon
+            });
+          }   
   });
   const LoginSchema = Yup.object().shape({
     email: Yup.string().email('Enter valid email').required('Email is required.'),

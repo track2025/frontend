@@ -327,12 +327,12 @@ const [openRemovalModal, setOpenRemovalModal] = useState(false);
                  
 
                   <Stack direction="row" spacing={0.5} justifyContent={'center'}>
-                    <Tooltip title="Copy Prooduct URL">
+                    <Tooltip title="Copy URL">
                       <IconButton
                         aria-label="copy"
                         onClick={() => {
                           navigator.clipboard.writeText(window?.location.href);
-                          toast.success('Link copied.');
+                          toast.success('Link copied');
                         }}
                       >
                         <MdContentCopy size={24} />
