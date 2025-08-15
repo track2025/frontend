@@ -75,7 +75,7 @@ export default function Brands() {
                         {v.name}
                       </Typography>
                       <Typography variant="body1" noWrap>
-                        {v.totalProducts + (v.totalProducts > 0 && '+') + ' ' + (v.totalProducts <= 1 ? 'Photo' : 'Photos')}
+                        {v.totalProducts +  ' ' + (v.totalProducts <= 1 ? 'Photo' : 'Photos')}
                       </Typography>
                     </Stack>
                   </Stack>
