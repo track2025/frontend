@@ -132,7 +132,6 @@ export default function AdminShopForm({ data: currentShop, isLoading: shopLoadin
     validationSchema: ShopSettingScema,
     onSubmit: async (values) => {
       const { ...rest } = values;
-      console.log('james', currentShop, values)
       try {
         mutate({
           ...rest,
