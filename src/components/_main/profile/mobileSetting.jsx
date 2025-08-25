@@ -136,14 +136,14 @@ export default function MobileSetting() {
             <ListItem disablePadding>
               <ListItemButton
                 onClick={() => {
-                  router.push('/profile/invoice');
+                  router.push('/profile/orders');
                 }}
                 sx={{ py: 2 }}
               >
                 <ListItemIcon>
                   <LiaFileInvoiceSolid size={20} />
                 </ListItemIcon>
-                <ListItemText primary="Invoice" />
+                <ListItemText primary="Orders" />
               </ListItemButton>
             </ListItem>
             <Divider />

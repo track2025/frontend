@@ -84,7 +84,6 @@ export default function FormDialog({ open, handleClose, data, setCount }) {
 
     onSubmit: async (values) => {
       //event.preventDefault();
-      console.log('values', values)
       const { ...rest } = values;
       await mutate({
         ...rest,

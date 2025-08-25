@@ -7,7 +7,7 @@ import { Box, Typography, Grid, Button, Container, Stack } from '@mui/material';
 import { IoIosArrowForward } from 'react-icons/io';
 
 // blur image
-import bannerImg from '../../../../../public/images/banner-33.png';
+import bannerImg from '../../../../../public/images/race-track.webp';
 // components
 import BlurImage from 'src/components/blurImage';
 

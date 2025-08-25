@@ -1,7 +1,6 @@
 'use client';
 import dynamic from 'next/dynamic';
 import { Container } from '@mui/material'; 
-import Hero from 'src/components/_main/home/hero'; 
 import WhyUs from 'src/components/_main/home/whyUs'; 
 import TopBanners from 'src/components/_main/home/topBanners'; 
 import Image from 'next/image';

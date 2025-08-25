@@ -10,7 +10,7 @@ import { Box, Card, Grid, Stack, Typography, Button, Container } from '@mui/mate
 import useMediaQuery from '@mui/material/useMediaQuery';
 import { useTheme } from '@mui/material/styles';
 // images
-import banner1Img from '../../../../../public/images/buggati.png';
+import banner1Img from '../../../../../public/images/your-can-lapsnaps.webp';
 import banner2Img from '../../../../../public/images/photographer.png';
 
 export default function Index() {

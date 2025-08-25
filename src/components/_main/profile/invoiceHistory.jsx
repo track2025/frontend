@@ -21,8 +21,6 @@ export default function InvoiceHistory() {
     api.getUserInvoice(`?page=${pageParam || 1}`)
   );
 
-  console.log('dataxx', data)
-
   const tableData = {
     data: isLoading ? null : data?.data,
 

@@ -17,7 +17,7 @@ export default function Page() {
           },
           {
             name: 'Photographers',
-            href: '/admin/Photographer'
+            href: '/admin/photographers'
           },
           {
             name: 'Add'

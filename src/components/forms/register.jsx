@@ -242,11 +242,11 @@ export default function RegisterForm() {
 
           <Typography variant="body2" align="center" color="text.secondary" mt={2}>
               By registering, I agree to Lap Snaps&nbsp;
-              <Link underline="always" color="text.primary" href="#" fontWeight={700}>
+              <Link underline="always" color="text.primary" href="/terms-and-conditions" fontWeight={700}>
                 Terms
               </Link>
               &nbsp;and&nbsp;
-              <Link underline="always" color="text.primary" href="#" fontWeight={700}>
+              <Link underline="always" color="text.primary" href="/privacy-policy" fontWeight={700}>
                 Privacy policy
               </Link>
               .

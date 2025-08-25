@@ -66,44 +66,47 @@ export default function ShopDetailCover({ data, isLoading, isUser, page }) {
 };
 
 const handleDownloadQR = () => {
-  try {
-    // Create a canvas element
-    const canvas = document.createElement('canvas');
-    const ctx = canvas.getContext('2d');
-    
-    // Set canvas dimensions
-    canvas.width = 300;
-    canvas.height = 300;
-    
-    // Create a temporary image
-    const img = new Image();
-    img.onload = () => {
-      // Draw white background
-      ctx.fillStyle = '#ffffff';
-      ctx.fillRect(0, 0, canvas.width, canvas.height);
+    try {
+      const svg = document.getElementById('qr-code-svg');
+      if (!svg) {
+        throw new Error('QR code SVG not found');
+      }
+
+      const canvas = document.createElement('canvas');
+      const ctx = canvas.getContext('2d');
+      canvas.width = 300;
+      canvas.height = 300;
+
+      // Use document.createElement instead of new Image()
+      const img = document.createElement('img');
+      img.onload = () => {
+        // Draw white background
+        ctx.fillStyle = '#ffffff';
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+        
+        // Draw the QR code
+        ctx.drawImage(img, 50, 50, 200, 200);
+        
+        // Convert to PNG and trigger download
+        const pngUrl = canvas.toDataURL('image/png');
+        const downloadLink = document.createElement('a');
+        downloadLink.download = `${data?.title || data?.name || 'photographer'}-qr-code.png`;
+        downloadLink.href = pngUrl;
+        document.body.appendChild(downloadLink);
+        downloadLink.click();
+        document.body.removeChild(downloadLink);
+      };
       
-      // Draw the QR code
-      ctx.drawImage(img, 50, 50, 200, 200);
-      
-      // Convert to PNG and trigger download
-      const pngUrl = canvas.toDataURL('image/png');
-      const downloadLink = document.createElement('a');
-      downloadLink.download = `${data?.title || data?.name || 'photographer'}-qr-code.png`;
-      downloadLink.href = pngUrl;
-      document.body.appendChild(downloadLink);
-      downloadLink.click();
-      document.body.removeChild(downloadLink);
-    };
-    
-    // Convert SVG to data URL
-    const svg = document.getElementById('qr-code-svg');
-    const svgData = new XMLSerializer().serializeToString(svg);
-    img.src = 'data:image/svg+xml;base64,' + btoa(unescape(encodeURIComponent(svgData)));
-  } catch (error) {
-    console.error('Error downloading QR code:', error);
-    alert('Failed to download QR code. Please try again.');
-  }
-};
+      // Convert SVG to data URL
+      const svgData = new XMLSerializer().serializeToString(svg);
+      img.src = 'data:image/svg+xml;base64,' + btoa(unescape(encodeURIComponent(svgData)));
+    } catch (error) {
+      console.error('Error downloading QR code:', error);
+      alert('Failed to download QR code. Please try again.');
+    }
+  };
+
+  
   return (
     <RootStyle>
       {!isLoading && (
@@ -211,9 +214,8 @@ const handleDownloadQR = () => {
             variant="contained" 
             onClick={handleDownloadQR}
             fullWidth
-            disabled={true}
           >
-            Download QR Code
+            Download QR Code 
           </Button>
         </DialogContent>
       </Dialog>

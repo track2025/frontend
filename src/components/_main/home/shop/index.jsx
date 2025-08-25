@@ -15,8 +15,6 @@ export default function ShopComponent() {
   const { shops = [], isLoading } = useSelector(({ shops }) => shops);
 const state = useSelector((state) => state);
 
-  console.log('state', state)
-
   return (
     <Paper elevation={0}>
       <Stack

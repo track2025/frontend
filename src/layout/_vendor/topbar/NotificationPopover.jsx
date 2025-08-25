@@ -41,7 +41,6 @@ import * as api from 'src/services';
 
 const NotificationPopover = ({ item, onClose }) => {
   const router = useRouter();
-  console.log(item, 'order id ');
   return (
     <>
       <ListItemButton

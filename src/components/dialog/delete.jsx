@@ -21,6 +21,7 @@ DeleteDialog.propTypes = {
 };
 
 export default function DeleteDialog({ onClose, id, apicall, endPoint, type, deleteMessage }) {
+  console.log('endpoint', endPoint, api[endPoint])
   const { isLoading, mutate } = useMutation(api[endPoint], {
     onSuccess: () => {
       toast.success(type);

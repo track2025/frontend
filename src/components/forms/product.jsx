@@ -453,12 +453,6 @@ const handleDrop = async (acceptedFiles) => {
                 lastModified: Date.now()
               })
             );
-
-            console.log({
-              type: 'video',
-              original: originalUrl,
-              preview: previewUrl,
-            })
             
             return {
               type: 'video',
@@ -806,6 +800,12 @@ const handleDrop = async (acceptedFiles) => {
                                 const newValueId = newValue?.id || newValue;
                                 setFieldValue('brand', newValueId);
                               }}
+                              onInputChange={(event, newInputValue, reason) => {
+                                  // Handles free typing
+                                  if (reason === "input") {
+                                    setFieldValue("brand", newInputValue);
+                                  }
+                                }}
                               renderInput={(params) => (
                                 <TextField
                                   {...params}

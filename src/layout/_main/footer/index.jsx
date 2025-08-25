@@ -66,7 +66,7 @@ const MAIN_LINKS = [
     listLink1: '/about',
     listText2: 'Privacy policy',
     listLink2: '/privacy-policy',
-    listText3: 'Term and conditions',
+    listText3: 'Terms and conditions',
     listLink3: '/terms-and-conditions',
   }
 ];

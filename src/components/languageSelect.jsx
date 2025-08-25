@@ -102,7 +102,7 @@ export default function LanguageSelect() {
   };
 
   return (
-    <React.Fragment>
+    <div style={{ marginRight: '-20px' }}>
       
      <IconButton
         aria-label="lang-curr-select"
@@ -112,7 +112,7 @@ export default function LanguageSelect() {
           marginLeft:-1
         }}
       >
-             {getFlagsByCurrency(currency)} <span style={{ color:'#333', fontSize:"14px", marginRight:0, marginLeft:5}}>{currency}</span>
+             {getFlagsByCurrency(currency)} <span className="d-none d-md-inline"  style={{ color:'#333', fontSize:"14px", marginRight:0, marginLeft:5}}>{currency}</span>
         <MdArrowDropDown />
       </IconButton>
       <Dialog
@@ -175,6 +175,6 @@ export default function LanguageSelect() {
           </Grid>
         </DialogContent>
       </Dialog>
-    </React.Fragment>
+    </div>
   );
 }

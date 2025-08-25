@@ -86,7 +86,7 @@ export default function AdminShopForm({ data: currentShop, isLoading: shopLoadin
     username: Yup.string().required('username is required'),
     cover: Yup.mixed().required('Cover is required'),
     logo: Yup.mixed().required('logo is required'),
-    description: Yup.string().required('Description is required'),
+    // description: Yup.string().required('Description is required'),
     phone: Yup.string().required('Phone Number is required'),
     paymentInfo: Yup.object().shape({
       holderName: Yup.string().required('Holder Name is required'),
@@ -642,7 +642,7 @@ export default function AdminShopForm({ data: currentShop, isLoading: shopLoadin
                       loading={isLoading}
                       sx={{ ml: 'auto', mt: 3 }}
                     >
-                      {currentShop ? 'Edit Shop' : 'Save'}
+                      {currentShop ? 'Edit Photograper' : 'Save'}
                     </LoadingButton>
                   )}
                 </Stack>

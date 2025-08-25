@@ -23,7 +23,6 @@ Page.propTypes = {
 export default function Page({ params }) {
   const { data, isLoading } = useQuery(['order-by-admin'], () => api.getOrderByVendor(params.oid), {
     onError: (err) => {
-      console.log(err)
       toast.error(err?.response?.data?.message || 'We ran into an issue. Please refresh the page or try again.');
     }
   });

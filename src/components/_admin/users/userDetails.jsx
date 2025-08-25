@@ -38,7 +38,6 @@ export default function UserProfile({ id }) {
     if (isLoading) {
       return null;
     } else {
-      console.log(data, 'dadsasdas');
       const { user } = data;
       return user;
     }

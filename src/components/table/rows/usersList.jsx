@@ -45,7 +45,6 @@ const ThumbImgStyle = styled(Box)(({ theme }) => ({
 }));
 export default function UserRow({ isLoading, row, setId, sn}) {
   const router = useRouter();
-  console.log(row, 'row data');
   return (
     <TableRow hover key={Math.random()}>
       <TableCell>{isLoading ? <Skeleton variant="text" /> : <>{sn}</>}</TableCell>

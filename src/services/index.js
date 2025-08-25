@@ -258,6 +258,11 @@ export const getCurrencyByAdmin = async (cid) => {
   const { data } = await http.get(`/admin/currencies/${cid}`);
   return data;
 };
+export const deleteCurrencyByAdmin = async (cid) => {
+  const { data } = await http.delete(`/admin/currencies/${cid}`);
+  return data;
+};
+
 export const getCompaignsByAdmin = async (page, search) => {
   const { data } = await http.get(`/admin/compaigns?page=${page || 1}&search=${search || ''}`);
   return data;
