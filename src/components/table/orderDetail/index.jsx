@@ -13,7 +13,7 @@ import {
   TableContainer,
   Box,
   Skeleton,
-  Stack, 
+  Stack,
   Button
 } from '@mui/material';
 import { styled } from '@mui/material/styles';
@@ -22,7 +22,7 @@ import BlurImage from 'src/components/blurImage';
 
 // custom hooks
 import { useCurrencyFormatter } from 'src/hooks/formatCurrency';
-
+import { useCurrencyConvert } from 'src/hooks/convertCurrency';
 
 // styled
 import RootStyled from './styled';
@@ -60,7 +60,9 @@ const ThumbImgStyle = styled(Box)(({ theme }) => ({
 }));
 export default function TableDetails({ ...props }) {
   const { data, isLoading, conversionRate, currency } = props;
-  const fCurrency = useCurrencyFormatter(currency);
+  const fCurrency = useCurrencyFormatter();
+  const cCurrency = useCurrencyConvert();
+
   return (
     <RootStyled>
       <TableContainer>
@@ -87,7 +89,6 @@ export default function TableDetails({ ...props }) {
                         <Typography variant={'subtitle2'} noWrap fontSize={{ xs: '12px', sm: '0.875rem' }}>
                           {row?.name?.slice(0, 50)}
                         </Typography>
-                       
                       </Stack>
                     </Stack>
                   ) : (
@@ -97,23 +98,24 @@ export default function TableDetails({ ...props }) {
                     </Stack>
                   )}
                 </TableCell>
-                
-                <TableCell>{row ? <Button
-                                    variant="contained"
-                                    color="black"
-                                    size="small"
-                                    href={`/api/download?fileUrl=${encodeURIComponent(row?.orignalImageUrl)}`}
-                                  >
-                                    Download Media
-                                  </Button>
-: <Skeleton variant="text" width={100} />}</TableCell>
 
-                <TableCell align="right">
+                <TableCell>
                   {row ? (
-                    `${fCurrency((row?.priceSale || row?.price) * conversionRate)}`
+                    <Button
+                      variant="contained"
+                      color="black"
+                      size="small"
+                      href={`/api/download?fileUrl=${encodeURIComponent(row?.orignalImageUrl)}`}
+                    >
+                      Download Media
+                    </Button>
                   ) : (
                     <Skeleton variant="text" width={100} />
                   )}
+                </TableCell>
+
+                <TableCell align="right">
+                  {row ? `${fCurrency(cCurrency(row?.priceSale))}` : <Skeleton variant="text" width={100} />}
                 </TableCell>
               </TableRow>
             ))}

@@ -1,5 +1,5 @@
 'use client';
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import dynamic from 'next/dynamic';
 import { useRouter } from 'next-nprogress-bar';
 import { useDispatch, useSelector } from 'react-redux';
@@ -16,7 +16,7 @@ import { useFormik, Form, FormikProvider } from 'formik';
 // api
 import * as api from 'src/services';
 // stripe
-import { useStripe, useElements } from '@stripe/react-stripe-js';
+import { useStripe, useElements, PaymentRequestButtonElement } from '@stripe/react-stripe-js'; // Added PaymentRequestButtonElement
 
 // Componensts
 import { resetCart, getCart } from 'src/redux/slices/product';
@@ -63,8 +63,11 @@ const CheckoutMain = () => {
   const { checkout } = useSelector(({ product }) => product);
   const { user: userData } = useSelector(({ user }) => user);
   const { cart, total } = checkout;
+  console.log(total);
   const [paymentMethod, setPaymentMethod] = useState('stripe');
   const [checked, setChecked] = React.useState(false);
+  const [paymentRequest, setPaymentRequest] = useState(null); // Added for Apple Pay
+  const [showApplePay, setShowApplePay] = useState(false); // Added for Apple Pay
 
   const handleChangeShipping = (event) => {
     setChecked(event.target.checked);
@@ -80,7 +83,9 @@ const CheckoutMain = () => {
   const { mutate, isLoading } = useMutation('order', api.placeOrder, {
     onSuccess: (data) => {
       debugger;
-      toast.success("🎉 Your order was successful! We've emailed you the download link. You can also find it anytime in the 'My Orders' section of your account.");
+      toast.success(
+        "🎉 Your order was successful! We've emailed you the download link. You can also find it anytime in the 'My Orders' section of your account."
+      );
       setProcessingTo(false);
 
       router.push(`/order/${data.orderId}`);
@@ -104,6 +109,87 @@ const CheckoutMain = () => {
       toast.error(message ? JSON.parse(message) : 'We ran into an issue. Please refresh the page or try again.');
     }
   });
+
+  // Apple Pay setup
+  useEffect(() => {
+    if (stripe && total) {
+      const pr = stripe.paymentRequest({
+        country: 'GB',
+        currency: currency.toLowerCase(),
+        total: {
+          label: 'Total',
+          amount: Math.round(cCurrency(totalWithDiscount || total) * 100)
+        },
+        requestPayerName: true,
+        requestPayerEmail: true
+      });
+
+      pr.canMakePayment().then((result) => {
+        if (result && result.applePay) {
+          setPaymentRequest(pr);
+          setShowApplePay(true);
+        } else {
+          setShowApplePay(false);
+        }
+      });
+
+      pr.on('paymentmethod', async (ev) => {
+        setProcessingTo(true);
+        try {
+          const { client_secret: clientSecret } = await api.paymentIntents(
+            cCurrency(totalWithDiscount || checkout.total),
+            currency
+          );
+
+          const { error: confirmError } = await stripe.confirmCardPayment(
+            clientSecret,
+            { payment_method: ev.paymentMethod.id },
+            { handleActions: false }
+          );
+
+          if (confirmError) {
+            ev.complete('fail');
+            setCheckoutError(confirmError.message);
+            setProcessingTo(false);
+            return;
+          }
+
+          ev.complete('success');
+
+          const items = cart.map(({ ...others }) => others);
+          const totalItems = sum(items.map((item) => item.quantity));
+
+          mutate({
+            paymentMethod: 'Stripe (Apple Pay)',
+            items: items,
+            user: values,
+            totalItems,
+            couponCode,
+            currency,
+            conversionRate: rate,
+            shipping: process.env.SHIPPING_FEE || 0,
+            paymentId: ev.paymentMethod.id
+          });
+        } catch (err) {
+          ev.complete('fail');
+          setCheckoutError(err?.response?.data?.message);
+          setProcessingTo(false);
+        }
+      });
+    }
+  }, [stripe, total, totalWithDiscount, currency, cCurrency]);
+
+  React.useEffect(() => {
+    formik.validateForm();
+    if (cart.length < 1) {
+      router.push('/');
+    } else {
+      setLoading(true);
+      getCartMutate(cart);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
   React.useEffect(() => {
     formik.validateForm();
     if (cart.length < 1) {
@@ -118,7 +204,7 @@ const CheckoutMain = () => {
     firstName: Yup.string().required('First name is required'),
     lastName: Yup.string().required('Last name is required'),
     // phone: Yup.string().required('Phone is required'),
-    email: Yup.string().email('Enter email Valid').required('Email is required'),
+    email: Yup.string().email('Enter email Valid').required('Email is required')
     // address: Yup.string().required('Address is required'),
     // city: Yup.string().required('City is required'),
     // state: Yup.string().required('State is required'),
@@ -146,7 +232,7 @@ const CheckoutMain = () => {
       firstName: userData?.firstName || '',
       lastName: userData?.lastName || '',
       // phone: userData?.phone || '',
-      email: userData?.email || '',
+      email: userData?.email || ''
       // address: userData?.address || '',
       // city: userData?.city || '',
       // state: userData?.state || '',
@@ -196,7 +282,7 @@ const CheckoutMain = () => {
     // const selected = countries.find((v) => v.label.toLowerCase() === values.country.toLowerCase());
     const billingDetails = {
       name: values.firstName + ' ' + values.lastName,
-      email: values.email,
+      email: values.email
       // address: {
       //   city: values.city,
       //   line1: values.address,
@@ -274,8 +360,8 @@ const CheckoutMain = () => {
       <Form autoComplete="off" noValidate onSubmit={handleSubmit}>
         <Box py={5}>
           <Grid container spacing={2}>
-            <Grid item xs={12} md={8} flexGrow={1} >
-                            <CartItemsCard cart={cart} loading={loading} />
+            <Grid item xs={12} md={8} flexGrow={1}>
+              <CartItemsCard cart={cart} loading={loading} />
 
               <CheckoutForm
                 getFieldProps={getFieldProps}
@@ -298,6 +384,21 @@ const CheckoutMain = () => {
                 error={checkoutError}
               />
               <br />
+
+              {/* Apple Pay Button */}
+              {paymentMethod === 'stripe' && showApplePay && (
+                <Box sx={{ mb: 2 }}>
+                  <PaymentRequestButtonElement
+                    options={{ paymentRequest }}
+                    onClick={() => {
+                      if (!isValid) {
+                        toast.error('Please fill all required fields');
+                        return false;
+                      }
+                    }}
+                  />
+                </Box>
+              )}
 
               {/* <Collapse in={paymentMethod === 'paypal'}>
                 <PayPalScriptProvider options={initialOptions}>

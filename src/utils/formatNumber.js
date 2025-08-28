@@ -4,10 +4,10 @@ import numeral from 'numeral';
 // ----------------------------------------------------------------------
 
 const locale = 'en-US';
-export function fCurrency(number) {
+export function fCurrency(number, currency1 = process.env.BASE_CURRENCY) {
   const currency = new Intl.NumberFormat(locale, {
     style: 'currency',
-    currency: process.env.BASE_CURRENCY
+    currency: currency1
   });
 
   return currency.format(number).slice(0, -1);

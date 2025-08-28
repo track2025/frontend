@@ -17,7 +17,6 @@ import { FiMail } from 'react-icons/fi';
 import { MdOutlineCall } from 'react-icons/md';
 import Image from 'next/image';
 
-
 const SOCIAL_MEDIA_LINK = [
   {
     linkPath: 'https://www.facebook.com/techgater',
@@ -58,7 +57,7 @@ const MAIN_LINKS = [
     listText2: 'Our Collections',
     listLink2: '/products?top=1',
     listText3: 'Photographers',
-    listLink3: '/photographers',
+    listLink3: '/photographers'
   },
   {
     heading: 'About us',
@@ -67,7 +66,7 @@ const MAIN_LINKS = [
     listText2: 'Privacy policy',
     listLink2: '/privacy-policy',
     listText3: 'Terms and conditions',
-    listLink3: '/terms-and-conditions',
+    listLink3: '/terms-and-conditions'
   }
 ];
 
@@ -92,22 +91,12 @@ export default function Footer() {
         <Grid container spacing={4} justifyContent="space-between">
           <Grid item md={4} xs={12} flexGrow={1}>
             <Stack spacing={3}>
-                  <Link
-                    href={`/`}
-                   
-                  >
-                    <Image
-                      src="/logo.png"
-                      alt="Logo"
-                      width={250}
-                      height={20}
-                      className='img-fluid'
-                    />
-                  </Link>
-                    
-              
+              <Link href={`/`}>
+                <Image src="/logo.png" alt="Logo" width={250} height={20} className="img-fluid" />
+              </Link>
+
               <Typography variant="body1" color="text.secondary">
-                Your Car's Perfect Shot
+                Your Car's <br /> Perfect Shot
               </Typography>
               {/* <Stack>
                 {ADDRESS.map((item, idx) => (
@@ -140,11 +129,13 @@ export default function Footer() {
             </Stack>
           </Grid>
           {MAIN_LINKS.map((item, idx) => (
-            <Grid item 
-        md={4} 
-        xs={12} 
-        flexGrow={1} // Add flexGrow
-        key={idx}>
+            <Grid
+              item
+              md={4}
+              xs={12}
+              flexGrow={1} // Add flexGrow
+              key={idx}
+            >
               <Stack spacing={3}>
                 <Typography variant="h4" color="text.primary">
                   {item.heading}

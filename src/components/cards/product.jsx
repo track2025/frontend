@@ -129,75 +129,73 @@ export default function ShopProductCard({ ...props }) {
       sx={{
         display: 'block',
         boxShadow:
-          theme.palette.mode === 'light'
-            ? '0 6px 16px rgba(145, 158, 171, 25%)'
-            : '0 6px 16px rgb(5 6 6 / 25%)'
+          theme.palette.mode === 'light' ? '0 6px 16px rgba(145, 158, 171, 25%)' : '0 6px 16px rgb(5 6 6 / 25%)'
       }}
     >
-    <Box
-      {...(product?.available >= 0 && {
-        component: Link,
-        href: linkTo
-      })}
-      sx={{
-        bgcolor: isLoading || loading ? 'transparent' : 'common.white',
-        position: 'relative',
-        cursor: 'pointer',
-        height: '170px',
-        '&:after': {
-          content: `""`,
-          display: 'block',
-          paddingBottom: '100%'
-        },
-        width: '100%'
-      }}
-      onMouseEnter={isVideo(image?.url) ? handleMediaMouseEnter : undefined}
-      onMouseLeave={isVideo(image?.url) ? handleMediaMouseLeave : undefined}
-    >
-      {loading ? (
-        <Skeleton
-          variant="rectangular"
-          width="100%"
-          sx={{
-            height: '100%',
-            position: 'absolute'
-          }}
-        />
-      ) : isVideo(image?.url) ? (
-        <Box component={Link} href={linkTo}>
-        <video
-          ref={videoRef}
-          src={image.url}
-          preload="metadata" // or "auto" to preload more data if needed
-          muted
-          loop
-          playsInline
-          //poster={image?.blurDataURL || ''} // placeholder image
-          style={{
-            width: '100%',
-            height: '100%',
-            objectFit: 'cover',
-            position: 'absolute',
-            top: 0,
-            left: 0,
-            display: 'block', // Make sure video is visible
-          }}
-        />
-         </Box>
-      ) : (
-        <Box component={Link} href={linkTo}>
-          <BlurImage
-            alt={name}
-            src={image.url}
-            fill
-            draggable="false"
-            objectFit="cover"
-            placeholder="blur"
-            blurDataURL={image?.blurDataURL}
+      <Box
+        {...(product?.available >= 0 && {
+          component: Link,
+          href: linkTo
+        })}
+        sx={{
+          bgcolor: isLoading || loading ? 'transparent' : 'common.white',
+          position: 'relative',
+          cursor: 'pointer',
+          height: '170px',
+          '&:after': {
+            content: `""`,
+            display: 'block',
+            paddingBottom: '100%'
+          },
+          width: '100%'
+        }}
+        onMouseEnter={isVideo(image?.url) ? handleMediaMouseEnter : undefined}
+        onMouseLeave={isVideo(image?.url) ? handleMediaMouseLeave : undefined}
+      >
+        {loading ? (
+          <Skeleton
+            variant="rectangular"
+            width="100%"
+            sx={{
+              height: '100%',
+              position: 'absolute'
+            }}
           />
-        </Box>
-      )}
-    </Box>
+        ) : isVideo(image?.url) ? (
+          <Box component={Link} href={linkTo}>
+            <video
+              ref={videoRef}
+              src={image.url}
+              preload="metadata" // or "auto" to preload more data if needed
+              muted
+              loop
+              playsInline
+              //poster={image?.blurDataURL || ''} // placeholder image
+              style={{
+                width: '100%',
+                height: '100%',
+                objectFit: 'cover',
+                position: 'absolute',
+                top: 0,
+                left: 0,
+                display: 'block' // Make sure video is visible
+              }}
+            />
+          </Box>
+        ) : (
+          <Box component={Link} href={linkTo}>
+            <BlurImage
+              alt={name}
+              src={image.url}
+              fill
+              draggable="false"
+              objectFit="cover"
+              placeholder="blur"
+              blurDataURL={image?.blurDataURL}
+            />
+          </Box>
+        )}
+      </Box>
 
       <Stack
         justifyContent="center"

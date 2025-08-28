@@ -77,7 +77,7 @@ export default function ProductRow({ isLoading, row, handleClickOpen, isVendor, 
         <Skeleton variant="text" />
       </TableCell> */}
       <TableCell>{isLoading ? <Skeleton variant="text" /> : <>{fDateShort(row?.createdAt, enUS)}</>}</TableCell>
-      
+
       <TableCell align="left">
         {isLoading ? (
           <Skeleton variant="text" />
@@ -85,7 +85,9 @@ export default function ProductRow({ isLoading, row, handleClickOpen, isVendor, 
           <Rating name="text-feedback" size="small" value={row?.averageRating || 0} readOnly precision={0.5} />
         )}
       </TableCell>
-      <TableCell>{isLoading ? <Skeleton variant="text" /> : fCurrency(row?.priceSale || row?.price)}</TableCell>
+      <TableCell>
+        {isLoading ? <Skeleton variant="text" /> : fCurrency(row?.priceSale || row?.price, row?.currency)}
+      </TableCell>
       {/* <TableCell>
         {isLoading ? (
           <Skeleton variant="text" />

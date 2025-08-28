@@ -371,6 +371,7 @@ export const getProductsByShop = async (query = '', shop, rate) => {
 
 export const getAllProducts = async () => {
   const { data } = await http.get(`/products/all`);
+
   return data;
 };
 export const getAllFilters = async () => {
@@ -396,7 +397,7 @@ export const getRelatedProducts = async (pid) => {
   return data;
 };
 export const getProductBySlug = async (slug) => {
-  if(!slug) return null
+  if (!slug) return null;
   const { data } = await http.get(`/products/${slug}`);
   return data;
 };

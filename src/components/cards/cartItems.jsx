@@ -47,16 +47,14 @@ export default function CheckoutCard({ cart, loading }) {
                   <Typography variant="subtitle1" noWrap>
                     {loading ? <Skeleton variant="text" width={160} /> : value?.name?.slice(0, 18)}
                   </Typography>
-                  <Stack direction="row" gap={1}>
-                    
-                  </Stack>
+                  <Stack direction="row" gap={1}></Stack>
                 </Box>
               </Stack>
               <Typography variant="subtitle1">
                 {loading ? (
                   <Skeleton variant="text" width={60} />
                 ) : (
-                  <>{fCurrency(cCurrency(parseInt(value?.subtotal)))}</>
+                  <>{fCurrency(cCurrency(parseFloat(value?.priceSale)))}</>
                 )}
               </Typography>
             </Stack>

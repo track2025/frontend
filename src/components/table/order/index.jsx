@@ -32,7 +32,7 @@ export default function TableCard({ ...props }) {
   const fCurrency = useCurrencyFormatter(data?.currency);
   const conversionRate = data?.conversionRate;
   return (
-    <RootStyled sx={{ marginBottom: "50px"}}>
+    <RootStyled sx={{ marginBottom: '50px' }}>
       {isLoading ? (
         <Skeleton variant="text" width={100} className="skeleton-h5" />
       ) : (
@@ -44,7 +44,7 @@ export default function TableCard({ ...props }) {
       <Divider />
       <Table>
         <TableBody>
-          <TableRow className="body-row">
+          {/* <TableRow className="body-row">
             <TableCell colSpan={4}></TableCell>
             <TableCell align="right">
               {isLoading ? (
@@ -60,7 +60,7 @@ export default function TableCard({ ...props }) {
                 <strong>{fCurrency(data?.subTotal)}</strong>
               )}
             </TableCell>
-          </TableRow>
+          </TableRow> */}
 
           {/* <TableRow>
             <TableCell colSpan={4}></TableCell>
@@ -80,7 +80,7 @@ export default function TableCard({ ...props }) {
               )}
             </TableCell>
           </TableRow> */}
-          <TableRow>
+          {/* <TableRow>
             <TableCell colSpan={4}></TableCell>
             <TableCell align="right">
               {isLoading ? (
@@ -109,7 +109,7 @@ export default function TableCard({ ...props }) {
                 <strong>{fCurrency(data?.total * conversionRate)}</strong>
               )}
             </TableCell>
-          </TableRow>
+          </TableRow> */}
         </TableBody>
       </Table>
     </RootStyled>
