@@ -81,7 +81,7 @@ export default function ForgetPasswordMain() {
               Email has been sent to <strong>{email}</strong>.
               <br />
             </Typography>
-            <LoadingButton
+            {/* <LoadingButton
               fullWidth
               size="large"
               type="submit"
@@ -90,7 +90,7 @@ export default function ForgetPasswordMain() {
               onClick={() => mutate({ email, origin: window.location.origin })}
             >
               resend
-            </LoadingButton>
+            </LoadingButton> */}
             <Button size="large" fullWidth onClick={() => router.push('/auth/login')} className="full-width-btn">
               back
             </Button>

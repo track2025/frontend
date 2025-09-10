@@ -10,6 +10,7 @@ import OrderDetailsTable from '../orderDetail';
 
 // custom hooks
 import { useCurrencyFormatter } from 'src/hooks/formatCurrency';
+import { useCurrencyConvert } from 'src/hooks/convertCurrency';
 
 // styled
 import RootStyled from './styled';
@@ -29,7 +30,8 @@ TableCard.propTypes = {
 export default function TableCard({ ...props }) {
   const { data, isLoading } = props;
   const items = data?.items;
-  const fCurrency = useCurrencyFormatter(data?.currency);
+  const fCurrency = useCurrencyFormatter();
+  const cCurrency = useCurrencyConvert();
   const conversionRate = data?.conversionRate;
   return (
     <RootStyled sx={{ marginBottom: '50px' }}>
@@ -44,7 +46,7 @@ export default function TableCard({ ...props }) {
       <Divider />
       <Table>
         <TableBody>
-          {/* <TableRow className="body-row">
+          <TableRow className="body-row">
             <TableCell colSpan={4}></TableCell>
             <TableCell align="right">
               {isLoading ? (
@@ -57,10 +59,10 @@ export default function TableCard({ ...props }) {
               {isLoading ? (
                 <Skeleton variant="text" className="skeleton-text" width={100} />
               ) : (
-                <strong>{fCurrency(data?.subTotal)}</strong>
+                <strong>{fCurrency(cCurrency(data?.subTotal))}</strong>
               )}
             </TableCell>
-          </TableRow> */}
+          </TableRow>
 
           {/* <TableRow>
             <TableCell colSpan={4}></TableCell>

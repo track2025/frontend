@@ -5,7 +5,19 @@ import { useMutation } from 'react-query';
 // mui
 import { styled } from '@mui/material/styles';
 import { LoadingButton } from '@mui/lab';
-import { Card, Stack, TextField, Typography, Box, FormHelperText, Grid, Skeleton, MenuItem, FormControl, Select } from '@mui/material';
+import {
+  Card,
+  Stack,
+  TextField,
+  Typography,
+  Box,
+  FormHelperText,
+  Grid,
+  Skeleton,
+  MenuItem,
+  FormControl,
+  Select
+} from '@mui/material';
 // components
 import UploadSingleFile from 'src/components/upload/UploadSingleFile';
 // yup
@@ -20,10 +32,8 @@ import { Form, FormikProvider, useFormik } from 'formik';
 import * as api from 'src/services';
 
 import { useQuery } from 'react-query';
-import parseMongooseError from 'src/utils/errorHandler'
+import parseMongooseError from 'src/utils/errorHandler';
 import uploadToSpaces from 'src/utils/upload';
-
-
 
 ShopSettingFrom.propTypes = {
   data: PropTypes.object,
@@ -44,7 +54,7 @@ export default function ShopSettingFrom({ data: currentShop, isLoading: category
     name: '',
     search: '',
     open: false
-  }); 
+  });
 
   const { mutate, isLoading } = useMutation(
     currentShop ? 'update' : 'new',
@@ -55,17 +65,19 @@ export default function ShopSettingFrom({ data: currentShop, isLoading: category
       }),
       retry: false,
       onSuccess: (data) => {
-        toast.success(currentShop ? data.message : "Your photographer profile is currently under review. We’ll notify you once it’s approved.");
+        toast.success(
+          currentShop
+            ? data.message
+            : 'Your photographer profile is currently under review. We’ll notify you once it’s approved.'
+        );
         // router.push('/dashboard/categories');
       },
       onError: (error) => {
-       // toast.error(error.response.data.message);
-         let errorMessage = parseMongooseError(error.response.data.message)
-              toast.error(errorMessage, {
-                autoClose: false,        // Prevents auto-dismissal
-                closeOnClick: true,      // Allows clicking on the close icon
-                draggable: true,         // Allows dragging to dismiss
-              });
+        // toast.error(error.response.data.message);
+        let errorMessage = parseMongooseError(error.response.data.message);
+        toast.error(errorMessage, {
+          duration: 10000 // Prevents auto-dismissal
+        });
       }
     }
   );
@@ -75,17 +87,18 @@ export default function ShopSettingFrom({ data: currentShop, isLoading: category
   //   }
   // });
   const ShopSettingScema = Yup.object().shape({
-    username: Yup.string().required('username is required')
-        .matches(
-          /^[a-zA-Z0-9][a-zA-Z0-9._]{2,29}$/,
-          'Username must start with a letter or number and can contain letters, numbers, dots, and underscores. Length must be between 3 and 30 characters.'
-        ),
+    username: Yup.string()
+      .required('username is required')
+      .matches(
+        /^[a-zA-Z0-9][a-zA-Z0-9._]{2,29}$/,
+        'Username must start with a letter or number and can contain letters, numbers, dots, and underscores. Length must be between 3 and 30 characters.'
+      ),
     cover: Yup.mixed().required('Cover is required'),
     logo: Yup.mixed().required('logo is required'),
     slug: Yup.string().required('Slug is required'),
     // description: Yup.string().required('Description is required'),
     phone: Yup.string().required('Phone Number is required'),
-    defaultPrice: Yup.number().required('Default Price is required'),
+    defaultPrice: Yup.number().required('Default Price is required')
     // paymentInfo: Yup.object().shape({
     //   holderName: Yup.string().required('Holder Name is required'),
     //   iban: Yup.string().required('Iban is required'),
@@ -175,35 +188,34 @@ export default function ShopSettingFrom({ data: currentShop, isLoading: category
   //     });
   // };
 
-    const { data } = useQuery(['get-currencies'], () => api.getCurrencies());
-  
+  const { data } = useQuery(['get-currencies'], () => api.getCurrencies());
 
-    const handleDropLogo = async (acceptedFiles) => {
-        setstate({ ...state, logoLoading: 2 });
-        const file = acceptedFiles[0];
-        if (file) {
-          Object.assign(file, {
-            preview: URL.createObjectURL(file)
-          });
-        }
-        setFieldValue('file', file);
-        try {
-          const uploaded = await uploadToSpaces(file, (progress) => {
-            setstate({ ...state, logoLoading: progress });
-          });
-    
-          setFieldValue('logo', uploaded);
-    
-          if (values.file && values.logo?._id) {
-            //deleteMutate(values.logo._id);
-          }
-    
-          setstate({ ...state, logoLoading: false });
-        } catch (err) {
-          console.error('Upload failed:', err);
-          setstate({ ...state, logoLoading: false });
-        }
-      };
+  const handleDropLogo = async (acceptedFiles) => {
+    setstate({ ...state, logoLoading: 2 });
+    const file = acceptedFiles[0];
+    if (file) {
+      Object.assign(file, {
+        preview: URL.createObjectURL(file)
+      });
+    }
+    setFieldValue('file', file);
+    try {
+      const uploaded = await uploadToSpaces(file, (progress) => {
+        setstate({ ...state, logoLoading: progress });
+      });
+
+      setFieldValue('logo', uploaded);
+
+      if (values.file && values.logo?._id) {
+        //deleteMutate(values.logo._id);
+      }
+
+      setstate({ ...state, logoLoading: false });
+    } catch (err) {
+      console.error('Upload failed:', err);
+      setstate({ ...state, logoLoading: false });
+    }
+  };
 
   // handle drop cover
 
@@ -243,34 +255,32 @@ export default function ShopSettingFrom({ data: currentShop, isLoading: category
   //     });
   // };
 
-    const handleDropCover = async (acceptedFiles) => {
-      setstate({ ...state, loading: 2 });
-      const file = acceptedFiles[0];
-      if (file) {
-        Object.assign(file, {
-          preview: URL.createObjectURL(file)
-        });
-      }
-      setFieldValue('file', file);
-      try {
-        const uploaded = await uploadToSpaces(file, (progress) => {
-          setstate({ ...state, loading: progress });
-        });
-  
-        setFieldValue('cover', uploaded);
-  
-        if (values.file && values.cover?._id) {
-          //deleteMutate(values.cover._id);
-        }
-  
-        setstate({ ...state, loading: false });
-      } catch (err) {
-        console.error('Upload failed:', err);
-        setstate({ ...state, loading: false });
-      }
-    };
+  const handleDropCover = async (acceptedFiles) => {
+    setstate({ ...state, loading: 2 });
+    const file = acceptedFiles[0];
+    if (file) {
+      Object.assign(file, {
+        preview: URL.createObjectURL(file)
+      });
+    }
+    setFieldValue('file', file);
+    try {
+      const uploaded = await uploadToSpaces(file, (progress) => {
+        setstate({ ...state, loading: progress });
+      });
 
+      setFieldValue('cover', uploaded);
 
+      if (values.file && values.cover?._id) {
+        //deleteMutate(values.cover._id);
+      }
+
+      setstate({ ...state, loading: false });
+    } catch (err) {
+      console.error('Upload failed:', err);
+      setstate({ ...state, loading: false });
+    }
+  };
 
   const handleTitleChange = (event) => {
     const title = event.target.value;
@@ -285,20 +295,18 @@ export default function ShopSettingFrom({ data: currentShop, isLoading: category
     <Box position="relative">
       <FormikProvider value={formik}>
         <Form noValidate autoComplete="off" onSubmit={handleSubmit}>
-          
           <Grid container spacing={2}>
-            <Grid item sx={{
-              width: {
-                xs: '100%', // mobile
-                md: '60%'   // desktop
-              }
-            }}>
-
-
+            <Grid
+              item
+              sx={{
+                width: {
+                  xs: '100%', // mobile
+                  md: '60%' // desktop
+                }
+              }}
+            >
               <Card sx={{ p: 3 }}>
-
-                 <Stack direction="row" spacing={3} flexGrow="wrap">
-                                 
+                <Stack direction="row" spacing={3} flexGrow="wrap">
                   <Box sx={{ width: '100%' }}>
                     <div>
                       <LabelStyle component={'label'} htmlFor="username">
@@ -335,40 +343,37 @@ export default function ShopSettingFrom({ data: currentShop, isLoading: category
                     />
                   </Box>
                 </Stack> */}
-                
                 <Stack mt={3} spacing={2} direction="row" spacing={3} flexGrow="wrap">
-                    <Box sx={{ width: '100%' }}>
-                  <LabelStyle>Default Price</LabelStyle>
-                
-                  <Stack direction="row" spacing={2}>
-                    <TextField
-                      select
-                      label="Currency"
-                      fullWidth
-                      {...getFieldProps('defaultCurrency')}
-                       error={Boolean(touched.defaultCurrency && errors.defaultCurrency)}
-                       helperText={touched.defaultCurrency && errors.defaultCurrency}
-                    >
-                      {(data?.data)?.map((cur, index) => (
-                        <MenuItem key={index} value={cur.code}>
-                          {cur.code}
-                        </MenuItem>
-                      ))}
-                    </TextField>
-                
-                    <TextField
-                      type="number"
-                      label={`Price (${values.defaultCurrency})`}
-                      fullWidth
-                      {...getFieldProps('defaultPrice')}
-                      error={Boolean(touched.defaultPrice && errors.defaultPrice)}
-                      helperText={touched.defaultPrice && errors.defaultPrice}
-                    />
-                  </Stack>
+                  <Box sx={{ width: '100%' }}>
+                    <LabelStyle>Default Price</LabelStyle>
+
+                    <Stack direction="row" spacing={2}>
+                      <TextField
+                        select
+                        label="Currency"
+                        fullWidth
+                        {...getFieldProps('defaultCurrency')}
+                        error={Boolean(touched.defaultCurrency && errors.defaultCurrency)}
+                        helperText={touched.defaultCurrency && errors.defaultCurrency}
+                      >
+                        {data?.data?.map((cur, index) => (
+                          <MenuItem key={index} value={cur.code}>
+                            {cur.code}
+                          </MenuItem>
+                        ))}
+                      </TextField>
+
+                      <TextField
+                        type="number"
+                        label={`Price (${values.defaultCurrency})`}
+                        fullWidth
+                        {...getFieldProps('defaultPrice')}
+                        error={Boolean(touched.defaultPrice && errors.defaultPrice)}
+                        helperText={touched.defaultPrice && errors.defaultPrice}
+                      />
+                    </Stack>
                   </Box>
                 </Stack>
-
-
                 <Stack mt={3} direction="row" spacing={3} flexGrow="wrap">
                   <Box sx={{ width: '100%' }}>
                     <Stack direction="row" justifyContent="space-between">
@@ -407,7 +412,6 @@ export default function ShopSettingFrom({ data: currentShop, isLoading: category
                     )}
                   </Box>
                 </Stack>
-                
                 <Box mt={3}>
                   <Stack direction="row" justifyContent="space-between">
                     {categoryLoading ? (
@@ -447,12 +451,15 @@ export default function ShopSettingFrom({ data: currentShop, isLoading: category
                 </Box>{' '}
               </Card>
             </Grid>
-            <Grid item sx={{
-              width: {
-                xs: '100%', // mobile
-                md: '30%'   // desktop
-              }
-            }}>
+            <Grid
+              item
+              sx={{
+                width: {
+                  xs: '100%', // mobile
+                  md: '30%' // desktop
+                }
+              }}
+            >
               <div
                 style={{
                   position: '-webkit-sticky',
@@ -463,7 +470,6 @@ export default function ShopSettingFrom({ data: currentShop, isLoading: category
                 <Stack spacing={3}>
                   <Card sx={{ p: 3 }}>
                     <Stack spacing={2}>
-                      
                       <div>
                         {categoryLoading ? (
                           <Skeleton variant="text" width={150} />

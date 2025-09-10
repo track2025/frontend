@@ -11,6 +11,16 @@ export async function middleware(request) {
   // 2. Get user role from cookie (alternative to JWT decode)
   const userRole = request.cookies.get('userRole')?.value;
 
+  // const isVerified = request.cookies.get('isVerified')?.value;
+  // console.log({ isVerified });
+  // if (isVerified !== undefined && isVerified !== null) {
+  //   if (isVerified === false) {
+  //     const loginUrl = new URL('/auth/verify-otp', request.url);
+  //     loginUrl.searchParams.set('redirect', pathname);
+  //     return NextResponse.redirect(loginUrl);
+  //   }
+  // }
+
   // 3. Admin route protection
   if (pathname.startsWith('/admin')) {
     if (!isAuthenticated || !['admin', 'super admin'].includes(userRole)) {
@@ -33,8 +43,5 @@ export async function middleware(request) {
 }
 
 export const config = {
-  matcher: [
-    '/admin/:path*',
-    '/vendor/:path*'
-  ]
+  matcher: ['/admin/:path*', '/vendor/:path*']
 };

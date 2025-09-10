@@ -16,12 +16,18 @@ const nextConfig = {
     SHIPPING_FEE: process.env.SHIPPING_FEE,
     JWT_SECRET: process.env.JWT_SECRET,
     PAYPAL_CLIENT_ID: process.env.PAYPAL_CLIENT_ID,
-    DO_SPACES_BUCKET:process.env.DO_SPACES_BUCKET,
-    DO_SPACES_KEY:process.env.DO_SPACES_KEY,
-    DO_SPACES_SECRET:process.env.DO_SPACES_SECRET
+    DO_SPACES_BUCKET: process.env.DO_SPACES_BUCKET,
+    DO_SPACES_KEY: process.env.DO_SPACES_KEY,
+    DO_SPACES_SECRET: process.env.DO_SPACES_SECRET
   },
   images: {
-    domains: ['nextall.vercel.app"', 'res.cloudinary.com','shouttymedia.nyc3.digitaloceanspaces.com','nyc3.digitaloceanspaces.com']
+    domains: [
+      'nextall.vercel.app',
+      'res.cloudinary.com',
+      'shouttymedia.nyc3.digitaloceanspaces.com',
+      'nyc3.digitaloceanspaces.com',
+      'placehold.co'
+    ]
   }
 };
 

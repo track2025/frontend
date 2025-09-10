@@ -27,6 +27,15 @@ import { LiaFileInvoiceSolid } from 'react-icons/lia';
 import { IoIosHeartEmpty } from 'react-icons/io';
 import { MdLogin } from 'react-icons/md';
 import { FaRegUserCircle } from 'react-icons/fa';
+
+import {
+  IoImagesOutline,
+  IoPersonOutline,
+  IoShieldCheckmarkOutline,
+  IoDocumentTextOutline,
+  IoCameraOutline
+} from 'react-icons/io5';
+
 // redux
 import { setThemeMode } from 'src/redux/slices/settings';
 import { useSelector } from 'react-redux';
@@ -35,7 +44,7 @@ import { setLogout } from 'src/redux/slices/user';
 import { resetWishlist } from 'src/redux/slices/wishlist';
 import { deleteCookies } from 'src/hooks/cookies';
 
-export default function MobileSetting() {
+export default function Menu() {
   const { user, isAuthenticated } = useSelector(({ user }) => user);
   const { themeMode } = useSelector(({ settings }) => settings);
   const theme = useTheme();
@@ -79,47 +88,85 @@ export default function MobileSetting() {
             <ListItemText primary="Home" />
           </ListItemButton>
         </ListItem>
+        <Divider />
+        <ListItem disablePadding>
+          <ListItemButton
+            onClick={() => {
+              router.push('/photographers');
+            }}
+            sx={{ py: 2 }}
+          >
+            <ListItemIcon>
+              <IoCameraOutline size={20} />
+            </ListItemIcon>
+            <ListItemText primary="Photographers" />
+          </ListItemButton>
+        </ListItem>
+
+        <Divider />
+        <ListItem disablePadding>
+          <ListItemButton
+            onClick={() => {
+              router.push('/products?top=1');
+            }}
+            sx={{ py: 2 }}
+          >
+            <ListItemIcon>
+              <IoImagesOutline size={20} />
+            </ListItemIcon>
+            <ListItemText primary="Collections" />
+          </ListItemButton>
+        </ListItem>
+
+        <Divider />
+        <ListItem disablePadding>
+          <ListItemButton
+            onClick={() => {
+              router.push('/about');
+            }}
+            sx={{ py: 2 }}
+          >
+            <ListItemIcon>
+              <IoPersonOutline size={20} />
+            </ListItemIcon>
+            <ListItemText primary="About Us" />
+          </ListItemButton>
+        </ListItem>
+
+        <Divider />
+        <ListItem disablePadding>
+          <ListItemButton
+            onClick={() => {
+              router.push('/privacy-policy');
+            }}
+            sx={{ py: 2 }}
+          >
+            <ListItemIcon>
+              <IoShieldCheckmarkOutline size={20} />
+            </ListItemIcon>
+            <ListItemText primary="Privacy Policy" />
+          </ListItemButton>
+        </ListItem>
+
+        <Divider />
+        <ListItem disablePadding>
+          <ListItemButton
+            onClick={() => {
+              router.push('/terms-and-conditions');
+            }}
+            sx={{ py: 2 }}
+          >
+            <ListItemIcon>
+              <IoDocumentTextOutline size={20} />
+            </ListItemIcon>
+            <ListItemText primary="Terms and Conditions" />
+          </ListItemButton>
+        </ListItem>
 
         {isAuthenticated && (
           <>
             <Divider />
-            {user?.role === 'admin' || user?.role === 'super admin' ? (
-              <>
-                <ListItem disablePadding>
-                  <ListItemButton
-                    onClick={() => {
-                      router.push('/admin/dashboard');
-                    }}
-                    sx={{ py: 2 }}
-                  >
-                    <ListItemIcon>
-                      <LuLayoutDashboard size={20} />
-                    </ListItemIcon>
-                    <ListItemText primary="Admin Dashboard" />
-                  </ListItemButton>
-                </ListItem>
-                <Divider />
-              </>
-            ) : null}
-            <Divider />
-            {user?.role === 'vendor' ? (
-              <>
-                <ListItem disablePadding>
-                  <ListItemButton
-                    onClick={() => {
-                      router.push('/vendor/dashboard');
-                    }}
-                    sx={{ py: 2 }}
-                  >
-                    <ListItemIcon>
-                      <LuLayoutDashboard size={20} />
-                    </ListItemIcon>
-                    <ListItemText primary="Vendor Dashboard" />
-                  </ListItemButton>
-                </ListItem>
-                <Divider />
-              </>
-            ) : null}
+
             <ListItem disablePadding>
               <ListItemButton
                 onClick={() => {
@@ -133,58 +180,12 @@ export default function MobileSetting() {
                 <ListItemText primary="Wishlist" />
               </ListItemButton>
             </ListItem>
+
             <Divider />
-            <ListItem disablePadding>
-              <ListItemButton
-                onClick={() => {
-                  router.push('/profile/orders');
-                }}
-                sx={{ py: 2 }}
-              >
-                <ListItemIcon>
-                  <LiaFileInvoiceSolid size={20} />
-                </ListItemIcon>
-                <ListItemText primary="Orders" />
-              </ListItemButton>
-            </ListItem>
-            <Divider />
-            <ListItem disablePadding>
-              <ListItemButton
-                onClick={() => {
-                  router.push(
-                    user.role === 'admin' || user.role === 'super admin' ? '/admin/settings' : '/profile/general'
-                  );
-                }}
-                sx={{ py: 2 }}
-              >
-                <ListItemIcon>
-                  <IoMdSettings size={20} />
-                </ListItemIcon>
-                <ListItemText primary="Profile" />
-              </ListItemButton>
-            </ListItem>
-            <Divider />
-            <ListItem disablePadding>
-              <ListItemButton
-                onClick={() => {
-                  router.push(
-                    user.role === 'admin' || user.role === 'super admin'
-                      ? '/admin/settings/change-password'
-                      : '/profile/change-password'
-                  );
-                }}
-                sx={{ py: 2 }}
-              >
-                <ListItemIcon>
-                  <MdKey size={20} />
-                </ListItemIcon>
-                <ListItemText primary="Change Password" />
-              </ListItemButton>
-            </ListItem>
           </>
         )}
       </List>
-      <Stack spacing={2} mt={1}>
+      <Stack spacing={2} mt={1} mb={4}>
         {isAuthenticated ? (
           <Button
             onClick={() => {

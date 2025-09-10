@@ -16,7 +16,7 @@ import { LuLayoutDashboard } from 'react-icons/lu';
 import { SlHome } from 'react-icons/sl';
 import { TbUserSquareRounded } from 'react-icons/tb';
 import { CiShop } from 'react-icons/ci';
- import LogoutButton from 'src/components/logoutButton';
+import LogoutButton from 'src/components/logoutButton';
 
 // styles
 import RootStyled from './styled';
@@ -92,17 +92,20 @@ export default function UserList({ ...props }) {
           Vendor Dashboard
         </MenuItem>
       ) : (
-        <MenuItem
-          onClick={() => {
-            router.push(isAuthenticated ? '/create-shop' : '/auth/register?redirect=/create-shop');
-            setOpen(false);
-          }}
-        >
-          <ListItemIcon className="menu-icon">
-            <CiShop />
-          </ListItemIcon>
-          Join as Photographer
-        </MenuItem>
+        !user?.role && (
+          <MenuItem
+            onClick={() => {
+              //router.push(isAuthenticated ? '/create-shop' : '/auth/register?redirect=/create-shop');
+              router.push('/create-shop');
+              setOpen(false);
+            }}
+          >
+            <ListItemIcon className="menu-icon">
+              <CiShop />
+            </ListItemIcon>
+            Join as Photographer
+          </MenuItem>
+        )
       )}
       <MenuItem
         onClick={() => {

@@ -14,18 +14,15 @@ export default function Page() {
   const [categories, setCategories] = useState([]);
   const [brands, setBrands] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
-  const [isVendor, setIsVendor] = useState(false); 
-  
+  const [isVendor, setIsVendor] = useState(false);
+
   const { isAuthenticated, user } = useSelector(({ user }) => user);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const [categoriesRes, brandsRes] = await Promise.all([
-          api.getAllCategories(),
-          api.getAllBrandsByAdmin()
-        ]);
-        
+        const [categoriesRes, brandsRes] = await Promise.all([api.getAllCategories(), api.getAllBrandsByAdmin()]);
+
         setCategories(categoriesRes?.data || []);
         setBrands(brandsRes?.data || []);
       } catch (error) {
@@ -59,15 +56,20 @@ export default function Page() {
             href: '/'
           },
           {
-            name: 'Products',
+            name: 'Media',
             href: `/${isVendor ? 'vendor' : 'admin'}/products`
           },
           {
-            name: 'Add Product'
+            name: 'Add Media'
           }
         ]}
       />
-      <AddProduct brands={brands} categories={categories} isVendor={isVendor} pricing={{defaultCurrency: user?.defaultCurrency, defaultPrice: user?.defaultPrice}} />
+      <AddProduct
+        brands={brands}
+        categories={categories}
+        isVendor={isVendor}
+        pricing={{ defaultCurrency: user?.defaultCurrency, defaultPrice: user?.defaultPrice }}
+      />
     </div>
   );
 }

@@ -25,11 +25,10 @@ export async function generateMetadata({ params }) {
   const { data: response } = await api.getShopBySlug(params.shop);
 
   return {
-    title: response.metaTitle,
-    description: response.metaDescription,
-    title: response.title,
+    title: 'Photographer - ' + response?.title,
+    description: response?.description,
     openGraph: {
-      images: [response.logo.url]
+      images: [response?.logo?.url]
     }
   };
 }

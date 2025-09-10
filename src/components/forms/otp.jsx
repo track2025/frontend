@@ -95,6 +95,18 @@ export default function VerifyOTPForm() {
     onSuccess: async () => {
       setLoading(false);
       dispatch(verifyUser());
+
+      user?.role == 'vendor'
+        ? toast.success(
+            'Your photographer account is now under review. Please log in again to access your dashboard. You will be redirected to the login page to continue.',
+            {
+              autoClose: 10000 // 10 seconds
+            }
+          )
+        : toast.success('OTP verified successfully!', {
+            autoClose: 10000 // 10 seconds
+          });
+
       router.push(redirect || '/');
     },
     onError: () => {

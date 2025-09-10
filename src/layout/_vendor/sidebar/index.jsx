@@ -66,7 +66,7 @@ export const navlinks = [
   {
     id: 5,
     title: 'Settings',
-    slug: 'settings',
+    slug: 'settings/shop',
     icon: <IoSettingsOutline />,
     isSearch: false
   }

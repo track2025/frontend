@@ -27,11 +27,8 @@ import { IoMdFemale } from 'react-icons/io';
 import { IoPerson } from 'react-icons/io5';
 import { MdLocalPhone } from 'react-icons/md';
 import { FaTransgender } from 'react-icons/fa6';
-// hooks
 import { createCookies } from 'src/hooks/cookies';
-import { verifyUser } from 'src/redux/slices/user';
 import parseMongooseError from 'src/utils/errorHandler';
-
 
 export default function RegisterForm() {
   const router = useRouter();
@@ -72,22 +69,23 @@ export default function RegisterForm() {
       await createCookies('token', data.token);
       toast.success(
         `Welcome, ${data.user.firstName}! You’re all set. Start exploring and shop amazing track race photos and videos from your favorite photographers.`,
-        { autoClose: 4000 }
+        {
+          duration: 10000 // Prevents auto-dismissal
+        }
       );
       //toast.success(`Welcome, ${data.user.firstName}! We’ve sent a one-time password (OTP) to your email. Please check your inbox.`);
       setloading(false);
-      dispatch(verifyUser());
-      router.push(redirect || '/');
-      //router.push(redirect ? `/auth/verify-otp?redirect=${redirect}` : `/auth/verify-otp`);
+      //dispatch(verifyUser());
+      //router.push(redirect || '/');
+      router.push(redirect ? `/auth/verify-otp?redirect=${redirect}` : `/auth/verify-otp`);
     },
     onError: (err) => {
       setloading(false);
-      let errorMessage = parseMongooseError(err?.message)
+      let errorMessage = parseMongooseError(err?.message);
       toast.error(errorMessage || 'We ran into an issue. Please refresh the page or try again.', {
-              autoClose: false,        // Prevents auto-dismissal
-              closeOnClick: true,      // Allows clicking on the close icon
-            });
-          }
+        duration: 10000 // Prevents auto-dismissal
+      });
+    }
   });
   const { errors, touched, handleSubmit, values, getFieldProps } = formik;
   return (
@@ -136,60 +134,7 @@ export default function RegisterForm() {
               />
             </Stack>
           </Stack>
-          {/* <Stack direction={{ xs: 'column', sm: 'row' }} spacing={2}>
-            <Stack gap={0.5} width={1}>
-              <Typography variant="overline" color="text.primary" htmlFor="gender" component={'label'}>
-                Gender
-              </Typography>
-              <TextField
-                id="gender"
-                select
-                fullWidth
-                {...getFieldProps('gender')}
-                error={Boolean(touched.gender && errors.gender)}
-                helperText={touched.gender && errors.gender}
-                InputProps={{
-                  startAdornment: (
-                    <InputAdornment position="start">
-                      {values.gender === 'male' ? (
-                        <IoMdMale size={24} />
-                      ) : values.gender === 'female' ? (
-                        <IoMdFemale size={24} />
-                      ) : (
-                        <FaTransgender />
-                      )}
-                    </InputAdornment>
-                  )
-                }}
-              >
-                {['Male', 'Female', 'Other'].map((option) => (
-                  <MenuItem key={option} value={option.toLowerCase()}>
-                    {option}
-                  </MenuItem>
-                ))}
-              </TextField>
-            </Stack>
-            <Stack gap={0.5} width={1}>
-              <Typography variant="overline" color="text.primary" htmlFor="phone" component={'label'}>
-                Phone
-              </Typography>
-              <TextField
-                fullWidth
-                id="phone"
-                type="text"
-                {...getFieldProps('phone')}
-                error={Boolean(touched.phone && errors.phone)}
-                helperText={touched.phone && errors.phone}
-                InputProps={{
-                  startAdornment: (
-                    <InputAdornment position="start">
-                      <MdLocalPhone size={24} />
-                    </InputAdornment>
-                  )
-                }}
-              />
-            </Stack>
-          </Stack> */}
+
           <Stack gap={0.5} width={1}>
             <Typography variant="overline" color="text.primary" htmlFor="email" component={'label'}>
               Email
@@ -241,16 +186,16 @@ export default function RegisterForm() {
           </Stack>
 
           <Typography variant="body2" align="center" color="text.secondary" mt={2}>
-              By registering, I agree to Lap Snaps&nbsp;
-              <Link underline="always" color="text.primary" href="/terms-and-conditions" fontWeight={700}>
-                Terms
-              </Link>
-              &nbsp;and&nbsp;
-              <Link underline="always" color="text.primary" href="/privacy-policy" fontWeight={700}>
-                Privacy policy
-              </Link>
-              .
-        </Typography>
+            By registering, I agree to Lap Snaps&nbsp;
+            <Link underline="always" color="text.primary" href="/terms-and-conditions" fontWeight={700}>
+              Terms
+            </Link>
+            &nbsp;and&nbsp;
+            <Link underline="always" color="text.primary" href="/privacy-policy" fontWeight={700}>
+              Privacy policy
+            </Link>
+            .
+          </Typography>
 
           <LoadingButton fullWidth size="large" type="submit" variant="contained" loading={loading}>
             {redirect ? 'Continue' : 'Register'}
@@ -266,7 +211,6 @@ export default function RegisterForm() {
             Login
           </Link>
         </Typography>
-      
       </Form>
     </FormikProvider>
   );

@@ -1,5 +1,5 @@
 'use client';
-import React, {useState} from 'react';
+import React, { useState } from 'react';
 
 import NextLink from 'next/link';
 import PropTypes from 'prop-types';
@@ -7,7 +7,19 @@ import Image from 'next/image';
 import { useRouter } from 'next/router';
 // mui
 import { styled } from '@mui/material/styles';
-import { Box, Typography, Container, Card, Skeleton, Stack, alpha, IconButton, Dialog, DialogContent, Button } from '@mui/material';
+import {
+  Box,
+  Typography,
+  Container,
+  Card,
+  Skeleton,
+  Stack,
+  alpha,
+  IconButton,
+  Dialog,
+  DialogContent,
+  Button
+} from '@mui/material';
 // components
 import MyAvatar from 'src/components/myAvatar';
 // icons
@@ -21,10 +33,10 @@ const RootStyle = styled(Card)(({ theme }) => ({
   position: 'relative',
   overflow: 'hidden',
   borderWidth: 0,
-  borderBottomWidth: 1,
-  [theme.breakpoints.down('md')]: {
-    display: 'none'
-  }
+  borderBottomWidth: 1
+  // [theme.breakpoints.down('md')]: {
+  //   display: 'none'
+  // }
 }));
 
 const InfoStyle = styled('div')(({ theme }) => ({
@@ -55,17 +67,17 @@ export default function ShopDetailCover({ data, isLoading, isUser, page }) {
   const [qrValue, setQrValue] = useState('');
 
   const handleOpenQR = () => {
-  // Get the current base URL from the browser
-  const baseUrl = typeof window !== 'undefined' ? window.location.origin : '';
-  
-  // Combine with your path
-  const fullUrl = `${baseUrl}/photographers/${data?.slug}`;
-  
-  setQrValue(fullUrl);
-  setOpenQR(true);
-};
+    // Get the current base URL from the browser
+    const baseUrl = typeof window !== 'undefined' ? window.location.origin : '';
 
-const handleDownloadQR = () => {
+    // Combine with your path
+    const fullUrl = `${baseUrl}/photographers/${data?.slug}`;
+
+    setQrValue(fullUrl);
+    setOpenQR(true);
+  };
+
+  const handleDownloadQR = () => {
     try {
       const svg = document.getElementById('qr-code-svg');
       if (!svg) {
@@ -83,10 +95,10 @@ const handleDownloadQR = () => {
         // Draw white background
         ctx.fillStyle = '#ffffff';
         ctx.fillRect(0, 0, canvas.width, canvas.height);
-        
+
         // Draw the QR code
         ctx.drawImage(img, 50, 50, 200, 200);
-        
+
         // Convert to PNG and trigger download
         const pngUrl = canvas.toDataURL('image/png');
         const downloadLink = document.createElement('a');
@@ -96,7 +108,7 @@ const handleDownloadQR = () => {
         downloadLink.click();
         document.body.removeChild(downloadLink);
       };
-      
+
       // Convert SVG to data URL
       const svgData = new XMLSerializer().serializeToString(svg);
       img.src = 'data:image/svg+xml;base64,' + btoa(unescape(encodeURIComponent(svgData)));
@@ -106,7 +118,6 @@ const handleDownloadQR = () => {
     }
   };
 
-  
   return (
     <RootStyle>
       {!isLoading && (
@@ -120,9 +131,9 @@ const handleDownloadQR = () => {
             fill
           />
           <Box sx={{ position: 'absolute', top: 16, right: 16, zIndex: 10 }}>
-            <IconButton 
+            <IconButton
               onClick={handleOpenQR}
-              sx={{ 
+              sx={{
                 backgroundColor: alpha('#fff', 0.8),
                 '&:hover': {
                   backgroundColor: '#fff'
@@ -165,7 +176,13 @@ const handleDownloadQR = () => {
                 {isLoading ? <Skeleton variant="text" width={220} /> : data?.title || data?.name}
               </Typography>
               {isUser ? (
-                <Stack direction="row" alignItems="center" justifyContent="end" spacing={0.5}>
+                <Stack
+                  direction="row"
+                  alignItems="center"
+                  justifyContent="end"
+                  spacing={0.5}
+                  sx={{ display: { xs: 'none', md: 'block' } }}
+                >
                   <Typography variant="body1" component={NextLink} href="/" color="common.white">
                     Home
                   </Typography>
@@ -202,20 +219,16 @@ const handleDownloadQR = () => {
             {data?.title || data?.name}
           </Typography>
           <Box sx={{ p: 2, bgcolor: 'white', display: 'inline-block', mb: 2 }}>
-            <QRCode 
-  id="qr-code-svg"
-  value={qrValue} 
-  size={200} 
-  level="H"
-  style={{ height: "auto", maxWidth: "100%", width: "100%" }}
-/>
+            <QRCode
+              id="qr-code-svg"
+              value={qrValue}
+              size={200}
+              level="H"
+              style={{ height: 'auto', maxWidth: '100%', width: '100%' }}
+            />
           </Box>
-          <Button 
-            variant="contained" 
-            onClick={handleDownloadQR}
-            fullWidth
-          >
-            Download QR Code 
+          <Button variant="contained" onClick={handleDownloadQR} fullWidth>
+            Download QR Code
           </Button>
         </DialogContent>
       </Dialog>
@@ -234,7 +247,7 @@ ShopDetailCover.propTypes = {
     }),
     title: PropTypes.string,
     name: PropTypes.string,
-    description: PropTypes.string,
+    description: PropTypes.string
   }),
   isLoading: PropTypes.bool.isRequired,
   isUser: PropTypes.bool,

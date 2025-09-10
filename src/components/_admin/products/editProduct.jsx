@@ -18,7 +18,7 @@ EditProduct.propTypes = {
 export default function EditProduct({ brands, categories, slug, shops, isVendor }) {
   const { data, isLoading } = useQuery(
     ['coupon-codes'],
-    () => api[isVendor ? 'getVendorProductBySlug' : 'getProductBySlug'](slug),
+    () => api[isVendor ? 'getVendorProductBySlug' : 'getAdminProductBySlug'](slug),
     {
       onError: (err) => {
         toast.error(err?.response?.data?.message || 'We ran into an issue. Please refresh the page or try again.');

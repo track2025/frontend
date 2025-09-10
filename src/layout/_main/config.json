@@ -5,7 +5,6 @@
       "path": "",
       "isDropdown": true
     },
-    
 
     {
       "title": "Photographers",
@@ -16,7 +15,6 @@
       "title": "About",
       "path": "/about"
     }
-    
   ],
   "mobile_menu": [
     {
@@ -35,6 +33,11 @@
       "name": "User",
       "isUser": true,
       "href": "/auth/login"
+    },
+    {
+      "name": "Menu",
+      "isMenu": true,
+      "href": "/menu"
     }
   ],
 

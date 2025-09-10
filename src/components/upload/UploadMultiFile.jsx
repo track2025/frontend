@@ -3,7 +3,20 @@ import PropTypes from 'prop-types';
 
 // mui
 import { alpha, styled } from '@mui/material/styles';
-import { Box, List, Stack, Paper, Button, ListItem, Typography, Skeleton, IconButton, Backdrop, CircularProgress } from '@mui/material';
+import {
+  Box,
+  List,
+  Stack,
+  Paper,
+  Button,
+  ListItem,
+  Typography,
+  Skeleton,
+  IconButton,
+  Backdrop,
+  CircularProgress,
+  LinearProgress
+} from '@mui/material';
 import CloseRoundedIcon from '@mui/icons-material/CloseRounded';
 
 // components
@@ -12,7 +25,6 @@ import { varFadeInRight } from '../animate';
 // react dropzone
 import { useDropzone } from 'react-dropzone';
 import PlayCircleOutlineIcon from '@mui/icons-material/PlayCircleOutline';
-
 
 const DropZoneStyle = styled('div')(({ theme }) => ({
   outline: 'none',
@@ -38,17 +50,31 @@ UploadMultiFile.propTypes = {
   onRemoveAll: PropTypes.func,
   sx: PropTypes.object,
   blob: PropTypes.array.isRequired,
-  isInitialized: PropTypes.bool.isRequired,
-  isEdit: PropTypes.bool.isRequired,
   loading: PropTypes.bool.isRequired,
-  isUploading: PropTypes.oneOfType([PropTypes.bool, PropTypes.number]) // Add this prop
+  isUploading: PropTypes.bool,
+  uploadProgress: PropTypes.number,
+  currentFileName: PropTypes.string,
+  currentProcess: PropTypes.string
 };
 
 export default function UploadMultiFile({ ...props }) {
-  const { error, files, onRemove, blob, isEdit, onRemoveAll, loading, isUploading, sx, ...other } = props;
+  const {
+    error,
+    files,
+    onRemove,
+    blob,
+    onRemoveAll,
+    loading,
+    isUploading,
+    uploadProgress,
+    currentFileName,
+    currentProcess,
+    sx,
+    ...other
+  } = props;
   const hasFile = files.length > 0;
   const { getRootProps, getInputProps, isDragActive, isDragReject } = useDropzone({
-      accept: {
+    accept: {
       'image/jpeg': ['.jpeg', '.jpg'],
       'image/png': ['.png'],
       'video/mp4': ['.mp4'],
@@ -61,30 +87,30 @@ export default function UploadMultiFile({ ...props }) {
   });
 
   const VIDEO_MIME_TYPES = [
-  'video/mp4',
-  'application/mp4',
-  'video/x-m4v',
-  'video/quicktime', // MOV
-  'video/x-msvideo', // AVI
-  'video/webm',
-  'video/x-matroska', // MKV
-  'video/ogg'
-];
+    'video/mp4',
+    'application/mp4',
+    'video/x-m4v',
+    'video/quicktime', // MOV
+    'video/x-msvideo', // AVI
+    'video/webm',
+    'video/x-matroska', // MKV
+    'video/ogg'
+  ];
 
-function containsVideoExtension(url) {
-  // List of common video file extensions (add more if needed)
-  const videoExtensions = ['.mp4', '.mov', '.avi', '.wmv', '.flv', '.mkv', '.webm'];
+  function containsVideoExtension(url) {
+    // List of common video file extensions (add more if needed)
+    const videoExtensions = ['.mp4', '.mov', '.avi', '.wmv', '.flv', '.mkv', '.webm'];
 
-  // Convert url to lowercase to make check case-insensitive
-  const lowerUrl = url.toLowerCase();
+    // Convert url to lowercase to make check case-insensitive
+    const lowerUrl = (url || '').toLowerCase();
 
-  // Check if url ends with any of the video extensions
-  return videoExtensions.some(ext => lowerUrl.includes(ext));
-}
+    // Check if url ends with any of the video extensions
+    return videoExtensions.some((ext) => lowerUrl.includes(ext));
+  }
 
   return (
     <Box sx={{ width: '100%', position: 'relative', ...sx }}>
-      {/* Loading overlay */}
+      {/* Upload progress overlay */}
       {isUploading && (
         <Backdrop
           open={true}
@@ -100,19 +126,23 @@ function containsVideoExtension(url) {
             alignItems: 'center',
             justifyContent: 'center',
             backgroundColor: 'rgba(0,0,0,0.5)',
-            borderRadius: 1,
+            borderRadius: 1
           }}
         >
           <CircularProgress color="inherit" />
-          {typeof isUploading === 'number' && (
-            <Typography variant="body2" sx={{ mt: 2, color: 'common.white' }}>
-              Uploading ..
+          <Typography variant="body2" sx={{ mt: 2, color: 'common.white' }}>
+            {currentProcess}: {currentFileName}
+          </Typography>
+          <Box sx={{ width: '80%', mt: 2 }}>
+            <LinearProgress variant="determinate" value={uploadProgress} sx={{ height: 10, borderRadius: 5 }} />
+            <Typography variant="body2" sx={{ mt: 1, color: 'common.white', textAlign: 'center' }}>
+              {Math.round(uploadProgress)}%
             </Typography>
-          )}
+          </Box>
         </Backdrop>
       )}
 
-<DropZoneStyle
+      <DropZoneStyle
         {...getRootProps()}
         sx={{
           ...(isDragActive && { opacity: 0.72 }),
@@ -136,11 +166,10 @@ function containsVideoExtension(url) {
       </DropZoneStyle>
 
       <List disablePadding sx={{ ...(hasFile && { my: 3 }) }}>
-        {(loading ? [...Array(isEdit ? files?.length + blob?.length : blob?.length)] : files).map((file, i) => (
+        {(loading ? [...Array(blob?.length)] : files).map((file, i) => (
           <React.Fragment key={'file' + i}>
             {loading ? (
               <ListItem
-                {...varFadeInRight}
                 sx={{
                   my: 1,
                   p: 0,
@@ -156,7 +185,6 @@ function containsVideoExtension(url) {
               </ListItem>
             ) : (
               <ListItem
-                {...varFadeInRight}
                 sx={{
                   p: 0,
                   m: 0.5,
@@ -186,8 +214,8 @@ function containsVideoExtension(url) {
                 >
                   <CloseRoundedIcon fontSize="small" />
                 </IconButton>
-                
-                { containsVideoExtension(file?.url) ? (
+
+                {containsVideoExtension(file?.url) ? (
                   <>
                     <video
                       style={{
@@ -208,7 +236,7 @@ function containsVideoExtension(url) {
                         color: 'white',
                         fontSize: 40,
                         zIndex: 1000
-                      }} 
+                      }}
                     />
                   </>
                 ) : (
@@ -235,9 +263,9 @@ function containsVideoExtension(url) {
           {loading ? (
             <Skeleton variant="rectangular" width={106} height={36} sx={{ mr: 1.5 }} />
           ) : (
-            <Button 
-              variant="contained" 
-              onClick={onRemoveAll} 
+            <Button
+              variant="contained"
+              onClick={onRemoveAll}
               sx={{ mr: 1.5 }}
               disabled={!!isUploading} // Disable button when uploading
             >

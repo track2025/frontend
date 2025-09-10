@@ -42,7 +42,9 @@ UploadSingleFile.propTypes = {
   sx: PropTypes.object,
   state: PropTypes.object,
   onDrop: PropTypes.func.isRequired,
-  loading: PropTypes.number.isRequired
+  loading: PropTypes.number.isRequired,
+  maxSize: PropTypes.number,
+  accept: PropTypes.any
 };
 
 export default function UploadSingleFile({ error, file, sx, onDrop, loading, ...other }) {
@@ -70,11 +72,23 @@ export default function UploadSingleFile({ error, file, sx, onDrop, loading, ...
             <Typography variant="subtitle2" noWrap>
               {path} - {fData(size)}
             </Typography>
-            {errors.map((e) => (
-              <Typography key={e.code} variant="caption" component="p">
-                - {e.message}
-              </Typography>
-            ))}
+            {errors.map((e) => {
+              let message = e.message;
+
+              // If it's a file size error, rewrite with MB
+              if (e.code === 'file-too-large') {
+                message = `File is larger than ${fData(other.maxSize)}`;
+              }
+              if (e.code === 'file-too-small') {
+                message = `File is smaller than ${fData(other.minSize || 0)}`;
+              }
+
+              return (
+                <Typography key={e.code} variant="caption" component="p">
+                  - {message}
+                </Typography>
+              );
+            })}
           </Box>
         );
       })}

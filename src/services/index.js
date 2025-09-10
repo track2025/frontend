@@ -288,6 +288,11 @@ export const getVendorProductBySlug = async (slug) => {
   const { data } = await http.get(`/vendor/products/${slug}`);
   return data;
 };
+export const getAdminProductBySlug = async (slug) => {
+  const { data } = await http.get(`/admin/products/${slug}`);
+  return data;
+};
+
 export const getVendorShop = async () => {
   const { data } = await http.get(`/vendor/shop`);
   return data;

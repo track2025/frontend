@@ -168,7 +168,7 @@ export default function Index() {
                 <Box>
                   <Button
                     component={Link}
-                    href={isAuthenticated ? '/create-shop' : '/auth/register?redirect=/create-shop'}
+                    href={'/create-shop'}
                     variant="contained"
                     size={isDeskTopBtn ? 'large' : 'small'}
                     sx={{

@@ -17,16 +17,16 @@ export default function ShopSetting() {
     <>
       <HeaderBreadcrumbs
         admin
-        heading="Categories List"
+        heading="Settings"
         links={[
           {
             name: 'Dashboard',
             href: '/'
           },
-          {
-            name: 'Settings',
-            href: '/vendor/settings'
-          },
+          // {
+          //   name: 'Settings',
+          //   href: '/vendor/settings'
+          // },
           {
             name: 'Shop Settings'
           }

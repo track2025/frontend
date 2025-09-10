@@ -41,41 +41,19 @@ export default function UserTopbar() {
           mx: '0px !important',
           left: '0px !important'
         }}
-       
-    
       >
         <Stack direction="row" alignItems="center" spacing={1}>
-          
-          <Typography
-            sx={{ color: 'text.primary', fontSize: 14, display: 'flex', alignItems: 'center', gap: 1 }}
-          >
+          <Typography sx={{ color: 'text.primary', fontSize: 14, display: 'flex', alignItems: 'center', gap: 1 }}>
             Welcome to Lap Snaps. high-quality photographs of vehicles
           </Typography>
         </Stack>
         <Stack direction="row" alignItems="center" spacing={1}>
           <UserSelect />
-          {isAuthenticated ? (
-            user.role === 'user' && (
-              <>
-                <Divider orientation="vertical" flexItem />
-                <Link
-                  component={NextLink}
-                  href={isAuthenticated ? '/create-shop' : '/auth/register?redirect=/create-shop'}
-                  sx={{ color: 'text.primary', fontSize: 14 }}
-                >
-                   Join as Photographer
-                </Link>
-              </>
-            )
-          ) : (
+          {!isAuthenticated && (
             <>
               <Divider orientation="vertical" flexItem />
-              <Link
-                component={NextLink}
-                href={isAuthenticated ? '/create-shop' : '/auth/register?redirect=/create-shop'}
-                sx={{ color: 'text.primary', fontSize: 14 }}
-              >
-                 Join as Photographer
+              <Link component={NextLink} href={'/create-shop'} sx={{ color: 'text.primary', fontSize: 14 }}>
+                Join as Photographer
               </Link>
             </>
           )}

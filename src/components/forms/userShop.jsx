@@ -9,14 +9,38 @@ import { useRouter } from 'next-nprogress-bar';
 // mui
 import { styled } from '@mui/material/styles';
 import { LoadingButton } from '@mui/lab';
-import { Card, Stack, TextField, Typography, Box, FormHelperText, Grid, MenuItem } from '@mui/material';
+import { setLogin } from 'src/redux/slices/user';
+
+import {
+  Card,
+  Stack,
+  TextField,
+  Typography,
+  Box,
+  FormHelperText,
+  Grid,
+  MenuItem,
+  IconButton,
+  InputAdornment,
+  Link
+} from '@mui/material';
+
 // components
 import UploadSingleFile from 'src/components/upload/UploadSingleFile';
 import countries from 'src/components/_main/checkout/countries.json';
 import { useQuery } from 'react-query';
 import { useSelector } from 'react-redux';
-import parseMongooseError from 'src/utils/errorHandler'
-
+import { MdOutlineVisibility } from 'react-icons/md';
+import { MdOutlineVisibilityOff } from 'react-icons/md';
+import { IoMdMale } from 'react-icons/io';
+import { IoMdMail } from 'react-icons/io';
+import { MdLock } from 'react-icons/md';
+import { IoMdFemale } from 'react-icons/io';
+import { IoPerson } from 'react-icons/io5';
+import { MdLocalPhone } from 'react-icons/md';
+import { FaTransgender } from 'react-icons/fa6';
+import { createCookies } from 'src/hooks/cookies';
+import parseMongooseError from 'src/utils/errorHandler';
 
 // yup
 import * as Yup from 'yup';
@@ -28,7 +52,6 @@ import { Form, FormikProvider, useFormik } from 'formik';
 import * as api from 'src/services';
 import uploadToSpaces from 'src/utils/upload';
 
-
 CreateShopSettingFrom.propTypes = {
   data: PropTypes.object,
   isLoading: PropTypes.bool
@@ -39,7 +62,7 @@ const LabelStyle = styled(Typography)(({ theme }) => ({
   color: theme.palette.text.secondary,
   marginBottom: theme.spacing(1),
   lineHeight: 2.5
-})); 
+}));
 
 export default function CreateShopSettingFrom() {
   const router = useRouter();
@@ -53,58 +76,92 @@ export default function CreateShopSettingFrom() {
     open: false
   });
 
-  const { user, isAuthenticated } = useSelector(({ user }) => user);
-  useEffect(() => {
-    if (!isAuthenticated) {
-      // Redirect with the current page or fixed redirect path
-      toast.success('Please log in or register to complete your photographer account creation', {
-        autoClose: 10000
-      });
-      router.replace('/auth/login?redirect=/create-shop');
-    }
-  }, []);
-
-
-  
+  // const { user, isAuthenticated } = useSelector(({ user }) => user);
+  // useEffect(() => {
+  //   if (!isAuthenticated) {
+  //     // Redirect with the current page or fixed redirect path
+  //     toast.success('Please log in or register to complete your photographer account creation', {
+  //       duration: 10000
+  //     });
+  //     router.replace('/auth/login?redirect=/create-shop');
+  //   }
+  // }, []);
 
   const { data } = useQuery(['get-currencies'], () => api.getCurrencies());
-
+  //Your photographer account is now under review. Please log in again to access your dashboard. You will be redirected to the login page to continue.
   const { mutate, isLoading } = useMutation('new-user-shop', api.addShopByUser, {
     retry: false,
-    onSuccess: () => {
-      toast.success('Your photographer account is now under review. Please login into you account again to access your dashboard', {
-        autoClose: 10000
-      });      
-      dispatch(updateUserRole());
-      dispatch(setLogout());
-      router.replace('/auth/login');
+    onSuccess: async (data) => {
+      console.log('token', data);
+      dispatch(setLogin(data.user));
+      //await createCookies('token', data.token);
+      // Set both token and role cookies
+      const cookieOptions = {
+        path: '/',
+        secure: process.env.NODE_ENV === 'production',
+        sameSite: 'strict',
+        maxAge: 86400 // 1 day in seconds
+      };
+
+      // Set token cookie
+      document.cookie = `token=${data.token}; ${Object.entries(cookieOptions)
+        .map(([key, value]) => `${key}=${value}`)
+        .join('; ')}`;
+
+      // Set role cookie (for middleware access)
+      document.cookie = `userRole=${data.user.role}; ${Object.entries(cookieOptions)
+        .map(([key, value]) => `${key}=${value}`)
+        .join('; ')}`;
+      // document.cookie = `isVerified=${data.user.isVerified}; ${Object.entries(cookieOptions)
+      //   .map(([key, value]) => `${key}=${value}`)
+      //   .join('; ')}`;
+      toast.success(
+        'We’ve sent a one-time password (OTP) to your email. Please enter it to verify your email address and finish setting up your photographer account.',
+        {
+          duration: 10000 // Prevents auto-dismissal
+        }
+      );
+      //dispatch(updateUserRole());
+      //dispatch(setLogout());
+      //router.replace('/auth/login');
+      setTimeout(() => {
+        router.push(`/auth/verify-otp?redirect=%2Fvendor%2Fdashboard`);
+      }, 3000);
     },
     onError: (error) => {
-      let errorMessage = parseMongooseError(error?.message)
+      let errorMessage = parseMongooseError(error?.message);
       toast.error(errorMessage, {
-        autoClose: false,        // Prevents auto-dismissal
-        closeOnClick: true,      // Allows clicking on the close icon
-        draggable: true,         // Allows dragging to dismiss
+        duration: 10000 // Prevents auto-dismissal
       });
     }
   });
 
+  const [showPassword, setShowPassword] = useState(false);
+
   const ShopSettingScema = Yup.object().shape({
-    username: Yup.string().required('username is required')
-    .matches(
-      /^[a-zA-Z0-9][a-zA-Z0-9._]{2,29}$/,
-      'Username must start with a letter or number and can contain letters, numbers, dots, and underscores. Length must be between 3 and 30 characters.'
-    ),
-    cover: Yup.mixed().required('Cover is required'),
-    logo: Yup.mixed().required('logo is required'),
+    username: Yup.string()
+      .required('username is required')
+      .matches(
+        /^[a-zA-Z0-9][a-zA-Z0-9._]{2,29}$/,
+        'Username must start with a letter or number and can contain letters, numbers, dots, and underscores. Length must be between 3 and 30 characters.'
+      ),
+    // cover: Yup.mixed().required('Cover is required'),
+    // logo: Yup.mixed().required('logo is required'),
     //slug: Yup.string().required('Slug is required'),
     // description: Yup.string().required('Payoff line is required'),
-    phone: Yup.string().required('Phone Number is required'),
+    // phone: Yup.string().required('Phone Number is required'),
     defaultPrice: Yup.number().required('Default Price is required'),
-   
+    firstName: Yup.string().max(50, 'Too long!').required('First name is required'),
+    lastName: Yup.string().max(50, 'Too long!').required('Last name is required'),
+    email: Yup.string().email('Enter valid email').required('Email is required'),
+    password: Yup.string().required('Password is required').min(8, 'Password should be 8 characters or longer.')
   });
   const formik = useFormik({
     initialValues: {
+      firstName: '',
+      lastName: '',
+      password: '',
+      email: '',
       username: '',
       cover: null,
       logo: null,
@@ -113,10 +170,10 @@ export default function CreateShopSettingFrom() {
       slug: '',
       phone: '',
       defaultCurrency: 'AED',
-      defaultPrice:100,
+      defaultPrice: 100,
       paymentInfo: {
-        holderName: user?.firstName + ' ' + user?.lastName,
-        holderEmail: user?.email,
+        holderName: '',
+        holderEmail: ''
         // bankName: '',
         // AccountNo: ''
       },
@@ -141,136 +198,60 @@ export default function CreateShopSettingFrom() {
     }
   });
   const { errors, values, touched, handleSubmit, setFieldValue, getFieldProps } = formik;
-  // handle drop logo
-  // const handleDropLogo = async (acceptedFiles) => {
-  //   setstate({ ...state, loading: 2 });
-  //   const file = acceptedFiles[0];
-  //   if (file) {
-  //     Object.assign(file, {
-  //       preview: URL.createObjectURL(file)
-  //     });
-  //   }
-  //   setFieldValue('file', file);
-  //   const formData = new FormData();
-  //   formData.append('file', file);
-  //   formData.append('upload_preset', 'my-uploads');
-  //   const config = {
-  //     onUploadProgress: (progressEvent) => {
-  //       const { loaded, total } = progressEvent;
-  //       const percentage = Math.floor((loaded * 100) / total);
-  //       setstate({ ...state, logoLoading: percentage });
-  //     }
-  //   };
-  //   await axios
-  //     .post(`https://api.cloudinary.com/v1_1/${process.env.CLOUDINARY_CLOUD_NAME}/image/upload`, formData, config)
-  //     .then(({ data }) => {
-  //       setFieldValue('logo', {
-  //         _id: data.public_id,
-  //         url: data.secure_url
-  //       });
-  //       setstate({ ...state, loading: false });
-  //     })
-  //     .then(() => {
-  //       // if (values.file) {
-  //       //   deleteMutate(values.logo._id);
-  //       // }
-  //       setstate({ ...state, loading: false });
-  //     });
-  // };
 
+  const handleDropLogo = async (acceptedFiles) => {
+    setstate({ ...state, logoLoading: 2 });
+    const file = acceptedFiles[0];
+    if (file) {
+      Object.assign(file, {
+        preview: URL.createObjectURL(file)
+      });
+    }
+    setFieldValue('file', file);
+    try {
+      const uploaded = await uploadToSpaces(file, (progress) => {
+        setstate({ ...state, logoLoading: progress });
+      });
 
-   const handleDropLogo = async (acceptedFiles) => {
-      setstate({ ...state, logoLoading: 2 });
-      const file = acceptedFiles[0];
-      if (file) {
-        Object.assign(file, {
-          preview: URL.createObjectURL(file)
-        });
+      setFieldValue('logo', uploaded);
+
+      if (values.file && values.logo?._id) {
+        deleteMutate(values.logo._id);
       }
-      setFieldValue('file', file);
-      try {
-        const uploaded = await uploadToSpaces(file, (progress) => {
-          setstate({ ...state, logoLoading: progress });
-        });
-  
-        setFieldValue('logo', uploaded);
-  
-        if (values.file && values.logo?._id) {
-          deleteMutate(values.logo._id);
-        }
-  
-        setstate({ ...state, logoLoading: false });
-      } catch (err) {
-        console.error('Upload failed:', err);
-        setstate({ ...state, logoLoading: false });
+
+      setstate({ ...state, logoLoading: false });
+    } catch (err) {
+      console.error('Upload failed:', err);
+      setstate({ ...state, logoLoading: false });
+    }
+  };
+
+  const handleDropCover = async (acceptedFiles) => {
+    setstate({ ...state, loading: 2 });
+    const file = acceptedFiles[0];
+    if (file) {
+      Object.assign(file, {
+        preview: URL.createObjectURL(file)
+      });
+    }
+    setFieldValue('file', file);
+    try {
+      const uploaded = await uploadToSpaces(file, (progress) => {
+        setstate({ ...state, loading: progress });
+      });
+
+      setFieldValue('cover', uploaded);
+
+      if (values.file && values.cover?._id) {
+        deleteMutate(values.cover._id);
       }
-    };
 
-
-  // handle drop cover
-  // const handleDropCover = async (acceptedFiles) => {
-  //   setstate({ ...state, loading: 2 });
-  //   const file = acceptedFiles[0];
-  //   if (file) {
-  //     Object.assign(file, {
-  //       preview: URL.createObjectURL(file)
-  //     });
-  //   }
-  //   setFieldValue('file', file);
-  //   const formData = new FormData();
-  //   formData.append('file', file);
-  //   formData.append('upload_preset', 'my-uploads');
-  //   const config = {
-  //     onUploadProgress: (progressEvent) => {
-  //       const { loaded, total } = progressEvent;
-  //       const percentage = Math.floor((loaded * 100) / total);
-  //       setstate({ ...state, loading: percentage });
-  //     }
-  //   };
-  //   await axios
-  //     .post(`https://api.cloudinary.com/v1_1/${process.env.CLOUDINARY_CLOUD_NAME}/image/upload`, formData, config)
-  //     .then(({ data }) => {
-  //       setFieldValue('cover', {
-  //         _id: data.public_id,
-  //         url: data.secure_url
-  //       });
-  //       setstate({ ...state, loading: false });
-  //     })
-  //     .then(() => {
-  //       // if (values.file) {
-  //       //   deleteMutate(values.cover._id);
-  //       // }
-  //       setstate({ ...state, loading: false });
-  //     });
-  // };
-
-    const handleDropCover = async (acceptedFiles) => {
-      setstate({ ...state, loading: 2 });
-      const file = acceptedFiles[0];
-      if (file) {
-        Object.assign(file, {
-          preview: URL.createObjectURL(file)
-        });
-      }
-      setFieldValue('file', file);
-      try {
-        const uploaded = await uploadToSpaces(file, (progress) => {
-          setstate({ ...state, loading: progress });
-        });
-  
-        setFieldValue('cover', uploaded);
-  
-        if (values.file && values.cover?._id) {
-          deleteMutate(values.cover._id);
-        }
-  
-        setstate({ ...state, loading: false });
-      } catch (err) {
-        console.error('Upload failed:', err);
-        setstate({ ...state, loading: false });
-      }
-    };
-
+      setstate({ ...state, loading: false });
+    } catch (err) {
+      console.error('Upload failed:', err);
+      setstate({ ...state, loading: false });
+    }
+  };
 
   const handleTitleChange = (event) => {
     const title = event.target.value;
@@ -285,38 +266,129 @@ export default function CreateShopSettingFrom() {
   return (
     <Box position="relative">
       <Typography variant="h2" color="text-primary" py={6}>
-        Complete your photographer profile
+        Create your photographer profile
       </Typography>
       <FormikProvider value={formik}>
         <Form noValidate autoComplete="off" onSubmit={handleSubmit}>
           <Grid container spacing={2}>
-            <Grid item sx={{
-              width: {
-                xs: '100%', // mobile
-                md: '60%'   // desktop
-              }
-            }}>
+            <Grid
+              item
+              sx={{
+                width: {
+                  xs: '100%', // mobile
+                  md: '60%' // desktop
+                }
+              }}
+            >
               <Card sx={{ p: 3 }}>
-                <Stack direction="row" spacing={3} flexGrow="wrap">
-                 
-                  <Box sx={{ width: '100%' }}>
-                    <div>
-                      <LabelStyle component={'label'} htmlFor="username">
-                        Username
-                      </LabelStyle>
-
-                      <TextField
-                        id="username"
-                        fullWidth
-                        {...getFieldProps('username')}
-                        onChange={handleTitleChange} // add onChange handler for title
-                        error={Boolean(touched.username && errors.username)}
-                        helperText={touched.username && errors.username}
-                        sx={{ mt: 1 }}
-                      />
-                    </div>
-                  </Box>
+                <Stack direction={{ xs: 'column', sm: 'row' }} spacing={2}>
+                  <Stack gap={0.5} width={1}>
+                    <LabelStyle color="text.primary" htmlFor="firstName" component={'label'}>
+                      First Name
+                    </LabelStyle>
+                    <TextField
+                      id="firstName"
+                      fullWidth
+                      type="text"
+                      {...getFieldProps('firstName')}
+                      error={Boolean(touched.firstName && errors.firstName)}
+                      helperText={touched.firstName && errors.firstName}
+                      InputProps={{
+                        startAdornment: (
+                          <InputAdornment position="start">
+                            <IoPerson size={24} />
+                          </InputAdornment>
+                        )
+                      }}
+                    />
+                  </Stack>
+                  <Stack gap={0.5} width={1}>
+                    <LabelStyle color="text.primary" htmlFor="lastName" component={'label'}>
+                      Last Name
+                    </LabelStyle>
+                    <TextField
+                      fullWidth
+                      id="lastName"
+                      type="text"
+                      {...getFieldProps('lastName')}
+                      error={Boolean(touched.lastName && errors.lastName)}
+                      helperText={touched.lastName && errors.lastName}
+                      InputProps={{
+                        startAdornment: (
+                          <InputAdornment position="start">
+                            <IoPerson size={24} />
+                          </InputAdornment>
+                        )
+                      }}
+                    />
+                  </Stack>
                 </Stack>
+                <Stack mt={3} spacing={2} width={1}>
+                  <LabelStyle color="text.primary" htmlFor="email" component={'label'}>
+                    Email
+                  </LabelStyle>
+                  <TextField
+                    id="email"
+                    fullWidth
+                    autoComplete="username"
+                    type="email"
+                    {...getFieldProps('email')}
+                    error={Boolean(touched.email && errors.email)}
+                    helperText={touched.email && errors.email}
+                    InputProps={{
+                      startAdornment: (
+                        <InputAdornment position="start">
+                          <IoMdMail size={24} />
+                        </InputAdornment>
+                      )
+                    }}
+                  />
+                </Stack>
+                <Stack mt={3} spacing={2} width={1}>
+                  <LabelStyle color="text.primary" htmlFor="password" component={'label'}>
+                    Password
+                  </LabelStyle>
+                  <TextField
+                    id="password"
+                    fullWidth
+                    autoComplete="current-password"
+                    type={showPassword ? 'text' : 'password'}
+                    {...getFieldProps('password')}
+                    InputProps={{
+                      startAdornment: (
+                        <InputAdornment position="start">
+                          <MdLock size={24} />
+                        </InputAdornment>
+                      ),
+                      endAdornment: (
+                        <InputAdornment position="end">
+                          <IconButton edge="end" onClick={() => setShowPassword((prev) => !prev)}>
+                            {showPassword ? <MdOutlineVisibility size={24} /> : <MdOutlineVisibilityOff size={24} />}
+                          </IconButton>
+                        </InputAdornment>
+                      )
+                    }}
+                    error={Boolean(touched.password && errors.password)}
+                    helperText={touched.password && errors.password}
+                  />
+                </Stack>
+                <Box sx={{ width: '100%' }} mt={3}>
+                  <div>
+                    <LabelStyle component={'label'} htmlFor="username">
+                      Username
+                    </LabelStyle>
+
+                    <TextField
+                      id="username"
+                      fullWidth
+                      {...getFieldProps('username')}
+                      onChange={handleTitleChange} // add onChange handler for title
+                      error={Boolean(touched.username && errors.username)}
+                      helperText={touched.username && errors.username}
+                      sx={{}}
+                    />
+                  </div>
+                </Box>
                 {/* <Stack mt={3} spacing={3} direction="row" flexGrow="wrap">
                   <Box sx={{ width: '100%' }}>
                     <LabelStyle component={'label'} htmlFor="description">
@@ -335,66 +407,67 @@ export default function CreateShopSettingFrom() {
                     />
                   </Box>
                 </Stack> */}
+                <Stack mt={3} spacing={2} direction="row" spacing={3} flexGrow="wrap">
+                  <Box sx={{ width: '100%' }}>
+                    <LabelStyle>Default Price</LabelStyle>
 
-<Stack mt={3} spacing={2} direction="row" spacing={3} flexGrow="wrap">
-    <Box sx={{ width: '100%' }}>
-  <LabelStyle>Default Price</LabelStyle>
+                    <Stack direction="row" spacing={2}>
+                      <TextField
+                        select
+                        label="Currency"
+                        fullWidth
+                        {...getFieldProps('defaultCurrency')}
+                        error={Boolean(touched.defaultCurrency && errors.defaultCurrency)}
+                        helperText={touched.defaultCurrency && errors.defaultCurrency}
+                      >
+                        {data?.data?.map((cur, index) => (
+                          <MenuItem key={index} value={cur.code}>
+                            {cur.code}
+                          </MenuItem>
+                        ))}
+                      </TextField>
 
-  <Stack direction="row" spacing={2}>
-    <TextField
-      select
-      label="Currency"
-      fullWidth
-      {...getFieldProps('defaultCurrency')}
-       error={Boolean(touched.defaultCurrency && errors.defaultCurrency)}
-       helperText={touched.defaultCurrency && errors.defaultCurrency}
-    >
-      {(data?.data)?.map((cur, index) => (
-        <MenuItem key={index} value={cur.code}>
-          {cur.code}
-        </MenuItem>
-      ))}
-    </TextField>
-
-    <TextField
-      type="number"
-      label={`Price (${values.defaultCurrency})`}
-      fullWidth
-      {...getFieldProps('defaultPrice')}
-      error={Boolean(touched.defaultPrice && errors.defaultPrice)}
-      helperText={touched.defaultPrice && errors.defaultPrice}
-    />
-  </Stack>
-  </Box>
-</Stack>
-
-                 <Box mt={3}>
-                    <Stack direction="row" justifyContent="space-between">
-                      <LabelStyle variant="body1" component={'label'} color="text.primary">
-                        Logo
-                      </LabelStyle>
-
-                      <LabelStyle component={'label'} htmlFor="file">
-                        <span></span>
-                      </LabelStyle>
+                      <TextField
+                        type="number"
+                        label={`Price (${values.defaultCurrency})`}
+                        fullWidth
+                        {...getFieldProps('defaultPrice')}
+                        error={Boolean(touched.defaultPrice && errors.defaultPrice)}
+                        helperText={touched.defaultPrice && errors.defaultPrice}
+                      />
                     </Stack>
-
-                    <UploadSingleFile
-                      id="file"
-                      file={values.logo}
-                      onDrop={handleDropLogo}
-                      error={Boolean(touched.logo && errors.logo)}
-                      category
-                      accept="image/*"
-                      loading={state.logoLoading}
-                    />
-
-                    {touched.logo && errors.logo && (
-                      <FormHelperText error sx={{ px: 2, mx: 0 }}>
-                        {touched.logo && errors.logo}
-                      </FormHelperText>
-                    )}
                   </Box>
+                </Stack>
+                <Box mt={3}>
+                  <Stack direction="row" justifyContent="space-between">
+                    <LabelStyle variant="body1" component={'label'} color="text.primary">
+                      Logo
+                    </LabelStyle>
+
+                    <LabelStyle component={'label'} htmlFor="file">
+                      <span></span>
+                    </LabelStyle>
+                  </Stack>
+
+                  <UploadSingleFile
+                    id="file"
+                    file={values.logo}
+                    onDrop={handleDropLogo}
+                    error={Boolean(touched.logo && errors.logo)}
+                    category
+                    accept={{
+                      'image/*': ['.jpeg', '.jpg', '.png', '.gif', '.webp']
+                    }}
+                    loading={state.logoLoading}
+                    maxSize={1 * 1024 * 1024} // 2MB
+                  />
+
+                  {touched.logo && errors.logo && (
+                    <FormHelperText error sx={{ px: 2, mx: 0 }}>
+                      {touched.logo && errors.logo}
+                    </FormHelperText>
+                  )}
+                </Box>
                 <Box mt={3}>
                   <Stack direction="row" justifyContent="space-between">
                     <LabelStyle variant="body1" component={'label'} color="text.primary">
@@ -412,7 +485,10 @@ export default function CreateShopSettingFrom() {
                     onDrop={handleDropCover}
                     error={Boolean(touched.cover && errors.cover)}
                     category
-                    accept="image/*"
+                    accept={{
+                      'image/*': ['.jpeg', '.jpg', '.png', '.gif', '.webp']
+                    }}
+                    maxSize={2 * 1024 * 1024} // 2MB
                     loading={state.loading}
                   />
 
@@ -422,166 +498,27 @@ export default function CreateShopSettingFrom() {
                     </FormHelperText>
                   )}
                 </Box>{' '}
+                <LoadingButton
+                  type="submit"
+                  variant="contained"
+                  size="large"
+                  loading={isLoading}
+                  sx={{ ml: 'auto', mt: 3 }}
+                >
+                  Sign Up
+                </LoadingButton>
               </Card>
             </Grid>
 
-            <Grid item sx={{
-              width: {
-                xs: '100%', // mobile
-                md: '30%'   // desktop
-              }
-            }}>
-              <div
-                style={{
-                  position: '-webkit-sticky',
-                  position: 'sticky',
-                  top: 0
-                }}
-              >
-                <Stack spacing={3}>
-                  <Card sx={{ p: 3 }}>
-                    <Stack spacing={2}>
-                      {/* <div>
-                        <LabelStyle component={'label'} htmlFor="holder-name">
-                          Full Name
-                        </LabelStyle>
-
-                        <TextField
-                          id="holder-name"
-                          fullWidth
-                          {...getFieldProps('paymentInfo.holderName')}
-                          error={Boolean(touched.paymentInfo?.holderName && errors.paymentInfo?.holderName)}
-                          helperText={touched.paymentInfo?.holderName && errors.paymentInfo?.holderName}
-                        />
-                      </div>
-                      <div>
-                        <LabelStyle component={'label'} htmlFor="holder-email">
-                          Email
-                        </LabelStyle>
-
-                        <TextField
-                          id="holder-email"
-                          fullWidth
-                          {...getFieldProps('paymentInfo.holderEmail')}
-                          error={Boolean(touched.paymentInfo?.holderEmail && errors.paymentInfo?.holderEmail)}
-                          helperText={touched.paymentInfo?.holderEmail && errors.paymentInfo?.holderEmail}
-                        />
-                      </div> */}
-                      {/* <div>
-                        <LabelStyle component={'label'} htmlFor="bank-name">
-                          Bank Name
-                        </LabelStyle>
-
-                        <TextField
-                          id="bank-name"
-                          fullWidth
-                          {...getFieldProps('paymentInfo.bankName')}
-                          error={Boolean(touched.paymentInfo?.bankName && errors.paymentInfo?.bankName)}
-                          helperText={touched.paymentInfo?.bankName && errors.paymentInfo?.bankName}
-                        />
-                      </div>
-                      <div>
-                        <LabelStyle component={'label'} htmlFor="account-number">
-                          Account Number
-                        </LabelStyle>
-
-                        <TextField
-                          id="account-number"
-                          fullWidth
-                          {...getFieldProps('paymentInfo.AccountNo')}
-                          error={Boolean(touched.paymentInfo?.AccountNo && errors.paymentInfo?.AccountNo)}
-                          helperText={touched.paymentInfo?.AccountNo && errors.paymentInfo?.AccountNo}
-                        />
-                      </div> */}
-                      <div>
-                        <LabelStyle component={'label'} htmlFor="phone">
-                          Phone Number
-                        </LabelStyle>
-
-                        <TextField
-                          id="phone"
-                          fullWidth
-                          {...getFieldProps('phone')}
-                          error={Boolean(touched.phone && errors.phone)}
-                          helperText={touched.phone && errors.phone}
-                        />
-                      </div>
-                      {/* <div>
-                        <LabelStyle component={'label'} htmlFor="country">
-                          Country
-                        </LabelStyle>
-
-                        <TextField
-                          id="country"
-                          select
-                          fullWidth
-                          placeholder="Country"
-                          {...getFieldProps('address.country')}
-                          SelectProps={{ native: true }}
-                          error={Boolean(touched?.address?.country && errors?.address?.country)}
-                          helperText={touched?.address?.country && errors?.address?.country}
-                        >
-                          {countries.map((option) => (
-                            <option key={option.code} value={option.label}>
-                              {option.label}
-                            </option>
-                          ))}
-                        </TextField>
-                      </div>
-                      <div>
-                        <LabelStyle component={'label'} htmlFor="city">
-                          City
-                        </LabelStyle>
-
-                        <TextField
-                          id="city"
-                          fullWidth
-                          {...getFieldProps('address.city')}
-                          error={Boolean(touched.address?.city && errors.address?.city)}
-                          helperText={touched.address?.city && errors.address?.city}
-                        />
-                      </div>
-                      <div>
-                        <LabelStyle component={'label'} htmlFor="state">
-                          State
-                        </LabelStyle>
-
-                        <TextField
-                          id="state"
-                          fullWidth
-                          {...getFieldProps('address.state')}
-                          error={Boolean(touched.address?.state && errors.address?.state)}
-                          helperText={touched.address?.state && errors.address?.state}
-                        />
-                      </div>
-                      <div>
-                        <LabelStyle component={'label'} htmlFor="streetAddress">
-                          Street Address
-                        </LabelStyle>
-
-                        <TextField
-                          id="streetAddress"
-                          fullWidth
-                          {...getFieldProps('address.streetAddress')}
-                          error={Boolean(touched.address?.streetAddress && errors.address?.streetAddress)}
-                          helperText={touched.address?.streetAddress && errors.address?.streetAddress}
-                        />
-                      </div> */}
-                    </Stack>
-                  </Card>
-
-                  <LoadingButton
-                    type="submit"
-                    variant="contained"
-                    size="large"
-                    loading={isLoading}
-                    sx={{ ml: 'auto', mt: 3 }}
-                  >
-                    Save
-                  </LoadingButton>
-                </Stack>
-              </div>
-            </Grid>
+            <Grid
+              item
+              sx={{
+                width: {
+                  xs: '100%', // mobile
+                  md: '30%' // desktop
+                }
+              }}
+            ></Grid>
           </Grid>
         </Form>
       </FormikProvider>

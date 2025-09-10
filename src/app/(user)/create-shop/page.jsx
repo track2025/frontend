@@ -10,14 +10,14 @@ import { Container } from '@mui/material';
 import ShopForm from 'src/components/forms/userShop';
 
 export default function Page() {
-  const { user } = useSelector((state) => state.user);
-  const router = useRouter();
-  useEffect(() => {
-    if (user?.role === 'vendor' || user?.role?.includes('admin')) {
-      router.push('/');
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  // const { user } = useSelector((state) => state.user);
+  // const router = useRouter();
+  // useEffect(() => {
+  //   if (user?.role === 'vendor' || user?.role?.includes('admin')) {
+  //     router.push('/');
+  //   }
+  //   // eslint-disable-next-line react-hooks/exhaustive-deps
+  // }, []);
   return (
     <Container maxWidth="xl">
       <ShopForm />

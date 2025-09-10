@@ -13,6 +13,7 @@ import { Box, Badge, Button } from '@mui/material';
 import { HiOutlineHome, HiHome } from 'react-icons/hi';
 import { IoSearch } from 'react-icons/io5';
 import { BsShopWindow } from 'react-icons/bs';
+import { FaBars, FaXmark } from 'react-icons/fa6';
 import { HiShoppingBag, HiOutlineShoppingBag } from 'react-icons/hi';
 import { FaRegUser } from 'react-icons/fa6';
 import { FaUser } from 'react-icons/fa6';
@@ -43,6 +44,8 @@ const getIcon = (href, totalItems) => {
       );
     case '/products':
       return <BsShopWindow size={18} />;
+    case '/menu':
+      return <FaBars size={18} />;
     default:
       return <FaRegUser size={18} />;
   }
@@ -68,6 +71,8 @@ const getActiveIcon = (href, totalItems) => {
       );
     case '/products':
       return <BsShopWindow size={18} />;
+    case '/menu':
+      return <FaBars size={18} />;
     default:
       return <FaUser size={18} />;
   }
@@ -100,10 +105,10 @@ export default function MobileBar() {
       });
       const index =
         pathname.includes('/auth') || pathname.includes('/profile')
-          ? 4
-          : pathname.includes('/cart')
-            ? 3
-            : pathname.includes('/products')
+          ? 3
+          : pathname.includes('/menu')
+            ? 4
+            : pathname.includes('/cart')
               ? 2
               : pathname.includes('/search')
                 ? 1

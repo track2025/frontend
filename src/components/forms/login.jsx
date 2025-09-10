@@ -57,32 +57,33 @@ export default function LoginForm() {
         sameSite: 'strict',
         maxAge: 86400 // 1 day in seconds
       };
-      
+
       // Set token cookie
       document.cookie = `token=${data.token}; ${Object.entries(cookieOptions)
         .map(([key, value]) => `${key}=${value}`)
         .join('; ')}`;
-      
+
       // Set role cookie (for middleware access)
       document.cookie = `userRole=${data.user.role}; ${Object.entries(cookieOptions)
         .map(([key, value]) => `${key}=${value}`)
         .join('; ')}`;
-
+      // document.cookie = `isVerified=${data.user.isVerified}; ${Object.entries(cookieOptions)
+      //   .map(([key, value]) => `${key}=${value}`)
+      //   .join('; ')}`;
 
       setloading(false);
       const isAdmin = data.user.role.includes('admin');
       const isVendor = data.user.role.includes('vendor');
       toast.success('Logged in successfully! ');
-      push(redirect ? redirect : isAdmin ? '/admin/dashboard' : isVendor ? '/vendor/dashboard': '/');
+      push(redirect ? redirect : isAdmin ? '/admin/dashboard' : isVendor ? '/vendor/dashboard' : '/');
     },
     onError: (err) => {
       setloading(false);
-      let errorMessage = parseMongooseError(err?.message)
+      let errorMessage = parseMongooseError(err?.message);
       toast.error(errorMessage || 'We ran into an issue. Please refresh the page or try again.', {
-              autoClose: false,        // Prevents auto-dismissal
-              closeOnClick: true,      // Allows clicking on the close icon
-            });
-          }   
+        duration: 10000 // Prevents auto-dismissal
+      });
+    }
   });
   const LoginSchema = Yup.object().shape({
     email: Yup.string().email('Enter valid email').required('Email is required.'),
@@ -105,8 +106,6 @@ export default function LoginForm() {
   const { errors, touched, setFieldValue, values, handleSubmit, getFieldProps } = formik;
   return (
     <>
-      
-
       <FormikProvider value={formik}>
         <Form autoComplete="off" noValidate onSubmit={handleSubmit}>
           <Stack spacing={3}>
@@ -171,7 +170,7 @@ export default function LoginForm() {
             </Link>
           </Stack>
           <LoadingButton fullWidth size="large" type="submit" variant="contained" loading={loading}>
-             {!redirect ? 'Login' : 'Continue'}
+            {!redirect ? 'Login' : 'Continue'}
           </LoadingButton>
           <Typography variant="subtitle2" mt={3} textAlign="center">
             Don{`'`}t you have an account? &nbsp;

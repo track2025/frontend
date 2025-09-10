@@ -60,7 +60,6 @@ import { FaRegHeart } from 'react-icons/fa';
 import { GoGitCompare } from 'react-icons/go';
 import ReportRemovalModal from 'src/components/dialog/ReportRemovalModal';
 
-
 ProductDetailsSumary.propTypes = {
   product: PropTypes.object.isRequired,
   isLoading: PropTypes.bool.isRequired,
@@ -115,7 +114,7 @@ export default function ProductDetailsSumary({ ...props }) {
   const [isClient, setIsClient] = useState(false);
   const [color, setColor] = useState(0);
   const [size, setSize] = useState(0);
-const [openRemovalModal, setOpenRemovalModal] = useState(false);
+  const [openRemovalModal, setOpenRemovalModal] = useState(false);
 
   useEffect(() => {
     setIsClient(true);
@@ -250,7 +249,6 @@ const [openRemovalModal, setOpenRemovalModal] = useState(false);
                         {/* <span>{Number(product?.reviews?.length) > 1 ? 'Reviews' : 'Review'}</span> */}
                       </Typography>
                     </Stack>
-                   
                   </Stack>
                   <Stack direction="row" alignItems="center" spacing={1} mt={1.5}>
                     <Typography variant="subtitle1">Location:</Typography>
@@ -258,12 +256,14 @@ const [openRemovalModal, setOpenRemovalModal] = useState(false);
                       {product?.location || brand?.name || 'Lap Snaps'}
                     </Typography>
                   </Stack>
-                  { category?.name  && <Stack direction="row" alignItems="center" spacing={1}>
-                    <Typography variant="subtitle1">Vehicle Make:</Typography>
-                    <Typography variant="subtitle1" color="text.secondary" fontWeight={400}>
-                      {category?.name || 'Lap Snaps'}
-                    </Typography>
-                  </Stack> }
+                  {category?.name && (
+                    <Stack direction="row" alignItems="center" spacing={1}>
+                      <Typography variant="subtitle1">Vehicle Make:</Typography>
+                      <Typography variant="subtitle1" color="text.secondary" fontWeight={400}>
+                        {category?.name || 'Lap Snaps'}
+                      </Typography>
+                    </Stack>
+                  )}
                   {product?.price > product?.priceSale && (
                     <Stack direction="row" alignItems="center" spacing={1}>
                       <Typography variant="subtitle1">Discount:</Typography>
@@ -273,8 +273,6 @@ const [openRemovalModal, setOpenRemovalModal] = useState(false);
                       </Typography>
                     </Stack>
                   )}
-                  
-          
                 </Stack>
                 {/* <Typography variant="subtitle1">Description:</Typography>
                 <Typography variant="body1"> {product?.description}</Typography> */}
@@ -284,9 +282,7 @@ const [openRemovalModal, setOpenRemovalModal] = useState(false);
               <Card sx={{ p: 2, position: 'sticky', top: 156 }}>
                 <Typography variant="h4" className="text-price">
                   {!isLoading && isLoaded && fCurrency(cCurrency(product?.priceSale))} &nbsp;
-                  
                 </Typography>
-               
 
                 <Stack spacing={1} className="contained-buttons" mb={2}>
                   <Button
@@ -315,16 +311,13 @@ const [openRemovalModal, setOpenRemovalModal] = useState(false);
                     variant="contained"
                     color="primary"
                     startIcon={<IoBagCheckOutline />}
-                    onClick={() => { 
-                  handleAddCart(product)
-                  router.push('/cart')
-                }}
+                    onClick={() => {
+                      handleAddCart(product);
+                      router.push('/cart');
+                    }}
                   >
                     Buy Now
                   </Button>
-                 
-
-                 
 
                   <Stack direction="row" spacing={0.5} justifyContent={'center'}>
                     <Tooltip title="Copy URL">
@@ -392,26 +385,21 @@ const [openRemovalModal, setOpenRemovalModal] = useState(false);
                   </Stack>
                 ))}
                 <Divider />
-                
-                    <Button 
-                      variant="text" 
-                      color="error" 
-                      onClick={() => setOpenRemovalModal(true)}
-                      sx={{ textAlign: 'right', width: '100%', mt: 1 }}
-                    >
-                      Request Removal
-                    </Button>
 
+                <Button
+                  variant="text"
+                  color="error"
+                  onClick={() => setOpenRemovalModal(true)}
+                  sx={{ textAlign: 'right', width: '100%', mt: 1 }}
+                >
+                  Request Removal
+                </Button>
               </Card>
             </Grid>
           </Grid>
         </Form>
       </FormikProvider>
-      <ReportRemovalModal 
-        open={openRemovalModal}
-        onClose={() => setOpenRemovalModal(false)}
-        product={product}
-      />
+      <ReportRemovalModal open={openRemovalModal} onClose={() => setOpenRemovalModal(false)} product={product} />
     </RootStyled>
   );
 }
@@ -424,6 +412,5 @@ const shippingData = [
   {
     icon: <MdLockOutline size={20} />,
     name: 'Secure Payment'
-  },
-  
+  }
 ];

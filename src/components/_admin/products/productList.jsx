@@ -31,7 +31,8 @@ export default function AdminProducts({ brands, categories, shops, isVendor }) {
     ['admin-products', apicall, searchParams.toString()],
     () => api[isVendor ? 'getVendorProducts' : 'getProductsByAdmin'](searchParams.toString()),
     {
-      onError: (err) => toast.error(err.response.data.message || 'We ran into an issue. Please refresh the page or try again.')
+      onError: (err) =>
+        toast.error(err.response.data.message || 'We ran into an issue. Please refresh the page or try again.')
     }
   );
 
