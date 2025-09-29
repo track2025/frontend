@@ -34,6 +34,7 @@ export default function EditProduct({ brands, categories, slug, shops, isVendor 
         currentProduct={data?.data}
         isLoading={isLoading}
         isVendor={isVendor}
+        allowUpload={false}
       />
     </div>
   );

@@ -1,7 +1,7 @@
 'use client';
 // react
 import { useMutation, useQuery } from 'react-query';
-import React , { useEffect, useState} from 'react';
+import React, { useEffect, useState } from 'react';
 import { useCallback } from 'react';
 import { toast } from 'react-hot-toast';
 import { usePathname } from 'next/navigation';
@@ -10,6 +10,8 @@ import { useRouter } from 'next-nprogress-bar';
 import { MdVerified } from 'react-icons/md';
 // mui
 import { Box, Grid, Card, Stack, TextField, Typography, FormHelperText, Skeleton } from '@mui/material';
+import { Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Button } from '@mui/material';
+
 import { LoadingButton } from '@mui/lab';
 // component
 import UploadAvatar from 'src/components/upload/UploadAvatar';
@@ -38,6 +40,42 @@ export default function AccountGeneral() {
       setAvatarId(data?.cover?._id || null);
     }
   });
+  const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
+  const [deleteReason, setDeleteReason] = useState('');
+
+  const handleOpenDeleteDialog = () => {
+    setDeleteDialogOpen(true);
+  };
+
+  const handleCloseDeleteDialog = () => {
+    setDeleteDialogOpen(false);
+    setDeleteReason('');
+  };
+
+  const handleConfirmDelete = async () => {
+    try {
+      // You can pass the reason to API if needed
+      const response = await api.deleteUserByUser({ reason: deleteReason });
+
+      if (response?.success) {
+        toast.success(response.message || 'Your account was deleted successfully.', {
+          duration: 3000
+        });
+        setTimeout(() => {
+          window.location.href = '/auth/session'; //
+        }, 3000);
+      } else {
+        toast.error(response?.message || 'Failed to delete your account.', {
+          duration: 5000
+        });
+      }
+    } catch (error) {
+      toast.error(`An error occurred: ${error.message}`, { duration: 5000 });
+    } finally {
+      handleCloseDeleteDialog();
+    }
+  };
+
   const [loadingUpload, setLoadingUpload] = React.useState(false);
   const { mutate, isLoading: updateLoading } = useMutation(api.updateProfile, {
     onSuccess: (res) => {
@@ -57,7 +95,7 @@ export default function AccountGeneral() {
   const [verifyLoading, setVerifyLoading] = React.useState(false);
   const [avatarId, setAvatarId] = React.useState(null);
   const [isVendor, setIsVendor] = useState(false);
-  
+
   const callbackLoading = useCallback(
     (value) => {
       setLoading(value);
@@ -66,15 +104,14 @@ export default function AccountGeneral() {
   );
 
   useEffect(() => {
-      if (adminUser?.role === 'vendor') {
-        setIsVendor(true);
-      }
-    }, [adminUser]);
-
+    if (adminUser?.role === 'vendor') {
+      setIsVendor(true);
+    }
+  }, [adminUser]);
 
   const UpdateUserSchema = Yup.object().shape({
     firstName: Yup.string().required('First name required'),
-    lastName: Yup.string().required('Last name required'),
+    lastName: Yup.string().required('Last name required')
     //phoneNumber: Yup.string().required('Phone required'),
     //gender: Yup.string().required('Gender required')
   });
@@ -121,36 +158,36 @@ export default function AccountGeneral() {
   const { values, errors, touched, handleSubmit, getFieldProps, setFieldValue } = formik;
 
   const handleDrop = async (acceptedFiles) => {
-  setLoadingUpload(true);
-  const file = acceptedFiles[0];
-  
-  if (file) {
-    setFieldValue('file', file);
-    setFieldValue('photoURL', {
-      ...file,
-      preview: URL.createObjectURL(file)
-    });
+    setLoadingUpload(true);
+    const file = acceptedFiles[0];
 
-    try {
-      const uploaded = await uploadToSpaces(file, (progress) => {
-        // You can use callbackLoading here if needed, or keep it as is
-        const percentage = Math.floor(progress);
-        callbackLoading(percentage);
+    if (file) {
+      setFieldValue('file', file);
+      setFieldValue('photoURL', {
+        ...file,
+        preview: URL.createObjectURL(file)
       });
 
-      setFieldValue('cover', uploaded);
+      try {
+        const uploaded = await uploadToSpaces(file, (progress) => {
+          // You can use callbackLoading here if needed, or keep it as is
+          const percentage = Math.floor(progress);
+          callbackLoading(percentage);
+        });
 
-      if (avatarId) {
-        avatarMutate(avatarId);
+        setFieldValue('cover', uploaded);
+
+        if (avatarId) {
+          avatarMutate(avatarId);
+        }
+
+        setLoadingUpload(false);
+      } catch (err) {
+        console.error('Upload failed:', err);
+        setLoadingUpload(false);
       }
-
-      setLoadingUpload(false);
-    } catch (err) {
-      console.error('Upload failed:', err);
-      setLoadingUpload(false);
     }
-  }
-};
+  };
 
   React.useEffect(() => {
     if (!pathname.includes('dashboard') && adminUser?.role.includes('admin')) {
@@ -180,81 +217,145 @@ export default function AccountGeneral() {
     setVerifyLoading(true);
     ResendOTPMutate({ email: user.email });
   };
+  const deleteMyAccount = async () => {
+    try {
+      const response = await api.deleteUserByUser(); // Your API call
+
+      if (response?.success) {
+        toast.success(response.message || 'Your account was deleted successfully.', {
+          duration: 3000 // 3 second
+        });
+        setTimeout(() => {
+          window.location.reload();
+        }, 3000);
+      } else {
+        toast.error(response?.message || 'Failed to delete the user.', {
+          duration: 5000
+        });
+      }
+    } catch (error) {
+      toast.error(`An error occurred: ${error.message}`, { duration: 5000 });
+    } finally {
+      setOpen(false); // Close confirmation dialog
+    }
+  };
 
   return (
     <FormikProvider value={formik}>
       <Form autoComplete="off" noValidate onSubmit={handleSubmit}>
         <Grid container spacing={3} mt={3}>
-         { !isVendor && <Grid item sx={{
+          {!isVendor && (
+            <Grid
+              item
+              sx={{
+                width: {
+                  xs: '100%', // mobile
+                  md: '30%' // desktop
+                }
+              }}
+            >
+              <Card sx={{ py: 11.8, px: 3, textAlign: 'center' }}>
+                {isLoading || avatarLoading || loadingUpload ? (
+                  <Stack alignItems="center">
+                    <Skeleton variant="circular" width={142} height={142} />
+                    <Skeleton variant="text" width={150} sx={{ mt: 1 }} />
+                    <Skeleton variant="text" width={150} />
+                  </Stack>
+                ) : (
+                  <UploadAvatar
+                    accept="image/*"
+                    file={values.photoURL}
+                    loading={loading}
+                    maxSize={3145728}
+                    onDrop={handleDrop}
+                    error={Boolean(touched.photoURL && errors.photoURL)}
+                    caption={
+                      <>
+                        <Typography
+                          variant="caption"
+                          sx={{
+                            mt: 2,
+                            mx: 'auto',
+                            display: 'block',
+                            textAlign: 'center',
+                            color: 'text.secondary',
+                            mb: 1,
+                            position: 'relative',
+                            svg: {
+                              color: 'primary.main',
+                              position: 'absolute',
+                              top: '-123px',
+                              right: '33%',
+                              transform: 'translate(24%, -100%)'
+                            }
+                          }}
+                        >
+                          {user?.isVerified && <MdVerified size={24} />}
+                          Allowed *.jpeg, *.jpg, *.png, *.gif
+                          <br /> max size of {3145728}
+                        </Typography>
+                      </>
+                    }
+                  />
+                )}
+
+                <>
+                  {/* ...existing UI code */}
+                  <LoadingButton loading={verifyLoading} variant="text" color="error" onClick={handleOpenDeleteDialog}>
+                    Delete My Account
+                  </LoadingButton>
+
+                  {/* GDPR Delete Dialog */}
+                  <Dialog open={deleteDialogOpen} onClose={handleCloseDeleteDialog}>
+                    <DialogTitle>Delete My Account</DialogTitle>
+                    <DialogContent>
+                      <DialogContentText>
+                        Are you sure you want to delete your account? This action cannot be undone.
+                      </DialogContentText>
+                      {/* <TextField
+                        autoFocus
+                        margin="dense"
+                        label="Reason for deletion"
+                        type="text"
+                        fullWidth
+                        multiline
+                        minRows={2}
+                        value={deleteReason}
+                        onChange={(e) => setDeleteReason(e.target.value)}
+                      /> */}
+                    </DialogContent>
+                    <DialogActions>
+                      <Button onClick={handleCloseDeleteDialog}>Cancel</Button>
+                      <Button color="error" onClick={handleConfirmDelete}>
+                        Confirm Delete
+                      </Button>
+                    </DialogActions>
+                  </Dialog>
+                </>
+
+                <FormHelperText error sx={{ px: 2, textAlign: 'center' }}>
+                  {touched.photoURL && errors.photoURL}
+                </FormHelperText>
+                {isLoading || user?.isVerified ? (
+                  ''
+                ) : (
+                  <LoadingButton loading={verifyLoading} variant="text" color="primary" onClick={onVerifyAccount}>
+                    Verify Account
+                  </LoadingButton>
+                )}
+              </Card>
+            </Grid>
+          )}
+
+          <Grid
+            item
+            sx={{
               width: {
                 xs: '100%', // mobile
-                md: '30%'   // desktop
+                md: '60%' // desktop
               }
-            }}>
-            <Card sx={{ py: 11.8, px: 3, textAlign: 'center' }}>
-              {isLoading || avatarLoading || loadingUpload ? (
-                <Stack alignItems="center">
-                  <Skeleton variant="circular" width={142} height={142} />
-                  <Skeleton variant="text" width={150} sx={{ mt: 1 }} />
-                  <Skeleton variant="text" width={150} />
-                </Stack>
-              ) : (
-                <UploadAvatar
-                  accept="image/*"
-                  file={values.photoURL}
-                  loading={loading}
-                  maxSize={3145728}
-                  onDrop={handleDrop}
-                  error={Boolean(touched.photoURL && errors.photoURL)}
-                  caption={
-                    <>
-                      <Typography
-                        variant="caption"
-                        sx={{
-                          mt: 2,
-                          mx: 'auto',
-                          display: 'block',
-                          textAlign: 'center',
-                          color: 'text.secondary',
-                          mb: 1,
-                          position: 'relative',
-                          svg: {
-                            color: 'primary.main',
-                            position: 'absolute',
-                            top: '-123px',
-                            right: '33%',
-                            transform: 'translate(24%, -100%)'
-                          }
-                        }}
-                      >
-                        {user?.isVerified && <MdVerified size={24} />}
-                        Allowed *.jpeg, *.jpg, *.png, *.gif
-                        <br /> max size of {3145728}
-                      </Typography>
-                    </>
-                  }
-                />
-              )}
-
-              <FormHelperText error sx={{ px: 2, textAlign: 'center' }}>
-                {touched.photoURL && errors.photoURL}
-              </FormHelperText>
-              {isLoading || user?.isVerified ? (
-                ''
-              ) : (
-                <LoadingButton loading={verifyLoading} variant="text" color="primary" onClick={onVerifyAccount}>
-                  Verify Account
-                </LoadingButton>
-              )}
-            </Card>
-          </Grid> }
-
-          <Grid item sx={{
-              width: {
-                xs: '100%', // mobile
-                md: '60%'   // desktop
-              }
-            }}>
+            }}
+          >
             <Card
               sx={{
                 p: 3,

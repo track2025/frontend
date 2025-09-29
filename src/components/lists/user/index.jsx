@@ -79,31 +79,18 @@ export default function UserList({ ...props }) {
           </ListItemIcon>
           Admin Dashboard
         </MenuItem>
-      ) : user?.role === 'vendor' ? (
-        <MenuItem
-          onClick={() => {
-            router.push('/vendor/dashboard');
-            setOpen(false);
-          }}
-        >
-          <ListItemIcon className="menu-icon">
-            <LuLayoutDashboard />
-          </ListItemIcon>
-          Vendor Dashboard
-        </MenuItem>
       ) : (
-        !user?.role && (
+        user?.role === 'vendor' && (
           <MenuItem
             onClick={() => {
-              //router.push(isAuthenticated ? '/create-shop' : '/auth/register?redirect=/create-shop');
-              router.push('/create-shop');
+              router.push('/vendor/dashboard');
               setOpen(false);
             }}
           >
             <ListItemIcon className="menu-icon">
-              <CiShop />
+              <LuLayoutDashboard />
             </ListItemIcon>
-            Join as Photographer
+            Vendor Dashboard
           </MenuItem>
         )
       )}

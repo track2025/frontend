@@ -1,10 +1,15 @@
+import React, { useState } from 'react';
+
 import PropTypes from 'prop-types';
 import { enUS } from 'date-fns/locale';
 import { useRouter } from 'next-nprogress-bar';
+import toast from 'react-hot-toast';
 
 // mui
 import { styled } from '@mui/material/styles';
 import { Box, TableRow, Skeleton, TableCell, Typography, Stack, IconButton, Avatar, Tooltip } from '@mui/material';
+import { Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Button } from '@mui/material';
+import * as api from 'src/services';
 
 // utils
 import { fDateShort } from 'src/utils/formatTime';
@@ -13,6 +18,7 @@ import { fDateShort } from 'src/utils/formatTime';
 import { FiEye } from 'react-icons/fi';
 import { LuUser2 } from 'react-icons/lu';
 import { FaUserCheck } from 'react-icons/fa6';
+import { FaTrash } from 'react-icons/fa6';
 
 // component
 import BlurImage from 'src/components/blurImage';
@@ -43,8 +49,31 @@ const ThumbImgStyle = styled(Box)(({ theme }) => ({
   position: 'relative',
   overflow: 'hidden'
 }));
-export default function UserRow({ isLoading, row, setId, sn}) {
+export default function UserRow({ isLoading, row, setId, sn }) {
   const router = useRouter();
+  const [open, setOpen] = useState(false);
+  const handleDelete = async (slug) => {
+    try {
+      const response = await api.deleteUserByAdmin(slug); // Your API call
+
+      if (response?.success) {
+        toast.success(response.message || 'User deleted successfully.', {
+          duration: 3000 // 3 second
+        });
+        setTimeout(() => {
+          window.location.reload();
+        }, 3000);
+      } else {
+        toast.error(response?.message || 'Failed to delete the user.', {
+          duration: 5000
+        });
+      }
+    } catch (error) {
+      toast.error(`An error occurred: ${error.message}`, { duration: 5000 });
+    } finally {
+      setOpen(false); // Close confirmation dialog
+    }
+  };
   return (
     <TableRow hover key={Math.random()}>
       <TableCell>{isLoading ? <Skeleton variant="text" /> : <>{sn}</>}</TableCell>
@@ -110,6 +139,32 @@ export default function UserRow({ isLoading, row, setId, sn}) {
                   <FiEye />
                 </IconButton>
               </Tooltip>
+
+              {(row.role === 'user' || row.role === 'vendor') && (
+                <>
+                  {/* <IconButton onClick={() => router.push(`/admin/users/${row?._id}`)}>
+                    <FaTrash />
+                  </IconButton> */}
+                  <IconButton size="small" onClick={() => setOpen(true)}>
+                    <FaTrash size={16} /> {/* Reduce icon size */}
+                  </IconButton>
+
+                  <Dialog open={open} onClose={() => setOpen(false)}>
+                    <DialogTitle>Confirm Delete</DialogTitle>
+                    <DialogContent>
+                      <DialogContentText>
+                        Are you sure you want to delete this user? This action cannot be undone.
+                      </DialogContentText>
+                    </DialogContent>
+                    <DialogActions>
+                      <Button onClick={() => setOpen(false)}>Cancel</Button>
+                      <Button color="error" onClick={() => handleDelete(row?._id)}>
+                        Delete
+                      </Button>
+                    </DialogActions>
+                  </Dialog>
+                </>
+              )}
             </>
           )}
         </Stack>

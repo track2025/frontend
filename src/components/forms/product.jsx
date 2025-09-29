@@ -85,7 +85,7 @@ export default function ProductForm({
   const [currentFileIndex, setCurrentFileIndex] = useState(0);
   const [currentFileName, setCurrentFileName] = useState('');
   const [currentProcess, setCurrentProcess] = useState('');
-  console.log(shops);
+
   const ffmpegRef = useRef(null);
 
   const { mutate, isLoading: updateLoading } = useMutation(
@@ -397,7 +397,7 @@ export default function ProductForm({
       };
     });
 
-  const [orignalImage, setorignalImageValue] = useState();
+  const [orignalImage, setOrignalImageValue] = useState(currentProduct?.orignalImage || []);
 
   // 1. Enhanced File Type Detection
   const VIDEO_MIME_TYPES = [
@@ -521,11 +521,19 @@ export default function ProductForm({
       }
 
       if (uploads.length > 0) {
-        const previewUrls = uploads.map((fileObj) => fileObj.preview);
-        const originalUrls = uploads.map((fileObj) => fileObj.original);
+        //const previewUrls = uploads.map((fileObj) => fileObj.preview);
+        const previewUrls = uploads.map((fileObj) => ({
+          ...fileObj.preview,
+          original: fileObj?.original && { ...fileObj?.original }
+        }));
+        //const originalUrls = uploads.map((fileObj) => fileObj.original);
+        const originalUrls = uploads.map((fileObj) => ({
+          ...fileObj.original,
+          preview: fileObj?.preview && { ...fileObj?.preview }
+        }));
 
         setFieldValue('images', values.images.concat(previewUrls));
-        setorignalImageValue(originalUrls);
+        setOrignalImageValue((prev) => [...prev, ...originalUrls]);
       }
     } catch (err) {
       console.error('Upload failed:', err);
@@ -545,24 +553,29 @@ export default function ProductForm({
   };
 
   const handleRemoveAll = () => {
-    values.images.forEach((image) => {
-      deleteMutate(image._id);
+    values?.images?.forEach((image) => {
+      //deleteMutate(image._id);
     });
-    values.blob.forEach((b) => {
-      deleteMutate(b);
+    values?.blob?.forEach((b) => {
+      //deleteMutate(b);
     });
     setFieldValue('images', []);
     setFieldValue('blob', []);
+    setOrignalImageValue([]);
   };
 
   const handleRemove = (file) => {
-    const removeImage = values.images.filter((_file) => {
-      if (_file._id === file._id) {
-        deleteMutate(file._id);
-      }
-      return _file !== file;
-    });
-    setFieldValue('images', removeImage);
+    // Find index of the preview image in values.images
+    const index = values.images.findIndex((img) => img === file);
+
+    if (index !== -1) {
+      // Remove from preview images
+      const newImages = values.images.filter((_, i) => i !== index);
+      setFieldValue('images', newImages);
+
+      // Remove the corresponding original image
+      setOrignalImageValue((prev) => prev?.filter((_, i) => i !== index) || []);
+    }
   };
 
   const handleTitleChange = (event) => {
@@ -692,10 +705,9 @@ export default function ProductForm({
                                   freeSolo
                                   id="category-select"
                                   options={
-                                    categories?.map((category) => ({
-                                      id: category._id,
-                                      label: category.name
-                                    })) || []
+                                    categories
+                                      ?.map((category) => ({ id: category._id, label: category.name }))
+                                      .sort((a, b) => a.label.localeCompare(b.label)) || []
                                   }
                                   value={
                                     values.category
@@ -708,10 +720,8 @@ export default function ProductForm({
                                   }
                                   onInputChange={(event, newInputValue) => {
                                     if (typeof newInputValue === 'string') {
-                                      // Handle free text input
                                       setFieldValue('category', newInputValue);
                                     } else if (newInputValue && newInputValue.id) {
-                                      // Handle selection from dropdown
                                       setFieldValue('category', newInputValue.id);
                                     } else {
                                       setFieldValue('category', '');
@@ -756,22 +766,17 @@ export default function ProductForm({
                                   freeSolo
                                   onChange={(event, newValue) => {
                                     if (typeof newValue === 'string') {
-                                      // Handle free text input
                                       setFieldValue('subCategory', newValue);
                                     } else if (newValue && newValue.id) {
-                                      // Handle selection from dropdown
                                       setFieldValue('subCategory', newValue.id);
                                     } else {
-                                      // Handle clear/empty case
                                       setFieldValue('subCategory', '');
                                     }
                                   }}
                                   onInputChange={(event, newInputValue) => {
                                     if (typeof newInputValue === 'string') {
-                                      // Handle free text input
                                       setFieldValue('subCategory', newInputValue);
                                     } else if (newInputValue && newInputValue.id) {
-                                      // Handle selection from dropdown
                                       setFieldValue('subCategory', newInputValue.id);
                                     } else {
                                       setFieldValue('subCategory', '');
@@ -779,12 +784,11 @@ export default function ProductForm({
                                   }}
                                   id="subCategory-select"
                                   options={
-                                    categories
-                                      .find((v) => v._id.toString() === values.category)
-                                      ?.subCategories?.map((subCategory) => ({
-                                        id: subCategory._id,
-                                        label: subCategory.name
-                                      })) || []
+                                    (
+                                      categories?.find((v) => v._id?.toString() === values.category) || null
+                                    )?.subCategories
+                                      ?.map((subCategory) => ({ id: subCategory._id, label: subCategory.name }))
+                                      .sort((a, b) => a.label.localeCompare(b.label)) || []
                                   }
                                   value={
                                     values.subCategory
@@ -792,9 +796,9 @@ export default function ProductForm({
                                           id: values.subCategory,
                                           label:
                                             categories
-                                              .find((v) => v._id.toString() === values.category)
-                                              ?.subCategories?.find((s) => s._id === values.subCategory)?.name ||
-                                            values.subCategory
+                                              ?.find((v) => v._id.toString() === values?.category)
+                                              ?.subCategories?.find((s) => s._id === values?.subCategory)?.name ||
+                                            values?.subCategory
                                         }
                                       : null
                                   }
@@ -839,10 +843,9 @@ export default function ProductForm({
                               freeSolo
                               id="location-select"
                               options={
-                                brands?.map((brand) => ({
-                                  id: brand._id,
-                                  label: brand.name
-                                })) || []
+                                brands
+                                  ?.map((brand) => ({ id: brand._id, label: brand.name }))
+                                  .sort((a, b) => a.label.localeCompare(b.label)) || []
                               }
                               value={
                                 values.brand
@@ -857,7 +860,6 @@ export default function ProductForm({
                                 setFieldValue('brand', newValueId);
                               }}
                               onInputChange={(event, newInputValue, reason) => {
-                                // Handles free typing
                                 if (reason === 'input') {
                                   setFieldValue('brand', newInputValue);
                                 }
@@ -930,62 +932,65 @@ export default function ProductForm({
                             }
                           }}
                         >
-                          <div>
-                            <LabelStyle component={'label'} htmlFor="product-image">
-                              {'Pictures/Videos'} <span></span>
-                            </LabelStyle>
-                            <Box sx={{ position: 'relative' }}>
-                              {isUploading && (
-                                <Backdrop
-                                  open={true}
-                                  sx={{
-                                    position: 'absolute',
-                                    top: 0,
-                                    left: 0,
-                                    right: 0,
-                                    bottom: 0,
-                                    zIndex: 10,
-                                    display: 'flex',
-                                    flexDirection: 'column',
-                                    alignItems: 'center',
-                                    justifyContent: 'center',
-                                    backgroundColor: 'rgba(0,0,0,0.5)',
-                                    borderRadius: 1
-                                  }}
-                                >
-                                  <CircularProgress color="inherit" />
-                                  <Typography variant="body2" sx={{ mt: 2, color: 'common.white' }}>
-                                    {currentProcess}: {currentFileName} ({currentFileIndex}/{values.blob?.length || 0})
-                                  </Typography>
-                                  <Typography variant="body2" sx={{ mt: 1, color: 'common.white' }}>
-                                    Progress: {Math.round(uploadProgress)}%
-                                  </Typography>
-                                </Backdrop>
+                          {!currentProduct && (
+                            <div>
+                              <LabelStyle component={'label'} htmlFor="product-image">
+                                {'Pictures/Videos'} <span></span>
+                              </LabelStyle>
+                              <Box sx={{ position: 'relative' }}>
+                                {isUploading && (
+                                  <Backdrop
+                                    open={true}
+                                    sx={{
+                                      position: 'absolute',
+                                      top: 0,
+                                      left: 0,
+                                      right: 0,
+                                      bottom: 0,
+                                      zIndex: 10,
+                                      display: 'flex',
+                                      flexDirection: 'column',
+                                      alignItems: 'center',
+                                      justifyContent: 'center',
+                                      backgroundColor: 'rgba(0,0,0,0.5)',
+                                      borderRadius: 1
+                                    }}
+                                  >
+                                    <CircularProgress color="inherit" />
+                                    <Typography variant="body2" sx={{ mt: 2, color: 'common.white' }}>
+                                      {currentProcess}: {currentFileName} ({currentFileIndex}/{values.blob?.length || 0}
+                                      )
+                                    </Typography>
+                                    <Typography variant="body2" sx={{ mt: 1, color: 'common.white' }}>
+                                      Progress: {Math.round(uploadProgress)}%
+                                    </Typography>
+                                  </Backdrop>
+                                )}
+                                <UploadMultiFile
+                                  id="product-image"
+                                  showPreview
+                                  maxSize={20971520} // 20MB in bytes (20 * 1024 * 1024)
+                                  maxFiles={100}
+                                  files={values?.images}
+                                  loading={loading}
+                                  onDrop={handleDrop}
+                                  onRemove={handleRemove}
+                                  onRemoveAll={handleRemoveAll}
+                                  blob={values.blob}
+                                  error={Boolean(touched.images && errors.images)}
+                                  isUploading={isUploading}
+                                  uploadProgress={uploadProgress}
+                                  currentFileName={currentFileName}
+                                  currentProcess={currentProcess}
+                                />
+                              </Box>
+                              {touched.images && errors.images && (
+                                <FormHelperText error sx={{ px: 2 }}>
+                                  {touched.images && errors.images}
+                                </FormHelperText>
                               )}
-                              <UploadMultiFile
-                                id="product-image"
-                                showPreview
-                                maxSize={20971520} // 20MB in bytes (20 * 1024 * 1024)
-                                maxFiles={100}
-                                files={values?.images}
-                                loading={loading}
-                                onDrop={handleDrop}
-                                onRemove={handleRemove}
-                                onRemoveAll={handleRemoveAll}
-                                blob={values.blob}
-                                error={Boolean(touched.images && errors.images)}
-                                isUploading={isUploading}
-                                uploadProgress={uploadProgress}
-                                currentFileName={currentFileName}
-                                currentProcess={currentProcess}
-                              />
-                            </Box>
-                            {touched.images && errors.images && (
-                              <FormHelperText error sx={{ px: 2 }}>
-                                {touched.images && errors.images}
-                              </FormHelperText>
-                            )}
-                          </div>
+                            </div>
+                          )}
                         </Grid>
                       </Grid>
                     </div>

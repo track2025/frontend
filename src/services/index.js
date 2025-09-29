@@ -65,6 +65,16 @@ export const deleteBrandByAdmin = async (slug) => {
   return data;
 };
 
+export const deleteUserByUser = async () => {
+  const { data } = await http.delete(`/users/profile`);
+  return data;
+};
+
+export const deleteUserByAdmin = async (slug) => {
+  const { data } = await http.delete(`/admin/users/${slug}`);
+  return data;
+};
+
 export const getCategoriesByAdmin = async (page, search) => {
   const { data } = await http.get(`/admin/categories?search=${search}&page=${page}`);
   return data;
@@ -549,6 +559,11 @@ export const paymentIntents = async (amount, currency) => {
     amount,
     currency
   });
+  return data;
+};
+
+export const getTrustPaymentSession = async (amount, currency) => {
+  const { data } = await http.get(`/trust/session`);
   return data;
 };
 

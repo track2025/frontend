@@ -32,7 +32,9 @@ export default function AdminProducts({ brands, categories, shops, isVendor }) {
     () => api[isVendor ? 'getVendorProducts' : 'getProductsByAdmin'](searchParams.toString()),
     {
       onError: (err) =>
-        toast.error(err.response.data.message || 'We ran into an issue. Please refresh the page or try again.')
+        toast.error(
+          err?.message || err?.response?.data?.message || 'We ran into an issue. Please refresh the page or try again.'
+        )
     }
   );
 
@@ -63,7 +65,7 @@ export default function AdminProducts({ brands, categories, shops, isVendor }) {
       </Stack>
       <Table
         headData={TABLE_HEAD}
-        data={data}
+        data={data ?? { success: true, data: [], total: 0, count: 0, currentPage: 1 }}
         isLoading={isLoading}
         row={Product}
         handleClickOpen={handleClickOpen}
@@ -99,5 +101,5 @@ export default function AdminProducts({ brands, categories, shops, isVendor }) {
 AdminProducts.propTypes = {
   brands: PropTypes.array.isRequired,
   categories: PropTypes.array.isRequired,
-  isVendor: PropTypes.boolean
+  isVendor: PropTypes.bool
 };

@@ -98,13 +98,13 @@ export default function VerifyOTPForm() {
 
       user?.role == 'vendor'
         ? toast.success(
-            'Your photographer account is now under review. Please log in again to access your dashboard. You will be redirected to the login page to continue.',
+            'Your photographer account is now under review. You will not be able to post until your account is approved. Please log in again to access your dashboard. You will be redirected to the login page to continue.',
             {
-              autoClose: 10000 // 10 seconds
+              duration: 10000 // 10 seconds
             }
           )
         : toast.success('OTP verified successfully!', {
-            autoClose: 10000 // 10 seconds
+            duration: 10000 // 10 seconds
           });
 
       router.push(redirect || '/');

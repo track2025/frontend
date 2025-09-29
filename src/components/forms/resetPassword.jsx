@@ -34,9 +34,10 @@ export default function ResetPasswordForm({ ...props }) {
       toast.success('✅ Your password has been updated successfully!');
     },
     onError: (err) => {
-      const message = JSON.stringify(err.response.data.message);
       setloading(false);
-      toast.error(message || 'Password reset failed. Please check your details and try again.');
+      toast.error(err?.message);
+      const message = JSON.stringify(err.response.data.message);
+      toast.error(err?.message || message || 'Password reset failed. Please check your details and try again.');
     }
   });
 

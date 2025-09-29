@@ -34,7 +34,6 @@ import * as api from 'src/services';
 import countries from 'src/components/_main/checkout/countries.json';
 import uploadToSpaces from 'src/utils/upload';
 
-
 AdminShopForm.propTypes = {
   data: PropTypes.object,
   isLoading: PropTypes.bool
@@ -85,15 +84,15 @@ export default function AdminShopForm({ data: currentShop, isLoading: shopLoadin
   const ShopSettingScema = Yup.object().shape({
     username: Yup.string().required('username is required'),
     cover: Yup.mixed().required('Cover is required'),
-    logo: Yup.mixed().required('logo is required'),
+    logo: Yup.mixed().required('logo is required')
     // description: Yup.string().required('Description is required'),
-    phone: Yup.string().required('Phone Number is required'),
-    paymentInfo: Yup.object().shape({
-      holderName: Yup.string().required('Holder Name is required'),
-      holderEmail: Yup.string().required('Holder email is required'),
-      // bankName: Yup.string().required('Bank name is required'),
-      // AccountNo: Yup.number().required('Account No is required')
-    })
+    //phone: Yup.string().required('Phone Number is required')
+    //paymentInfo: Yup.object().shape({
+    // holderName: Yup.string().required('Holder Name is required'),
+    // holderEmail: Yup.string().required('Holder email is required'),
+    // bankName: Yup.string().required('Bank name is required'),
+    // AccountNo: Yup.number().required('Account No is required')
+    //})
   });
   const formik = useFormik({
     initialValues: {
@@ -113,20 +112,20 @@ export default function AdminShopForm({ data: currentShop, isLoading: shopLoadin
       }),
       fileLogo: currentShop?.logo || '',
       fileCover: currentShop?.cover || '',
-      slug: currentShop?.slug || '',
-      phone: currentShop?.phone || Number,
-      paymentInfo: {
-        holderName: currentShop?.paymentInfo?.holderName || '',
-        holderEmail: currentShop?.paymentInfo?.holderEmail || '',
-        bankName: currentShop?.paymentInfo?.bankName || '',
-        AccountNo: currentShop?.paymentInfo?.AccountNo || Number
-      },
-      address: {
-        country: currentShop?.address?.country || 'Andorra',
-        city: currentShop?.address?.city || '',
-        state: currentShop?.address?.state || '',
-        streetAddress: currentShop?.address?.streetAddress || ''
-      }
+      slug: currentShop?.slug || ''
+      //phone: currentShop?.phone || Number,
+      // paymentInfo: {
+      //   holderName: currentShop?.paymentInfo?.holderName || '',
+      //   holderEmail: currentShop?.paymentInfo?.holderEmail || '',
+      //   bankName: currentShop?.paymentInfo?.bankName || '',
+      //   AccountNo: currentShop?.paymentInfo?.AccountNo || Number
+      // },
+      // address: {
+      //   country: currentShop?.address?.country || 'Andorra',
+      //   city: currentShop?.address?.city || '',
+      //   state: currentShop?.address?.state || '',
+      //   streetAddress: currentShop?.address?.streetAddress || ''
+      // }
     },
     enableReinitialize: true,
     validationSchema: ShopSettingScema,
@@ -225,12 +224,15 @@ export default function AdminShopForm({ data: currentShop, isLoading: shopLoadin
       <FormikProvider value={formik}>
         <Form noValidate autoComplete="off" onSubmit={handleSubmit}>
           <Grid container spacing={2}>
-            <Grid item sx={{
-              width: {
-                xs: '100%', // mobile
-                md: '60%'   // desktop
-              }
-            }} >
+            <Grid
+              item
+              sx={{
+                width: {
+                  xs: '100%', // mobile
+                  md: '60%' // desktop
+                }
+              }}
+            >
               <Card sx={{ p: 3 }}>
                 <Stack direction="row" spacing={3} flexGrow="wrap">
                   <Box sx={{ width: '100%' }}>
@@ -257,10 +259,8 @@ export default function AdminShopForm({ data: currentShop, isLoading: shopLoadin
                       )}
                     </div>
                   </Box>
-                  
                 </Stack>
                 <Stack direction="row" spacing={3} flexGrow="wrap">
-                  
                   <Box sx={{ width: '100%' }}>
                     {shopLoading ? (
                       <Skeleton variant="text" width={100} />
@@ -285,48 +285,43 @@ export default function AdminShopForm({ data: currentShop, isLoading: shopLoadin
                     )}
                   </Box>
                 </Stack>
-                <Stack mt={3} spacing={3} direction="row" flexGrow="wrap">
-                  
-                  
-                </Stack>
-
+                <Stack mt={3} spacing={3} direction="row" flexGrow="wrap"></Stack>
                 <Box sx={{ width: '100%' }}>
-                    <Stack direction="row" justifyContent="space-between">
-                      {shopLoading ? (
-                        <Skeleton variant="text" width={150} />
-                      ) : (
-                        <LabelStyle variant="body1" component={'label'} color="text.primary">
-                          Logo
-                        </LabelStyle>
-                      )}
-                      {shopLoading ? (
-                        <Skeleton variant="text" width={150} />
-                      ) : (
-                        <LabelStyle component={'label'} htmlFor="file">
-                          <span></span>
-                        </LabelStyle>
-                      )}
-                    </Stack>
+                  <Stack direction="row" justifyContent="space-between">
                     {shopLoading ? (
-                      <Skeleton variant="rectangular" width="100%" height={225} />
+                      <Skeleton variant="text" width={150} />
                     ) : (
-                      <UploadSingleFile
-                        id="fileLogo"
-                        file={values.logo}
-                        onDrop={handleDropLogo}
-                        error={Boolean(touched.logo && errors.logo)}
-                        category
-                        accept="image/*"
-                        loading={state.logoLoading}
-                      />
+                      <LabelStyle variant="body1" component={'label'} color="text.primary">
+                        Logo
+                      </LabelStyle>
                     )}
-                    {touched.logo && errors.logo && (
-                      <FormHelperText error sx={{ px: 2, mx: 0 }}>
-                        {touched.logo && errors.logo}
-                      </FormHelperText>
+                    {shopLoading ? (
+                      <Skeleton variant="text" width={150} />
+                    ) : (
+                      <LabelStyle component={'label'} htmlFor="file">
+                        <span></span>
+                      </LabelStyle>
                     )}
-                  </Box>
-                  
+                  </Stack>
+                  {shopLoading ? (
+                    <Skeleton variant="rectangular" width="100%" height={225} />
+                  ) : (
+                    <UploadSingleFile
+                      id="fileLogo"
+                      file={values.logo}
+                      onDrop={handleDropLogo}
+                      error={Boolean(touched.logo && errors.logo)}
+                      category
+                      accept="image/*"
+                      loading={state.logoLoading}
+                    />
+                  )}
+                  {touched.logo && errors.logo && (
+                    <FormHelperText error sx={{ px: 2, mx: 0 }}>
+                      {touched.logo && errors.logo}
+                    </FormHelperText>
+                  )}
+                </Box>
                 <Box mt={3}>
                   <Stack direction="row" justifyContent="space-between">
                     {shopLoading ? (
@@ -365,12 +360,15 @@ export default function AdminShopForm({ data: currentShop, isLoading: shopLoadin
                 </Box>{' '}
               </Card>
             </Grid>
-            <Grid item sx={{
-              width: {
-                xs: '100%', // mobile
-                md: '30%'   // desktop
-              }
-            }}>
+            <Grid
+              item
+              sx={{
+                width: {
+                  xs: '100%', // mobile
+                  md: '30%' // desktop
+                }
+              }}
+            >
               <div
                 style={{
                   position: '-webkit-sticky',
@@ -381,7 +379,7 @@ export default function AdminShopForm({ data: currentShop, isLoading: shopLoadin
                 <Stack spacing={3}>
                   <Card sx={{ p: 3 }}>
                     <Stack spacing={2}>
-                      <div>
+                      {/* <div>
                         {shopLoading ? (
                           <Skeleton variant="text" width={150} />
                         ) : (
@@ -480,7 +478,7 @@ export default function AdminShopForm({ data: currentShop, isLoading: shopLoadin
                             helperText={touched.phone && errors.phone}
                           />
                         )}
-                      </div>
+                      </div> */}
                       {/* <div>
                         {shopLoading ? (
                           <Skeleton variant="text" width={150} />

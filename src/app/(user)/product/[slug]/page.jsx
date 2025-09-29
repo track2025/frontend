@@ -16,8 +16,7 @@ import HeaderBreadcrumbs from 'src/components/headerBreadcrumbs';
 import * as api from 'src/services';
 
 export const revalidate = 10;
-export const dynamic = 'error';
-
+export const dynamic = 'force-dynamic';
 export async function generateStaticParams() {
   const { data } = await api.getProductSlugs();
   return data?.map((product) => {
@@ -31,10 +30,10 @@ export async function generateMetadata({ params }) {
   const { data: response } = await api.getProductDetails(params.slug);
 
   return {
-    title: (response?.name || '') + " " + (response?.location || ''),
-    description: (response?.name || '') + " " + (response?.location || ''),
-    keywords: (response?.name || '') + " " + (response?.location || ''),
-    title: (response?.name || '') + " " + (response?.location || ''),
+    title: (response?.name || '') + ' ' + (response?.location || ''),
+    description: (response?.name || '') + ' ' + (response?.location || ''),
+    keywords: (response?.name || '') + ' ' + (response?.location || ''),
+    title: (response?.name || '') + ' ' + (response?.location || ''),
     openGraph: {
       images: response?.images.map((v) => v.url)
     }
@@ -44,7 +43,7 @@ export async function generateMetadata({ params }) {
 export default async function ProductDetail({ params: { slug } }) {
   const response = await api.getProductDetails(slug);
 
-  const { data, totalRating, totalReviews, brand, category } = response;
+  const { data, totalRating, totalReviews, brand, category, shopDetails } = response;
 
   return (
     <Box>
@@ -66,20 +65,20 @@ export default async function ProductDetail({ params: { slug } }) {
               }
             ]}
           />
-          <Grid container  justifyContent="center" className="w-100 row ">
-       
-
-            <Grid item  className="col-md-8 col-sm-12  ">
+          <Grid container justifyContent="center" className="w-100 row ">
+            <Grid item className="col-md-8 col-sm-12  ">
               <ProductDetailsCarousel slug={slug} product={data} data={data} />
             </Grid>
             <Grid item className="col-md-4 h-100  col-sm-12">
-              <ProductDetailsSumary className="h-100"
+              <ProductDetailsSumary
+                className="h-100"
                 id={data?._id}
                 product={data}
                 brand={brand}
                 category={category}
                 totalRating={totalRating}
                 totalReviews={totalReviews}
+                shopDetails={shopDetails}
               />
             </Grid>
           </Grid>

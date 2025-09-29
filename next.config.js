@@ -26,7 +26,8 @@ const nextConfig = {
       'res.cloudinary.com',
       'shouttymedia.nyc3.digitaloceanspaces.com',
       'nyc3.digitaloceanspaces.com',
-      'placehold.co'
+      'placehold.co',
+      'lapsnaps.com'
     ]
   }
 };

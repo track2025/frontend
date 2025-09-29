@@ -4,6 +4,8 @@ import { useState, useEffect } from 'react';
 import { toast } from 'react-hot-toast';
 import { FacebookShareButton, TwitterShareButton, LinkedinShareButton, WhatsappShareButton } from 'next-share';
 import { useRouter } from 'next-nprogress-bar';
+import Avatar from '@mui/material/Avatar';
+
 import PropTypes from 'prop-types';
 // mui
 import {
@@ -33,6 +35,7 @@ import { addCart } from 'src/redux/slices/product';
 // api
 import * as api from 'src/services';
 import { useMutation } from 'react-query';
+import Link from "next/link";
 // styles
 import RootStyled from './styled';
 // components
@@ -104,7 +107,7 @@ Incrementer.propTypes = {
   available: PropTypes.number.isRequired
 };
 export default function ProductDetailsSumary({ ...props }) {
-  const { product, isLoading, totalRating, brand, category, id } = props;
+  const { product, isLoading, totalRating, brand, category, id, shopDetails } = props;
   const cCurrency = useCurrencyConvert();
   const fCurrency = useCurrencyFormatter();
   const { isAuthenticated } = useSelector(({ user }) => user);
@@ -235,26 +238,31 @@ export default function ProductDetailsSumary({ ...props }) {
                 </Typography>
 
                 <Stack spacing={1} mt={1} mb={3}>
-                  <Stack direction="row" alignItems="center" justifyContent="space-between" spacing={1}>
-                    <Stack direction="row" alignItems="center" className="rating-wrapper" spacing={1}>
-                      <Rating value={totalRating} precision={0.1} size="small" readOnly />
-                      <Typography variant="subtitle2" color="text.secondary">
-                        ({totalRating?.toFixed(1)})
-                      </Typography>
-                    </Stack>
-                    <Stack direction="row" alignItems="center" spacing={1} color="text.secondary">
-                      {/* <TbMessage size={18} /> */}
-                      <Typography variant="subtitle2" color="text.secondary">
-                        {product?.reviews?.length}{' '}
-                        {/* <span>{Number(product?.reviews?.length) > 1 ? 'Reviews' : 'Review'}</span> */}
-                      </Typography>
-                    </Stack>
-                  </Stack>
                   <Stack direction="row" alignItems="center" spacing={1} mt={1.5}>
                     <Typography variant="subtitle1">Location:</Typography>
                     <Typography variant="subtitle1" color="text.secondary" fontWeight={400}>
                       {product?.location || brand?.name || 'Lap Snaps'}
                     </Typography>
+                  </Stack>
+
+                  <Stack spacing={1} mt={1.5}>
+                                <Link 
+              href={`/photographers/${shopDetails?.[0]?.username}`} 
+              style={{ textDecoration: "none", color: "inherit" }}
+>
+                    <Stack direction="row" spacing={1} alignItems="center">
+                      <Avatar
+                        src={shopDetails?.[0]?.logo?.url}
+                        alt={shopDetails?.[0]?.username}
+                        sx={{ width: 40, height: 40 }}
+                      >
+                        {shopDetails?.[0]?.username?.[0]?.toUpperCase() || 'S'}
+                      </Avatar>
+                      <Typography variant="body" fontWeight={500}>
+                        {shopDetails?.[0]?.username}
+                        <Typography variant="body2">Photographer</Typography>
+                      </Typography>
+                    </Stack></Link>
                   </Stack>
                   {category?.name && (
                     <Stack direction="row" alignItems="center" spacing={1}>

@@ -49,14 +49,6 @@ export default function UserTopbar() {
         </Stack>
         <Stack direction="row" alignItems="center" spacing={1}>
           <UserSelect />
-          {!isAuthenticated && (
-            <>
-              <Divider orientation="vertical" flexItem />
-              <Link component={NextLink} href={'/create-shop'} sx={{ color: 'text.primary', fontSize: 14 }}>
-                Join as Photographer
-              </Link>
-            </>
-          )}
         </Stack>
       </Toolbar>
     </Container>

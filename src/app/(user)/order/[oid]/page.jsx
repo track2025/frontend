@@ -1,13 +1,9 @@
 import React from 'react';
-
-// mui
 import { Container, Typography, Box, Grid, Stack } from '@mui/material';
-
-// components
 import OrderDetails from 'src/components/_main/orders/orderDetails';
 import TableCard from 'src/components/table/order';
+import { notFound } from 'next/navigation';
 
-// Meta information
 export const metadata = {
   title: 'Order Confirmation | Lap Snaps - Your Order Has Been Successfully Placed',
   description:
@@ -20,18 +16,26 @@ export const metadata = {
 
 export default async function OrderMain({ params }) {
   const { oid } = params;
-  const response = await fetch(process.env.BASE_URL + '/api/orders/' + oid).then((res) => res.json());
-  if (!response) {
+  let data;
+  try {
+    const response = await fetch(process.env.BASE_URL + '/api/orders/' + oid);
+    if (!response.ok) {
+      notFound();
+    }
+    const json = await response.json();
+    data = json.data;
+  } catch (error) {
     notFound();
   }
-  const { data } = response;
+
   return (
     <Box>
       <Container maxWidth="xl">
         <Stack spacing={1} textAlign="center" mt={8} mb={5} justifyContent="center" alignItems="center">
           <Typography variant="h3">Thank you for your purchase!</Typography>
           <Typography variant="subtitle1" color="text.secondary" sx={{ maxWidth: 600 }}>
-            Thank you for your purchase. We truly value your business and are committed to providing outstanding service. You can download your order using the link below or the one sent to your email.
+            Thank you for your purchase. We truly value your business and are committed to providing outstanding
+            service. You can download your order using the link below or the one sent to your email.
           </Typography>
           <Typography
             variant="subtitle1"
@@ -47,20 +51,26 @@ export default async function OrderMain({ params }) {
         </Stack>
 
         <Grid container direction={{ xs: 'row', md: 'row-reverse' }} spacing={2}>
-          <Grid item sx={{
+          <Grid
+            item
+            sx={{
               width: {
-                xs: '100%', // mobile
-                md: '30%'   // desktop
+                xs: '100%',
+                md: '30%'
               }
-            }}>
+            }}
+          >
             <OrderDetails data={data} isLoading={false} currency={'$'} />
           </Grid>
-          <Grid item sx={{
+          <Grid
+            item
+            sx={{
               width: {
-                xs: '100%', // mobile
-                md: '60%'   // desktop
+                xs: '100%',
+                md: '60%'
               }
-            }}>
+            }}
+          >
             <TableCard data={data} isLoading={false} />
           </Grid>
         </Grid>
