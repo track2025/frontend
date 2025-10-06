@@ -27,6 +27,8 @@ import {
   FormControl,
   FormLabel
 } from '@mui/material';
+import Cropper from 'react-easy-crop';
+import { Dialog, DialogContent, DialogActions, Button } from '@mui/material';
 import UploadSingleFile from 'src/components/upload/UploadSingleFile';
 import countries from 'src/components/_main/checkout/countries.json';
 import { useQuery } from 'react-query';
@@ -250,27 +252,78 @@ export default function RegisterForm() {
     }
   };
 
-  const handleDropCover = async (acceptedFiles) => {
+  const [cropModalOpen, setCropModalOpen] = useState(false);
+  const [crop, setCrop] = useState({ x: 0, y: 0 });
+  const [zoom, setZoom] = useState(1);
+  const [croppedAreaPixels, setCroppedAreaPixels] = useState(null);
+  const [imageSrc, setImageSrc] = useState(null);
+
+  function getCroppedImg(imageSrc, croppedAreaPixels) {
+    return new Promise((resolve, reject) => {
+      const image = new Image();
+      image.src = imageSrc;
+      image.onload = () => {
+        const canvas = document.createElement('canvas');
+        canvas.width = croppedAreaPixels.width;
+        canvas.height = croppedAreaPixels.height;
+        const ctx = canvas.getContext('2d');
+
+        ctx.drawImage(
+          image,
+          croppedAreaPixels.x,
+          croppedAreaPixels.y,
+          croppedAreaPixels.width,
+          croppedAreaPixels.height,
+          0,
+          0,
+          croppedAreaPixels.width,
+          croppedAreaPixels.height
+        );
+
+        canvas.toBlob((blob) => {
+          if (!blob) {
+            reject(new Error('Canvas is empty'));
+            return;
+          }
+          blob.name = 'cropped.jpeg';
+          resolve(new File([blob], 'cropped.jpeg', { type: 'image/jpeg' }));
+        }, 'image/jpeg');
+      };
+      image.onerror = reject;
+    });
+  }
+
+  const handleDropCover = (acceptedFiles) => {
     setState({ ...state, loading: 2 });
     const file = acceptedFiles[0];
-    if (file) {
-      Object.assign(file, {
-        preview: URL.createObjectURL(file)
-      });
-    }
-    setFieldValue('file', file);
-    try {
-      const uploaded = await uploadToSpaces(file, (progress) => {
-        setState({ ...state, loading: progress });
-      });
+    if (!file) return;
 
-      setFieldValue('cover', uploaded);
-      setState({ ...state, loading: false });
-    } catch (err) {
-      console.error('Upload failed:', err);
-      setState({ ...state, loading: false });
-    }
+    const preview = URL.createObjectURL(file);
+    setImageSrc(preview);
+    setCropModalOpen(true); // open cropper instead of uploading immediately
   };
+
+  // const handleDropCover = async (acceptedFiles) => {
+  //   setState({ ...state, loading: 2 });
+  //   const file = acceptedFiles[0];
+  //   if (file) {
+  //     Object.assign(file, {
+  //       preview: URL.createObjectURL(file)
+  //     });
+  //   }
+  //   setFieldValue('file', file);
+  //   try {
+  //     const uploaded = await uploadToSpaces(file, (progress) => {
+  //       setState({ ...state, loading: progress });
+  //     });
+
+  //     setFieldValue('cover', uploaded);
+  //     setState({ ...state, loading: false });
+  //   } catch (err) {
+  //     console.error('Upload failed:', err);
+  //     setState({ ...state, loading: false });
+  //   }
+  // };
 
   const handleTitleChange = (event) => {
     const title = event.target.value;
@@ -283,261 +336,321 @@ export default function RegisterForm() {
   };
 
   return (
-    <Box position="relative">
-      <FormikProvider value={formik}>
-        <Form noValidate autoComplete="off" onSubmit={handleSubmit}>
-          <Grid container justifyContent="center">
-            <Grid item xs={12} md={8} lg={6}>
-              {/* User Type Selection */}
-              <FormControl component="fieldset" sx={{ mb: 4, width: '100%' }}>
-                <FormLabel component="legend" sx={{ mb: 2, fontWeight: 'bold' }}>
-                  I want to register as a:
-                </FormLabel>
-                <RadioGroup
-                  row
-                  value={userType}
-                  onChange={(e) => setUserType(e.target.value)}
-                  sx={{ justifyContent: 'center' }}
-                >
-                  <FormControlLabel
-                    value="photographer"
-                    control={<Radio color="primary" />}
-                    label="Photographer"
-                    sx={{ mr: 4 }}
-                  />
-                  <FormControlLabel value="user" control={<Radio color="primary" />} label="User" />
-                </RadioGroup>
-              </FormControl>
+    <>
+      <Dialog open={cropModalOpen} onClose={() => setCropModalOpen(false)} maxWidth="md" fullWidth>
+        <DialogContent sx={{ position: 'relative', height: 400, background: '#333' }}>
+          {imageSrc && (
+            <Cropper
+              image={imageSrc}
+              crop={crop}
+              zoom={zoom}
+              aspect={5 / 1} // enforce 5:1 ratio
+              onCropChange={setCrop}
+              onZoomChange={setZoom}
+              onCropComplete={(croppedArea, croppedAreaPixels) => {
+                setCroppedAreaPixels(croppedAreaPixels);
+              }}
+            />
+          )}
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={() => setCropModalOpen(false)}>Cancel</Button>
+          <Button
+            variant="contained"
+            onClick={async () => {
+              try {
+                const croppedFile = await getCroppedImg(imageSrc, croppedAreaPixels);
 
-              {/* Common Fields */}
-              <Stack direction={{ xs: 'column', sm: 'row' }} spacing={2}>
-                <Stack gap={0.5} width={1}>
-                  <LabelStyle color="text.primary" htmlFor="firstName" component={'label'}>
-                    First Name
-                  </LabelStyle>
-                  <TextField
-                    id="firstName"
-                    fullWidth
-                    type="text"
-                    {...getFieldProps('firstName')}
-                    error={Boolean(touched.firstName && errors.firstName)}
-                    helperText={touched.firstName && errors.firstName}
-                    InputProps={{
-                      startAdornment: (
-                        <InputAdornment position="start">
-                          <IoPerson size={24} />
-                        </InputAdornment>
-                      )
-                    }}
-                  />
-                </Stack>
-                <Stack gap={0.5} width={1}>
-                  <LabelStyle color="text.primary" htmlFor="lastName" component={'label'}>
-                    Last Name
-                  </LabelStyle>
-                  <TextField
-                    fullWidth
-                    id="lastName"
-                    type="text"
-                    {...getFieldProps('lastName')}
-                    error={Boolean(touched.lastName && errors.lastName)}
-                    helperText={touched.lastName && errors.lastName}
-                    InputProps={{
-                      startAdornment: (
-                        <InputAdornment position="start">
-                          <IoPerson size={24} />
-                        </InputAdornment>
-                      )
-                    }}
-                  />
-                </Stack>
-              </Stack>
+                //setFieldValue('file', file);
+                //   try {
+                //     const uploaded = await uploadToSpaces(file, (progress) => {
+                //       setState({ ...state, loading: progress });
+                //     });
 
-              <Stack mt={3} spacing={2} width={1}>
-                <LabelStyle color="text.primary" htmlFor="email" component={'label'}>
-                  Email
-                </LabelStyle>
-                <TextField
-                  id="email"
-                  fullWidth
-                  autoComplete="username"
-                  type="email"
-                  {...getFieldProps('email')}
-                  error={Boolean(touched.email && errors.email)}
-                  helperText={touched.email && errors.email}
-                  InputProps={{
-                    startAdornment: (
-                      <InputAdornment position="start">
-                        <IoMdMail size={24} />
-                      </InputAdornment>
-                    )
-                  }}
-                />
-              </Stack>
+                //     setFieldValue('cover', uploaded);
+                //     setState({ ...state, loading: false });
+                //   }
 
-              <Stack mt={3} spacing={2} width={1}>
-                <LabelStyle color="text.primary" htmlFor="password" component={'label'}>
-                  Password
-                </LabelStyle>
-                <TextField
-                  id="password"
-                  fullWidth
-                  autoComplete="current-password"
-                  type={showPassword ? 'text' : 'password'}
-                  {...getFieldProps('password')}
-                  InputProps={{
-                    startAdornment: (
-                      <InputAdornment position="start">
-                        <MdLock size={24} />
-                      </InputAdornment>
-                    ),
-                    endAdornment: (
-                      <InputAdornment position="end">
-                        <IconButton edge="end" onClick={() => setShowPassword((prev) => !prev)}>
-                          {showPassword ? <MdOutlineVisibility size={24} /> : <MdOutlineVisibilityOff size={24} />}
-                        </IconButton>
-                      </InputAdornment>
-                    )
-                  }}
-                  error={Boolean(touched.password && errors.password)}
-                  helperText={touched.password && errors.password}
-                />
-              </Stack>
+                setFieldValue('file', croppedFile);
 
-              {/* Photographer-specific Fields */}
-              {userType === 'photographer' && (
-                <>
-                  <Box sx={{ width: '100%' }} mt={3}>
-                    <div>
-                      <LabelStyle component={'label'} htmlFor="username">
-                        Username
-                      </LabelStyle>
-                      <TextField
-                        id="username"
-                        fullWidth
-                        {...getFieldProps('username')}
-                        onChange={handleTitleChange}
-                        error={Boolean(touched.username && errors.username)}
-                        helperText={touched.username && errors.username}
-                      />
-                    </div>
-                  </Box>
+                // Now upload cropped file
+                setState({ ...state, loading: 2 });
+                const uploaded = await uploadToSpaces(croppedFile, (progress) => {
+                  setState({ ...state, loading: progress });
+                });
 
-                  <Stack mt={3} spacing={2} direction="row" flexGrow="wrap">
-                    <Box sx={{ width: '100%' }}>
-                      <LabelStyle>Default Price</LabelStyle>
-                      <Stack direction="row" spacing={2}>
-                        <TextField
-                          select
-                          label="Currency"
-                          fullWidth
-                          {...getFieldProps('defaultCurrency')}
-                          error={Boolean(touched.defaultCurrency && errors.defaultCurrency)}
-                          helperText={touched.defaultCurrency && errors.defaultCurrency}
-                        >
-                          {data?.data?.map((cur, index) => (
-                            <MenuItem key={index} value={cur.code}>
-                              {cur.code}
-                            </MenuItem>
-                          ))}
-                        </TextField>
-                        <TextField
-                          type="number"
-                          label={`Price (${values.defaultCurrency})`}
-                          fullWidth
-                          {...getFieldProps('defaultPrice')}
-                          error={Boolean(touched.defaultPrice && errors.defaultPrice)}
-                          helperText={touched.defaultPrice && errors.defaultPrice}
-                        />
-                      </Stack>
-                    </Box>
+                setFieldValue('cover', uploaded);
+                setState({ ...state, loading: false });
+
+                if (values.file && values.cover?._id) {
+                  deleteMutate(values.cover._id);
+                }
+              } catch (e) {
+                console.error(e);
+              }
+              setCropModalOpen(false);
+            }}
+          >
+            Save
+          </Button>
+        </DialogActions>
+      </Dialog>
+      <Box position="relative">
+        <FormikProvider value={formik}>
+          <Form noValidate autoComplete="off" onSubmit={handleSubmit}>
+            <Grid container justifyContent="center">
+              <Grid item xs={12} md={8} lg={6}>
+                {/* User Type Selection */}
+                <FormControl component="fieldset" sx={{ mb: 4, width: '100%' }}>
+                  <FormLabel component="legend" sx={{ mb: 2, fontWeight: 'bold' }}>
+                    I want to register as a:
+                  </FormLabel>
+                  <RadioGroup
+                    row
+                    value={userType}
+                    onChange={(e) => setUserType(e.target.value)}
+                    sx={{ justifyContent: 'center' }}
+                  >
+                    <FormControlLabel
+                      value="photographer"
+                      control={<Radio color="primary" />}
+                      label="Photographer"
+                      sx={{ mr: 4 }}
+                    />
+                    <FormControlLabel value="user" control={<Radio color="primary" />} label="User" />
+                  </RadioGroup>
+                </FormControl>
+
+                {/* Common Fields */}
+                <Stack direction={{ xs: 'column', sm: 'row' }} spacing={2}>
+                  <Stack gap={0.5} width={1}>
+                    <LabelStyle color="text.primary" htmlFor="firstName" component={'label'}>
+                      First Name
+                    </LabelStyle>
+                    <TextField
+                      id="firstName"
+                      fullWidth
+                      type="text"
+                      {...getFieldProps('firstName')}
+                      error={Boolean(touched.firstName && errors.firstName)}
+                      helperText={touched.firstName && errors.firstName}
+                      InputProps={{
+                        startAdornment: (
+                          <InputAdornment position="start">
+                            <IoPerson size={24} />
+                          </InputAdornment>
+                        )
+                      }}
+                    />
                   </Stack>
-
-                  <Box mt={3}>
-                    <Stack direction="row" justifyContent="space-between">
-                      <LabelStyle variant="body1" component={'label'} color="text.primary">
-                        Logo
-                      </LabelStyle>
-                    </Stack>
-                    <UploadSingleFile
-                      id="file"
-                      file={values.logo}
-                      onDrop={handleDropLogo}
-                      error={Boolean(touched.logo && errors.logo)}
-                      category
-                      accept={{
-                        'image/*': ['.jpeg', '.jpg', '.png', '.gif', '.webp']
+                  <Stack gap={0.5} width={1}>
+                    <LabelStyle color="text.primary" htmlFor="lastName" component={'label'}>
+                      Last Name
+                    </LabelStyle>
+                    <TextField
+                      fullWidth
+                      id="lastName"
+                      type="text"
+                      {...getFieldProps('lastName')}
+                      error={Boolean(touched.lastName && errors.lastName)}
+                      helperText={touched.lastName && errors.lastName}
+                      InputProps={{
+                        startAdornment: (
+                          <InputAdornment position="start">
+                            <IoPerson size={24} />
+                          </InputAdornment>
+                        )
                       }}
-                      loading={state.logoLoading}
-                      maxSize={1 * 1024 * 1024}
                     />
-                    {touched.logo && errors.logo && (
-                      <FormHelperText error sx={{ px: 2, mx: 0 }}>
-                        {touched.logo && errors.logo}
-                      </FormHelperText>
-                    )}
-                  </Box>
+                  </Stack>
+                </Stack>
 
-                  <Box mt={3}>
-                    <Stack direction="row" justifyContent="space-between">
-                      <LabelStyle variant="body1" component={'label'} color="text.primary">
-                        Cover Image
-                      </LabelStyle>
+                <Stack mt={3} spacing={2} width={1}>
+                  <LabelStyle color="text.primary" htmlFor="email" component={'label'}>
+                    Email
+                  </LabelStyle>
+                  <TextField
+                    id="email"
+                    fullWidth
+                    autoComplete="username"
+                    type="email"
+                    {...getFieldProps('email')}
+                    error={Boolean(touched.email && errors.email)}
+                    helperText={touched.email && errors.email}
+                    InputProps={{
+                      startAdornment: (
+                        <InputAdornment position="start">
+                          <IoMdMail size={24} />
+                        </InputAdornment>
+                      )
+                    }}
+                  />
+                </Stack>
+
+                <Stack mt={3} spacing={2} width={1}>
+                  <LabelStyle color="text.primary" htmlFor="password" component={'label'}>
+                    Password
+                  </LabelStyle>
+                  <TextField
+                    id="password"
+                    fullWidth
+                    autoComplete="current-password"
+                    type={showPassword ? 'text' : 'password'}
+                    {...getFieldProps('password')}
+                    InputProps={{
+                      startAdornment: (
+                        <InputAdornment position="start">
+                          <MdLock size={24} />
+                        </InputAdornment>
+                      ),
+                      endAdornment: (
+                        <InputAdornment position="end">
+                          <IconButton edge="end" onClick={() => setShowPassword((prev) => !prev)}>
+                            {showPassword ? <MdOutlineVisibility size={24} /> : <MdOutlineVisibilityOff size={24} />}
+                          </IconButton>
+                        </InputAdornment>
+                      )
+                    }}
+                    error={Boolean(touched.password && errors.password)}
+                    helperText={touched.password && errors.password}
+                  />
+                </Stack>
+
+                {/* Photographer-specific Fields */}
+                {userType === 'photographer' && (
+                  <>
+                    <Box sx={{ width: '100%' }} mt={3}>
+                      <div>
+                        <LabelStyle component={'label'} htmlFor="username">
+                          Username
+                        </LabelStyle>
+                        <TextField
+                          id="username"
+                          fullWidth
+                          {...getFieldProps('username')}
+                          onChange={handleTitleChange}
+                          error={Boolean(touched.username && errors.username)}
+                          helperText={touched.username && errors.username}
+                        />
+                      </div>
+                    </Box>
+
+                    <Stack mt={3} spacing={2} direction="row" flexGrow="wrap">
+                      <Box sx={{ width: '100%' }}>
+                        <LabelStyle>Default Price</LabelStyle>
+                        <Stack direction="row" spacing={2}>
+                          <TextField
+                            select
+                            label="Currency"
+                            fullWidth
+                            {...getFieldProps('defaultCurrency')}
+                            error={Boolean(touched.defaultCurrency && errors.defaultCurrency)}
+                            helperText={touched.defaultCurrency && errors.defaultCurrency}
+                          >
+                            {data?.data?.map((cur, index) => (
+                              <MenuItem key={index} value={cur.code}>
+                                {cur.code}
+                              </MenuItem>
+                            ))}
+                          </TextField>
+                          <TextField
+                            type="number"
+                            label={`Price (${values.defaultCurrency})`}
+                            fullWidth
+                            {...getFieldProps('defaultPrice')}
+                            error={Boolean(touched.defaultPrice && errors.defaultPrice)}
+                            helperText={touched.defaultPrice && errors.defaultPrice}
+                          />
+                        </Stack>
+                      </Box>
                     </Stack>
-                    <UploadSingleFile
-                      id="file"
-                      file={values.cover}
-                      onDrop={handleDropCover}
-                      error={Boolean(touched.cover && errors.cover)}
-                      category
-                      accept={{
-                        'image/*': ['.jpeg', '.jpg', '.png', '.gif', '.webp']
-                      }}
-                      maxSize={2 * 1024 * 1024}
-                      loading={state.loading}
-                    />
-                    {touched.cover && errors.cover && (
-                      <FormHelperText error sx={{ px: 2, mx: 0 }}>
-                        {touched.cover && errors.cover}
-                      </FormHelperText>
-                    )}
-                  </Box>
-                </>
-              )}
 
-              <Typography variant="body2" align="center" color="text.secondary" mt={3}>
-                By registering, I agree to Lap Snaps&nbsp;
-                <Link underline="always" color="primary" href="/terms-and-conditions" fontWeight={700}>
-                  Terms
-                </Link>
-                &nbsp;and&nbsp;
-                <Link underline="always" color="primary" href="/privacy-policy" fontWeight={700}>
-                  Privacy policy
-                </Link>
-                .
-              </Typography>
+                    <Box mt={3}>
+                      <Stack direction="row" justifyContent="space-between">
+                        <LabelStyle variant="body1" component={'label'} color="text.primary">
+                          Logo
+                        </LabelStyle>
+                      </Stack>
+                      <UploadSingleFile
+                        id="file"
+                        file={values.logo}
+                        onDrop={handleDropLogo}
+                        error={Boolean(touched.logo && errors.logo)}
+                        category
+                        accept={{
+                          'image/*': ['.jpeg', '.jpg', '.png', '.gif', '.webp']
+                        }}
+                        loading={state.logoLoading}
+                        maxSize={1 * 1024 * 1024}
+                      />
+                      {touched.logo && errors.logo && (
+                        <FormHelperText error sx={{ px: 2, mx: 0 }}>
+                          {touched.logo && errors.logo}
+                        </FormHelperText>
+                      )}
+                    </Box>
 
-              <LoadingButton
-                fullWidth
-                type="submit"
-                variant="contained"
-                size="large"
-                loading={userType === 'photographer' ? isCreatingShop : isRegistering}
-                sx={{ mt: 3, py: 1.5 }}
-              >
-                {userType === 'photographer' ? 'Create Photographer Account' : 'Create User Account'}
-              </LoadingButton>
+                    <Box mt={3}>
+                      <Stack direction="row" justifyContent="space-between">
+                        <LabelStyle variant="body1" component={'label'} color="text.primary">
+                          Cover Image
+                        </LabelStyle>
+                      </Stack>
+                      <UploadSingleFile
+                        id="file"
+                        file={values.cover}
+                        onDrop={handleDropCover}
+                        error={Boolean(touched.cover && errors.cover)}
+                        category
+                        accept={{
+                          'image/*': ['.jpeg', '.jpg', '.png', '.gif', '.webp']
+                        }}
+                        maxSize={2 * 1024 * 1024}
+                        loading={state.loading}
+                      />
+                      {touched.cover && errors.cover && (
+                        <FormHelperText error sx={{ px: 2, mx: 0 }}>
+                          {touched.cover && errors.cover}
+                        </FormHelperText>
+                      )}
+                    </Box>
+                  </>
+                )}
 
-              <Typography variant="subtitle2" mt={3} textAlign="center">
-                Already have an account? &nbsp;
-                <Link href="/auth/login" color="primary" fontWeight={600}>
-                  Login
-                </Link>
-              </Typography>
+                <Typography variant="body2" align="center" color="text.secondary" mt={3}>
+                  By registering, I agree to Lap Snaps&nbsp;
+                  <Link underline="always" color="primary" href="/terms-and-conditions" fontWeight={700}>
+                    Terms
+                  </Link>
+                  &nbsp;and&nbsp;
+                  <Link underline="always" color="primary" href="/privacy-policy" fontWeight={700}>
+                    Privacy policy
+                  </Link>
+                  .
+                </Typography>
+
+                <LoadingButton
+                  fullWidth
+                  type="submit"
+                  variant="contained"
+                  size="large"
+                  loading={userType === 'photographer' ? isCreatingShop : isRegistering}
+                  sx={{ mt: 3, py: 1.5 }}
+                >
+                  {userType === 'photographer' ? 'Create Photographer Account' : 'Create User Account'}
+                </LoadingButton>
+
+                <Typography variant="subtitle2" mt={3} textAlign="center">
+                  Already have an account? &nbsp;
+                  <Link href="/auth/login" color="primary" fontWeight={600}>
+                    Login
+                  </Link>
+                </Typography>
+              </Grid>
             </Grid>
-          </Grid>
-        </Form>
-      </FormikProvider>
-    </Box>
+          </Form>
+        </FormikProvider>
+      </Box>
+    </>
   );
 }

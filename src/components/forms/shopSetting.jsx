@@ -18,6 +18,9 @@ import {
   FormControl,
   Select
 } from '@mui/material';
+import Cropper from 'react-easy-crop';
+import { Dialog, DialogContent, DialogActions, Button } from '@mui/material';
+
 // components
 import UploadSingleFile from 'src/components/upload/UploadSingleFile';
 // yup
@@ -97,7 +100,7 @@ export default function ShopSettingFrom({ data: currentShop, isLoading: category
     logo: Yup.mixed().required('logo is required'),
     slug: Yup.string().required('Slug is required'),
     // description: Yup.string().required('Description is required'),
-    phone: Yup.string().required('Phone Number is required'),
+    // phone: Yup.string().required('Phone Number is required'),
     defaultPrice: Yup.number().required('Default Price is required')
     // paymentInfo: Yup.object().shape({
     //   holderName: Yup.string().required('Holder Name is required'),
@@ -217,7 +220,55 @@ export default function ShopSettingFrom({ data: currentShop, isLoading: category
     }
   };
 
-  // handle drop cover
+  const [cropModalOpen, setCropModalOpen] = useState(false);
+  const [crop, setCrop] = useState({ x: 0, y: 0 });
+  const [zoom, setZoom] = useState(1);
+  const [croppedAreaPixels, setCroppedAreaPixels] = useState(null);
+  const [imageSrc, setImageSrc] = useState(null);
+
+  function getCroppedImg(imageSrc, croppedAreaPixels) {
+    return new Promise((resolve, reject) => {
+      const image = new Image();
+      image.src = imageSrc;
+      image.onload = () => {
+        const canvas = document.createElement('canvas');
+        canvas.width = croppedAreaPixels.width;
+        canvas.height = croppedAreaPixels.height;
+        const ctx = canvas.getContext('2d');
+
+        ctx.drawImage(
+          image,
+          croppedAreaPixels.x,
+          croppedAreaPixels.y,
+          croppedAreaPixels.width,
+          croppedAreaPixels.height,
+          0,
+          0,
+          croppedAreaPixels.width,
+          croppedAreaPixels.height
+        );
+
+        canvas.toBlob((blob) => {
+          if (!blob) {
+            reject(new Error('Canvas is empty'));
+            return;
+          }
+          blob.name = 'cropped.jpeg';
+          resolve(new File([blob], 'cropped.jpeg', { type: 'image/jpeg' }));
+        }, 'image/jpeg');
+      };
+      image.onerror = reject;
+    });
+  }
+
+  const handleDropCover = (acceptedFiles) => {
+    const file = acceptedFiles[0];
+    if (!file) return;
+
+    const preview = URL.createObjectURL(file);
+    setImageSrc(preview);
+    setCropModalOpen(true); // open cropper instead of uploading immediately
+  };
 
   // const handleDropCover = async (acceptedFiles) => {
   //   setstate({ ...state, loading: 2 });
@@ -228,59 +279,23 @@ export default function ShopSettingFrom({ data: currentShop, isLoading: category
   //     });
   //   }
   //   setFieldValue('file', file);
-  //   const formData = new FormData();
-  //   formData.append('file', file);
-  //   formData.append('upload_preset', 'my-uploads');
-  //   const config = {
-  //     onUploadProgress: (progressEvent) => {
-  //       const { loaded, total } = progressEvent;
-  //       const percentage = Math.floor((loaded * 100) / total);
-  //       setstate({ ...state, loading: percentage });
-  //     }
-  //   };
-  //   await axios
-  //     .post(`https://api.cloudinary.com/v1_1/${process.env.CLOUDINARY_CLOUD_NAME}/image/upload`, formData, config)
-  //     .then(({ data }) => {
-  //       setFieldValue('cover', {
-  //         _id: data.public_id,
-  //         url: data.secure_url
-  //       });
-  //       setstate({ ...state, loading: false });
-  //     })
-  //     .then(() => {
-  //       // if (values.file) {
-  //       //   deleteMutate(values.cover._id);
-  //       // }
-  //       setstate({ ...state, loading: false });
+  //   try {
+  //     const uploaded = await uploadToSpaces(file, (progress) => {
+  //       setstate({ ...state, loading: progress });
   //     });
+
+  //     setFieldValue('cover', uploaded);
+
+  //     if (values.file && values.cover?._id) {
+  //       //deleteMutate(values.cover._id);
+  //     }
+
+  //     setstate({ ...state, loading: false });
+  //   } catch (err) {
+  //     console.error('Upload failed:', err);
+  //     setstate({ ...state, loading: false });
+  //   }
   // };
-
-  const handleDropCover = async (acceptedFiles) => {
-    setstate({ ...state, loading: 2 });
-    const file = acceptedFiles[0];
-    if (file) {
-      Object.assign(file, {
-        preview: URL.createObjectURL(file)
-      });
-    }
-    setFieldValue('file', file);
-    try {
-      const uploaded = await uploadToSpaces(file, (progress) => {
-        setstate({ ...state, loading: progress });
-      });
-
-      setFieldValue('cover', uploaded);
-
-      if (values.file && values.cover?._id) {
-        //deleteMutate(values.cover._id);
-      }
-
-      setstate({ ...state, loading: false });
-    } catch (err) {
-      console.error('Upload failed:', err);
-      setstate({ ...state, loading: false });
-    }
-  };
 
   const handleTitleChange = (event) => {
     const title = event.target.value;
@@ -292,40 +307,88 @@ export default function ShopSettingFrom({ data: currentShop, isLoading: category
     formik.handleChange(event); // handle the change in formik
   };
   return (
-    <Box position="relative">
-      <FormikProvider value={formik}>
-        <Form noValidate autoComplete="off" onSubmit={handleSubmit}>
-          <Grid container spacing={2}>
-            <Grid
-              item
-              sx={{
-                width: {
-                  xs: '100%', // mobile
-                  md: '60%' // desktop
-                }
+    <>
+      <Dialog open={cropModalOpen} onClose={() => setCropModalOpen(false)} maxWidth="md" fullWidth>
+        <DialogContent sx={{ position: 'relative', height: 400, background: '#333' }}>
+          {imageSrc && (
+            <Cropper
+              image={imageSrc}
+              crop={crop}
+              zoom={zoom}
+              aspect={5 / 1} // enforce 5:1 ratio
+              onCropChange={setCrop}
+              onZoomChange={setZoom}
+              onCropComplete={(croppedArea, croppedAreaPixels) => {
+                setCroppedAreaPixels(croppedAreaPixels);
               }}
-            >
-              <Card sx={{ p: 3 }}>
-                <Stack direction="row" spacing={3} flexGrow="wrap">
-                  <Box sx={{ width: '100%' }}>
-                    <div>
-                      <LabelStyle component={'label'} htmlFor="username">
-                        Username
-                      </LabelStyle>
+            />
+          )}
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={() => setCropModalOpen(false)}>Cancel</Button>
+          <Button
+            variant="contained"
+            onClick={async () => {
+              try {
+                const croppedFile = await getCroppedImg(imageSrc, croppedAreaPixels);
 
-                      <TextField
-                        id="username"
-                        fullWidth
-                        {...getFieldProps('username')}
-                        onChange={handleTitleChange} // add onChange handler for title
-                        error={Boolean(touched.username && errors.username)}
-                        helperText={touched.username && errors.username}
-                        sx={{ mt: 1 }}
-                      />
-                    </div>
-                  </Box>
-                </Stack>
-                {/* <Stack mt={3} spacing={3} direction="row" flexGrow="wrap">
+                // Now upload cropped file
+                setstate({ ...state, loading: 2 });
+                const uploaded = await uploadToSpaces(croppedFile, (progress) => {
+                  setstate({ ...state, loading: progress });
+                });
+
+                setFieldValue('cover', uploaded);
+
+                if (values.file && values.cover?._id) {
+                  deleteMutate(values.cover._id);
+                }
+                setstate({ ...state, loading: false });
+              } catch (e) {
+                console.error(e);
+              }
+              setCropModalOpen(false);
+              setstate({ ...state, loading: false });
+            }}
+          >
+            Save
+          </Button>
+        </DialogActions>
+      </Dialog>
+      <Box position="relative">
+        <FormikProvider value={formik}>
+          <Form noValidate autoComplete="off" onSubmit={handleSubmit}>
+            <Grid container spacing={2}>
+              <Grid
+                item
+                sx={{
+                  width: {
+                    xs: '100%', // mobile
+                    md: '60%' // desktop
+                  }
+                }}
+              >
+                <Card sx={{ p: 3 }}>
+                  <Stack direction="row" spacing={3} flexGrow="wrap">
+                    <Box sx={{ width: '100%' }}>
+                      <div>
+                        <LabelStyle component={'label'} htmlFor="username">
+                          Username
+                        </LabelStyle>
+
+                        <TextField
+                          id="username"
+                          fullWidth
+                          {...getFieldProps('username')}
+                          onChange={handleTitleChange} // add onChange handler for title
+                          error={Boolean(touched.username && errors.username)}
+                          helperText={touched.username && errors.username}
+                          sx={{ mt: 1 }}
+                        />
+                      </div>
+                    </Box>
+                  </Stack>
+                  {/* <Stack mt={3} spacing={3} direction="row" flexGrow="wrap">
                   <Box sx={{ width: '100%' }}>
                     <LabelStyle component={'label'} htmlFor="description">
                       {' '}
@@ -343,45 +406,82 @@ export default function ShopSettingFrom({ data: currentShop, isLoading: category
                     />
                   </Box>
                 </Stack> */}
-                <Stack mt={3} spacing={2} direction="row" spacing={3} flexGrow="wrap">
-                  <Box sx={{ width: '100%' }}>
-                    <LabelStyle>Default Price</LabelStyle>
+                  <Stack mt={3} spacing={2} direction="row" spacing={3} flexGrow="wrap">
+                    <Box sx={{ width: '100%' }}>
+                      <LabelStyle>Default Price</LabelStyle>
 
-                    <Stack direction="row" spacing={2}>
-                      <TextField
-                        select
-                        label="Currency"
-                        fullWidth
-                        {...getFieldProps('defaultCurrency')}
-                        error={Boolean(touched.defaultCurrency && errors.defaultCurrency)}
-                        helperText={touched.defaultCurrency && errors.defaultCurrency}
-                      >
-                        {data?.data?.map((cur, index) => (
-                          <MenuItem key={index} value={cur.code}>
-                            {cur.code}
-                          </MenuItem>
-                        ))}
-                      </TextField>
+                      <Stack direction="row" spacing={2}>
+                        <TextField
+                          select
+                          label="Currency"
+                          fullWidth
+                          {...getFieldProps('defaultCurrency')}
+                          error={Boolean(touched.defaultCurrency && errors.defaultCurrency)}
+                          helperText={touched.defaultCurrency && errors.defaultCurrency}
+                        >
+                          {data?.data?.map((cur, index) => (
+                            <MenuItem key={index} value={cur.code}>
+                              {cur.code}
+                            </MenuItem>
+                          ))}
+                        </TextField>
 
-                      <TextField
-                        type="number"
-                        label={`Price (${values.defaultCurrency})`}
-                        fullWidth
-                        {...getFieldProps('defaultPrice')}
-                        error={Boolean(touched.defaultPrice && errors.defaultPrice)}
-                        helperText={touched.defaultPrice && errors.defaultPrice}
-                      />
-                    </Stack>
-                  </Box>
-                </Stack>
-                <Stack mt={3} direction="row" spacing={3} flexGrow="wrap">
-                  <Box sx={{ width: '100%' }}>
+                        <TextField
+                          type="number"
+                          label={`Price (${values.defaultCurrency})`}
+                          fullWidth
+                          {...getFieldProps('defaultPrice')}
+                          error={Boolean(touched.defaultPrice && errors.defaultPrice)}
+                          helperText={touched.defaultPrice && errors.defaultPrice}
+                        />
+                      </Stack>
+                    </Box>
+                  </Stack>
+                  <Stack mt={3} direction="row" spacing={3} flexGrow="wrap">
+                    <Box sx={{ width: '100%' }}>
+                      <Stack direction="row" justifyContent="space-between">
+                        {categoryLoading ? (
+                          <Skeleton variant="text" width={150} />
+                        ) : (
+                          <LabelStyle variant="body1" component={'label'} color="text.primary">
+                            Logo
+                          </LabelStyle>
+                        )}
+                        {categoryLoading ? (
+                          <Skeleton variant="text" width={150} />
+                        ) : (
+                          <LabelStyle component={'label'} htmlFor="file">
+                            <span></span>
+                          </LabelStyle>
+                        )}
+                      </Stack>
+                      {categoryLoading ? (
+                        <Skeleton variant="rectangular" width="100%" height={225} />
+                      ) : (
+                        <UploadSingleFile
+                          id="file"
+                          file={values.logo}
+                          onDrop={handleDropLogo}
+                          error={Boolean(touched.logo && errors.logo)}
+                          category
+                          accept="image/*"
+                          loading={state.logoLoading}
+                        />
+                      )}
+                      {touched.logo && errors.logo && (
+                        <FormHelperText error sx={{ px: 2, mx: 0 }}>
+                          {touched.logo && errors.logo}
+                        </FormHelperText>
+                      )}
+                    </Box>
+                  </Stack>
+                  <Box mt={3}>
                     <Stack direction="row" justifyContent="space-between">
                       {categoryLoading ? (
                         <Skeleton variant="text" width={150} />
                       ) : (
                         <LabelStyle variant="body1" component={'label'} color="text.primary">
-                          Logo
+                          Cover (500kb max size)
                         </LabelStyle>
                       )}
                       {categoryLoading ? (
@@ -397,180 +497,143 @@ export default function ShopSettingFrom({ data: currentShop, isLoading: category
                     ) : (
                       <UploadSingleFile
                         id="file"
-                        file={values.logo}
-                        onDrop={handleDropLogo}
-                        error={Boolean(touched.logo && errors.logo)}
+                        file={values.cover}
+                        onDrop={handleDropCover}
+                        error={Boolean(touched.cover && errors.cover)}
                         category
                         accept="image/*"
-                        loading={state.logoLoading}
+                        loading={state.loading}
+                        maxSize={500 * 1024}
                       />
                     )}
-                    {touched.logo && errors.logo && (
+                    {touched.cover && errors.cover && (
                       <FormHelperText error sx={{ px: 2, mx: 0 }}>
-                        {touched.logo && errors.logo}
+                        {touched.cover && errors.cover}
                       </FormHelperText>
                     )}
-                  </Box>
-                </Stack>
-                <Box mt={3}>
-                  <Stack direction="row" justifyContent="space-between">
-                    {categoryLoading ? (
-                      <Skeleton variant="text" width={150} />
-                    ) : (
-                      <LabelStyle variant="body1" component={'label'} color="text.primary">
-                        Cover (500kb max size)
-                      </LabelStyle>
-                    )}
-                    {categoryLoading ? (
-                      <Skeleton variant="text" width={150} />
-                    ) : (
-                      <LabelStyle component={'label'} htmlFor="file">
-                        <span></span>
-                      </LabelStyle>
-                    )}
-                  </Stack>
-                  {categoryLoading ? (
-                    <Skeleton variant="rectangular" width="100%" height={225} />
-                  ) : (
-                    <UploadSingleFile
-                      id="file"
-                      file={values.cover}
-                      onDrop={handleDropCover}
-                      error={Boolean(touched.cover && errors.cover)}
-                      category
-                      accept="image/*"
-                      loading={state.loading}
-                      maxSize={500 * 1024}
-                    />
-                  )}
-                  {touched.cover && errors.cover && (
-                    <FormHelperText error sx={{ px: 2, mx: 0 }}>
-                      {touched.cover && errors.cover}
-                    </FormHelperText>
-                  )}
-                </Box>{' '}
-              </Card>
-            </Grid>
-            <Grid
-              item
-              sx={{
-                width: {
-                  xs: '100%', // mobile
-                  md: '30%' // desktop
-                }
-              }}
-            >
-              <div
-                style={{
-                  position: '-webkit-sticky',
-                  position: 'sticky',
-                  top: 0
+                  </Box>{' '}
+                </Card>
+              </Grid>
+              <Grid
+                item
+                sx={{
+                  width: {
+                    xs: '100%', // mobile
+                    md: '30%' // desktop
+                  }
                 }}
               >
-                <Stack spacing={3}>
-                  <Card sx={{ p: 3 }}>
-                    <Stack spacing={2}>
-                      <div>
-                        {categoryLoading ? (
-                          <Skeleton variant="text" width={150} />
-                        ) : (
-                          <LabelStyle component={'label'} htmlFor="holderName">
-                            Full Name (As registered with bank)
-                          </LabelStyle>
-                        )}
-                        {categoryLoading ? (
-                          <Skeleton variant="rectangular" width="100%" height={240} />
-                        ) : (
-                          <TextField
-                            id="holderName"
-                            fullWidth
-                            {...getFieldProps('paymentInfo.holderName')}
-                            error={Boolean(touched.paymentInfo?.holderName && errors.paymentInfo?.holderName)}
-                            helperText={touched.paymentInfo?.holderName && errors.paymentInfo?.holderName}
-                          />
-                        )}
-                      </div>
-                      <div>
-                        {categoryLoading ? (
-                          <Skeleton variant="text" width={150} />
-                        ) : (
-                          <LabelStyle component={'label'} htmlFor="phone">
-                            Phone Number
-                          </LabelStyle>
-                        )}
-                        {categoryLoading ? (
-                          <Skeleton variant="rectangular" width="100%" height={240} />
-                        ) : (
-                          <TextField
-                            id="phone"
-                            fullWidth
-                            {...getFieldProps('phone')}
-                            error={Boolean(touched.phone && errors.phone)}
-                            helperText={touched.phone && errors.phone}
-                          />
-                        )}
-                      </div>
-                      <div>
-                        {categoryLoading ? (
-                          <Skeleton variant="text" width={150} />
-                        ) : (
-                          <LabelStyle component={'label'} htmlFor="bank-name">
-                            Bank Name
-                          </LabelStyle>
-                        )}
-                        {categoryLoading ? (
-                          <Skeleton variant="rectangular" width="100%" height={240} />
-                        ) : (
-                          <TextField
-                            id="bank-name"
-                            fullWidth
-                            {...getFieldProps('paymentInfo.bankName')}
-                            error={Boolean(touched.paymentInfo?.bankName && errors.paymentInfo?.bankName)}
-                            helperText={touched.paymentInfo?.bankName && errors.paymentInfo?.bankName}
-                          />
-                        )}
-                      </div>
-                      <div>
-                        {categoryLoading ? (
-                          <Skeleton variant="text" width={150} />
-                        ) : (
-                          <LabelStyle component={'label'} htmlFor="account-number">
-                            Account Number/Sort Code
-                          </LabelStyle>
-                        )}
-                        {categoryLoading ? (
-                          <Skeleton variant="rectangular" width="100%" height={240} />
-                        ) : (
-                          <TextField
-                            id="account-number"
-                            fullWidth
-                            {...getFieldProps('paymentInfo.AccountNo')}
-                            error={Boolean(touched.paymentInfo?.AccountNo && errors.paymentInfo?.AccountNo)}
-                            helperText={touched.paymentInfo?.AccountNo && errors.paymentInfo?.AccountNo}
-                          />
-                        )}
-                      </div>
-                      <div>
-                        {categoryLoading ? (
-                          <Skeleton variant="text" width={150} />
-                        ) : (
-                          <LabelStyle component={'label'} htmlFor="iban">
-                            IBAN
-                          </LabelStyle>
-                        )}
-                        {categoryLoading ? (
-                          <Skeleton variant="rectangular" width="100%" height={240} />
-                        ) : (
-                          <TextField
-                            id="iban"
-                            fullWidth
-                            {...getFieldProps('paymentInfo.iban')}
-                            error={Boolean(touched.paymentInfo?.iban && errors.paymentInfo?.iban)}
-                            helperText={touched.paymentInfo?.iban && errors.paymentInfo?.iban}
-                          />
-                        )}
-                      </div>
-                      {/* <div>
+                <div
+                  style={{
+                    position: '-webkit-sticky',
+                    position: 'sticky',
+                    top: 0
+                  }}
+                >
+                  <Stack spacing={3}>
+                    <Card sx={{ p: 3 }}>
+                      <Stack spacing={2}>
+                        <div>
+                          {categoryLoading ? (
+                            <Skeleton variant="text" width={150} />
+                          ) : (
+                            <LabelStyle component={'label'} htmlFor="holderName">
+                              Full Name (As registered with bank)
+                            </LabelStyle>
+                          )}
+                          {categoryLoading ? (
+                            <Skeleton variant="rectangular" width="100%" height={240} />
+                          ) : (
+                            <TextField
+                              id="holderName"
+                              fullWidth
+                              {...getFieldProps('paymentInfo.holderName')}
+                              error={Boolean(touched.paymentInfo?.holderName && errors.paymentInfo?.holderName)}
+                              helperText={touched.paymentInfo?.holderName && errors.paymentInfo?.holderName}
+                            />
+                          )}
+                        </div>
+                        <div>
+                          {categoryLoading ? (
+                            <Skeleton variant="text" width={150} />
+                          ) : (
+                            <LabelStyle component={'label'} htmlFor="phone">
+                              Phone Number
+                            </LabelStyle>
+                          )}
+                          {categoryLoading ? (
+                            <Skeleton variant="rectangular" width="100%" height={240} />
+                          ) : (
+                            <TextField
+                              id="phone"
+                              fullWidth
+                              {...getFieldProps('phone')}
+                              error={Boolean(touched.phone && errors.phone)}
+                              helperText={touched.phone && errors.phone}
+                            />
+                          )}
+                        </div>
+                        <div>
+                          {categoryLoading ? (
+                            <Skeleton variant="text" width={150} />
+                          ) : (
+                            <LabelStyle component={'label'} htmlFor="bank-name">
+                              Bank Name
+                            </LabelStyle>
+                          )}
+                          {categoryLoading ? (
+                            <Skeleton variant="rectangular" width="100%" height={240} />
+                          ) : (
+                            <TextField
+                              id="bank-name"
+                              fullWidth
+                              {...getFieldProps('paymentInfo.bankName')}
+                              error={Boolean(touched.paymentInfo?.bankName && errors.paymentInfo?.bankName)}
+                              helperText={touched.paymentInfo?.bankName && errors.paymentInfo?.bankName}
+                            />
+                          )}
+                        </div>
+                        <div>
+                          {categoryLoading ? (
+                            <Skeleton variant="text" width={150} />
+                          ) : (
+                            <LabelStyle component={'label'} htmlFor="account-number">
+                              Account Number/Sort Code
+                            </LabelStyle>
+                          )}
+                          {categoryLoading ? (
+                            <Skeleton variant="rectangular" width="100%" height={240} />
+                          ) : (
+                            <TextField
+                              id="account-number"
+                              fullWidth
+                              {...getFieldProps('paymentInfo.AccountNo')}
+                              error={Boolean(touched.paymentInfo?.AccountNo && errors.paymentInfo?.AccountNo)}
+                              helperText={touched.paymentInfo?.AccountNo && errors.paymentInfo?.AccountNo}
+                            />
+                          )}
+                        </div>
+                        <div>
+                          {categoryLoading ? (
+                            <Skeleton variant="text" width={150} />
+                          ) : (
+                            <LabelStyle component={'label'} htmlFor="iban">
+                              IBAN
+                            </LabelStyle>
+                          )}
+                          {categoryLoading ? (
+                            <Skeleton variant="rectangular" width="100%" height={240} />
+                          ) : (
+                            <TextField
+                              id="iban"
+                              fullWidth
+                              {...getFieldProps('paymentInfo.iban')}
+                              error={Boolean(touched.paymentInfo?.iban && errors.paymentInfo?.iban)}
+                              helperText={touched.paymentInfo?.iban && errors.paymentInfo?.iban}
+                            />
+                          )}
+                        </div>
+                        {/* <div>
                         {categoryLoading ? (
                           <Skeleton variant="text" width={150} />
                         ) : (
@@ -590,7 +653,7 @@ export default function ShopSettingFrom({ data: currentShop, isLoading: category
                           />
                         )}
                       </div> */}
-                      {/* <div>
+                        {/* <div>
                         {categoryLoading ? (
                           <Skeleton variant="text" width={150} />
                         ) : (
@@ -610,7 +673,7 @@ export default function ShopSettingFrom({ data: currentShop, isLoading: category
                           />
                         )}
                       </div> */}
-                      {/* <div>
+                        {/* <div>
                         {categoryLoading ? (
                           <Skeleton variant="text" width={150} />
                         ) : (
@@ -630,28 +693,28 @@ export default function ShopSettingFrom({ data: currentShop, isLoading: category
                           />
                         )}
                       </div> */}
-                      <div>
-                        {categoryLoading ? (
-                          <Skeleton variant="text" width={150} />
-                        ) : (
-                          <LabelStyle component={'label'} htmlFor="streetAddress">
-                            Address
-                          </LabelStyle>
-                        )}
-                        {categoryLoading ? (
-                          <Skeleton variant="rectangular" width="100%" height={240} />
-                        ) : (
-                          <TextField
-                            id="streetAddress"
-                            fullWidth
-                            {...getFieldProps('address.streetAddress')}
-                            error={Boolean(touched.address?.streetAddress && errors.address?.streetAddress)}
-                            helperText={touched.address?.streetAddress && errors.address?.streetAddress}
-                          />
-                        )}
-                      </div>
+                        <div>
+                          {categoryLoading ? (
+                            <Skeleton variant="text" width={150} />
+                          ) : (
+                            <LabelStyle component={'label'} htmlFor="streetAddress">
+                              Address
+                            </LabelStyle>
+                          )}
+                          {categoryLoading ? (
+                            <Skeleton variant="rectangular" width="100%" height={240} />
+                          ) : (
+                            <TextField
+                              id="streetAddress"
+                              fullWidth
+                              {...getFieldProps('address.streetAddress')}
+                              error={Boolean(touched.address?.streetAddress && errors.address?.streetAddress)}
+                              helperText={touched.address?.streetAddress && errors.address?.streetAddress}
+                            />
+                          )}
+                        </div>
 
-                      {/* <FormControl fullWidth sx={{ select: { textTransform: 'capitalize' } }}>
+                        {/* <FormControl fullWidth sx={{ select: { textTransform: 'capitalize' } }}>
                         {categoryLoading ? (
                           <Skeleton variant="text" width={70} />
                         ) : (
@@ -682,27 +745,28 @@ export default function ShopSettingFrom({ data: currentShop, isLoading: category
                           </FormHelperText>
                         )}
                       </FormControl> */}
-                    </Stack>
-                  </Card>
-                  {categoryLoading ? (
-                    <Skeleton variant="rectangular" width="100%" height={56} />
-                  ) : (
-                    <LoadingButton
-                      type="submit"
-                      variant="contained"
-                      size="large"
-                      loading={isLoading}
-                      sx={{ ml: 'auto', mt: 3 }}
-                    >
-                      {currentShop ? 'Edit Photograper' : 'Save'}
-                    </LoadingButton>
-                  )}
-                </Stack>
-              </div>
+                      </Stack>
+                    </Card>
+                    {categoryLoading ? (
+                      <Skeleton variant="rectangular" width="100%" height={56} />
+                    ) : (
+                      <LoadingButton
+                        type="submit"
+                        variant="contained"
+                        size="large"
+                        loading={isLoading}
+                        sx={{ ml: 'auto', mt: 3 }}
+                      >
+                        {currentShop ? 'Edit Photograper' : 'Save'}
+                      </LoadingButton>
+                    )}
+                  </Stack>
+                </div>
+              </Grid>
             </Grid>
-          </Grid>
-        </Form>
-      </FormikProvider>
-    </Box>
+          </Form>
+        </FormikProvider>
+      </Box>
+    </>
   );
 }

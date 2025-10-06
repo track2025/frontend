@@ -5,12 +5,12 @@ import dynamic from 'next/dynamic';
 import { isString } from 'lodash';
 
 // mui
-import { 
-  Stack, 
-  Drawer, 
-  TextField, 
-  InputAdornment, 
-  CircularProgress, 
+import {
+  Stack,
+  Drawer,
+  TextField,
+  InputAdornment,
+  CircularProgress,
   IconButton,
   FormControl,
   Select,
@@ -22,6 +22,10 @@ import {
 } from '@mui/material';
 import ClearIcon from '@mui/icons-material/Clear';
 import SearchIcon from '@mui/icons-material/Search';
+import DirectionsCarIcon from '@mui/icons-material/DirectionsCar';
+import LocationOnIcon from '@mui/icons-material/LocationOn';
+import BuildIcon from '@mui/icons-material/Build';
+import DirectionsCarFilledIcon from '@mui/icons-material/DirectionsCarFilled';
 
 // next
 import { usePathname, useSearchParams } from 'next/navigation';
@@ -54,11 +58,17 @@ export default function SortBar({ compaign, productData, shop, isLoading, sortDa
   const limit = searchParams.get('limit');
   const page = searchParams.get('page');
   const searchQuery = searchParams.get('search') || '';
+  const makeQuery = searchParams.get('make') || '';
+  const modelQuery = searchParams.get('model') || '';
+  const locationQuery = searchParams.get('location') || '';
   const dateQuery = searchParams.get('date_captured') || '';
 
   const [state, setState] = useState(null);
   const [openDrawer, setOpenDrawer] = useState(false);
   const [search, setSearch] = useState(searchQuery);
+  const [location, setLocation] = useState(locationQuery);
+  const [make, setMake] = useState(makeQuery);
+  const [model, setModel] = useState(modelQuery);
   const [dateCaptured, setDateCaptured] = useState(dateQuery);
   const [focus, setFocus] = useState(false);
   const [filtersLoading, setFiltersLoading] = useState(false);
@@ -154,7 +164,7 @@ export default function SortBar({ compaign, productData, shop, isLoading, sortDa
     <>
       <Stack spacing={2} pt={2}>
         {/* Search Bar */}
-        <TextField
+        {/* <TextField
           id="standard-basic"
           variant="standard"
           placeholder="Enter a location, reg. #, model or make"
@@ -189,18 +199,104 @@ export default function SortBar({ compaign, productData, shop, isLoading, sortDa
               }
             }
           }}
-        />
+        /> */}
+
+        {/* Search Filters Row */}
+        <Stack direction={{ xs: 'column', sm: 'row' }} spacing={2} alignItems="center" justifyContent="space-between">
+          {/* Registration */}
+          <TextField
+            size="small"
+            fullWidth
+            placeholder="Search by Registration"
+            value={search}
+            onFocus={() => setFocus(true)}
+            onKeyDown={onKeyDown}
+            onChange={(e) => {
+              setSearch(e.target.value);
+            }}
+            InputProps={{
+              startAdornment: (
+                <InputAdornment position="start">
+                  <DirectionsCarIcon color="primary" />
+                </InputAdornment>
+              )
+            }}
+          />
+
+          {/* Location */}
+          <TextField
+            size="small"
+            fullWidth
+            placeholder="Filter by Location"
+            value={location}
+            onFocus={() => setFocus(true)}
+            onKeyDown={onKeyDown}
+            onChange={(e) => {
+              setLocation(e.target.value);
+              router.push(`${pathname}?${setQueryParam('location', e.target.value)}`, 'isPathname');
+            }}
+            InputProps={{
+              startAdornment: (
+                <InputAdornment position="start">
+                  <LocationOnIcon color="primary" />
+                </InputAdornment>
+              )
+            }}
+          />
+
+          {/* Car Make */}
+          <TextField
+            size="small"
+            fullWidth
+            placeholder="Filter by Car Make"
+            value={make}
+            onFocus={() => setFocus(true)}
+            onKeyDown={onKeyDown}
+            onChange={(e) => {
+              setMake(e.target.value);
+              router.push(`${pathname}?${setQueryParam('make', e.target.value)}`, 'isPathname');
+            }}
+            InputProps={{
+              startAdornment: (
+                <InputAdornment position="start">
+                  <BuildIcon color="primary" />
+                </InputAdornment>
+              )
+            }}
+          />
+
+          {/* Car Model */}
+          <TextField
+            size="small"
+            fullWidth
+            placeholder="Filter by Car Model"
+            value={model}
+            onFocus={() => setFocus(true)}
+            onKeyDown={onKeyDown}
+            onChange={(e) => {
+              setModel(e.target.value);
+              router.push(`${pathname}?${setQueryParam('model', e.target.value)}`, 'isPathname');
+            }}
+            InputProps={{
+              startAdornment: (
+                <InputAdornment position="start">
+                  <DirectionsCarFilledIcon color="primary" />
+                </InputAdornment>
+              )
+            }}
+          />
+        </Stack>
 
         {/* Date Filter and Action Buttons */}
-        <Stack
-          direction={{ xs: 'column', sm: 'row' }}
-          spacing={2}
-          alignItems="center"
-          justifyContent="space-between"
-        >
+        <Stack direction={{ xs: 'column', sm: 'row' }} spacing={2} alignItems="center" justifyContent="space-between">
           {/* Date Filter */}
-          <Stack direction="row" gap={1} flex={1}>
-            <FormControl fullWidth sx={{ maxWidth: 250 }}>
+          <Stack direction="row" gap={1} flex={1} width="100%">
+            <FormControl
+              fullWidth
+              sx={{
+                maxWidth: { xs: '100%', sm: 250 } // full width on mobile, capped on larger screens
+              }}
+            >
               <LabelStyle component="label" htmlFor="date">
                 Date Captured
               </LabelStyle>
@@ -263,7 +359,7 @@ export default function SortBar({ compaign, productData, shop, isLoading, sortDa
                 <Skeleton variant="rounded" width={150} height={40} />
               )}
             </FormControl>
-            
+
             <FormControl size="small" fullWidth sx={{ maxWidth: 120 }}>
               <Select
                 id="items-select"
