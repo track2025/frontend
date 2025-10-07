@@ -6,6 +6,7 @@ import HeaderBreadcrumbs from 'src/components/headerBreadcrumbs';
 
 // api
 import * as api from 'src/services';
+import { SortArrayAlphabetically } from 'src/utils/sorting';
 
 // Meta information
 export const metadata = {
@@ -38,7 +39,8 @@ export default async function AdminProducts() {
           title: 'Upload New Media'
         }}
       />
-      <ProductList categories={categories} shops={shops} brands={brands} />
+
+      <ProductList categories={SortArrayAlphabetically(categories, 'name')} shops={shops} brands={brands} />
     </>
   );
 }
