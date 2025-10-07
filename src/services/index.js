@@ -135,7 +135,16 @@ export const updateProductByAdmin = async ({ currentSlug, ...payload }) => {
 };
 
 export const deleteProductByAdmin = async (slug) => {
-  const { data: response } = await http.delete(`/admin/products/${slug}`);
+  console.log(slug, 'checking the slug');
+
+  const url = `/admin/products/${Array.isArray(slug) ? undefined : slug}`;
+
+  const config = Array.isArray(slug)
+    ? { data: { slugs: slug } } // send array as body
+    : {};
+
+  const { data: response } = await http.delete(url, config);
+
   return response;
 };
 

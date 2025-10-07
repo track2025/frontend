@@ -20,7 +20,7 @@ DeleteDialog.propTypes = {
   deleteMessage: PropTypes.string.isRequired
 };
 
-export default function DeleteDialog({ onClose, id, apicall, endPoint, type, deleteMessage }) {
+export default function DeleteDialog({ onClose, id, apicall, endPoint, type, deleteMessage, selectedRows }) {
   const { isLoading, mutate } = useMutation(api[endPoint], {
     onSuccess: () => {
       toast.success(type);
@@ -32,7 +32,11 @@ export default function DeleteDialog({ onClose, id, apicall, endPoint, type, del
     }
   });
   const handleDelete = () => {
-    mutate(id);
+    if (selectedRows.length > 0) {
+      mutate(selectedRows);
+    } else {
+      mutate(id);
+    }
   };
   return (
     <>

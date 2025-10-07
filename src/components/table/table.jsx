@@ -47,13 +47,37 @@ CustomTable.propTypes = {
   isSearch: PropTypes.bool
 };
 
-export default function CustomTable({ filters = [], showRowCount = true, showPagination = true, ...props }) {
+export default function CustomTable({
+  filters = [],
+  showRowCount = true,
+  showPagination = true,
+  bulkAction = [],
+  selectedRows = [],
+  UpdateSelectedRow,
+  ...props
+}) {
   const { headData, data, isLoading, heading, isSearch, row, ...rest } = props;
   const { push } = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
   const [state, setState] = useState({});
   const queryString = searchParams.toString();
+
+  const [anchorEl, setAnchorEl] = useState(null);
+  const open = Boolean(anchorEl);
+
+  const handleOpenMenu = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+
+  const handleCloseMenu = () => {
+    setAnchorEl(null);
+  };
+
+  const handleActionClick = (actionObj) => {
+    actionObj.action(selectedRows);
+    handleCloseMenu();
+  };
 
   const handleChange = (param, val) => {
     setState({ ...state, [param]: val });
@@ -63,10 +87,27 @@ export default function CustomTable({ filters = [], showRowCount = true, showPag
   const updatedHeadData = [
     {
       id: 'sn',
-      label: (
-        <Typography variant="body2" sx={{ fontSize: 15 }} fontWeight={700}>
-          S/N
-        </Typography>
+      label: UpdateSelectedRow ? (
+        <>
+          <Stack direction="row" alignItems="center">
+            <Checkbox
+              size="small"
+              onChange={(e) => UpdateSelectedRow(null, 'all', e.target.checked)}
+              checked={selectedRows?.length === data?.data?.length}
+              sx={{
+                '&.Mui-checked': {
+                  color: '#fff'
+                }
+              }}
+            />
+
+            <Typography variant="body2" sx={{ fontSize: 15 }} fontWeight={700}>
+              S/N
+            </Typography>
+          </Stack>
+        </>
+      ) : (
+        'S/N'
       ),
       alignRight: false
     },
@@ -102,7 +143,7 @@ export default function CustomTable({ filters = [], showRowCount = true, showPag
     <Card>
       {/* Filters / Heading / Search + Bulk Actions */}
 
-      {(filters.length > 0 || heading || isSearch) && (
+      {(filters.length > 0 || heading || isSearch || (bulkAction.length > 0 && selectedRows.length > 0)) && (
         <Stack spacing={2} direction="row" alignItems="center" justifyContent="space-between" sx={{ p: 2 }}>
           {heading && (
             <Typography variant="h4" color="text.primary" px={2} py={2}>
@@ -110,7 +151,48 @@ export default function CustomTable({ filters = [], showRowCount = true, showPag
             </Typography>
           )}
 
-          {isSearch ? <Search /> : null}
+          <Stack direction="row" spacing={2} alignItems="center">
+            {/* ✅ 3 dots menu if rows selected */}
+            {bulkAction.length > 0 && selectedRows.length > 0 && (
+              <>
+                <IconButton onClick={handleOpenMenu} sx={{ border: '1px solid #ddd', borderRadius: 1, height: 55 }}>
+                  <MoreVertIcon />
+                </IconButton>
+                <Menu
+                  anchorEl={anchorEl}
+                  open={open}
+                  onClose={handleCloseMenu}
+                  anchorOrigin={{
+                    vertical: 'bottom',
+                    horizontal: 'left'
+                  }}
+                  transformOrigin={{
+                    vertical: 'top',
+                    horizontal: 'left'
+                  }}
+                >
+                  {bulkAction?.map((actionObj) => {
+                    const isDelete = actionObj.actionName.toLowerCase() === 'delete';
+                    return (
+                      <MenuItem
+                        key={actionObj.actionName}
+                        onClick={() => handleActionClick(actionObj)}
+                        sx={{
+                          color: isDelete ? 'error.main' : 'inherit',
+                          fontWeight: 500
+                        }}
+                      >
+                        {actionObj.actionName}
+                      </MenuItem>
+                    );
+                  })}
+                </Menu>
+              </>
+            )}
+
+            {/* ✅ Search Field */}
+            {isSearch ? <Search /> : null}
+          </Stack>
 
           {/* ✅ Filters aligned right */}
           <Stack spacing={2} direction="row">
@@ -175,7 +257,17 @@ export default function CustomTable({ filters = [], showRowCount = true, showPag
                   const limit = Number(state.limit) || 10;
                   const serialNumber = (data?.currentPage ? data.currentPage - 1 : 0) * limit + index + 1;
 
-                  return <Component key={Math.random()} sn={serialNumber} row={item} isLoading={isLoading} {...rest} />;
+                  return (
+                    <Component
+                      key={Math.random()}
+                      sn={serialNumber}
+                      row={item}
+                      isLoading={isLoading}
+                      UpdateSelectedRow={UpdateSelectedRow}
+                      selectedRows={selectedRows}
+                      {...rest}
+                    />
+                  );
                 })}
               </TableBody>
             </Table>

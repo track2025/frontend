@@ -13,7 +13,8 @@ import {
   IconButton,
   Rating,
   Tooltip,
-  Link
+  Link,
+  Checkbox
 } from '@mui/material';
 
 // redux
@@ -28,11 +29,28 @@ import BlurImage from 'src/components/blurImage';
 import { MdEdit } from 'react-icons/md';
 import { MdDelete } from 'react-icons/md';
 import { IoEye } from 'react-icons/io5';
-export default function ProductRow({ isLoading, row, handleClickOpen, isVendor, sn }) {
+export default function ProductRow({ isLoading, row, handleClickOpen, isVendor, sn, selectedRows, UpdateSelectedRow }) {
   const router = useRouter();
   return (
     <TableRow hover key={Math.random()}>
-      <TableCell>{isLoading ? <Skeleton variant="text" /> : <>{sn}</>}</TableCell>
+      {/* ✅ Checkbox column */}
+      <TableCell padding="checkbox">
+        <Stack direction="row" alignItems="center" spacing={1}>
+          {isLoading ? (
+            <Skeleton variant="circular" width={20} height={20} />
+          ) : (
+            <>
+              <Checkbox
+                size="small"
+                checked={selectedRows?.includes(row?._id)}
+                onChange={() => UpdateSelectedRow(row?._id, 'single')}
+              />
+              {isLoading ? <Skeleton variant="text" width={20} /> : <Typography variant="body2">{sn}</Typography>}
+            </>
+          )}
+        </Stack>
+      </TableCell>
+
       <TableCell component="th" scope="row" sx={{ maxWidth: 300 }}>
         <Box
           sx={{
@@ -126,7 +144,7 @@ export default function ProductRow({ isLoading, row, handleClickOpen, isVendor, 
               </IconButton>
             </Tooltip>
             <Tooltip title="Delete">
-              <IconButton onClick={handleClickOpen(row?.slug)}>
+              <IconButton onClick={handleClickOpen(row?.slug, 'singleDelete')}>
                 <MdDelete />
               </IconButton>
             </Tooltip>
