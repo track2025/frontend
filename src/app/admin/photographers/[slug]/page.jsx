@@ -1,6 +1,7 @@
 'use client';
-import React from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
+import { useRouter, usePathname } from 'next/navigation';
 
 // mui
 import { useTheme } from '@mui/material';
@@ -19,22 +20,35 @@ import { FaWallet } from 'react-icons/fa6';
 // api
 import * as api from 'src/services';
 import { useQuery } from 'react-query';
+import ShopOrderList from 'src/components/_admin/shops/shopOrder';
+import ShopProductList from 'src/components/_admin/shops/shopProduct';
 
 Page.propTypes = {
   params: PropTypes.object.isRequired
 };
 
 export default function Page({ params: { slug } }) {
+  const router = useRouter();
+  const pathname = usePathname();
   const theme = useTheme();
-  const [count, setCount] = React.useState(0);
+  const [count, setCount] = useState(0);
   const { data, isLoading } = useQuery(['shop-by-admin', count], () => api.getShopDetailsByAdmin(slug));
+
+  const [viewSection, setViewSection] = useState('income');
+
+  function SetDataType(type) {
+    // clear query params and keep only pathname
+    router.replace(pathname);
+    setViewSection(type);
+  }
 
   const dataMain = [
     {
       name: 'Total Income',
       items: data?.totalEarnings,
       color: theme.palette.error.main,
-      icon: <FaWallet size={30} />
+      icon: <FaWallet size={30} />,
+      viewFunction: () => SetDataType('income')
     },
     {
       name: 'Total Commission',
@@ -47,14 +61,16 @@ export default function Page({ params: { slug } }) {
       name: 'Total Orders',
       items: data?.totalOrders,
       color: theme.palette.secondary.main,
-      icon: <HiOutlineClipboardList size={30} />
+      icon: <HiOutlineClipboardList size={30} />,
+      viewFunction: () => SetDataType('order')
     },
 
     {
       name: 'Total Media Files',
       items: data?.totalProducts,
       color: theme.palette.primary.main,
-      icon: <FaGifts size={30} />
+      icon: <FaGifts size={30} />,
+      viewFunction: () => SetDataType('media')
     }
   ];
   return (
@@ -62,7 +78,14 @@ export default function Page({ params: { slug } }) {
       {/* {JSON.stringify(data)} */}
       <ShopDetailCover data={data?.data} isLoading={isLoading} />
       <ShopDetail data={dataMain} isLoading={isLoading} />
-      <ShopIcomeList slug={slug} onUpdatePayment={() => setCount((prev) => prev + 1)} count={count} />
+
+      {viewSection === 'order' && <ShopOrderList slug={slug} />}
+
+      {viewSection === 'income' && (
+        <ShopIcomeList slug={slug} onUpdatePayment={() => setCount((prev) => prev + 1)} count={count} />
+      )}
+
+      {viewSection === 'media' && <ShopProductList slug={slug} />}
     </div>
   );
 }

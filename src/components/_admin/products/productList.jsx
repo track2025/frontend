@@ -21,15 +21,22 @@ const TABLE_HEAD = [
   { id: 'price', label: 'Price', alignRight: false, sort: true },
   { id: '', label: 'Actions', alignRight: true }
 ];
-export default function AdminProducts({ brands, categories, shops, isVendor }) {
+export default function AdminProducts({ brands, categories, shops, isVendor, searchBy }) {
   const searchParams = useSearchParams();
+
+  const params = new URLSearchParams(searchParams);
+
+  // always set searchBy (replace if exists, add if not)
+  if (searchBy) {
+    params.set(searchBy.key, searchBy.value);
+  }
 
   const [open, setOpen] = useState(false);
   const [apicall, setApicall] = useState(false);
   const [id, setId] = useState(null);
   const { data, isLoading } = useQuery(
-    ['admin-products', apicall, searchParams.toString()],
-    () => api[isVendor ? 'getVendorProducts' : 'getProductsByAdmin'](searchParams.toString()),
+    ['admin-products', apicall, params.toString()],
+    () => api[isVendor ? 'getVendorProducts' : 'getProductsByAdmin'](params.toString()),
     {
       onError: (err) =>
         toast.error(
@@ -73,7 +80,7 @@ export default function AdminProducts({ brands, categories, shops, isVendor }) {
         categories={isVendor ? [] : categories}
         isVendor={isVendor}
         filters={
-          isVendor
+          isVendor || searchBy
             ? []
             : [
                 {
@@ -93,7 +100,7 @@ export default function AdminProducts({ brands, categories, shops, isVendor }) {
                 }
               ]
         }
-        isSearch
+        isSearch={!searchBy ? true : false}
       />
     </>
   );

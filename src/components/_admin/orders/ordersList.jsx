@@ -19,15 +19,20 @@ const TABLE_HEAD = [
   { id: 'createdAt', label: 'Date', alignRight: false, sort: true },
   { id: '', label: 'actions', alignRight: true }
 ];
-export default function OrdersAdminList({ isVendor, shops }) {
+export default function OrdersAdminList({ isVendor, shops, searchBy }) {
   const searchParams = useSearchParams();
+  const params = new URLSearchParams(searchParams);
+  if (searchBy) {
+    params.set(searchBy.key, searchBy.value);
+  }
 
   const [apicall, setApicall] = useState(false);
   const { data, isLoading: loadingList } = useQuery(
-    ['orders', apicall, searchParams.toString()],
-    () => api[isVendor ? 'getOrdersByVendor' : 'getOrdersByAdmin'](searchParams.toString()),
+    ['orders', apicall, params.toString()],
+    () => api[isVendor ? 'getOrdersByVendor' : 'getOrdersByAdmin'](params.toString()),
     {
-      onError: (err) => toast.error(err.response.data.message || 'We ran into an issue. Please refresh the page or try again.')
+      onError: (err) =>
+        toast.error(err.response.data.message || 'We ran into an issue. Please refresh the page or try again.')
     }
   );
   const [open, setOpen] = useState(false);
@@ -64,7 +69,7 @@ export default function OrdersAdminList({ isVendor, shops }) {
         isVendor={isVendor}
         isSearch
         filters={
-          isVendor
+          isVendor || searchBy
             ? []
             : [
                 {
