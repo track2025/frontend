@@ -30,10 +30,11 @@ export default function AdminProducts() {
   const [id, setId] = useState(null);
 
   const { data, isLoading } = useQuery(
-    ['admin-shops', apicall, searchParam, pageParam],
-    () => api.getShopsByAdmin(+pageParam || 1, searchParam || ''),
+    ['admin-shops', apicall, searchParams.toString()],
+    () => api.getShopsByAdmin(searchParams.toString() || ''),
     {
-      onError: (err) => toast.error(err.response.data.message || 'We ran into an issue. Please refresh the page or try again.')
+      onError: (err) =>
+        toast.error(err.response.data.message || 'We ran into an issue. Please refresh the page or try again.')
     }
   );
   const handleClickOpen = (prop) => () => {
