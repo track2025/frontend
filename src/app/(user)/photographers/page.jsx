@@ -9,6 +9,8 @@ import ShopCard from 'src/components/cards/shop';
 // api
 import * as api from 'src/services';
 
+export const dynamic = 'force-dynamic';
+
 export default async function ShopComponent() {
   const data = await api.getShops();
 

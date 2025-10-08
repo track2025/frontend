@@ -6,6 +6,7 @@ import AddProduct from 'src/components/_admin/products/addProduct';
 
 // api
 import * as api from 'src/services';
+export const dynamic = 'force-dynamic';
 
 export default async function page() {
   const { data: categories } = await api.getAllCategories();
