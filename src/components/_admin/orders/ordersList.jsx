@@ -73,7 +73,7 @@ export default function OrdersAdminList({ isVendor, shops, searchBy }) {
             ? []
             : [
                 {
-                  name: 'Shop',
+                  name: 'Photographers',
                   param: 'shop',
                   data: shops
                 }
