@@ -24,7 +24,7 @@ export default async function ShopComponent() {
         }}
       >
         <Box>
-          <Typography variant="h2" color="text.primary" textAlign="center">
+          <Typography variant="h1" color="text.primary" textAlign="center">
             Photographers
           </Typography>
           <Typography variant="body1" color="text.secondary" textAlign="center">

@@ -31,16 +31,16 @@ const typography = {
   fontWeightBlack: 900,
   fontFamily: figtree.style.fontFamily,
   h1: {
-    fontWeight: 900,
-    lineHeight: 80 / 64,
-    fontSize: pxToRem(40),
-    ...responsiveFontSizes({ sm: 30, md: 58, lg: 64 })
-  },
-  h2: {
     fontWeight: 700,
     lineHeight: 64 / 48,
     fontSize: pxToRem(32),
     ...responsiveFontSizes({ sm: 26, md: 44, lg: 48 })
+  },
+  h2: {
+    fontWeight: 700,
+    lineHeight: 1.5,
+    fontSize: pxToRem(24),
+    ...responsiveFontSizes({ sm: 24, md: 30, lg: 32 })
   },
   h3: {
     fontWeight: 700,

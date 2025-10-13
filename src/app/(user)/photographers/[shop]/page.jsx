@@ -24,7 +24,7 @@ export async function generateMetadata({ params }) {
   const { data: response } = await api.getShopBySlug(params.shop);
 
   return {
-    title: 'Photographer - ' + response?.title,
+    title: 'Race Track Photographer - ' + response?.title,
     description: response?.description,
     openGraph: {
       images: [response?.logo?.url]

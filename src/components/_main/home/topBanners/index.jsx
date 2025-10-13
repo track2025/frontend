@@ -49,7 +49,7 @@ export default function Index() {
                 sx={{ p: { sm: '24px', xs: '12px', zIndex: 99, position: 'relative' } }}
               >
                 <Typography
-                  variant={'h4'}
+                  variant={'h2'}
                   lineHeight={1.3}
                   sx={{
                     color: '#ffffff',
@@ -74,12 +74,20 @@ export default function Index() {
                 </Typography>
 
                 <Typography
-                  variant={isDeskTop ? 'body1' : 'body2'}
+                  variant={'h3'}
                   mb={2}
                   display={{ md: 'block', xs: 'none' }}
                   width={{ xl: 270, md: 270 }}
                   sx={{
-                    color: '#ffffff'
+                    color: '#ffffff',
+                    fontSize: {
+                      xl: 12,
+                      lg: 12,
+                      md: 12,
+                      sm: 12,
+                      xs: 12
+                    },
+                    fontWeight: '400'
                   }}
                 >
                   Discover high-quality photographs of vehicles from professional photographers worldwide.
@@ -133,7 +141,7 @@ export default function Index() {
               {/* Left Content */}
               <Stack spacing={isDeskTop ? 1 : 1.5} sx={{ p: { sm: '24px', xs: '12px' }, zIndex: 1, flex: 0 }}>
                 <Typography
-                  variant={'h4'}
+                  variant={'h2'}
                   lineHeight={1.3}
                   sx={{
                     width: {
@@ -156,11 +164,22 @@ export default function Index() {
                 </Typography>
 
                 <Typography
-                  variant={isDeskTop ? 'body1' : 'body2'}
+                  variant={'h3'}
                   mb={2}
                   display={{ md: 'block', xs: 'none' }}
                   width={{ xl: 270 }}
                   color="#fff"
+                  sx={{
+                    color: '#ffffff',
+                    fontSize: {
+                      xl: 12,
+                      lg: 12,
+                      md: 12,
+                      sm: 12,
+                      xs: 12
+                    },
+                    fontWeight: '400'
+                  }}
                 >
                   Sell your car photos with ease. Upload, manage, and track your sales — all in one place.
                 </Typography>

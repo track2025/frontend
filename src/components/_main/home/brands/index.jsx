@@ -20,8 +20,8 @@ export default function Brands() {
         display: { md: 'block', xs: 'none' }
       }}
     >
-      <Typography variant="h2" color="text.primary" textAlign="center">
-        Locations
+      <Typography variant="h1" color="text.primary" textAlign="center">
+        Race Track Locations
       </Typography>
       <Typography
         variant="body1"
@@ -58,11 +58,11 @@ export default function Brands() {
                   }
                 }}
               >
-                <CardActionArea onClick={() => push(`/products?brand=${v.slug}`)} sx={{ p: 1, pr: 2 }}>
+                <CardActionArea onClick={() => push(`/race-track/${v.slug}`)} sx={{ p: 1, pr: 2 }}>
                   <Stack direction="row" alignItems="center" spacing={2}>
                     <Image
                       src={v.logo.url}
-                      alt="logo"
+                      alt={v.name}
                       width={70}
                       height={70}
                       draggable="false"
@@ -75,7 +75,7 @@ export default function Brands() {
                         {v.name}
                       </Typography>
                       <Typography variant="body1" noWrap>
-                        {v.totalProducts +  ' ' + (v.totalProducts <= 1 ? 'Photo' : 'Photos')}
+                        {v.totalProducts + ' ' + (v.totalProducts <= 1 ? 'Photo' : 'Photos')}
                       </Typography>
                     </Stack>
                   </Stack>

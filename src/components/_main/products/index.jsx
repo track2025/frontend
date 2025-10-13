@@ -4,7 +4,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
 import dynamic from 'next/dynamic';
-import { useSearchParams } from 'next/navigation';
+import { useSearchParams, usePathname } from 'next/navigation';
 
 // mui
 import { useMediaQuery } from '@mui/material';
@@ -32,20 +32,29 @@ const sortData = [
   { title: 'Oldest', key: 'date', value: 1 },
   { title: 'Newest', key: 'date', value: -1 }
 ];
+
 const getSearchParams = (searchParams) => {
   return searchParams.toString().length ? '?' + searchParams.toString() : '';
 };
+
 export default function ProductListing({ category, subCategory, shop, compaign }) {
   const searchParams = useSearchParams();
+  const pathname = usePathname();
   const { rate } = useSelector(({ settings }) => settings);
+
+  // Extract brand from query or path
+  let brand = searchParams.get('brand');
+  if (!brand) {
+    const match = pathname.match(/\/race-track\/([^/]+)/);
+    brand = match ? match[1] : null;
+  }
+  // If brand exists, append to search params
+  const searchQuery = brand
+    ? getSearchParams(new URLSearchParams({ ...Object.fromEntries(searchParams), brand }))
+    : getSearchParams(searchParams);
+
   const { data, isLoading } = useQuery(
-    [
-      'products' + category || subCategory ? '-with-category' : '',
-      searchParams.toString(),
-      category,
-      subCategory,
-      shop
-    ],
+    ['products' + (category || subCategory ? '-with-category' : ''), searchQuery, category, subCategory, shop],
     () =>
       api[
         category
@@ -58,12 +67,14 @@ export default function ProductListing({ category, subCategory, shop, compaign }
                 ? 'getProductsByCompaign'
                 : 'getProducts'
       ](
-        getSearchParams(searchParams),
+        searchQuery,
         shop ? shop?.slug : category ? category?.slug : subCategory ? subCategory?.slug : compaign ? compaign.slug : '',
         rate
       )
   );
+
   const isMobile = useMediaQuery('(max-width:900px)');
+
   return (
     <>
       <SortBar

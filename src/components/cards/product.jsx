@@ -81,8 +81,36 @@ export default function ShopProductCard({ ...props }) {
     }
   });
 
-  const { name, slug, image, _id, averageRating, priceSale } = !loading && product;
-  const linkTo = `/product/${slug ? slug : ''}`;
+  const { name, slug, image, _id, averageRating, priceSale, dateCaptured, location } = !loading && product;
+
+  const slugify = (text) => {
+    if (!text) return 'race-track';
+    return text
+      .toString()
+      .trim()
+      .toLowerCase()
+      .replace(/\s+/g, '-') // Replace spaces with -
+      .replace(/[^\w\-]+/g, '') // Remove all non-word chars
+      .replace(/\-\-+/g, '-') // Replace multiple - with single -
+      .replace(/^-+/, '') // Trim - from start
+      .replace(/-+$/, ''); // Trim - from end
+  };
+
+  // Format date to YYYY-MM-DD
+  const formatDate = (dateStr) => {
+    if (!dateStr) return '2025';
+    const date = new Date(dateStr);
+    const yyyy = date.getFullYear();
+    const mm = String(date.getMonth() + 1).padStart(2, '0');
+    const dd = String(date.getDate()).padStart(2, '0');
+    return `${yyyy}-${mm}-${dd}`;
+  };
+
+  //event/:brand/:date/pictures/:slug
+  const locationSlug = slugify(location);
+  const dateSlug = formatDate(dateCaptured);
+  const linkTo = `/event/${locationSlug ? locationSlug : ''}/${dateSlug ? dateSlug : ''}/pictures/${slug ? slug : ''}`;
+  //const linkTo = `/product/${slug ? slug : ''}`;
 
   const onClickWishList = async (event) => {
     if (!isAuthenticated) {

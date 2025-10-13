@@ -9,8 +9,10 @@ import IconButton from '@mui/material/IconButton';
 // components
 import Search from './search';
 import { RxMagnifyingGlass } from 'react-icons/rx';
+import { useRouter } from 'next/navigation';
 
 export default function SimpleDialogDemo() {
+  const router = useRouter();
   const [open, setOpen] = React.useState(false);
   const handleClickOpen = () => {
     setOpen(true);
@@ -18,15 +20,19 @@ export default function SimpleDialogDemo() {
   const handleClose = () => {
     setOpen(false);
   };
+  const handleRedirect = () => {
+    router.push('/products?top=1');
+  };
 
   return (
     <>
       <Button
-      className='border border-1'
+        className="border border-1"
         direction="row"
         alignItems="center"
         justifyContent="space-between"
-        onClick={handleClickOpen}
+        // onClick={handleClickOpen}
+        onClick={handleRedirect}
         variant="contained"
         size="large"
         sx={{
@@ -37,14 +43,13 @@ export default function SimpleDialogDemo() {
           color: 'text.primary'
         }}
         startIcon={<RxMagnifyingGlass sx={{ color: 'text.primary' }} />}
-      >    
-
-          Search...
+      >
+        Search...
       </Button>
 
-      <Dialog open={open} onClose={handleClose} sx={{ '& .MuiPaper-root': { width: 600 } }}>
+      {/* <Dialog open={open} onClose={handleClose} sx={{ '& .MuiPaper-root': { width: 600 } }}>
         <Search onClose={handleClose} />
-      </Dialog>
+      </Dialog> */}
     </>
   );
 }

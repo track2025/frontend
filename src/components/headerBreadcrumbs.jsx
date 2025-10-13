@@ -14,6 +14,7 @@ import { createGradient } from 'src/theme/palette';
 
 export default function HeaderBreadcrumbs({ ...props }) {
   const { links, action, icon, heading, moreLink = '' || [], sx, admin, ...other } = props;
+
   const theme = useTheme();
 
   return (
@@ -89,7 +90,21 @@ export default function HeaderBreadcrumbs({ ...props }) {
             width: '50%'
           }}
         >
-          <Typography variant="h3" gutterBottom sx={{ textTransform: 'capitalize', width: '80vw' }} noWrap>
+          <Typography
+            variant="h1"
+            gutterBottom
+            sx={{
+              textTransform: 'capitalize',
+              width: '80vw',
+              fontSize: {
+                xs: '16px', // small screens
+                sm: '18px', // medium screens
+                md: '20px', // large screens
+                lg: '22px' // extra large screens
+              }
+            }}
+            noWrap
+          >
             {heading}
           </Typography>
 

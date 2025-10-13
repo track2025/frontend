@@ -29,13 +29,56 @@ export async function generateStaticParams() {
 export async function generateMetadata({ params }) {
   const { data: response } = await api.getProductDetails(params.slug);
 
+  if (!response) {
+    return {
+      title: 'Product Not Found',
+      description: 'The requested product could not be found.'
+    };
+  }
+
+  // Helper: format date YYYY-MM-DD
+  const formatDate = (dateStr) => {
+    const date = new Date(dateStr);
+    const yyyy = date.getFullYear();
+    const mm = String(date.getMonth() + 1).padStart(2, '0');
+    const dd = String(date.getDate()).padStart(2, '0');
+    return `${yyyy}-${mm}-${dd}`;
+  };
+
+  // Helper: Title Case
+  const toTitleCase = (str) => {
+    if (!str) return '';
+    return str
+      .split(' ')
+      .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+      .join(' ');
+  };
+
+  const productName = response?.name || 'Vehicle Photo';
+  const brandName = response?.shop?.name || response?.brand || 'Lap Snaps';
+  const location = toTitleCase(response?.location);
+  const dateCaptured = response?.dateCaptured ? formatDate(response.dateCaptured) : '';
+
+  const title = `${location} Race Track Events on ${dateCaptured} - ${productName} – ${brandName}`;
+  const description = `High-quality photo of ${productName} captured at ${location} on ${dateCaptured} by ${brandName}.`;
+  const keywords = `${productName}, ${brandName}, ${location}, ${dateCaptured}, race track, vehicle photography`;
+
   return {
-    title: (response?.name || '') + ' ' + (response?.location || ''),
-    description: (response?.name || '') + ' ' + (response?.location || ''),
-    keywords: (response?.name || '') + ' ' + (response?.location || ''),
-    title: (response?.name || '') + ' ' + (response?.location || ''),
+    title,
+    description,
+    keywords,
     openGraph: {
-      images: response?.images.map((v) => v.url)
+      title,
+      description,
+      url: `https://lapsnaps.com/product/${params.slug}`,
+      type: 'website',
+      images: response?.images?.map((img) => img.url) || []
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title,
+      description,
+      images: response?.images?.map((img) => img.url) || []
     }
   };
 }
@@ -43,14 +86,23 @@ export async function generateMetadata({ params }) {
 export default async function ProductDetail({ params: { slug } }) {
   const response = await api.getProductDetails(slug);
 
-  const { data, totalRating, totalReviews, brand, category, shopDetails } = response;
+  const { data, totalRating, totalReviews, brand, category, shopDetails, location, dateCaptured, name } = response;
+  function formatShortDate(isoDate) {
+    if (!isoDate) return '';
+
+    const date = new Date(isoDate);
+
+    const options = { day: 'numeric', month: 'short', year: 'numeric' };
+
+    return date.toLocaleDateString('en-US', options);
+  }
 
   return (
     <Box>
       <Container maxWidth="xl">
         <Stack gap={5}>
           <HeaderBreadcrumbs
-            heading="Product Details"
+            heading={`${data?.location} Race Track Events on ${formatShortDate(data?.dateCaptured)}  ${data?.name || ''}`}
             links={[
               {
                 name: 'Home',

@@ -3,6 +3,22 @@
 // });
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+  async rewrites() {
+    return [
+      {
+        source: '/race-track/:brand',
+        destination: '/products?brand=:brand'
+      },
+      {
+        source: '/race-track/events',
+        destination: '/products?top=1'
+      },
+      {
+        source: '/event/:brand/:date/pictures/:slug',
+        destination: '/product/:slug'
+      }
+    ];
+  },
   webpack: (config) => {
     config.resolve.fallback = { fs: false };
     return config;
@@ -21,13 +37,31 @@ const nextConfig = {
     DO_SPACES_SECRET: process.env.DO_SPACES_SECRET
   },
   images: {
-    domains: [
-      'nextall.vercel.app',
-      'res.cloudinary.com',
-      'shouttymedia.nyc3.digitaloceanspaces.com',
-      'nyc3.digitaloceanspaces.com',
-      'placehold.co',
-      'lapsnaps.com'
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: 'nextall.vercel.app'
+      },
+      {
+        protocol: 'https',
+        hostname: 'res.cloudinary.com'
+      },
+      {
+        protocol: 'https',
+        hostname: 'shouttymedia.nyc3.digitaloceanspaces.com'
+      },
+      {
+        protocol: 'https',
+        hostname: 'nyc3.digitaloceanspaces.com'
+      },
+      {
+        protocol: 'https',
+        hostname: 'placehold.co'
+      },
+      {
+        protocol: 'https',
+        hostname: 'lapsnaps.com'
+      }
     ]
   }
 };
