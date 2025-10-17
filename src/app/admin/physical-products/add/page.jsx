@@ -32,7 +32,7 @@ export default async function page() {
           }
         ]}
       />
-      {/* <AddProduct brands={brands} shops={shops} categories={categories} attributes={attributes} /> */}
+      <AddProduct brands={brands} shops={shops} categories={categories} attributes={attributes} />
     </div>
   );
 }
