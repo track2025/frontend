@@ -100,6 +100,8 @@ export const getAllCategoriesByAdmin = async () => {
   return data;
 };
 
+// SUB CATEGORIES
+
 export const getSubCategoryByAdmin = async (slug) => {
   const { data } = await http.get(`/admin/subcategories/${slug}`);
   return data;
@@ -667,3 +669,85 @@ export const requestRemoval = async ({ ...payload }) => {
 //   const { data } = await http.post(`/contact-us`, payload);
 //   return data;
 // };
+
+
+export const getAllAttributesByAdmin = async () => {
+  const { data } = await http.get(`/admin/all-attributes`);
+  return data;
+};
+
+// PHYSICAL CATEGORIES
+export const getPhysicalCategoriesByAdmin = async (page, search) => {
+  const { data } = await http.get(`/admin/physical-categories?search=${search}&page=${page}`);
+  return data;
+};
+
+export const getAllPhysicalCategoriesByAdmin = async () => {
+  const { data } = await http.get(`/admin/all-physical-categories`);
+  return data;
+};
+
+export const addPhysicalCategoryByAdmin = async (payload) => {
+  const { data } = await http.post(`/admin/physical-categories`, payload);
+  return data;
+};
+
+export const updatePhysicalCategoryByAdmin = async ({ currentSlug, ...payload }) => {
+  const { data } = await http.put(`/admin/physical-categories/${currentSlug}`, payload);
+  return data;
+};
+
+// physical sub categories
+export const getPhysicalSubCategoryByAdmin = async (slug) => {
+  const { data } = await http.get(`/admin/physical-sub-categories/${slug}`);
+  return data;
+};
+
+export const getPhysicalSubCategoriesByAdmin = async (params) => {
+  const { data } = await http.get(`/admin/physical-sub-categories?${params}`);
+  return data;
+};
+
+export const deletePhysicalSubCategoryByAdmin = async (slug) => {
+  const { data } = await http.delete(`/admin/physical-sub-categories/${slug}`);
+  return data;
+};
+
+export const addPhysicalSubCategoryByAdmin = async (payload) => {
+  const { data } = await http.post(`/admin/physical-sub-categories`, payload);
+  return data;
+};
+
+export const updatePhysicalSubCategoryByAdmin = async ({ currentSlug, ...payload }) => {
+  const { data } = await http.put(`/admin/physical-sub-categories/${currentSlug}`, payload);
+  return data;
+};
+
+// physical child categories
+export const getPhysicalChildCategoryByAdmin = async (slug) => {
+  const { data } = await http.get(`/admin/physical-child-categories/${slug}`);
+  return data;
+};
+
+export const getPhysicalChildCategoriesByAdmin = async (params) => {
+  const { data } = await http.get(`/admin/physical-child-categories?${params}`);
+  return data;
+};
+
+export const deletePhysicalChildCategoryByAdmin = async (slug) => {
+  const { data } = await http.delete(`/admin/physical-child-categories/${slug}`);
+  return data;
+};
+
+export const addPhysicalChildCategoryByAdmin = async (payload) => {
+  const { data } = await http.post(`/admin/physical-child-categories`, payload);
+  return data;
+};
+
+export const updatePhysicalChildCategoryByAdmin = async ({ currentSlug, ...payload }) => {
+  const { data } = await http.put(`/admin/physical-child-categories/${currentSlug}`, payload);
+  return data;
+};
+
+
+

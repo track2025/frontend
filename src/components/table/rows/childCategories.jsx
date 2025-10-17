@@ -1,24 +1,21 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { capitalize } from 'lodash';
 import { useRouter } from 'next-nprogress-bar';
+import { fDateShort } from 'src/utils/formatTime';
 
 // mui
 import { styled } from '@mui/material/styles';
-import { Box, TableRow, Skeleton, TableCell, Typography, Stack, IconButton, Tooltip, useTheme } from '@mui/material';
+import { Box, TableRow, Skeleton, TableCell, Typography, Stack, IconButton, Tooltip, Chip } from '@mui/material';
 
 // icons
 import { MdEdit } from 'react-icons/md';
 import { MdDelete } from 'react-icons/md';
 
 // components
-import Label from 'src/components/label';
+
 import BlurImage from 'src/components/blurImage';
 
-// utils
-import { fDateShort } from 'src/utils/formatTime';
-
-Category.propTypes = {
+ChildCategory.propTypes = {
   isLoading: PropTypes.bool.isRequired,
   row: PropTypes.shape({
     name: PropTypes.string.isRequired,
@@ -45,12 +42,11 @@ const ThumbImgStyle = styled(Box)(({ theme }) => ({
   position: 'relative',
   overflow: 'hidden'
 }));
-export default function Category({ isLoading, row, handleClickOpen, sn }) {
+export default function ChildCategory({ isLoading, row, handleClickOpen }) {
   const router = useRouter();
-  const theme = useTheme();
+
   return (
     <TableRow hover key={Math.random()}>
-      <TableCell>{isLoading ? <Skeleton variant="text" /> : <>{sn}</>}</TableCell>
       <TableCell component="th" scope="row">
         <Box
           sx={{
@@ -59,18 +55,10 @@ export default function Category({ isLoading, row, handleClickOpen, sn }) {
           }}
         >
           {isLoading ? (
-            <Skeleton variant="rectangular" width={50} height={50} sx={{ borderRadius: 1 }} />
+            <Skeleton variant="rounded" width={50} height={50} sx={{ borderRadius: 1 }} />
           ) : (
             <ThumbImgStyle>
-              <BlurImage
-                priority
-                fill
-                alt={row?.name}
-                src={row?.cover?.url}
-                placeholder={row?.logo?.blurDataURL ? "blur" : "empty"}
-                blurDataURL={row?.cover.blurDataURL}
-                objectFit="cover"
-              />
+              <BlurImage priority fill alt={row?.name} src={row?.cover?.url} objectFit="cover" />
             </ThumbImgStyle>
           )}
           <Typography variant="subtitle2" noWrap>
@@ -78,13 +66,70 @@ export default function Category({ isLoading, row, handleClickOpen, sn }) {
           </Typography>
         </Box>
       </TableCell>
-      <TableCell>{isLoading ? <Skeleton variant="text" /> : row.description.slice(0, 50)}</TableCell>
+      <TableCell component="th" scope="row">
+        <Box
+          sx={{
+            display: 'flex',
+            alignItems: 'center'
+          }}
+        >
+          {isLoading ? (
+            <Skeleton variant="rounded" width={50} height={50} sx={{ borderRadius: 1 }} />
+          ) : (
+            <ThumbImgStyle>
+              <BlurImage
+                priority
+                fill
+                alt={row?.subCategory.name}
+                src={row?.subCategory?.cover?.url}
+                objectFit="cover"
+              />
+            </ThumbImgStyle>
+          )}
+          <Typography variant="subtitle2" noWrap>
+            {isLoading ? <Skeleton variant="text" width={120} sx={{ ml: 1 }} /> : row?.subCategory?.name}
+          </Typography>
+        </Box>
+      </TableCell>
+      <TableCell component="th" scope="row">
+        <Box
+          sx={{
+            display: 'flex',
+            alignItems: 'center'
+          }}
+        >
+          {isLoading ? (
+            <Skeleton variant="rounded" width={50} height={50} sx={{ borderRadius: 1 }} />
+          ) : (
+            <ThumbImgStyle>
+              <BlurImage
+                priority
+                fill
+                alt={row?.subCategory?.parentCategory?.name}
+                src={row?.subCategory?.parentCategory?.cover?.url}
+                objectFit="cover"
+              />
+            </ThumbImgStyle>
+          )}
+          <Typography variant="subtitle2" noWrap>
+            {isLoading ? (
+              <Skeleton variant="text" width={120} sx={{ ml: 1 }} />
+            ) : (
+              row?.subCategory?.parentCategory?.name
+            )}
+          </Typography>
+        </Box>
+      </TableCell>
+
       <TableCell>
         {isLoading ? (
           <Skeleton variant="text" />
         ) : (
-            capitalize(row?.status)
-        
+          <Chip
+            size="small"
+            label={row?.status}
+            color={row?.status?.toLowerCase() === 'active' ? 'success' : 'error'}
+          />
         )}
       </TableCell>
       <TableCell>{isLoading ? <Skeleton variant="text" /> : <> {fDateShort(row.createdAt)} </>}</TableCell>
@@ -98,7 +143,7 @@ export default function Category({ isLoading, row, handleClickOpen, sn }) {
           ) : (
             <>
               <Tooltip title="Edit">
-                <IconButton onClick={() => router.push(`/admin/vehicle-makes/${row?.slug}`)}>
+                <IconButton onClick={() => router.push(`/admin/categories/child-categories/${row?.slug}`)}>
                   <MdEdit />
                 </IconButton>
               </Tooltip>

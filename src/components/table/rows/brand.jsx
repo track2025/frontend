@@ -54,8 +54,8 @@ export default function BrandsRow({ isLoading, row, handleClickOpen, sn }) {
                 fill
                 alt={row?.name}
                 src={row?.logo?.url}
-                placeholder="blur"
-                blurDataURL={row?.logo.blurDataURL}
+                placeholder={row?.logo?.blurDataURL ? "blur" : "empty"}
+                blurDataURL={row?.logo?.blurDataURL}
               />
             </ThumbImgStyle>
           )}
@@ -64,11 +64,20 @@ export default function BrandsRow({ isLoading, row, handleClickOpen, sn }) {
           </Typography>
         </Box>
       </TableCell>
+
       <TableCell>
         {isLoading ? (
           <Skeleton variant="text" />
         ) : (
-         capitalize(row?.status)
+          capitalize(row?.description || 'No description provided')
+        )}
+      </TableCell>
+
+      <TableCell>
+        {isLoading ? (
+          <Skeleton variant="text" />
+        ) : (
+          capitalize(row?.status)
         )}
       </TableCell>
       <TableCell>{isLoading ? <Skeleton variant="text" /> : <> {fDateShort(row.createdAt)} </>}</TableCell>

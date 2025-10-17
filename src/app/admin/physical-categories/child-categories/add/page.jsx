@@ -2,17 +2,11 @@ import React from 'react';
 
 // components
 import HeaderBreadcrumbs from 'src/components/headerBreadcrumbs';
-import AddSubCategory from 'src/components/_admin/subCategories/addCategory';
+import AddCategory from 'src/components/_admin/physical-categories/child/add-category';
 
 // api
 import * as api from 'src/services';
-
-export const metadata = {
-  title: 'Add Vehicle Model - Lap Snaps',
-  applicationName: 'Lap Snaps',
-  authors: 'Lap Snaps'
-};
-
+export const dynamic = 'force-dynamic';
 export default async function page() {
   const data = await api.getAllCategories();
   if (!data) {
@@ -23,22 +17,22 @@ export default async function page() {
     <div>
       <HeaderBreadcrumbs
         admin
-        heading="Vehicle Model List"
+        heading="Add Child Category"
         links={[
           {
             name: 'Dashboard',
-            href: '/admin'
+            href: '/admin/dashboard'
           },
           {
-            name: 'Vehicle Model',
-            href: '/admin/vehicle-models'
+            name: 'Child Categories',
+            href: '/admin/physical-categories/child-categories'
           },
           {
-            name: 'Add Model'
+            name: 'Add Child Category'
           }
         ]}
       />
-      <AddSubCategory categories={categories} />
+      <AddCategory categories={categories} />
     </div>
   );
 }
