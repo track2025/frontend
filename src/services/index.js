@@ -44,6 +44,11 @@ export const getBrandsByAdmin = async (page, search) => {
   const { data } = await http.get(`/admin/brands?search=${search}&page=${page}`);
   return data;
 };
+export const getPhysicalBrandsByAdmin = async (page, search) => {
+  const { data } = await http.get(`/admin/physical/brands?search=${search}&page=${page}`);
+  return data;
+};
+
 export const getBrandByAdmin = async (id) => {
   const { data } = await http.get(`/admin/brands/${id}`);
   return data;
@@ -670,7 +675,6 @@ export const requestRemoval = async ({ ...payload }) => {
 //   return data;
 // };
 
-
 export const getAllAttributesByAdmin = async () => {
   const { data } = await http.get(`/admin/all-attributes`);
   return data;
@@ -689,6 +693,11 @@ export const getAllPhysicalCategoriesByAdmin = async () => {
 
 export const addPhysicalCategoryByAdmin = async (payload) => {
   const { data } = await http.post(`/admin/physical-categories`, payload);
+  return data;
+};
+
+export const addPhysicalBrandByAdmin = async (payload) => {
+  const { data } = await http.post(`/admin/physical/brands`, payload);
   return data;
 };
 
@@ -748,6 +757,3 @@ export const updatePhysicalChildCategoryByAdmin = async ({ currentSlug, ...paylo
   const { data } = await http.put(`/admin/physical-child-categories/${currentSlug}`, payload);
   return data;
 };
-
-
-

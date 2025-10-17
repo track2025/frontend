@@ -29,7 +29,7 @@ export default function BrandList() {
   const [id, setId] = useState(null);
 
   const { data, isPending: isLoading } = useQuery({
-    queryKey: ['brands', apicall, searchParam, pageParam],
+    queryKey: ['physical-brands', apicall, searchParam, pageParam],
     queryFn: () => api.getPhysicalBrandsByAdmin(+pageParam || 1, searchParam || '')
   });
 

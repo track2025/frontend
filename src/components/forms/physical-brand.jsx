@@ -30,7 +30,6 @@ import { Form, FormikProvider, useFormik } from 'formik';
 import UploadSingleFile from 'src/components/upload/UploadSingleFile';
 import uploadToSpaces from 'src/utils/upload';
 
-
 const LabelStyle = styled(Typography)(({ theme }) => ({
   ...theme.typography.subtitle2,
   color: theme.palette.text.secondary,
@@ -60,7 +59,7 @@ export default function PhysicalBrandsForm({ data: currentBrand, isLoading: bran
       retry: false,
       onSuccess: (data) => {
         toast.success(data.message);
-        router.push('/admin/locations');
+        router.back();
       },
       onError: (error) => {
         toast.error(error.response.data.message);
@@ -75,7 +74,7 @@ export default function PhysicalBrandsForm({ data: currentBrand, isLoading: bran
   const BrandSchema = Yup.object().shape({
     name: Yup.string().required('Brand name is required'),
     logo: Yup.mixed().required('Logo is required'),
-    slug: Yup.string().required('Slug is required'),
+    slug: Yup.string().required('Slug is required')
   });
 
   const formik = useFormik({
@@ -113,7 +112,7 @@ export default function PhysicalBrandsForm({ data: currentBrand, isLoading: bran
       });
     }
     setFieldValue('file', file);
-    
+
     try {
       const uploaded = await uploadToSpaces(file, (progress) => {
         setstate({ ...state, loading: progress });
@@ -146,12 +145,15 @@ export default function PhysicalBrandsForm({ data: currentBrand, isLoading: bran
       <FormikProvider value={formik}>
         <Form noValidate autoComplete="off" onSubmit={handleSubmit}>
           <Grid container spacing={2}>
-            <Grid item sx={{
-              width: {
-                xs: '100%', // mobile
-                md: '60%'   // desktop
-              }
-            }} >
+            <Grid
+              item
+              sx={{
+                width: {
+                  xs: '100%', // mobile
+                  md: '60%' // desktop
+                }
+              }}
+            >
               <Card sx={{ p: 3 }}>
                 <Stack spacing={3}>
                   <div>
@@ -176,7 +178,6 @@ export default function PhysicalBrandsForm({ data: currentBrand, isLoading: bran
                       />
                     )}
                   </div>
-              
 
                   <div>
                     {brandLoading ? (
@@ -204,12 +205,15 @@ export default function PhysicalBrandsForm({ data: currentBrand, isLoading: bran
                 </Stack>
               </Card>
             </Grid>
-            <Grid item sx={{
-              width: {
-                xs: '100%', // mobile
-                md: '30%'   // desktop
-              }
-            }}>
+            <Grid
+              item
+              sx={{
+                width: {
+                  xs: '100%', // mobile
+                  md: '30%' // desktop
+                }
+              }}
+            >
               <div
                 style={{
                   position: '-webkit-sticky',
@@ -220,7 +224,6 @@ export default function PhysicalBrandsForm({ data: currentBrand, isLoading: bran
                 <Stack spacing={3}>
                   <Card sx={{ p: 3 }}>
                     <Stack spacing={3}>
-
                       <div>
                         <Stack direction="row" justifyContent="space-between">
                           {brandLoading ? (
