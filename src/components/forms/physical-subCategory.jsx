@@ -69,7 +69,7 @@ export default function PhysicalSubCategoryForm({
 
   const { mutate, isLoading } = useMutation(
     currentCategory ? 'update' : 'new',
-    currentCategory ? api.updateSubCategoryByAdmin : api.addSubCategoryByAdmin,
+    currentCategory ? api.updatePhysicalSubCategoryByAdmin : api.addPhysicalSubCategoryByAdmin,
     {
       ...(currentCategory && {
         enabled: Boolean(currentCategory)
@@ -78,7 +78,7 @@ export default function PhysicalSubCategoryForm({
       onSuccess: (data) => {
         toast.success(data.message);
 
-        router.push('/admin/vehicle-models');
+        router.push('/admin/physical-categories/sub-categories');
       },
       onError: (error) => {
         toast.error(error.response.data.message);

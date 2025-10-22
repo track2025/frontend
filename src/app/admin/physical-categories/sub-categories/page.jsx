@@ -32,7 +32,7 @@ export default async function Categories() {
           }
         ]}
         action={{
-          href: `/admin/categories/sub-categories/add`,
+          href: `/admin/physical-categories/sub-categories/add`,
           title: 'Add Sub Category'
         }}
       />

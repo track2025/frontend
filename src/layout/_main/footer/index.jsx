@@ -67,7 +67,7 @@ const MAIN_LINKS = [
     listLink2: '/privacy-policy',
     listText3: 'Terms and conditions',
     listLink3: '/terms-and-conditions'
-  }
+  },
 ];
 
 export default function Footer() {

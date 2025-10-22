@@ -1,7 +1,8 @@
 import React from 'react';
+
 // components
-import ProductForm from 'src/components/forms/physical-product';
+import PhysicalProductForm from 'src/components/forms/physical-product/physicalProductForm';
 
 export default function AddProduct(props) {
-  return <ProductForm {...props} />;
+  return <PhysicalProductForm {...props} />;
 }

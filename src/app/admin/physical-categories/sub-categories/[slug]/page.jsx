@@ -4,11 +4,11 @@ import PropTypes from 'prop-types';
 
 // components
 import HeaderBreadcrumbs from 'src/components/headerBreadcrumbs';
-import EditSubCategory from '@/components/_admin/categories/sub/edit-category';
+import EditCategory from 'src/components/_admin/physical-categories/sub/edit-category';
 
 // api
 import * as api from 'src/services';
-import { useQuery } from '@tanstack/react-query';
+import { useQuery } from 'react-query';
 
 Page.propTypes = { params: PropTypes.shape({ slug: PropTypes.string.isRequired }).isRequired };
 export default function Page(props) {
@@ -28,7 +28,7 @@ export default function Page(props) {
           { name: data?.data?.name }
         ]}
       />
-      <EditSubCategory data={data?.data} categories={data?.categories} isLoading={isLoading} />
+      <EditCategory data={data?.data} categories={data?.categories} isLoading={isLoading} />
     </div>
   );
 }

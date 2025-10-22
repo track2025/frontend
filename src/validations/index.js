@@ -20,15 +20,13 @@ const variantSchema = Yup.object().shape({
     })
 });
 
-const productSchema = (isVendor) =>
+const physicalProductSchema = (isVendor) =>
   Yup.object().shape({
     name: Yup.string().required('Product name is required'),
     tags: Yup.array().min(1, 'Tags is required'),
     description: Yup.string().required('Description is required'),
     category: Yup.string().required('Category is required'),
-    shop: isVendor ? Yup.string().nullable().notRequired() : Yup.string().required('Shop is required'),
     subCategory: Yup.string().required('Sub Category is required'),
-    childCategory: Yup.string().required('Child Category is required'),
     slug: Yup.string().required('Slug is required'),
     brand: Yup.string(),
     metaTitle: Yup.string().required('Meta title is required'),
@@ -472,7 +470,7 @@ const editPaymentSchema = Yup.object().shape({
 });
 
 export {
-  productSchema,
+  physicalProductSchema,
   mainSettingsSchema,
   homeSettingsSchema,
   generalSettingsSchema,

@@ -9,8 +9,8 @@ import * as api from 'src/services';
 export const dynamic = 'force-dynamic';
 
 export default async function page() {
-  const { data: categories } = await api.getAllCategories();
-  const { data: brands } = await api.getAllBrandsByAdmin();
+  const { data: categories } = await api.getAllPhysicalCategoriesByAdmin();
+  const { data: brands } = await api.getAllPhysicalBrandsByAdmin();
   const { data: shops } = await api.getAllShopsByAdmin();
   const { data: attributes } = await api.getAllAttributesByAdmin();
   return (

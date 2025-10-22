@@ -1,7 +1,7 @@
 import React from 'react';
+import { fCurrency } from 'src/utils/formatNumber';
 
 import { Stack, TextField, Typography, InputAdornment, CardContent } from '@mui/material';
-import { fCurrency } from 'src/utils/formatNumber';
 export default function SimpleProduct({ formik }) {
   const { getFieldProps, touched, errors, values } = formik;
   const isDigital = values.deliveryType === 'digital';

@@ -19,6 +19,7 @@ export const useUploadSingleFile = (onSuccess, onError) => {
     onError
   });
 };
+
 export const useUploadMultiFiles = (onSuccess, onError) => {
   const { cloudName, uploadPreset } = useSelector((state) => state.settings);
   return useMutation({

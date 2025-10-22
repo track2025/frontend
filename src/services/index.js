@@ -44,10 +44,7 @@ export const getBrandsByAdmin = async (page, search) => {
   const { data } = await http.get(`/admin/brands?search=${search}&page=${page}`);
   return data;
 };
-export const getPhysicalBrandsByAdmin = async (page, search) => {
-  const { data } = await http.get(`/admin/physical/brands?search=${search}&page=${page}`);
-  return data;
-};
+
 
 export const getBrandByAdmin = async (id) => {
   const { data } = await http.get(`/admin/brands/${id}`);
@@ -675,10 +672,18 @@ export const requestRemoval = async ({ ...payload }) => {
 //   return data;
 // };
 
-export const getAllAttributesByAdmin = async () => {
-  const { data } = await http.get(`/admin/all-attributes`);
+
+// PHYSICAL BRANDS
+export const getPhysicalBrandsByAdmin = async (page, search) => {
+  const { data } = await http.get(`/admin/physical/brands?search=${search}&page=${page}`);
   return data;
 };
+
+export const getAllPhysicalBrandsByAdmin = async () => {
+  const { data } = await http.get(`/admin/all-physical-brands`);
+  return data;
+};
+
 
 // PHYSICAL CATEGORIES
 export const getPhysicalCategoriesByAdmin = async (page, search) => {
@@ -686,10 +691,12 @@ export const getPhysicalCategoriesByAdmin = async (page, search) => {
   return data;
 };
 
+
 export const getAllPhysicalCategoriesByAdmin = async () => {
   const { data } = await http.get(`/admin/all-physical-categories`);
   return data;
 };
+
 
 export const addPhysicalCategoryByAdmin = async (payload) => {
   const { data } = await http.post(`/admin/physical-categories`, payload);
@@ -755,5 +762,79 @@ export const addPhysicalChildCategoryByAdmin = async (payload) => {
 
 export const updatePhysicalChildCategoryByAdmin = async ({ currentSlug, ...payload }) => {
   const { data } = await http.put(`/admin/physical-child-categories/${currentSlug}`, payload);
+  return data;
+};
+
+// attributes
+export const getAttributesByAdmin = async (page, search) => {
+  const { data } = await http.get(`/admin/attributes?search=${search}&page=${page}`);
+  return data;
+};
+export const getAttributeByAdmin = async (id) => {
+  const { data } = await http.get(`/admin/attributes/${id}`);
+  return data;
+};
+export const getAllAttributesByAdmin = async () => {
+  const { data } = await http.get(`/admin/all-attributes`);
+  return data;
+};
+export const addAttributeByAdmin = async (payload) => {
+  const { data } = await http.post(`/admin/attributes`, payload);
+  return data;
+};
+export const updateAttributeByAdmin = async ({ currentId, ...payload }) => {
+  const { data } = await http.put(`/admin/attributes/${currentId}`, payload);
+  return data;
+};
+export const deleteAttributeByAdmin = async (id) => {
+  const { data } = await http.delete(`/admin/attributes/${id}`);
+  return data;
+};
+
+
+// Get all physical products with pagination and optional search
+export const getPhysicalProductsByAdmin = async (page = 1, search = "") => {
+  const { data } = await http.get(
+    `/admin/physical-products?search=${search}&page=${page}`
+  );
+  return data;
+};
+
+// Get one physical product by slug
+export const getPhysicalProductByAdmin = async (slug) => {
+  const { data } = await http.get(`/admin/physical-products/${slug}`);
+  return data;
+};
+
+// Create a new physical product
+export const addPhysicalProductByAdmin = async (payload) => {
+  const { data } = await http.post(`/admin/physical-products`, payload);
+  return data;
+};
+
+// Update an existing physical product by slug
+export const updatePhysicalProductByAdmin = async ({ slug, ...payload }) => {
+  const { data } = await http.put(`/admin/physical-products/${slug}`, payload);
+  return data;
+};
+
+// Delete a physical product by slug
+export const deletePhysicalProductByAdmin = async (slug) => {
+  const { data } = await http.delete(`/admin/physical-products/${slug}`);
+  return data;
+};
+
+
+// Get all public physical products (for user view)
+export const getPhysicalProducts = async (page = 1, search = "") => {
+  const { data } = await http.get(
+    `/physical-products?search=${search}&page=${page}`
+  );
+  return data;
+};
+
+// Get one public physical product by slug
+export const getOnePhysicalProduct = async (slug) => {
+  const { data } = await http.get(`/physical-products/${slug}`);
   return data;
 };

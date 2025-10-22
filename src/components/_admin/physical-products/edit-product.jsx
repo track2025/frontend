@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 import ProductForm from 'src/components/forms/product';
 // api
 import * as api from 'src/services';
-import { useQuery } from '@tanstack/react-query';
+import { useQuery } from 'react-query';
 EditProduct.propTypes = {
   brands: PropTypes.array.isRequired,
   categories: PropTypes.array.isRequired,

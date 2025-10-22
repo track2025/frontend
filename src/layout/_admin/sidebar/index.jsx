@@ -122,6 +122,14 @@ export const navlinks = [
   // Physical Products Section
   {
     id: 13,
+    title: "Attributes",
+    slug: "physical-attributes",
+    icon: <TbCategory2 />,
+    isSearch: true,
+  },
+
+  {
+    id: 14,
     title: "Brands",
     slug: "physical-brands",
     icon: <TbCategory2 />,
@@ -143,13 +151,6 @@ export const navlinks = [
   },
   {
     id: 17,
-    title: 'Child Categories',
-    slug: 'physical-categories/child-categories',
-    icon: <TbCategory2 />,
-    isSearch: true
-  },
-  {
-    id: 18,
     title: "Products",
     slug: "physical-products",
     icon: <BsShop />,

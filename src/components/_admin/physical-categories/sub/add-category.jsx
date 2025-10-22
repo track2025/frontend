@@ -2,11 +2,11 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import PhysicalSubCategoryForm from 'src/components/forms/physical-subCategory';
 
-AddCategory.propTypes = {
+AddSubCategory.propTypes = {
   categories: PropTypes.array.isRequired
 };
 
-export default function AddCategory({ categories }) {
+export default function AddSubCategory({ categories }) {
   return (
     <div>
       <PhysicalSubCategoryForm categories={categories} />

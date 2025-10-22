@@ -44,7 +44,7 @@ const STATUS_FILTER = {
     }
   ]
 };
-export default function AdminProductsMain({ brands, categories, shops, isVendor }) {
+export default function AdminProductsMain({ brands, categories, isVendor }) {
   const searchParams = useSearchParams();
 
   const [open, setOpen] = useState(false);
@@ -54,6 +54,8 @@ export default function AdminProductsMain({ brands, categories, shops, isVendor 
     queryKey: ['admin-products', apicall, searchParams.toString(), isVendor], // Added isVendor as dependency
     queryFn: () => api[isVendor ? 'getProductsByVendor' : 'getPhysicalProductsByAdmin'](searchParams.toString())
   });
+
+  console.log(data);
 
   const handleClickOpen = (prop) => () => {
     setId(prop);
@@ -78,7 +80,7 @@ export default function AdminProductsMain({ brands, categories, shops, isVendor 
         />
       </Dialog>
       <Stack spacing={2} direction="row" alignItems="center" justifyContent="space-between" mb={2}>
-        {}
+        { }
       </Stack>
       <Table
         headData={TABLE_HEAD}
@@ -93,11 +95,10 @@ export default function AdminProductsMain({ brands, categories, shops, isVendor 
           isVendor
             ? [{ ...STATUS_FILTER }]
             : [
-                { name: 'Shop', param: 'shop', data: shops },
-                { name: 'Category', param: 'category', data: categories },
-                { name: 'Brand', param: 'brand', data: brands },
-                { ...STATUS_FILTER }
-              ]
+              { name: 'Category', param: 'category', data: categories },
+              { name: 'Brand', param: 'brand', data: brands },
+              { ...STATUS_FILTER }
+            ]
         }
         isSearch
       />

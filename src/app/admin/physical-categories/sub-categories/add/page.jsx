@@ -1,12 +1,14 @@
 import React from 'react';
+import AddSubCategory from 'src/components/_admin/physical-categories/sub/add-category';
 
 // components
 import HeaderBreadcrumbs from 'src/components/headerBreadcrumbs';
-import AddSubCategory from '@/components/_admin/categories/sub/add-category';
 export const dynamic = 'force-dynamic';
-const baseUrl = process.env.NEXT_PUBLIC_API_URL;
+const baseUrl = process.env.BASE_URL;
+
 export default async function page() {
-  const res = await fetch(baseUrl + '/api/all-categories', {
+
+  const res = await fetch(baseUrl + '/api/admin/all-physical-categories', {
     cache: 'no-store'
   });
   const { data: categories } = await res.json();

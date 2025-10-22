@@ -2,23 +2,22 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import toast from 'react-hot-toast';
+import { useRouter } from 'next-nprogress-bar';
 
 import { Form, FormikProvider, useFormik } from 'formik';
 
 import { Card, Stack, Skeleton, CardHeader, CardContent, Button, Collapse } from '@mui/material';
 // api
 import * as api from 'src/services';
+import { useMutation } from 'react-query';
 
 // components
 
-import SimpleProductForm from './simple-product';
-import VariableProductForm from './variable-product';
-import GroupAndCategory from './group-and-category';
-import ProductInfo from './product-info';
-import { productSchema } from '../../validations';
-import { useRouter } from '@bprogress/next';
-
-import { useMutation } from 'react-query';
+import GroupAndCategory from './groupAndCategory';
+import ProductInfo from './productInfo';
+import SimpleProduct from './simpleProduct';
+import VariableProduct from './variableProduct';
+import { physicalProductSchema } from 'src/validations';
 // ----------------------------------------------------------------------
 const STATUS_OPTIONS = ['pending', 'draft', 'published'];
 
@@ -44,12 +43,12 @@ const getVariants = (param) => {
   }, []);
   return converted;
 };
-export default function ProductForm({
+
+export default function PhysicalProductForm({
   categories,
   currentProduct,
   isLoading,
   brands,
-  shops,
   isVendor,
   attributes = []
 }) {
@@ -57,16 +56,16 @@ export default function ProductForm({
   const mutationFn = currentProduct
     ? isVendor
       ? api.updateVendorProduct
-      : api.updateProductByAdmin
+      : api.updatePhysicalProductByAdmin
     : isVendor
       ? api.createVendorProduct
-      : api.createProductByAdmin;
+      : api.addPhysicalProductByAdmin;
 
   const { mutate, isPending: updateLoading } = useMutation({
     mutationFn,
     onSuccess: (data) => {
       toast.success(data.message);
-      router.push((isVendor ? '/vendor' : '/admin') + '/products');
+      router.push((isVendor ? '/vendor' : '/admin') + '/physical-products');
     },
     onError: (error) => {
       toast.error(error?.response?.data?.message || 'Something went wrong!');
@@ -86,17 +85,14 @@ export default function ProductForm({
       demo: currentProduct?.demo || '',
       tags: currentProduct?.tags || [],
       deliveryType: currentProduct?.deliveryType || 'physical',
-      gender: currentProduct?.gender || '',
       content: currentProduct?.content || '',
       brand: currentProduct?.brand?._id || '',
-      shop: currentProduct?.shop?._id || '',
       category: currentProduct?.category?._id || '',
       subCategory: currentProduct?.subCategory?._id || '',
-      childCategory: currentProduct?.childCategory?._id || '',
       blob: currentProduct?.images || [],
       isFeatured: currentProduct?.isFeatured || false,
       sku: currentProduct?.sku || '',
-      type: currentProduct?.type || 'simple',
+      type: currentProduct?.type || 'variable',
       downloadLink: currentProduct?.downloadLink || 'simple',
       selectedVariants: getVariants(currentProduct?.variants || []),
       images: currentProduct?.images || [],
@@ -115,8 +111,9 @@ export default function ProductForm({
       ...(!isVendor && { status: currentProduct?.status || STATUS_OPTIONS[0] })
     },
 
-    validationSchema: productSchema(isVendor),
+    validationSchema: physicalProductSchema(isVendor),
     onSubmit: async (values) => {
+      console.log('Submitting values:', values);
       const { blob: _blob, selectedVariants: _selectedVariants, ...rest } = values;
       try {
         mutate({
@@ -141,6 +138,7 @@ export default function ProductForm({
     formik.handleChange(event); // handle the change in formik
   };
 
+
   return (
     <Stack spacing={3}>
       <FormikProvider value={formik}>
@@ -153,7 +151,6 @@ export default function ProductForm({
                 <GroupAndCategory
                   formik={formik}
                   isVendor={isVendor}
-                  shops={shops}
                   brands={brands}
                   categories={categories}
                   options={STATUS_OPTIONS}
@@ -180,20 +177,21 @@ export default function ProductForm({
                     )
                   }
                 />
-                <Collapse in={Boolean(values.type === 'simple')}>
-                  <SimpleProductForm formik={formik} isLoading={isLoading} />
-                </Collapse>
-                <Collapse in={Boolean(values.type !== 'simple')}>
-                  <VariableProductForm
-                    formik={formik}
-                    isLoading={isLoading}
-                    variants={attributes}
-                    setCount={setCount}
-                    count={count}
-                    isInitialized={initialized}
-                    setInitialized={setInitialized}
-                  />
-                </Collapse>
+                {
+                  values.type !== 'simple' ? (
+                    <VariableProduct
+                      formik={formik}
+                      isLoading={isLoading}
+                      variants={attributes}
+                      setCount={setCount}
+                      count={count}
+                      isInitialized={initialized}
+                      setInitialized={setInitialized}
+                    />
+                  ) : (
+                    <SimpleProduct formik={formik} isLoading={isLoading} />
+                  )
+                }
               </Card>
             )}
 
@@ -212,7 +210,7 @@ export default function ProductForm({
     </Stack>
   );
 }
-ProductForm.propTypes = {
+PhysicalProductForm.propTypes = {
   categories: PropTypes.arrayOf(
     PropTypes.shape({
       _id: PropTypes.string.isRequired,
@@ -221,7 +219,6 @@ ProductForm.propTypes = {
         PropTypes.shape({
           _id: PropTypes.string.isRequired,
           name: PropTypes.string.isRequired,
-          childCategories: PropTypes.array.isRequired
         })
       )
     })
@@ -254,7 +251,6 @@ ProductForm.propTypes = {
     ),
     category: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
     subCategory: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
-    childCategory: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
     gender: PropTypes.string,
     tags: PropTypes.arrayOf(PropTypes.string),
     sku: PropTypes.string,
@@ -264,7 +260,6 @@ ProductForm.propTypes = {
     stockQuantity: PropTypes.number,
     sold: PropTypes.number,
 
-    shop: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
     images: PropTypes.array
   }),
   categoryLoading: PropTypes.bool,

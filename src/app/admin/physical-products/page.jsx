@@ -9,16 +9,15 @@ import * as api from 'src/services';
 
 // Meta information
 export const metadata = {
-  title: 'Products - Nextall',
-  applicationName: 'Nextall',
-  authors: 'Nextall'
+  title: 'Products - Lapsnap',
+  applicationName: 'Lapsnap',
+  authors: 'Lapsnap'
 };
 export const dynamic = 'force-dynamic';
 
 export default async function AdminProducts() {
   const { data: categories } = await api.getAllPhysicalCategoriesByAdmin();
-  const { data: brands } = await api.getAllBrandsByAdmin();
-  const { data: shops } = await api.getAllShopsByAdmin();
+  const { data: brands } = await api.getAllPhysicalBrandsByAdmin();
 
   return (
     <div>
@@ -39,7 +38,7 @@ export default async function AdminProducts() {
           title: 'Add Product'
         }}
       />
-      <AdminProductsMain categories={categories} shops={shops} brands={brands} />
+      <AdminProductsMain categories={categories} brands={brands} />
     </div>
   );
 }
