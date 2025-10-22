@@ -48,6 +48,11 @@ export default function ProductListing({ category, subCategory, shop, compaign }
     const match = pathname.match(/\/race-track\/([^/]+)/);
     brand = match ? match[1] : null;
   }
+  if (!brand) {
+    const match = pathname.match(/\/track\/([^/]+)/);
+    brand = match ? match[1] : null;
+  }
+
   // If brand exists, append to search params
   const searchQuery = brand
     ? getSearchParams(new URLSearchParams({ ...Object.fromEntries(searchParams), brand }))

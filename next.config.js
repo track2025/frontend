@@ -10,6 +10,10 @@ const nextConfig = {
         destination: '/products?brand=:brand'
       },
       {
+        source: '/track/:brand',
+        destination: '/products?brand=:brand'
+      },
+      {
         source: '/race-track/events',
         destination: '/products?top=1'
       },
