@@ -1,5 +1,5 @@
 'use client';
-import React, { useState, useEffect, useRef, useCallback } from 'react';
+import React, { useState, useEffect, useRef, useCallback, Suspense } from 'react';
 import dynamic from 'next/dynamic';
 import { useRouter } from 'next-nprogress-bar';
 import { useDispatch, useSelector } from 'react-redux';
@@ -7,7 +7,7 @@ import { useMutation } from 'react-query';
 import { toast } from 'react-hot-toast';
 import { sum } from 'lodash';
 // mui
-import { Box, Collapse, Grid, Typography, Modal, Paper, IconButton, Alert } from '@mui/material';
+import { Box, Grid, Typography, Modal, Paper, IconButton, Alert, CircularProgress } from '@mui/material';
 import { Close, BugReport } from '@mui/icons-material';
 import LoadingButton from '@mui/lab/LoadingButton';
 // yup
@@ -16,17 +16,16 @@ import * as Yup from 'yup';
 import { useFormik, Form, FormikProvider } from 'formik';
 // api
 import * as api from 'src/services';
-// stripe
-import { useStripe, useElements, PaymentRequestButtonElement } from '@stripe/react-stripe-js';
 
 // Components
 import { resetCart, getCart } from 'src/redux/slices/product';
 import CheckoutGuestFormSkeleton from '../skeletons/checkout/checkoutForm';
 import PaymentInfoSkeleton from '../skeletons/checkout/paymentInfo';
-import PaymentMethodCardSkeleton from '../skeletons/checkout/paymentMethod';
 import CardItemSekelton from '../skeletons/checkout/cartItems';
 // hooks
 import { useCurrencyConvert } from 'src/hooks/convertCurrency';
+import TrustPaymentMethodCard from './TrustPaymentMethod';
+
 // dynamic components
 const CheckoutForm = dynamic(() => import('src/components/forms/checkout'), {
   loading: () => <CheckoutGuestFormSkeleton />
@@ -34,10 +33,6 @@ const CheckoutForm = dynamic(() => import('src/components/forms/checkout'), {
 const PaymentInfo = dynamic(() => import('src/components/_main/checkout/paymentInfo'), {
   loading: () => <PaymentInfoSkeleton />
 });
-const PaymentMethodCard = dynamic(() => import('src/components/_main/checkout/paymentMethod'), {
-  loading: () => <PaymentMethodCardSkeleton />
-});
-
 const CartItemsCard = dynamic(() => import('src/components/cards/cartItems'), {
   loading: () => <CardItemSekelton />
 });
@@ -95,7 +90,7 @@ const DebugConsole = ({ logs, onClear, open, onClose }) => {
           <Box sx={{ height: '40vh', overflow: 'auto' }}>
             {logs.length === 0 ? (
               <Typography variant="body2" color="text.secondary">
-                No logs yet. Apple Pay interactions will appear here.
+                No logs yet. Payment interactions will appear here.
               </Typography>
             ) : (
               logs.map((log, index) => (
@@ -162,6 +157,104 @@ const ResponseAlertModal = ({ open, onClose, title, message, type = 'info' }) =>
   );
 };
 
+// Trust Payment Status Handler Component
+const TrustPaymentHandler = ({ onProcessTrustPayment, isDeveloper, addDebugLog, onError }) => {
+  const [isProcessing, setIsProcessing] = useState(false);
+  const [statusChecked, setStatusChecked] = useState(false);
+  const [hasError, setHasError] = useState(false);
+
+  useEffect(() => {
+    const handleTrustPaymentStatus = async () => {
+      if (typeof window === 'undefined' || statusChecked) return;
+
+      const urlParams = new URLSearchParams(window.location.search);
+
+      // Check if this is a Trust Payments callback
+      const hasTrustParams = urlParams.has('settlestatus') || urlParams.has('errorcode');
+
+      if (!hasTrustParams) {
+        setStatusChecked(true);
+        return;
+      }
+
+      if (isDeveloper) {
+        addDebugLog('Trust Payments callback detected', 'info');
+        addDebugLog('URL Params:', 'info');
+        urlParams.forEach((value, key) => {
+          addDebugLog(`${key}: ${value}`, 'info');
+        });
+      }
+
+      setIsProcessing(true);
+      setHasError(false);
+
+      try {
+        // Extract Trust Payments parameters
+        const settleStatus = urlParams.get('settlestatus');
+        const errorCode = urlParams.get('errorcode');
+        const orderReference = urlParams.get('orderreference');
+        const transactionReference = urlParams.get('transactionreference');
+        const siteReference = urlParams.get('sitereference');
+        const paymentType = urlParams.get('paymenttypedescription');
+
+        if (isDeveloper) {
+          addDebugLog(`Processing Trust Payment: settleStatus=${settleStatus}, errorCode=${errorCode}`, 'info');
+        }
+
+        // Process the payment status
+        await onProcessTrustPayment({
+          settleStatus: parseInt(settleStatus),
+          errorCode: errorCode ? parseInt(errorCode) : null,
+          orderReference,
+          transactionReference,
+          siteReference,
+          paymentType
+        });
+      } catch (error) {
+        if (isDeveloper) {
+          addDebugLog(`Trust Payment processing error: ${error.message}`, 'error');
+        }
+        setHasError(true);
+        onError(error.message);
+      } finally {
+        setIsProcessing(false);
+        setStatusChecked(true);
+      }
+    };
+
+    handleTrustPaymentStatus();
+  }, [onProcessTrustPayment, statusChecked, isDeveloper, addDebugLog, onError]);
+
+  if (isProcessing) {
+    return (
+      <Box display="flex" flexDirection="column" alignItems="center" justifyContent="center" py={10}>
+        <CircularProgress size={60} />
+        <Typography variant="h6" sx={{ mt: 2 }}>
+          Verifying your payment...
+        </Typography>
+        <Typography variant="body2" color="text.secondary" sx={{ mt: 1 }}>
+          Please wait while we confirm your payment status with Trust Payments.
+        </Typography>
+      </Box>
+    );
+  }
+
+  if (hasError) {
+    return (
+      <Box display="flex" flexDirection="column" alignItems="center" justifyContent="center" py={10}>
+        <Alert severity="error" sx={{ width: '100%', maxWidth: 400 }}>
+          <Typography variant="h6">Payment Verification Failed</Typography>
+          <Typography variant="body2" sx={{ mt: 1 }}>
+            There was an issue verifying your payment. Please try again or contact support if the problem persists.
+          </Typography>
+        </Alert>
+      </Box>
+    );
+  }
+
+  return null;
+};
+
 const CheckoutMain = () => {
   const router = useRouter();
   const cCurrency = useCurrencyConvert();
@@ -172,8 +265,6 @@ const CheckoutMain = () => {
   const { cart, total } = checkout;
   const [paymentMethod, setPaymentMethod] = useState('apple_pay');
   const [checked, setChecked] = React.useState(false);
-  const [paymentRequest, setPaymentRequest] = useState(null);
-  const [showApplePay, setShowApplePay] = useState(false);
 
   // Check if user is the developer for debugging
   const isDeveloper = userData?.email === 'nowopeyemi@gmail.com';
@@ -188,8 +279,10 @@ const CheckoutMain = () => {
     type: 'info'
   });
 
-  // Ref to track if we've already attempted to initialize Apple Pay
-  const applePayInitialized = useRef(false);
+  // Trust Payment state
+  const [isTrustPaymentCallback, setIsTrustPaymentCallback] = useState(false);
+  const [trustPaymentError, setTrustPaymentError] = useState(null);
+  const [showCheckoutInterface, setShowCheckoutInterface] = useState(true);
 
   // Add to debug log - only if developer
   const addDebugLog = useCallback(
@@ -222,11 +315,8 @@ const CheckoutMain = () => {
   };
 
   const [couponCode, setCouponCode] = useState(null);
-  const [checkoutError, setCheckoutError] = useState(null);
   const [isProcessing, setProcessingTo] = useState(false);
   const [totalWithDiscount, setTotalWithDiscount] = useState(null);
-  const elements = useElements();
-  const stripe = useStripe();
 
   const { mutate, isLoading } = useMutation('order', api.placeOrder, {
     onSuccess: (data) => {
@@ -235,6 +325,7 @@ const CheckoutMain = () => {
         addDebugLog(data, 'info');
       }
 
+      localStorage.removeItem('trustPaymentUserDetails');
       toast.success(
         "🎉 Your order was successful! We've emailed you the download link. You can also find it anytime in the 'My Orders' section of your account."
       );
@@ -250,32 +341,125 @@ const CheckoutMain = () => {
         addDebugLog(err, 'error');
       }
 
+      localStorage.removeItem('trustPaymentUserDetails');
       toast.error(errorMsg);
       setProcessingTo(false);
+      // Show checkout interface again on order error
+      setShowCheckoutInterface(true);
     }
   });
 
+  // Cart sync mutation - syncs Redux cart to backend
   const [loading, setLoading] = React.useState(true);
   const { mutate: getCartMutate } = useMutation(api.getCart, {
     onSuccess: (res) => {
       if (isDeveloper) {
-        addDebugLog('Cart loaded successfully', 'success');
+        addDebugLog('Cart synced successfully', 'success');
       }
       dispatch(getCart(res.data));
       setLoading(false);
     },
     onError: (err) => {
-      const message = JSON.stringify(err.response?.data?.message);
+      const message = err.response?.data?.message || 'Failed to sync cart';
       setLoading(false);
 
       if (isDeveloper) {
-        addDebugLog(`Cart error: ${message}`, 'error');
+        addDebugLog(`Cart sync error: ${message}`, 'error');
         addDebugLog(err, 'error');
       }
 
-      toast.error(message ? JSON.parse(message) : 'We ran into an issue. Please refresh the page or try again.');
+      toast.error(message || 'We ran into an issue. Please refresh the page or try again.');
     }
   });
+
+  const handleTrustPaymentCallback = useCallback(
+    async (trustData) => {
+      const { settleStatus, errorCode, orderReference, transactionReference, siteReference, paymentType } = trustData;
+
+      // Check if payment was successful
+      const isSuccess = settleStatus === 0 && errorCode === 0;
+
+      if (isSuccess) {
+        // Retrieve user details from localStorage
+        const storedUserDetails = localStorage.getItem('trustPaymentUserDetails');
+        let userDataToUse = valuesRef.current;
+
+        if (storedUserDetails) {
+          try {
+            userDataToUse = JSON.parse(storedUserDetails);
+          } catch (error) {
+            console.error('Error parsing stored user details:', error);
+          }
+        }
+
+        // Prepare order data
+        const items = cart.map(({ ...others }) => others);
+        const totalItems = sum(items.map((item) => item.quantity));
+
+        const orderData = {
+          paymentMethod: `Trust Payments`,
+          items: items,
+          user: {
+            firstName: userDataToUse.billingFirstName || userDataToUse.firstName || '',
+            lastName: userDataToUse.billingLastName || userDataToUse.lastName || '',
+            email: userDataToUse.billingEmail || userDataToUse.email || ''
+          },
+          totalItems,
+          couponCode: couponCode || null,
+          currency: 'GBP',
+          conversionRate: rate,
+          shipping: process.env.SHIPPING_FEE || 0,
+          paymentId: transactionReference,
+          description: `Order from Trust Payments - ${transactionReference}`
+        };
+
+        if (isDeveloper) {
+          addDebugLog('Submitting Trust Payment order', 'info');
+          addDebugLog(orderData, 'info');
+        }
+
+        mutate(orderData);
+      } else {
+        // Only clean up on failure
+        localStorage.removeItem('trustPaymentUserDetails');
+
+        let errorMessage = 'Payment was not successful.';
+
+        switch (settleStatus) {
+          case 2:
+            errorMessage = 'Payment was declined. Please try a different payment method.';
+            break;
+          case 3:
+            errorMessage = 'Payment was referred. Please contact your bank.';
+            break;
+          case 5:
+            errorMessage = 'Payment failed. Please try again.';
+            break;
+          case 6:
+            errorMessage = 'Payment was cancelled.';
+            break;
+          default:
+            errorMessage = `Payment status: ${settleStatus}. Please try again or contact support.`;
+        }
+
+        if (isDeveloper) {
+          addDebugLog(`Trust Payment failed: ${errorMessage}`, 'error');
+        }
+
+        toast.error(errorMessage);
+        setProcessingTo(false);
+        setShowCheckoutInterface(true);
+      }
+    },
+    [cart, couponCode, rate, mutate, isDeveloper, addDebugLog]
+  );
+
+  // Handle Trust Payment processing errors
+  const handleTrustPaymentError = useCallback((errorMessage) => {
+    setTrustPaymentError(errorMessage);
+    setShowCheckoutInterface(true);
+    toast.error('Failed to process payment status. Please try again.');
+  }, []);
 
   const [isFormValid, setIsFormValid] = useState(false);
 
@@ -295,7 +479,7 @@ const CheckoutMain = () => {
     enableReinitialize: true,
     validationSchema: NewAddressSchema,
     onSubmit: async (values) => {
-      // For credit card payments only
+      // For credit card payments only (if you add this later)
       if (paymentMethod === 'credit_card') {
         const items = cart.map(({ ...others }) => others);
         const totalItems = sum(items.map((item) => item.quantity));
@@ -311,14 +495,15 @@ const CheckoutMain = () => {
           shipping: process.env.SHIPPING_FEE || 0
         };
 
-        onSubmit(data);
+        // Handle credit card submission here
+        console.log('Credit card payment data:', data);
       }
     }
   });
 
-  const { errors, values, touched, handleSubmit, getFieldProps, setTouched } = formik;
+  const { errors, values, touched, handleSubmit, getFieldProps } = formik;
 
-  // Check form validity - FIXED VERSION
+  // Check form validity
   useEffect(() => {
     const checkValidity = () => {
       const isValid =
@@ -335,31 +520,6 @@ const CheckoutMain = () => {
     checkValidity();
   }, [values, errors]);
 
-  // Prepare order data for both payment methods
-  const prepareOrderData = useCallback(
-    (paymentId, paymentMethodType = 'Stripe') => {
-      const items = cart.map(({ ...others }) => others);
-      const totalItems = sum(items.map((item) => item.quantity));
-
-      return {
-        paymentMethod: paymentMethodType,
-        items: items,
-        user: {
-          firstName: values.firstName,
-          lastName: values.lastName,
-          email: values.email
-        },
-        totalItems,
-        couponCode,
-        currency: 'GBP',
-        conversionRate: rate,
-        shipping: process.env.SHIPPING_FEE || 0,
-        paymentId: paymentId
-      };
-    },
-    [cart, couponCode, rate, values]
-  );
-
   const valuesRef = useRef(formik.values);
 
   // Update the ref whenever values change
@@ -367,347 +527,62 @@ const CheckoutMain = () => {
     valuesRef.current = formik.values;
   }, [formik.values]);
 
-  // Separate Apple Pay handler function
-  const handleApplePayPayment = useCallback(
-    async (ev) => {
-      if (isDeveloper) {
-        addDebugLog('Apple Pay payment initiated', 'info');
-      }
-      setProcessingTo(true);
-      try {
-        const currentValues = valuesRef.current;
-
-        // 1. Get data from Apple Pay and merge with form data
-        const applePayData = {
-          firstName: currentValues.firstName || (ev.payerName ? ev.payerName.split(' ')[0] : ''),
-          lastName: currentValues.lastName || (ev.payerName ? ev.payerName.split(' ').slice(1).join(' ') : ''),
-          email: currentValues.email || ev.payerEmail || ''
-        };
-
-        if (isDeveloper) {
-          addDebugLog('Apple Pay data collected', 'info');
-          addDebugLog(applePayData, 'info');
-        }
-
-        // 2. Validate required data
-        if (!applePayData.email || !applePayData.firstName || !applePayData.lastName) {
-          const errorMsg = 'Missing required information from Apple Pay';
-          if (isDeveloper) {
-            addDebugLog(errorMsg, 'error');
-          }
-          throw new Error(errorMsg);
-        }
-
-        // 3. Create payment intent with GBP currency
-        if (isDeveloper) {
-          addDebugLog('Creating payment intent...', 'info');
-        }
-        const paymentIntentResponse = await api.paymentIntents(totalWithDiscount || total, 'gbp');
-
-        if (isDeveloper) {
-          addDebugLog('Payment intent created', 'success');
-          addDebugLog(paymentIntentResponse, 'info');
-        }
-
-        const { client_secret: clientSecret } = paymentIntentResponse;
-
-        // 4. Confirm payment with proper error handling
-        if (isDeveloper) {
-          addDebugLog('Confirming payment...', 'info');
-        }
-        const { error: confirmError, paymentIntent } = await stripe.confirmCardPayment(
-          clientSecret,
-          {
-            payment_method: ev.paymentMethod.id
-          },
-          { handleActions: false }
-        );
-
-        if (isDeveloper) {
-          addDebugLog('Payment confirmation result', 'info');
-          addDebugLog({ confirmError, paymentIntent }, 'info');
-        }
-
-        // 5. Handle payment actions if required
-        if (paymentIntent && paymentIntent.status === 'requires_action') {
-          if (isDeveloper) {
-            addDebugLog('Payment requires additional action', 'info');
-          }
-          const { error: actionError } = await stripe.handleCardAction(clientSecret);
-          if (actionError) {
-            if (isDeveloper) {
-              addDebugLog(`Action error: ${actionError.message}`, 'error');
-            }
-            throw new Error(actionError.message);
-          }
-        }
-
-        if (confirmError) {
-          if (isDeveloper) {
-            addDebugLog(`Confirm error: ${confirmError.message}`, 'error');
-          }
-          throw new Error(confirmError.message);
-        }
-
-        ev.complete('success');
-        if (isDeveloper) {
-          addDebugLog('Apple Pay completed successfully', 'success');
-        }
-
-        // 6. Prepare and send order data
-        const orderData = prepareOrderData(ev.paymentMethod.id, 'Stripe (Apple Pay)');
-
-        // Merge Apple Pay data with form data
-        orderData.user = {
-          ...orderData.user,
-          ...applePayData
-        };
-
-        if (isDeveloper) {
-          addDebugLog('Submitting order data...', 'info');
-          addDebugLog(orderData, 'info');
-        }
-
-        mutate(orderData);
-      } catch (err) {
-        if (isDeveloper) {
-          addDebugLog(`Apple Pay error: ${err.message}`, 'error');
-        }
-        ev.complete('fail');
-        setCheckoutError(err.message);
-        setProcessingTo(false);
-
-        // Show error alert only for developer
-        if (isDeveloper) {
-          setAlertModal({
-            open: true,
-            title: 'Apple Pay Error',
-            message: err.message,
-            type: 'error'
-          });
-        }
-      }
-    },
-    [stripe, total, totalWithDiscount, prepareOrderData, mutate, isDeveloper]
-  );
-
-  // Initialize Apple Pay
-  useEffect(() => {
-    const initializeApplePay = async () => {
-      if (!stripe || !total || applePayInitialized.current) return;
-
-      applePayInitialized.current = true;
-      if (isDeveloper) {
-        addDebugLog('Initializing Apple Pay...', 'info');
-      }
-
-      const pr = stripe.paymentRequest({
-        country: 'GB',
-        currency: 'gbp',
-        total: {
-          label: 'Total',
-          amount: Math.round((totalWithDiscount || total) * 100)
-        },
-        requestPayerName: true,
-        requestPayerEmail: true
-      });
-
-      try {
-        const canMakePayment = await pr.canMakePayment();
-
-        if (isDeveloper) {
-          addDebugLog('Apple Pay availability check', 'info');
-          addDebugLog(canMakePayment, 'info');
-        }
-
-        if (canMakePayment?.applePay) {
-          setPaymentRequest(pr);
-          setShowApplePay(true);
-
-          if (isDeveloper) {
-            addDebugLog('Apple Pay is available', 'success');
-          }
-
-          // Add event listener
-          pr.on('paymentmethod', handleApplePayPayment);
-          pr.on('cancel', () => {
-            if (isDeveloper) {
-              addDebugLog('Apple Pay was cancelled by user', 'info');
-            }
-          });
-        } else {
-          setShowApplePay(false);
-          setPaymentMethod('credit_card');
-
-          if (isDeveloper) {
-            addDebugLog('Apple Pay is not available', 'info');
-          }
-        }
-      } catch (error) {
-        if (isDeveloper) {
-          addDebugLog(`Apple Pay initialization failed: ${error.message}`, 'error');
-        }
-        setShowApplePay(false);
-        setPaymentMethod('credit_card');
-      }
-    };
-
-    initializeApplePay();
-
-    return () => {
-      if (paymentRequest) {
-        paymentRequest.off('paymentmethod', handleApplePayPayment);
-      }
-    };
-  }, [stripe, total, totalWithDiscount, handleApplePayPayment, isDeveloper]);
-
+  // Initialize component - sync cart to backend
   React.useEffect(() => {
     formik.validateForm();
-    if (cart.length < 1) {
+
+    if (!cart || cart.length < 1) {
       router.push('/');
     } else {
       setLoading(true);
+      // Sync Redux cart to backend (same as old version)
       getCartMutate(cart);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  // Modify the onSubmit function to handle credit card payments
-  const onSubmit = async (data) => {
-    if (isDeveloper) {
-      addDebugLog('Credit card payment initiated', 'info');
+  // Check if we're processing a Trust Payment callback
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      const urlParams = new URLSearchParams(window.location.search);
+      const hasTrustParams = urlParams.has('settlestatus') || urlParams.has('errorcode');
+      setIsTrustPaymentCallback(hasTrustParams);
+      setShowCheckoutInterface(!hasTrustParams);
     }
-    setProcessingTo(true);
-    setCheckoutError(null);
-
-    const billingDetails = {
-      name: `${values.firstName} ${values.lastName}`,
-      email: values.email
-    };
-
-    if (isDeveloper) {
-      addDebugLog('Billing details', 'info');
-      addDebugLog(billingDetails, 'info');
-    }
-
-    const cardElement = elements.getElement('card');
-    try {
-      if (isDeveloper) {
-        addDebugLog('Creating payment intent...', 'info');
-      }
-      const paymentIntentResponse = await api.paymentIntents(totalWithDiscount || total, 'gbp');
-
-      if (isDeveloper) {
-        addDebugLog('Payment intent created', 'success');
-        addDebugLog(paymentIntentResponse, 'info');
-      }
-
-      const { client_secret: clientSecret } = paymentIntentResponse;
-
-      if (isDeveloper) {
-        addDebugLog('Creating payment method...', 'info');
-      }
-      const paymentMethodReq = await stripe.createPaymentMethod({
-        type: 'card',
-        card: cardElement,
-        billing_details: billingDetails
-      });
-
-      if (isDeveloper) {
-        addDebugLog('Payment method creation result', 'info');
-        addDebugLog(paymentMethodReq, 'info');
-      }
-
-      if (paymentMethodReq?.error) {
-        if (isDeveloper) {
-          addDebugLog(`Payment method error: ${paymentMethodReq.error.message}`, 'error');
-        }
-        setCheckoutError(paymentMethodReq.error.message);
-        setProcessingTo(false);
-        return;
-      }
-
-      if (isDeveloper) {
-        addDebugLog('Confirming card payment...', 'info');
-      }
-      const { error, paymentIntent } = await stripe.confirmCardPayment(clientSecret, {
-        payment_method: paymentMethodReq?.paymentMethod.id
-      });
-
-      if (isDeveloper) {
-        addDebugLog('Card payment confirmation result', 'info');
-        addDebugLog({ error, paymentIntent }, 'info');
-      }
-
-      if (paymentIntent && paymentIntent.status === 'requires_action') {
-        if (isDeveloper) {
-          addDebugLog('Payment requires additional action', 'info');
-        }
-        const { error: actionError } = await stripe.handleCardAction(clientSecret);
-        if (actionError) {
-          if (isDeveloper) {
-            addDebugLog(`Action error: ${actionError.message}`, 'error');
-          }
-          setCheckoutError(actionError.message);
-          setProcessingTo(false);
-          return;
-        }
-      }
-
-      if (error) {
-        if (isDeveloper) {
-          addDebugLog(`Payment error: ${error.message}`, 'error');
-        }
-        setCheckoutError(error.message);
-        setProcessingTo(false);
-        return;
-      }
-
-      setProcessingTo(false);
-
-      if (isDeveloper) {
-        addDebugLog('Credit card payment successful', 'success');
-      }
-
-      const orderData = prepareOrderData(paymentMethodReq?.paymentMethod.id);
-
-      if (isDeveloper) {
-        addDebugLog('Submitting order data...', 'info');
-        addDebugLog(orderData, 'info');
-      }
-
-      mutate(orderData);
-      return;
-    } catch (err) {
-      const errorMsg = err?.response?.data?.message || 'Payment failed';
-
-      if (isDeveloper) {
-        addDebugLog(`Payment error: ${errorMsg}`, 'error');
-        addDebugLog(err, 'error');
-      }
-
-      setCheckoutError(errorMsg);
-      setProcessingTo(false);
-    }
-  };
-
-  // Handle payment method change
-  const handlePaymentMethodChange = (method) => {
-    if (isDeveloper) {
-      addDebugLog(`Payment method changed to: ${method}`, 'info');
-    }
-    setPaymentMethod(method);
-    setCheckoutError(null);
-  };
+  }, []);
 
   // Clear debug logs
   const clearDebugLogs = () => {
     setDebugLogs([]);
   };
 
+  // If we're processing a Trust Payment callback, show the handler
+  if (isTrustPaymentCallback && !showCheckoutInterface) {
+    return (
+      <Suspense
+        fallback={
+          <Box display="flex" justifyContent="center" alignItems="center" minHeight="60vh">
+            <CircularProgress />
+            <Typography variant="h6" sx={{ ml: 2 }}>
+              Loading...
+            </Typography>
+          </Box>
+        }
+      >
+        <TrustPaymentHandler
+          onProcessTrustPayment={handleTrustPaymentCallback}
+          onError={handleTrustPaymentError}
+          isDeveloper={isDeveloper}
+          addDebugLog={addDebugLog}
+        />
+      </Suspense>
+    );
+  }
+
+  // Show regular checkout interface
   return (
     <FormikProvider value={formik}>
-      <Form autoComplete="off" noSubmit onSubmit={handleSubmit}>
+      <Form autoComplete="off" noValidate onSubmit={handleSubmit}>
         <Box py={5}>
           <Grid container spacing={2}>
             <Grid item xs={12} md={8} flexGrow={1}>
@@ -724,73 +599,25 @@ const CheckoutMain = () => {
             </Grid>
             <Grid item xs={12} md={4} flexGrow={1}>
               <PaymentInfo loading={loading} setCouponCode={setCouponCode} setTotal={(v) => setTotalWithDiscount(v)} />
-              <PaymentMethodCard
-                loading={loading}
+
+              <TrustPaymentMethodCard
                 value={paymentMethod}
-                setValue={handlePaymentMethodChange}
-                error={checkoutError}
-                showApplePay={showApplePay}
+                setValue={setPaymentMethod}
+                showApplePay={true}
+                useMockMode={false}
+                amount={totalWithDiscount || total}
+                currency="GBP"
+                orderReference={Date.now()}
                 isFormValid={isFormValid}
+                loading={isLoading || isProcessing || loading}
+                disabled={!isFormValid}
+                userDetails={{
+                  billingFirstName: values.firstName,
+                  billingLastName: values.lastName,
+                  billingEmail: values.email
+                }}
               />
               <br />
-
-              {/* Apple Pay Button */}
-              {paymentMethod === 'apple_pay' && showApplePay && paymentRequest && (
-                <Box sx={{ mb: 2 }}>
-                  <PaymentRequestButtonElement
-                    options={{ paymentRequest }}
-                    onClick={async () => {
-                      // Validate form fields directly
-                      const fieldErrors = await formik.validateForm();
-                      const hasErrors = Object.keys(fieldErrors).length > 0;
-
-                      if (hasErrors) {
-                        // Mark fields as touched to show errors
-                        setTouched({
-                          firstName: true,
-                          lastName: true,
-                          email: true
-                        });
-
-                        if (isDeveloper) {
-                          addDebugLog('Form validation failed for Apple Pay', 'error');
-                          addDebugLog(fieldErrors, 'error');
-                        }
-
-                        toast.error('Please fill all required fields correctly');
-                        return false;
-                      }
-
-                      if (isDeveloper) {
-                        addDebugLog('Form validation passed for Apple Pay', 'success');
-                      }
-                      return true;
-                    }}
-                  />
-                </Box>
-              )}
-
-              {paymentMethod === 'apple_pay' && showApplePay && !isFormValid && (
-                <Box sx={{ mb: 2, p: 1, bgcolor: 'warning.light', borderRadius: 1 }}>
-                  <Typography variant="body2" color="warning.contrastText" textAlign="center">
-                    Please complete all required fields above to use Apple Pay
-                  </Typography>
-                </Box>
-              )}
-
-              {/* Place Order button for credit card payments */}
-              <Collapse in={paymentMethod === 'credit_card'}>
-                <LoadingButton
-                  variant="contained"
-                  fullWidth
-                  size="large"
-                  type="submit"
-                  loading={isLoading || isProcessing || loading}
-                  disabled={!isFormValid}
-                >
-                  Place Order
-                </LoadingButton>
-              </Collapse>
             </Grid>
           </Grid>
         </Box>
