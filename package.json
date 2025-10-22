@@ -44,6 +44,7 @@
     "framer-motion": "^10.16.5",
     "fs": "^0.0.1-security",
     "lodash": "^4.17.21",
+    "lucide-react": "^0.545.0",
     "negotiator": "^0.6.3",
     "next": "^14.0.3",
     "next-nprogress-bar": "^2.1.2",
