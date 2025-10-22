@@ -29,7 +29,7 @@ const TrustPaymentButton = ({
   profile = 'default',
   domain = 'https://payments.securetrading.net',
   journey = 'choice', // 'choice' for multiple payment methods, 'details' for card only
-  successUrl = 'http://102.90.97.233/checkout',
+  successUrl = 'https://lapsnaps.com/checkout',
   errorUrl,
   userDetails = {},
   disabled = false,
