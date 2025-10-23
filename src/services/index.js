@@ -45,7 +45,6 @@ export const getBrandsByAdmin = async (page, search) => {
   return data;
 };
 
-
 export const getBrandByAdmin = async (id) => {
   const { data } = await http.get(`/admin/brands/${id}`);
   return data;
@@ -369,6 +368,7 @@ export const getProducts = async (query = '', cat, rate) => {
   const { data } = await http.get(`/products${query || '?'}&rate=${rate}`);
   return data;
 };
+
 export const getProductDetails = async (pid) => {
   const { data } = await http.get(`/products/${pid}`);
   return data;
@@ -672,7 +672,6 @@ export const requestRemoval = async ({ ...payload }) => {
 //   return data;
 // };
 
-
 // PHYSICAL BRANDS
 export const getPhysicalBrandsByAdmin = async (page, search) => {
   const { data } = await http.get(`/admin/physical/brands?search=${search}&page=${page}`);
@@ -684,19 +683,16 @@ export const getAllPhysicalBrandsByAdmin = async () => {
   return data;
 };
 
-
 // PHYSICAL CATEGORIES
 export const getPhysicalCategoriesByAdmin = async (page, search) => {
   const { data } = await http.get(`/admin/physical-categories?search=${search}&page=${page}`);
   return data;
 };
 
-
 export const getAllPhysicalCategoriesByAdmin = async () => {
   const { data } = await http.get(`/admin/all-physical-categories`);
   return data;
 };
-
 
 export const addPhysicalCategoryByAdmin = async (payload) => {
   const { data } = await http.post(`/admin/physical-categories`, payload);
@@ -791,12 +787,9 @@ export const deleteAttributeByAdmin = async (id) => {
   return data;
 };
 
-
 // Get all physical products with pagination and optional search
-export const getPhysicalProductsByAdmin = async (page = 1, search = "") => {
-  const { data } = await http.get(
-    `/admin/physical-products?search=${search}&page=${page}`
-  );
+export const getPhysicalProductsByAdmin = async (page = 1, search = '') => {
+  const { data } = await http.get(`/admin/physical-products?search=${search}&page=${page}`);
   return data;
 };
 
@@ -824,12 +817,15 @@ export const deletePhysicalProductByAdmin = async (slug) => {
   return data;
 };
 
-
 // Get all public physical products (for user view)
-export const getPhysicalProducts = async (page = 1, search = "") => {
-  const { data } = await http.get(
-    `/physical-products?search=${search}&page=${page}`
-  );
+// export const getPhysicalProducts = async (params) => {
+//   console.log(params, 'Checking the params');
+//   const { data } = await http.get(`/physical-products?${params}`);
+//   return data;
+// };
+
+export const getPhysicalProducts = async (query = '') => {
+  const { data } = await http.get(`/physical-products${query}`);
   return data;
 };
 
