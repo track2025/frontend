@@ -19,14 +19,11 @@ import useMediaQuery from '@mui/material/useMediaQuery';
 // react-icons
 import { MdLogout } from 'react-icons/md';
 import { AiOutlineHome } from 'react-icons/ai';
-import { LuLayoutDashboard } from 'react-icons/lu';
-import { IoMdSettings } from 'react-icons/io';
 import { IoMoonOutline } from 'react-icons/io5';
-import { MdKey } from 'react-icons/md';
-import { LiaFileInvoiceSolid } from 'react-icons/lia';
 import { IoIosHeartEmpty } from 'react-icons/io';
 import { MdLogin } from 'react-icons/md';
 import { FaRegUserCircle } from 'react-icons/fa';
+import { MdOutlineTrackChanges, MdEvent, MdArticle } from 'react-icons/md';
 
 import {
   IoImagesOutline,
@@ -107,6 +104,36 @@ export default function Menu() {
         <ListItem disablePadding>
           <ListItemButton
             onClick={() => {
+              router.push('/tracks');
+            }}
+            sx={{ py: 2 }}
+          >
+            <ListItemIcon>
+              <MdOutlineTrackChanges size={20} />
+            </ListItemIcon>
+            <ListItemText primary="Tracks" />
+          </ListItemButton>
+        </ListItem>
+
+        <Divider />
+        <ListItem disablePadding>
+          <ListItemButton
+            onClick={() => {
+              router.push('/events');
+            }}
+            sx={{ py: 2 }}
+          >
+            <ListItemIcon>
+              <MdEvent size={20} />
+            </ListItemIcon>
+            <ListItemText primary="Events" />
+          </ListItemButton>
+        </ListItem>
+
+        <Divider />
+        <ListItem disablePadding>
+          <ListItemButton
+            onClick={() => {
               router.push('/products?top=1');
             }}
             sx={{ py: 2 }}
@@ -130,6 +157,21 @@ export default function Menu() {
               <IoPersonOutline size={20} />
             </ListItemIcon>
             <ListItemText primary="About Us" />
+          </ListItemButton>
+        </ListItem>
+
+        <Divider />
+        <ListItem disablePadding>
+          <ListItemButton
+            onClick={() => {
+              router.push('/blogs');
+            }}
+            sx={{ py: 2 }}
+          >
+            <ListItemIcon>
+              <MdArticle size={20} />
+            </ListItemIcon>
+            <ListItemText primary="Blog" />
           </ListItemButton>
         </ListItem>
 
