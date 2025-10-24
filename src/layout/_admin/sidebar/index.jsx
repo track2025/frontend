@@ -29,7 +29,7 @@ import { BsShop } from 'react-icons/bs';
 import { BsCart3 } from 'react-icons/bs';
 import { LuUsers } from 'react-icons/lu';
 import { SlEnvolopeLetter } from 'react-icons/sl';
-import { IoLogInOutline, IoSettingsOutline } from 'react-icons/io5';
+import { IoFileTrayFull, IoLogInOutline, IoSettingsOutline } from 'react-icons/io5';
 import { RiCoupon5Line } from 'react-icons/ri';
 import { BsBuildings } from 'react-icons/bs';
 import { AiOutlineDollarCircle } from 'react-icons/ai';
@@ -134,10 +134,17 @@ export const navlinks = [
   //   isSearch: false
   // },
   {
-    id: 13,
+    id: 14,
     title: 'Events',
     slug: 'events',
     icon: <IoLogInOutline />,
+    isSearch: false
+  },
+  {
+    id: 14,
+    title: 'Blogs',
+    slug: 'blogs',
+    icon: <IoFileTrayFull />,
     isSearch: false
   },
   {
