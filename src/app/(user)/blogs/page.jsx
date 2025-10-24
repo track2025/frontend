@@ -2,81 +2,7 @@
 import { useRouter } from 'next/navigation';
 import { Box, Container, Typography, Grid, Card, CardActionArea, CardMedia, CardContent, Chip } from '@mui/material';
 import AccessTimeIcon from '@mui/icons-material/AccessTime';
-
-const blogPosts = [
-  {
-    _id: '1',
-    slug: 'track-day-photography-tips',
-    title: 'Track Day Photography Tips: Capturing Speed and Motion',
-    excerpt:
-      'Learn the essential techniques for capturing stunning motorsport photography at track days. From camera settings to positioning, we cover everything you need to know.',
-    featuredImage: 'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=800&h=500&fit=crop',
-    author: 'James Mitchell',
-    category: 'Photography Tips',
-    publishedDate: '2025-02-15',
-    readTime: '8 min read'
-  },
-  {
-    _id: '2',
-    slug: 'best-race-tracks-europe',
-    title: 'The 10 Best Race Tracks in Europe for Track Days',
-    excerpt:
-      "Discover Europe's most iconic racing circuits perfect for track days. From Spa-Francorchamps to the Nürburgring, explore the tracks every enthusiast should experience.",
-    featuredImage: 'https://images.unsplash.com/photo-1540747913346-19e32dc3e97e?w=800&h=500&fit=crop',
-    author: 'Sarah Thompson',
-    category: 'Track Guides',
-    publishedDate: '2025-02-10',
-    readTime: '12 min read'
-  },
-  {
-    _id: '3',
-    slug: 'motorsport-photography-gear-guide',
-    title: 'Essential Gear for Motorsport Photography in 2025',
-    excerpt:
-      'A comprehensive guide to the cameras, lenses, and accessories you need for professional motorsport photography. Updated for 2025 with the latest equipment recommendations.',
-    featuredImage: 'https://images.unsplash.com/photo-1568605117036-5fe5e7bab0b7?w=800&h=500&fit=crop',
-    author: 'Michael Chen',
-    category: 'Gear Reviews',
-    publishedDate: '2025-02-05',
-    readTime: '10 min read'
-  },
-  {
-    _id: '4',
-    slug: 'first-track-day-guide',
-    title: "Your First Track Day: A Complete Beginner's Guide",
-    excerpt:
-      'Everything you need to know before attending your first track day. From preparation and safety to etiquette and what to expect on the day.',
-    featuredImage: 'https://images.unsplash.com/photo-1552820728-8b83bb6b773f?w=800&h=500&fit=crop',
-    author: 'Emma Roberts',
-    category: 'Tutorials',
-    publishedDate: '2025-01-28',
-    readTime: '15 min read'
-  },
-  {
-    _id: '5',
-    slug: 'panning-technique-motorsport',
-    title: 'Mastering the Panning Technique for Dynamic Racing Photos',
-    excerpt:
-      'Learn how to create stunning motion blur effects in your motorsport photography. Step-by-step guide to perfecting the panning technique.',
-    featuredImage: 'https://images.unsplash.com/photo-1541443131876-44b03de101c5?w=800&h=500&fit=crop',
-    author: 'David Wilson',
-    category: 'Photography Tips',
-    publishedDate: '2025-01-20',
-    readTime: '7 min read'
-  },
-  {
-    _id: '6',
-    slug: 'editing-workflow-motorsport-photos',
-    title: 'Professional Editing Workflow for Motorsport Photography',
-    excerpt:
-      'Discover the post-processing techniques used by professional motorsport photographers. From color correction to sharpening, elevate your images.',
-    featuredImage: 'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=800&h=500&fit=crop',
-    author: 'James Mitchell',
-    category: 'Editing',
-    publishedDate: '2025-01-12',
-    readTime: '11 min read'
-  }
-];
+import { blogPosts } from '../../../data/blogPosts';
 
 export default function BlogsPage() {
   const router = useRouter();
@@ -183,7 +109,7 @@ export default function BlogsPage() {
                       <Typography
                         variant="h3"
                         sx={{
-                          fontSize: { xs: '0.6rem', sm: '1rem', md: '1.4rem' },
+                          fontSize: { xs: '1.2rem', sm: '1.3rem', md: '1.4rem' },
                           fontWeight: 700,
                           color: '#1a1a1a',
                           mb: 2,

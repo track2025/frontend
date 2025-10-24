@@ -11,21 +11,13 @@ import {
   CardContent,
   Chip,
   Divider,
-  Button,
-  List,
-  ListItem,
-  ListItemIcon,
-  ListItemText
+  Button
 } from '@mui/material';
 import NavigateNextIcon from '@mui/icons-material/NavigateNext';
 import CalendarTodayIcon from '@mui/icons-material/CalendarToday';
 import LocationOnIcon from '@mui/icons-material/LocationOn';
 import AccessTimeIcon from '@mui/icons-material/AccessTime';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
-import CheckCircleIcon from '@mui/icons-material/CheckCircle';
-import EventIcon from '@mui/icons-material/Event';
-import ScheduleIcon from '@mui/icons-material/Schedule';
-import GroupIcon from '@mui/icons-material/Group';
 import eventsData from '../../../../../../data/events.json';
 
 export default function EventDetailPage() {
@@ -202,8 +194,8 @@ export default function EventDetailPage() {
           </Box>
 
           <Grid container spacing={4}>
-            {/* Left Column - Main Content */}
-            <Grid item size={{ xs: 12, lg: 8 }}>
+            {/* Main Content - Full Width */}
+            <Grid item size={12}>
               {/* Event Details Card */}
               <Card sx={{ mb: 4, boxShadow: 2 }}>
                 <CardContent sx={{ p: { xs: 2, md: 4 } }}>
@@ -293,38 +285,6 @@ export default function EventDetailPage() {
                 </CardContent>
               </Card>
 
-              {/* Event Schedule */}
-              {eventData.schedule && eventData.schedule.length > 0 && (
-                <Card sx={{ mb: 4, boxShadow: 2 }}>
-                  <CardContent sx={{ p: { xs: 2, md: 4 } }}>
-                    <Typography
-                      variant="h2"
-                      sx={{
-                        fontWeight: 700,
-                        mb: 3,
-                        fontSize: { xs: '1.5rem', md: '1.75rem' }
-                      }}
-                    >
-                      Event Schedule
-                    </Typography>
-                    <Divider sx={{ mb: 3 }} />
-                    <List>
-                      {eventData.schedule.map((item, index) => (
-                        <ListItem key={index} sx={{ px: 0 }}>
-                          <ListItemIcon>
-                            <ScheduleIcon sx={{ color: '#EE1E50' }} />
-                          </ListItemIcon>
-                          <ListItemText
-                            primary={<Typography sx={{ fontWeight: 600, color: '#1a1a1a' }}>{item.time}</Typography>}
-                            secondary={<Typography sx={{ color: '#666' }}>{item.activity}</Typography>}
-                          />
-                        </ListItem>
-                      ))}
-                    </List>
-                  </CardContent>
-                </Card>
-              )}
-
               {/* Event Gallery */}
               <Typography
                 variant="h2"
@@ -376,118 +336,6 @@ export default function EventDetailPage() {
                   </Grid>
                 ))}
               </Grid>
-            </Grid>
-
-            {/* Right Column - Sidebar */}
-            <Grid item size={{ xs: 12, lg: 4 }}>
-              {/* Event Info Card */}
-              <Card sx={{ mb: 4, boxShadow: 2, position: 'sticky', top: 100 }}>
-                <CardContent sx={{ p: { xs: 2, md: 3 } }}>
-                  <Typography variant="h5" sx={{ fontWeight: 700, mb: 3 }}>
-                    Event Information
-                  </Typography>
-
-                  {/* Price - COMMENTED OUT */}
-                  {/*
-                  <Box sx={{ mb: 3 }}>
-                    <Typography variant="h4" sx={{ fontWeight: 800, color: '#EE1E50', mb: 1 }}>
-                      {eventData.price}
-                    </Typography>
-                    <Typography variant="body2" sx={{ color: '#666' }}>
-                      per participant
-                    </Typography>
-                  </Box>
-                  */}
-
-                  {/* Capacity - COMMENTED OUT */}
-                  {/*
-                  {eventData.capacity && (
-                    <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.5, mb: 2 }}>
-                      <GroupIcon sx={{ color: '#EE1E50' }} />
-                      <Box>
-                        <Typography variant="body2" sx={{ color: '#666' }}>
-                          Capacity
-                        </Typography>
-                        <Typography variant="body1" sx={{ fontWeight: 600 }}>
-                          {eventData.spotsLeft
-                            ? `${eventData.spotsLeft} spots left`
-                            : `${eventData.capacity} participants`}
-                        </Typography>
-                      </Box>
-                    </Box>
-                  )}
-                  */}
-
-                  {/* Status - COMMENTED OUT */}
-                  {/*
-                  <Chip
-                    label={eventData.status}
-                    color={eventData.status === 'Open' ? 'success' : 'default'}
-                    sx={{ mb: 3 }}
-                  />
-                  */}
-
-                  {/* Book Button - COMMENTED OUT */}
-                  {/*
-                  <Button
-                    variant="contained"
-                    fullWidth
-                    size="large"
-                    sx={{
-                      bgcolor: '#EE1E50',
-                      '&:hover': { bgcolor: '#d81b60' },
-                      mb: 2,
-                      py: 1.5,
-                      fontSize: '1.1rem',
-                      fontWeight: 600
-                    }}
-                    onClick={() => window.open(eventData.bookingUrl, '_blank')}
-                  >
-                    Book Now
-                  </Button>
-                  */}
-
-                  {/* Requirements */}
-                  {eventData.requirements && eventData.requirements.length > 0 && (
-                    <>
-                      <Divider sx={{ my: 3 }} />
-                      <Typography variant="h6" sx={{ fontWeight: 600, mb: 2 }}>
-                        Requirements
-                      </Typography>
-                      <List dense>
-                        {eventData.requirements.map((requirement, index) => (
-                          <ListItem key={index} sx={{ px: 0 }}>
-                            <ListItemIcon sx={{ minWidth: 32 }}>
-                              <CheckCircleIcon sx={{ color: '#EE1E50', fontSize: 20 }} />
-                            </ListItemIcon>
-                            <ListItemText primary={requirement} />
-                          </ListItem>
-                        ))}
-                      </List>
-                    </>
-                  )}
-
-                  {/* Included */}
-                  {eventData.included && eventData.included.length > 0 && (
-                    <>
-                      <Divider sx={{ my: 3 }} />
-                      <Typography variant="h6" sx={{ fontWeight: 600, mb: 2 }}>
-                        What's Included
-                      </Typography>
-                      <List dense>
-                        {eventData.included.map((item, index) => (
-                          <ListItem key={index} sx={{ px: 0 }}>
-                            <ListItemIcon sx={{ minWidth: 32 }}>
-                              <CheckCircleIcon sx={{ color: '#EE1E50', fontSize: 20 }} />
-                            </ListItemIcon>
-                            <ListItemText primary={item} />
-                          </ListItem>
-                        ))}
-                      </List>
-                    </>
-                  )}
-                </CardContent>
-              </Card>
             </Grid>
           </Grid>
         </Container>
