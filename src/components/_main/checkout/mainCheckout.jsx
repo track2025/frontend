@@ -259,7 +259,7 @@ const CheckoutMain = () => {
   const router = useRouter();
   const cCurrency = useCurrencyConvert();
   const dispatch = useDispatch();
-  const { currency, rate } = useSelector(({ settings }) => settings);
+  const { currency, rate, selectedCountry } = useSelector(({ settings }) => settings);
   const { checkout } = useSelector(({ product }) => product);
   const { user: userData } = useSelector(({ user }) => user);
   const { cart, total } = checkout;
@@ -606,7 +606,7 @@ const CheckoutMain = () => {
                 showApplePay={true}
                 useMockMode={false}
                 amount={totalWithDiscount || total}
-                currency="GBP"
+                currency={currency || 'GBP'}
                 orderReference={Date.now()}
                 isFormValid={isFormValid}
                 loading={isLoading || isProcessing || loading}
@@ -614,7 +614,8 @@ const CheckoutMain = () => {
                 userDetails={{
                   billingFirstName: values.firstName,
                   billingLastName: values.lastName,
-                  billingEmail: values.email
+                  billingEmail: values.email,
+                  billingCountry: selectedCountry || 'GB'
                 }}
               />
               <br />

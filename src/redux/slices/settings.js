@@ -7,7 +7,8 @@ const initialState = {
   themeMode: 'light',
   openSidebar: false,
   currency: process.env.BASE_CURRENCY || 'AED',
-  rate: 1
+  rate: 1,
+  selectedCountry: 'GB'
 };
 
 // slice
@@ -24,6 +25,7 @@ const slice = createSlice({
     handleChangeCurrency(state, action) {
       state.currency = action.payload.currency;
       state.rate = action.payload.rate;
+      state.selectedCountry = action.payload.selectedCountry;
     }
   }
 });
