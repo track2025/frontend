@@ -65,6 +65,14 @@ const nextConfig = {
       {
         protocol: 'https',
         hostname: 'lapsnaps.com'
+      },
+      {
+        protocol: 'https',
+        hostname: 'cdn.pixabay.com'
+      },
+      {
+        protocol: 'https',
+        hostname: 'www.trackschool.com.au'
       }
     ]
   }

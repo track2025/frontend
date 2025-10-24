@@ -44,6 +44,12 @@ export const getBrandsByAdmin = async (page, search) => {
   const { data } = await http.get(`/admin/brands?search=${search}&page=${page}`);
   return data;
 };
+
+export const getEventsByAdmin = async (page, search) => {
+  const { data } = await http.get(`/admin/events?search=${search}&page=${page}`);
+  return data;
+};
+
 export const getBrandByAdmin = async (id) => {
   const { data } = await http.get(`/admin/brands/${id}`);
   return data;
