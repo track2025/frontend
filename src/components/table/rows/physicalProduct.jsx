@@ -82,7 +82,7 @@ export default function PhysicalProductRow({ isLoading, row, handleClickOpen, is
                 alt={row?.name}
                 placeholder="blur"
                 blurDataURL={row?.image?.blurDataURL || 'data:image/png;base64,'}
-                src={row?.images[0]?.url}
+                src={row?.image?.url}
                 layout="fill"
                 objectFit="cover"
               />
