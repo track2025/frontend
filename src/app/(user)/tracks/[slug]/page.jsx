@@ -75,10 +75,10 @@ const TrackDetailsPage = () => {
       reviewCount: track.reviewCount,
       bestRating: 5
     },
-    amenityFeature: track.facilities.map((facility) => ({
-      '@type': 'LocationFeatureSpecification',
-      name: facility
-    })),
+    // amenityFeature: track.facilities.map((facility) => ({
+    //   '@type': 'LocationFeatureSpecification',
+    //   name: facility
+    // })),
     sameAs: [
       track.website,
       `https://facebook.com/${track.socialMedia.facebook}`,
