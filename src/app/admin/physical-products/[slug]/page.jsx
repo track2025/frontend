@@ -1,8 +1,8 @@
 import React from 'react';
 
 // components
-import HeaderBreadcrumbs from '@/components/header-breadcrumbs';
-import EditProduct from '@/components/_admin/products/edit-product';
+import HeaderBreadcrumbs from 'src/components/headerBreadcrumbs';
+import EditPhysicalProduct from 'src/components/_admin/physical-products/edit-product';
 
 // api
 import * as api from 'src/services';
@@ -10,9 +10,8 @@ export const dynamic = 'force-dynamic';
 
 export default async function page(props) {
   const params = await props.params;
-  const { data: categories } = await api.getAllCategories();
-  const { data: brands } = await api.getAllBrandsByAdmin();
-  const { data: shops } = await api.getAllShopsByAdmin();
+  const { data: categories } = await api.getAllPhysicalCategoriesByAdmin();
+  const { data: brands } = await api.getAllPhysicalBrandsByAdmin();
 
   return (
     <div>
@@ -26,14 +25,14 @@ export default async function page(props) {
           },
           {
             name: 'Products',
-            href: '/admin/products'
+            href: '/admin/physical-products'
           },
           {
             name: 'Edit Product'
           }
         ]}
       />
-      <EditProduct brands={brands} shops={shops} categories={categories} slug={params.slug} />
+      <EditPhysicalProduct brands={brands} categories={categories} slug={params.slug} />
     </div>
   );
 }

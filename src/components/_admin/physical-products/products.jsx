@@ -7,10 +7,10 @@ import { Dialog, Stack } from '@mui/material';
 import DeleteDialog from 'src/components/dialog/delete';
 // components
 import Table from 'src/components/table/table';
-import Product from 'src/components/table/rows/product';
 // api
 import * as api from 'src/services';
 import { useQuery } from 'react-query';
+import PhysicalProductRow from 'src/components/table/rows/physicalProduct';
 
 const TABLE_HEAD = [
   { id: 'name', label: 'Product' },
@@ -86,7 +86,7 @@ export default function AdminProductsMain({ brands, categories, isVendor }) {
         headData={TABLE_HEAD}
         data={data}
         isLoading={isLoading}
-        row={Product}
+        row={PhysicalProductRow}
         handleClickOpen={handleClickOpen}
         brands={isVendor ? [] : brands}
         categories={isVendor ? [] : categories}

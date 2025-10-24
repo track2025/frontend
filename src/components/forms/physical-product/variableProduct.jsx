@@ -68,7 +68,7 @@ export default function VariableProduct({ formik, variants, setCount, count, isI
         ...f,
         ...uploadedUrl,
       }));
-      
+
       setFieldValue(`variants[${index}].images`, uploadedFiles);
       setState({ isUploading: false, uploadProgress: 100, currentFileName: '', currentProcess: '' });
     } catch (err) {
@@ -125,7 +125,11 @@ export default function VariableProduct({ formik, variants, setCount, count, isI
 
   useEffect(() => {
     if (!isLoading) {
-      const result = { names: values.selectedVariants.map(v => v.name), data: generateCombinations(values.selectedVariants) || [] };
+      const result = {
+        names: values.selectedVariants.map(v => v.name),
+        data: generateCombinations(values.selectedVariants) || []
+      };
+
       if (isInitialized) {
         setFieldValue('variants', result.data.map(v => ({ ...v, variant: result.names.join('/'), stockQuantity: '', sku: '', images: [], blob: [] })));
       } else {

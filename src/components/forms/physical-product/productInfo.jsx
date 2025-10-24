@@ -155,7 +155,7 @@ export default function ProductInfo(props) {
             onChange={(e, newValue) => setFieldValue('tags', newValue)}
             options={[]}
             renderTags={(value, getTagProps) =>
-              value.map((option, index) => <Chip key={option} size="small" {...getTagProps({ index })} label={option} />)
+              value.map((option, index) => <Chip size="small" {...getTagProps({ index })} label={option} />)
             }
             renderInput={(params) => (
               <TextField {...params} error={Boolean(touched.tags && errors.tags)} helperText={touched.tags && errors.tags} />
