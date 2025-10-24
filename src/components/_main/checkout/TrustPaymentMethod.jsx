@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import { Box, Button, Typography, Alert } from '@mui/material';
-import { CreditCard, Apple } from '@mui/icons-material';
+import { Payment } from '@mui/icons-material';
 
 /**
  * Trust Payment Button Component
@@ -190,20 +190,11 @@ const TrustPaymentButton = ({
           }
         }}
       >
-        <Box display="flex" alignItems="center" justifyContent="center" gap={2}>
-          <Box display="flex" alignItems="center" gap={0.5}>
-            <CreditCard sx={{ fontSize: 20 }} />
-            <Typography variant="caption" sx={{ opacity: 0.9 }}>
-              Card
-            </Typography>
-          </Box>
-          <Box sx={{ width: '1px', height: '20px', bgcolor: 'rgba(255,255,255,0.3)' }} />
-          <Box display="flex" alignItems="center" gap={0.5}>
-            <Apple sx={{ fontSize: 20 }} />
-            <Typography variant="caption" sx={{ opacity: 0.9 }}>
-              Apple Pay
-            </Typography>
-          </Box>
+        <Box display="flex" alignItems="center" justifyContent="center" gap={1}>
+          <Payment sx={{ fontSize: 24 }} />
+          <Typography variant="button" sx={{ fontSize: '1rem', fontWeight: 600 }}>
+            Pay Now
+          </Typography>
         </Box>
       </Button>
     </>
