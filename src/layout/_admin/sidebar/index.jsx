@@ -20,126 +20,142 @@ import {
 } from '@mui/material';
 import MuiDrawer from '@mui/material/Drawer';
 
-// icons
-import { IoIosArrowBack, IoIosArrowForward } from 'react-icons/io';
-import { LuLayoutDashboard } from 'react-icons/lu';
-import { FaRegBuilding } from 'react-icons/fa';
-import { TbCategory2 } from 'react-icons/tb';
-import { BsShop } from 'react-icons/bs';
-import { BsCart3 } from 'react-icons/bs';
-import { LuUsers } from 'react-icons/lu';
-import { SlEnvolopeLetter } from 'react-icons/sl';
-import { IoSettingsOutline } from 'react-icons/io5';
-import { RiCoupon5Line } from 'react-icons/ri';
-import { BsBuildings } from 'react-icons/bs';
-import { AiOutlineDollarCircle } from 'react-icons/ai';
-import { BsCashCoin } from 'react-icons/bs';
-import { LuBadgePercent } from 'react-icons/lu';
-
 // components
 import Scrollbar from 'src/components/Scrollbar';
 
 // Dashboard Side NevLinks
+import { LuBadgePercent } from 'react-icons/lu';
+import { SlEnvolopeLetter } from 'react-icons/sl';
+import { IoIosArrowBack, IoIosArrowForward } from 'react-icons/io';
+import { IoSettingsOutline } from 'react-icons/io5';
+import { LuLayoutDashboard, LuUsers } from "react-icons/lu";
+import { TbCategory2 } from "react-icons/tb";
+import { FaRegBuilding } from "react-icons/fa";
+import { BsShop, BsCart3, BsBuildings, BsCashCoin } from "react-icons/bs";
+import { RiCoupon5Line } from "react-icons/ri";
+import { AiOutlineDollarCircle } from "react-icons/ai";
+
 export const navlinks = [
   {
     id: 1,
-    title: 'Dashboard',
-    slug: 'dashboard',
-    icon: <LuLayoutDashboard />
+    title: "Dashboard",
+    slug: "dashboard",
+    icon: <LuLayoutDashboard />,
   },
   {
     id: 2,
-    title: 'Vehicle Makes',
-    slug: 'vehicle-makes',
+    title: "Vehicle Makes",
+    slug: "vehicle-makes",
     icon: <TbCategory2 />,
-    isSearch: true
+    isSearch: true,
   },
   {
     id: 3,
-    title: 'Vehicle Models',
-    slug: 'vehicle-models',
+    title: "Vehicle Models",
+    slug: "vehicle-models",
     icon: <TbCategory2 />,
-    isSearch: true
-  },
-  {
-    id: 3,
-    title: 'Race Locations',
-    slug: 'locations',
-    icon: <FaRegBuilding />,
-    isSearch: true
+    isSearch: true,
   },
   {
     id: 4,
-    title: 'Media Files',
-    slug: 'products',
-    icon: <BsShop />,
-    isSearch: true
+    title: "Race Locations",
+    slug: "locations",
+    icon: <FaRegBuilding />,
+    isSearch: true,
   },
-
   {
     id: 5,
-    title: 'Orders',
-    slug: 'orders',
-    icon: <BsCart3 />,
-    isSearch: true
+    title: "Media Files",
+    slug: "products",
+    icon: <BsShop />,
+    isSearch: true,
   },
   {
     id: 6,
-    title: 'Photographers',
-    slug: 'photographers',
-    icon: <BsBuildings />,
-    isSearch: true
+    title: "Orders",
+    slug: "orders",
+    icon: <BsCart3 />,
+    isSearch: true,
   },
   {
     id: 7,
-    title: 'Users',
-    slug: 'users',
-    icon: <LuUsers />,
-    isSearch: true
+    title: "Photographers",
+    slug: "photographers",
+    icon: <BsBuildings />,
+    isSearch: true,
   },
   {
     id: 8,
-    title: 'Payouts',
-    slug: 'payouts',
-    icon: <BsCashCoin />,
-    isSearch: false
+    title: "Users",
+    slug: "users",
+    icon: <LuUsers />,
+    isSearch: true,
   },
   {
     id: 9,
-    title: 'Coupon codes',
-    slug: 'coupon-codes',
-    icon: <RiCoupon5Line />,
-    isSearch: true
+    title: "Payouts",
+    slug: "payouts",
+    icon: <BsCashCoin />,
+    isSearch: false,
   },
-  // {
-  //   id: 122,
-  //   title: 'Compaigns',
-  //   slug: 'compaigns',
-  //   icon: <LuBadgePercent />,
-  //   isSearch: true
-  // },
+  {
+    id: 10,
+    title: "Coupon Codes",
+    slug: "coupon-codes",
+    icon: <RiCoupon5Line />,
+    isSearch: true,
+  },
   {
     id: 11,
-    title: 'Currencies',
-    slug: 'currencies',
+    title: "Currencies",
+    slug: "currencies",
     icon: <AiOutlineDollarCircle />,
-    isSearch: true
+    isSearch: true,
   },
-
-  // {
-  //   id: 12,
-  //   title: 'Newsletter',
-  //   slug: 'newsletter',
-  //   icon: <SlEnvolopeLetter />,
-  //   isSearch: false
-  // },
+  {
+    id: 12,
+    title: "Settings",
+    slug: "settings",
+    icon: <IoSettingsOutline />,
+    isSearch: false,
+  },
+  // Physical Products Section
   {
     id: 13,
-    title: 'Settings',
-    slug: 'settings',
-    icon: <IoSettingsOutline />,
-    isSearch: false
-  }
+    title: "Attributes",
+    slug: "physical-attributes",
+    icon: <TbCategory2 />,
+    isSearch: true,
+  },
+
+  {
+    id: 14,
+    title: "Brands",
+    slug: "physical-brands",
+    icon: <TbCategory2 />,
+    isSearch: true,
+  },
+  {
+    id: 15,
+    title: 'Categories',
+    slug: 'physical-categories',
+    icon: <TbCategory2 />,
+    isSearch: true
+  },
+  {
+    id: 16,
+    title: 'Sub Categories',
+    slug: 'physical-categories/sub-categories',
+    icon: <TbCategory2 />,
+    isSearch: true
+  },
+  {
+    id: 17,
+    title: "Products",
+    slug: "physical-products",
+    icon: <BsShop />,
+    isSearch: true,
+  },
 ];
 
 const drawerWidth = 240;
@@ -284,13 +300,13 @@ export default function Sidebar({ handleDrawerClose, handleDrawerOpen, open }) {
                   border: `1px solid transparent`,
                   ...(active === '/admin/' + item.slug &&
                     initial && {
-                      bgcolor: (theme) => alpha(theme.palette.primary.main, 0.2),
-                      border: (theme) => `1px solid ${theme.palette.primary.main}`,
-                      color: theme.palette.primary.main,
-                      '& .MuiTypography-root': {
-                        fontWeight: 600
-                      }
-                    })
+                    bgcolor: (theme) => alpha(theme.palette.primary.main, 0.2),
+                    border: (theme) => `1px solid ${theme.palette.primary.main}`,
+                    color: theme.palette.primary.main,
+                    '& .MuiTypography-root': {
+                      fontWeight: 600
+                    }
+                  })
                 }}
               >
                 <Tooltip title={open ? '' : item.title} placement="left" arrow leaveDelay={200}>

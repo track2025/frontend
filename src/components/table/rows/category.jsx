@@ -67,7 +67,7 @@ export default function Category({ isLoading, row, handleClickOpen, sn }) {
                 fill
                 alt={row?.name}
                 src={row?.cover?.url}
-                placeholder="blur"
+                placeholder={row?.logo?.blurDataURL ? "blur" : "empty"}
                 blurDataURL={row?.cover.blurDataURL}
                 objectFit="cover"
               />

@@ -56,11 +56,18 @@ export default function Category({ isLoading, row, handleClickOpen, sn }) {
             alignItems: 'center'
           }}
         >
-          
+
           <Typography variant="subtitle2" noWrap>
             {isLoading ? <Skeleton variant="text" width={120} sx={{ ml: 1 }} /> : row?.name}
           </Typography>
         </Box>
+      </TableCell>
+      <TableCell>
+        {isLoading ? (
+          <Skeleton variant="text" />
+        ) : (
+          capitalize(row?.parentCategory)
+        )}
       </TableCell>
       <TableCell>
         {isLoading ? (

@@ -14,7 +14,13 @@
     {
       "title": "About",
       "path": "/about"
+    },
+
+    {
+      "title": "Track Products",
+      "path": "/track-products"
     }
+
   ],
   "mobile_menu": [
     {

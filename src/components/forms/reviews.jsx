@@ -70,6 +70,7 @@ export default function ProductDetailsReviewForm({ ...props }) {
     onClickCancel();
     resetForm();
   };
+  
   const handleDrop = (acceptedFiles) => {
     setloading(true);
     const uploaders = acceptedFiles.map((file) => {
