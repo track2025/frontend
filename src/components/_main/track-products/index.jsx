@@ -26,26 +26,24 @@ const sortData = [
   { title: 'Oldest', key: 'date', value: 1 },
   { title: 'Newest', key: 'date', value: -1 }
 ];
-const getSearchParams = (searchParams, category, subCategory, childCategory, brand, shop, rate) => {
+const getSearchParams = (searchParams, category, subCategory, brand, rate) => {
   const params = new URLSearchParams(searchParams.toString());
 
   if (category?._id) params.set('category', category.slug);
   if (subCategory?._id) params.set('subcategory', subCategory.slug);
-  if (childCategory?._id) params.set('childcategory', childCategory.slug);
   if (brand?._id) params.set('brand', brand.slug);
-  if (shop?._id) params.set('shop', shop.slug);
   if (rate) params.set('rate', rate);
 
   const queryString = params.toString();
   return queryString.length ? '?' + queryString : '';
 };
-export default function ProductListing({ category, subCategory, childCategory, shop, brand, filters }) {
+export default function ProductListing({ category, subCategory, brand, filters }) {
   const searchParams = useSearchParams();
 
-  const searchQuery = getSearchParams(searchParams, category, subCategory, childCategory, brand, shop);
+  const searchQuery = getSearchParams(searchParams, category, subCategory, brand);
   const { data, isPending: isLoading } = useQuery({
     queryKey: [searchQuery],
-    queryFn: () => api.getProducts(searchQuery)
+    queryFn: () => api.getPhysicalProducts(searchQuery)
   });
   const isMobile = useMediaQuery('(max-width:900px)');
   return (
