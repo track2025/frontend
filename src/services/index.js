@@ -765,28 +765,32 @@ export const updatePhysicalChildCategoryByAdmin = async ({ currentSlug, ...paylo
   return data;
 };
 
-// attributes
-export const getAttributesByAdmin = async (page, search) => {
+/*
+=============================
+Physical Attributes (Admin)
+=============================
+*/
+export const getPhysicalAttributesByAdmin = async (page, search) => {
   const { data } = await http.get(`/admin/attributes?search=${search}&page=${page}`);
   return data;
 };
-export const getAttributeByAdmin = async (id) => {
+export const getPhysicalAttributeByAdmin = async (id) => {
   const { data } = await http.get(`/admin/attributes/${id}`);
   return data;
 };
-export const getAllAttributesByAdmin = async () => {
+export const getAllPhysicalAttributesByAdmin = async () => {
   const { data } = await http.get(`/admin/all-attributes`);
   return data;
 };
-export const addAttributeByAdmin = async (payload) => {
+export const addPhysicalAttributeByAdmin = async (payload) => {
   const { data } = await http.post(`/admin/attributes`, payload);
   return data;
 };
-export const updateAttributeByAdmin = async ({ currentId, ...payload }) => {
+export const updatePhysicalAttributeByAdmin = async ({ currentId, ...payload }) => {
   const { data } = await http.put(`/admin/attributes/${currentId}`, payload);
   return data;
 };
-export const deleteAttributeByAdmin = async (id) => {
+export const deletePhysicalAttributeByAdmin = async (id) => {
   const { data } = await http.delete(`/admin/attributes/${id}`);
   return data;
 };
@@ -828,7 +832,7 @@ export const deletePhysicalProductByAdmin = async (slug) => {
 =====================================
 Physical Products (USER)
 =====================================
-*/ 
+*/
 export const getPhysicalProducts = async (query = '') => {
   const { data } = await http.get(`/user/physical-products${query}`);
   return data;

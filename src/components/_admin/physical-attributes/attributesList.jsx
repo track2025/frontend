@@ -8,13 +8,13 @@ import { useQuery } from 'react-query';
 // mui
 import { Button, Dialog } from '@mui/material';
 // components
-import DeleteDialog from 'src/components/dialog/delete';
 import { IoMdAdd } from 'react-icons/io';
 import HeaderBreadcrumbs from 'src/components/headerBreadcrumbs';
 import FormDialog from 'src/components/dialog/formDialog';
 import AttributesForm from 'src/components/forms/physical-product/attribute';
 import AttributesRow from 'src/components/table/rows/attribute';
 import AttributeTable from 'src/components/table/physical-product/table';
+import DeleteAttributeDialog from 'src/components/dialog/deleteAttribute';
 
 const TABLE_HEAD = [
   { id: 'id', label: 'ID' },
@@ -33,7 +33,7 @@ export default function AttributesList() {
 
   const { data, isPending: isLoading } = useQuery({
     queryKey: ['Attributes', apicall, searchParam, pageParam],
-    queryFn: () => api.getAttributesByAdmin(+pageParam || 1, searchParam || '')
+    queryFn: () => api.getPhysicalAttributesByAdmin(+pageParam || 1, searchParam || '')
   });
 
   const handleClickOpen = (prop) => () => {
@@ -76,17 +76,18 @@ export default function AttributesList() {
         }
       />
       <Dialog onClose={handleClose} open={id} maxWidth={'xs'}>
-        <DeleteDialog
+        <DeleteAttributeDialog
           onClose={handleClose}
           id={id}
           apicall={setApicall}
-          endPoint="deleteAttributeByAdmin"
+          endPoint="deletePhysicalAttributeByAdmin"
           type={'Attribute deleted'}
           deleteMessage={
             'Are you sure you want to delete this Attribute? Please consider carefully before making irreversible changes.'
           }
         />
       </Dialog>
+
       <FormDialog title={'Attributes'} open={selected} handleClose={() => setSelected(null)}>
         <AttributesForm
           data={typeof selected === 'boolean' ? null : selected}

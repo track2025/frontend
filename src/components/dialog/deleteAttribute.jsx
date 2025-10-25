@@ -4,14 +4,14 @@ import toast from 'react-hot-toast';
 import PropTypes from 'prop-types';
 // mui
 import { DialogTitle, DialogContent, DialogContentText, DialogActions, Button, alpha, Box } from '@mui/material';
-import { LoadingButton } from '@mui/lab';
+
 // icons
 import { IoWarning } from 'react-icons/io5';
 // api
 import * as api from 'src/services';
 import { useMutation } from 'react-query';
 
-DeleteDialog.propTypes = {
+DeleteAttributeDialog.propTypes = {
   onClose: PropTypes.func.isRequired,
   id: PropTypes.string.isRequired,
   apicall: PropTypes.func.isRequired,
@@ -20,36 +20,24 @@ DeleteDialog.propTypes = {
   deleteMessage: PropTypes.string.isRequired
 };
 
-export default function DeleteDialog({ onClose, id, apicall, endPoint, type, deleteMessage, selectedRows }) {
-
-  console.log(id);
-
-  const { isLoading, mutate } = useMutation(api[endPoint], {
+export default function DeleteAttributeDialog({ onClose, id, apicall, endPoint, type, deleteMessage }) {
+  const { mutate, isPending: isLoading } = useMutation({
+    mutationFn: api[endPoint],
     onSuccess: () => {
       toast.success(type);
       apicall((prev) => ({ ...prev, apicall: !prev.apicall }));
       onClose();
     },
     onError: (err) => {
-      toast.error(err.response.data.message);
+      toast.error(err?.response?.data?.message || 'Something went wrong!');
     }
   });
   const handleDelete = () => {
-    if (selectedRows.length > 0) {
-      mutate(selectedRows);
-    } else {
-      mutate(id);
-    }
+    mutate(id);
   };
   return (
     <>
-      <DialogTitle
-        sx={{
-          display: 'flex',
-          alignItems: 'center',
-          mb: 1
-        }}
-      >
+      <DialogTitle sx={{ display: 'flex', alignItems: 'center', mb: 1 }}>
         <Box
           sx={{
             height: 40,
@@ -75,9 +63,9 @@ export default function DeleteDialog({ onClose, id, apicall, endPoint, type, del
       </DialogContent>
       <DialogActions sx={{ pt: '8px !important' }}>
         <Button onClick={onClose}> cancel </Button>
-        <LoadingButton variant="contained" loading={isLoading} onClick={handleDelete} color="error">
+        <Button variant="contained" loading={isLoading} onClick={handleDelete} color="error">
           delete
-        </LoadingButton>
+        </Button>
       </DialogActions>
     </>
   );

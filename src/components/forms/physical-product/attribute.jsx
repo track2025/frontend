@@ -43,7 +43,7 @@ export default function AttributesForm({
   handleClose,
   handleCancel
 }) {
-  const mutationFn = currentAttribute ? api.updateAttributeByAdmin : api.addAttributeByAdmin;
+  const mutationFn = currentAttribute ? api.updatePhysicalAttributeByAdmin : api.addPhysicalAttributeByAdmin;
 
   const { mutate, isPending: isLoading } = useMutation({
     mutationFn,
