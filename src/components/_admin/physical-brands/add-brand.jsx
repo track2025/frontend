@@ -1,6 +1,6 @@
 import React from 'react';
+import PhysicalBrandsForm from 'src/components/forms/physical-product/brand';
 // components
-import PhysicalBrandsForm from 'src/components/forms/physical-brand';
 
 export default function addBrand() {
   return (

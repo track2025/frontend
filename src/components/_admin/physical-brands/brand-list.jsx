@@ -8,9 +8,9 @@ import { useQuery } from 'react-query';
 // mui
 import { Dialog } from '@mui/material';
 // components
-import DeleteDialog from 'src/components/dialog/delete';
-import Table from 'src/components/table/table';
-import Brand from 'src/components/table/rows/brand';
+import DeletePhysicalDialog from 'src/components/dialog/deletePhysical';
+import PhysicalBrandsRow from 'src/components/table/rows/physicalBrand';
+import PhysicalTable from 'src/components/table/physicalTable';
 
 const TABLE_HEAD = [
   { id: 'name', label: 'Brands' },
@@ -33,8 +33,6 @@ export default function BrandList() {
     queryFn: () => api.getPhysicalBrandsByAdmin(+pageParam || 1, searchParam || '')
   });
 
-  console.log(data);
-
   const handleClickOpen = (prop) => () => {
     setId(prop);
     setOpen(true);
@@ -46,22 +44,22 @@ export default function BrandList() {
   return (
     <>
       <Dialog onClose={handleClose} open={open} maxWidth={'xs'}>
-        <DeleteDialog
+        <DeletePhysicalDialog
           onClose={handleClose}
           id={id}
           apicall={setApicall}
-          endPoint="deleteBrandByAdmin"
-          type={'Brand deleted'}
+          endPoint="deletePhysicalBrandByAdmin"
+          type={'Physical Brand deleted'}
           deleteMessage={
             'This brand is linked to products. Deleting it will also remove all related data. Are you sure you want to continue?'
           }
         />
       </Dialog>
-      <Table
+      <PhysicalTable
         headData={TABLE_HEAD}
         data={data}
         isLoading={isLoading}
-        row={Brand}
+        row={PhysicalBrandsRow}
         handleClickOpen={handleClickOpen}
         isSearch
         filters={[{ ...STATUS_FILTER }]}

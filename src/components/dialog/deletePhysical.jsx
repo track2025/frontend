@@ -11,7 +11,7 @@ import { IoWarning } from 'react-icons/io5';
 import * as api from 'src/services';
 import { useMutation } from 'react-query';
 
-DeleteAttributeDialog.propTypes = {
+DeletePhysicalDialog.propTypes = {
   onClose: PropTypes.func.isRequired,
   id: PropTypes.string.isRequired,
   apicall: PropTypes.func.isRequired,
@@ -20,7 +20,7 @@ DeleteAttributeDialog.propTypes = {
   deleteMessage: PropTypes.string.isRequired
 };
 
-export default function DeleteAttributeDialog({ onClose, id, apicall, endPoint, type, deleteMessage }) {
+export default function DeletePhysicalDialog({ onClose, id, apicall, endPoint, type, deleteMessage }) {
   const { mutate, isPending: isLoading } = useMutation({
     mutationFn: api[endPoint],
     onSuccess: () => {

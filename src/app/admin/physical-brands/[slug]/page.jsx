@@ -12,11 +12,12 @@ import * as api from 'src/services';
 
 Page.propTypes = { params: PropTypes.shape({ slug: PropTypes.string.isRequired }).isRequired };
 
-export default function Page(props) {
-  const params = use(props.params);
+export default function Page({params}) {
+  const {slug} = params;
+
   const { data, isPending: isLoading } = useQuery({
-    queryKey: ['coupon-codes', params.slug],
-    queryFn: () => api.getBrandByAdmin(params.slug)
+    queryKey: ['coupon-codes', slug],
+    queryFn: () => api.getPhysicalBrandByAdmin(slug)
   });
   return (
     <div>
@@ -25,7 +26,7 @@ export default function Page(props) {
         heading="Brands"
         links={[
           { name: 'Dashboard', href: '/admin' },
-          { name: 'Brands', href: '/admin/brands' },
+          { name: 'Brands', href: '/admin/physical-brands' },
           { name: 'Edit Brand' }
         ]}
       />

@@ -672,15 +672,63 @@ export const requestRemoval = async ({ ...payload }) => {
 //   return data;
 // };
 
-
-// PHYSICAL BRANDS
-export const getPhysicalBrandsByAdmin = async (page, search) => {
-  const { data } = await http.get(`/admin/physical/brands?search=${search}&page=${page}`);
+/*
+=============================
+Physical Attributes (Admin)
+=============================
+*/
+export const getPhysicalAttributesByAdmin = async (page, search) => {
+  const { data } = await http.get(`/admin/attributes?search=${search}&page=${page}`);
+  return data;
+};
+export const getPhysicalAttributeByAdmin = async (id) => {
+  const { data } = await http.get(`/admin/attributes/${id}`);
+  return data;
+};
+export const getAllPhysicalAttributesByAdmin = async () => {
+  const { data } = await http.get(`/admin/all-attributes`);
+  return data;
+};
+export const addPhysicalAttributeByAdmin = async (payload) => {
+  const { data } = await http.post(`/admin/attributes`, payload);
+  return data;
+};
+export const updatePhysicalAttributeByAdmin = async ({ currentId, ...payload }) => {
+  const { data } = await http.put(`/admin/attributes/${currentId}`, payload);
+  return data;
+};
+export const deletePhysicalAttributeByAdmin = async (id) => {
+  const { data } = await http.delete(`/admin/attributes/${id}`);
   return data;
 };
 
+/*
+=============================
+Physical Brands (Admin)
+=============================
+*/
+export const getPhysicalBrandsByAdmin = async (page, search) => {
+  const { data } = await http.get(`/admin/physical-brands?search=${search}&page=${page}`);
+  return data;
+};
+export const getPhysicalBrandByAdmin = async (id) => {
+  const { data } = await http.get(`/admin/physical-brands/${id}`);
+  return data;
+};
 export const getAllPhysicalBrandsByAdmin = async () => {
   const { data } = await http.get(`/admin/all-physical-brands`);
+  return data;
+};
+export const addPhysicalBrandByAdmin = async (payload) => {
+  const { data } = await http.post(`/admin/physical-brands`, payload);
+  return data;
+};
+export const updatePhysicalBrandByAdmin = async ({ currentSlug, ...payload }) => {
+  const { data } = await http.put(`/admin/physical-brands/${currentSlug}`, payload);
+  return data;
+};
+export const deletePhysicalBrandByAdmin = async (slug) => {
+  const { data } = await http.delete(`/admin/physical-brands/${slug}`);
   return data;
 };
 
@@ -703,10 +751,6 @@ export const addPhysicalCategoryByAdmin = async (payload) => {
   return data;
 };
 
-export const addPhysicalBrandByAdmin = async (payload) => {
-  const { data } = await http.post(`/admin/physical/brands`, payload);
-  return data;
-};
 
 export const updatePhysicalCategoryByAdmin = async ({ currentSlug, ...payload }) => {
   const { data } = await http.put(`/admin/physical-categories/${currentSlug}`, payload);
@@ -765,35 +809,7 @@ export const updatePhysicalChildCategoryByAdmin = async ({ currentSlug, ...paylo
   return data;
 };
 
-/*
-=============================
-Physical Attributes (Admin)
-=============================
-*/
-export const getPhysicalAttributesByAdmin = async (page, search) => {
-  const { data } = await http.get(`/admin/attributes?search=${search}&page=${page}`);
-  return data;
-};
-export const getPhysicalAttributeByAdmin = async (id) => {
-  const { data } = await http.get(`/admin/attributes/${id}`);
-  return data;
-};
-export const getAllPhysicalAttributesByAdmin = async () => {
-  const { data } = await http.get(`/admin/all-attributes`);
-  return data;
-};
-export const addPhysicalAttributeByAdmin = async (payload) => {
-  const { data } = await http.post(`/admin/attributes`, payload);
-  return data;
-};
-export const updatePhysicalAttributeByAdmin = async ({ currentId, ...payload }) => {
-  const { data } = await http.put(`/admin/attributes/${currentId}`, payload);
-  return data;
-};
-export const deletePhysicalAttributeByAdmin = async (id) => {
-  const { data } = await http.delete(`/admin/attributes/${id}`);
-  return data;
-};
+
 
 
 // Get all physical products with pagination and optional search

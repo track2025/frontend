@@ -14,7 +14,7 @@ import FormDialog from 'src/components/dialog/formDialog';
 import AttributesForm from 'src/components/forms/physical-product/attribute';
 import AttributesRow from 'src/components/table/rows/attribute';
 import AttributeTable from 'src/components/table/physical-product/table';
-import DeleteAttributeDialog from 'src/components/dialog/deleteAttribute';
+import DeletePhysicalDialog from 'src/components/dialog/deletePhysical';
 
 const TABLE_HEAD = [
   { id: 'id', label: 'ID' },
@@ -76,7 +76,7 @@ export default function AttributesList() {
         }
       />
       <Dialog onClose={handleClose} open={id} maxWidth={'xs'}>
-        <DeleteAttributeDialog
+        <DeletePhysicalDialog
           onClose={handleClose}
           id={id}
           apicall={setApicall}
