@@ -1,0 +1,222 @@
+import PropTypes from 'prop-types';
+import { useRouter } from 'next-nprogress-bar';
+import { enUS } from 'date-fns/locale';
+
+// mui
+import {
+  Box,
+  TableRow,
+  Skeleton,
+  TableCell,
+  Typography,
+  Stack,
+  IconButton,
+  Rating,
+  Tooltip,
+  Link,
+  Checkbox,
+  Chip
+} from '@mui/material';
+
+// redux
+import { fCurrency } from 'src/utils/formatNumber';
+import { fDateShort } from 'src/utils/formatTime';
+
+// components
+import Label from 'src/components/label';
+import BlurImage from 'src/components/blurImage';
+
+// icons
+import { MdEdit } from 'react-icons/md';
+import { MdDelete } from 'react-icons/md';
+import { IoEye } from 'react-icons/io5';
+
+export default function PhysicalProductRow({ isLoading, row, handleClickOpen, isVendor, sn, selectedRows, UpdateSelectedRow }) {
+  const router = useRouter();
+  return (
+    <TableRow hover key={Math.random()}>
+      {/* ✅ Checkbox column */}
+      <TableCell padding="checkbox">
+        <Stack direction="row" alignItems="center" spacing={1}>
+          {isLoading ? (
+            <Skeleton variant="circular" width={20} height={20} />
+          ) : (
+            <>
+              <Checkbox
+                size="small"
+                checked={selectedRows?.includes(row?._id)}
+                onChange={() => UpdateSelectedRow(row?._id, 'single')}
+              />
+              {isLoading ? <Skeleton variant="text" width={20} /> : <Typography variant="body2">{sn}</Typography>}
+            </>
+          )}
+        </Stack>
+      </TableCell>
+
+      <TableCell component="th" scope="row" sx={{ maxWidth: 300 }}>
+        <Box
+          sx={{
+            display: 'flex',
+            alignItems: 'center'
+          }}
+        >
+          {isLoading ? (
+            <Skeleton variant="rectangular" width={50} height={50} sx={{ borderRadius: 1 }} />
+          ) : (
+            <Box
+              sx={{
+                position: 'relative',
+                overflow: 'hidden',
+                width: 50,
+                height: 50,
+                bgcolor: 'background.default',
+                mr: 2,
+                border: (theme) => '1px solid ' + theme.palette.divider,
+                borderRadius: '6px',
+                img: {
+                  borderRadius: '2px'
+                }
+              }}
+            >
+              <BlurImage
+                alt={row?.name}
+                placeholder="blur"
+                blurDataURL={row?.image?.blurDataURL || 'data:image/png;base64,'}
+                src={row?.image?.url}
+                layout="fill"
+                objectFit="cover"
+              />
+            </Box>
+          )}
+          <Typography variant="subtitle2" noWrap>
+            {isLoading ? <Skeleton variant="text" width={120} sx={{ ml: 1 }} /> : row?.name}
+          </Typography>
+        </Box>
+      </TableCell>
+
+      <TableCell>
+        {isLoading ? <Skeleton variant="text" /> : fCurrency(row?.priceSale || row?.price, row?.currency)}
+      </TableCell>
+
+      <TableCell>
+        {isLoading ? (
+          <Skeleton variant="text" />
+        ) : (
+          <Chip
+            size="small"
+            label={
+              (row?.stockQuantity < 1 && 'Out of stock') ||
+              (row?.stockQuantity < 20 && 'Low stock') ||
+              (row?.stockQuantity >= 20 && 'In stock')
+            }
+            color={
+              (row?.stockQuantity < 1 && 'error') ||
+              (row?.stockQuantity < 20 && 'warning') ||
+              (row?.stockQuantity >= 20 && 'success') ||
+              'primary'
+            }
+          />
+        )}
+      </TableCell>
+
+      <TableCell>
+        {isLoading ? (
+          <Skeleton variant="text" />
+        ) : (
+          <Chip
+            size="small"
+            label={row?.status}
+            color={
+              row.status === 'published'
+                ? 'success'
+                : row.status === 'draft'
+                  ? 'warning'
+                  : row.status === 'pending'
+                    ? 'info'
+                    : 'default'
+            }
+          />
+        )}
+      </TableCell>
+
+
+      <TableCell align="left">
+        {isLoading ? (
+          <Skeleton variant="text" />
+        ) : (
+          <Rating name="text-feedback" size="small" value={row?.averageRating || 0} readOnly precision={0.5} />
+        )}
+      </TableCell>
+
+      {/* <TableCell>
+        {isLoading ? (
+          <Skeleton variant="text" />
+        ) : (
+          <Switch
+            {...label}
+            defaultChecked={row.isFeatured}
+            onChange={() => {
+              mutate({
+                isFeatured: !row.isFeatured,
+                id: row._id,
+              });
+            }}
+          />
+        )}
+      </TableCell> */}
+      <TableCell>{isLoading ? <Skeleton variant="text" /> : <>{fDateShort(row?.createdAt, enUS)}</>}</TableCell>
+
+      <TableCell align="right">
+        {isLoading ? (
+          <Stack direction="row" justifyContent="flex-end">
+            <Skeleton variant="circular" width={34} height={34} sx={{ mr: 1 }} />
+            <Skeleton variant="circular" width={34} height={34} sx={{ mr: 1 }} />
+            <Skeleton variant="circular" width={34} height={34} />
+          </Stack>
+        ) : (
+          <Stack direction="row" justifyContent="flex-end">
+            <Tooltip title="Preview">
+              <Link target="_blank" href={`/physical-product/${row?.slug}`}>
+                <IconButton>
+                  <IoEye />
+                </IconButton>
+              </Link>
+            </Tooltip>
+            <Tooltip title="Edit">
+              <IconButton onClick={() => router.push(`/${isVendor ? 'vendor' : 'admin'}/physical-products/${row?.slug}`)}>
+                <MdEdit />
+              </IconButton>
+            </Tooltip>
+            <Tooltip title="Delete">
+              <IconButton onClick={handleClickOpen(row?.slug, 'singleDelete')}>
+                <MdDelete />
+              </IconButton>
+            </Tooltip>
+          </Stack>
+        )}
+      </TableCell>
+    </TableRow>
+  );
+}
+
+PhysicalProductRow.propTypes = {
+  isLoading: PropTypes.bool.isRequired,
+  sn: PropTypes.number,
+  row: PropTypes.shape({
+    image: PropTypes.object.isRequired,
+    name: PropTypes.string.isRequired,
+    images: PropTypes.arrayOf(
+      PropTypes.shape({
+        url: PropTypes.string.isRequired
+      })
+    ).isRequired,
+    createdAt: PropTypes.instanceOf(Date).isRequired,
+    available: PropTypes.number,
+    averageRating: PropTypes.number.isRequired,
+    priceSale: PropTypes.number,
+    price: PropTypes.number.isRequired,
+    slug: PropTypes.string.isRequired
+  }).isRequired,
+
+  handleClickOpen: PropTypes.func.isRequired
+};

@@ -1,0 +1,22 @@
+version: 0.2
+
+phases:
+  pre_build:
+    commands:
+      - echo Logging in to Amazon ECR...
+      - aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin 658919911873.dkr.ecr.us-east-1.amazonaws.com
+  build:
+    commands:
+      - echo Build started on `date`
+      - echo Building the Docker image...
+      - docker docker build -t shoutty-front .
+      - docker tag shoutty-front:latest 658919911873.dkr.ecr.us-east-1.amazonaws.com/shoutty-front:latest
+  post_build:
+    commands:
+      - echo Build completed on `date`
+      - echo Pushing the Docker image...
+      - docker push 658919911873.dkr.ecr.us-east-1.amazonaws.com/shoutty-front:latest
+      - printf '[{"name":"frontend","imageUri":"658919911873.dkr.ecr.us-east-1.amazonaws.com/shoutty-front:latest"}]' > imagedefinitions.json
+      - cat imagedefinitions.json
+artifacts:
+  files: imagedefinitions.json
