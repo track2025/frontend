@@ -77,7 +77,7 @@ export default function BrandsRow({ isLoading, row, handleClickOpen, sn }) {
           ) : (
             <>
               <Tooltip title="Edit">
-                <IconButton onClick={() => router.push(`/admin/locations/${row?.slug}`)}>
+                <IconButton onClick={() => router.push(`/admin/blogs/${row?.slug}`)}>
                   <MdEdit />
                 </IconButton>
               </Tooltip>

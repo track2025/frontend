@@ -60,6 +60,11 @@ export const getBrandByAdmin = async (id) => {
   return data;
 };
 
+export const getBlogByAdmin = async (id) => {
+  const { data } = await http.get(`/admin/blogs/${id}`);
+  return data;
+};
+
 export const getEventByAdmin = async (id) => {
   const { data } = await http.get(`/admin/events/${id}`);
   return data;
@@ -126,6 +131,11 @@ export const addBlogByAdmin = async (payload) => {
 
 export const updateCategoryByAdmin = async ({ currentSlug, ...payload }) => {
   const { data } = await http.put(`/admin/categories/${currentSlug}`, payload);
+  return data;
+};
+
+export const updateBlogByAdmin = async ({ currentSlug, ...payload }) => {
+  const { data } = await http.put(`/admin/blogs/${currentSlug}`, payload);
   return data;
 };
 

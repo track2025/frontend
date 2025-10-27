@@ -223,7 +223,7 @@ export default function LocationsForm({ data: currentLocation, isLoading: locati
               </Grid>
 
               {/* Right Section */}
-              <Grid sx={{ width: { xs: '100%', md: '45%' } }} item xs={12} md={6}>
+              <Grid sx={{ width: { xs: '100%', md: '47%' } }} item xs={12} md={6}>
                 <Card sx={{ p: 3, height: '100%' }}>
                   <Stack spacing={3}>
                     {/* Timezone */}

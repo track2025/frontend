@@ -4,7 +4,7 @@ import toast from 'react-hot-toast';
 import PropTypes from 'prop-types';
 
 // components
-import EditBrand from 'src/components/_admin/brands/editBrand';
+import EditBlog from 'src/components/_admin/blogs/editBlog';
 import HeaderBreadcrumbs from 'src/components/headerBreadcrumbs';
 
 // api
@@ -18,7 +18,7 @@ Page.propTypes = {
 };
 
 export default function Page({ params }) {
-  const { data, isLoading } = useQuery(['coupon-codes'], () => api.getBrandByAdmin(params.slug), {
+  const { data, isLoading } = useQuery(['single_blogs'], () => api.getBlogByAdmin(params.slug), {
     onError: (err) => {
       toast.error(err.response.data.message || 'We ran into an issue. Please refresh the page or try again.');
     }
@@ -42,7 +42,7 @@ export default function Page({ params }) {
           }
         ]}
       />
-      <EditBrand data={data?.data} isLoading={isLoading} />
+      <EditBlog data={data?.data} isLoading={isLoading} />
     </div>
   );
 }

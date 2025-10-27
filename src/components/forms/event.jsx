@@ -72,7 +72,7 @@ export default function EventForm({ data: currentEvent, isLoading: apiLoading })
       retry: false,
       onSuccess: (data) => {
         toast.success(data.message);
-        router.push('/admin/events');
+        router.back();
       },
       onError: (error) => {
         toast.error(error?.response?.data?.message || 'Something went wrong');

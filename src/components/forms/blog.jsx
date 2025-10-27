@@ -62,12 +62,12 @@ export default function EventForm({ data: currentEvent, isLoading: eventLoading 
   // ---------------------
   const { mutate, isLoading } = useMutation(
     currentEvent ? 'update' : 'create',
-    currentEvent ? api.addBlogByAdmin : api.addBlogByAdmin,
+    currentEvent ? api.updateBlogByAdmin : api.addBlogByAdmin,
     {
       retry: false,
       onSuccess: (data) => {
         toast.success(data.message);
-        router.push('/admin/events');
+        router.back();
       },
       onError: (error) => {
         toast.error(error.response?.data?.message || 'Something went wrong');
