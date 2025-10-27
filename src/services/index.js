@@ -102,6 +102,12 @@ export const addCategoryByAdmin = async (payload) => {
   const { data } = await http.post(`/admin/categories`, payload);
   return data;
 };
+
+export const addEventByAdmin = async (payload) => {
+  const { data } = await http.post(`/admin/events`, payload);
+  return data;
+};
+
 export const updateCategoryByAdmin = async ({ currentSlug, ...payload }) => {
   const { data } = await http.put(`/admin/categories/${currentSlug}`, payload);
   return data;

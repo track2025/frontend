@@ -1,9 +1,10 @@
 'use client';
 import React, { useState } from 'react';
-import { useMutation } from 'react-query';
+import { useMutation, useQuery } from 'react-query';
 import { useRouter } from 'next-nprogress-bar';
 import PropTypes from 'prop-types';
 import dynamic from 'next/dynamic';
+import { Autocomplete } from '@mui/material';
 
 // mui
 import { styled } from '@mui/material/styles';
@@ -58,6 +59,7 @@ const LabelStyle = styled(Typography)(({ theme }) => ({
 const STATUS_OPTIONS = ['Open', 'Closed', 'Upcoming'];
 
 export default function EventForm({ data: currentEvent, isLoading: eventLoading }) {
+  const { data: trackData, isLoading: brandApiLoading } = useQuery(['get-brands-user'], () => api.getBrands());
   const router = useRouter();
 
   const [state, setState] = useState({ loading: false });
@@ -65,7 +67,7 @@ export default function EventForm({ data: currentEvent, isLoading: eventLoading 
   // --- Mutations
   const { mutate, isLoading } = useMutation(
     currentEvent ? 'update' : 'new',
-    currentEvent ? api.updateEventByAdmin : api.addEventByAdmin,
+    currentEvent ? api.updateCategoryByAdmin : api.addEventByAdmin,
     {
       retry: false,
       onSuccess: (data) => {
@@ -106,8 +108,9 @@ export default function EventForm({ data: currentEvent, isLoading: eventLoading 
     initialValues: {
       title: currentEvent?.title || '',
       slug: currentEvent?.slug || '',
-      trackId: currentEvent?.trackId || '',
       trackName: currentEvent?.trackName || '',
+      trackId: currentEvent?.trackId || '',
+      trackSlug: currentEvent?.trackSlug || '',
       country: currentEvent?.country || '',
       countrySlug: currentEvent?.countrySlug || '',
       city: currentEvent?.city || '',
@@ -249,7 +252,35 @@ export default function EventForm({ data: currentEvent, isLoading: eventLoading 
                 <Card sx={{ p: 3 }}>
                   <Stack spacing={3}>
                     {/* Other Fields */}
-                    <TextField fullWidth label="Track Name" {...getFieldProps('trackName')} />
+                    {/* <TextField fullWidth label="Track Name" {...getFieldProps('trackName')} /> */}
+                    {/* Track Name (Searchable Dropdown) */}
+                    <Autocomplete
+                      options={trackData?.data || []}
+                      getOptionLabel={(option) => option.name || ''}
+                      loading={brandApiLoading}
+                      value={trackData?.data?.find((track) => track._id === values.trackId) || null}
+                      onChange={(event, newValue) => {
+                        if (newValue) {
+                          setFieldValue('trackName', newValue.name);
+                          setFieldValue('trackId', newValue._id);
+                          setFieldValue('trackSlug', newValue.slug);
+                        } else {
+                          setFieldValue('trackName', '');
+                          setFieldValue('trackId', '');
+                          setFieldValue('trackSlug', '');
+                        }
+                      }}
+                      renderInput={(params) => (
+                        <TextField
+                          {...params}
+                          label="Track Name"
+                          placeholder="Search and select a track"
+                          error={Boolean(touched.trackName && errors.trackName)}
+                          helperText={touched.trackName && errors.trackName}
+                        />
+                      )}
+                    />
+
                     <TextField fullWidth label="Country" {...getFieldProps('country')} />
                     <TextField fullWidth label="City" {...getFieldProps('city')} />
                     <TextField
