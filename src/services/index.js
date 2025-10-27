@@ -763,55 +763,29 @@ export const getAllPhysicalCategoriesByAdmin = async () => {
   return data;
 };
 
-// physical sub categories
+/*
+==========================================
+Physical Sub Categories (Admin)
+==========================================
+*/
 export const getPhysicalSubCategoryByAdmin = async (slug) => {
   const { data } = await http.get(`/admin/physical-sub-categories/${slug}`);
   return data;
 };
-
 export const getPhysicalSubCategoriesByAdmin = async (params) => {
   const { data } = await http.get(`/admin/physical-sub-categories?${params}`);
   return data;
 };
-
 export const deletePhysicalSubCategoryByAdmin = async (slug) => {
   const { data } = await http.delete(`/admin/physical-sub-categories/${slug}`);
   return data;
 };
-
 export const addPhysicalSubCategoryByAdmin = async (payload) => {
   const { data } = await http.post(`/admin/physical-sub-categories`, payload);
   return data;
 };
-
 export const updatePhysicalSubCategoryByAdmin = async ({ currentSlug, ...payload }) => {
   const { data } = await http.put(`/admin/physical-sub-categories/${currentSlug}`, payload);
-  return data;
-};
-
-// physical child categories
-export const getPhysicalChildCategoryByAdmin = async (slug) => {
-  const { data } = await http.get(`/admin/physical-child-categories/${slug}`);
-  return data;
-};
-
-export const getPhysicalChildCategoriesByAdmin = async (params) => {
-  const { data } = await http.get(`/admin/physical-child-categories?${params}`);
-  return data;
-};
-
-export const deletePhysicalChildCategoryByAdmin = async (slug) => {
-  const { data } = await http.delete(`/admin/physical-child-categories/${slug}`);
-  return data;
-};
-
-export const addPhysicalChildCategoryByAdmin = async (payload) => {
-  const { data } = await http.post(`/admin/physical-child-categories`, payload);
-  return data;
-};
-
-export const updatePhysicalChildCategoryByAdmin = async ({ currentSlug, ...payload }) => {
-  const { data } = await http.put(`/admin/physical-child-categories/${currentSlug}`, payload);
   return data;
 };
 

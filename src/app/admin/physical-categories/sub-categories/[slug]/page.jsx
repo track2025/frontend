@@ -4,18 +4,18 @@ import PropTypes from 'prop-types';
 
 // components
 import HeaderBreadcrumbs from 'src/components/headerBreadcrumbs';
-import EditCategory from 'src/components/_admin/physical-categories/sub/edit-category';
+import EditPhysicalCategory from 'src/components/_admin/physical-categories/sub/edit-category';
 
 // api
 import * as api from 'src/services';
 import { useQuery } from 'react-query';
 
 Page.propTypes = { params: PropTypes.shape({ slug: PropTypes.string.isRequired }).isRequired };
-export default function Page(props) {
-  const params = use(props.params);
+export default function Page({ params }) {
+  const { slug } = params;
   const { data, isPending: isLoading } = useQuery({
-    queryKey: ['sub-category-admin', params.slug],
-    queryFn: () => api.getSubCategoryByAdmin(params.slug)
+    queryKey: ['sub-category-admin', slug],
+    queryFn: () => api.getPhysicalSubCategoryByAdmin(slug)
   });
   return (
     <div>
@@ -24,11 +24,11 @@ export default function Page(props) {
         heading="Subcategories List"
         links={[
           { name: 'Dashboard', href: '/admin' },
-          { name: 'Subcategories', href: '/admin/sub-categories' },
+          { name: 'Subcategories', href: '/admin/physical-categories/sub-categories' },
           { name: data?.data?.name }
         ]}
       />
-      <EditCategory data={data?.data} categories={data?.categories} isLoading={isLoading} />
+      <EditPhysicalCategory data={data?.data} categories={data?.categories} isLoading={isLoading} />
     </div>
   );
 }

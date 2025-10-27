@@ -1,5 +1,5 @@
 import React from 'react';
-import AddSubCategory from 'src/components/_admin/physical-categories/sub/add-category';
+import AddPhysicalSubCategory from 'src/components/_admin/physical-categories/sub/add-category';
 
 // components
 import HeaderBreadcrumbs from 'src/components/headerBreadcrumbs';
@@ -32,7 +32,7 @@ export default async function page() {
           }
         ]}
       />
-      <AddSubCategory categories={categories} />
+      <AddPhysicalSubCategory categories={categories} />
     </div>
   );
 }

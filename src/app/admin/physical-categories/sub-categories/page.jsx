@@ -2,16 +2,16 @@ import React from 'react';
 
 // components
 import HeaderBreadcrumbs from 'src/components/headerBreadcrumbs';
-import SubCategoryList from 'src/components/_admin/physical-categories/sub/category-list';
+import PhysicalSubCategoryList from 'src/components/_admin/physical-categories/sub/category-list';
 
 // apo
 import * as api from 'src/services';
 
 // Meta information
 export const metadata = {
-  title: 'Sub Categories - Nextall',
-  applicationName: 'Nextall',
-  authors: 'Nextall'
+  title: 'Sub Categories - Lapsnap',
+  applicationName: 'Lapsnap',
+  authors: 'Lapsnap'
 };
 
 export const dynamic = 'force-dynamic';
@@ -36,7 +36,7 @@ export default async function Categories() {
           title: 'Add Sub Category'
         }}
       />
-      <SubCategoryList categories={categories} />
+      <PhysicalSubCategoryList categories={categories} />
     </>
   );
 }

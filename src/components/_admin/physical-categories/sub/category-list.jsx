@@ -8,9 +8,9 @@ import { useQuery } from 'react-query';
 // mui
 import { Dialog } from '@mui/material';
 // components
-import DeleteDialog from 'src/components/dialog/delete';
-import Table from 'src/components/table/table';
-import SubCategory from 'src/components/table/rows/subCategory';
+import DeletePhysicalDialog from 'src/components/dialog/deletePhysical';
+import PhysicalTable from 'src/components/table/physicalTable';
+import PhysicalSubCategoryRow from 'src/components/table/rows/physicalSubCategory';
 
 const TABLE_HEAD = [
   { id: 'name', label: 'Subcategory' },
@@ -20,7 +20,7 @@ const TABLE_HEAD = [
   { id: '', label: 'Actions' }
 ];
 
-export default function SubCategoryList({ categories }) {
+export default function PhysicalSubCategoryList({ categories }) {
   const searchParams = useSearchParams();
 
   const [open, setOpen] = useState(false);
@@ -45,23 +45,23 @@ export default function SubCategoryList({ categories }) {
   return (
     <>
       <Dialog onClose={handleClose} open={open} maxWidth="xs">
-        <DeleteDialog
+        <DeletePhysicalDialog
           onClose={handleClose}
           id={id}
           apicall={setApicall}
-          endPoint="deleteSubCategoryByAdmin"
-          type="Subcategory deleted"
+          endPoint="deletePhysicalSubCategoryByAdmin"
+          type="Physical Subcategory deleted"
           deleteMessage={
             'This subcategory is linked to products and child categories. Deleting it will also remove all related data. Are you sure you want to continue?'
           }
         />
       </Dialog>
 
-      <Table
+      <PhysicalTable
         headData={TABLE_HEAD}
         data={data}
         isLoading={isLoading}
-        row={SubCategory}
+        row={PhysicalSubCategoryRow}
         handleClickOpen={handleClickOpen}
         isSearch
         filters={[
