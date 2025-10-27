@@ -62,7 +62,7 @@ export default function EventForm({ data: currentEvent, isLoading: eventLoading 
   // ---------------------
   const { mutate, isLoading } = useMutation(
     currentEvent ? 'update' : 'create',
-    currentEvent ? api.updateBlogByAdmin : api.addBlogByAdmin,
+    currentEvent ? api.addBlogByAdmin : api.addBlogByAdmin,
     {
       retry: false,
       onSuccess: (data) => {
