@@ -1,11 +1,11 @@
 import React from 'react';
 // components
-import BrandsForm from 'src/components/forms/brand';
+import BlogForm from 'src/components/forms/blog';
 
 export default function addBrand() {
   return (
     <div>
-      <BrandsForm />
+      <BlogForm />
     </div>
   );
 }
