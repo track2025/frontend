@@ -4,7 +4,7 @@ import toast from 'react-hot-toast';
 import PropTypes from 'prop-types';
 
 // components
-import EditBrand from 'src/components/_admin/brands/editBrand';
+import EditEvent from 'src/components/_admin/events/editEvent';
 import HeaderBreadcrumbs from 'src/components/headerBreadcrumbs';
 
 // api
@@ -18,31 +18,32 @@ Page.propTypes = {
 };
 
 export default function Page({ params }) {
-  const { data, isLoading } = useQuery(['coupon-codes'], () => api.getBrandByAdmin(params.slug), {
+  const { data, isLoading } = useQuery(['single_events'], () => api.getEventByAdmin(params.slug), {
     onError: (err) => {
       toast.error(err.response.data.message || 'We ran into an issue. Please refresh the page or try again.');
     }
   });
+
   return (
     <div>
       <HeaderBreadcrumbs
         admin
-        heading="Categories List"
+        heading="Edit Event"
         links={[
           {
             name: 'Dashboard',
             href: '/admin'
           },
           {
-            name: 'Brands',
-            href: '/admin/locations'
+            name: 'Events',
+            href: '/admin/events'
           },
           {
-            name: data?.data?.name
+            name: data?.data?.title
           }
         ]}
       />
-      <EditBrand data={data?.data} isLoading={isLoading} />
+      <EditEvent data={data?.data} isLoading={isLoading} />
     </div>
   );
 }

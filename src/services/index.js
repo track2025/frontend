@@ -59,6 +59,12 @@ export const getBrandByAdmin = async (id) => {
   const { data } = await http.get(`/admin/brands/${id}`);
   return data;
 };
+
+export const getEventByAdmin = async (id) => {
+  const { data } = await http.get(`/admin/events/${id}`);
+  return data;
+};
+
 export const getAllBrandsByAdmin = async () => {
   const { data } = await http.get(`/admin/all-brands`);
   return data;
@@ -112,6 +118,12 @@ export const updateCategoryByAdmin = async ({ currentSlug, ...payload }) => {
   const { data } = await http.put(`/admin/categories/${currentSlug}`, payload);
   return data;
 };
+
+export const updateEventByAdmin = async ({ currentSlug, ...payload }) => {
+  const { data } = await http.put(`/admin/events/${currentSlug}`, payload);
+  return data;
+};
+
 export const getAllCategoriesByAdmin = async () => {
   const { data } = await http.get(`/admin/all-categories`);
   return data;

@@ -58,7 +58,7 @@ const LabelStyle = styled(Typography)(({ theme }) => ({
 
 const STATUS_OPTIONS = ['Open', 'Closed', 'Upcoming'];
 
-export default function EventForm({ data: currentEvent, isLoading: eventLoading }) {
+export default function EventForm({ data: currentEvent, isLoading: apiLoading }) {
   const { data: trackData, isLoading: brandApiLoading } = useQuery(['get-brands-user'], () => api.getBrands());
   const router = useRouter();
 
@@ -67,7 +67,7 @@ export default function EventForm({ data: currentEvent, isLoading: eventLoading 
   // --- Mutations
   const { mutate, isLoading } = useMutation(
     currentEvent ? 'update' : 'new',
-    currentEvent ? api.updateCategoryByAdmin : api.addEventByAdmin,
+    currentEvent ? api.updateEventByAdmin : api.addEventByAdmin,
     {
       retry: false,
       onSuccess: (data) => {
@@ -130,6 +130,7 @@ export default function EventForm({ data: currentEvent, isLoading: eventLoading 
     enableReinitialize: true,
     validationSchema: NewEventSchema,
     onSubmit: async (values) => {
+      console.log(values, 'Cehcking the update value');
       try {
         mutate({
           ...values,
@@ -184,193 +185,235 @@ export default function EventForm({ data: currentEvent, isLoading: eventLoading 
   return (
     <Box position="relative">
       <FormikProvider value={formik}>
-        <Form noValidate autoComplete="off" onSubmit={handleSubmit}>
+        {apiLoading ? (
           <Grid container spacing={2}>
-            {/* Left Section */}
-            <Grid
-              item
-              sx={{
-                width: { xs: '100%', md: '100%' }
-              }}
-            >
+            <Grid item sx={{ width: { xs: '100%', md: '100%' } }}>
               <Card sx={{ p: 3 }}>
                 <Stack spacing={3}>
-                  {/* Title */}
-                  <div>
-                    <LabelStyle htmlFor="title">Title</LabelStyle>
-                    <TextField
-                      id="title"
-                      fullWidth
-                      {...getFieldProps('title')}
-                      onChange={handleTitleChange}
-                      error={Boolean(touched.title && errors.title)}
-                      helperText={touched.title && errors.title}
-                    />
-                  </div>
-
-                  {/* Description */}
-                  <div>
-                    <LabelStyle htmlFor="description">Short Description</LabelStyle>
-                    <TextField fullWidth id="description" rows={3} multiline {...getFieldProps('description')} />
-                  </div>
-
-                  {/* Full Description */}
-                  <div>
-                    <LabelStyle htmlFor="fullDescription">Full Description</LabelStyle>
-                    <TextField
-                      fullWidth
-                      id="fullDescription"
-                      rows={5}
-                      multiline
-                      {...getFieldProps('fullDescription')}
-                    />
-                  </div>
-
-                  {/* Content (HTML) */}
-                  <div>
-                    <LabelStyle htmlFor="content">Content</LabelStyle>
-                    <ReactQuill
-                      theme="snow"
-                      value={values.content}
-                      onChange={(value) => setFieldValue('content', value)}
-                      style={{ height: '250px', marginBottom: '40px' }}
-                    />
-                    {touched.content && errors.content && <FormHelperText error>{errors.content}</FormHelperText>}
-                  </div>
+                  <Skeleton variant="text" width="60%" height={40} />
+                  <Skeleton variant="rectangular" height={150} sx={{ borderRadius: 2 }} />
+                  <Skeleton variant="rectangular" height={250} sx={{ borderRadius: 2 }} />
+                  <Skeleton variant="rectangular" height={250} sx={{ borderRadius: 2 }} />
                 </Stack>
               </Card>
             </Grid>
 
-            {/* Right Section */}
-            <Grid
-              item
-              sx={{
-                width: { xs: '100%', md: '100%' }
-              }}
-            >
+            <Grid item sx={{ width: { xs: '100%', md: '100%' } }}>
               <Stack spacing={3}>
                 <Card sx={{ p: 3 }}>
                   <Stack spacing={3}>
-                    {/* Other Fields */}
-                    {/* <TextField fullWidth label="Track Name" {...getFieldProps('trackName')} /> */}
-                    {/* Track Name (Searchable Dropdown) */}
-                    <Autocomplete
-                      options={trackData?.data || []}
-                      getOptionLabel={(option) => option.name || ''}
-                      loading={brandApiLoading}
-                      value={trackData?.data?.find((track) => track._id === values.trackId) || null}
-                      onChange={(event, newValue) => {
-                        if (newValue) {
-                          setFieldValue('trackName', newValue.name);
-                          setFieldValue('trackId', newValue._id);
-                          setFieldValue('trackSlug', newValue.slug);
-                        } else {
-                          setFieldValue('trackName', '');
-                          setFieldValue('trackId', '');
-                          setFieldValue('trackSlug', '');
-                        }
-                      }}
-                      renderInput={(params) => (
-                        <TextField
-                          {...params}
-                          label="Track Name"
-                          placeholder="Search and select a track"
-                          error={Boolean(touched.trackName && errors.trackName)}
-                          helperText={touched.trackName && errors.trackName}
-                        />
-                      )}
-                    />
-
-                    <TextField fullWidth label="Country" {...getFieldProps('country')} />
-                    <TextField fullWidth label="City" {...getFieldProps('city')} />
-                    <TextField
-                      fullWidth
-                      label="Date"
-                      type="date"
-                      InputLabelProps={{ shrink: true }}
-                      {...getFieldProps('date')}
-                    />
-                    <TextField
-                      fullWidth
-                      label="Start Time"
-                      type="time"
-                      InputLabelProps={{ shrink: true }}
-                      {...getFieldProps('startTime')}
-                    />
-                    <TextField
-                      fullWidth
-                      label="End Time"
-                      type="time"
-                      InputLabelProps={{ shrink: true }}
-                      {...getFieldProps('endTime')}
-                    />
-                    <TextField fullWidth label="Type" {...getFieldProps('type')} />
-                    <TextField fullWidth label="Category" {...getFieldProps('category')} />
-
-                    <FormControl fullWidth>
-                      <LabelStyle>Status</LabelStyle>
-                      <Select native {...getFieldProps('status')}>
-                        {STATUS_OPTIONS.map((option) => (
-                          <option key={option} value={option}>
-                            {option}
-                          </option>
-                        ))}
-                      </Select>
-                    </FormControl>
-
-                    <FormControlLabel
-                      control={
-                        <Switch
-                          checked={values.featured}
-                          onChange={(e) => setFieldValue('featured', e.target.checked)}
-                        />
-                      }
-                      label="Featured Event"
-                    />
+                    {[...Array(6)].map((_, i) => (
+                      <Skeleton key={i} variant="rectangular" height={56} sx={{ borderRadius: 2 }} />
+                    ))}
+                    <Skeleton variant="rectangular" height={200} sx={{ borderRadius: 2 }} />
                   </Stack>
-
-                  {/* Image */}
-                  <div>
-                    <LabelStyle>Event Image</LabelStyle>
-                    <UploadSingleFile
-                      file={values.image}
-                      onDrop={(files) => handleUpload(files, 'image')}
-                      error={Boolean(touched.image && errors.image)}
-                      accept="image/*"
-                      loading={state.loading}
-                    />
-                    {touched.image && errors.image && <FormHelperText error>{errors.image}</FormHelperText>}
-                  </div>
-
-                  {/* Thumbnail */}
-                  <div>
-                    <LabelStyle>Thumbnail Image</LabelStyle>
-                    <UploadSingleFile
-                      file={values.thumbnailImage}
-                      onDrop={(files) => handleUpload(files, 'thumbnailImage')}
-                      error={Boolean(touched.thumbnailImage && errors.thumbnailImage)}
-                      accept="image/*"
-                      loading={state.loading}
-                    />
-                    {touched.thumbnailImage && errors.thumbnailImage && (
-                      <FormHelperText error>{errors.thumbnailImage}</FormHelperText>
-                    )}
-                  </div>
                 </Card>
-
-                <LoadingButton
-                  type="submit"
-                  variant="contained"
-                  size="large"
-                  loading={isLoading}
-                  sx={{ ml: 'auto', mt: 3 }}
-                >
-                  {currentEvent ? 'Edit Event' : 'Add New Event'}
-                </LoadingButton>
+                <Skeleton variant="rectangular" height={45} width="30%" sx={{ borderRadius: 2, ml: 'auto', mt: 3 }} />
               </Stack>
             </Grid>
           </Grid>
-        </Form>
+        ) : (
+          <Form noValidate autoComplete="off" onSubmit={handleSubmit}>
+            <Grid container spacing={2}>
+              {/* Left Section */}
+              <Grid
+                item
+                sx={{
+                  width: { xs: '100%', md: '100%' }
+                }}
+              >
+                <Card sx={{ p: 3 }}>
+                  <Stack spacing={3}>
+                    {/* Title */}
+                    <div>
+                      <LabelStyle htmlFor="title">Title</LabelStyle>
+                      <TextField
+                        id="title"
+                        fullWidth
+                        {...getFieldProps('title')}
+                        onChange={handleTitleChange}
+                        error={Boolean(touched.title && errors.title)}
+                        helperText={touched.title && errors.title}
+                      />
+                    </div>
+
+                    {/* Description */}
+                    <div>
+                      <LabelStyle htmlFor="description">Short Description</LabelStyle>
+                      <TextField fullWidth id="description" rows={3} multiline {...getFieldProps('description')} />
+                    </div>
+
+                    {/* Full Description */}
+                    <div>
+                      <LabelStyle htmlFor="fullDescription">Full Description</LabelStyle>
+                      <TextField
+                        fullWidth
+                        id="fullDescription"
+                        rows={5}
+                        multiline
+                        {...getFieldProps('fullDescription')}
+                      />
+                    </div>
+
+                    {/* Content (HTML) */}
+                    <div>
+                      <LabelStyle htmlFor="content">Content</LabelStyle>
+                      <ReactQuill
+                        theme="snow"
+                        value={values.content}
+                        onChange={(value) => setFieldValue('content', value)}
+                        style={{ height: '250px', marginBottom: '40px' }}
+                      />
+                      {touched.content && errors.content && <FormHelperText error>{errors.content}</FormHelperText>}
+                    </div>
+                  </Stack>
+                </Card>
+              </Grid>
+
+              {/* Right Section */}
+              <Grid
+                item
+                sx={{
+                  width: { xs: '100%', md: '100%' }
+                }}
+              >
+                <Stack spacing={3}>
+                  <Card sx={{ p: 3 }}>
+                    <Stack spacing={3}>
+                      {/* Other Fields */}
+                      {/* <TextField fullWidth label="Track Name" {...getFieldProps('trackName')} /> */}
+                      {/* Track Name (Searchable Dropdown) */}
+                      <Autocomplete
+                        options={trackData?.data || []}
+                        getOptionLabel={(option) => option.name || ''}
+                        loading={brandApiLoading}
+                        value={trackData?.data?.find((track) => track._id === values.trackId) || null}
+                        onChange={(event, newValue) => {
+                          if (newValue) {
+                            setFieldValue('trackName', newValue.name);
+                            setFieldValue('trackId', newValue._id);
+                            setFieldValue('trackSlug', newValue.slug);
+                          } else {
+                            setFieldValue('trackName', '');
+                            setFieldValue('trackId', '');
+                            setFieldValue('trackSlug', '');
+                          }
+                        }}
+                        renderInput={(params) => (
+                          <TextField
+                            {...params}
+                            label="Track Name"
+                            placeholder="Search and select a track"
+                            error={Boolean(touched.trackName && errors.trackName)}
+                            helperText={touched.trackName && errors.trackName}
+                          />
+                        )}
+                      />
+
+                      <TextField
+                        label="Country"
+                        {...getFieldProps('country')}
+                        placeholder=""
+                        error={Boolean(touched.country && errors.country)}
+                        helperText={touched.country && errors.country}
+                      />
+                      <TextField
+                        label="City"
+                        {...getFieldProps('city')}
+                        placeholder=""
+                        error={Boolean(touched.city && errors.city)}
+                        helperText={touched.city && errors.city}
+                      />
+
+                      <TextField
+                        fullWidth
+                        label="Date"
+                        type="date"
+                        InputLabelProps={{ shrink: true }}
+                        {...getFieldProps('date')}
+                      />
+                      <TextField
+                        fullWidth
+                        label="Start Time"
+                        type="time"
+                        InputLabelProps={{ shrink: true }}
+                        {...getFieldProps('startTime')}
+                      />
+                      <TextField
+                        fullWidth
+                        label="End Time"
+                        type="time"
+                        InputLabelProps={{ shrink: true }}
+                        {...getFieldProps('endTime')}
+                      />
+                      <TextField fullWidth label="Type" {...getFieldProps('type')} />
+                      <TextField fullWidth label="Category" {...getFieldProps('category')} />
+
+                      <FormControl fullWidth>
+                        <LabelStyle>Status</LabelStyle>
+                        <Select native {...getFieldProps('status')}>
+                          {STATUS_OPTIONS.map((option) => (
+                            <option key={option} value={option}>
+                              {option}
+                            </option>
+                          ))}
+                        </Select>
+                      </FormControl>
+
+                      <FormControlLabel
+                        control={
+                          <Switch
+                            checked={values.featured}
+                            onChange={(e) => setFieldValue('featured', e.target.checked)}
+                          />
+                        }
+                        label="Featured Event"
+                      />
+                    </Stack>
+
+                    {/* Image */}
+                    <div>
+                      <LabelStyle>Event Image</LabelStyle>
+                      <UploadSingleFile
+                        file={values.image}
+                        onDrop={(files) => handleUpload(files, 'image')}
+                        error={Boolean(touched.image && errors.image)}
+                        accept="image/*"
+                        loading={state.loading}
+                      />
+                      {touched.image && errors.image && <FormHelperText error>{errors.image}</FormHelperText>}
+                    </div>
+
+                    {/* Thumbnail */}
+                    <div>
+                      <LabelStyle>Thumbnail Image</LabelStyle>
+                      <UploadSingleFile
+                        file={values.thumbnailImage}
+                        onDrop={(files) => handleUpload(files, 'thumbnailImage')}
+                        error={Boolean(touched.thumbnailImage && errors.thumbnailImage)}
+                        accept="image/*"
+                        loading={state.loading}
+                      />
+                      {touched.thumbnailImage && errors.thumbnailImage && (
+                        <FormHelperText error>{errors.thumbnailImage}</FormHelperText>
+                      )}
+                    </div>
+                  </Card>
+
+                  <LoadingButton
+                    type="submit"
+                    variant="contained"
+                    size="large"
+                    loading={isLoading}
+                    sx={{ ml: 'auto', mt: 3 }}
+                  >
+                    {currentEvent ? 'Edit Event' : 'Add New Event'}
+                  </LoadingButton>
+                </Stack>
+              </Grid>
+            </Grid>
+          </Form>
+        )}
       </FormikProvider>
     </Box>
   );

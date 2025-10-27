@@ -1,11 +1,11 @@
 import React from 'react';
 // components
-import BrandsForm from 'src/components/forms/brand';
+import EventsForm from 'src/components/forms/event';
 
 export default function addBrand({ data, isLoading }) {
   return (
     <div>
-      <BrandsForm data={data} isLoading={isLoading} />
+      <EventsForm data={data} isLoading={isLoading} />
     </div>
   );
 }
