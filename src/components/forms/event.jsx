@@ -75,14 +75,14 @@ export default function EventForm({ data: currentEvent, isLoading: apiLoading })
         router.back();
       },
       onError: (error) => {
-        toast.error(error?.response?.data?.message || 'Something went wrong');
+        toast.error(error?.message || 'Something went wrong');
       }
     }
   );
 
   const { mutate: deleteMutate } = useMutation(api.singleDeleteFile, {
     onError: (error) => {
-      toast.error(error?.response?.data?.message);
+      toast.error(error?.message);
     }
   });
 

@@ -22,15 +22,13 @@ const TABLE_HEAD = [
 
 export default function EventList() {
   const searchParams = useSearchParams();
-  const pageParam = searchParams.get('page');
-  const searchParam = searchParams.get('search');
   const [open, setOpen] = useState(false);
   const [apicall, setApicall] = useState(false);
   const [id, setId] = useState(null);
 
   const { data, isLoading, error } = useQuery(
-    ['blogs', apicall, searchParam, pageParam],
-    () => api.getBlogsByAdmin(+pageParam || 1, searchParam || ''),
+    ['blogs', apicall, searchParams.toString()],
+    () => api.getBlogsByAdmin(searchParams.toString() || ''),
     {
       onError: (err) =>
         toast.error(err.response.data.message || 'We ran into an issue. Please refresh the page or try again.')

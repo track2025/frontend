@@ -25,22 +25,17 @@ const TABLE_HEAD = [
 
 export default function EventList() {
   const searchParams = useSearchParams();
-  const pageParam = searchParams.get('page');
-  const searchParam = searchParams.get('search');
   const [open, setOpen] = useState(false);
   const [apicall, setApicall] = useState(false);
   const [id, setId] = useState(null);
 
   const { data, isLoading, error } = useQuery(
-    ['events', apicall, searchParam, pageParam],
-    () => api.getEventsByAdmin(+pageParam || 1, searchParam || ''),
+    ['events', apicall, searchParams?.toString()],
+    () => api.getEventsByAdmin(searchParams?.toString() || ''),
     {
-      onError: (err) =>
-        toast.error(err.response.data.message || 'We ran into an issue. Please refresh the page or try again.')
+      onError: (err) => toast.error(err.message || 'We ran into an issue. Please refresh the page or try again.')
     }
   );
-
-  console.log(data, 'Checking the data');
 
   const handleClickOpen = (prop) => () => {
     setId(prop);

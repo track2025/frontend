@@ -45,13 +45,13 @@ export const getBrandsByAdmin = async (page, search) => {
   return data;
 };
 
-export const getEventsByAdmin = async (page, search) => {
-  const { data } = await http.get(`/admin/events?search=${search}&page=${page}`);
+export const getEventsByAdmin = async (params) => {
+  const { data } = await http.get(`/admin/events?${params}`);
   return data;
 };
 
-export const getBlogsByAdmin = async (page, search) => {
-  const { data } = await http.get(`/admin/blogs?search=${search}&page=${page}`);
+export const getBlogsByAdmin = async (params) => {
+  const { data } = await http.get(`/admin/blogs?${params}`);
   return data;
 };
 
