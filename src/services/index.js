@@ -87,6 +87,11 @@ export const deleteBrandByAdmin = async (slug) => {
   return data;
 };
 
+export const deleteBlogByAdmin = async (slug) => {
+  const { data } = await http.delete(`/admin/blogs/${slug}`);
+  return data;
+};
+
 export const deleteEventByAdmin = async (slug) => {
   const { data } = await http.delete(`/admin/events/${slug}`);
   return data;

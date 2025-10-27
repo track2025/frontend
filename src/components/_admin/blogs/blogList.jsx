@@ -54,10 +54,10 @@ export default function EventList() {
           onClose={handleClose}
           id={id}
           apicall={setApicall}
-          endPoint="deleteBrandByAdmin"
+          endPoint="deleteBlogByAdmin"
           type={'Record deleted'}
           deleteMessage={
-            'Are you sure you want to delete this Location? Please consider carefully before making irreversible changes.'
+            'Are you sure you want to delete this Blog? Please consider carefully before making irreversible changes.'
           }
         />
       </Dialog>
