@@ -27,8 +27,7 @@ export default function Brands() {
           }
         ]}
         action={{
-          // href: `/admin/locations/add`,
-          href: '#',
+          href: `/admin/events/add`,
           title: 'Add A Event'
         }}
       />
