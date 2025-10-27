@@ -182,7 +182,7 @@ export default function LocationsForm({ data: currentLocation, isLoading: locati
           <Box sx={{ width: '100%' }}>
             <Grid container spacing={2}>
               {/* Left Section */}
-              <Grid sx={{ width: '50%' }} item xs={12} md={7}>
+              <Grid sx={{ width: { xs: '100%', md: '50%' } }} item xs={12} md={7}>
                 <Card sx={{ p: 3, height: '100%' }}>
                   <Stack spacing={3}>
                     {[
@@ -223,7 +223,7 @@ export default function LocationsForm({ data: currentLocation, isLoading: locati
               </Grid>
 
               {/* Right Section */}
-              <Grid sx={{ width: '45%' }} item xs={12} md={6}>
+              <Grid sx={{ width: { xs: '100%', md: '45%' } }} item xs={12} md={6}>
                 <Card sx={{ p: 3, height: '100%' }}>
                   <Stack spacing={3}>
                     {/* Timezone */}
@@ -338,7 +338,7 @@ export default function LocationsForm({ data: currentLocation, isLoading: locati
           <Box mt={4}>
             <Grid container spacing={2}>
               {/* Images */}
-              <Grid item xs={12} md={6}>
+              <Grid item xs={12} sx={{ width: { xs: '100%', md: '50%' } }}>
                 <Card sx={{ p: 3 }}>
                   <LabelStyle>Logo</LabelStyle>
                   <UploadSingleFile
@@ -351,7 +351,7 @@ export default function LocationsForm({ data: currentLocation, isLoading: locati
                 </Card>
               </Grid>
 
-              <Grid item xs={12} md={5}>
+              <Grid item xs={12} sx={{ width: { xs: '100%', md: '46%' } }}>
                 <Card sx={{ p: 3 }}>
                   <LabelStyle>Banner Image</LabelStyle>
                   <UploadSingleFile
@@ -366,7 +366,7 @@ export default function LocationsForm({ data: currentLocation, isLoading: locati
                 </Card>
               </Grid>
 
-              <Grid item xs={12} md={5}>
+              <Grid item xs={12} sx={{ width: { xs: '100%', md: '50%' } }}>
                 <Card sx={{ p: 3 }}>
                   <LabelStyle>Thumbnail Image</LabelStyle>
                   <UploadSingleFile
