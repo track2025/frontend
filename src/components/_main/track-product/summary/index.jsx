@@ -4,7 +4,7 @@ import Link from 'next/link';
 import { useState, useEffect } from 'react';
 import { toast } from 'react-hot-toast';
 
-import { useRouter } from '@bprogress/next';
+import { useRouter } from 'next-nprogress-bar';
 import PropTypes from 'prop-types';
 // mui
 import { Box, Stack, Button, IconButton, Typography, FormHelperText, Rating, Tooltip, Chip } from '@mui/material';
@@ -16,8 +16,8 @@ import { useDispatch, useSelector } from 'src/redux';
 import { addCart } from 'src/redux/slices/product';
 // styles
 // import RootStyled from './styled';
-import { useCurrencyConvert } from '@/hooks/use-currency';
-import { useCurrencyFormat } from '@/hooks/use-currency-format';
+import { useCurrencyConvert } from 'src/hooks/convertCurrency';
+import { useCurrencyFormatter } from 'src/hooks/formatCurrency';
 import { MdContentCopy } from 'react-icons/md';
 import { LiaShippingFastSolid } from 'react-icons/lia';
 import { MdLockOutline } from 'react-icons/md';
@@ -28,9 +28,10 @@ import { useSearchParams } from 'next/navigation';
 import { FiExternalLink } from 'react-icons/fi';
 import VariantSelection from '../variant-selection';
 import SocialShare from '../social-share';
-import Incrementer from '@/components/incrementer';
+import PhysicalIncrementer from 'src/components/physicalIncrementer';
+import PhysicalProductVariantSelection from '../variant-selection';
 
-ProductDetailsSumary.propTypes = {
+PhysicalProductDetailsSumary.propTypes = {
   product: PropTypes.object.isRequired,
 
   id: PropTypes.string.isRequired,
@@ -40,21 +41,21 @@ ProductDetailsSumary.propTypes = {
   wishlist: PropTypes.array.isRequired
 };
 
-export default function ProductDetailsSumary({ ...props }) {
+export default function PhysicalProductDetailsSumary({ ...props }) {
   const { product, totalRating, totalReviews, setSelectedVariant, selectedVariant, isSimpleProduct, isPopup } = props;
   const searchParams = useSearchParams();
   const variantParam = searchParams.get('variant') || '';
 
   const cCurrency = useCurrencyConvert();
-  const fCurrency = useCurrencyFormat();
+  const fCurrency = useCurrencyFormatter();
   const [isInitialized, setInitialized] = useState(false);
   const [variantObj, setVariantObj] = useState(
     isSimpleProduct
       ? null
       : {
-          ...product.variants[0],
-          name: product.variants[0].name
-        }
+        ...product.variants[0],
+        name: product.variants[0].name
+      }
   );
   useEffect(() => {
     setInitialized(true);
@@ -63,6 +64,8 @@ export default function ProductDetailsSumary({ ...props }) {
   const router = useRouter();
 
   const dispatch = useDispatch();
+
+  console.log(product);
 
   const { checkout } = useSelector(({ product }) => product);
   const { user } = useSelector(({ user }) => user);
@@ -210,7 +213,7 @@ export default function ProductDetailsSumary({ ...props }) {
           <Stack gap={1}>
             <Box>
               {(isSimpleProduct ? product : variantObj).price <=
-              (isSimpleProduct ? product : variantObj).salePrice ? null : (
+                (isSimpleProduct ? product : variantObj).salePrice ? null : (
                 <Chip
                   color={'success'}
                   label={`-${(100 - ((isSimpleProduct ? product : variantObj).salePrice / (isSimpleProduct ? product : variantObj).price) * 100).toFixed(0)}% Discount`}
@@ -225,14 +228,14 @@ export default function ProductDetailsSumary({ ...props }) {
                 textTransform: 'uppercase'
               }}
             >
-              {product.brand.name}
+              {product.brand?.name}
             </Typography>
 
             <Typography variant="h3" component={'h1'} lineHeight={1}>
-              {product.name}
+              {product?.name}
             </Typography>
             <Typography noWrap variant="subtitle1" color="text.secondary">
-              {product.category.name}
+              {product.category?.name}
             </Typography>
             <Stack direction="row" alignItems="center" justifyContent="space-between" spacing={1}>
               <Stack direction="row" alignItems="center" spacing={1}>
@@ -253,7 +256,8 @@ export default function ProductDetailsSumary({ ...props }) {
                 {stockQuantity ? stockQuantity + ' Items' : 'Out of stock'}
               </Typography>
             )}
-            <VariantSelection
+            
+            <PhysicalProductVariantSelection
               names={names}
               variants={variants}
               product={product}
@@ -270,7 +274,7 @@ export default function ProductDetailsSumary({ ...props }) {
               {product.deliveryType === 'physical' ? (
                 <Stack direction="row" alignItems="center" spacing={1}>
                   <div>
-                    <Incrementer
+                    <PhysicalIncrementer
                       quantity={values.quantity}
                       stockQuantity={stockQuantity}
                       onDecrease={() => setFieldValue('quantity', values.quantity - 1)}

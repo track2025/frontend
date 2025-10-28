@@ -3,8 +3,8 @@ import React, { useState } from 'react';
 // mui
 import { Card, Grid } from '@mui/material';
 
-import ProductDetailsSumary from 'src/components/_main/product/summary';
 import ProductDetailsSlider from 'src/components/carousels/product-details-slider';
+import PhysicalProductDetailsSumary from './summary';
 
 export default function PhysicalProductDetail({ ...props }) {
   const { data, brand, category, totalRating, totalReviews, slug, isDialog, isSimpleProduct } = props;
@@ -44,7 +44,7 @@ export default function PhysicalProductDetail({ ...props }) {
             lg: 7
           }}
         >
-          <ProductDetailsSumary
+          <PhysicalProductDetailsSumary
             setSelectedVariant={setSelectedVariant}
             selectedVariant={selectedVariant}
             id={data?.id}

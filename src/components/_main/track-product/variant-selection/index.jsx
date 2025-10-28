@@ -1,8 +1,9 @@
 import React, { Fragment } from 'react';
-import Image from '@/components/blur-image';
+import Image from 'next/image';
 import { Typography, Stack, Tooltip, Box, Button } from '@mui/material';
 import { capitalize } from 'lodash';
-export default function VariantSelection({ names = [], variants = [], product, selectedVariant, onChangeVariant }) {
+
+export default function PhysicalProductVariantSelection({ names = [], variants = [], product, selectedVariant, onChangeVariant }) {
   return (
     <Stack gap={0.5}>
       {names.map((name, index) => (
