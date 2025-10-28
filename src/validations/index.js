@@ -20,7 +20,7 @@ const variantSchema = Yup.object().shape({
     })
 });
 
-const physicalProductSchema = (isVendor) =>
+const productSchema = (isVendor) =>
   Yup.object().shape({
     name: Yup.string().required('Product name is required'),
     tags: Yup.array().min(1, 'Tags is required'),
@@ -448,16 +448,16 @@ const checkoutSchema = (checked) =>
     zip: Yup.string().required('Postal code is required'),
     shippingAddress: checked
       ? Yup.object().shape({
-          firstName: Yup.string().required('First name is required'),
-          lastName: Yup.string().required('Last name is required'),
+        firstName: Yup.string().required('First name is required'),
+        lastName: Yup.string().required('Last name is required'),
 
-          email: Yup.string().email('Enter a valid email').required('Email is required'),
-          address: Yup.string().required('Address is required'),
-          city: Yup.string().required('City is required'),
-          state: Yup.string().required('State is required'),
-          country: Yup.string().required('Country is required'),
-          zip: Yup.string().required('Postal code is required')
-        })
+        email: Yup.string().email('Enter a valid email').required('Email is required'),
+        address: Yup.string().required('Address is required'),
+        city: Yup.string().required('City is required'),
+        state: Yup.string().required('State is required'),
+        country: Yup.string().required('Country is required'),
+        zip: Yup.string().required('Postal code is required')
+      })
       : Yup.mixed().nullable()
   });
 
@@ -469,7 +469,70 @@ const editPaymentSchema = Yup.object().shape({
   paidAt: Yup.date().when('eventStartDate', (eventStartDate, schema) => schema.min(new Date(), 'Date is required'))
 });
 
+const physicalProductSchema = (isVendor) =>
+  Yup.object().shape({
+    name: Yup.string().required('Product name is required'),
+    tags: Yup.array().min(1, 'Tags is required'),
+    description: Yup.string().required('Description is required'),
+    category: Yup.string().required('Category is required'),
+    subCategory: Yup.string().required('Sub Category is required'),
+    slug: Yup.string().required('Slug is required'),
+    brand: Yup.string(),
+    metaTitle: Yup.string().required('Meta title is required'),
+    metaDescription: Yup.string().required('Meta description is required'),
+    type: Yup.string().required('Product type is required'),
+    content: Yup.string().required('Content is required'),
+    deliveryType: Yup.string(),
+    downloadLink: Yup.string()
+      .nullable()
+      .transform((value, originalValue) => (originalValue?.trim() === '' ? null : value))
+      .when(['deliveryType', 'type'], {
+        is: (deliveryType, type) => deliveryType === 'digital' && type === 'simple',
+        then: (schema) => schema.required('Download Link is required for simple digital products'),
+        otherwise: (schema) => schema.notRequired()
+      }),
+    ...(!isVendor && { status: Yup.string().required('Status is required') }),
+
+    images: Yup.array().min(1, 'Images is required'),
+    sku: Yup.string().when('type', {
+      is: 'simple',
+      then: (schema) => schema.required('SKU is required'),
+      otherwise: (schema) => schema.notRequired()
+    }),
+    stockQuantity: Yup.number().when('type', {
+      is: 'simple',
+      then: (schema) => schema.required('Stock Quantity is required'),
+      otherwise: (schema) => schema.notRequired()
+    }),
+    price: Yup.number().when('type', {
+      is: 'simple',
+      then: (schema) => schema.required('Price is required'),
+      otherwise: (schema) => schema.notRequired()
+    }),
+
+    salePrice: Yup.number()
+      .transform((value, originalValue) => (originalValue === '' ? null : value))
+      .nullable()
+      .when('type', {
+        is: 'simple',
+        then: (schema) => schema.lessThan(Yup.ref('price'), 'Sale price should be smaller than price'),
+        otherwise: (schema) => schema.notRequired()
+      }),
+    demo: Yup.string(),
+    width: Yup.string(),
+    height: Yup.string(),
+    length: Yup.string(),
+    variants: Yup.array()
+      .of(variantSchema)
+      .when('type', {
+        is: 'variable',
+        then: (schema) => schema.min(1, 'At least one variant is required'),
+        otherwise: (schema) => schema.notRequired()
+      })
+  });
+
 export {
+  productSchema,
   physicalProductSchema,
   mainSettingsSchema,
   homeSettingsSchema,

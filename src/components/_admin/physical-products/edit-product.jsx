@@ -1,11 +1,12 @@
 'use client';
 import React from 'react';
-import PropTypes from 'prop-types';
 
+import PropTypes from 'prop-types';
+// components
+import PhysicalProductForm from 'src/components/forms/physical-product/physicalProductForm';
 // api
 import * as api from 'src/services';
 import { useQuery } from 'react-query';
-import PhysicalProductForm from 'src/components/forms/physical-product/physicalProductForm';
 
 EditPhysicalProduct.propTypes = {
   brands: PropTypes.array.isRequired,
@@ -19,7 +20,6 @@ export default function EditPhysicalProduct({ brands, categories, slug, isVendor
     queryKey: ['coupon-codes', slug, isVendor], // Added slug and isVendor as dependencies
     queryFn: () => api[isVendor ? 'getVendorProductBySlug' : 'getPhysicalProductByAdmin'](slug)
   });
-
   return (
     <PhysicalProductForm
       brands={brands}

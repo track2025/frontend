@@ -32,7 +32,7 @@ Filter.propTypes = {
 export default function Filter({ ...props }) {
   const { onClose, pathname, category, subCategory } = props;
   const { data, isLoading } = useQuery(['get-filters'  + category || '' + 'subCategory'], () =>
-    api.getAllPhysicalFilters( category?.slug || '', subCategory?.slug || '')
+    api.getAllFilters( category?.slug || '', subCategory?.slug || '')
   );
   const filters = data?.data;
   return (

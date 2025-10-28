@@ -9,8 +9,8 @@ import FilterChips from 'src/components/_main/track-products/search-params-list'
 const baseUrl = process.env.BASE_URL;
 
 export default async function Listing() {
-  const res = await fetch(`${baseUrl}/api/products/filters`, {
-    next: { revalidate: 60 } // Revalidate every 60 seconds
+  const res = await fetch(`${baseUrl}/api/user/physical-products/filters`, {
+    next: { revalidate: 60 }
   });
 
   const response = await res.json();

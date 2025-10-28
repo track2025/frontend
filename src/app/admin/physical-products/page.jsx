@@ -1,8 +1,8 @@
 import React from 'react';
-import AdminProductsMain from 'src/components/_admin/physical-products/products';
 
 // components
 import HeaderBreadcrumbs from 'src/components/headerBreadcrumbs';
+import PhysicalProductList from 'src/components/_admin/physical-products/products';
 
 // api
 import * as api from 'src/services';
@@ -38,7 +38,8 @@ export default async function AdminProducts() {
           title: 'Add Product'
         }}
       />
-      <AdminProductsMain categories={categories} brands={brands} />
+
+      <PhysicalProductList categories={categories} brands={brands} />
     </div>
   );
 }

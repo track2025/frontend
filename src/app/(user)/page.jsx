@@ -60,7 +60,6 @@ export default function IndexPage() {
         <TopCollection />
         {/* <Categories /> */}
 
-        {/* <Shops /> */}
       </Container>
       <Testimonials />
       <Container maxWidth="xl">

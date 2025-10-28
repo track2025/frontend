@@ -5,18 +5,18 @@ import { Box, Tooltip, Typography, Button, Stack, Zoom } from '@mui/material';
 // icons
 import { FaCheck } from 'react-icons/fa6';
 // next
-import { useRouter } from '@bprogress/next';
+import { useRouter } from 'next-nprogress-bar';
 import { useSearchParams } from 'next/navigation';
 // data
 import { capitalCase } from 'change-case';
 
-ColorsMain.propTypes = {
+PhysicalColorFilter.propTypes = {
   path: PropTypes.string.isRequired,
   colors: PropTypes.arrayOf(PropTypes.string),
   keyName: PropTypes.string.isRequired
 };
 
-export default function ColorsMain({ ...props }) {
+export default function PhysicalColorFilter({ ...props }) {
   const { colors: filterColors, path, keyName } = props;
   const { push } = useRouter();
   const searchParams = useSearchParams();

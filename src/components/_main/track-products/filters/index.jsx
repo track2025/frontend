@@ -8,19 +8,19 @@ import { Card, Box, Typography, IconButton, Divider } from '@mui/material';
 import { MdClear } from 'react-icons/md';
 
 // components
-import BrandsFilter from './brands';
-import GenderFilter from './genders';
-import ColorsFilter from './colors';
-import SizesFilter from './others';
-import PriceRange from './price';
+import PhysicalBrandFilter from './brands';
+import PhysicalColorFilter from './colors';
+import PhysicalSizeFilter from './others';
+import PhysicalPriceRange from './price';
 
-Filter.propTypes = {
+
+PhysicalFilter.propTypes = {
   onClose: PropTypes.func.isRequired,
   pathname: PropTypes.string.isRequired,
   data: PropTypes.array
 };
 
-export default function Filter({ ...props }) {
+export default function PhysicalFilter({ ...props }) {
   const { onClose, pathname, filters } = props;
 
   const colors = filters?.attributes.find((item) => {
@@ -54,22 +54,14 @@ export default function Filter({ ...props }) {
       <Box sx={{ height: 'calc(100vh - 56px)', overflowY: 'auto' }}>
         {Boolean(filters?.brands?.length) && (
           <Box p={2}>
-            <BrandsFilter brands={filters?.brands} path={pathname} />
+            <PhysicalBrandFilter brands={filters?.brands} path={pathname} />
           </Box>
-        )}
-        {Boolean(filters?.genders?.length) && (
-          <>
-            <Divider />
-            <Box p={2}>
-              <GenderFilter genders={filters?.genders} path={pathname} />
-            </Box>
-          </>
         )}
         {Boolean(colors?.values) && (
           <>
             <Divider />
             <Box p={2}>
-              <ColorsFilter colors={colors.values} keyName={colors.name} path={pathname} />
+              <PhysicalColorFilter colors={colors.values} keyName={colors.name} path={pathname} />
             </Box>
           </>
         )}
@@ -77,13 +69,13 @@ export default function Filter({ ...props }) {
           <React.Fragment key={filter.name}>
             <Divider />
             <Box p={2}>
-              <SizesFilter values={filter?.values} path={pathname} keyName={filter.name} />
+              <PhysicalSizeFilter values={filter?.values} path={pathname} keyName={filter.name} />
             </Box>
           </React.Fragment>
         ))}
         <Divider />
         <Box p={2}>
-          <PriceRange prices={filters?.prices} path={pathname} />
+          <PhysicalPriceRange prices={filters?.prices} path={pathname} />
         </Box>
       </Box>
     </Card>

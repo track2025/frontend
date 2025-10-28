@@ -1,13 +1,13 @@
 import { useEffect, useState, useCallback } from 'react';
 import PropTypes from 'prop-types';
-import { useRouter } from '@bprogress/next';
+import { useRouter } from 'next-nprogress-bar';
 import { useSearchParams } from 'next/navigation';
 // mui
 import { FormGroup, FormControlLabel, Checkbox, Grid, Typography, Button, Zoom, Stack } from '@mui/material';
 
 const label = { inputProps: { 'aria-label': 'Checkbox demo' } };
 
-export default function Size({ ...props }) {
+export default function PhysicalSizeFilter({ ...props }) {
   const { values, path, keyName } = props;
   const { push } = useRouter();
   const searchParams = useSearchParams();
@@ -122,7 +122,7 @@ export default function Size({ ...props }) {
   );
 }
 // add propTypes
-Size.propTypes = {
+PhysicalSizeFilter.propTypes = {
   values: PropTypes.array.isRequired,
   path: PropTypes.string.isRequired,
   keyName: PropTypes.string.isRequired

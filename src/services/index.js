@@ -829,56 +829,30 @@ export const deletePhysicalProductByAdmin = async (slug) => {
 Physical Products (USER)
 =====================================
 */
-export const getPhysicalProducts = async (query = '') => {
+export const getUserPhysicalProducts = async (query = '') => {
   const { data } = await http.get(`/user/physical-products${query}`);
   return data;
 };
-export const getPhysicalProductDetails = async (pid) => {
+export const getUserPhysicalProductDetails = async (pid) => {
   const { data } = await http.get(`/user/physical-products/${pid}`);
   return data;
 };
 
-export const getPhysicalProductSlugs = async () => {
+export const getUserPhysicalProductSlugs = async () => {
   const { data } = await http.get(`/user/physical-products-slugs`);
   return data;
 };
 
-export const getPhysicalAllProducts = async () => {
+export const getAllUserPhysicalProducts = async () => {
   const { data } = await http.get(`/user/physical-products/all`);
   return data;
 };
-export const getAllPhysicalFilters = async () => {
+export const getAllUserProductFilters = async () => {
   const { data } = await http.get(`/user/physical-products/filters`);
   return data;
 };
 
-export const getNewPhysicalProducts = async () => {
+export const getNewUserPhysicalProducts = async () => {
   const { data } = await http.get(`/user/physical-products/new`);
-  return data;
-};
-export const getPhysicalFiltersByShop = async (shop) => {
-  const { data } = await http.get(`/user/physical-filters/${shop}`);
-  return data;
-};
-
-export const getNewPhysicalArrivels = async () => {
-  const { data } = await http.get('/new-arrivals');
-  return data;
-};
-export const getRelatedPhysicalProducts = async (pid) => {
-  const { data } = await http.get(`/user/related-physical-products/${pid}`);
-  return data;
-};
-export const getPhysicalProductBySlug = async (slug) => {
-  const { data } = await http.get(`/user/physical-products/${slug}`);
-  return data;
-};
-
-export const getPhysicalProductReviews = async (pid) => {
-  const { data } = await http.get(`/reviews/${pid}`);
-  return data;
-};
-export const addPhysicalProductReview = async (payload) => {
-  const { data } = await http.post(`/reviews`, payload);
   return data;
 };

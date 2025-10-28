@@ -1,16 +1,17 @@
 import React, { useCallback, useState, useEffect } from 'react';
-import { useRouter } from '@bprogress/next';
+import { useRouter } from 'next-nprogress-bar';
 import PropTypes from 'prop-types';
 import { useSearchParams } from 'next/navigation';
-import Slider from '@/components/slider';
+import Slider from 'src/components/slider';
 import { Stack, Zoom, Button, Typography } from '@mui/material';
+import PhysicalProductSlider from 'src/components/physicalSlider';
 
-PriceRange.propTypes = {
+PhysicalPriceRange.propTypes = {
   prices: PropTypes.array.isRequired,
   path: PropTypes.string.isRequired
 };
 
-export default function PriceRange({ prices: filterPrices, path }) {
+export default function PhysicalPriceRange({ prices: filterPrices, path }) {
   const searchParams = useSearchParams();
   const router = useRouter();
   const [priceRange, setPriceRange] = useState([0, 10000]);
@@ -72,7 +73,7 @@ export default function PriceRange({ prices: filterPrices, path }) {
           </Button>
         </Zoom>
       </Stack>
-      <Slider
+      <PhysicalProductSlider
         filterPrices={filterPrices}
         prices={prices}
         path={path}

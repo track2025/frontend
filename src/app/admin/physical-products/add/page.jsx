@@ -11,8 +11,7 @@ export const dynamic = 'force-dynamic';
 export default async function page() {
   const { data: categories } = await api.getAllPhysicalCategoriesByAdmin();
   const { data: brands } = await api.getAllPhysicalBrandsByAdmin();
-  const { data: shops } = await api.getAllShopsByAdmin();
-  const { data: attributes } = await api.getAllAttributesByAdmin();
+  const { data: attributes } = await api.getAllPhysicalAttributesByAdmin();
   return (
     <div>
       <HeaderBreadcrumbs
@@ -32,7 +31,7 @@ export default async function page() {
           }
         ]}
       />
-      <AddProduct brands={brands} shops={shops} categories={categories} attributes={attributes} />
+      <AddProduct brands={brands} categories={categories} attributes={attributes} />
     </div>
   );
 }

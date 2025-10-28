@@ -12,10 +12,10 @@ import Select from '@mui/material/Select';
 // next
 import { usePathname, useSearchParams } from 'next/navigation';
 import { useRouter } from 'next-nprogress-bar';
-import Filter from 'src/components/_main/products/filters';
 // icon
 import { MdTune } from 'react-icons/md';
 import shape from 'src/theme/shape';
+import PhysicalFilter from './filters';
 
 export default function SortBar({ productData, isLoading, sortData, filters }) {
   const router = useRouter();
@@ -203,7 +203,7 @@ export default function SortBar({ productData, isLoading, sortData, filters }) {
           }
         }}
       >
-        <Filter filters={filters} pathname="/products" isMobile onClose={() => setOpenDrawer(false)} />
+        <PhysicalFilter filters={filters} pathname="/track-products" isMobile onClose={() => setOpenDrawer(false)} />
       </Drawer>
     </>
   );

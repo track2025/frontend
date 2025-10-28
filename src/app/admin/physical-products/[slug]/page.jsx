@@ -12,6 +12,7 @@ export default async function page(props) {
   const params = await props.params;
   const { data: categories } = await api.getAllPhysicalCategoriesByAdmin();
   const { data: brands } = await api.getAllPhysicalBrandsByAdmin();
+  
 
   return (
     <div>

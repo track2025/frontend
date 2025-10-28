@@ -18,6 +18,7 @@ import ProductInfo from './productInfo';
 import SimpleProduct from './simpleProduct';
 import VariableProduct from './variableProduct';
 import { physicalProductSchema } from 'src/validations';
+
 // ----------------------------------------------------------------------
 const STATUS_OPTIONS = ['pending', 'draft', 'published'];
 
@@ -73,6 +74,8 @@ export default function PhysicalProductForm({
   });
   const [count, setCount] = React.useState(0);
   const [initialized, setInitialized] = React.useState(false);
+
+ 
 
   const formik = useFormik({
     enableReinitialize: true,

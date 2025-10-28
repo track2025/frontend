@@ -1,12 +1,12 @@
 import React, { useEffect, useState, useCallback } from 'react';
 import Link from 'next/link';
 import { useSearchParams } from 'next/navigation';
-import { useRouter } from '@bprogress/next';
+import { useRouter } from 'next-nprogress-bar';
 import PropTypes from 'prop-types';
 // mui
 import { FormGroup, FormControlLabel, Radio, Grid, Typography, Button, Stack, Zoom } from '@mui/material';
 
-const BrandMain = ({ brands, path }) => {
+const PhysicalBrandFilter = ({ brands, path }) => {
   const router = useRouter();
   const searchParams = useSearchParams();
   const brand = searchParams.get('brand');
@@ -90,9 +90,9 @@ const BrandMain = ({ brands, path }) => {
   );
 };
 
-export default BrandMain;
+export default PhysicalBrandFilter;
 
-BrandMain.propTypes = {
+PhysicalBrandFilter.propTypes = {
   brands: PropTypes.array.isRequired,
   path: PropTypes.string.isRequired
 };

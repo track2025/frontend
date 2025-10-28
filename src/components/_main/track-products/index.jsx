@@ -14,7 +14,11 @@ import { useQuery } from 'react-query';
 import ProductList from './product-list';
 import SortBar from './sortbar';
 import Pagination from 'src/components/pagination';
-ProductListing.propTypes = { category: PropTypes.object, subCategory: PropTypes.object, shop: PropTypes.object };
+
+ProductListing.propTypes = {
+  category: PropTypes.object,
+  subCategory: PropTypes.object
+};
 // dynamic components
 
 const sortData = [
@@ -41,10 +45,16 @@ export default function ProductListing({ category, subCategory, brand, filters }
   const searchParams = useSearchParams();
 
   const searchQuery = getSearchParams(searchParams, category, subCategory, brand);
+
+  console.log(searchQuery);
+
   const { data, isPending: isLoading } = useQuery({
     queryKey: [searchQuery],
-    queryFn: () => api.getPhysicalProducts(searchQuery)
+    queryFn: () => api.getUserPhysicalProducts(searchQuery)
   });
+
+  console.log(data);
+
   const isMobile = useMediaQuery('(max-width:900px)');
   return (
     <>

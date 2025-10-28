@@ -2,12 +2,13 @@ import React from 'react';
 import { Grid, Select, Skeleton, Typography, FormControl, FormHelperText, Stack } from '@mui/material';
 
 import { capitalCase } from 'change-case';
-const GENDER_OPTION = ['men', 'women', 'kids', 'others'];
 
 export default function GroupAndCategory(props) {
   const { formik, isVendor, brands, categories, isLoading, options } = props;
 
   const { values, errors, touched, getFieldProps, setFieldValue } = formik;
+
+
 
   React.useEffect(() => {
     if (values.type === 'variable') {
@@ -15,9 +16,11 @@ export default function GroupAndCategory(props) {
     }
   }, [values.type, setFieldValue]);
 
+  console.log(formik.values.status);
+
   return (
     <Grid container spacing={2}>
-      
+
       <Grid
         size={{
           md: 3,

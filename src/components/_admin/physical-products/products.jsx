@@ -4,13 +4,14 @@ import { useSearchParams } from 'next/navigation';
 import PropTypes from 'prop-types';
 // mui
 import { Dialog, Stack } from '@mui/material';
-import DeleteDialog from 'src/components/dialog/delete';
 // components
-import Table from 'src/components/table/table';
+import PhysicalTable from 'src/components/table/physicalTable';
+import PhysicalProductRow from 'src/components/table/rows/physicalProduct';
+import DeletePhysicalDialog from 'src/components/dialog/deletePhysical';
+
 // api
 import * as api from 'src/services';
 import { useQuery } from 'react-query';
-import PhysicalProductRow from 'src/components/table/rows/physicalProduct';
 
 const TABLE_HEAD = [
   { id: 'name', label: 'Product' },
@@ -44,7 +45,7 @@ const STATUS_FILTER = {
     }
   ]
 };
-export default function AdminProductsMain({ brands, categories, isVendor }) {
+export default function PhysicalProductList({ brands, categories, isVendor }) {
   const searchParams = useSearchParams();
 
   const [open, setOpen] = useState(false);
@@ -54,8 +55,6 @@ export default function AdminProductsMain({ brands, categories, isVendor }) {
     queryKey: ['admin-products', apicall, searchParams.toString(), isVendor], // Added isVendor as dependency
     queryFn: () => api[isVendor ? 'getProductsByVendor' : 'getPhysicalProductsByAdmin'](searchParams.toString())
   });
-
-  console.log(data);
 
   const handleClickOpen = (prop) => () => {
     setId(prop);
@@ -68,12 +67,12 @@ export default function AdminProductsMain({ brands, categories, isVendor }) {
   return (
     <>
       <Dialog onClose={handleClose} open={open} maxWidth={'xs'}>
-        <DeleteDialog
+        <DeletePhysicalDialog
           onClose={handleClose}
           id={id}
           apicall={setApicall}
-          endPoint={isVendor ? 'deleteVendorProduct' : 'deleteProductByAdmin'}
-          type={'Product deleted'}
+          endPoint={isVendor ? 'deleteVendorProduct' : 'deletePhysicalProductByAdmin'}
+          type={'Physical Product deleted'}
           deleteMessage={
             'Are you really sure you want to remove this product? Just making sure before we go ahead with it.'
           }
@@ -82,7 +81,8 @@ export default function AdminProductsMain({ brands, categories, isVendor }) {
       <Stack spacing={2} direction="row" alignItems="center" justifyContent="space-between" mb={2}>
         { }
       </Stack>
-      <Table
+
+      <PhysicalTable
         headData={TABLE_HEAD}
         data={data}
         isLoading={isLoading}
@@ -105,7 +105,7 @@ export default function AdminProductsMain({ brands, categories, isVendor }) {
     </>
   );
 }
-AdminProductsMain.propTypes = {
+PhysicalProductList.propTypes = {
   brands: PropTypes.array.isRequired,
   categories: PropTypes.array.isRequired,
   isVendor: PropTypes.boolean
