@@ -6,12 +6,31 @@ import CalendarTodayIcon from '@mui/icons-material/CalendarToday';
 import LocationOnIcon from '@mui/icons-material/LocationOn';
 import AccessTimeIcon from '@mui/icons-material/AccessTime';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
-import eventsData from '../../../../data/events.json';
+import { useEffect, useState } from 'react';
+import { getSuperEvents } from 'src/services';
+import LoadingSpinner from 'src/components/UI/Spinner';
+// import eventsData from '../../../../data/events.json';
 
 export default function CountryEventsPage() {
   const params = useParams();
   const router = useRouter();
   const countrySlug = params?.country;
+
+  const [eventsData, setEventData] = useState([]);
+  const [isLoading, setIsLoading] =  useState(false)
+
+  const fethcItems = async () => {
+    setIsLoading(true)
+    const data = await getSuperEvents();
+    setIsLoading(false)
+    setEventData(data);
+  };
+
+  useEffect(() => {
+    fethcItems();
+  }, []);
+
+
 
   // Get today's date for filtering upcoming events
   const today = new Date();
@@ -104,6 +123,10 @@ export default function CountryEventsPage() {
       }))
     }
   };
+
+  if(isLoading){
+    return <LoadingSpinner />
+  }
 
   return (
     <>
@@ -207,13 +230,15 @@ export default function CountryEventsPage() {
             />
           </Box>
 
+          
+
           {/* Events List */}
           {countryEvents.length === 0 ? (
             <Box
               sx={{
                 textAlign: 'center',
                 py: 6,
-                bgcolor: 'white',
+                bgcolor: 'white', 
                 borderRadius: 2,
                 boxShadow: 2
               }}
@@ -236,6 +261,11 @@ export default function CountryEventsPage() {
               </Button>
             </Box>
           ) : (
+            <>
+            
+            
+            {isLoading && <LoadingSpinner />}
+            
             <Grid container spacing={2}>
               {countryEvents.map((event, index) => (
                 <Grid item size={12} key={event.id}>
@@ -267,7 +297,7 @@ export default function CountryEventsPage() {
                           >
                             <Box
                               component="img"
-                              src={event.image || event.thumbnailImage}
+                              src={event.image?.url || event.thumbnailImage}
                               alt={event.title}
                               sx={{
                                 width: '100%',
@@ -376,6 +406,8 @@ export default function CountryEventsPage() {
                 </Grid>
               ))}
             </Grid>
+            </>
+
           )}
         </Container>
       </Box>

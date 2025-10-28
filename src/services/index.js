@@ -663,6 +663,18 @@ export const requestRemoval = async ({ ...payload }) => {
   const { data } = await http.post(`/users/request-removal`, { ...payload });
   return data;
 };
+
+
+// gabriel events
+export const getSuperEvents = async (payload) => {
+  console.log('tester.....')
+  const { data } = await http.get(`/all-events`);
+
+  return data;
+};
+
+
+
 // export const contactUs = async (payload) => {
 //   const { data } = await http.post(`/contact-us`, payload);
 //   return data;

@@ -18,7 +18,10 @@ import CalendarTodayIcon from '@mui/icons-material/CalendarToday';
 import LocationOnIcon from '@mui/icons-material/LocationOn';
 import AccessTimeIcon from '@mui/icons-material/AccessTime';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
-import eventsData from '../../../../../../data/events.json';
+// import eventsData from '../../../../../../data/events.json';
+import { useEffect, useState } from 'react';
+import { getSuperEvents } from 'src/services';
+import LoadingSpinner from 'src/components/UI/Spinner';
 
 export default function EventDetailPage() {
   const params = useParams();
@@ -26,11 +29,33 @@ export default function EventDetailPage() {
   const eventSlug = params?.['events-slug'];
   const trackSlug = params?.slug;
 
+
+
+
+  const [eventsData, setEventData] = useState([]);
+  const [isLoading, setIsLoading] =  useState(false)
+
+  const fethcItems = async () => {
+    setIsLoading(true)
+    const data = await getSuperEvents();
+    setIsLoading(false)
+    setEventData(data);
+  };
+
+  useEffect(() => {
+    fethcItems();
+  }, []);
+
+
   // Find the event by slug
   const eventData = eventsData.find((event) => event.slug === eventSlug);
 
+
+  if(isLoading){
+    return <LoadingSpinner />
+  }
   // If event not found, show 404
-  if (!eventData) {
+  if (!eventData && isLoading ===  false ) {
     return (
       <Box sx={{ bgcolor: '#f8f9fa', minHeight: '100vh', py: { xs: 3, md: 5 } }}>
         <Container maxWidth="xl">
@@ -63,14 +88,16 @@ export default function EventDetailPage() {
     return `${startTime} - ${endTime}`;
   };
 
+  console.log('eventData.image', eventData.image)
+
   // Generate gallery images using real motorsport images
   const galleryImages = [
     eventData.image,
-    eventData.thumbnailImage,
-    'https://images.unsplash.com/photo-1563720223185-11003d516935?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80',
-    'https://images.unsplash.com/photo-1558618047-3c8c76ca7d13?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2069&q=80',
-    'https://images.unsplash.com/photo-1593941707882-a5bba5337b2f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80',
-    'https://images.unsplash.com/photo-1591768575198-88b92c8d1c56?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80'
+    // eventData.thumbnailImage,
+    // 'https://images.unsplash.com/photo-1563720223185-11003d516935?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80',
+    // 'https://images.unsplash.com/photo-1558618047-3c8c76ca7d13?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2069&q=80',
+    // 'https://images.unsplash.com/photo-1593941707882-a5bba5337b2f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80',
+    // 'https://images.unsplash.com/photo-1591768575198-88b92c8d1c56?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80'
   ].filter(Boolean); // Remove any undefined images
 
   return (
@@ -142,7 +169,7 @@ export default function EventDetailPage() {
           >
             <Box
               component="img"
-              src={eventData.image}
+              src={eventData.image.url}
               alt={eventData.title}
               sx={{
                 width: '100%',
@@ -314,7 +341,7 @@ export default function EventDetailPage() {
                     >
                       <Box
                         component="img"
-                        src={image}
+                        src={image.url}
                         alt={`${eventData.title} Photo ${index + 1}`}
                         sx={{
                           width: '100%',
