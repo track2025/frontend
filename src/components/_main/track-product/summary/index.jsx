@@ -13,7 +13,7 @@ import { useFormik, Form, FormikProvider } from 'formik';
 // redux
 import { useDispatch, useSelector } from 'src/redux';
 // redux
-import { addCart } from 'src/redux/slices/product';
+import { addPhysicalCart } from 'src/redux/slices/product';
 // styles
 // import RootStyled from './styled';
 import { useCurrencyConvert } from 'src/hooks/convertCurrency';
@@ -53,9 +53,9 @@ export default function PhysicalProductDetailsSumary({ ...props }) {
     isSimpleProduct
       ? null
       : {
-        ...product.variants[0],
-        name: product.variants[0].name
-      }
+          ...product.variants[0],
+          name: product.variants[0].name
+        }
   );
   useEffect(() => {
     setInitialized(true);
@@ -64,8 +64,6 @@ export default function PhysicalProductDetailsSumary({ ...props }) {
   const router = useRouter();
 
   const dispatch = useDispatch();
-
-  console.log(product);
 
   const { checkout } = useSelector(({ product }) => product);
   const { user } = useSelector(({ user }) => user);
@@ -82,7 +80,7 @@ export default function PhysicalProductDetailsSumary({ ...props }) {
 
   const onAddCart = (param) => {
     toast.success('Added to cart');
-    dispatch(addCart(param));
+    dispatch(addPhysicalCart(param));
   };
   const formik = useFormik({
     enableReinitialize: true,
@@ -213,7 +211,7 @@ export default function PhysicalProductDetailsSumary({ ...props }) {
           <Stack gap={1}>
             <Box>
               {(isSimpleProduct ? product : variantObj).price <=
-                (isSimpleProduct ? product : variantObj).salePrice ? null : (
+              (isSimpleProduct ? product : variantObj).salePrice ? null : (
                 <Chip
                   color={'success'}
                   label={`-${(100 - ((isSimpleProduct ? product : variantObj).salePrice / (isSimpleProduct ? product : variantObj).price) * 100).toFixed(0)}% Discount`}
@@ -256,7 +254,7 @@ export default function PhysicalProductDetailsSumary({ ...props }) {
                 {stockQuantity ? stockQuantity + ' Items' : 'Out of stock'}
               </Typography>
             )}
-            
+
             <PhysicalProductVariantSelection
               names={names}
               variants={variants}

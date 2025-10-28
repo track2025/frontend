@@ -45,7 +45,6 @@ export const getBrandsByAdmin = async (page, search) => {
   return data;
 };
 
-
 export const getBrandByAdmin = async (id) => {
   const { data } = await http.get(`/admin/brands/${id}`);
   return data;
@@ -732,12 +731,11 @@ export const deletePhysicalBrandByAdmin = async (slug) => {
   return data;
 };
 
-
 /*
 ====================================
 PHYSICAL CATEGORIES (Admin)
 ====================================
-*/ 
+*/
 export const getPhysicalCategoriesByAdmin = async (page, search) => {
   const { data } = await http.get(`/admin/physical-categories?search=${search}&page=${page}`);
   return data;
@@ -789,14 +787,9 @@ export const updatePhysicalSubCategoryByAdmin = async ({ currentSlug, ...payload
   return data;
 };
 
-
-
-
 // Get all physical products with pagination and optional search
-export const getPhysicalProductsByAdmin = async (page = 1, search = "") => {
-  const { data } = await http.get(
-    `/admin/physical-products?search=${search}&page=${page}`
-  );
+export const getPhysicalProductsByAdmin = async (page = 1, search = '') => {
+  const { data } = await http.get(`/admin/physical-products?search=${search}&page=${page}`);
   return data;
 };
 

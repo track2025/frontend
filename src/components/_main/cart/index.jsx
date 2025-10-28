@@ -24,6 +24,9 @@ export default function CartMain() {
   const dispatch = useDispatch();
   const { checkout } = useSelector(({ product }) => product);
   const { cart } = checkout;
+
+  // console.log(cart, 'Check the cart');
+
   const [loading, setLoading] = React.useState(true);
   const { mutate } = useMutation(api.getCart, {
     onSuccess: (res) => {
