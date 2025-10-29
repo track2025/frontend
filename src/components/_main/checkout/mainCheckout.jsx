@@ -406,7 +406,7 @@ const CheckoutMain = () => {
             lastName: userDataToUse.billingLastName || userDataToUse.lastName || '',
             email: userDataToUse.billingEmail || userDataToUse.email || '',
             deliveryAddress: userDataToUse.deliveryAddress || userDataToUse.deliveryAddress || '',
-            email: userDataToUse.deliveryFee || userDataToUse.deliveryFee || ''
+            deliveryFee: userDataToUse.deliveryFee || userDataToUse.deliveryFee || ''
           },
           totalItems,
           couponCode: couponCode || null,
