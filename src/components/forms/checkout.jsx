@@ -87,14 +87,14 @@ export default function CheckoutGuestForm({
         {checkoutType === 'physical-product' && (
           <>
             <Stack spacing={0.5} width={1}>
-              <Typography variant="overline" color="text.primary" for="deliveryAddress" component={'label'}>
+              <Typography variant="overline" color="text.primary" for="address" component={'label'}>
                 Address
               </Typography>
               <TextField
                 fullWidth
-                {...getFieldProps('deliveryAddress')}
-                error={Boolean(touched.deliveryAddress && errors.deliveryAddress)}
-                helperText={touched.deliveryAddress && errors.deliveryAddress}
+                {...getFieldProps('address')}
+                error={Boolean(touched.address && errors.address)}
+                helperText={touched.address && errors.address}
               />
             </Stack>
 
@@ -105,9 +105,9 @@ export default function CheckoutGuestForm({
                 </Typography>
                 <TextField
                   fullWidth
-                  {...getFieldProps('deliveryCity')}
-                  error={Boolean(touched.deliveryCity && errors.deliveryCity)}
-                  helperText={touched.deliveryCity && errors.deliveryCity}
+                  {...getFieldProps('city')}
+                  error={Boolean(touched.city && errors.city)}
+                  helperText={touched.city && errors.city}
                 />
               </Stack>
               <Stack spacing={0.5} width={1}>
@@ -116,9 +116,9 @@ export default function CheckoutGuestForm({
                 </Typography>
                 <TextField
                   fullWidth
-                  {...getFieldProps('deliveryState')}
-                  error={Boolean(touched.deliveryState && errors.deliveryState)}
-                  helperText={touched.deliveryState && errors.deliveryState}
+                  {...getFieldProps('state')}
+                  error={Boolean(touched.state && errors.state)}
+                  helperText={touched.state && errors.state}
                 />
               </Stack>
               <Stack spacing={0.5} width={1}>
@@ -127,9 +127,9 @@ export default function CheckoutGuestForm({
                 </Typography>
                 <TextField
                   fullWidth
-                  {...getFieldProps('deliveryZip')}
-                  error={Boolean(touched.deliveryZip && errors.deliveryZip)}
-                  helperText={touched.deliveryZip && errors.deliveryZip}
+                  {...getFieldProps('zip')}
+                  error={Boolean(touched.zip && errors.zip)}
+                  helperText={touched.zip && errors.zip}
                   type="number"
                 />
               </Stack>
@@ -142,10 +142,10 @@ export default function CheckoutGuestForm({
                 select
                 fullWidth
                 placeholder="Country"
-                {...getFieldProps('deliveryCountry')}
+                {...getFieldProps('country')}
                 SelectProps={{ native: true }}
-                error={Boolean(touched.deliveryCountry && errors.deliveryCountry)}
-                helperText={touched.deliveryCountry && errors.deliveryCountry}
+                error={Boolean(touched.country && errors.country)}
+                helperText={touched.country && errors.country}
               >
                 {countries.map((option) => (
                   <option key={option.code} value={option.label}>
@@ -163,9 +163,9 @@ export default function CheckoutGuestForm({
                 multiline
                 rows={8}
                 id="note"
-                {...getFieldProps('deliveryCityNote')}
-                error={Boolean(touched.deliveryCityNote && errors.deliveryCityNote)}
-                helperText={touched.deliveryCityNote && errors.deliveryCityNote}
+                {...getFieldProps('note')}
+                error={Boolean(touched.note && errors.note)}
+                helperText={touched.note && errors.note}
                 type="text"
               />
             </Stack>

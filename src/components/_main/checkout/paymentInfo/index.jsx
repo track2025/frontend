@@ -133,10 +133,8 @@ export default function PaymentInfo({ setCouponCode, setTotal, checkoutType }) {
             <Typography variant="subtitle2">
               {isLoading ? (
                 <Skeleton variant="text" width={80} />
-              ) : !shipping ? (
-                'Free'
               ) : (
-                fCurrency(cCurrency(parseInt(shipping)))
+                fCurrency(cCurrency(parseInt(process.env.SHIPPING_FEE || 0)))
               )}
             </Typography>
           </Stack>

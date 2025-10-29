@@ -405,12 +405,12 @@ const CheckoutMain = () => {
             firstName: userDataToUse.billingFirstName || userDataToUse.firstName || '',
             lastName: userDataToUse.billingLastName || userDataToUse.lastName || '',
             email: userDataToUse.billingEmail || userDataToUse.email || '',
-            deliveryAddress: userDataToUse.deliveryAddress || userDataToUse.deliveryAddress || '',
-            deliveryCity: userDataToUse.deliveryCity || userDataToUse.deliveryCity || '',
-            deliveryState: userDataToUse.deliveryState || userDataToUse.deliveryState || '',
-            deliveryCountry: userDataToUse.deliveryCountry || userDataToUse.deliveryCountry || '',
-            deliveryZip: userDataToUse.deliveryZip || userDataToUse.deliveryZip || '',
-            deliveryNote: userDataToUse.deliveryNote || userDataToUse.deliveryNote || ''
+            address: userDataToUse.address || userDataToUse.address || '',
+            city: userDataToUse.city || userDataToUse.city || '',
+            state: userDataToUse.state || userDataToUse.state || '',
+            country: userDataToUse.country || userDataToUse.country || '',
+            zip: userDataToUse.zip || userDataToUse.zip || '',
+            note: userDataToUse.note || userDataToUse.note || ''
           },
           totalItems,
           couponCode: couponCode || null,
@@ -475,27 +475,27 @@ const CheckoutMain = () => {
     firstName: Yup.string().required('First name is required'),
     lastName: Yup.string().required('Last name is required'),
     email: Yup.string().email('Enter a valid email').required('Email is required'),
-    deliveryAddress: Yup.string().when('checkoutType', {
+    address: Yup.string().when('checkoutType', {
       is: (val) => val === 'physical-product',
       then: (schema) => schema.required('Delivery Address is required'),
       otherwise: (schema) => schema.notRequired().nullable()
     }),
-    deliveryCity: Yup.string().when('checkoutType', {
+    city: Yup.string().when('checkoutType', {
       is: (val) => val === 'physical-product',
       then: (schema) => schema.required('City is required'),
       otherwise: (schema) => schema.notRequired().nullable()
     }),
-    deliveryState: Yup.string().when('checkoutType', {
+    state: Yup.string().when('checkoutType', {
       is: (val) => val === 'physical-product',
       then: (schema) => schema.required('State is required'),
       otherwise: (schema) => schema.notRequired().nullable()
     }),
-    deliveryZip: Yup.string().when('checkoutType', {
+    zip: Yup.string().when('checkoutType', {
       is: (val) => val === 'physical-product',
       then: (schema) => schema.required('Zip is required'),
       otherwise: (schema) => schema.notRequired().nullable()
     }),
-    deliveryCountry: Yup.string().when('checkoutType', {
+    country: Yup.string().when('checkoutType', {
       is: (val) => val === 'physical-product',
       then: (schema) => schema.required('Country is required'),
       otherwise: (schema) => schema.notRequired().nullable()
@@ -510,12 +510,12 @@ const CheckoutMain = () => {
       firstName: userData?.firstName || '',
       lastName: userData?.lastName || '',
       email: userData?.email || '',
-      deliveryAddress: '',
-      deliveryCity: '',
-      deliveryState: '',
-      deliveryCountry: '',
-      deliveryNote: '',
-      deliveryZip: '',
+      address: '',
+      city: '',
+      state: '',
+      country: '',
+      note: '',
+      zip: '',
       checkoutType: cart[0]?.checkoutType
     },
     enableReinitialize: true,
@@ -555,11 +555,11 @@ const CheckoutMain = () => {
         !errors.firstName &&
         !errors.lastName &&
         !errors.email &&
-        !errors.deliveryAddress &&
-        !errors.deliveryCity &&
-        !errors.deliveryState &&
-        !errors.deliveryCountry &&
-        !errors.deliveryZip;
+        !errors.address &&
+        !errors.city &&
+        !errors.state &&
+        !errors.country &&
+        !errors.zip;
 
       setIsFormValid(isValid);
     };
@@ -669,12 +669,12 @@ const CheckoutMain = () => {
                   billingLastName: values.lastName,
                   billingEmail: values.email,
                   billingCountry: selectedCountry || 'GB',
-                  deliveryAddress: values.deliveryAddress,
-                  deliveryCity: values.deliveryCity,
-                  deliveryState: values.deliveryState,
-                  deliveryCountry: values.deliveryCountry,
-                  deliveryZip: values.deliveryZip,
-                  deliveryNote: values.deliveryNote || ''
+                  address: values.address,
+                  city: values.city,
+                  state: values.state,
+                  country: values.country,
+                  zip: values.zip,
+                  note: values.note || ''
                 }}
                 checkoutType={checkoutType}
               />
