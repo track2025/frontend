@@ -1,0 +1,580 @@
+[
+  {
+    "id": "1",
+    "name": "Bedford Autodrome",
+    "slug": "bedford-autodrome",
+    "country": "United Kingdom",
+    "countryCode": "GB",
+    "city": "Bedford",
+    "region": "Bedfordshire",
+    "address": "Thurleigh Airfield, Thurleigh, Bedford MK44 2YP, United Kingdom",
+    "latitude": 52.2583,
+    "longitude": -0.5167,
+    "timezone": "Europe/London",
+    "description": "Bedford Autodrome is one of the UK's premier motorsport venues, offering a challenging 2.2-mile circuit with 11 corners. Perfect for track days, racing events, and driver training.",
+    "fullDescription": "Located in the heart of Bedfordshire, Bedford Autodrome has established itself as one of the most versatile and exciting racing circuits in the United Kingdom. The 2.2-mile West Circuit features 11 challenging corners that test both driver skill and vehicle performance. With excellent facilities including a modern pit complex, hospitality suites, and professional timing systems, Bedford Autodrome caters to everyone from first-time track day enthusiasts to professional racing teams. The circuit is renowned for its smooth tarmac surface, excellent run-off areas, and year-round accessibility, making it a favorite destination for car clubs, racing schools, and corporate events.",
+    "logo": "https://images.unsplash.com/photo-1563720223185-11003d516935?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=200&q=80",
+    "bannerImage": "https://images.unsplash.com/photo-1563720223185-11003d516935?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1920&q=80",
+    "thumbnailImage": "https://images.unsplash.com/photo-1563720223185-11003d516935?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=600&q=80",
+    "length": "2.2 miles (3.54 km)",
+    "corners": 11,
+    "lapRecord": "1:09.23",
+    "lapRecordHolder": "Pro Driver",
+    "lapRecordYear": "2024",
+    "surface": "Tarmac",
+    "direction": "Clockwise",
+    "width": "12-15 meters",
+    "elevation": "Minimal elevation change",
+    "yearOpened": 2001,
+    "facilities": [
+      "Pit Garages",
+      "Hospitality Suite",
+      "Timing System",
+      "Medical Center",
+      "Café",
+      "Paddock Area",
+      "Viewing Areas",
+      "Parking for 500+ vehicles"
+    ],
+    "gallery": [
+      "https://images.unsplash.com/photo-1563720223185-11003d516935?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=600&q=80",
+      "https://images.unsplash.com/photo-1591768575198-88b92c8d1c56?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=600&q=80",
+      "https://images.unsplash.com/photo-1558618047-3c8c76ca7d13?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=600&q=80",
+      "https://images.unsplash.com/photo-1593941707882-a5bba5337b2f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=600&q=80",
+      "https://images.unsplash.com/photo-1592150621744-aca64f48394a?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=600&q=80",
+      "https://images.unsplash.com/photo-1549317661-bd32c8ce0db2?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=600&q=80"
+    ],
+    "faqs": [
+      {
+        "question": "What experience level do I need for Bedford Autodrome track days?",
+        "answer": "Bedford Autodrome welcomes drivers of all experience levels. We offer beginner-friendly track days with instructor support, as well as advanced sessions for experienced drivers. First-timers receive comprehensive safety briefings and can opt for passenger rides with instructors."
+      },
+      {
+        "question": "What cars are allowed on Bedford Autodrome track?",
+        "answer": "Most road-legal cars are permitted at Bedford Autodrome, provided they pass our safety inspection. Race cars and modified vehicles are also welcome on appropriate track days. All vehicles must have working brakes, secure battery, and pass noise limits."
+      },
+      {
+        "question": "Does Bedford Autodrome provide car hire for track days?",
+        "answer": "Yes, Bedford Autodrome offers a range of performance cars for hire, including hot hatches and sports cars. Contact us for availability and pricing. Popular options include Caterham 7, BMW M3, and Porsche Cayman."
+      },
+      {
+        "question": "What safety equipment is required at Bedford Autodrome?",
+        "answer": "All drivers must wear a helmet (available for hire), and we recommend wearing appropriate clothing. Race suits and HANS devices are required for competitive events. Helmets must meet Snell or FIA standards."
+      },
+      {
+        "question": "How do I book a track day at Bedford Autodrome?",
+        "answer": "You can book Bedford Autodrome track days directly through our website, by phone, or through approved track day organizers. We recommend booking in advance as popular dates sell out quickly."
+      },
+      {
+        "question": "What are the noise limits at Bedford Autodrome?",
+        "answer": "Bedford Autodrome operates under strict noise regulations. The static noise limit is 105dB, and drive-by limits vary by session. Noise testing is conducted throughout the day to ensure compliance."
+      }
+    ],
+    "metaTitle": "Bedford Autodrome Track Days & Events 2025 | UK Premier Racing Circuit",
+    "metaDescription": "Book Bedford Autodrome track days & racing events. 2.2-mile circuit, 11 corners, all skill levels welcome. Located in Bedfordshire, UK. Best track day venue with professional facilities.",
+    "keywords": [
+      "bedford autodrome",
+      "bedford autodrome track days",
+      "uk race track",
+      "track days bedford",
+      "motorsport venue uk",
+      "racing circuit bedfordshire",
+      "bedford circuit",
+      "track day bedfordshire",
+      "car track days uk",
+      "racing track bedford",
+      "bedford autodrome events",
+      "bedford racing circuit",
+      "thurleigh circuit"
+    ],
+    "alternateNames": ["Bedford Circuit", "Thurleigh Airfield Circuit"],
+    "website": "https://bedfordautodrome.co.uk",
+    "phone": "+44 1234 567890",
+    "email": "info@bedfordautodrome.co.uk",
+    "socialMedia": {
+      "facebook": "bedfordautodrome",
+      "instagram": "bedfordautodrome",
+      "twitter": "bedfordcircuit"
+    },
+    "rating": 4.7,
+    "reviewCount": 342,
+    "priceRange": "££"
+  },
+  {
+    "id": "2",
+    "name": "Yas Marina Circuit",
+    "slug": "yas-marina-circuit",
+    "country": "United Arab Emirates",
+    "countryCode": "AE",
+    "city": "Abu Dhabi",
+    "region": "Abu Dhabi",
+    "address": "Yas Island, Abu Dhabi, United Arab Emirates",
+    "latitude": 24.4672,
+    "longitude": 54.6031,
+    "timezone": "Asia/Dubai",
+    "description": "Yas Marina Circuit is a world-class Formula 1 venue in Abu Dhabi, featuring a stunning 5.5km circuit with unique day-to-night racing capabilities and state-of-the-art facilities.",
+    "fullDescription": "Yas Marina Circuit represents the pinnacle of modern motorsport facility design. Home to the Abu Dhabi Grand Prix, this iconic circuit features 21 challenging corners spread across 5.5 kilometers of pristine tarmac. The circuit's unique feature is its ability to transition from daylight to floodlit racing, creating a spectacular visual experience. With world-class facilities including a marina, hotel, and entertainment complex, Yas Marina offers an unparalleled motorsport experience in the heart of the Middle East. The circuit hosts Formula 1, GT racing, touring cars, and offers public track days throughout the year.",
+    "logo": "https://cdn2.vectorstock.com/i/1000x1000/77/86/race-flag-logo-icon-racing-concept-modern-vector-28827786.jpg",
+    "bannerImage": "https://assets.simpleviewinc.com/simpleview/image/upload/c_fill,f_jpg,h_465,q_65,w_640/v1/crm/virginia/25RIC2CJ_07968_DC74D7F8-03B1-4525-AEB8CE9364DD4AFA_2f960371-6458-4eac-8ba0591de4c5f106.jpg",
+    "thumbnailImage": "https://assets.simpleviewinc.com/simpleview/image/upload/c_fill,f_jpg,h_465,q_65,w_640/v1/crm/virginia/25RIC2CJ_07968_DC74D7F8-03B1-4525-AEB8CE9364DD4AFA_2f960371-6458-4eac-8ba0591de4c5f106.jpg",
+    "length": "5.5 km (3.42 miles)",
+    "corners": 21,
+    "lapRecord": "1:26.103",
+    "lapRecordHolder": "Max Verstappen",
+    "lapRecordYear": "2024",
+    "surface": "Tarmac",
+    "direction": "Counter-clockwise",
+    "width": "12-15 meters",
+    "elevation": "Minimal",
+    "yearOpened": 2009,
+    "facilities": [
+      "F1 Pit Complex",
+      "Marina",
+      "W Hotel",
+      "Kartzone",
+      "Yas Racing School",
+      "Medical Facility",
+      "Paddock Club",
+      "Media Center",
+      "Conference Facilities"
+    ],
+    "gallery": [
+      "https://images.unsplash.com/photo-1593941707882-a5bba5337b2f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=600&q=80",
+      "https://images.unsplash.com/photo-1591768575198-88b92c8d1c56?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=600&q=80",
+      "https://images.unsplash.com/photo-1558618047-3c8c76ca7d13?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=600&q=80",
+      "https://images.unsplash.com/photo-1563720223185-11003d516935?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=600&q=80",
+      "https://images.unsplash.com/photo-1592150621744-aca64f48394a?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=600&q=80",
+      "https://images.unsplash.com/photo-1549317661-bd32c8ce0db2?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=600&q=80"
+    ],
+    "faqs": [
+      {
+        "question": "Can I drive on the Yas Marina F1 circuit?",
+        "answer": "Yes! Yas Marina Circuit offers track days and driving experiences where you can drive your own car or rent performance vehicles on the same circuit used for Formula 1. The circuit is available for public track days when not hosting professional events."
+      },
+      {
+        "question": "What is the best time to visit Yas Marina Circuit?",
+        "answer": "The circuit is open year-round, but the cooler months (November to March) offer the most comfortable driving conditions. The Abu Dhabi Grand Prix typically takes place in November or December. Summer months can be very hot."
+      },
+      {
+        "question": "Are there driving schools available at Yas Marina?",
+        "answer": "Yes, the Yas Racing School offers professional instruction for all skill levels, from beginners to advanced drivers looking to improve their lap times. They offer single-seater, GT, and touring car experiences."
+      },
+      {
+        "question": "What other activities are available at Yas Marina Circuit?",
+        "answer": "Beyond track driving, Yas Marina offers karting at Kartzone, drag racing experiences, and various motorsport events throughout the year. The venue also hosts concerts and entertainment events."
+      },
+      {
+        "question": "How much does a track day at Yas Marina Circuit cost?",
+        "answer": "Track day prices at Yas Marina vary depending on the session type and duration. Expect to pay between AED 750-1500 for standard track days. Car rental and instruction packages are available at additional cost."
+      }
+    ],
+    "metaTitle": "Yas Marina Circuit Abu Dhabi - F1 Track Days & Racing Events 2025 | UAE",
+    "metaDescription": "Drive the legendary Yas Marina F1 Circuit in Abu Dhabi. Experience day-to-night racing, world-class facilities, and professional track days. Book your UAE motorsport experience now!",
+    "keywords": [
+      "yas marina circuit",
+      "abu dhabi f1 track",
+      "yas marina track days",
+      "uae racing circuit",
+      "formula 1 abu dhabi",
+      "track days uae",
+      "yas island circuit",
+      "abu dhabi grand prix",
+      "yas marina racing",
+      "uae motorsport",
+      "abu dhabi track day",
+      "yas racing school"
+    ],
+    "alternateNames": ["Yas Marina F1 Circuit", "Abu Dhabi F1 Track"],
+    "website": "https://yasmarinacircuit.com",
+    "phone": "+971 2 659 9800",
+    "email": "info@yasmarinacircuit.com",
+    "socialMedia": {
+      "facebook": "yasmarinacircuit",
+      "instagram": "yasmarinacircuit",
+      "twitter": "ymcofficial"
+    },
+    "rating": 4.8,
+    "reviewCount": 1247,
+    "priceRange": "£££"
+  },
+  {
+    "id": "3",
+    "name": "Silverstone Circuit",
+    "slug": "silverstone-circuit",
+    "country": "United Kingdom",
+    "countryCode": "GB",
+    "city": "Silverstone",
+    "region": "Northamptonshire",
+    "address": "Silverstone Circuit, Towcester NN12 8TN, United Kingdom",
+    "latitude": 52.0786,
+    "longitude": -1.0169,
+    "timezone": "Europe/London",
+    "description": "Silverstone Circuit is the home of British motorsport and hosts the British Grand Prix. With its high-speed corners and rich racing heritage, it's a must-visit for any motorsport enthusiast.",
+    "fullDescription": "Silverstone Circuit holds a special place in motorsport history as the venue of the very first Formula 1 World Championship race in 1950. Today, it remains one of the fastest and most challenging circuits in the world, featuring legendary corners like Copse, Maggotts, Becketts, and Stowe. The 5.9km Grand Prix circuit combines high-speed sections with technical corners, providing an exhilarating experience for drivers and spectators alike. With extensive facilities including the Silverstone Experience museum, multiple track configurations, and year-round events, it's the ultimate destination for motorsport fans. The circuit hosts the British Grand Prix, MotoGP, British Touring Cars, and hundreds of track days annually.",
+    "logo": "https://media.istockphoto.com/id/1402852110/vector/sport-flags-lines-silhouettes-text-lines.jpg?s=612x612&w=0&k=20&c=iVaRSRvHxT4LGL3_FdNBfg7Es9TTLQAc0rEFEo_wBPU=",
+    "bannerImage": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTLrRVxYEZQbfQYT6izVzq15eF3C7AI8EYcKg&s",
+    "thumbnailImage": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTLrRVxYEZQbfQYT6izVzq15eF3C7AI8EYcKg&s",
+    "length": "5.9 km (3.66 miles)",
+    "corners": 18,
+    "lapRecord": "1:27.097",
+    "lapRecordHolder": "Lewis Hamilton",
+    "lapRecordYear": "2020",
+    "surface": "Tarmac",
+    "direction": "Clockwise",
+    "width": "13-15 meters",
+    "elevation": "Moderate",
+    "yearOpened": 1948,
+    "facilities": [
+      "F1 Pit Complex",
+      "Silverstone Experience Museum",
+      "Wing Building",
+      "Silverstone Hotel",
+      "Conference Center",
+      "Silverstone Driving Centre",
+      "Multiple Paddocks",
+      "Grandstands",
+      "Hospitality Suites"
+    ],
+    "gallery": [
+      "https://images.unsplash.com/photo-1591768575198-88b92c8d1c56?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=600&q=80",
+      "https://images.unsplash.com/photo-1563720223185-11003d516935?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=600&q=80",
+      "https://images.unsplash.com/photo-1558618047-3c8c76ca7d13?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=600&q=80",
+      "https://images.unsplash.com/photo-1593941707882-a5bba5337b2f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=600&q=80",
+      "https://images.unsplash.com/photo-1592150621744-aca64f48394a?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=600&q=80",
+      "https://images.unsplash.com/photo-1549317661-bd32c8ce0db2?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=600&q=80"
+    ],
+    "faqs": [
+      {
+        "question": "What makes Silverstone Circuit special?",
+        "answer": "Silverstone is the birthplace of Formula 1 and the British Grand Prix. Its high-speed layout featuring iconic corners like Copse, Maggotts-Becketts, and Stowe make it one of the most challenging and rewarding circuits in the world. It's considered a true driver's circuit."
+      },
+      {
+        "question": "Can beginners drive at Silverstone Circuit?",
+        "answer": "Silverstone offers track days for all experience levels, with shorter circuit configurations like the National Circuit available for beginners and the full Grand Prix circuit access for experienced drivers. The Silverstone Driving Centre provides instruction for all levels."
+      },
+      {
+        "question": "What is the Silverstone Experience?",
+        "answer": "The Silverstone Experience is an interactive museum showcasing the history of British motorsport, featuring historic cars, simulators, behind-the-scenes access to the circuit, and exhibits on legendary drivers and races."
+      },
+      {
+        "question": "How do I book a Silverstone track day?",
+        "answer": "Track days can be booked directly through the Silverstone website or by contacting the Silverstone Track Day team. We recommend booking in advance as sessions fill up quickly, especially during summer months."
+      },
+      {
+        "question": "What circuit configurations are available at Silverstone?",
+        "answer": "Silverstone offers multiple configurations: the full Grand Prix Circuit (5.9km), National Circuit (3.6km), International Circuit (3.7km), and Stowe Circuit (1.8km). Different configurations suit different experience levels and event types."
+      }
+    ],
+    "metaTitle": "Silverstone Circuit - Home of British F1 | Track Days & Racing Events 2025",
+    "metaDescription": "Drive the legendary Silverstone Circuit, home of the British Grand Prix. Experience iconic corners like Copse, Maggotts & Becketts. Book F1 track days at the UK's premier racing venue.",
+    "keywords": [
+      "silverstone circuit",
+      "british grand prix",
+      "f1 silverstone",
+      "silverstone track days",
+      "uk race track",
+      "silverstone experience",
+      "copse corner",
+      "maggotts becketts",
+      "silverstone racing",
+      "northamptonshire circuit",
+      "silverstone events",
+      "british motorsport"
+    ],
+    "alternateNames": ["Silverstone F1 Circuit", "Home of British Motorsport"],
+    "website": "https://silverstone.co.uk",
+    "phone": "+44 1327 320421",
+    "email": "info@silverstone.co.uk",
+    "socialMedia": {
+      "facebook": "silverstonecircuit",
+      "instagram": "silverstone_circuit",
+      "twitter": "SilverstoneUK"
+    },
+    "rating": 4.9,
+    "reviewCount": 2156,
+    "priceRange": "£££"
+  },
+  {
+    "id": "4",
+    "name": "Dubai Autodrome",
+    "slug": "dubai-autodrome",
+    "country": "United Arab Emirates",
+    "countryCode": "AE",
+    "city": "Dubai",
+    "region": "Dubai",
+    "address": "Motor City, Dubai, United Arab Emirates",
+    "latitude": 25.0486,
+    "longitude": 55.2544,
+    "timezone": "Asia/Dubai",
+    "description": "Dubai Autodrome is the UAE's premier motorsport and entertainment venue, featuring a 5.39km FIA-certified circuit with multiple configurations for all types of racing.",
+    "fullDescription": "Dubai Autodrome stands as a testament to the UAE's commitment to world-class motorsport facilities. The 5.39km main circuit features 17 corners and multiple configuration options, making it suitable for everything from Formula racing to GT championships. The facility includes a business park, retail outlets, and the region's largest indoor karting center. With year-round sunshine and state-of-the-art facilities, Dubai Autodrome offers an exceptional motorsport experience in the heart of Motor City. The venue hosts international racing series, corporate events, track days, and driving experiences throughout the year.",
+    "logo": "https://images.unsplash.com/photo-1558618047-3c8c76ca7d13?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=200&q=80",
+    "bannerImage": "https://images.unsplash.com/photo-1558618047-3c8c76ca7d13?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1920&q=80",
+    "thumbnailImage": "https://images.unsplash.com/photo-1558618047-3c8c76ca7d13?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=600&q=80",
+    "length": "5.39 km (3.35 miles)",
+    "corners": 17,
+    "lapRecord": "1:56.84",
+    "lapRecordHolder": "GT3 Pro",
+    "lapRecordYear": "2024",
+    "surface": "Tarmac",
+    "direction": "Clockwise",
+    "width": "12-14 meters",
+    "elevation": "Minimal",
+    "yearOpened": 2004,
+    "facilities": [
+      "FIA-Grade 1 Pit Complex",
+      "Kartdrome",
+      "Business Park",
+      "Retail Outlets",
+      "Dubai Autodrome Driving School",
+      "Medical Center",
+      "Paddock",
+      "Hospitality Areas"
+    ],
+    "gallery": [
+      "https://images.unsplash.com/photo-1558618047-3c8c76ca7d13?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=600&q=80",
+      "https://images.unsplash.com/photo-1591768575198-88b92c8d1c56?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=600&q=80",
+      "https://images.unsplash.com/photo-1563720223185-11003d516935?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=600&q=80",
+      "https://images.unsplash.com/photo-1593941707882-a5bba5337b2f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=600&q=80",
+      "https://images.unsplash.com/photo-1592150621744-aca64f48394a?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=600&q=80",
+      "https://images.unsplash.com/photo-1549317661-bd32c8ce0db2?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=600&q=80"
+    ],
+    "faqs": [
+      {
+        "question": "What types of events are held at Dubai Autodrome?",
+        "answer": "Dubai Autodrome hosts a wide variety of events including GT championships, touring car races, track days, corporate events, and driving experiences throughout the year. The circuit is FIA-certified and hosts international racing series."
+      },
+      {
+        "question": "Is there karting available at Dubai Autodrome?",
+        "answer": "Yes! The Kartdrome at Dubai Autodrome is one of the largest indoor karting facilities in the region, offering both arrive-and-drive sessions and competitive karting leagues. It features a 1.2km indoor track with climate control."
+      },
+      {
+        "question": "What are the Dubai Autodrome track day requirements?",
+        "answer": "Drivers must have a valid driving license and their vehicle must pass a basic safety inspection. Helmets are mandatory and available for rent if needed. All vehicles must be road-legal or track-prepared with appropriate safety equipment."
+      },
+      {
+        "question": "Can I rent a car for track driving at Dubai Autodrome?",
+        "answer": "Yes, Dubai Autodrome offers a range of performance cars for rent, from sports cars to race-prepared vehicles. Professional instruction is also available. Popular options include Porsche, BMW M cars, and single-seaters."
+      },
+      {
+        "question": "How much does a Dubai Autodrome track day cost?",
+        "answer": "Track day prices at Dubai Autodrome typically range from AED 750-1200 depending on the session type and duration. Car rental and instruction packages are available at additional cost."
+      }
+    ],
+    "metaTitle": "Dubai Autodrome - Premier UAE Racing Circuit | Track Days & Events 2025",
+    "metaDescription": "Experience Dubai Autodrome, the UAE's leading FIA-certified motorsport venue. 5.39km circuit with karting, track days, and racing events in Motor City. Book your Dubai track day now!",
+    "keywords": [
+      "dubai autodrome",
+      "uae race track",
+      "dubai racing circuit",
+      "track days dubai",
+      "motorsport dubai",
+      "motor city circuit",
+      "dubai track day",
+      "kartdrome dubai",
+      "racing dubai",
+      "uae motorsport venue"
+    ],
+    "alternateNames": ["Dubai Motor City Circuit", "Motor City Autodrome"],
+    "website": "https://dubaiautodrome.com",
+    "phone": "+971 4 367 8700",
+    "email": "info@dubaiautodrome.com",
+    "socialMedia": {
+      "facebook": "dubaiautodrome",
+      "instagram": "dubaiautodrome",
+      "twitter": "DubaiAutodrome"
+    },
+    "rating": 4.6,
+    "reviewCount": 892,
+    "priceRange": "££"
+  },
+  {
+    "id": "5",
+    "name": "Brands Hatch",
+    "slug": "brands-hatch",
+    "country": "United Kingdom",
+    "countryCode": "GB",
+    "city": "West Kingsdown",
+    "region": "Kent",
+    "address": "Fawkham, Longfield DA3 8NG, United Kingdom",
+    "latitude": 51.3569,
+    "longitude": 0.2631,
+    "timezone": "Europe/London",
+    "description": "Brands Hatch is one of the UK's most iconic racing circuits, known for its challenging elevation changes and the legendary Paddock Hill Bend. A favorite among drivers and fans alike.",
+    "fullDescription": "Nestled in the Kent countryside, Brands Hatch has been thrilling motorsport enthusiasts since 1950. The circuit is famous for its dramatic elevation changes and challenging corners, particularly the iconic Paddock Hill Bend that drops away steeply from the start line. The venue offers two circuit configurations: the 1.2-mile Indy Circuit and the 2.4-mile Grand Prix Circuit. With a rich history of hosting British Touring Cars, British Superbikes, and historic Formula 1 races, Brands Hatch continues to be a cornerstone of British motorsport. The natural amphitheater setting provides excellent spectator viewing and creates an intimate racing atmosphere.",
+    "logo": "https://media.istockphoto.com/id/1402852110/vector/sport-flags-lines-silhouettes-text-lines.jpg?s=612x612&w=0&k=20&c=iVaRSRvHxT4LGL3_FdNBfg7Es9TTLQAc0rEFEo_wBPU=",
+    "bannerImage": "https://images.unsplash.com/photo-1592150621744-aca64f48394a?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1920&q=80",
+    "thumbnailImage": "https://images.unsplash.com/photo-1592150621744-aca64f48394a?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=600&q=80",
+    "length": "2.4 km GP / 1.2 km Indy",
+    "corners": 9,
+    "lapRecord": "1:09.593",
+    "lapRecordHolder": "BTCC Driver",
+    "lapRecordYear": "2023",
+    "surface": "Tarmac",
+    "direction": "Clockwise",
+    "width": "10-12 meters",
+    "elevation": "Significant (35m drop)",
+    "yearOpened": 1950,
+    "facilities": [
+      "Pit Garages",
+      "Paddock",
+      "Hospitality",
+      "Brands Hatch Driving School",
+      "Café",
+      "Viewing Areas",
+      "Grandstands",
+      "Medical Center"
+    ],
+    "gallery": [
+      "https://images.unsplash.com/photo-1592150621744-aca64f48394a?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=600&q=80",
+      "https://images.unsplash.com/photo-1591768575198-88b92c8d1c56?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=600&q=80",
+      "https://images.unsplash.com/photo-1563720223185-11003d516935?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=600&q=80",
+      "https://images.unsplash.com/photo-1558618047-3c8c76ca7d13?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=600&q=80",
+      "https://images.unsplash.com/photo-1593941707882-a5bba5337b2f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=600&q=80",
+      "https://images.unsplash.com/photo-1549317661-bd32c8ce0db2?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=600&q=80"
+    ],
+    "faqs": [
+      {
+        "question": "What is Paddock Hill Bend at Brands Hatch?",
+        "answer": "Paddock Hill Bend is the first corner after the start line and one of the most famous corners in British motorsport. It drops away steeply (35 meters elevation change), providing spectacular racing action and a real test of driver skill and bravery."
+      },
+      {
+        "question": "Which Brands Hatch circuit should I choose as a beginner?",
+        "answer": "We recommend starting on the Indy Circuit, which is shorter (1.2 miles) and less technical. Once you're comfortable with the elevation changes and key corners, you can progress to the full Grand Prix Circuit (2.4 miles)."
+      },
+      {
+        "question": "What events are held at Brands Hatch?",
+        "answer": "Brands Hatch hosts British Touring Cars (BTCC), British Superbikes (BSB), historic racing, club racing, and regular track days throughout the year. The circuit is one of the busiest in the UK with events almost every weekend."
+      },
+      {
+        "question": "Is instruction available at Brands Hatch?",
+        "answer": "Yes, the Brands Hatch Driving School offers professional instruction for all levels, from first-time track drivers to those looking to improve their lap times. One-on-one coaching and group sessions are available."
+      },
+      {
+        "question": "How challenging is Brands Hatch for track days?",
+        "answer": "Brands Hatch is considered a challenging circuit due to its significant elevation changes and blind corners. The Indy Circuit is suitable for beginners, while the GP Circuit requires more experience. The circuit rewards smooth, committed driving."
+      }
+    ],
+    "metaTitle": "Brands Hatch Circuit - Iconic UK Race Track | Track Days & Events 2025",
+    "metaDescription": "Experience the legendary Brands Hatch circuit with its famous Paddock Hill Bend. Book track days on the Indy or GP circuit. British motorsport heritage in Kent, UK.",
+    "keywords": [
+      "brands hatch",
+      "paddock hill bend",
+      "uk race track",
+      "brands hatch track days",
+      "kent racing circuit",
+      "brands hatch indy",
+      "brands hatch gp",
+      "btcc brands hatch",
+      "british motorsport",
+      "brands hatch events"
+    ],
+    "alternateNames": ["Brands Hatch Circuit", "Brands Hatch Racing Circuit"],
+    "website": "https://brandshatch.co.uk",
+    "phone": "+44 1474 872331",
+    "email": "info@brandshatch.co.uk",
+    "socialMedia": {
+      "facebook": "brandshatch",
+      "instagram": "brandshatch",
+      "twitter": "BrandsHatch"
+    },
+    "rating": 4.8,
+    "reviewCount": 1543,
+    "priceRange": "££"
+  },
+  {
+    "id": "6",
+    "name": "Spa-Francorchamps",
+    "slug": "spa-francorchamps",
+    "country": "Belgium",
+    "countryCode": "BE",
+    "city": "Stavelot",
+    "region": "Wallonia",
+    "address": "Route du Circuit 55, 4970 Francorchamps, Belgium",
+    "latitude": 50.4372,
+    "longitude": 5.9714,
+    "timezone": "Europe/Brussels",
+    "description": "Circuit de Spa-Francorchamps is one of the most challenging and beautiful circuits in the world, featuring the legendary Eau Rouge corner and 7km of stunning Belgian countryside.",
+    "fullDescription": "Circuit de Spa-Francorchamps is revered by drivers and fans as one of the greatest racing circuits ever built. Stretching 7.004km through the Ardennes forest, the circuit features dramatic elevation changes, high-speed sections, and the world-famous Eau Rouge-Raidillon complex. The unpredictable Belgian weather adds an extra challenge, often creating mixed conditions across different parts of the circuit. Home to the Belgian Grand Prix and the Spa 24 Hours endurance race, this historic venue offers an unforgettable motorsport experience. The circuit combines high-speed straights with technical corners, elevation changes of over 100 meters, and some of the most iconic corners in racing including Eau Rouge, Blanchimont, Pouhon, and Stavelot.",
+    "logo": "https://media.istockphoto.com/id/1402852110/vector/sport-flags-lines-silhouettes-text-lines.jpg?s=612x612&w=0&k=20&c=iVaRSRvHxT4LGL3_FdNBfg7Es9TTLQAc0rEFEo_wBPU=",
+    "bannerImage": "https://images.unsplash.com/photo-1549317661-bd32c8ce0db2?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1920&q=80",
+    "thumbnailImage": "https://images.unsplash.com/photo-1549317661-bd32c8ce0db2?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=600&q=80",
+    "length": "7.004 km (4.35 miles)",
+    "corners": 19,
+    "lapRecord": "1:41.252",
+    "lapRecordHolder": "Valtteri Bottas",
+    "lapRecordYear": "2018",
+    "surface": "Tarmac",
+    "direction": "Clockwise",
+    "width": "12-14 meters",
+    "elevation": "Significant (104m)",
+    "yearOpened": 1921,
+    "facilities": [
+      "F1 Pit Complex",
+      "Paddock",
+      "Spa-Francorchamps Museum",
+      "Hotel",
+      "Restaurant",
+      "Conference Center",
+      "Medical Facility",
+      "Multiple Grandstands"
+    ],
+    "gallery": [
+      "https://images.unsplash.com/photo-1549317661-bd32c8ce0db2?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=600&q=80",
+      "https://images.unsplash.com/photo-1591768575198-88b92c8d1c56?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=600&q=80",
+      "https://images.unsplash.com/photo-1563720223185-11003d516935?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=600&q=80",
+      "https://images.unsplash.com/photo-1558618047-3c8c76ca7d13?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=600&q=80",
+      "https://images.unsplash.com/photo-1593941707882-a5bba5337b2f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=600&q=80",
+      "https://images.unsplash.com/photo-1592150621744-aca64f48394a?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=600&q=80"
+    ],
+    "faqs": [
+      {
+        "question": "What makes Eau Rouge at Spa-Francorchamps so special?",
+        "answer": "Eau Rouge is a legendary uphill left-right-left combination taken at high speed with significant elevation change. It's one of the most challenging and iconic corners in motorsport, testing both driver courage and car performance. The compression at the bottom and climb through Raidillon make it truly unique."
+      },
+      {
+        "question": "How challenging is Spa-Francorchamps for beginners?",
+        "answer": "Spa is a demanding circuit due to its length (7km), elevation changes (104m), and high-speed nature. We recommend having some track experience before attempting Spa, though instruction is available for all levels. The circuit rewards commitment and bravery."
+      },
+      {
+        "question": "What is the weather like at Spa-Francorchamps?",
+        "answer": "Belgian weather is famously unpredictable. It's not uncommon to have rain on one part of the 7km circuit while another section is dry. Always be prepared for changing conditions and bring wet weather gear. Microclimate variations are common."
+      },
+      {
+        "question": "Can I visit Spa-Francorchamps when there are no events?",
+        "answer": "Yes! Spa offers track days, driving experiences, and tourist laps throughout the year. The circuit museum is also open to visitors. You can even cycle or walk the circuit on certain days when no events are scheduled."
+      },
+      {
+        "question": "What is the Spa 24 Hours race?",
+        "answer": "The Spa 24 Hours is one of the world's most prestigious endurance races, held annually at Spa-Francorchamps. It attracts top GT3 teams and drivers from around the world and is a highlight of the European racing calendar."
+      }
+    ],
+    "metaTitle": "Spa-Francorchamps Circuit Belgium - Legendary Eau Rouge | Track Days 2025",
+    "metaDescription": "Drive the legendary Spa-Francorchamps circuit featuring the iconic Eau Rouge corner. 7km of world-class racing through the Belgian Ardennes. Book F1 track days at Europe's greatest circuit.",
+    "keywords": [
+      "spa francorchamps",
+      "eau rouge",
+      "belgian grand prix",
+      "spa circuit",
+      "track days belgium",
+      "spa 24 hours",
+      "raidillon",
+      "spa racing",
+      "ardennes circuit",
+      "spa track day",
+      "francorchamps racing"
+    ],
+    "alternateNames": ["Circuit de Spa-Francorchamps", "Spa Circuit"],
+    "website": "https://spa-francorchamps.be",
+    "phone": "+32 87 29 37 00",
+    "email": "info@spa-francorchamps.be",
+    "socialMedia": {
+      "facebook": "spafrancorchamps",
+      "instagram": "spa_francorchamps",
+      "twitter": "circuitspa"
+    },
+    "rating": 4.9,
+    "reviewCount": 3421,
+    "priceRange": "£££"
+  }
+]
