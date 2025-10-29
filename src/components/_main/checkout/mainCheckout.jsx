@@ -406,7 +406,11 @@ const CheckoutMain = () => {
             lastName: userDataToUse.billingLastName || userDataToUse.lastName || '',
             email: userDataToUse.billingEmail || userDataToUse.email || '',
             deliveryAddress: userDataToUse.deliveryAddress || userDataToUse.deliveryAddress || '',
-            deliveryFee: userDataToUse.deliveryFee || userDataToUse.deliveryFee || ''
+            deliveryCity: userDataToUse.deliveryCity || userDataToUse.deliveryCity || '',
+            deliveryState: userDataToUse.deliveryState || userDataToUse.deliveryState || '',
+            deliveryCountry: userDataToUse.deliveryCountry || userDataToUse.deliveryCountry || '',
+            deliveryZip: userDataToUse.deliveryZip || userDataToUse.deliveryZip || '',
+            deliveryNote: userDataToUse.deliveryNote || userDataToUse.deliveryNote || ''
           },
           totalItems,
           couponCode: couponCode || null,
@@ -476,11 +480,27 @@ const CheckoutMain = () => {
       then: (schema) => schema.required('Delivery Address is required'),
       otherwise: (schema) => schema.notRequired().nullable()
     }),
-    deliveryFee: Yup.string().when('checkoutType', {
+    deliveryCity: Yup.string().when('checkoutType', {
       is: (val) => val === 'physical-product',
-      then: (schema) => schema.required('Delivery Fee is required'),
+      then: (schema) => schema.required('City is required'),
       otherwise: (schema) => schema.notRequired().nullable()
     }),
+    deliveryState: Yup.string().when('checkoutType', {
+      is: (val) => val === 'physical-product',
+      then: (schema) => schema.required('State is required'),
+      otherwise: (schema) => schema.notRequired().nullable()
+    }),
+    deliveryZip: Yup.string().when('checkoutType', {
+      is: (val) => val === 'physical-product',
+      then: (schema) => schema.required('Zip is required'),
+      otherwise: (schema) => schema.notRequired().nullable()
+    }),
+    deliveryCountry: Yup.string().when('checkoutType', {
+      is: (val) => val === 'physical-product',
+      then: (schema) => schema.required('Country is required'),
+      otherwise: (schema) => schema.notRequired().nullable()
+    }),
+
     checkoutType: Yup.string().optional('')
   });
 
@@ -491,7 +511,11 @@ const CheckoutMain = () => {
       lastName: userData?.lastName || '',
       email: userData?.email || '',
       deliveryAddress: '',
-      deliveryFee: '',
+      deliveryCity: '',
+      deliveryState: '',
+      deliveryCountry: '',
+      deliveryNote: '',
+      deliveryZip: '',
       checkoutType: cart[0]?.checkoutType
     },
     enableReinitialize: true,
@@ -532,7 +556,10 @@ const CheckoutMain = () => {
         !errors.lastName &&
         !errors.email &&
         !errors.deliveryAddress &&
-        !errors.deliveryFee;
+        !errors.deliveryCity &&
+        !errors.deliveryState &&
+        !errors.deliveryCountry &&
+        !errors.deliveryZip;
 
       setIsFormValid(isValid);
     };
@@ -619,7 +646,12 @@ const CheckoutMain = () => {
               />
             </Grid>
             <Grid item xs={12} md={4} flexGrow={1}>
-              <PaymentInfo loading={loading} setCouponCode={setCouponCode} setTotal={(v) => setTotalWithDiscount(v)} />
+              <PaymentInfo
+                loading={loading}
+                setCouponCode={setCouponCode}
+                setTotal={(v) => setTotalWithDiscount(v)}
+                checkoutType={checkoutType}
+              />
 
               <TrustPaymentMethodCard
                 value={paymentMethod}
@@ -638,7 +670,11 @@ const CheckoutMain = () => {
                   billingEmail: values.email,
                   billingCountry: selectedCountry || 'GB',
                   deliveryAddress: values.deliveryAddress,
-                  deliveryFee: values.deliveryFee
+                  deliveryCity: values.deliveryCity,
+                  deliveryState: values.deliveryState,
+                  deliveryCountry: values.deliveryCountry,
+                  deliveryZip: values.deliveryZip,
+                  deliveryNote: values.deliveryNote || ''
                 }}
                 checkoutType={checkoutType}
               />

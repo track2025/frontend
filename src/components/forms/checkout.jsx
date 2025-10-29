@@ -88,7 +88,7 @@ export default function CheckoutGuestForm({
           <>
             <Stack spacing={0.5} width={1}>
               <Typography variant="overline" color="text.primary" for="deliveryAddress" component={'label'}>
-                Delivery Address
+                Address
               </Typography>
               <TextField
                 fullWidth
@@ -98,15 +98,75 @@ export default function CheckoutGuestForm({
               />
             </Stack>
 
+            <Stack direction={{ xs: 'column', sm: 'row' }} spacing={2}>
+              <Stack spacing={0.5} width={1}>
+                <Typography variant="overline" color="text.primary" htmlFor="city" component={'label'}>
+                  Town City
+                </Typography>
+                <TextField
+                  fullWidth
+                  {...getFieldProps('deliveryCity')}
+                  error={Boolean(touched.deliveryCity && errors.deliveryCity)}
+                  helperText={touched.deliveryCity && errors.deliveryCity}
+                />
+              </Stack>
+              <Stack spacing={0.5} width={1}>
+                <Typography variant="overline" color="text.primary" htmlFor="state" component={'label'}>
+                  State
+                </Typography>
+                <TextField
+                  fullWidth
+                  {...getFieldProps('deliveryState')}
+                  error={Boolean(touched.deliveryState && errors.deliveryState)}
+                  helperText={touched.deliveryState && errors.deliveryState}
+                />
+              </Stack>
+              <Stack spacing={0.5} width={1}>
+                <Typography variant="overline" color="text.primary" htmlFor="zip" component={'label'}>
+                  Zip/Postal Code
+                </Typography>
+                <TextField
+                  fullWidth
+                  {...getFieldProps('deliveryZip')}
+                  error={Boolean(touched.deliveryZip && errors.deliveryZip)}
+                  helperText={touched.deliveryZip && errors.deliveryZip}
+                  type="number"
+                />
+              </Stack>
+            </Stack>
             <Stack spacing={0.5} width={1}>
-              <Typography variant="overline" color="text.primary" for="deliveryFee" component={'label'}>
-                Delivery Fee
+              <Typography variant="overline" color="text.primary" htmlFor="country" component={'label'}>
+                Country
+              </Typography>
+              <TextField
+                select
+                fullWidth
+                placeholder="Country"
+                {...getFieldProps('deliveryCountry')}
+                SelectProps={{ native: true }}
+                error={Boolean(touched.deliveryCountry && errors.deliveryCountry)}
+                helperText={touched.deliveryCountry && errors.deliveryCountry}
+              >
+                {countries.map((option) => (
+                  <option key={option.code} value={option.label}>
+                    {option.label}
+                  </option>
+                ))}
+              </TextField>
+            </Stack>
+            <Stack spacing={0.5} width={1}>
+              <Typography variant="overline" color="text.primary" htmlFor="note" component={'label'}>
+                Note
               </Typography>
               <TextField
                 fullWidth
-                {...getFieldProps('deliveryFee')}
-                error={Boolean(touched.deliveryFee && errors.deliveryFee)}
-                helperText={touched.deliveryFee && errors.deliveryFee}
+                multiline
+                rows={8}
+                id="note"
+                {...getFieldProps('deliveryCityNote')}
+                error={Boolean(touched.deliveryCityNote && errors.deliveryCityNote)}
+                helperText={touched.deliveryCityNote && errors.deliveryCityNote}
+                type="text"
               />
             </Stack>
           </>
