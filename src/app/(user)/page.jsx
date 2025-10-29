@@ -52,12 +52,14 @@ export default function IndexPage() {
       </Typography>
       <TopBanners />
       <Container maxWidth="xl">
-        <WhyUs />
         <FeaturedProducts />
       </Container>
       <Banner />
       <Container maxWidth="xl">
         <TopCollection />
+
+        <WhyUs />
+
         {/* <Categories /> */}
 
         {/* <Shops /> */}
