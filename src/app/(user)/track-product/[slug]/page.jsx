@@ -100,7 +100,7 @@ export default async function ProductDetail({ params }) {
 
           <AdditionalPhysicalProductInfo />
 
-          <RelatedPhysicalProducts id={data._id} category={category?.slug} />
+          {/* <RelatedPhysicalProducts id={data._id} category={category?.slug} /> */}
         </Stack>
       </Container>
     </Box>

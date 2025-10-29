@@ -16,8 +16,12 @@ PhysicalProductTabs.propTypes = {
 export default function PhysicalProductTabs({ product, totalRating, totalReviews }) {
   const { data, isPending: isLoading } = useQuery({
     queryKey: ['reviews-summary', product._id],
-    queryFn: () => api.getProductReviews(product._id)
+    queryFn: () => api.getPhysicalProductReviews(product._id)
   });
+
+  console.log("product:", product);
+  console.log("Reviews:", data);
+
   return !isLoading ? (
     <ProductDetailsReview
       isLoading={isLoading}

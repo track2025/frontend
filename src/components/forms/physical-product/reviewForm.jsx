@@ -13,7 +13,6 @@ import { useMutation } from 'react-query';
 import * as api from 'src/services';
 // formik
 import { useFormik, Form, FormikProvider } from 'formik';
-import { useUploadMultiFiles } from 'src/hooks/use-upload-file';
 import { reviewSchema } from 'src/validations';
 // dynamic
 const UploadMultiFile = dynamic(() => import('src/components/upload/UploadMultiFile'));
@@ -28,6 +27,7 @@ const RootStyle = styled('div')(({ theme }) => ({
 
 export default function PhysicalProductDetailsReviewForm({ ...props }) {
   const { onClose, pid, onClickCancel, onAddingReview, ...other } = props;
+  const [loading, setloading] = React.useState(false);
 
   const { mutateAsync: deleteMutate } = useMutation({
     mutationFn: api.singleDeleteFile,
@@ -36,9 +36,21 @@ export default function PhysicalProductDetailsReviewForm({ ...props }) {
     }
   });
 
+
+
+  const formik = useFormik({
+    initialValues: { rating: null, review: '' },
+    validationSchema: reviewSchema,
+    onSubmit: async () => {
+      mutate({ rating: values.rating, review: values.review, pid: pid });
+    }
+  });
+
+  const { values, errors, touched, resetForm, handleSubmit, setFieldValue, getFieldProps } = formik;
+
   // Add review mutation
   const { mutate, isPending: isLoading } = useMutation({
-    mutationFn: api.addReview,
+    mutationFn: api.addPhysicalProductReview,
     onSuccess: ({ data, user }) => {
       onAddingReview({ ...data, user });
       toast.success('Added review');
@@ -50,46 +62,33 @@ export default function PhysicalProductDetailsReviewForm({ ...props }) {
     }
   });
 
-  const { mutate: uploadMutate, isPending: uploadLoading } = useUploadMultiFiles(
-    (results) => {
-      // results is an array of Cloudinary responses
-      const newImages = results.map((data) => ({
-        _id: data.public_id,
-        url: data.secure_url
-      }));
-
-      setFieldValue('images', [...values.images, ...newImages]);
-    },
-    (error) => {
-      console.error(error);
-      toast.error(error.message);
-    }
-  );
-
-  const formik = useFormik({
-    initialValues: { rating: null, review: '', images: [], blob: [] },
-    validationSchema: reviewSchema,
-    onSubmit: async () => {
-      mutate({ rating: values.rating, review: values.review, images: values.images.map((v) => v.url), pid: pid });
-    }
-  });
-
-  const { values, errors, touched, resetForm, handleSubmit, setFieldValue, getFieldProps } = formik;
-
   const onCancel = () => {
     onClickCancel();
     resetForm();
   };
 
   const handleDrop = (acceptedFiles) => {
-    if (!acceptedFiles?.length) return;
-
-    // keep local previews if needed
-    const blobs = acceptedFiles.map((file) => URL.createObjectURL(file));
-    setFieldValue('blob', [...values.blob, ...blobs]);
-
-    // trigger uploads
-    uploadMutate({ files: acceptedFiles });
+    setloading(true);
+    const uploaders = acceptedFiles.map((file) => {
+      const formData = new FormData();
+      formData.append('file', file);
+      formData.append('upload_preset', 'my-uploads');
+      setFieldValue('blob', values.blob.concat(acceptedFiles));
+      // ${process.env.CLOUDINARY_CLOUD_NAME}
+      return axios.post(`https://api.cloudinary.com/v1_1/${process.env.CLOUDINARY_CLOUD_NAME}/image/upload`, formData);
+    });
+    const blobs = acceptedFiles.map((file) => {
+      return URL.createObjectURL(file);
+    });
+    axios.all(uploaders).then((data) => {
+      const newImages = data.map(({ data }, i) => ({
+        url: data.secure_url,
+        _id: data.public_id,
+        blob: blobs[i]
+      }));
+      setloading(false);
+      setFieldValue('images', values.images.concat(newImages));
+    });
   };
 
   const handleRemoveAll = () => {
@@ -137,23 +136,7 @@ export default function PhysicalProductDetailsReviewForm({ ...props }) {
               error={Boolean(touched.review && errors.review)}
               helperText={touched.review && errors.review}
             />
-            <UploadMultiFile
-              showPreview
-              maxSize={3145728}
-              accept="image/*"
-              files={values.images}
-              loading={uploadLoading}
-              onDrop={handleDrop}
-              onRemove={handleRemove}
-              onRemoveAll={handleRemoveAll}
-              blob={values.blob}
-              error={Boolean(touched.images && errors.images)}
-            />
-            {touched.images && errors.images && (
-              <FormHelperText error sx={{ px: 2 }}>
-                {touched.images && errors.images}
-              </FormHelperText>
-            )}
+            
             <Stack direction="row" justifyContent="flex-end">
               <Button type="button" color="inherit" variant="outlined" onClick={onCancel} sx={{ mr: 1.5 }}>
                 Cancel

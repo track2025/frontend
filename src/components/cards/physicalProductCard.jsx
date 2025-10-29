@@ -268,19 +268,6 @@ export default function PhysicalProductCard({ ...props }) {
             {product?.variant ? ' | ' + product?.variant.split('/').join(' | ').toUpperCase() : ''}
           </Typography>
         </Box>
-        <Stack direction="row" alignItems="center" justifyContent="space-between" spacing={1}>
-          <Typography variant="subtitle2" color="text.primary" sx={{ display: 'flex', alignItems: 'center', gap: 0.5 }}>
-            {loading ? (
-              <>
-                <Skeleton variant="text" width={72} />
-              </>
-            ) : (
-              <>
-                <FaRegStar /> ({product.averageRating?.toFixed(1) || 0})
-              </>
-            )}
-          </Typography>
-        </Stack>
 
         <Stack spacing={0.5} direction="row" justifyContent={'space-between'} alignItems="center">
           <Typography

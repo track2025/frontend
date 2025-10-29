@@ -856,3 +856,12 @@ export const getNewUserPhysicalProducts = async () => {
   const { data } = await http.get(`/user/physical-products/new`);
   return data;
 };
+
+export const getPhysicalProductReviews = async (pid) => {
+  const { data } = await http.get(`/physical-product-reviews/${pid}`);
+  return data;
+};
+export const addPhysicalProductReview = async (payload) => {
+  const { data } = await http.post(`/physical-product-reviews`, payload);
+  return data;
+};

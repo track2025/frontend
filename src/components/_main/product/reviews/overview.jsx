@@ -93,13 +93,13 @@ export default function ReviewOverview({ ...props }) {
           <RatingStyle readOnly value={totalRating} precision={0.1} />
 
           <Stack sx={{ width: 1, mb: 1 }} flexDirection="column-reverse">
-            {Array.from(new Array(5)).map((rating, index) => {
+            {/* {Array.from(new Array(5)).map((rating, index) => {
               const match = reviewsSummery.find((v) => v._id === index + 1);
 
               return (
                 <ProgressItem key={Math.random()} star={match?.count || 0} name={index + 1} total={totalReviews} />
               );
-            })}
+            })} */}
           </Stack>
           <Button size="large" onClick={onOpen} variant="outlined" startIcon={<MdEdit />} fullWidth>
             Write A Review

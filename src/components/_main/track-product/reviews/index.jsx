@@ -61,13 +61,13 @@ export default function ProductReview({ ...props }) {
       </Grid>
       <Grid size={{ md: 4, xs: 12 }}>
         <Card sx={{ position: 'sticky', top: 156 }}>
-          {/* <ReviewOverview
+          <ReviewOverview
             totalRating={totalRating}
             totalReviews={totalReviews}
             reviews={[...state, ...reviews]}
             onOpen={handleOpenReviewBox}
             reviewsSummery={reviewsSummery}
-          /> */}
+          />
         </Card>
       </Grid>
     </Grid>
