@@ -6,7 +6,14 @@ import { Stack, TextField, Card, CardHeader, Typography, FormControlLabel, Check
 // countries
 import countries from '../_main/checkout/countries.json';
 
-export default function CheckoutGuestForm({ getFieldProps, touched, errors, handleChangeShipping, checked }) {
+export default function CheckoutGuestForm({
+  getFieldProps,
+  touched,
+  errors,
+  handleChangeShipping,
+  checked,
+  checkoutType
+}) {
   return (
     <Card>
       <CardHeader
@@ -76,6 +83,34 @@ export default function CheckoutGuestForm({ getFieldProps, touched, errors, hand
                 type="number"
               /> */}
         </Stack>
+
+        {checkoutType === 'physical-product' && (
+          <>
+            <Stack spacing={0.5} width={1}>
+              <Typography variant="overline" color="text.primary" for="deliveryAddress" component={'label'}>
+                Delivery Address
+              </Typography>
+              <TextField
+                fullWidth
+                {...getFieldProps('deliveryAddress')}
+                error={Boolean(touched.deliveryAddress && errors.deliveryAddress)}
+                helperText={touched.deliveryAddress && errors.deliveryAddress}
+              />
+            </Stack>
+
+            <Stack spacing={0.5} width={1}>
+              <Typography variant="overline" color="text.primary" for="deliveryFee" component={'label'}>
+                Delivery Fee
+              </Typography>
+              <TextField
+                fullWidth
+                {...getFieldProps('deliveryFee')}
+                error={Boolean(touched.deliveryFee && errors.deliveryFee)}
+                helperText={touched.deliveryFee && errors.deliveryFee}
+              />
+            </Stack>
+          </>
+        )}
         {/* <Stack spacing={0.5} width={1}>
           <Typography variant="overline" color="text.primary" for="address" component={'label'}>
             Address
@@ -158,7 +193,7 @@ export default function CheckoutGuestForm({ getFieldProps, touched, errors, hand
             type="text"
           />
         </Stack>  */}
-         {/* <FormControlLabel
+        {/* <FormControlLabel
           control={<Checkbox onChange={handleChangeShipping} checked={checked} />}
           label="Ship to a different address?"
         /> */}

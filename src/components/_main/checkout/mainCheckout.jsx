@@ -263,6 +263,8 @@ const CheckoutMain = () => {
   const { checkout } = useSelector(({ product }) => product);
   const { user: userData } = useSelector(({ user }) => user);
   const { cart, total } = checkout;
+  // console.log(cart, 'OKKK SEEE THE CART');
+  const checkoutType = cart[0]?.checkoutType;
   const [paymentMethod, setPaymentMethod] = useState('apple_pay');
   const [checked, setChecked] = React.useState(false);
 
@@ -334,7 +336,7 @@ const CheckoutMain = () => {
       dispatch(resetCart());
     },
     onError: (err) => {
-      const errorMsg = err.response?.data?.message || 'Something went wrong';
+      const errorMsg = err.message || 'Something went wrong';
 
       if (isDeveloper) {
         addDebugLog(`Order error: ${errorMsg}`, 'error');
@@ -402,7 +404,9 @@ const CheckoutMain = () => {
           user: {
             firstName: userDataToUse.billingFirstName || userDataToUse.firstName || '',
             lastName: userDataToUse.billingLastName || userDataToUse.lastName || '',
-            email: userDataToUse.billingEmail || userDataToUse.email || ''
+            email: userDataToUse.billingEmail || userDataToUse.email || '',
+            deliveryAddress: userDataToUse.deliveryAddress || userDataToUse.deliveryAddress || '',
+            email: userDataToUse.deliveryFee || userDataToUse.deliveryFee || ''
           },
           totalItems,
           couponCode: couponCode || null,
@@ -466,7 +470,18 @@ const CheckoutMain = () => {
   const NewAddressSchema = Yup.object().shape({
     firstName: Yup.string().required('First name is required'),
     lastName: Yup.string().required('Last name is required'),
-    email: Yup.string().email('Enter a valid email').required('Email is required')
+    email: Yup.string().email('Enter a valid email').required('Email is required'),
+    deliveryAddress: Yup.string().when('checkoutType', {
+      is: (val) => val === 'physical-product',
+      then: (schema) => schema.required('Delivery Address is required'),
+      otherwise: (schema) => schema.notRequired().nullable()
+    }),
+    deliveryFee: Yup.string().when('checkoutType', {
+      is: (val) => val === 'physical-product',
+      then: (schema) => schema.required('Delivery Fee is required'),
+      otherwise: (schema) => schema.notRequired().nullable()
+    }),
+    checkoutType: Yup.string().optional('')
   });
 
   // Define initial values
@@ -474,7 +489,10 @@ const CheckoutMain = () => {
     initialValues: {
       firstName: userData?.firstName || '',
       lastName: userData?.lastName || '',
-      email: userData?.email || ''
+      email: userData?.email || '',
+      deliveryAddress: '',
+      deliveryFee: '',
+      checkoutType: cart[0]?.checkoutType
     },
     enableReinitialize: true,
     validationSchema: NewAddressSchema,
@@ -512,7 +530,9 @@ const CheckoutMain = () => {
         values.email !== '' &&
         !errors.firstName &&
         !errors.lastName &&
-        !errors.email;
+        !errors.email &&
+        !errors.deliveryAddress &&
+        !errors.deliveryFee;
 
       setIsFormValid(isValid);
     };
@@ -595,6 +615,7 @@ const CheckoutMain = () => {
                 values={values}
                 handleChangeShipping={handleChangeShipping}
                 checked={checked}
+                checkoutType={checkoutType}
               />
             </Grid>
             <Grid item xs={12} md={4} flexGrow={1}>
@@ -615,8 +636,11 @@ const CheckoutMain = () => {
                   billingFirstName: values.firstName,
                   billingLastName: values.lastName,
                   billingEmail: values.email,
-                  billingCountry: selectedCountry || 'GB'
+                  billingCountry: selectedCountry || 'GB',
+                  deliveryAddress: values.deliveryAddress,
+                  deliveryFee: values.deliveryFee
                 }}
+                checkoutType={checkoutType}
               />
               <br />
             </Grid>
