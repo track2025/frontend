@@ -157,7 +157,7 @@ export default function PhysicalSubCategoryForm({
                       <Skeleton variant="text" width={140} />
                     ) : (
                       <Typography variant="overline" color="text.primary" htmlFor="category-name" component={'label'}>
-                        Category Name
+                        Sub Category Name
                       </Typography>
                     )}
                     {categoryLoading ? (
