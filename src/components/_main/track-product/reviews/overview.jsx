@@ -6,7 +6,7 @@ import { Grid, Button, Typography, LinearProgress, Stack, Box, Rating } from '@m
 // icons
 import { MdEdit } from 'react-icons/md';
 // utils
-import { fShortenNumber } from 'src/utils/formatNumber';
+import { fShortenNumber } from '@/utils/format-number';
 
 const RatingStyle = styled(Rating)(({ theme }) => ({
   marginBottom: theme.spacing(1)
@@ -50,7 +50,6 @@ function ProgressItem({ ...props }) {
   return (
     <Stack direction="row" alignItems="center" spacing={1.5} mb={1}>
       <Typography variant="subtitle2">{name}</Typography>
-      SJSJJSJSJ
       <LinearProgress
         variant="determinate"
         value={(star / total) * 100}
@@ -82,7 +81,7 @@ export default function ReviewOverview({ ...props }) {
       }}
     >
       <Grid container>
-        <GridStyle item xs={12} className="border-bottom">
+        <GridStyle size={12}>
           <Typography variant="h2" gutterBottom sx={{ color: 'error.main', mb: 0 }} lineHeight={1}>
             {totalReviews === 0 ? 0 : totalRating?.toFixed(1)}
           </Typography>
@@ -93,13 +92,13 @@ export default function ReviewOverview({ ...props }) {
           <RatingStyle readOnly value={totalRating} precision={0.1} />
 
           <Stack sx={{ width: 1, mb: 1 }} flexDirection="column-reverse">
-            {/* {Array.from(new Array(5)).map((rating, index) => {
+            {Array.from(new Array(5)).map((rating, index) => {
               const match = reviewsSummery.find((v) => v._id === index + 1);
 
               return (
                 <ProgressItem key={Math.random()} star={match?.count || 0} name={index + 1} total={totalReviews} />
               );
-            })} */}
+            })}
           </Stack>
           <Button size="large" onClick={onOpen} variant="outlined" startIcon={<MdEdit />} fullWidth>
             Write A Review
