@@ -6,9 +6,9 @@ import BrandList from 'src/components/_admin/physical-brands/brand-list';
 
 // Meta information
 export const metadata = {
-  title: 'Brands - Lapsnap',
-  applicationName: 'Lapsnap',
-  authors: 'Lapsnap'
+  title: 'Brands - Lapsnaps',
+  applicationName: 'Lapsnaps',
+  authors: 'Lapsnaps'
 };
 
 export default function Brands() {
