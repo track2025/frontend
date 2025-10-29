@@ -246,14 +246,14 @@ export default function PhysicalProductDetailsSumary({ ...props }) {
             <Typography variant="body1" color="text.secondary">
               {product.description}
             </Typography>
-            {product.deliveryType === 'physical' && (
+            {/* {product.deliveryType === 'physical' && (
               <Typography variant="body1" color="text.secondary">
                 <Box component="subtitle1" color="text.primary">
                   Available:
                 </Box>{' '}
                 {stockQuantity ? stockQuantity + ' Items' : 'Out of stock'}
               </Typography>
-            )}
+            )} */}
 
             <PhysicalProductVariantSelection
               names={names}
