@@ -313,7 +313,8 @@ export default function EventDetailPage() {
               </Card>
 
               {/* Event Gallery */}
-              <Typography
+
+              {/* <Typography
                 variant="h2"
                 sx={{
                   fontWeight: 700,
@@ -322,8 +323,8 @@ export default function EventDetailPage() {
                 }}
               >
                 Event Gallery
-              </Typography>
-              <Grid container spacing={2}>
+              </Typography> */}
+              {/* <Grid container spacing={2}>
                 {galleryImages.map((image, index) => (
                   <Grid item size={{ xs: 12, sm: 6, md: 4 }} key={index}>
                     <Box
@@ -362,7 +363,7 @@ export default function EventDetailPage() {
                     </Box>
                   </Grid>
                 ))}
-              </Grid>
+              </Grid> */}
             </Grid>
           </Grid>
         </Container>
