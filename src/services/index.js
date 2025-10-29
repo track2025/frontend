@@ -362,7 +362,9 @@ export const getIncomeByVendor = async (slug, page) => {
 };
 
 export const getProducts = async (query = '', cat, rate) => {
-  const { data } = await http.get(`/products${query || '?'}&rate=${rate}`);
+  const { data } = await http.get(`/products${query || '?'}&rate=${rate}`).catch((e) => {
+    throw e;
+  });
   return data;
 };
 export const getProductDetails = async (pid) => {
