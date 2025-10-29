@@ -14,7 +14,7 @@ export default function CartProductMobileSkeleton() {
         }
       }}
     >
-      {Array.from(new Array(3)).map((index) => {
+      {Array.from(new Array(3)).map((i, index) => {
         return (
           <Card className="card-main" key={index}>
             <Stack direction="row" alignItems="center">
