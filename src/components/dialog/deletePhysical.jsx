@@ -9,7 +9,7 @@ import { DialogTitle, DialogContent, DialogContentText, DialogActions, Button, a
 import { IoWarning } from 'react-icons/io5';
 // api
 import * as api from 'src/services';
-import { useMutation } from '@tanstack/react-query';
+import { useMutation } from 'react-query';
 
 DeletePhysicalDialog.propTypes = {
   onClose: PropTypes.func.isRequired,

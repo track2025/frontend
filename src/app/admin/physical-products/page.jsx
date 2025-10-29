@@ -9,9 +9,9 @@ import * as api from 'src/services';
 
 // Meta information
 export const metadata = {
-  title: 'Products - Lapsnap',
-  applicationName: 'Lapsnap',
-  authors: 'Lapsnap'
+  title: 'Products - Lapsnaps',
+  applicationName: 'Lapsnaps',
+  authors: 'Lapsnaps'
 };
 export const dynamic = 'force-dynamic';
 
