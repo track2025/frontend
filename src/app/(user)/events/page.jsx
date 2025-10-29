@@ -1,10 +1,27 @@
 'use client';
 import { useRouter } from 'next/navigation';
 import { Box, Container, Typography, Grid, Card, CardActionArea, CardContent } from '@mui/material';
-import eventsData from '../../../data/events.json';
+import { getSuperEvents } from 'src/services';
+import { useEffect, useState } from 'react';
+import LinearIndeterminate from 'src/components/loading';
+import LoadingSpinner from 'src/components/UI/Spinner';
 
 export default function EventsPage() {
   const router = useRouter();
+  const [eventsData, setEventData] = useState([]);
+  const [isLoading, setIsLoading] =  useState(false)
+
+  const fethcItems = async () => {
+    setIsLoading(true)
+    const data = await getSuperEvents();
+    setIsLoading(false)
+    setEventData(data);
+  };
+
+  useEffect(() => {
+    fethcItems();
+  }, []);
+
 
   // Get today's date at start of day for accurate comparison
   const today = new Date();
@@ -24,6 +41,8 @@ export default function EventsPage() {
       };
     }
 
+    
+
     countriesMap[event.countrySlug].eventCount++;
 
     // Check if event is upcoming (date is today or in the future)
@@ -40,7 +59,7 @@ export default function EventsPage() {
           date: event.date,
           trackName: event.trackName,
           type: event.type,
-          image: event.thumbnailImage || event.image
+          image:  event.image // || event.thumbnailImage 
         });
       }
     }
@@ -150,6 +169,11 @@ export default function EventsPage() {
           </Typography>
 
           {/* Countries Grid */}
+
+
+          {isLoading && <LoadingSpinner />}
+
+          
           <Grid container spacing={3}>
             {sortedCountries.map((country, index) => (
               <Grid item size={{ xs: 12, sm: 6, md: 4, lg: 3 }} key={country.slug}>
@@ -282,74 +306,77 @@ export default function EventsPage() {
                           >
                             Featured Events:
                           </Typography>
-                          {country.featuredEvents.map((featuredEvent, eventIndex) => (
-                            <Box
-                              key={eventIndex}
-                              sx={{
-                                display: 'flex',
-                                alignItems: 'center',
-                                gap: 1,
-                                mb: 1,
-                                p: 1,
-                                borderRadius: 1,
-                                backgroundColor: '#f8f9fa',
-                                '&:last-child': {
-                                  mb: 0
-                                }
-                              }}
-                            >
+                          {country.featuredEvents.map((featuredEvent, eventIndex) => {
+
+                            return  (
                               <Box
+                                key={eventIndex}
                                 sx={{
-                                  width: 30,
-                                  height: 30,
+                                  display: 'flex',
+                                  alignItems: 'center',
+                                  gap: 1,
+                                  mb: 1,
+                                  p: 1,
                                   borderRadius: 1,
-                                  overflow: 'hidden',
-                                  flexShrink: 0
+                                  backgroundColor: '#f8f9fa',
+                                  '&:last-child': {
+                                    mb: 0
+                                  }
                                 }}
                               >
                                 <Box
-                                  component="img"
-                                  src={featuredEvent.image}
-                                  alt=""
                                   sx={{
-                                    width: '100%',
-                                    height: '100%',
-                                    objectFit: 'cover'
-                                  }}
-                                  onError={(e) => {
-                                    e.target.style.display = 'none';
-                                    e.target.parentElement.style.background =
-                                      'linear-gradient(135deg, #EE1E50 0%, #ff6b6b 100%)';
-                                  }}
-                                />
-                              </Box>
-                              <Box sx={{ flex: 1, minWidth: 0 }}>
-                                <Typography
-                                  variant="body2"
-                                  sx={{
-                                    fontWeight: 600,
-                                    color: '#1a1a1a',
-                                    fontSize: '0.75rem',
-                                    lineHeight: 1.2,
+                                    width: 30,
+                                    height: 30,
+                                    borderRadius: 1,
                                     overflow: 'hidden',
-                                    textOverflow: 'ellipsis',
-                                    whiteSpace: 'nowrap'
+                                    flexShrink: 0
                                   }}
                                 >
-                                  {featuredEvent.title}
-                                </Typography>
-                                <Typography
-                                  variant="caption"
-                                  sx={{
-                                    color: '#666',
-                                    fontSize: '0.7rem'
-                                  }}
-                                >
-                                  {formatDate(featuredEvent.date)} • {featuredEvent.trackName}
-                                </Typography>
+                                  <Box
+                                    component="img"
+                                    src={featuredEvent.image.url}
+                                    alt=""
+                                    sx={{
+                                      width: '100%',
+                                      height: '100%',
+                                      objectFit: 'cover'
+                                    }}
+                                    onError={(e) => {
+                                      e.target.style.display = 'none';
+                                      e.target.parentElement.style.background =
+                                        'linear-gradient(135deg, #EE1E50 0%, #ff6b6b 100%)';
+                                    }}
+                                  />
+                                </Box>
+                                <Box sx={{ flex: 1, minWidth: 0 }}>
+                                  <Typography
+                                    variant="body2"
+                                    sx={{
+                                      fontWeight: 600,
+                                      color: '#1a1a1a',
+                                      fontSize: '0.75rem',
+                                      lineHeight: 1.2,
+                                      overflow: 'hidden',
+                                      textOverflow: 'ellipsis',
+                                      whiteSpace: 'nowrap'
+                                    }}
+                                  >
+                                    {featuredEvent.title}
+                                  </Typography>
+                                  <Typography
+                                    variant="caption"
+                                    sx={{
+                                      color: '#666',
+                                      fontSize: '0.7rem'
+                                    }}
+                                  >
+                                    {formatDate(featuredEvent.date)} • {featuredEvent.trackName}
+                                  </Typography>
+                                </Box>
                               </Box>
-                            </Box>
-                          ))}
+                            )
+                          } )}
                         </Box>
                       )}
 
