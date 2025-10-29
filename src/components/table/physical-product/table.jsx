@@ -18,12 +18,12 @@ import {
 } from '@mui/material';
 
 // components
-import NotFound from 'src/illustrations/dataNotFound';
 import Pagination from 'src/components/pagination';
 import Search from 'src/components/search';
-import TableHead from './tableHead';
+import TableHead from './table-head';
+import NoDataFoundIllustration from 'src/illustrations/dataNotFound';
 
-PhysicalTable.propTypes = {
+AttributeTable.propTypes = {
   headData: PropTypes.arrayOf(
     PropTypes.shape({
       id: PropTypes.string.isRequired,
@@ -44,7 +44,7 @@ PhysicalTable.propTypes = {
   filters: PropTypes.arr,
   isSearch: PropTypes.bool
 };
-export default function PhysicalTable({ ...props }) {
+export default function AttributeTable({ ...props }) {
   const { headData, data, isLoading, isSearch, row, filters, ...rest } = props;
   const { replace } = useRouter();
 
@@ -113,7 +113,7 @@ export default function PhysicalTable({ ...props }) {
           <>
             <Divider />
 
-            <NotFound title="No Order Found" />
+            <NoDataFoundIllustration title="No Order Found" />
           </>
         ) : (
           <>
@@ -121,17 +121,15 @@ export default function PhysicalTable({ ...props }) {
               <Table size="small" sx={{ minWidth: 650 }}>
                 <TableHead headData={headData} />
                 <TableBody>
-                  {Array.isArray(isLoading ? Array.from(new Array(6)) : data?.data)
-                    ? (isLoading ? Array.from(new Array(6)) : data.data).map((item, index) => (
-                      <Component
-                        key={index}
-                        row={item}
-                        index={index}
-                        isLoading={isLoading}
-                        {...rest}
-                      />
-                    ))
-                    : null}
+                  {(isLoading ? Array.from(new Array(6)) : data?.data || []).map((item, index) => (
+                    <Component
+                      key={index}
+                      row={item}
+                      index={index}
+                      isLoading={isLoading}
+                      {...rest}
+                    />
+                  ))}
                 </TableBody>
               </Table>
             </TableContainer>
