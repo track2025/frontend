@@ -44,17 +44,19 @@ const slice = createSlice({
         checkoutType: 'physical-product',
         sku: `${product.pid}`
       };
+
+      // ✅ Remove all normal products before adding physical product
+      state.checkout.cart = filter(state.checkout.cart, (item) => item.checkoutType !== 'product');
+
       const isEmptyCart = state.checkout.cart.length === 0;
       if (isEmptyCart) {
-        state.checkout.cart = [...state.checkout.cart, updatedProduct];
+        state.checkout.cart = [updatedProduct];
       } else {
         state.checkout.cart = map(state.checkout.cart, (_product) => {
           const isExisted = _product.sku === updatedProduct.sku;
-
           if (isExisted) {
             return {
               ..._product,
-              // quantity: _product.quantity + product.quantity
               quantity: 1
             };
           }
@@ -72,22 +74,26 @@ const slice = createSlice({
         checkoutType: 'product',
         sku: `${product.pid}`
       };
+
+      // ✅ Remove all physical products before adding normal product
+      state.checkout.cart = filter(state.checkout.cart, (item) => item.checkoutType !== 'physical-product');
+
       const isEmptyCart = state.checkout.cart.length === 0;
       if (isEmptyCart) {
-        state.checkout.cart = [...state.checkout.cart, updatedProduct];
+        state.checkout.cart = [updatedProduct];
       } else {
         state.checkout.cart = map(state.checkout.cart, (_product) => {
           const isExisted = _product.sku === updatedProduct.sku;
           if (isExisted) {
             return {
               ..._product,
-              //quantity: _product.quantity + product.quantity
               quantity: 1
             };
           }
           return _product;
         });
       }
+
       state.checkout.cart = uniqBy([...state.checkout.cart, updatedProduct], 'sku');
     },
 
