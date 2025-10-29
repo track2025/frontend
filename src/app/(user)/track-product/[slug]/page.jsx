@@ -65,16 +65,12 @@ export default async function ProductDetail({ params }) {
 
   const response = await res.json();
 
-  console.log("Physical Product:", response);
-
   if (!response?.success || !response?.data) {
     notFound(); // Show 404 page
   }
-
+  
   const { data, totalRating, totalReviews, brand, category } = response;
   const isSimpleProduct = data?.type === 'simple';
-
-
 
   return (
     <Box>
