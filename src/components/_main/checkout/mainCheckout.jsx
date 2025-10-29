@@ -376,13 +376,21 @@ const CheckoutMain = () => {
 
   const handleTrustPaymentCallback = useCallback(
     async (trustData) => {
+      // Prevent double execution
+      if (handleTrustPaymentCallback.called) {
+        console.log('⚠️ Skipping duplicate Trust callback call');
+        return;
+      }
+      handleTrustPaymentCallback.called = true;
+
+      // Small delay to ensure async operations settle before proceeding
+      await new Promise((resolve) => setTimeout(resolve, 500));
+
       const { settleStatus, errorCode, orderReference, transactionReference, siteReference, paymentType } = trustData;
 
-      // Check if payment was successful
       const isSuccess = settleStatus === 0 && errorCode === 0;
 
       if (isSuccess) {
-        // Retrieve user details from localStorage
         const storedUserDetails = localStorage.getItem('trustPaymentUserDetails');
         let userDataToUse = valuesRef.current;
 
@@ -394,24 +402,24 @@ const CheckoutMain = () => {
           }
         }
 
-        // Prepare order data
         const items = cart.map(({ ...others }) => others);
         const totalItems = sum(items.map((item) => item.quantity));
 
         const orderData = {
-          paymentMethod: `Trust Payments`,
-          items: items,
+          paymentMethod: 'Trust Payments',
+          items,
           user: {
             firstName: userDataToUse.billingFirstName || userDataToUse.firstName || '',
             lastName: userDataToUse.billingLastName || userDataToUse.lastName || '',
             email: userDataToUse.billingEmail || userDataToUse.email || '',
-            address: userDataToUse.address || userDataToUse.address || '',
-            city: userDataToUse.city || userDataToUse.city || '',
-            state: userDataToUse.state || userDataToUse.state || '',
-            country: userDataToUse.country || userDataToUse.country || '',
-            zip: userDataToUse.zip || userDataToUse.zip || '',
-            note: userDataToUse.note || userDataToUse.note || ''
+            address: userDataToUse.address || '',
+            city: userDataToUse.city || '',
+            state: userDataToUse.state || '',
+            country: userDataToUse.country || '',
+            zip: userDataToUse.zip || '',
+            note: userDataToUse.note || ''
           },
+          checkoutType,
           totalItems,
           couponCode: couponCode || null,
           currency: 'GBP',
@@ -428,7 +436,6 @@ const CheckoutMain = () => {
 
         mutate(orderData);
       } else {
-        // Only clean up on failure
         localStorage.removeItem('trustPaymentUserDetails');
 
         let errorMessage = 'Payment was not successful.';
@@ -450,16 +457,14 @@ const CheckoutMain = () => {
             errorMessage = `Payment status: ${settleStatus}. Please try again or contact support.`;
         }
 
-        if (isDeveloper) {
-          addDebugLog(`Trust Payment failed: ${errorMessage}`, 'error');
-        }
+        if (isDeveloper) addDebugLog(`Trust Payment failed: ${errorMessage}`, 'error');
 
         toast.error(errorMessage);
         setProcessingTo(false);
         setShowCheckoutInterface(true);
       }
     },
-    [cart, couponCode, rate, mutate, isDeveloper, addDebugLog]
+    [cart, couponCode, rate]
   );
 
   // Handle Trust Payment processing errors
