@@ -10,10 +10,22 @@
       "title": "Photographers",
       "path": "/photographers"
     },
+    {
+      "title": "Tracks",
+      "path": "/tracks"
+    },
+    {
+      "title": "Events",
+      "path": "/events"
+    },
 
     {
       "title": "About",
       "path": "/about"
+    },
+    {
+      "title": "Blog",
+      "path": "/blogs"
     }
   ],
   "mobile_menu": [
