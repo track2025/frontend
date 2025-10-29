@@ -4,9 +4,9 @@ import AttributesList from 'src/components/_admin/physical-attributes/attributes
 
 // Meta information
 export const metadata = {
-  title: 'Attributes - Lapsnap',
-  applicationName: 'Lapsnap',
-  authors: 'Lapsnap'
+  title: 'Attributes - Lapsnaps',
+  applicationName: 'Lapsnaps',
+  authors: 'Lapsnaps'
 };
 
 export default function Attributes() {

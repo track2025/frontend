@@ -6,9 +6,9 @@ import AddCategory from 'src/components/_admin/physical-categories/parent/add-ca
 
 // Meta information
 export const metadata = {
-  title: 'Add Categories - Lapsnap',
-  applicationName: 'Lapsnap',
-  authors: 'Lapsnap'
+  title: 'Add Categories - Lapsnaps',
+  applicationName: 'Lapsnaps',
+  authors: 'Lapsnaps'
 };
 
 export default function page() {

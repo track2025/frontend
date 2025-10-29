@@ -18,14 +18,17 @@
       "title": "Events",
       "path": "/events"
     },
-
-    {
-      "title": "About",
-      "path": "/about"
-    },
     {
       "title": "Blog",
       "path": "/blogs"
+    },
+    {
+      "title": "Products",
+      "path": "/track-products"
+    },
+    {
+      "title": "About",
+      "path": "/about"
     }
   ],
   "mobile_menu": [

@@ -26,26 +26,21 @@ export default function SimpleDialogDemo() {
 
   return (
     <>
-      <Button
-        className="border border-1"
-        direction="row"
-        alignItems="center"
-        justifyContent="space-between"
-        // onClick={handleClickOpen}
+      <Link
         onClick={handleRedirect}
-        variant="contained"
-        size="large"
         sx={{
-          boxShadow: 'none',
-          borderRadius: 10,
-          width: 150,
-          bgcolor: (theme) => alpha(theme.palette.common.black, 0.1),
-          color: 'text.primary'
+          display: "flex",
+          alignItems: "center",
+          gap: 0.5,
+          cursor: "pointer",
+          color: "primary.dark",
+          textDecoration: "none",
+          "&:hover": { textDecoration: "underline" },
         }}
-        startIcon={<RxMagnifyingGlass sx={{ color: 'text.primary' }} />}
       >
+        <RxMagnifyingGlass />
         Search...
-      </Button>
+      </Link>
 
       {/* <Dialog open={open} onClose={handleClose} sx={{ '& .MuiPaper-root': { width: 600 } }}>
         <Search onClose={handleClose} />

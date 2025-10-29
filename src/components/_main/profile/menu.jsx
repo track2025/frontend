@@ -134,14 +134,29 @@ export default function Menu() {
         <ListItem disablePadding>
           <ListItemButton
             onClick={() => {
-              router.push('/products?top=1');
+              router.push('/blogs');
+            }}
+            sx={{ py: 2 }}
+          >
+            <ListItemIcon>
+              <MdArticle size={20} />
+            </ListItemIcon>
+            <ListItemText primary="Blog" />
+          </ListItemButton>
+        </ListItem>
+
+        <Divider />
+        <ListItem disablePadding>
+          <ListItemButton
+            onClick={() => {
+              router.push('/track-products?top=1');
             }}
             sx={{ py: 2 }}
           >
             <ListItemIcon>
               <IoImagesOutline size={20} />
             </ListItemIcon>
-            <ListItemText primary="Collections" />
+            <ListItemText primary="Products" />
           </ListItemButton>
         </ListItem>
 
@@ -160,20 +175,7 @@ export default function Menu() {
           </ListItemButton>
         </ListItem>
 
-        <Divider />
-        <ListItem disablePadding>
-          <ListItemButton
-            onClick={() => {
-              router.push('/blogs');
-            }}
-            sx={{ py: 2 }}
-          >
-            <ListItemIcon>
-              <MdArticle size={20} />
-            </ListItemIcon>
-            <ListItemText primary="Blog" />
-          </ListItemButton>
-        </ListItem>
+        
 
         <Divider />
         <ListItem disablePadding>
@@ -205,7 +207,7 @@ export default function Menu() {
           </ListItemButton>
         </ListItem>
 
-        {isAuthenticated && (
+        {/* {isAuthenticated && (
           <>
             <Divider />
 
@@ -225,7 +227,7 @@ export default function Menu() {
 
             <Divider />
           </>
-        )}
+        )} */}
       </List>
       <Stack spacing={2} mt={1} mb={4}>
         {isAuthenticated ? (

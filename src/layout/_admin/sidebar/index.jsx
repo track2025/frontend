@@ -28,6 +28,7 @@ import { TbCategory2 } from 'react-icons/tb';
 import { BsShop } from 'react-icons/bs';
 import { BsCart3 } from 'react-icons/bs';
 import { LuUsers } from 'react-icons/lu';
+import { PiShootingStarBold } from 'react-icons/pi';
 import { SlEnvolopeLetter } from 'react-icons/sl';
 import { IoSettingsOutline } from 'react-icons/io5';
 import { RiCoupon5Line } from 'react-icons/ri';
@@ -139,7 +140,42 @@ export const navlinks = [
     slug: 'settings',
     icon: <IoSettingsOutline />,
     isSearch: false
-  }
+  },
+  {
+    id: 15,
+    title: 'Attributes',
+    slug: 'physical-attributes',
+    icon: <PiShootingStarBold />,
+    isSearch: false
+  },
+  {
+    id: 15,
+    title: 'Brands',
+    slug: 'physical-brands',
+    icon: <FaRegBuilding />,
+    isSearch: false
+  },
+  {
+    id: 15,
+    title: 'Categories',
+    slug: 'physical-categories',
+    icon: <TbCategory2 />,
+    isSearch: false
+  },
+  {
+    id: 15,
+    title: 'Sub Categories',
+    slug: 'physical-categories/sub-categories',
+    icon: <TbCategory2 />,
+    isSearch: false
+  },
+  {
+    id: 15,
+    title: 'Products',
+    slug: 'physical-products',
+    icon: <BsShop />,
+    isSearch: false
+  },
 ];
 
 const drawerWidth = 240;
