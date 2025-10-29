@@ -37,10 +37,39 @@ const slice = createSlice({
       state.checkout.total = subtotal + (parseInt(shipping) || 0);
     },
 
+    addPhysicalCart(state, action) {
+      const product = action.payload;
+      const updatedProduct = {
+        ...product,
+        checkoutType: 'physical-product',
+        sku: `${product.pid}`
+      };
+      const isEmptyCart = state.checkout.cart.length === 0;
+      if (isEmptyCart) {
+        state.checkout.cart = [...state.checkout.cart, updatedProduct];
+      } else {
+        state.checkout.cart = map(state.checkout.cart, (_product) => {
+          const isExisted = _product.sku === updatedProduct.sku;
+
+          if (isExisted) {
+            return {
+              ..._product,
+              // quantity: _product.quantity + product.quantity
+              quantity: 1
+            };
+          }
+          return _product;
+        });
+      }
+
+      state.checkout.cart = uniqBy([...state.checkout.cart, updatedProduct], 'sku');
+    },
+
     addCart(state, action) {
       const product = action.payload;
       const updatedProduct = {
         ...product,
+        checkoutType: 'product',
         sku: `${product.pid}`
       };
       const isEmptyCart = state.checkout.cart.length === 0;
@@ -64,8 +93,11 @@ const slice = createSlice({
 
     clearCart(state, action) {
       const updateCart = filter(state.checkout.cart, (item) => item.sku !== action.payload);
-
       state.checkout.cart = updateCart;
+
+      // For physical
+      const updatePhysicalCart = filter(state.checkout.cart, (item) => item.sku !== action.payload);
+      state.checkout.cart = updatePhysicalCart;
     },
     deleteCart(state, action) {
       const updateCart = filter(state.checkout.cart, (item) => item.sku !== action.payload);
@@ -131,6 +163,7 @@ export default slice.reducer;
 export const {
   getCart,
   addCart,
+  addPhysicalCart,
   resetCart,
   onGotoStep,
   onBackStep,

@@ -788,12 +788,11 @@ export const updatePhysicalSubCategoryByAdmin = async ({ currentSlug, ...payload
 
 
 // Get all physical products with pagination and optional search
-export const getPhysicalProductsByAdmin = async (page = 1, search = "") => {
-  const { data } = await http.get(
-    `/admin/physical-products?search=${search}&page=${page}`
-  );
+export const getPhysicalProductsByAdmin = async (page = 1, search = '') => {
+  const { data } = await http.get(`/admin/physical-products?search=${search}&page=${page}`);
   return data;
 };
+
 
 // Get one physical product by slug
 export const getPhysicalProductByAdmin = async (slug) => {
