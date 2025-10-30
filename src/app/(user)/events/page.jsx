@@ -9,19 +9,18 @@ import LoadingSpinner from 'src/components/UI/Spinner';
 export default function EventsPage() {
   const router = useRouter();
   const [eventsData, setEventData] = useState([]);
-  const [isLoading, setIsLoading] =  useState(false)
+  const [isLoading, setIsLoading] = useState(false);
 
   const fethcItems = async () => {
-    setIsLoading(true)
+    setIsLoading(true);
     const data = await getSuperEvents();
-    setIsLoading(false)
+    setIsLoading(false);
     setEventData(data);
   };
 
   useEffect(() => {
     fethcItems();
   }, []);
-
 
   // Get today's date at start of day for accurate comparison
   const today = new Date();
@@ -41,8 +40,6 @@ export default function EventsPage() {
       };
     }
 
-    
-
     countriesMap[event.countrySlug].eventCount++;
 
     // Check if event is upcoming (date is today or in the future)
@@ -59,7 +56,7 @@ export default function EventsPage() {
           date: event.date,
           trackName: event.trackName,
           type: event.type,
-          image:  event.image // || event.thumbnailImage 
+          image: event.image // || event.thumbnailImage
         });
       }
     }
@@ -68,16 +65,274 @@ export default function EventsPage() {
   const countriesData = Object.values(countriesMap);
 
   // Country flag emojis map
-  const flagMap = {
-    AE: '🇦🇪',
-    GB: '🇬🇧',
-    IT: '🇮🇹',
-    DE: '🇩🇪',
-    BE: '🇧🇪',
-    FR: '🇫🇷',
-    ES: '🇪🇸',
-    US: '🇺🇸'
-  };
+  // const flagMap = {
+  //   AE: '🇦🇪',
+  //   GB: '🇬🇧',
+  //   IT: '🇮🇹',
+  //   DE: '🇩🇪',
+  //   BE: '🇧🇪',
+  //   FR: '🇫🇷',
+  //   ES: '🇪🇸',
+  //   US: '🇺🇸'
+  // };
+
+  // Generate emoji flag from ISO country code (e.g. "US" → 🇺🇸)
+  function getFlagEmoji(countryCode) {
+    if (!countryCode || countryCode.length !== 2) return '';
+    return countryCode.toUpperCase().replace(/./g, (char) => String.fromCodePoint(127397 + char.charCodeAt()));
+  }
+
+  // Build the map for all ISO country codes
+  const countryCodes = [
+    'AD',
+    'AE',
+    'AF',
+    'AG',
+    'AI',
+    'AL',
+    'AM',
+    'AO',
+    'AQ',
+    'AR',
+    'AS',
+    'AT',
+    'AU',
+    'AW',
+    'AX',
+    'AZ',
+    'BA',
+    'BB',
+    'BD',
+    'BE',
+    'BF',
+    'BG',
+    'BH',
+    'BI',
+    'BJ',
+    'BL',
+    'BM',
+    'BN',
+    'BO',
+    'BQ',
+    'BR',
+    'BS',
+    'BT',
+    'BV',
+    'BW',
+    'BY',
+    'BZ',
+    'CA',
+    'CC',
+    'CD',
+    'CF',
+    'CG',
+    'CH',
+    'CI',
+    'CK',
+    'CL',
+    'CM',
+    'CN',
+    'CO',
+    'CR',
+    'CU',
+    'CV',
+    'CW',
+    'CX',
+    'CY',
+    'CZ',
+    'DE',
+    'DJ',
+    'DK',
+    'DM',
+    'DO',
+    'DZ',
+    'EC',
+    'EE',
+    'EG',
+    'EH',
+    'ER',
+    'ES',
+    'ET',
+    'FI',
+    'FJ',
+    'FM',
+    'FO',
+    'FR',
+    'GA',
+    'GB',
+    'GD',
+    'GE',
+    'GF',
+    'GG',
+    'GH',
+    'GI',
+    'GL',
+    'GM',
+    'GN',
+    'GP',
+    'GQ',
+    'GR',
+    'GT',
+    'GU',
+    'GW',
+    'GY',
+    'HK',
+    'HM',
+    'HN',
+    'HR',
+    'HT',
+    'HU',
+    'ID',
+    'IE',
+    'IL',
+    'IM',
+    'IN',
+    'IO',
+    'IQ',
+    'IR',
+    'IS',
+    'IT',
+    'JE',
+    'JM',
+    'JO',
+    'JP',
+    'KE',
+    'KG',
+    'KH',
+    'KI',
+    'KM',
+    'KN',
+    'KP',
+    'KR',
+    'KW',
+    'KY',
+    'KZ',
+    'LA',
+    'LB',
+    'LC',
+    'LI',
+    'LK',
+    'LR',
+    'LS',
+    'LT',
+    'LU',
+    'LV',
+    'LY',
+    'MA',
+    'MC',
+    'MD',
+    'ME',
+    'MF',
+    'MG',
+    'MH',
+    'MK',
+    'ML',
+    'MM',
+    'MN',
+    'MO',
+    'MP',
+    'MQ',
+    'MR',
+    'MS',
+    'MT',
+    'MU',
+    'MV',
+    'MW',
+    'MX',
+    'MY',
+    'MZ',
+    'NA',
+    'NC',
+    'NE',
+    'NF',
+    'NG',
+    'NI',
+    'NL',
+    'NO',
+    'NP',
+    'NR',
+    'NU',
+    'NZ',
+    'OM',
+    'PA',
+    'PE',
+    'PF',
+    'PG',
+    'PH',
+    'PK',
+    'PL',
+    'PM',
+    'PN',
+    'PR',
+    'PS',
+    'PT',
+    'PW',
+    'PY',
+    'QA',
+    'RE',
+    'RO',
+    'RS',
+    'RU',
+    'RW',
+    'SA',
+    'SB',
+    'SC',
+    'SD',
+    'SE',
+    'SG',
+    'SH',
+    'SI',
+    'SJ',
+    'SK',
+    'SL',
+    'SM',
+    'SN',
+    'SO',
+    'SR',
+    'SS',
+    'ST',
+    'SV',
+    'SX',
+    'SY',
+    'SZ',
+    'TC',
+    'TD',
+    'TF',
+    'TG',
+    'TH',
+    'TJ',
+    'TK',
+    'TL',
+    'TM',
+    'TN',
+    'TO',
+    'TR',
+    'TT',
+    'TV',
+    'TZ',
+    'UA',
+    'UG',
+    'UM',
+    'US',
+    'UY',
+    'UZ',
+    'VA',
+    'VC',
+    'VE',
+    'VG',
+    'VI',
+    'VN',
+    'VU',
+    'WF',
+    'WS',
+    'YE',
+    'YT',
+    'ZA',
+    'ZM',
+    'ZW'
+  ];
+
+  const flagMap = Object.fromEntries(countryCodes.map((code) => [code, getFlagEmoji(code)]));
 
   // Sort by highest upcoming event count first, then by total events
   const sortedCountries = [...countriesData].sort((a, b) => {
@@ -170,10 +425,8 @@ export default function EventsPage() {
 
           {/* Countries Grid */}
 
-
           {isLoading && <LoadingSpinner />}
 
-          
           <Grid container spacing={3}>
             {sortedCountries.map((country, index) => (
               <Grid item size={{ xs: 12, sm: 6, md: 4, lg: 3 }} key={country.slug}>
@@ -307,8 +560,7 @@ export default function EventsPage() {
                             Featured Events:
                           </Typography>
                           {country.featuredEvents.map((featuredEvent, eventIndex) => {
-
-                            return  (
+                            return (
                               <Box
                                 key={eventIndex}
                                 sx={{
@@ -375,8 +627,8 @@ export default function EventsPage() {
                                   </Typography>
                                 </Box>
                               </Box>
-                            )
-                          } )}
+                            );
+                          })}
                         </Box>
                       )}
 
