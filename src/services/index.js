@@ -40,14 +40,36 @@ export const getNotifications = async (page) => {
   return data;
 };
 
-export const getBrandsByAdmin = async (page, search) => {
-  const { data } = await http.get(`/admin/brands?search=${search}&page=${page}`);
+export const getBrandsByAdmin = async (params) => {
+  const { data } = await http.get(`/admin/brands?${params}`);
   return data;
 };
+
+export const getEventsByAdmin = async (params) => {
+  const { data } = await http.get(`/admin/events?${params}`);
+  return data;
+};
+
+export const getBlogsByAdmin = async (params) => {
+  const { data } = await http.get(`/admin/blogs?${params}`);
+  return data;
+};
+
 export const getBrandByAdmin = async (id) => {
   const { data } = await http.get(`/admin/brands/${id}`);
   return data;
 };
+
+export const getBlogByAdmin = async (id) => {
+  const { data } = await http.get(`/admin/blogs/${id}`);
+  return data;
+};
+
+export const getEventByAdmin = async (id) => {
+  const { data } = await http.get(`/admin/events/${id}`);
+  return data;
+};
+
 export const getAllBrandsByAdmin = async () => {
   const { data } = await http.get(`/admin/all-brands`);
   return data;
@@ -62,6 +84,16 @@ export const updateBrandByAdmin = async ({ currentSlug, ...payload }) => {
 };
 export const deleteBrandByAdmin = async (slug) => {
   const { data } = await http.delete(`/admin/brands/${slug}`);
+  return data;
+};
+
+export const deleteBlogByAdmin = async (slug) => {
+  const { data } = await http.delete(`/admin/blogs/${slug}`);
+  return data;
+};
+
+export const deleteEventByAdmin = async (slug) => {
+  const { data } = await http.delete(`/admin/events/${slug}`);
   return data;
 };
 
@@ -91,10 +123,32 @@ export const addCategoryByAdmin = async (payload) => {
   const { data } = await http.post(`/admin/categories`, payload);
   return data;
 };
+
+export const addEventByAdmin = async (payload) => {
+  const { data } = await http.post(`/admin/events`, payload);
+  return data;
+};
+
+export const addBlogByAdmin = async (payload) => {
+  const { data } = await http.post(`/admin/blogs`, payload);
+  return data;
+};
+
 export const updateCategoryByAdmin = async ({ currentSlug, ...payload }) => {
   const { data } = await http.put(`/admin/categories/${currentSlug}`, payload);
   return data;
 };
+
+export const updateBlogByAdmin = async ({ currentSlug, ...payload }) => {
+  const { data } = await http.put(`/admin/blogs/${currentSlug}`, payload);
+  return data;
+};
+
+export const updateEventByAdmin = async ({ currentSlug, ...payload }) => {
+  const { data } = await http.put(`/admin/events/${currentSlug}`, payload);
+  return data;
+};
+
 export const getAllCategoriesByAdmin = async () => {
   const { data } = await http.get(`/admin/all-categories`);
   return data;
@@ -666,16 +720,13 @@ export const requestRemoval = async ({ ...payload }) => {
   return data;
 };
 
-
 // gabriel events
 export const getSuperEvents = async (payload) => {
-  console.log('tester.....')
+  console.log('tester.....');
   const { data } = await http.get(`/all-events`);
 
   return data;
 };
-
-
 
 // export const contactUs = async (payload) => {
 //   const { data } = await http.post(`/contact-us`, payload);
@@ -741,12 +792,11 @@ export const deletePhysicalBrandByAdmin = async (slug) => {
   return data;
 };
 
-
 /*
 ====================================
 PHYSICAL CATEGORIES (Admin)
 ====================================
-*/ 
+*/
 export const getPhysicalCategoriesByAdmin = async (page, search) => {
   const { data } = await http.get(`/admin/physical-categories?search=${search}&page=${page}`);
   return data;
@@ -798,15 +848,11 @@ export const updatePhysicalSubCategoryByAdmin = async ({ currentSlug, ...payload
   return data;
 };
 
-
-
-
 // Get all physical products with pagination and optional search
 export const getPhysicalProductsByAdmin = async (page = 1, search = '') => {
   const { data } = await http.get(`/admin/physical-products?search=${search}&page=${page}`);
   return data;
 };
-
 
 // Get one physical product by slug
 export const getPhysicalProductByAdmin = async (slug) => {

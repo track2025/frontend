@@ -32,7 +32,7 @@ export default function DeleteDialog({ onClose, id, apicall, endPoint, type, del
     }
   });
   const handleDelete = () => {
-    if (selectedRows.length > 0) {
+    if (selectedRows?.length > 0) {
       mutate(selectedRows);
     } else {
       mutate(id);

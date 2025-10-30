@@ -5,7 +5,7 @@ import toast from 'react-hot-toast';
 import PropTypes from 'prop-types';
 
 // mui
-import { Card, CardContent, Typography, Stack, Divider, TextField } from '@mui/material';
+import { Card, CardContent, Typography, Stack, Divider, TextField, Skeleton } from '@mui/material';
 import { LoadingButton } from '@mui/lab';
 // hook
 import { useCurrencyConvert } from 'src/hooks/convertCurrency';
@@ -24,7 +24,7 @@ function isExpired(expirationDate) {
   return currentDateTime >= new Date(expirationDate);
 }
 
-export default function PaymentInfo({ setCouponCode, setTotal }) {
+export default function PaymentInfo({ setCouponCode, setTotal, checkoutType }) {
   const { product } = useSelector((state) => state);
   const { total, shipping, subtotal } = product.checkout;
   const [code, setCode] = useState('');
@@ -124,6 +124,22 @@ export default function PaymentInfo({ setCouponCode, setTotal }) {
             </LoadingButton>
           </Stack>
         </Stack>
+
+        {checkoutType === 'physical-product' && (
+          <Stack direction="row" alignItem="center" justifyContent="space-between" spacing={2}>
+            <Typography variant="subtitle2" color="text.secondary">
+              Shipping:
+            </Typography>
+            <Typography variant="subtitle2">
+              {isLoading ? (
+                <Skeleton variant="text" width={80} />
+              ) : (
+                fCurrency(cCurrency(parseInt(process.env.SHIPPING_FEE || 0)))
+              )}
+            </Typography>
+          </Stack>
+        )}
+
         <Divider />
         <Stack direction="row" alignItem="center" justifyContent="space-between" spacing={2} mt={2}>
           <Typography variant="subtitle1">Total:</Typography>

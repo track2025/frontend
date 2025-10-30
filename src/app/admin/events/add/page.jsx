@@ -1,7 +1,7 @@
 import React from 'react';
 
 // components
-import AddBrand from 'src/components/_admin/brands/addBrand';
+import AddEvent from 'src/components/_admin/events/addEvent';
 import HeaderBreadcrumbs from 'src/components/headerBreadcrumbs';
 
 export const metadata = {
@@ -15,22 +15,22 @@ export default function page() {
     <div>
       <HeaderBreadcrumbs
         admin
-        heading="Add Location"
+        heading="Events"
         links={[
           {
             name: 'Dashboard',
             href: '/admin'
           },
           {
-            name: 'Locations',
-            href: '/admin/locations'
+            name: 'Events',
+            href: '/admin/events'
           },
           {
-            name: 'Add A Location'
+            name: 'Add A Event'
           }
         ]}
       />
-      <AddBrand />
+      <AddEvent />
     </div>
   );
 }

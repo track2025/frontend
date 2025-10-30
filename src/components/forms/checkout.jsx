@@ -87,26 +87,86 @@ export default function CheckoutGuestForm({
         {checkoutType === 'physical-product' && (
           <>
             <Stack spacing={0.5} width={1}>
-              <Typography variant="overline" color="text.primary" for="deliveryAddress" component={'label'}>
-                Delivery Address
+              <Typography variant="overline" color="text.primary" for="address" component={'label'}>
+                Address
               </Typography>
               <TextField
                 fullWidth
-                {...getFieldProps('deliveryAddress')}
-                error={Boolean(touched.deliveryAddress && errors.deliveryAddress)}
-                helperText={touched.deliveryAddress && errors.deliveryAddress}
+                {...getFieldProps('address')}
+                error={Boolean(touched.address && errors.address)}
+                helperText={touched.address && errors.address}
               />
             </Stack>
 
+            <Stack direction={{ xs: 'column', sm: 'row' }} spacing={2}>
+              <Stack spacing={0.5} width={1}>
+                <Typography variant="overline" color="text.primary" htmlFor="city" component={'label'}>
+                  Town City
+                </Typography>
+                <TextField
+                  fullWidth
+                  {...getFieldProps('city')}
+                  error={Boolean(touched.city && errors.city)}
+                  helperText={touched.city && errors.city}
+                />
+              </Stack>
+              <Stack spacing={0.5} width={1}>
+                <Typography variant="overline" color="text.primary" htmlFor="state" component={'label'}>
+                  State
+                </Typography>
+                <TextField
+                  fullWidth
+                  {...getFieldProps('state')}
+                  error={Boolean(touched.state && errors.state)}
+                  helperText={touched.state && errors.state}
+                />
+              </Stack>
+              <Stack spacing={0.5} width={1}>
+                <Typography variant="overline" color="text.primary" htmlFor="zip" component={'label'}>
+                  Zip/Postal Code
+                </Typography>
+                <TextField
+                  fullWidth
+                  {...getFieldProps('zip')}
+                  error={Boolean(touched.zip && errors.zip)}
+                  helperText={touched.zip && errors.zip}
+                  type="number"
+                />
+              </Stack>
+            </Stack>
             <Stack spacing={0.5} width={1}>
-              <Typography variant="overline" color="text.primary" for="deliveryFee" component={'label'}>
-                Delivery Fee
+              <Typography variant="overline" color="text.primary" htmlFor="country" component={'label'}>
+                Country
+              </Typography>
+              <TextField
+                select
+                fullWidth
+                placeholder="Country"
+                {...getFieldProps('country')}
+                SelectProps={{ native: true }}
+                error={Boolean(touched.country && errors.country)}
+                helperText={touched.country && errors.country}
+              >
+                {countries.map((option) => (
+                  <option key={option.code} value={option.label}>
+                    {option.label}
+                  </option>
+                ))}
+              </TextField>
+            </Stack>
+            <Stack spacing={0.5} width={1}>
+              <Typography variant="overline" color="text.primary" htmlFor="note" component={'label'}>
+                Note
               </Typography>
               <TextField
                 fullWidth
-                {...getFieldProps('deliveryFee')}
-                error={Boolean(touched.deliveryFee && errors.deliveryFee)}
-                helperText={touched.deliveryFee && errors.deliveryFee}
+                multiline
+                rows={8}
+                id="note"
+                {...getFieldProps('note')}
+                error={Boolean(touched.note && errors.note)}
+                helperText={touched.note && errors.note}
+                type="text"
               />
             </Stack>
           </>

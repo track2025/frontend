@@ -59,7 +59,7 @@ const ThumbImgStyle = styled(Box)(({ theme }) => ({
   overflow: 'hidden'
 }));
 export default function TableDetails({ ...props }) {
-  const { data, isLoading, conversionRate, currency } = props;
+  const { data, isLoading, conversionRate, currency, checkoutType } = props;
   const fCurrency = useCurrencyFormatter();
   const cCurrency = useCurrencyConvert();
 
@@ -70,7 +70,8 @@ export default function TableDetails({ ...props }) {
           <TableHead>
             <TableRow className="head-row">
               <TableCell className="head-row-cell">Product</TableCell>
-              <TableCell className="head-row-cell">Download</TableCell>
+              {checkoutType != 'physical-product' && <TableCell className="head-row-cell">Download</TableCell>}
+
               <TableCell className="head-row-cell" align="right">
                 Price
               </TableCell>
@@ -99,20 +100,22 @@ export default function TableDetails({ ...props }) {
                   )}
                 </TableCell>
 
-                <TableCell>
-                  {row ? (
-                    <Button
-                      variant="contained"
-                      color="black"
-                      size="small"
-                      href={`/api/download?fileUrl=${encodeURIComponent(row?.orignalImageUrl)}`}
-                    >
-                      Download Media
-                    </Button>
-                  ) : (
-                    <Skeleton variant="text" width={100} />
-                  )}
-                </TableCell>
+                {checkoutType != 'physical-product' && (
+                  <TableCell>
+                    {row ? (
+                      <Button
+                        variant="contained"
+                        color="black"
+                        size="small"
+                        href={`/api/download?fileUrl=${encodeURIComponent(row?.orignalImageUrl)}`}
+                      >
+                        Download Media
+                      </Button>
+                    ) : (
+                      <Skeleton variant="text" width={100} />
+                    )}
+                  </TableCell>
+                )}
 
                 <TableCell align="right">
                   {row ? `${fCurrency(cCurrency(row?.priceSale))}` : <Skeleton variant="text" width={100} />}

@@ -376,13 +376,21 @@ const CheckoutMain = () => {
 
   const handleTrustPaymentCallback = useCallback(
     async (trustData) => {
+      // Prevent double execution
+      if (handleTrustPaymentCallback.called) {
+        console.log('⚠️ Skipping duplicate Trust callback call');
+        return;
+      }
+      handleTrustPaymentCallback.called = true;
+
+      // Small delay to ensure async operations settle before proceeding
+      await new Promise((resolve) => setTimeout(resolve, 500));
+
       const { settleStatus, errorCode, orderReference, transactionReference, siteReference, paymentType } = trustData;
 
-      // Check if payment was successful
       const isSuccess = settleStatus === 0 && errorCode === 0;
 
       if (isSuccess) {
-        // Retrieve user details from localStorage
         const storedUserDetails = localStorage.getItem('trustPaymentUserDetails');
         let userDataToUse = valuesRef.current;
 
@@ -394,20 +402,24 @@ const CheckoutMain = () => {
           }
         }
 
-        // Prepare order data
         const items = cart.map(({ ...others }) => others);
         const totalItems = sum(items.map((item) => item.quantity));
 
         const orderData = {
-          paymentMethod: `Trust Payments`,
-          items: items,
+          paymentMethod: 'Trust Payments',
+          items,
           user: {
             firstName: userDataToUse.billingFirstName || userDataToUse.firstName || '',
             lastName: userDataToUse.billingLastName || userDataToUse.lastName || '',
             email: userDataToUse.billingEmail || userDataToUse.email || '',
-            deliveryAddress: userDataToUse.deliveryAddress || userDataToUse.deliveryAddress || '',
-            deliveryFee: userDataToUse.deliveryFee || userDataToUse.deliveryFee || ''
+            address: userDataToUse.address || '',
+            city: userDataToUse.city || '',
+            state: userDataToUse.state || '',
+            country: userDataToUse.country || '',
+            zip: userDataToUse.zip || '',
+            note: userDataToUse.note || ''
           },
+          checkoutType,
           totalItems,
           couponCode: couponCode || null,
           currency: 'GBP',
@@ -424,7 +436,6 @@ const CheckoutMain = () => {
 
         mutate(orderData);
       } else {
-        // Only clean up on failure
         localStorage.removeItem('trustPaymentUserDetails');
 
         let errorMessage = 'Payment was not successful.';
@@ -446,16 +457,14 @@ const CheckoutMain = () => {
             errorMessage = `Payment status: ${settleStatus}. Please try again or contact support.`;
         }
 
-        if (isDeveloper) {
-          addDebugLog(`Trust Payment failed: ${errorMessage}`, 'error');
-        }
+        if (isDeveloper) addDebugLog(`Trust Payment failed: ${errorMessage}`, 'error');
 
         toast.error(errorMessage);
         setProcessingTo(false);
         setShowCheckoutInterface(true);
       }
     },
-    [cart, couponCode, rate, mutate, isDeveloper, addDebugLog]
+    [cart, couponCode, rate]
   );
 
   // Handle Trust Payment processing errors
@@ -471,16 +480,32 @@ const CheckoutMain = () => {
     firstName: Yup.string().required('First name is required'),
     lastName: Yup.string().required('Last name is required'),
     email: Yup.string().email('Enter a valid email').required('Email is required'),
-    deliveryAddress: Yup.string().when('checkoutType', {
+    address: Yup.string().when('checkoutType', {
       is: (val) => val === 'physical-product',
       then: (schema) => schema.required('Delivery Address is required'),
       otherwise: (schema) => schema.notRequired().nullable()
     }),
-    deliveryFee: Yup.string().when('checkoutType', {
+    city: Yup.string().when('checkoutType', {
       is: (val) => val === 'physical-product',
-      then: (schema) => schema.required('Delivery Fee is required'),
+      then: (schema) => schema.required('City is required'),
       otherwise: (schema) => schema.notRequired().nullable()
     }),
+    state: Yup.string().when('checkoutType', {
+      is: (val) => val === 'physical-product',
+      then: (schema) => schema.required('State is required'),
+      otherwise: (schema) => schema.notRequired().nullable()
+    }),
+    zip: Yup.string().when('checkoutType', {
+      is: (val) => val === 'physical-product',
+      then: (schema) => schema.required('Zip is required'),
+      otherwise: (schema) => schema.notRequired().nullable()
+    }),
+    country: Yup.string().when('checkoutType', {
+      is: (val) => val === 'physical-product',
+      then: (schema) => schema.required('Country is required'),
+      otherwise: (schema) => schema.notRequired().nullable()
+    }),
+
     checkoutType: Yup.string().optional('')
   });
 
@@ -490,8 +515,12 @@ const CheckoutMain = () => {
       firstName: userData?.firstName || '',
       lastName: userData?.lastName || '',
       email: userData?.email || '',
-      deliveryAddress: '',
-      deliveryFee: '',
+      address: '',
+      city: '',
+      state: '',
+      country: '',
+      note: '',
+      zip: '',
       checkoutType: cart[0]?.checkoutType
     },
     enableReinitialize: true,
@@ -531,8 +560,11 @@ const CheckoutMain = () => {
         !errors.firstName &&
         !errors.lastName &&
         !errors.email &&
-        !errors.deliveryAddress &&
-        !errors.deliveryFee;
+        !errors.address &&
+        !errors.city &&
+        !errors.state &&
+        !errors.country &&
+        !errors.zip;
 
       setIsFormValid(isValid);
     };
@@ -619,7 +651,12 @@ const CheckoutMain = () => {
               />
             </Grid>
             <Grid item xs={12} md={4} flexGrow={1}>
-              <PaymentInfo loading={loading} setCouponCode={setCouponCode} setTotal={(v) => setTotalWithDiscount(v)} />
+              <PaymentInfo
+                loading={loading}
+                setCouponCode={setCouponCode}
+                setTotal={(v) => setTotalWithDiscount(v)}
+                checkoutType={checkoutType}
+              />
 
               <TrustPaymentMethodCard
                 value={paymentMethod}
@@ -637,8 +674,12 @@ const CheckoutMain = () => {
                   billingLastName: values.lastName,
                   billingEmail: values.email,
                   billingCountry: selectedCountry || 'GB',
-                  deliveryAddress: values.deliveryAddress,
-                  deliveryFee: values.deliveryFee
+                  address: values.address,
+                  city: values.city,
+                  state: values.state,
+                  country: values.country,
+                  zip: values.zip,
+                  note: values.note || ''
                 }}
                 checkoutType={checkoutType}
               />

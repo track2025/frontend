@@ -30,7 +30,7 @@ import { BsCart3 } from 'react-icons/bs';
 import { LuUsers } from 'react-icons/lu';
 import { PiShootingStarBold } from 'react-icons/pi';
 import { SlEnvolopeLetter } from 'react-icons/sl';
-import { IoSettingsOutline } from 'react-icons/io5';
+import { IoFileTrayFull, IoLogInOutline, IoSettingsOutline } from 'react-icons/io5';
 import { RiCoupon5Line } from 'react-icons/ri';
 import { BsBuildings } from 'react-icons/bs';
 import { AiOutlineDollarCircle } from 'react-icons/ai';
@@ -135,12 +135,20 @@ export const navlinks = [
   //   isSearch: false
   // },
   {
-    id: 13,
-    title: 'Settings',
-    slug: 'settings',
-    icon: <IoSettingsOutline />,
+    id: 14,
+    title: 'Events',
+    slug: 'events',
+    icon: <IoLogInOutline />,
     isSearch: false
   },
+  {
+    id: 14,
+    title: 'Blogs',
+    slug: 'blogs',
+    icon: <IoFileTrayFull />,
+    isSearch: false
+  },
+
   {
     id: 15,
     title: 'Attributes',
@@ -149,33 +157,41 @@ export const navlinks = [
     isSearch: false
   },
   {
-    id: 15,
+    id: 16,
     title: 'Brands',
     slug: 'physical-brands',
     icon: <FaRegBuilding />,
     isSearch: false
   },
   {
-    id: 15,
+    id: 17,
     title: 'Categories',
     slug: 'physical-categories',
     icon: <TbCategory2 />,
     isSearch: false
   },
   {
-    id: 15,
+    id: 18,
     title: 'Sub Categories',
     slug: 'physical-categories/sub-categories',
     icon: <TbCategory2 />,
     isSearch: false
   },
   {
-    id: 15,
+    id: 19,
     title: 'Products',
     slug: 'physical-products',
     icon: <BsShop />,
     isSearch: false
   },
+
+  {
+    id: 20,
+    title: 'Settings',
+    slug: 'settings',
+    icon: <IoSettingsOutline />,
+    isSearch: false
+  }
 ];
 
 const drawerWidth = 240;

@@ -41,7 +41,7 @@ const ThumbImgStyle = styled(Box)(({ theme }) => ({
   position: 'relative',
   overflow: 'hidden'
 }));
-export default function OrderRowas({ ...props }) {
+export default function OrderRowas({ sn, ...props }) {
   const { isLoading, row } = props;
   const router = useRouter();
   const theme = useTheme();
@@ -53,7 +53,7 @@ export default function OrderRowas({ ...props }) {
         cursor: 'pointer'
       }}
     >
-      <TableCell>{isLoading ? <Skeleton variant="text" /> : <>{}</>}</TableCell>
+      <TableCell>{isLoading ? <Skeleton variant="text" /> : <>{sn}</>}</TableCell>
       <TableCell component="th" padding="none">
         <Box
           sx={{
@@ -87,14 +87,16 @@ export default function OrderRowas({ ...props }) {
         {isLoading ? <Skeleton variant="text" /> : row?.total}
       </TableCell>
       <TableCell>
-        <Button
-                                    variant="contained"
-                                    color="black"
-                                    size="small"
-                                    href={`/api/download?fileUrl=${encodeURIComponent(row?.items[0]?.orignalImageUrl)}`}
-                                  >
-                                    Download Media
-                                  </Button>
+        {row?.checkoutType != 'physical-product' && (
+          <Button
+            variant="contained"
+            color="black"
+            size="small"
+            href={`/api/download?fileUrl=${encodeURIComponent(row?.items[0]?.orignalImageUrl)}`}
+          >
+            Download Media
+          </Button>
+        )}
       </TableCell>
       <TableCell>{isLoading ? <Skeleton variant="text" /> : <>{fDate(row?.createdAt)}</>}</TableCell>
       <TableCell align="right">

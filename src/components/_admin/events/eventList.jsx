@@ -11,27 +11,29 @@ import { Dialog } from '@mui/material';
 // components
 import DeleteDialog from 'src/components/dialog/delete';
 import Table from 'src/components/table/table';
-import Brand from 'src/components/table/rows/brand';
+import Event from 'src/components/table/rows/event';
 
 const TABLE_HEAD = [
   { id: 'name', label: 'Brands', alignRight: false, sort: true },
+  { id: 'type', label: 'Type', alignRight: false },
+  { id: 'startTime', label: 'Start Time', alignRight: false },
+  { id: 'endTime', label: 'End Time', alignRight: false },
   { id: 'status', label: 'Status', alignRight: false },
   { id: 'createdAt', label: 'Date', alignRight: false, sort: true },
   { id: '', label: 'Actions', alignRight: true }
 ];
 
-export default function BrandList() {
+export default function EventList() {
   const searchParams = useSearchParams();
   const [open, setOpen] = useState(false);
   const [apicall, setApicall] = useState(false);
   const [id, setId] = useState(null);
 
   const { data, isLoading, error } = useQuery(
-    ['brands', apicall, searchParams?.toString()],
-    () => api.getBrandsByAdmin(searchParams?.toString() || ''),
+    ['events', apicall, searchParams?.toString()],
+    () => api.getEventsByAdmin(searchParams?.toString() || ''),
     {
-      onError: (err) =>
-        toast.error(err.response.data.message || 'We ran into an issue. Please refresh the page or try again.')
+      onError: (err) => toast.error(err.message || 'We ran into an issue. Please refresh the page or try again.')
     }
   );
 
@@ -50,10 +52,10 @@ export default function BrandList() {
           onClose={handleClose}
           id={id}
           apicall={setApicall}
-          endPoint="deleteBrandByAdmin"
+          endPoint="deleteEventByAdmin"
           type={'Record deleted'}
           deleteMessage={
-            'Are you sure you want to delete this Location? Please consider carefully before making irreversible changes.'
+            'Are you sure you want to delete this event? Please consider carefully before making irreversible changes.'
           }
         />
       </Dialog>
@@ -61,7 +63,7 @@ export default function BrandList() {
         headData={TABLE_HEAD}
         data={error ? [] : data}
         isLoading={isLoading}
-        row={Brand}
+        row={Event}
         handleClickOpen={handleClickOpen}
         isSearch
       />

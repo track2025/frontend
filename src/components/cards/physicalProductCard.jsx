@@ -285,9 +285,11 @@ export default function PhysicalProductCard({ ...props }) {
             ) : (
               <>
                 <span>{fCurrency(cCurrency(product?.salePrice))}</span>
-                <span className="discount">
-                  ({`-${(100 - (product?.salePrice / product?.price) * 100).toFixed()}%`})
-                </span>
+                {100 - (product?.salePrice / product?.price) * 100 > 1 && (
+                  <span className="discount">
+                    ({`-${(100 - (product?.salePrice / product?.price) * 100).toFixed()}%`})
+                  </span>
+                )}
               </>
             )}
           </Typography>
