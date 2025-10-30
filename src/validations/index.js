@@ -471,15 +471,15 @@ const editPaymentSchema = Yup.object().shape({
 
 const physicalProductSchema = (isVendor) =>
   Yup.object().shape({
-    name: Yup.string().required('Product name is required'),
-    tags: Yup.array().min(1, 'Tags is required'),
-    description: Yup.string().required('Description is required'),
+    name: Yup.string().required('Product name is required').max(100,'Name cannot exceed 100 characters.'),
+    tags: Yup.array().min(1, 'Min (1) Tags is required'),
+    description: Yup.string().required('Description is required').max(500, 'Description cannot exceed 500 characters.'),
     category: Yup.string().required('Category is required'),
     subCategory: Yup.string().required('Sub Category is required'),
     slug: Yup.string().required('Slug is required'),
     brand: Yup.string(),
-    metaTitle: Yup.string().required('Meta title is required'),
-    metaDescription: Yup.string().required('Meta description is required'),
+    metaTitle: Yup.string().required('Meta title is required').max(100,'Meta Title cannot exceed 100 characters.'),
+    metaDescription: Yup.string().required('Meta description is required').max(200,'Meta Title cannot exceed 200 characters.'),
     type: Yup.string().required('Product type is required'),
     content: Yup.string().required('Content is required'),
     deliveryType: Yup.string(),

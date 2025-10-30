@@ -24,6 +24,7 @@ import * as api from 'src/services';
 import { Form, FormikProvider, useFormik } from 'formik';
 import { FaRegCircleQuestion } from 'react-icons/fa6';
 import { attributeSchema } from 'src/validations';
+import parseMongooseError from 'src/utils/errorHandler';
 
 const commonAttributes = [
   'Color',
@@ -53,7 +54,8 @@ export default function AttributesForm({
       handleClose();
     },
     onError: (error) => {
-      toast.error(error?.response?.data?.message || 'Something went wrong!');
+      let errorMessage = parseMongooseError(error?.response?.data?.message);
+      toast.error(errorMessage || 'Something went wrong!');
     }
   });
 
@@ -67,6 +69,8 @@ export default function AttributesForm({
         mutate({ ...rest, ...(currentAttribute && { currentId: currentAttribute._id }) });
       } catch (error) {
         console.error(error);
+        let errorMessage = parseMongooseError(error?.response?.data?.message);
+        toast.error(errorMessage || 'Something went wrong!');
       }
     }
   });

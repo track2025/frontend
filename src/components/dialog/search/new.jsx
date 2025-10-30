@@ -35,6 +35,12 @@ export default function SimpleDialogDemo() {
           cursor: "pointer",
           color: "primary.dark",
           textDecoration: "none",
+          fontWeight: "500",
+          "& svg": {
+            fontSize: 20,
+            color: "primary.dark",
+            fontWeight: 500,
+          },
           "&:hover": { textDecoration: "underline" },
         }}
       >
