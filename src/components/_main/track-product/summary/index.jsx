@@ -46,20 +46,35 @@ export default function PhysicalProductDetailsSumary({ ...props }) {
   const searchParams = useSearchParams();
   const variantParam = searchParams.get('variant') || '';
 
+  // console.log(product, 'OKK CHECK THE PRODUCT', selectedVariant);
   const cCurrency = useCurrencyConvert();
   const fCurrency = useCurrencyFormatter();
   const [isInitialized, setInitialized] = useState(false);
+  const matchedVariant =
+    !isSimpleProduct && product?.variants?.find((v) => v?.name?.toLowerCase() === selectedVariant?.toLowerCase());
+
+  console.log('matchedVariant:', matchedVariant);
   const [variantObj, setVariantObj] = useState(
     isSimpleProduct
       ? null
       : {
-          ...product.variants[0],
-          name: product.variants[0].name
+          ...matchedVariant,
+          name: matchedVariant?.name
         }
   );
+
   useEffect(() => {
     setInitialized(true);
   }, []);
+
+  useEffect(() => {
+    if (!isSimpleProduct && product?.variants?.length) {
+      const match =
+        product.variants.find((v) => v?.name?.toLowerCase() === selectedVariant?.toLowerCase()) || product.variants[0];
+
+      setVariantObj({ ...match, name: match.name });
+    }
+  }, [selectedVariant, product, isSimpleProduct]);
 
   const router = useRouter();
 
@@ -79,6 +94,7 @@ export default function PhysicalProductDetailsSumary({ ...props }) {
     checkout?.cart?.filter((item) => item._id === product._id)?.map((item) => item.quantity)[0] >= stockQuantity;
 
   const onAddCart = (param) => {
+    console.log(param, 'OKK SEE THE REDUX SET PARAMS');
     toast.success('Added to cart');
     dispatch(addPhysicalCart(param));
   };
@@ -98,6 +114,7 @@ export default function PhysicalProductDetailsSumary({ ...props }) {
         const alreadyProduct = checkout.cart.filter(
           (item) => item.sku === (isSimpleProduct ? product : variantObj).sku
         );
+
         if (!Boolean(alreadyProduct.length)) {
           onAddCart({
             pid: product._id,
@@ -163,6 +180,7 @@ export default function PhysicalProductDetailsSumary({ ...props }) {
         variant: variantObj.name,
         variantName: variantObj.variant
       }),
+      variantId: variantObj?._id,
       discount: (isSimpleProduct ? product : variantObj).price - (isSimpleProduct ? product : variantObj).salePrice,
       image: (isSimpleProduct ? product : variantObj).images[0].url,
       quantity: values.quantity,
