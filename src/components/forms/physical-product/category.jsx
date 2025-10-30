@@ -211,7 +211,7 @@ export default function PhysicalCategoryForm({ data: currentCategory, isLoading:
                       <Skeleton variant="text" width={100} />
                     ) : (
                       <Typography variant="overline" color="text.primary" htmlFor="description" component={'label'}>
-                        Discription
+                        Description
                       </Typography>
                     )}
                     {categoryLoading ? (

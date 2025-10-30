@@ -69,13 +69,15 @@ export default function PhysicalProductForm({
       router.push((isVendor ? '/vendor' : '/admin') + '/physical-products');
     },
     onError: (error) => {
-      toast.error(error?.response?.data?.message || 'Something went wrong!');
+      console.error(error);
+      let errorMessage = parseMongooseError(error?.response?.data?.message);
+      toast.error(errorMessage || 'Something went wrong!');
     }
   });
   const [count, setCount] = React.useState(0);
   const [initialized, setInitialized] = React.useState(false);
 
- 
+
 
   const formik = useFormik({
     enableReinitialize: true,
@@ -126,6 +128,8 @@ export default function PhysicalProductForm({
         });
       } catch (error) {
         console.error(error);
+        let errorMessage = parseMongooseError(error?.response?.data?.message);
+        toast.error(errorMessage || 'Something went wrong!');
       }
     }
   });
