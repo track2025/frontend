@@ -148,13 +148,7 @@ export const navlinks = [
     icon: <IoFileTrayFull />,
     isSearch: false
   },
-  {
-    id: 13,
-    title: 'Settings',
-    slug: 'settings',
-    icon: <IoSettingsOutline />,
-    isSearch: false
-  },
+
   {
     id: 15,
     title: 'Attributes',
@@ -163,33 +157,41 @@ export const navlinks = [
     isSearch: false
   },
   {
-    id: 15,
+    id: 16,
     title: 'Brands',
     slug: 'physical-brands',
     icon: <FaRegBuilding />,
     isSearch: false
   },
   {
-    id: 15,
+    id: 17,
     title: 'Categories',
     slug: 'physical-categories',
     icon: <TbCategory2 />,
     isSearch: false
   },
   {
-    id: 15,
+    id: 18,
     title: 'Sub Categories',
     slug: 'physical-categories/sub-categories',
     icon: <TbCategory2 />,
     isSearch: false
   },
   {
-    id: 15,
+    id: 19,
     title: 'Products',
     slug: 'physical-products',
     icon: <BsShop />,
     isSearch: false
   },
+
+  {
+    id: 20,
+    title: 'Settings',
+    slug: 'settings',
+    icon: <IoSettingsOutline />,
+    isSearch: false
+  }
 ];
 
 const drawerWidth = 240;
