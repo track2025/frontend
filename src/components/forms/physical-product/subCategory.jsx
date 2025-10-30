@@ -100,7 +100,8 @@ export default function PhysicalSubCategoryForm({
       try {
         mutate({ ...rest, ...(currentCategory && { currentSlug: currentCategory.slug }) });
       } catch (error) {
-        console.error(error);
+        let errorMessage = parseMongooseError(error);
+        toast.error(errorMessage || 'Something went wrong!');
       }
     }
   });
