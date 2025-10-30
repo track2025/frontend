@@ -76,10 +76,18 @@ export default function EventsPage() {
   //   US: '🇺🇸'
   // };
 
-  // Generate emoji flag from ISO country code (e.g. "US" → 🇺🇸)
   function getFlagEmoji(countryCode) {
-    if (!countryCode || countryCode.length !== 2) return '';
-    return countryCode.toUpperCase().replace(/./g, (char) => String.fromCodePoint(127397 + char.charCodeAt()));
+    const defaultFlag = '🏳️'; // fallback flag
+    if (!countryCode || countryCode.length !== 2) return defaultFlag;
+
+    try {
+      const flag = countryCode.toUpperCase().replace(/./g, (char) => String.fromCodePoint(127397 + char.charCodeAt()));
+
+      // Basic validity check: flag should be 4 bytes (2 regional indicators)
+      return flag.length === 4 ? flag : defaultFlag;
+    } catch {
+      return defaultFlag;
+    }
   }
 
   // Build the map for all ISO country codes
