@@ -32,7 +32,8 @@ export default function PhysicalProductDetailsReviewForm({ ...props }) {
   const { mutateAsync: deleteMutate } = useMutation({
     mutationFn: api.singleDeleteFile,
     onError: (error) => {
-      toast.error(error?.response?.data?.message || 'Failed to delete file.');
+      let errorMessage = parseMongooseError(error?.response?.data?.message);
+      toast.error(errorMessage || 'Something went wrong!');
     }
   });
 
@@ -58,7 +59,8 @@ export default function PhysicalProductDetailsReviewForm({ ...props }) {
       onClose();
     },
     onError: (error) => {
-      toast.error(error?.response?.data?.message || 'Failed to add review.');
+      let errorMessage = parseMongooseError(error?.response?.data?.message);
+      toast.error(errorMessage || 'Something went wrong!');
     }
   });
 
@@ -136,7 +138,7 @@ export default function PhysicalProductDetailsReviewForm({ ...props }) {
               error={Boolean(touched.review && errors.review)}
               helperText={touched.review && errors.review}
             />
-            
+
             <Stack direction="row" justifyContent="flex-end">
               <Button type="button" color="inherit" variant="outlined" onClick={onCancel} sx={{ mr: 1.5 }}>
                 Cancel

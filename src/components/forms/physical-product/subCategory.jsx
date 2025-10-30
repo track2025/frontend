@@ -100,7 +100,8 @@ export default function PhysicalSubCategoryForm({
       try {
         mutate({ ...rest, ...(currentCategory && { currentSlug: currentCategory.slug }) });
       } catch (error) {
-        console.error(error);
+        let errorMessage = parseMongooseError(error);
+        toast.error(errorMessage || 'Something went wrong!');
       }
     }
   });
@@ -157,7 +158,7 @@ export default function PhysicalSubCategoryForm({
                       <Skeleton variant="text" width={140} />
                     ) : (
                       <Typography variant="overline" color="text.primary" htmlFor="category-name" component={'label'}>
-                        Category Name
+                        Sub Category Name
                       </Typography>
                     )}
                     {categoryLoading ? (

@@ -24,7 +24,7 @@ export default async function page() {
           },
           {
             name: 'Products',
-            href: '/admin/products'
+            href: '/admin/physical-products'
           },
           {
             name: 'Add Product'

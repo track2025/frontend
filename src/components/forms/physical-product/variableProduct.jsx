@@ -46,7 +46,10 @@ export default function VariableProduct({ formik, variants, setCount, count, isI
   }, [variants]);
 
   const { mutateAsync: deleteMutate } = useMutation(api.singleDeleteFile, {
-    onError: (error) => toast.error(error?.response?.data?.message || 'Failed to delete file.')
+    onError: (error) => {
+      let errorMessage = parseMongooseError(error);
+      toast.error(errorMessage || 'Something went wrong!');
+    }
   });
 
   const handleDrop = async (acceptedFiles, index) => {

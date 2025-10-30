@@ -16,14 +16,12 @@ export default function GroupAndCategory(props) {
     }
   }, [values.type, setFieldValue]);
 
-  console.log(formik.values.status);
-
   return (
     <Grid container spacing={2}>
 
       <Grid
         size={{
-          md: 3,
+          md: 4,
           xs: 12
         }}
       >
@@ -58,7 +56,7 @@ export default function GroupAndCategory(props) {
       </Grid>
       <Grid
         size={{
-          md: 3,
+          md: 4,
           xs: 12
         }}
       >
@@ -100,7 +98,7 @@ export default function GroupAndCategory(props) {
       </Grid>
       <Grid
         size={{
-          md: 3,
+          md: 4,
           xs: 12
         }}
       >
@@ -135,7 +133,7 @@ export default function GroupAndCategory(props) {
       </Grid>
       <Grid
         size={{
-          md: 3,
+          md: 4,
           xs: 12
         }}
       >
@@ -174,7 +172,7 @@ export default function GroupAndCategory(props) {
           )}
         </FormControl>
       </Grid>
-      <Grid
+      {/* <Grid
         size={{
           md: isVendor ? 4 : 3,
           xs: 12
@@ -212,10 +210,10 @@ export default function GroupAndCategory(props) {
             )}
           </Stack>
         </FormControl>
-      </Grid>
+      </Grid> */}
       <Grid
         size={{
-          md: isVendor ? 4 : 3,
+          md: 4,
           xs: 12
         }}
       >
@@ -256,7 +254,7 @@ export default function GroupAndCategory(props) {
       {!isVendor && (
         <Grid
           size={{
-            md: 3,
+            md: 4,
             xs: 12
           }}
         >

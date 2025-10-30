@@ -32,7 +32,11 @@ export default function ProductInfo(props) {
   const { values, errors, touched, getFieldProps, setFieldValue } = formik;
 
   const { mutateAsync: deleteMutate } = useMutation(api.singleDeleteFile, {
-    onError: (error) => toast.error(error?.response?.data?.message || 'Failed to delete file.')
+    onError: (error) => {
+      console.error(error);
+      let errorMessage = parseMongooseError(error?.response?.data?.message);
+      toast.error(errorMessage || 'Something went wrong!');
+    }
   });
 
   // Handle multiple file drop
