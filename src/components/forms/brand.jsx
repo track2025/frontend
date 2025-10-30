@@ -235,10 +235,6 @@ export default function LocationsForm({ data: currentLocation, isLoading: locati
                     ) : (
                       <>
                         <LabelStyle>Timezone</LabelStyle>
-                        {/* <TimezoneSelect
-                          value={values.timezone}
-                          onChange={(val) => setFieldValue('timezone', val.value)}
-                        /> */}
 
                         <TimezoneSearch
                           value={values.timezone}
@@ -246,9 +242,6 @@ export default function LocationsForm({ data: currentLocation, isLoading: locati
                           error={touched.timezone && Boolean(errors.timezone)}
                           helperText={touched.timezone && errors.timezone}
                         />
-                        {touched.timezone && errors.timezone && (
-                          <FormHelperText error>{errors.timezone}</FormHelperText>
-                        )}
                       </>
                     )}
 

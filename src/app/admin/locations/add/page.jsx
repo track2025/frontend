@@ -15,7 +15,7 @@ export default function page() {
     <div>
       <HeaderBreadcrumbs
         admin
-        heading="Locations List"
+        heading="Add Location"
         links={[
           {
             name: 'Dashboard',
