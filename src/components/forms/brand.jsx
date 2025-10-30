@@ -35,6 +35,7 @@ import uploadToSpaces from 'src/utils/upload';
 // timezone
 import TimezoneSelect from 'react-timezone-select';
 import TimezoneSearch from '../settings/TimezoneSearch';
+import parseMongooseError from 'src/utils/errorHandler';
 
 const LabelStyle = styled(Typography)(({ theme }) => ({
   ...theme.typography.subtitle2,
@@ -81,7 +82,10 @@ export default function LocationsForm({ data: currentLocation, isLoading: locati
         router.push('/admin/locations');
       },
       onError: (error) => {
-        toast.error(error.response?.data?.message || 'Error occurred');
+        let errorMessage = parseMongooseError(error?.message);
+        toast.error(errorMessage || 'We ran into an issue. Please refresh the page or try again.', {
+          duration: 10000 // Prevents auto-dismissal
+        });
       }
     }
   );
@@ -235,10 +239,6 @@ export default function LocationsForm({ data: currentLocation, isLoading: locati
                     ) : (
                       <>
                         <LabelStyle>Timezone</LabelStyle>
-                        {/* <TimezoneSelect
-                          value={values.timezone}
-                          onChange={(val) => setFieldValue('timezone', val.value)}
-                        /> */}
 
                         <TimezoneSearch
                           value={values.timezone}
@@ -246,9 +246,6 @@ export default function LocationsForm({ data: currentLocation, isLoading: locati
                           error={touched.timezone && Boolean(errors.timezone)}
                           helperText={touched.timezone && errors.timezone}
                         />
-                        {touched.timezone && errors.timezone && (
-                          <FormHelperText error>{errors.timezone}</FormHelperText>
-                        )}
                       </>
                     )}
 

@@ -43,6 +43,8 @@ import uploadToSpaces from 'src/utils/upload';
 // dynamically import react-quill (to avoid SSR issues)
 const ReactQuill = dynamic(() => import('react-quill'), { ssr: false });
 import 'react-quill/dist/quill.snow.css';
+import parseMongooseError from 'src/utils/errorHandler';
+import countries from 'src/utils/counties';
 
 EventForm.propTypes = {
   data: PropTypes.object,
@@ -75,7 +77,10 @@ export default function EventForm({ data: currentEvent, isLoading: apiLoading })
         router.back();
       },
       onError: (error) => {
-        toast.error(error?.message || 'Something went wrong');
+        let errorMessage = parseMongooseError(error?.message);
+        toast.error(errorMessage || 'We ran into an issue. Please refresh the page or try again.', {
+          duration: 10000 // Prevents auto-dismissal
+        });
       }
     }
   );
@@ -96,8 +101,7 @@ export default function EventForm({ data: currentEvent, isLoading: apiLoading })
     date: Yup.string().required('Date is required'),
     startTime: Yup.string().required('Start Time is required'),
     endTime: Yup.string().required('End Time is required'),
-    type: Yup.string().required('Type is required'),
-    category: Yup.string().required('Category is required'),
+    category: Yup.string().optional('Category is required'),
     image: Yup.mixed().required('Main image is required'),
     thumbnailImage: Yup.mixed().required('Thumbnail image is required'),
     content: Yup.string().required('Content is required')
@@ -113,11 +117,11 @@ export default function EventForm({ data: currentEvent, isLoading: apiLoading })
       trackSlug: currentEvent?.trackSlug || '',
       country: currentEvent?.country || '',
       countrySlug: currentEvent?.countrySlug || '',
+      countryCode: currentEvent?.countryCode || '',
       city: currentEvent?.city || '',
       date: currentEvent?.date || '',
       startTime: currentEvent?.startTime || '',
       endTime: currentEvent?.endTime || '',
-      type: currentEvent?.type || '',
       category: currentEvent?.category || '',
       description: currentEvent?.description || '',
       fullDescription: currentEvent?.fullDescription || '',
@@ -310,12 +314,24 @@ export default function EventForm({ data: currentEvent, isLoading: apiLoading })
                         )}
                       />
 
-                      <TextField
-                        label="Country"
-                        {...getFieldProps('country')}
-                        placeholder=""
-                        error={Boolean(touched.country && errors.country)}
-                        helperText={touched.country && errors.country}
+                      <Autocomplete
+                        options={countries}
+                        getOptionLabel={(option) => option.label}
+                        value={countries?.find((c) => c.label === values.country) || null}
+                        onChange={(event, newValue) => {
+                          setFieldValue('country', newValue ? newValue.label : '');
+                          setFieldValue('countrySlug', newValue ? newValue.code.toLowerCase() : '');
+                          setFieldValue('countryCode', newValue ? newValue.code : '');
+                        }}
+                        renderInput={(params) => (
+                          <TextField
+                            {...params}
+                            label="Country"
+                            placeholder="Select a country"
+                            error={Boolean(touched.country && errors.country)}
+                            helperText={touched.country && errors.country}
+                          />
+                        )}
                       />
                       <TextField
                         label="City"
@@ -346,7 +362,6 @@ export default function EventForm({ data: currentEvent, isLoading: apiLoading })
                         InputLabelProps={{ shrink: true }}
                         {...getFieldProps('endTime')}
                       />
-                      <TextField fullWidth label="Type" {...getFieldProps('type')} />
                       <TextField fullWidth label="Category" {...getFieldProps('category')} />
 
                       <FormControl fullWidth>

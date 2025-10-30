@@ -22,17 +22,16 @@ const TABLE_HEAD = [
 
 export default function BrandList() {
   const searchParams = useSearchParams();
-  const pageParam = searchParams.get('page');
-  const searchParam = searchParams.get('search');
   const [open, setOpen] = useState(false);
   const [apicall, setApicall] = useState(false);
   const [id, setId] = useState(null);
 
   const { data, isLoading, error } = useQuery(
-    ['brands', apicall, searchParam, pageParam],
-    () => api.getBrandsByAdmin(+pageParam || 1, searchParam || ''),
+    ['brands', apicall, searchParams?.toString()],
+    () => api.getBrandsByAdmin(searchParams?.toString() || ''),
     {
-      onError: (err) => toast.error(err.response.data.message || 'We ran into an issue. Please refresh the page or try again.')
+      onError: (err) =>
+        toast.error(err.response.data.message || 'We ran into an issue. Please refresh the page or try again.')
     }
   );
 

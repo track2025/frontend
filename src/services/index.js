@@ -40,8 +40,8 @@ export const getNotifications = async (page) => {
   return data;
 };
 
-export const getBrandsByAdmin = async (page, search) => {
-  const { data } = await http.get(`/admin/brands?search=${search}&page=${page}`);
+export const getBrandsByAdmin = async (params) => {
+  const { data } = await http.get(`/admin/brands?${params}`);
   return data;
 };
 
@@ -720,16 +720,13 @@ export const requestRemoval = async ({ ...payload }) => {
   return data;
 };
 
-
 // gabriel events
 export const getSuperEvents = async (payload) => {
-  console.log('tester.....')
+  console.log('tester.....');
   const { data } = await http.get(`/all-events`);
 
   return data;
 };
-
-
 
 // export const contactUs = async (payload) => {
 //   const { data } = await http.post(`/contact-us`, payload);
@@ -795,12 +792,11 @@ export const deletePhysicalBrandByAdmin = async (slug) => {
   return data;
 };
 
-
 /*
 ====================================
 PHYSICAL CATEGORIES (Admin)
 ====================================
-*/ 
+*/
 export const getPhysicalCategoriesByAdmin = async (page, search) => {
   const { data } = await http.get(`/admin/physical-categories?search=${search}&page=${page}`);
   return data;
@@ -852,15 +848,11 @@ export const updatePhysicalSubCategoryByAdmin = async ({ currentSlug, ...payload
   return data;
 };
 
-
-
-
 // Get all physical products with pagination and optional search
 export const getPhysicalProductsByAdmin = async (page = 1, search = '') => {
   const { data } = await http.get(`/admin/physical-products?search=${search}&page=${page}`);
   return data;
 };
-
 
 // Get one physical product by slug
 export const getPhysicalProductByAdmin = async (slug) => {

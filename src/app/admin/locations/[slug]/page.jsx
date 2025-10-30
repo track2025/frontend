@@ -18,7 +18,7 @@ Page.propTypes = {
 };
 
 export default function Page({ params }) {
-  const { data, isLoading } = useQuery(['coupon-codes'], () => api.getBrandByAdmin(params.slug), {
+  const { data, isLoading } = useQuery(['single-location'], () => api.getBrandByAdmin(params.slug), {
     onError: (err) => {
       toast.error(err.response.data.message || 'We ran into an issue. Please refresh the page or try again.');
     }
@@ -27,14 +27,14 @@ export default function Page({ params }) {
     <div>
       <HeaderBreadcrumbs
         admin
-        heading="Categories List"
+        heading="Edit Location"
         links={[
           {
             name: 'Dashboard',
             href: '/admin'
           },
           {
-            name: 'Brands',
+            name: 'Locations',
             href: '/admin/locations'
           },
           {

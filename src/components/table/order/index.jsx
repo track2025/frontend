@@ -29,7 +29,9 @@ TableCard.propTypes = {
 
 export default function TableCard({ ...props }) {
   const { data, isLoading } = props;
+  console.log(data, 'OKK check');
   const items = data?.items;
+  const checkoutType = data?.checkoutType;
   const fCurrency = useCurrencyFormatter();
   const cCurrency = useCurrencyConvert();
   const conversionRate = data?.conversionRate;
@@ -42,7 +44,13 @@ export default function TableCard({ ...props }) {
           {data?.totalItems} {data?.totalItems > 1 ? 'Items' : 'Item'}
         </Typography>
       )}
-      <OrderDetailsTable data={items} isLoading={isLoading} conversionRate={conversionRate} currency={data?.currency} />
+      <OrderDetailsTable
+        data={items}
+        isLoading={isLoading}
+        conversionRate={conversionRate}
+        currency={data?.currency}
+        checkoutType={checkoutType}
+      />
       <Divider />
       <Table>
         <TableBody>
