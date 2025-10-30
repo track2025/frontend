@@ -27,7 +27,7 @@ export default function Page({ params }) {
     <div>
       <HeaderBreadcrumbs
         admin
-        heading="Categories List"
+        heading="Edit Blog"
         links={[
           {
             name: 'Dashboard',
@@ -38,7 +38,7 @@ export default function Page({ params }) {
             href: '/admin/locations'
           },
           {
-            name: data?.data?.name
+            name: data?.data?.title
           }
         ]}
       />
