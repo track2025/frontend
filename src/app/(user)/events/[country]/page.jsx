@@ -171,9 +171,9 @@ export default function CountryEventsPage() {
           </Breadcrumbs>
 
           {/* Back Button */}
-          <Button startIcon={<ArrowBackIcon />} onClick={() => router.push('/events')} sx={{ mb: 3, color: '#666' }}>
+          {/* <Button startIcon={<ArrowBackIcon />} onClick={() => router.push('/events')} sx={{ mb: 3, color: '#666' }}>
             Back to All Events
-          </Button>
+          </Button> */}
 
           {/* Header with Flag */}
           <Box

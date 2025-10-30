@@ -147,13 +147,13 @@ export default function EventDetailPage() {
           </Breadcrumbs>
 
           {/* Back Button */}
-          <Button
+          {/* <Button
             startIcon={<ArrowBackIcon />}
             onClick={() => router.push(`/tracks/${trackSlug}`)}
             sx={{ mb: 3, color: '#666' }}
           >
             Back to {eventData.trackName}
-          </Button>
+          </Button> */}
 
           {/* Banner Image */}
           <Box
