@@ -55,7 +55,7 @@ const MAIN_LINKS = [
     listText1: 'Contact us',
     listLink1: '/contact',
     listText2: 'Our Collections',
-    listLink2: '/products?top=1',
+    listLink2: '/race-track/collection',
     listText3: 'Photographers',
     listLink3: '/photographers'
   },

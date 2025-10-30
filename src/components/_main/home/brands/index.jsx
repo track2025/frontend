@@ -58,7 +58,7 @@ export default function Brands() {
                   }
                 }}
               >
-                <CardActionArea onClick={() => push(`/race-track/${v.slug}`)} sx={{ p: 1, pr: 2 }}>
+                <CardActionArea onClick={() => push(`/tracks/${v.slug}`)} sx={{ p: 1, pr: 2 }}>
                   <Stack direction="row" alignItems="center" spacing={2}>
                     <Image
                       src={v.logo.url}

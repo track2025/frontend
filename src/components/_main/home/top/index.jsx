@@ -24,7 +24,7 @@ export default function Index() {
       >
         <Box width="100%">
           <Typography variant="h2" color="text.primary" mt={{ xs: 4, md: 8 }}>
-          Recently Added
+            Recently Added
           </Typography>
           <Typography variant="body1" color="text.secondary" mb={{ xs: 3, md: 5 }}>
             Fresh from the Track — Explore the Latest Uploads from Our Photographers.
@@ -42,7 +42,7 @@ export default function Index() {
           }}
           endIcon={<IoIosArrowForward />}
           component={NextLink}
-          href={`/products?top=1`}
+          href={`/race-track/collection`}
         >
           View More
         </Button>
@@ -66,7 +66,7 @@ export default function Index() {
         }}
         endIcon={<IoIosArrowForward />}
         component={NextLink}
-        href={`/products?top=1`}
+        href={`/race-track/collection`}
       >
         View More
       </Button>

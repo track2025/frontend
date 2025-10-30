@@ -30,7 +30,7 @@ export default async function Cart() {
           },
           {
             name: 'Products',
-            href: '/products'
+            href: '/race-track/collection'
           },
           {
             name: 'Cart'

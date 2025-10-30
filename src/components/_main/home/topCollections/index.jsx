@@ -36,7 +36,7 @@ export default function TopCollections() {
           }}
           endIcon={<IoIosArrowForward />}
           component={NextLink}
-          href={`/products?top=-1`}
+          href={`/race-track/collection`}
         >
           View More
         </Button>
