@@ -30,8 +30,8 @@ const TrustPaymentButton = ({
   domain = 'https://payments.securetrading.net',
   journey = 'choice', // 'choice' for multiple payment methods, 'details' for card only
   // successUrl = 'http://localhost:3001/checkout',
-  // successUrl = 'https://lapsnaps.com/checkout',
-  successUrl = 'https://frontend-five-pi-67.vercel.app/checkout',
+  successUrl = 'https://lapsnaps.com/checkout',
+  // successUrl = 'https://frontend-five-pi-67.vercel.app/checkout',
   errorUrl,
   userDetails = {},
   disabled = false,
