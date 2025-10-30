@@ -136,15 +136,14 @@ export default function PhysicalProductCard({ ...props }) {
         <Box
           {...(!loading &&
             product?.stockQuantity > 0 && {
-              component: Link,
-              href: linkTo
-            })}
+            component: Link,
+            href: linkTo
+          })}
           sx={{
             bgcolor: isLoading || loading ? 'transparent' : 'common.white',
             position: 'relative',
             cursor: 'pointer',
             aspectRatio: '1 / 1',
-
             '&:after': { content: `""`, display: 'block', paddingBottom: '100%' },
             width: '100%',
             img: {
@@ -155,12 +154,25 @@ export default function PhysicalProductCard({ ...props }) {
           {loading ? (
             <Skeleton variant="rectangular" width="100%" sx={{ height: '100%', position: 'absolute' }} />
           ) : (
-            <BlurImage alt={name} src={images[0].url} fill draggable="false" sizes="(max-width: 600px) 100vw, 50vw" />
+            <BlurImage
+              alt={name}
+              src={images[0].url}
+              fill
+              draggable="false"
+              // Reduced image size for better performance
+              sizes="(max-width: 200px) 50vw, 20vw"
+              // Add quality optimization
+              quality={75}
+              // Add priority only for above-the-fold images
+              priority={false}
+              // Add placeholder for better UX
+              placeholder="blur"
+              blurDataURL={images[0].blurDataURL || '/images/placeholder.jpg'}
+            />
           )}
         </Box>
         <Zoom in={openActions}>
           <Box>
-            {}
             <Stack
               direction={'row'}
               sx={{
@@ -176,8 +188,6 @@ export default function PhysicalProductCard({ ...props }) {
             >
               <Tooltip title="Quick View">
                 <span>
-                  {' '}
-                  {/* span to wrap disabled IconButton */}
                   <IconButton
                     aria-label="Quick View"
                     disabled={loading || product?.stockQuantity < 1 || quickViewLoading}
@@ -248,17 +258,14 @@ export default function PhysicalProductCard({ ...props }) {
           zIndex: 111,
           p: 1,
           width: '100%',
-
           a: { color: 'text.primary', textDecoration: 'none' }
         }}
       >
         <Box sx={{ display: 'grid' }}>
-          {' '}
           <Typography
             sx={{
               cursor: 'pointer',
               textTransform: 'capitalize'
-              // fontWeight: 500,
             }}
             {...(product?.stockQuantity > 0 && { component: Link, href: linkTo })}
             variant={'subtitle1'}
@@ -297,8 +304,8 @@ export default function PhysicalProductCard({ ...props }) {
       </Stack>
       {open && quickViewData && (
         <ProductDetailsDialog
-          product={quickViewData} // <-- send full data
-          slug={product.slug} // optional if dialog still needs slug
+          product={quickViewData}
+          slug={product.slug}
           open={open}
           isSimpleProduct={product.type === 'simple'}
           onClose={() => setOpen(false)}

@@ -23,7 +23,7 @@ import MuiDrawer from '@mui/material/Drawer';
 // icons
 import { IoIosArrowBack, IoIosArrowForward } from 'react-icons/io';
 import { LuLayoutDashboard } from 'react-icons/lu';
-import { FaRegBuilding } from 'react-icons/fa';
+import { FaRegBuilding, FaSlidersH } from 'react-icons/fa';
 import { TbCategory2 } from 'react-icons/tb';
 import { BsShop } from 'react-icons/bs';
 import { BsCart3 } from 'react-icons/bs';
@@ -184,9 +184,8 @@ export const navlinks = [
     icon: <BsShop />,
     isSearch: false
   },
-
   {
-    id: 20,
+    id: 21,
     title: 'Settings',
     slug: 'settings',
     icon: <IoSettingsOutline />,
@@ -336,13 +335,13 @@ export default function Sidebar({ handleDrawerClose, handleDrawerOpen, open }) {
                   border: `1px solid transparent`,
                   ...(active === '/admin/' + item.slug &&
                     initial && {
-                      bgcolor: (theme) => alpha(theme.palette.primary.main, 0.2),
-                      border: (theme) => `1px solid ${theme.palette.primary.main}`,
-                      color: theme.palette.primary.main,
-                      '& .MuiTypography-root': {
-                        fontWeight: 600
-                      }
-                    })
+                    bgcolor: (theme) => alpha(theme.palette.primary.main, 0.2),
+                    border: (theme) => `1px solid ${theme.palette.primary.main}`,
+                    color: theme.palette.primary.main,
+                    '& .MuiTypography-root': {
+                      fontWeight: 600
+                    }
+                  })
                 }}
               >
                 <Tooltip title={open ? '' : item.title} placement="left" arrow leaveDelay={200}>

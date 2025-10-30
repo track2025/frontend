@@ -848,7 +848,11 @@ export const updatePhysicalSubCategoryByAdmin = async ({ currentSlug, ...payload
   return data;
 };
 
-// Get all physical products with pagination and optional search
+/*
+=============================
+Physical Products (Admin)
+=============================
+*/
 export const getPhysicalProductsByAdmin = async (page = 1, search = '') => {
   const { data } = await http.get(`/admin/physical-products?search=${search}&page=${page}`);
   return data;
@@ -917,5 +921,22 @@ export const getPhysicalProductReviews = async (pid) => {
 };
 export const addPhysicalProductReview = async (payload) => {
   const { data } = await http.post(`/physical-product-reviews`, payload);
+  return data;
+};
+
+export const getPhysicalProductsByCategory = async (query = '', category, rate) => {
+  const { data } = await http.get(`/category/physical-products/${category}${query || '?'}&rate=${rate}`);
+  return data;
+};
+
+export const getPhysicalProductsBySubCategory = async (query = '', subcategory, rate) => {
+  const { data } = await http.get(`/subcategory/physical-products/${subcategory}${query || '?'}&rate=${rate}`);
+  return data;
+};
+
+export const getPhysicalProducts = async (query = '', cat, rate) => {
+  const { data } = await http.get(`/user/physical-products${query || '?'}&rate=${rate}`).catch((e) => {
+    throw e;
+  });
   return data;
 };

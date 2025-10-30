@@ -156,7 +156,7 @@ export default function Menu() {
             <ListItemIcon>
               <IoImagesOutline size={20} />
             </ListItemIcon>
-            <ListItemText primary="Products" />
+            <ListItemText primary="Race Ware" />
           </ListItemButton>
         </ListItem>
 

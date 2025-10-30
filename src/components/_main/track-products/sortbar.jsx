@@ -17,7 +17,7 @@ import { MdTune } from 'react-icons/md';
 import shape from 'src/theme/shape';
 import PhysicalFilter from './filters';
 
-export default function SortBar({ productData, isLoading, sortData, filters }) {
+export default function SortBar({ productData, isLoading, sortData, filters, category, subCategory }) {
   const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
@@ -28,9 +28,14 @@ export default function SortBar({ productData, isLoading, sortData, filters }) {
   const price = searchParams.get('price');
   const limit = searchParams.get('limit');
   const page = searchParams.get('page');
+  const categoryParam = searchParams.get('category');
+  const subCategoryParam = searchParams.get('subCategory');
 
   const [state, setState] = useState(null);
   const [openDrawer, setOpenDrawer] = useState(false);
+  const [selectedCategory, setSelectedCategory] = useState(categoryParam || '');
+  const [selectedSubCategory, setSelectedSubCategory] = useState(subCategoryParam || '');
+  const [availableSubCategories, setAvailableSubCategories] = useState([]);
 
   const createQueryString = useCallback(
     (name, value, key) => {
@@ -39,7 +44,19 @@ export default function SortBar({ productData, isLoading, sortData, filters }) {
       if (name !== key) {
         params.delete(key);
       }
+      return params.toString();
+    },
+    [searchParams]
+  );
 
+  const setQueryParam = useCallback(
+    (name, value) => {
+      const params = new URLSearchParams(searchParams);
+      if (value) {
+        params.set(name, value);
+      } else {
+        params.delete(name);
+      }
       return params.toString();
     },
     [searchParams]
@@ -59,6 +76,39 @@ export default function SortBar({ productData, isLoading, sortData, filters }) {
       setState(filtered.title);
     }
   };
+
+  // Handle category change
+  const handleCategoryChange = (event) => {
+    const categorySlug = event.target.value;
+    setSelectedCategory(categorySlug);
+    setSelectedSubCategory(''); // Reset subcategory when category changes
+
+    // Update available subcategories based on selected category
+    if (categorySlug && category?.subCategories) {
+      const categoryData = category.subCategories.find(cat => cat.slug === categorySlug);
+      setAvailableSubCategories(categoryData?.children || []);
+    } else {
+      setAvailableSubCategories([]);
+    }
+
+    router.push(`${pathname}?${setQueryParam('category', categorySlug)}`, 'isPathname');
+  };
+
+  // Handle subcategory change
+  const handleSubCategoryChange = (event) => {
+    const subCategorySlug = event.target.value;
+    setSelectedSubCategory(subCategorySlug);
+    router.push(`${pathname}?${setQueryParam('subCategory', subCategorySlug)}`, 'isPathname');
+  };
+
+  // Initialize available subcategories
+  useEffect(() => {
+    if (selectedCategory && category?.subCategories) {
+      const categoryData = category.subCategories.find(cat => cat.slug === selectedCategory);
+      setAvailableSubCategories(categoryData?.children || []);
+    }
+  }, [selectedCategory, category]);
+
   useEffect(() => {
     setItemsPerPage(isString(limit) ? limit : '12');
     setState(
@@ -80,6 +130,7 @@ export default function SortBar({ productData, isLoading, sortData, filters }) {
     );
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [name || date || price || limit || top]);
+
   return (
     <>
       <Stack
@@ -125,7 +176,46 @@ export default function SortBar({ productData, isLoading, sortData, filters }) {
             )
           )}
         </Typography>
-        <Stack direction="row" gap={1} alignItems="center">
+
+
+        <Stack direction="row" gap={1} alignItems="center" flexWrap="wrap">
+          
+          {/* Category Dropdown */}
+          {category?.subCategories && (
+            <FormControl size="small" sx={{ minWidth: 150 }}>
+              <Select
+                value={selectedCategory}
+                onChange={handleCategoryChange}
+                displayEmpty
+              >
+                <MenuItem value="">All Categories</MenuItem>
+                {category.subCategories.map((cat) => (
+                  <MenuItem key={cat.slug} value={cat.slug}>
+                    {cat.name}
+                  </MenuItem>
+                ))}
+              </Select>
+            </FormControl>
+          )}
+
+          {/* Subcategory Dropdown */}
+          {availableSubCategories.length > 0 && (
+            <FormControl size="small" sx={{ minWidth: 150 }}>
+              <Select
+                value={selectedSubCategory}
+                onChange={handleSubCategoryChange}
+                displayEmpty
+              >
+                <MenuItem value="">All Subcategories</MenuItem>
+                {availableSubCategories.map((subCat) => (
+                  <MenuItem key={subCat.slug} value={subCat.slug}>
+                    {subCat.name}
+                  </MenuItem>
+                ))}
+              </Select>
+            </FormControl>
+          )}
+
           <Button
             onClick={() => setOpenDrawer(true)}
             variant="outlined"
@@ -144,7 +234,6 @@ export default function SortBar({ productData, isLoading, sortData, filters }) {
 
           <FormControl
             size="small"
-            fullWidth
             sx={{
               minWidth: { xs: 100, md: 180 }
             }}
@@ -161,13 +250,13 @@ export default function SortBar({ productData, isLoading, sortData, filters }) {
               <Skeleton variant="rounded" width={150} height={40} />
             )}
           </FormControl>
-          <FormControl size="small" fullWidth sx={{ maxWidth: 120 }}>
+
+          <FormControl size="small" sx={{ maxWidth: 120 }}>
             <Select
               id="items-select"
               value={itemsPerPage}
               onChange={(e) => {
                 setItemsPerPage(e.target.value);
-
                 router.push(`${pathname}?${createQueryString('limit', e.target.value)}`, 'isPathname');
               }}
               sx={{
@@ -191,6 +280,7 @@ export default function SortBar({ productData, isLoading, sortData, filters }) {
           </FormControl>
         </Stack>
       </Stack>
+
       <Drawer
         anchor={'right'}
         open={openDrawer}
@@ -208,12 +298,13 @@ export default function SortBar({ productData, isLoading, sortData, filters }) {
     </>
   );
 }
-// add propTypes
+
+// Update propTypes
 SortBar.propTypes = {
   productData: PropTypes.object.isRequired,
   sortData: PropTypes.array.isRequired,
-  category: PropTypes.object.isRequired,
-  subCategory: PropTypes.object.isRequired,
+  category: PropTypes.object,
+  subCategory: PropTypes.object,
   isLoading: PropTypes.bool.isRequired,
-  shop: PropTypes.object
+  filters: PropTypes.array,
 };

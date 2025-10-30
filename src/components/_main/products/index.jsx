@@ -42,6 +42,10 @@ export default function ProductListing({ category, subCategory, shop, compaign }
   const pathname = usePathname();
   const { rate } = useSelector(({ settings }) => settings);
 
+  console.log("categories:", category)
+  console.log("category subCategories:", category?.subCategories) // Add this line
+  console.log("category type:", typeof category) // Add this line
+
   // Extract brand from query or path
   let brand = searchParams.get('brand');
   if (!brand) {
@@ -53,30 +57,34 @@ export default function ProductListing({ category, subCategory, shop, compaign }
     brand = match ? match[1] : null;
   }
 
-  // If brand exists, append to search params
-  const searchQuery = brand
+  // Fix: Proper query construction
+  const baseQuery = getSearchParams(searchParams);
+  const finalQuery = brand
     ? getSearchParams(new URLSearchParams({ ...Object.fromEntries(searchParams), brand }))
-    : getSearchParams(searchParams);
+    : baseQuery;
+
+  // Ensure query starts with ? and add rate properly
+  const queryWithRate = finalQuery.startsWith('?')
+    ? `${finalQuery}&rate=${rate}`
+    : `?${finalQuery}&rate=${rate}`;
 
   const { data, isLoading } = useQuery(
-    ['products' + (category || subCategory ? '-with-category' : ''), searchQuery, category, subCategory, shop],
-    () =>
-      api[
-        category
-          ? 'getProductsByCategory'
-          : subCategory
-            ? 'getProductsBySubCategory'
-            : shop
-              ? 'getProductsByShop'
-              : compaign
-                ? 'getProductsByCompaign'
-                : 'getProducts'
-      ](
-        searchQuery,
-        shop ? shop?.slug : category ? category?.slug : subCategory ? subCategory?.slug : compaign ? compaign.slug : '',
-        rate
-      )
+    ['physical-products', category?.slug, subCategory?.slug, queryWithRate],
+    () => {
+      const apiCall = category
+        ? api.getPhysicalProductsByCategory
+        : subCategory
+          ? api.getPhysicalProductsBySubCategory
+          : api.getPhysicalProducts;
+
+      return apiCall(
+        queryWithRate,
+        category ? category.slug : subCategory ? subCategory.slug : ''
+      );
+    }
   );
+
+  console.log("Data:", data);
 
   const isMobile = useMediaQuery('(max-width:900px)');
 

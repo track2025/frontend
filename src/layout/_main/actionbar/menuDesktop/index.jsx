@@ -38,6 +38,7 @@ const Search = dynamic(() => import('src/components/dialog/search/new'), {
   srr: false,
   loading: () => <Skeleton variant="rounded" width={200} height={56} sx={{ borderRadius: '70px' }} />
 });
+
 function MenuDesktopItem({ ...props }) {
   const { item, pathname, isHome, isOpen, isOffset, onOpen, scrollPosition, onClose, isLoading, data } = props;
   const { title, path, isDropdown } = item;

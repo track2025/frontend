@@ -18,7 +18,8 @@ import {
   Typography,
   Skeleton,
   Button,
-  styled
+  styled,
+  Collapse
 } from '@mui/material';
 import ClearIcon from '@mui/icons-material/Clear';
 import SearchIcon from '@mui/icons-material/Search';
@@ -26,6 +27,8 @@ import DirectionsCarIcon from '@mui/icons-material/DirectionsCar';
 import LocationOnIcon from '@mui/icons-material/LocationOn';
 import BuildIcon from '@mui/icons-material/Build';
 import DirectionsCarFilledIcon from '@mui/icons-material/DirectionsCarFilled';
+import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
+import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
 
 // next
 import { usePathname, useSearchParams } from 'next/navigation';
@@ -72,6 +75,7 @@ export default function SortBar({ compaign, productData, shop, isLoading, sortDa
   const [dateCaptured, setDateCaptured] = useState(dateQuery);
   const [focus, setFocus] = useState(false);
   const [filtersLoading, setFiltersLoading] = useState(false);
+  const [showAdvancedFilters, setShowAdvancedFilters] = useState(false);
 
   const createQueryString = useCallback(
     (name, value, key) => {
@@ -163,67 +167,54 @@ export default function SortBar({ compaign, productData, shop, isLoading, sortDa
   return (
     <>
       <Stack spacing={2} pt={2}>
-        {/* Search Bar */}
-        {/* <TextField
-          id="standard-basic"
-          variant="standard"
-          placeholder="Enter a location, reg. #, model or make"
-          value={search}
-          onFocus={() => setFocus(true)}
-          onKeyDown={onKeyDown}
-          onChange={(e) => {
-            setSearch(e.target.value);
-          }}
-          fullWidth
-          InputProps={{
-            startAdornment: (
-              <InputAdornment position="start" sx={{ justifyContent: 'center' }}>
-                {isLoading ? (
-                  <CircularProgress sx={{ width: '24px !important', height: '24px !important' }} />
-                ) : (
-                  <SearchIcon />
-                )}
-              </InputAdornment>
-            )
-          }}
-          sx={{
-            '& .MuiInput-root': {
-              height: { lg: 72, md: 72, sm: 72, xs: 56 }
-            },
-            '& .MuiInputAdornment-root': {
-              width: 100,
-              mr: 0,
-              svg: {
-                mx: 'auto',
-                color: 'primary.main'
-              }
-            }
-          }}
-        /> */}
-
         {/* Search Filters Row */}
         <Stack direction={{ xs: 'column', sm: 'row' }} spacing={2} alignItems="center" justifyContent="space-between">
-          {/* Registration */}
-          <TextField
-            size="small"
-            fullWidth
-            placeholder="Search by Registration"
-            value={search}
-            onFocus={() => setFocus(true)}
-            onKeyDown={onKeyDown}
-            onChange={(e) => {
-              setSearch(e.target.value);
-            }}
-            InputProps={{
-              startAdornment: (
-                <InputAdornment position="start">
-                  <DirectionsCarIcon color="primary" />
-                </InputAdornment>
-              )
-            }}
-          />
+          {/* Date Filter - Always Visible */}
+          <Stack direction="row" gap={1} flex={1} width="100%">
+            <FormControl
+              fullWidth
+              sx={{
+                maxWidth: { xs: '100%', sm: 250 }
+              }}
+            >
+              {filtersLoading ? (
+                <Skeleton variant="rounded" height={40} width="100%" />
+              ) : (
+                <TextField
+                  id="date"
+                  type="date"
+                  size="small"
+                  fullWidth
+                  value={dateCaptured}
+                  onChange={(e) => setDateCaptured(e.target.value)}
+                  InputLabelProps={{ shrink: false }}
+                  InputProps={{
+                    endAdornment: (
+                      <InputAdornment position="end">
+                        {dateCaptured && (
+                          <IconButton
+                            size="small"
+                            onClick={() => setDateCaptured('')}
+                            edge="end"
+                            sx={{ padding: '4px' }}
+                          >
+                            <ClearIcon fontSize="small" />
+                          </IconButton>
+                        )}
+                      </InputAdornment>
+                    ),
+                  }}
+                  sx={{
+                    '& .MuiInputBase-root': {
+                      color: 'primary.main', // Overall text color
+                    },
+                  }}
+                />
+              )}
+            </FormControl>
+          </Stack>
 
-          {/* Location */}
+          {/* Location - Always Visible */}
           <TextField
             size="small"
             fullWidth
@@ -244,107 +235,89 @@ export default function SortBar({ compaign, productData, shop, isLoading, sortDa
             }}
           />
 
-          {/* Car Make */}
-          <TextField
-            size="small"
-            fullWidth
-            placeholder="Filter by Car Make"
-            value={make}
-            onFocus={() => setFocus(true)}
-            onKeyDown={onKeyDown}
-            onChange={(e) => {
-              setMake(e.target.value);
-              router.push(`${pathname}?${setQueryParam('make', e.target.value)}`, 'isPathname');
+          {/* Toggle Button for Advanced Filters */}
+          <Button
+            variant="outlined"
+            onClick={() => setShowAdvancedFilters(!showAdvancedFilters)}
+            endIcon={showAdvancedFilters ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
+            sx={{
+              minWidth: 180,
+              justifyContent: 'space-between'
             }}
-            InputProps={{
-              startAdornment: (
-                <InputAdornment position="start">
-                  <BuildIcon color="primary" />
-                </InputAdornment>
-              )
-            }}
-          />
-
-          {/* Car Model */}
-          <TextField
-            size="small"
-            fullWidth
-            placeholder="Filter by Car Model"
-            value={model}
-            onFocus={() => setFocus(true)}
-            onKeyDown={onKeyDown}
-            onChange={(e) => {
-              setModel(e.target.value);
-              router.push(`${pathname}?${setQueryParam('model', e.target.value)}`, 'isPathname');
-            }}
-            InputProps={{
-              startAdornment: (
-                <InputAdornment position="start">
-                  <DirectionsCarFilledIcon color="primary" />
-                </InputAdornment>
-              )
-            }}
-          />
+          >
+            {showAdvancedFilters ? 'Hide Filters' : 'Advanced Filters'}
+          </Button>
         </Stack>
 
-        {/* Date Filter and Action Buttons */}
-        <Stack direction={{ xs: 'column', sm: 'row' }} spacing={2} alignItems="center" justifyContent="space-between">
-          {/* Date Filter */}
-          <Stack direction="row" gap={1} flex={1} width="100%">
-            <FormControl
+        {/* Advanced Filters - Collapsible */}
+        <Collapse in={showAdvancedFilters}>
+          <Stack direction={{ xs: 'column', sm: 'row' }} spacing={2} alignItems="center">
+            {/* Registration */}
+            <TextField
+              size="small"
               fullWidth
-              sx={{
-                maxWidth: { xs: '100%', sm: 250 } // full width on mobile, capped on larger screens
+              placeholder="Search by Registration"
+              value={search}
+              onFocus={() => setFocus(true)}
+              onKeyDown={onKeyDown}
+              onChange={(e) => {
+                setSearch(e.target.value);
               }}
-            >
-              <LabelStyle component="label" htmlFor="date">
-                Date Captured
-              </LabelStyle>
+              InputProps={{
+                startAdornment: (
+                  <InputAdornment position="start">
+                    <DirectionsCarIcon color="primary" />
+                  </InputAdornment>
+                )
+              }}
+            />
 
-              {filtersLoading ? (
-                <Skeleton variant="rounded" height={40} width="100%" />
-              ) : (
-                <TextField
-                  id="date"
-                  type="date"
-                  size="small"
-                  fullWidth
-                  value={dateCaptured}
-                  onChange={(e) => setDateCaptured(e.target.value)}
-                  InputLabelProps={{ shrink: true }}
-                  InputProps={{
-                    endAdornment: (
-                      <InputAdornment position="end">
-                        {dateCaptured && (
-                          <IconButton
-                            size="small"
-                            onClick={() => setDateCaptured('')}
-                            edge="end"
-                            sx={{ padding: '4px' }}
-                          >
-                            <ClearIcon fontSize="small" />
-                          </IconButton>
-                        )}
-                      </InputAdornment>
-                    ),
-                    sx: {
-                      height: 40,
-                      '& input': {
-                        height: '100%',
-                        padding: '8.5px 14px'
-                      },
-                      // Hide the native calendar icon when our clear button is shown
-                      '& input[type="date"]::-webkit-calendar-picker-indicator': {
-                        display: dateCaptured ? 'none' : 'block'
-                      }
-                    }
-                  }}
-                />
-              )}
-            </FormControl>
+            {/* Car Make */}
+            <TextField
+              size="small"
+              fullWidth
+              placeholder="Filter by Car Make"
+              value={make}
+              onFocus={() => setFocus(true)}
+              onKeyDown={onKeyDown}
+              onChange={(e) => {
+                setMake(e.target.value);
+                router.push(`${pathname}?${setQueryParam('make', e.target.value)}`, 'isPathname');
+              }}
+              InputProps={{
+                startAdornment: (
+                  <InputAdornment position="start">
+                    <BuildIcon color="primary" />
+                  </InputAdornment>
+                )
+              }}
+            />
+
+            {/* Car Model */}
+            <TextField
+              size="small"
+              fullWidth
+              placeholder="Filter by Car Model"
+              value={model}
+              onFocus={() => setFocus(true)}
+              onKeyDown={onKeyDown}
+              onChange={(e) => {
+                setModel(e.target.value);
+                router.push(`${pathname}?${setQueryParam('model', e.target.value)}`, 'isPathname');
+              }}
+              InputProps={{
+                startAdornment: (
+                  <InputAdornment position="start">
+                    <DirectionsCarFilledIcon color="primary" />
+                  </InputAdornment>
+                )
+              }}
+            />
           </Stack>
+        </Collapse>
 
-          {/* Sort and Items Per Page */}
+        {/* Sort and Items Per Page */}
+        <Stack direction={{ xs: 'column', sm: 'row' }} spacing={2} alignItems="center" justifyContent="space-between">
           <Stack direction="row" gap={1} alignItems="center">
             <FormControl size="small" fullWidth sx={{ maxWidth: 150 }}>
               {state || state === '' ? (

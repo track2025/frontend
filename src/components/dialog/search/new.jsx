@@ -21,12 +21,13 @@ export default function SimpleDialogDemo() {
     setOpen(false);
   };
   const handleRedirect = () => {
-    router.push('/products?top=1');
+    // router.push('/products?top=1');
+    router.push('/track-products');
   };
 
   return (
     <>
-      <Link
+      {/* <Link
         onClick={handleRedirect}
         sx={{
           display: "flex",
@@ -46,7 +47,27 @@ export default function SimpleDialogDemo() {
       >
         <RxMagnifyingGlass />
         Search...
-      </Link>
+      </Link> */}
+
+      <Button
+        onClick={handleRedirect}
+        variant="outlined"
+        sx={{
+          display: 'flex',
+          alignItems: 'center',
+          gap: 1,
+          color: 'white',
+          backgroundColor: 'primary.main',
+          fontWeight: 600,
+          textTransform: 'none',
+          borderRadius: 1,
+          '&:hover': {
+            boxShadow: 4,
+          }
+        }}
+      >
+        Race Ware
+      </Button>
 
       {/* <Dialog open={open} onClose={handleClose} sx={{ '& .MuiPaper-root': { width: 600 } }}>
         <Search onClose={handleClose} />

@@ -12,10 +12,10 @@ export default function ProductList({ ...props }) {
 
   return (
     <Box mb={3} mt={2}>
-      <Grid container spacing={isMobile ? 1 : 2}>
+      <Grid container spacing={isMobile ? 1 : 1}>
         {!isLoading && products?.length < 1 && <NoDataFoundIllustration />}
         {(isLoading ? Array.from(new Array(8)) : products)?.map((product) => (
-          <Grid key={Math.random()} size={{ lg: 3, md: 3, sm: 4, xs: 6 }} sx={{ transition: 'all 0.3s ease-in-out' }}>
+          <Grid key={Math.random()} size={{ lg: 2, md: 3, sm: 4, xs: 6 }} sx={{ transition: 'all 0.3s ease-in-out' }}>
             <PhysicalProductCard product={product} loading={isLoading} isMobile={isMobile} />
           </Grid>
         ))}
