@@ -42,9 +42,9 @@ export default function ProductListing({ category, subCategory, shop, compaign }
   const pathname = usePathname();
   const { rate } = useSelector(({ settings }) => settings);
 
-  console.log("categories:", category)
-  console.log("category subCategories:", category?.subCategories) // Add this line
-  console.log("category type:", typeof category) // Add this line
+  console.log('categories:', category);
+  console.log('category subCategories:', category?.subCategories); // Add this line
+  console.log('category type:', typeof category); // Add this line
 
   // Extract brand from query or path
   let brand = searchParams.get('brand');
@@ -64,27 +64,19 @@ export default function ProductListing({ category, subCategory, shop, compaign }
     : baseQuery;
 
   // Ensure query starts with ? and add rate properly
-  const queryWithRate = finalQuery.startsWith('?')
-    ? `${finalQuery}&rate=${rate}`
-    : `?${finalQuery}&rate=${rate}`;
+  const queryWithRate = finalQuery.startsWith('?') ? `${finalQuery}&rate=${rate}` : `?${finalQuery}&rate=${rate}`;
 
-  const { data, isLoading } = useQuery(
-    ['physical-products', category?.slug, subCategory?.slug, queryWithRate],
-    () => {
-      const apiCall = category
-        ? api.getPhysicalProductsByCategory
-        : subCategory
-          ? api.getPhysicalProductsBySubCategory
-          : api.getPhysicalProducts;
+  const { data, isLoading } = useQuery(['physical-products', category?.slug, subCategory?.slug, queryWithRate], () => {
+    const apiCall = category
+      ? api.getPhysicalProductsByCategory
+      : subCategory
+        ? api.getPhysicalProductsBySubCategory
+        : api.getPhysicalProducts;
 
-      return apiCall(
-        queryWithRate,
-        category ? category.slug : subCategory ? subCategory.slug : ''
-      );
-    }
-  );
+    return apiCall(queryWithRate, category ? category.slug : subCategory ? subCategory.slug : '');
+  });
 
-  console.log("Data:", data);
+  console.log('Data:', data);
 
   const isMobile = useMediaQuery('(max-width:900px)');
 

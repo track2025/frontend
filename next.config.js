@@ -18,6 +18,10 @@ const nextConfig = {
         destination: '/products?top=1'
       },
       {
+        source: '/race-track/collection',
+        destination: '/products?top=1'
+      },
+      {
         source: '/event/:brand/:date/pictures/:slug',
         destination: '/product/:slug'
       }
