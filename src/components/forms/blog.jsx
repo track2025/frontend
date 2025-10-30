@@ -30,6 +30,7 @@ import UploadSingleFile from 'src/components/upload/UploadSingleFile';
 // lazy-load React Quill (for content editor)
 const ReactQuill = dynamic(() => import('react-quill'), { ssr: false });
 import 'react-quill/dist/quill.snow.css';
+import parseMongooseError from 'src/utils/errorHandler';
 
 // ======================
 
@@ -70,7 +71,10 @@ export default function EventForm({ data: currentEvent, isLoading: eventLoading 
         router.back();
       },
       onError: (error) => {
-        toast.error(error.message || 'Something went wrong');
+        let errorMessage = parseMongooseError(error?.message);
+        toast.error(errorMessage || 'We ran into an issue. Please refresh the page or try again.', {
+          duration: 10000 // Prevents auto-dismissal
+        });
       }
     }
   );
