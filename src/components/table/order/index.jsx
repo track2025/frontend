@@ -29,7 +29,6 @@ TableCard.propTypes = {
 
 export default function TableCard({ ...props }) {
   const { data, isLoading } = props;
-  console.log(data, 'OKK check');
   const items = data?.items;
   const checkoutType = data?.checkoutType;
   const fCurrency = useCurrencyFormatter();
@@ -71,6 +70,26 @@ export default function TableCard({ ...props }) {
               )}
             </TableCell>
           </TableRow>
+
+          {checkoutType === 'physical-product' && (
+            <TableRow className="body-row">
+              <TableCell colSpan={4}></TableCell>
+              <TableCell align="right">
+                {isLoading ? (
+                  <Skeleton variant="text" className="skeleton-text" width={100} />
+                ) : (
+                  <strong>Shipping Fee</strong>
+                )}
+              </TableCell>
+              <TableCell align="right">
+                {isLoading ? (
+                  <Skeleton variant="text" className="skeleton-text" width={100} />
+                ) : (
+                  <strong>{fCurrency(cCurrency(data?.shipping))}</strong>
+                )}
+              </TableCell>
+            </TableRow>
+          )}
 
           {/* <TableRow>
             <TableCell colSpan={4}></TableCell>
