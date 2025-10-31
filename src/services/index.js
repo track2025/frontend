@@ -940,3 +940,14 @@ export const getPhysicalProducts = async (query = '', cat, rate) => {
   });
   return data;
 };
+
+/*
+=====================================
+Slides
+=====================================
+*/
+
+export const getSlidesByAdmin = async (params) => {
+  const { data } = await http.get(`/admin/slides?${params}`);
+  return data;
+};
