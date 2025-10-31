@@ -3,7 +3,7 @@ import React from 'react';
 // mui
 import { Typography, Card, CardContent, Stack, Fab, Grid, Skeleton } from '@mui/material';
 import { IoPersonSharp } from 'react-icons/io5';
-import { HiCurrencyDollar } from 'react-icons/hi2';
+import { HiCurrencyDollar, HiHomeModern } from 'react-icons/hi2';
 // hooks
 
 import { useCurrencyFormatter } from 'src/hooks/formatCurrency';
@@ -18,6 +18,7 @@ Details.propTypes = {
 
 export default function Details({ ...props }) {
   const { data, isLoading } = props;
+  // console.log(data, 'OKK Checking the data');
   const user = data?.user;
   const fCurrency = useCurrencyFormatter(data?.currency);
   return (
@@ -99,6 +100,58 @@ export default function Details({ ...props }) {
               </Stack>
             </CardContent>
           </Card>
+          {data?.checkoutType === 'physical-product' && (
+            <Card sx={{ marginTop: 2 }} className="detail-card">
+              <CardContent className="detail-card-content">
+                <Stack spacing={2} direction="row" justifyContent="flex-start" alignItems="center">
+                  {isLoading ? (
+                    <>
+                      <Skeleton variant="rectangular" width={50} height={50} />
+                      <Skeleton variant="text" width={150} />
+                    </>
+                  ) : (
+                    <>
+                      <Fab className="detail-card-btn" variant="contained" color="primary">
+                        <HiHomeModern size={40} />
+                      </Fab>
+                      <Typography variant="h6">Shipping Info</Typography>
+                    </>
+                  )}
+                </Stack>
+                <Stack spacing={isLoading ? 0 : 1} mt={3}>
+                  {isLoading ? (
+                    <>
+                      <Skeleton variant="text" width={200} />
+                      <Skeleton variant="text" width={200} />
+                      <Skeleton variant="text" width={200} />
+                      <Skeleton variant="text" width={200} />
+                    </>
+                  ) : (
+                    <>
+                      <Typography variant="body2">
+                        <strong>Name</strong>: {user?.firstName + ' ' + user?.lastName}
+                      </Typography>
+                      <Typography variant="body2">
+                        <strong>Country</strong>: {user?.country}
+                      </Typography>
+
+                      <Typography variant="body2">
+                        <strong>State</strong>: {user?.state}
+                      </Typography>
+
+                      <Typography variant="body2">
+                        <strong>Zip</strong>: {user?.zip}
+                      </Typography>
+
+                      <Typography variant="body2">
+                        <strong>Address</strong>: {user?.address}
+                      </Typography>
+                    </>
+                  )}
+                </Stack>
+              </CardContent>
+            </Card>
+          )}
         </Grid>
       </Grid>
     </RootStyled>

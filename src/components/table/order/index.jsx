@@ -3,7 +3,18 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 //  mui
-import { Typography, Skeleton, Divider, Table, TableBody, TableRow, TableCell } from '@mui/material';
+import {
+  Typography,
+  Skeleton,
+  Divider,
+  Table,
+  TableBody,
+  TableRow,
+  TableCell,
+  capitalize,
+  Box,
+  Badge
+} from '@mui/material';
 
 // components
 import OrderDetailsTable from '../orderDetail';
@@ -39,9 +50,14 @@ export default function TableCard({ ...props }) {
       {isLoading ? (
         <Skeleton variant="text" width={100} className="skeleton-h5" />
       ) : (
-        <Typography variant="h5" p={2}>
-          {data?.totalItems} {data?.totalItems > 1 ? 'Items' : 'Item'}
-        </Typography>
+        <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
+          <Typography variant="h5" p={2}>
+            {data?.totalItems} {data?.totalItems > 1 ? 'Items' : 'Item'}
+          </Typography>
+          <Typography variant="h5" p={2}>
+            <Badge>{capitalize(data?.status)}</Badge>
+          </Typography>
+        </Box>
       )}
       <OrderDetailsTable
         data={items}
