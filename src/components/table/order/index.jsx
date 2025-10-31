@@ -38,6 +38,8 @@ TableCard.propTypes = {
   isLoading: PropTypes.bool.isRequired
 };
 
+export const dynamic = 'force-dynamic';
+
 export default function TableCard({ ...props }) {
   const { data, isLoading } = props;
   const items = data?.items;
@@ -54,9 +56,27 @@ export default function TableCard({ ...props }) {
           <Typography variant="h5" p={2}>
             {data?.totalItems} {data?.totalItems > 1 ? 'Items' : 'Item'}
           </Typography>
-          <Typography variant="h5" p={2}>
-            <Badge>{capitalize(data?.status)}</Badge>
-          </Typography>
+          {checkoutType === 'physical-product' && (
+            <Typography variant="h5" p={2}>
+              <Badge
+                sx={{
+                  px: 2,
+                  py: 1,
+                  borderRadius: '12px',
+                  fontSize: '0.875rem',
+                  color: '#fff',
+                  bgcolor:
+                    data?.status === 'delivered'
+                      ? 'success.main'
+                      : data?.status === 'failed'
+                        ? 'error.main'
+                        : 'warning.main'
+                }}
+              >
+                {capitalize(data?.status)}
+              </Badge>
+            </Typography>
+          )}
         </Box>
       )}
       <OrderDetailsTable
