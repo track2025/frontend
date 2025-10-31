@@ -31,7 +31,7 @@ import { useSelector } from 'react-redux';
 import { useCurrencyConvert } from 'src/hooks/convertCurrency';
 import { useCurrencyFormatter } from 'src/hooks/formatCurrency';
 
-export default function PhysicalProductRow({ isLoading, row, handleClickOpen, isVendor }) {
+export default function PhysicalProductRow({ isLoading, row, handleClickOpen, isVendor, sn }) {
   const router = useRouter();
   const { currency } = useSelector((state) => state.settings);
 
@@ -39,6 +39,7 @@ export default function PhysicalProductRow({ isLoading, row, handleClickOpen, is
   const fCurrency = useCurrencyFormatter();
   return (
     <TableRow hover key={Math.random()}>
+      <TableCell>{isLoading ? <Skeleton variant="text" /> : <>{sn}</>}</TableCell>
       <TableCell component="th" scope="row" sx={{ maxWidth: 300 }}>
         <Box
           sx={{
@@ -144,7 +145,9 @@ export default function PhysicalProductRow({ isLoading, row, handleClickOpen, is
               </Link>
             </Tooltip>
             <Tooltip title="Edit">
-              <IconButton onClick={() => router.push(`/${isVendor ? 'vendor' : 'admin'}/physical-products/${row.slug}`)}>
+              <IconButton
+                onClick={() => router.push(`/${isVendor ? 'vendor' : 'admin'}/physical-products/${row.slug}`)}
+              >
                 <MdEdit />
               </IconButton>
             </Tooltip>

@@ -10,7 +10,8 @@ import { Dialog } from '@mui/material';
 // components
 import DeletePhysicalDialog from 'src/components/dialog/deletePhysical';
 import PhysicalBrandsRow from 'src/components/table/rows/physicalBrand';
-import PhysicalTable from 'src/components/table/physicalTable';
+
+import Table from 'src/components/table/table';
 
 const TABLE_HEAD = [
   { id: 'name', label: 'Brands' },
@@ -55,7 +56,7 @@ export default function BrandList() {
           }
         />
       </Dialog>
-      <PhysicalTable
+      <Table
         headData={TABLE_HEAD}
         data={data}
         isLoading={isLoading}

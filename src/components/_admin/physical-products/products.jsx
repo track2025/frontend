@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 // mui
 import { Dialog, Stack } from '@mui/material';
 // components
-import PhysicalTable from 'src/components/table/physicalTable';
+import Table from 'src/components/table/table';
 import PhysicalProductRow from 'src/components/table/rows/physicalProduct';
 import DeletePhysicalDialog from 'src/components/dialog/deletePhysical';
 
@@ -79,10 +79,10 @@ export default function PhysicalProductList({ brands, categories, isVendor }) {
         />
       </Dialog>
       <Stack spacing={2} direction="row" alignItems="center" justifyContent="space-between" mb={2}>
-        { }
+        {}
       </Stack>
 
-      <PhysicalTable
+      <Table
         headData={TABLE_HEAD}
         data={data}
         isLoading={isLoading}
@@ -95,10 +95,10 @@ export default function PhysicalProductList({ brands, categories, isVendor }) {
           isVendor
             ? [{ ...STATUS_FILTER }]
             : [
-              { name: 'Category', param: 'category', data: categories },
-              { name: 'Brand', param: 'brand', data: brands },
-              { ...STATUS_FILTER }
-            ]
+                { name: 'Category', param: 'category', data: categories },
+                { name: 'Brand', param: 'brand', data: brands },
+                { ...STATUS_FILTER }
+              ]
         }
         isSearch
       />

@@ -9,7 +9,7 @@ import { useQuery } from 'react-query';
 import { Dialog } from '@mui/material';
 // components
 import DeletePhysicalDialog from 'src/components/dialog/deletePhysical';
-import PhysicalTable from 'src/components/table/physicalTable';
+import Table from 'src/components/table/table';
 import PhysicalSubCategoryRow from 'src/components/table/rows/physicalSubCategory';
 
 const TABLE_HEAD = [
@@ -57,17 +57,14 @@ export default function PhysicalSubCategoryList({ categories }) {
         />
       </Dialog>
 
-      <PhysicalTable
+      <Table
         headData={TABLE_HEAD}
         data={data}
         isLoading={isLoading}
         row={PhysicalSubCategoryRow}
         handleClickOpen={handleClickOpen}
         isSearch
-        filters={[
-          { name: 'Category', param: 'category', data: categories },
-          { ...STATUS_FILTER }
-        ]}
+        filters={[{ name: 'Category', param: 'category', data: categories }, { ...STATUS_FILTER }]}
       />
     </>
   );
