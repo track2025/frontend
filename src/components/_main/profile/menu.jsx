@@ -156,7 +156,7 @@ export default function Menu() {
             <ListItemIcon>
               <IoImagesOutline size={20} />
             </ListItemIcon>
-            <ListItemText primary="Race Ware" />
+            <ListItemText primary="Race Wear" />
           </ListItemButton>
         </ListItem>
 
@@ -174,8 +174,6 @@ export default function Menu() {
             <ListItemText primary="About Us" />
           </ListItemButton>
         </ListItem>
-
-        
 
         <Divider />
         <ListItem disablePadding>

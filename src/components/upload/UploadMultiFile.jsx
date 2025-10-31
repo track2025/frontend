@@ -77,6 +77,8 @@ export default function UploadMultiFile({ ...props }) {
     accept: {
       'image/jpeg': ['.jpeg', '.jpg'],
       'image/png': ['.png'],
+      'image/webp': ['.webp'], // ✅ added WebP
+      'image/svg+xml': ['.svg'], // ✅ added SVG
       'video/mp4': ['.mp4'],
       'video/quicktime': ['.mov'],
       'video/x-msvideo': ['.avi'],

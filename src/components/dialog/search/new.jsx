@@ -49,7 +49,7 @@ export default function SimpleDialogDemo() {
         Search...
       </Link> */}
 
-      <Button
+      {/* <Button
         onClick={handleRedirect}
         variant="outlined"
         sx={{
@@ -62,12 +62,12 @@ export default function SimpleDialogDemo() {
           textTransform: 'none',
           borderRadius: 1,
           '&:hover': {
-            boxShadow: 4,
+            boxShadow: 4
           }
         }}
       >
-        Race Ware
-      </Button>
+        Race Wear
+      </Button> */}
 
       {/* <Dialog open={open} onClose={handleClose} sx={{ '& .MuiPaper-root': { width: 600 } }}>
         <Search onClose={handleClose} />
