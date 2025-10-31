@@ -119,6 +119,7 @@ export default function EventForm({ data: currentEvent, isLoading: eventLoading 
       readTime: currentEvent?.readTime || '',
       content: currentEvent?.content || '',
       featured: currentEvent?.featured || false,
+      seoJunk: currentEvent?.seoJunk || '',
       status: currentEvent?.status || STATUS_OPTIONS[0]
     },
     enableReinitialize: true,
@@ -258,6 +259,14 @@ export default function EventForm({ data: currentEvent, isLoading: eventLoading 
                       </FormHelperText>
                     )}
                   </div>
+
+                  <TextField
+                    label="Seo Junk"
+                    {...getFieldProps('seoJunk')}
+                    placeholder=""
+                    error={Boolean(touched.seoJunk && errors.seoJunk)}
+                    helperText={touched.seoJunk && errors.seoJunk}
+                  />
 
                   {/* Featured Image */}
                   <div>

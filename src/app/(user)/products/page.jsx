@@ -1,74 +1,87 @@
 // mui
-import { Box, Container } from '@mui/material';
-import HeaderBreadcrumbs from 'src/components/headerBreadcrumbs';
-import ProductList from 'src/components/_main/products';
-
-// ✅ Import Next.js SEO tools
-import Head from 'next/head';
-import { notFound } from 'next/navigation';
+import { Box, Container } from "@mui/material"
+import HeaderBreadcrumbs from "src/components/headerBreadcrumbs"
+import ProductList from "src/components/_main/products"
 
 // ✅ Example dynamic SEO generator (if you have brand in URL)
 export async function generateMetadata({ searchParams }) {
-  const brandSlug = searchParams?.brand || null;
+  const brandSlug = searchParams?.brand || null
 
   const toTitleCase = (slug) => {
-    if (!slug) return '';
+    if (!slug) return ""
     return slug
-      .split('-')
+      .split("-")
       .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
-      .join(' ');
-  };
+      .join(" ")
+  }
 
-  const brand = toTitleCase(brandSlug);
+  const brand = toTitleCase(brandSlug)
 
   const title = brand
-    ? ` ${brand.replace(/-/g, ' ')} Events Photos & Vehicle Gallery - Lap Snaps`
-    : 'Lap Snaps – High-Quality Vehicle Photography';
+    ? `${brand} Race Event Photos & Vehicle Gallery | Lap Snaps`
+    : "Motorsport Photography & Race Track Vehicle Photos | Lap Snaps"
   const description = brand
-    ? `Explore stunning vehicle and race event photos taken at ${brand.replace(/-/g, ' ')}.`
-    : 'Explore Lap Snaps for high-quality vehicle photography from race tracks and car shows around the world.';
-  const canonical = brand ? `https://lapsnaps.com/race-track/${brand}/pictures` : `https://lapsnaps.com/products`;
-  const image = 'https://lapsnaps.com/default-seo-image.jpg';
+    ? `Explore stunning vehicle and race event photos from ${brand}. High-quality motorsport photography from professional photographers.`
+    : "Browse high-quality vehicle photography from race tracks and motorsport events around the world. Professional track day and racing event photos."
+  const canonical = brand ? `https://lapsnaps.com/products?brand=${brandSlug}` : `https://lapsnaps.com/products`
+  const image = "https://lapsnaps.com/opengraph-image.png"
 
   return {
     title,
     description,
+    keywords: brand
+      ? `${brand} photos, ${brand} racing, motorsport photography, vehicle photos, race track images`
+      : "motorsport photography, race track photos, vehicle photography, track day images, racing event photos",
     alternates: {
-      canonical
+      canonical,
     },
     openGraph: {
       title,
       description,
       url: canonical,
-      type: 'website',
-      images: [{ url: image }]
+      type: "website",
+      images: [{ url: image }],
     },
     twitter: {
-      card: 'summary_large_image',
+      card: "summary_large_image",
       title,
       description,
-      images: [image]
-    }
-  };
+      images: [image],
+    },
+  }
 }
 
 // ✅ Server Component (renders HTML + SEO)
 export default async function Listing({ searchParams }) {
-  const brand = searchParams?.brand;
+  const brand = searchParams?.brand
 
   if (!brand && !Object.keys(searchParams).length) {
     // Optional: handle invalid brand or empty params
     // notFound();
   }
 
+  const structuredData = {
+    "@context": "https://schema.org",
+    "@type": "CollectionPage",
+    name: brand ? `${brand} Race Event Photos` : "Motorsport Photography Collection",
+    description: brand
+      ? `High-quality vehicle and race event photos from ${brand}`
+      : "Professional motorsport photography from race tracks worldwide",
+    url: brand ? `https://lapsnaps.com/products?brand=${brand}` : "https://lapsnaps.com/products",
+  }
+
   return (
-    <Box>
-      <Box sx={{ bgcolor: 'background.default' }}>
-        <Container maxWidth="xl">
-          <HeaderBreadcrumbs heading="Media" links={[{ name: 'Home', href: '/' }, { name: 'Media' }]} />
-          <ProductList />
-        </Container>
+    <>
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }} />
+
+      <Box>
+        <Box sx={{ bgcolor: "background.default" }}>
+          <Container maxWidth="xl">
+            <HeaderBreadcrumbs heading="Media" links={[{ name: "Home", href: "/" }, { name: "Media" }]} />
+            <ProductList />
+          </Container>
+        </Box>
       </Box>
-    </Box>
-  );
+    </>
+  )
 }

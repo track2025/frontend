@@ -351,8 +351,7 @@ import { useRouter } from 'next/navigation';
 import { useState, useEffect } from 'react';
 import { Typography, Box, Container, Grid, Alert } from '@mui/material';
 import { getTracks } from 'src/services/tracks';
-import { TrackCard } from 'src/components/_main/track/TrackCard';
-import { TrackCardSkeleton } from 'src/components/_main/track/TrackCardSkeleton';
+import { TrackCardCompact, TrackCardCompactSkeleton } from 'src/components/_main/track/TrackCardCompact';
 import { BlogPagination } from 'src/components/_main/blog/BlogPagination';
 
 export default function TracksPage() {
@@ -375,8 +374,6 @@ export default function TracksPage() {
         limit: pagination.itemsPerPage,
         page: page
       });
-
-      // console.log('Tracks API Response:', response);
 
       if (response.success) {
         setTracks(response.data || []);
@@ -511,25 +508,25 @@ export default function TracksPage() {
             </Alert>
           )}
 
-          {/* Tracks Grid */}
-          <Grid container spacing={3}>
+          {/* Tracks Grid - Using compact layout similar to Brands component */}
+          <Grid container spacing={2} justifyContent="center">
             {loading ? (
               // Skeleton loading state
               Array.from(new Array(pagination.itemsPerPage)).map((_, index) => (
-                <Grid item size={{ xs: 12, sm: 6, md: 4, lg: 3, xl: 2.4 }} key={`skeleton-${index}`}>
-                  <TrackCardSkeleton />
+                <Grid item xs={12} sm={6} md={4} lg={3} key={`skeleton-${index}`}>
+                  <TrackCardCompactSkeleton />
                 </Grid>
               ))
             ) : tracks.length > 0 ? (
-              // Actual tracks
+              // Actual tracks with compact layout
               tracks.map((track) => (
-                <Grid item size={{ xs: 12, sm: 6, md: 4, lg: 3, xl: 2.4 }} key={track._id}>
-                  <TrackCard track={track} onClick={() => handleCardClick(track.slug)} />
+                <Grid item xs={12} sm={6} md={4} lg={3} key={track._id}>
+                  <TrackCardCompact track={track} onClick={handleCardClick} />
                 </Grid>
               ))
             ) : (
               // Empty state
-              <Grid item size={12}>
+              <Grid item xs={12}>
                 <Box sx={{ textAlign: 'center', py: 8 }}>
                   <Typography variant="h5" sx={{ color: '#666', mb: 2 }}>
                     No tracks found
@@ -544,13 +541,15 @@ export default function TracksPage() {
 
           {/* Pagination - Only show if we have multiple pages and not loading */}
           {!loading && pagination.totalPages > 1 && (
-            <BlogPagination
-              currentPage={pagination.currentPage}
-              totalPages={pagination.totalPages}
-              totalItems={pagination.totalItems}
-              itemsPerPage={pagination.itemsPerPage}
-              onPageChange={handlePageChange}
-            />
+            <Box sx={{ display: 'flex', justifyContent: 'center', mt: 4 }}>
+              <BlogPagination
+                currentPage={pagination.currentPage}
+                totalPages={pagination.totalPages}
+                totalItems={pagination.totalItems}
+                itemsPerPage={pagination.itemsPerPage}
+                onPageChange={handlePageChange}
+              />
+            </Box>
           )}
         </Container>
       </Box>

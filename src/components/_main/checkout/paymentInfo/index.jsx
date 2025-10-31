@@ -24,7 +24,8 @@ function isExpired(expirationDate) {
   return currentDateTime >= new Date(expirationDate);
 }
 
-export default function PaymentInfo({ setCouponCode, setTotal, checkoutType }) {
+export default function PaymentInfo({ setCouponCode, setTotal, checkoutType, values }) {
+  console.log(values, 'OKK SEE THE VALUES');
   const { product } = useSelector((state) => state);
   const { total, shipping, subtotal } = product.checkout;
   const [code, setCode] = useState('');
@@ -134,7 +135,11 @@ export default function PaymentInfo({ setCouponCode, setTotal, checkoutType }) {
               {isLoading ? (
                 <Skeleton variant="text" width={80} />
               ) : (
-                fCurrency(cCurrency(parseInt(process.env.SHIPPING_FEE || 0)))
+                <>
+                  {values?.country && values?.country != 'United Arab Emirates'
+                    ? fCurrency(cCurrency(parseInt(process.env.SHIPPING_FEE_OUTER || 0)))
+                    : fCurrency(cCurrency(parseInt(process.env.SHIPPING_FEE || 0)))}
+                </>
               )}
             </Typography>
           </Stack>

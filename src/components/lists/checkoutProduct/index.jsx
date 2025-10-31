@@ -36,8 +36,9 @@ const ThumbImgStyle = styled(Box)(({ theme }) => ({
 // ----------------------------------------------------------------------
 
 export default function CartProductList({ ...props }) {
-  const { onDelete,  isLoading, cart } = props;
-
+  const { onDelete, isLoading, cart } = props;
+  console.log(cart, 'Check the chart checkoutType');
+  const checkoutType = cart[0]?.checkoutType;
 
   const cCurrency = useCurrencyConvert();
   const fCurrency = useCurrencyFormatter();
@@ -54,9 +55,16 @@ export default function CartProductList({ ...props }) {
               {isLoading ? <Skeleton variant="text" width={80} sx={{ mx: 'auto' }} /> : 'Quantity'}
             </TableCell> */}
 
+            {checkoutType === 'physical-product' && (
+              <TableCell align="center">
+                {isLoading ? <Skeleton variant="text" width={63} sx={{ mx: 'auto' }} /> : 'Quantity'}
+              </TableCell>
+            )}
+
             <TableCell align="left">
               {isLoading ? <Skeleton variant="text" width={63} sx={{ mx: 'auto' }} /> : 'Total Price'}
             </TableCell>
+
             <TableCell align="right">
               {isLoading ? <Skeleton variant="text" width={44} sx={{ ml: 'auto' }} /> : 'Action'}
             </TableCell>
@@ -64,7 +72,7 @@ export default function CartProductList({ ...props }) {
         </TableHead>
 
         <TableBody>
-          {cart.map((product) => {
+          {cart?.map((product) => {
             const { sku, name, size, color, quantity, available, price, priceSale, image } = product;
 
             return (
@@ -142,6 +150,17 @@ export default function CartProductList({ ...props }) {
                     />
                   )}
                 </TableCell> */}
+
+                {checkoutType === 'physical-product' && (
+                  <TableCell align="center">
+                    {isLoading ? (
+                      <Skeleton variant="text" width={52} sx={{ mx: 'auto' }} />
+                    ) : (
+                      <Typography variant="subtitle2">{quantity || 0}</Typography>
+                    )}
+                  </TableCell>
+                )}
+
                 <TableCell align="left">
                   {isLoading ? (
                     <Skeleton variant="text" width={52} sx={{ mx: 'auto' }} />
