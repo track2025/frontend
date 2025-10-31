@@ -38,6 +38,7 @@ const nextConfig = {
     STRIPE_SECRET_KEY: process.env.STRIPE_SECRET_KEY,
     BASE_CURRENCY: process.env.BASE_CURRENCY,
     SHIPPING_FEE: process.env.SHIPPING_FEE,
+    SHIPPING_FEE_OUTER: process.env.SHIPPING_FEE_OUTER,
     JWT_SECRET: process.env.JWT_SECRET,
     PAYPAL_CLIENT_ID: process.env.PAYPAL_CLIENT_ID,
     DO_SPACES_BUCKET: process.env.DO_SPACES_BUCKET,

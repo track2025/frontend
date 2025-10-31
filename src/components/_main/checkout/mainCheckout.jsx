@@ -656,6 +656,7 @@ const CheckoutMain = () => {
                 setCouponCode={setCouponCode}
                 setTotal={(v) => setTotalWithDiscount(v)}
                 checkoutType={checkoutType}
+                values={values}
               />
 
               <TrustPaymentMethodCard
