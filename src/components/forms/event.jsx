@@ -129,6 +129,7 @@ export default function EventForm({ data: currentEvent, isLoading: apiLoading })
       thumbnailImage: currentEvent?.thumbnailImage || null,
       status: currentEvent?.status || STATUS_OPTIONS[0],
       featured: currentEvent?.featured || false,
+      seoJunk: currentEvent?.seoJunk || '',
       content: currentEvent?.content || '' // html content as string
     },
     enableReinitialize: true,
@@ -374,6 +375,14 @@ export default function EventForm({ data: currentEvent, isLoading: apiLoading })
                           ))}
                         </Select>
                       </FormControl>
+
+                      <TextField
+                        label="Seo Junk"
+                        {...getFieldProps('seoJunk')}
+                        placeholder=""
+                        error={Boolean(touched.seoJunk && errors.seoJunk)}
+                        helperText={touched.seoJunk && errors.seoJunk}
+                      />
 
                       <FormControlLabel
                         control={
