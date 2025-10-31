@@ -47,7 +47,7 @@ export default function Featured() {
           }}
           endIcon={<IoIosArrowForward />}
           component={NextLink}
-          href={`/products?top=1`}
+          href={`/race-track/collection`}
         >
           View More
         </Button>
@@ -72,7 +72,7 @@ export default function Featured() {
         }}
         endIcon={<IoIosArrowForward />}
         component={NextLink}
-        href={`/products?top=1`}
+        href={`/race-track/collection`}
       >
         View More
       </Button>

@@ -747,6 +747,7 @@ import { getProducts } from 'src/services';
 import { getTrackEventsByTrackSlug } from 'src/services/tracks';
 import ProductList from '../../_main/products/productList';
 import { BlogPagination } from 'src/components/_main/blog/BlogPagination';
+import SortBar from 'src/components/_main/products/sortbar';
 
 export default function TrackDetailsClient({ track }) {
   const [searchQuery, setSearchQuery] = useState('');
@@ -1020,6 +1021,13 @@ export default function TrackDetailsClient({ track }) {
       }
     ]
   };
+  const sortData = [
+    // { title: 'Top Rated', key: 'top', value: -1 },
+    { title: 'Price low to high', key: 'price', value: 1 },
+    { title: 'Price high to low', key: 'price', value: -1 },
+    { title: 'Oldest', key: 'date', value: 1 },
+    { title: 'Newest', key: 'date', value: -1 }
+  ];
 
   return (
     <>
@@ -1211,45 +1219,15 @@ export default function TrackDetailsClient({ track }) {
                   >
                     Track Products & Gallery
                   </Typography>
-                  <TextField
-                    placeholder="Search products..."
-                    value={searchQuery}
-                    onChange={handleSearchChange}
-                    onKeyPress={handleSearchSubmit}
-                    size="small"
-                    sx={{
-                      width: { xs: '100%', sm: 300 },
-                      '& .MuiOutlinedInput-root': {
-                        bgcolor: 'white',
-                        borderRadius: 2,
-                        '& fieldset': {
-                          borderColor: '#ddd'
-                        },
-                        '&.Mui-focused fieldset': {
-                          borderColor: '#EE1E50'
-                        }
-                      }
-                    }}
-                    InputProps={{
-                      startAdornment: (
-                        <InputAdornment position="start">
-                          <SearchIcon sx={{ color: '#666' }} />
-                        </InputAdornment>
-                      ),
-                      endAdornment: searchQuery && (
-                        <InputAdornment position="end">
-                          <IconButton size="small" onClick={handleClearSearch} sx={{ color: '#666' }}>
-                            <ClearIcon fontSize="small" />
-                          </IconButton>
-                        </InputAdornment>
-                      )
-                    }}
+                  <SortBar
+                    sortData={sortData}
+                    productData={products}
+                    // category={subCategory?.parentCategory || category}
+                    // shop={shop}
+                    // subCategory={subCategory}
+                    // isLoading={isLoading}
+                    // compaign={compaign}
                   />
-                  {searchQuery && (
-                    <Typography variant="body2" sx={{ color: '#666', mt: 1 }}>
-                      Showing results for: "{searchQuery}"
-                    </Typography>
-                  )}
                 </Box>
 
                 {/* Products Grid */}

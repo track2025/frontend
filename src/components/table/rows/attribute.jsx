@@ -8,9 +8,10 @@ import { TableRow, Skeleton, TableCell, Typography, Stack, IconButton, Tooltip }
 import { MdEdit } from 'react-icons/md';
 import { MdDelete } from 'react-icons/md';
 
-export default function AttributesRow({ isLoading, row, index, handleClickOpen, onClickEdit }) {
+export default function AttributesRow({ isLoading, row, index, handleClickOpen, onClickEdit, sn }) {
   return (
     <TableRow hover key={Math.random()}>
+      <TableCell>{isLoading ? <Skeleton variant="text" /> : <>{sn}</>}</TableCell>
       <TableCell component="th" scope="row">
         <Typography variant="subtitle2" noWrap>
           {isLoading ? <Skeleton variant="text" width={120} sx={{ ml: 1 }} /> : `#ID: ${index}`}

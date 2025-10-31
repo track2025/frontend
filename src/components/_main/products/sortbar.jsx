@@ -19,6 +19,7 @@ import {
   Skeleton,
   Button,
   styled,
+  Box,
   Collapse
 } from '@mui/material';
 import ClearIcon from '@mui/icons-material/Clear';
@@ -202,12 +203,12 @@ export default function SortBar({ compaign, productData, shop, isLoading, sortDa
                           </IconButton>
                         )}
                       </InputAdornment>
-                    ),
+                    )
                   }}
                   sx={{
                     '& .MuiInputBase-root': {
-                      color: 'primary.main', // Overall text color
-                    },
+                      color: 'primary.main' // Overall text color
+                    }
                   }}
                 />
               )}
@@ -318,64 +319,67 @@ export default function SortBar({ compaign, productData, shop, isLoading, sortDa
 
         {/* Sort and Items Per Page */}
         <Stack direction={{ xs: 'column', sm: 'row' }} spacing={2} alignItems="center" justifyContent="space-between">
-          <Stack direction="row" gap={1} alignItems="center">
-            <FormControl size="small" fullWidth sx={{ maxWidth: 150 }}>
-              {state || state === '' ? (
-                <Select id="sort-select" value={state} onChange={handleChange}>
-                  {sortData.map((item) => (
-                    <MenuItem key={Math.random()} value={item.title}>
-                      {item.title}
+          {/* Right aligned container */}
+          <Box
+            sx={{
+              width: '100%',
+              display: 'flex',
+              justifyContent: { xs: 'flex-start', sm: 'flex-end' } // left on mobile, right on desktop
+            }}
+          >
+            <Stack direction="row" gap={1} alignItems="center">
+              <FormControl size="small" fullWidth sx={{ maxWidth: 200 }}>
+                {state || state === '' ? (
+                  <Select id="sort-select" value={state} onChange={handleChange}>
+                    {sortData.map((item) => (
+                      <MenuItem key={Math.random()} value={item.title}>
+                        {item.title}
+                      </MenuItem>
+                    ))}
+                  </Select>
+                ) : (
+                  <Skeleton variant="rounded" width={150} height={40} />
+                )}
+              </FormControl>
+
+              <FormControl size="small" fullWidth sx={{ maxWidth: 120 }}>
+                <Select
+                  id="items-select"
+                  value={itemsPerPage}
+                  onChange={(e) => {
+                    setItemsPerPage(e.target.value);
+                    router.push(`${pathname}?${createQueryString('limit', e.target.value)}`, 'isPathname');
+                  }}
+                  sx={{
+                    '& .MuiSelect-select': {
+                      textTransform: 'capitalize'
+                    }
+                  }}
+                >
+                  {['12', '18', '24', '30'].map((item) => (
+                    <MenuItem key={Math.random()} value={item} sx={{ textTransform: 'capitalize' }}>
+                      Show: {item}
                     </MenuItem>
                   ))}
                 </Select>
-              ) : (
-                <Skeleton variant="rounded" width={150} height={40} />
-              )}
-            </FormControl>
+              </FormControl>
 
-            <FormControl size="small" fullWidth sx={{ maxWidth: 120 }}>
-              <Select
-                id="items-select"
-                value={itemsPerPage}
-                onChange={(e) => {
-                  setItemsPerPage(e.target.value);
-                  router.push(`${pathname}?${createQueryString('limit', e.target.value)}`, 'isPathname');
-                }}
+              {/* Mobile filter button */}
+              <Button
+                onClick={() => setOpenDrawer(true)}
+                variant="outlined"
+                color="inherit"
+                endIcon={<MdTune />}
                 sx={{
-                  '& .MuiSelect-select': {
-                    textTransform: 'capitalize'
-                  }
+                  minWidth: 120,
+                  justifyContent: 'space-between',
+                  display: { xs: 'flex', sm: 'none' }
                 }}
               >
-                {['12', '18', '24', '30'].map((item) => (
-                  <MenuItem
-                    key={Math.random()}
-                    value={item}
-                    sx={{
-                      textTransform: 'capitalize'
-                    }}
-                  >
-                    Show: {item}
-                  </MenuItem>
-                ))}
-              </Select>
-            </FormControl>
-
-            {/* Filter Button for Mobile */}
-            <Button
-              onClick={() => setOpenDrawer(true)}
-              variant="outlined"
-              color="inherit"
-              endIcon={<MdTune />}
-              sx={{
-                minWidth: 120,
-                justifyContent: 'space-between',
-                display: { xs: 'flex', sm: 'none' }
-              }}
-            >
-              Filters
-            </Button>
-          </Stack>
+                Filters
+              </Button>
+            </Stack>
+          </Box>
         </Stack>
 
         {/* Results Count */}
@@ -421,7 +425,7 @@ export default function SortBar({ compaign, productData, shop, isLoading, sortDa
           category={category}
           subCategory={subCategory}
           shop={shop}
-          pathname="/products"
+          pathname="/race-track/collection"
           isMobile
           onClose={() => setOpenDrawer(false)}
         />

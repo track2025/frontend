@@ -24,9 +24,7 @@ ProductListing.propTypes = {
 const Pagination = dynamic(() => import('src/components/pagination'));
 
 const sortData = [
-  { title: 'Top Rated', key: 'top', value: -1 },
-  { title: 'Asceding', key: 'name', value: 1 },
-  { title: 'Desceding', key: 'name', value: -1 },
+  // { title: 'Top Rated', key: 'top', value: -1 },
   { title: 'Price low to high', key: 'price', value: 1 },
   { title: 'Price high to low', key: 'price', value: -1 },
   { title: 'Oldest', key: 'date', value: 1 },
@@ -42,49 +40,47 @@ export default function ProductListing({ category, subCategory, shop, compaign }
   const pathname = usePathname();
   const { rate } = useSelector(({ settings }) => settings);
 
-  console.log("categories:", category)
-  console.log("category subCategories:", category?.subCategories) // Add this line
-  console.log("category type:", typeof category) // Add this line
-
   // Extract brand from query or path
   let brand = searchParams.get('brand');
   if (!brand) {
     const match = pathname.match(/\/race-track\/([^/]+)/);
-    brand = match ? match[1] : null;
+    const value = match ? match[1] : null;
+    if (value && !['collection', 'events'].includes(value)) {
+      brand = value;
+    }
   }
   if (!brand) {
     const match = pathname.match(/\/track\/([^/]+)/);
-    brand = match ? match[1] : null;
+    const value = match ? match[1] : null;
+    if (value && !['collection', 'events'].includes(value)) {
+      brand = value;
+    }
   }
 
-  // Fix: Proper query construction
-  const baseQuery = getSearchParams(searchParams);
-  const finalQuery = brand
+  // If brand exists, append to search params
+  const searchQuery = brand
     ? getSearchParams(new URLSearchParams({ ...Object.fromEntries(searchParams), brand }))
-    : baseQuery;
-
-  // Ensure query starts with ? and add rate properly
-  const queryWithRate = finalQuery.startsWith('?')
-    ? `${finalQuery}&rate=${rate}`
-    : `?${finalQuery}&rate=${rate}`;
+    : getSearchParams(searchParams);
 
   const { data, isLoading } = useQuery(
-    ['physical-products', category?.slug, subCategory?.slug, queryWithRate],
-    () => {
-      const apiCall = category
-        ? api.getPhysicalProductsByCategory
-        : subCategory
-          ? api.getPhysicalProductsBySubCategory
-          : api.getPhysicalProducts;
-
-      return apiCall(
-        queryWithRate,
-        category ? category.slug : subCategory ? subCategory.slug : ''
-      );
-    }
+    ['products' + (category || subCategory ? '-with-category' : ''), searchQuery, category, subCategory, shop],
+    () =>
+      api[
+        category
+          ? 'getProductsByCategory'
+          : subCategory
+            ? 'getProductsBySubCategory'
+            : shop
+              ? 'getProductsByShop'
+              : compaign
+                ? 'getProductsByCompaign'
+                : 'getProducts'
+      ](
+        searchQuery,
+        shop ? shop?.slug : category ? category?.slug : subCategory ? subCategory?.slug : compaign ? compaign.slug : '',
+        rate
+      )
   );
-
-  console.log("Data:", data);
 
   const isMobile = useMediaQuery('(max-width:900px)');
 

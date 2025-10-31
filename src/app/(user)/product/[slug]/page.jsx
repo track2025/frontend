@@ -110,7 +110,7 @@ export default async function ProductDetail({ params: { slug } }) {
               },
               {
                 name: 'Products',
-                href: '/products'
+                href: '/race-track/collection'
               },
               {
                 name: data?.name

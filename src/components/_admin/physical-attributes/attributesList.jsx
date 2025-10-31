@@ -13,8 +13,8 @@ import HeaderBreadcrumbs from 'src/components/headerBreadcrumbs';
 import FormDialog from 'src/components/dialog/formDialog';
 import AttributesForm from 'src/components/forms/physical-product/attribute';
 import AttributesRow from 'src/components/table/rows/attribute';
-import AttributeTable from 'src/components/table/physical-product/table';
 import DeletePhysicalDialog from 'src/components/dialog/deletePhysical';
+import Table from 'src/components/table/table';
 
 const TABLE_HEAD = [
   { id: 'id', label: 'ID' },
@@ -47,8 +47,6 @@ export default function AttributesList() {
   const onClickEdit = (attribute) => {
     setSelected(attribute);
   };
-
-  console.log(data);
 
   return (
     <>
@@ -99,7 +97,7 @@ export default function AttributesList() {
           handleCancel={() => setSelected(null)}
         />
       </FormDialog>
-      <AttributeTable
+      <Table
         headData={TABLE_HEAD}
         data={data}
         isLoading={isLoading}

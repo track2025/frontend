@@ -43,11 +43,12 @@ const ThumbImgStyle = styled(Box)(({ theme }) => ({
   position: 'relative',
   overflow: 'hidden'
 }));
-export default function PhysicalCategoryRow({ isLoading, row, handleClickOpen }) {
+export default function PhysicalCategoryRow({ isLoading, row, handleClickOpen, sn }) {
   const router = useRouter();
 
   return (
     <TableRow hover key={Math.random()}>
+      <TableCell>{isLoading ? <Skeleton variant="text" /> : <>{sn}</>}</TableCell>
       <TableCell component="th" scope="row">
         <Box
           sx={{

@@ -16,8 +16,6 @@ import MenuDesktop from '../actionbar/menuDesktop';
 import config from 'src/layout/_main/config.json';
 import LogoutButton from 'src/components/logoutButton';
 
-
-
 // dynamic import components
 const MobileBar = dynamic(() => import('src/layout/_main/mobileBar'));
 const SettingMode = dynamic(() => import('src/components/settings/themeModeSetting'), {
@@ -36,7 +34,7 @@ const WishlistPopover = dynamic(() => import('src/components/popover/wislist'), 
 });
 const CartWidget = dynamic(() => import('src/components/cartWidget'), {
   loading: () => (
-    <Stack direction="row" spacing={1} alignItems="center" >
+    <Stack direction="row" spacing={1} alignItems="center">
       <Skeleton variant="circular" width={40} height={40} />
       <Box>
         <Skeleton variant="text" width={60} sx={{ mb: 0.6 }} />
@@ -70,17 +68,17 @@ const LanguageSelect = dynamic(() => import('src/components/languageSelect'), {
 export default function Navbar() {
   const { checkout } = useSelector(({ product }) => product);
   const { user, isAuthenticated } = useSelector(({ user }) => user);
-  
+
   const isMobile = useMediaQuery('(max-width:768px)');
   const { menu } = config;
   const pathname = usePathname();
-const isHome = pathname === '/';
+  const isHome = pathname === '/';
 
   // Scroll listener: only attach if on home page
-  
+
   return (
     <>
- <AppBar
+      <AppBar
         sx={{
           boxShadow: 'none',
           position: 'sticky',
@@ -102,49 +100,43 @@ const isHome = pathname === '/';
           }
         }}
       >
-        <Container maxWidth="xl" className=''>
+        <Container maxWidth="xl" className="">
           <Toolbar disableGutters className="toolbar bg-none" sx={{ px: '0px!important' }}>
             <Stack gap={4} direction="row" alignItems={'center'}>
               <Logo />
             </Stack>
-            <Stack gap={4} direction="row" alignItems={'center'} sx={{ display: { md: 'flex', xs: 'none' }
-}}>
-                <MenuDesktop navConfig={menu} />
-                 { !isAuthenticated && <Button
-                className='text-nowrap'
-                  variant="contained"
-                  href="/auth/login"
-                  sx={{
-                    bgcolor: 'text.primary',
-                    color: 'background.paper',
-                    textTransform: 'none',
-                    '&:hover': {
-                      bgcolor: 'text.primary', // keeps color consistent on hover
-                      opacity: 0.9
-                    }
-                  }}
-                >
-                  Sign In
-                </Button> 
-                }
+            <Stack gap={4} direction="row" alignItems={'center'} sx={{ display: { md: 'flex', xs: 'none' } }}>
+              <MenuDesktop navConfig={menu} />
+              <Button
+                className="text-nowrap"
+                variant="contained"
+                href="/track-products"
+                sx={{
+                  bgcolor: 'primary.main',
+                  color: 'background.paper',
+                  textTransform: 'none',
+                  '&:hover': {
+                    bgcolor: 'text.primary', // keeps color consistent on hover
+                    opacity: 0.9
+                  }
+                }}
+              >
+                Race Wear
+              </Button>
             </Stack>
 
             <Stack gap={2} direction="row" alignItems={'center'}>
-
               <LanguageSelect />
-              <SettingMode  />
+              <SettingMode />
               {/* <WishlistPopover />
               <CompareWidget /> */}
-              <CartWidget checkout={checkout}  />
+              <CartWidget checkout={checkout} />
             </Stack>
           </Toolbar>
         </Container>
       </AppBar>
 
-
       {isMobile && <MobileBar />}
     </>
-
-      
   );
 }

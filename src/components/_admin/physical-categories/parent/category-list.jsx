@@ -9,7 +9,7 @@ import { useQuery } from 'react-query';
 import { Dialog } from '@mui/material';
 // components
 import DeletePhysicalDialog from 'src/components/dialog/deletePhysical';
-import PhysicalTable from 'src/components/table/physicalTable';
+import Table from 'src/components/table/table';
 import PhysicalCategoryRow from 'src/components/table/rows/physicalCategory';
 
 const TABLE_HEAD = [
@@ -57,7 +57,7 @@ export default function CategoryList() {
           }
         />
       </Dialog>
-      <PhysicalTable
+      <Table
         headData={TABLE_HEAD}
         data={data}
         isLoading={isLoading}
