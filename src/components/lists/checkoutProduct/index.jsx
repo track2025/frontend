@@ -37,7 +37,8 @@ const ThumbImgStyle = styled(Box)(({ theme }) => ({
 
 export default function CartProductList({ ...props }) {
   const { onDelete, isLoading, cart } = props;
-  console.log(cart, 'Check the chart');
+  console.log(cart, 'Check the chart checkoutType');
+  const checkoutType = cart[0]?.checkoutType;
 
   const cCurrency = useCurrencyConvert();
   const fCurrency = useCurrencyFormatter();
@@ -54,9 +55,11 @@ export default function CartProductList({ ...props }) {
               {isLoading ? <Skeleton variant="text" width={80} sx={{ mx: 'auto' }} /> : 'Quantity'}
             </TableCell> */}
 
-            <TableCell align="center">
-              {isLoading ? <Skeleton variant="text" width={63} sx={{ mx: 'auto' }} /> : 'Quantity'}
-            </TableCell>
+            {checkoutType === 'physical-product' && (
+              <TableCell align="center">
+                {isLoading ? <Skeleton variant="text" width={63} sx={{ mx: 'auto' }} /> : 'Quantity'}
+              </TableCell>
+            )}
 
             <TableCell align="left">
               {isLoading ? <Skeleton variant="text" width={63} sx={{ mx: 'auto' }} /> : 'Total Price'}
@@ -148,13 +151,15 @@ export default function CartProductList({ ...props }) {
                   )}
                 </TableCell> */}
 
-                <TableCell align="center">
-                  {isLoading ? (
-                    <Skeleton variant="text" width={52} sx={{ mx: 'auto' }} />
-                  ) : (
-                    <Typography variant="subtitle2">{quantity || 0}</Typography>
-                  )}
-                </TableCell>
+                {checkoutType === 'physical-product' && (
+                  <TableCell align="center">
+                    {isLoading ? (
+                      <Skeleton variant="text" width={52} sx={{ mx: 'auto' }} />
+                    ) : (
+                      <Typography variant="subtitle2">{quantity || 0}</Typography>
+                    )}
+                  </TableCell>
+                )}
 
                 <TableCell align="left">
                   {isLoading ? (
