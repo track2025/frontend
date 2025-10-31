@@ -16,6 +16,10 @@ export function TrackCardCompact({ track, onClick }) {
     }
   };
 
+  // Safely get the photo count, default to 0 if undefined
+  const photoCount = track.totalProducts || 0;
+  const photoText = photoCount === 1 ? 'Photo' : 'Photos';
+
   return (
     <Box sx={{ display: 'flex', justifyContent: 'center' }}>
       <Card
@@ -55,7 +59,7 @@ export function TrackCardCompact({ track, onClick }) {
                 {track.city && track.country ? `${track.city}, ${track.country}` : 'Location not specified'}
               </Typography>
               <Typography variant="body1" noWrap>
-                {track.totalProducts + ' ' + (track.totalProducts <= 1 ? 'Photo' : 'Photos')}
+                {`${photoCount} ${photoText}`}
               </Typography>
             </Stack>
           </Stack>
