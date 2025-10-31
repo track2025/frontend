@@ -11,10 +11,10 @@ import { Button, Dialog, DialogActions, DialogContent, DialogContentText, Dialog
 // components
 import DeleteDialog from 'src/components/dialog/delete';
 import Table from 'src/components/table/table';
-import Slide from 'src/components/table/rows/slide';
 import { LoadingButton } from '@mui/lab';
 import WarningRoundedIcon from '@mui/icons-material/WarningRounded';
 import parseMongooseError from 'src/utils/errorHandler';
+import SlideRow from 'src/components/table/rows/slide';
 
 const TABLE_HEAD = [
   { id: 'slide', label: 'Slide', alignRight: false },
@@ -134,15 +134,15 @@ export default function SlideList() {
         </DialogActions>
       </Dialog>
 
-      <Table
+      {/* <Table
         headData={TABLE_HEAD}
         data={data ?? { success: true, data: [], total: 0, count: 0, currentPage: 1 }}
         isLoading={isLoading}
-        row={Slide}
+        row={SlideRow}
         handleClickOpen={handleClickOpen}
         handleClickOpenStatus={handleClickOpenStatus}
         isSearch
-      />
+      /> */}
     </>
   );
 }

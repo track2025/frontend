@@ -848,6 +848,12 @@ export const updatePhysicalSubCategoryByAdmin = async ({ currentSlug, ...payload
   return data;
 };
 
+export const getPhysicalSubCategoriesByCategory = async (categorySlug) => {
+  const { data } = await http.get(`/admin/physical-sub-categories/category/${categorySlug}`);
+  return data;
+};
+
+
 /*
 =============================
 Physical Products (Admin)
@@ -950,4 +956,19 @@ Slides
 export const getSlidesByAdmin = async (params) => {
   const { data } = await http.get(`/admin/slides?${params}`);
   return data;
+};
+
+export const addSlideByAdmin = async (payload) => {
+  const { data } = await http.post(`/admin/slides`, payload);
+  return data;
+};
+
+export const updateSlideByAdmin = async ({ currentSlug, ...payload }) => {
+  const { data } = await http.put(`/admin/slides/${currentSlug}`, payload);
+  return data;
+};
+
+export const updateSlideActiveInactiveByAdmin = async ({ slug, ...payload }) => {
+  const { data: response } = await http.put(`/admin/slides/active/${slug}`, payload);
+  return response;
 };

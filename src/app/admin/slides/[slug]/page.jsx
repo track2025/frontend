@@ -11,8 +11,6 @@ import EditSlide from 'src/components/_admin/slides/editSlide';
 import * as api from 'src/services';
 import { useQuery } from 'react-query';
 
-import AccessDenied from 'src/components/cards/AccessDenied';
-import { UsePermission } from 'src/hooks/usePermission';
 
 Page.propTypes = {
   params: PropTypes.shape({
@@ -25,11 +23,6 @@ export default function Page({ params }) {
       toast.error(err.message || 'Something went wrong!');
     }
   });
-
-  const canAdd = UsePermission('edit_category');
-  if (!canAdd) {
-    return <AccessDenied message="You are not allowed to edit Category." redirect="/admin/dashboard" />;
-  }
 
   return (
     <div>
