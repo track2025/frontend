@@ -1,12 +1,9 @@
-// app/products/[slug]/page.jsx or page.tsx
-import React from 'react';
 import { notFound } from 'next/navigation';
 import { Box, Container, Stack } from '@mui/material';
 
 import HeaderBreadcrumbs from 'src/components/headerBreadcrumbs';
 import PhysicalProductDetail from 'src/components/_main/track-product/physicalProductDetails';
 import AdditionalPhysicalProductInfo from 'src/components/_main/track-product/additional-info';
-import RelatedPhysicalProducts from 'src/components/_main/track-product/related-products';
 import PhysicalProductTabs from 'src/components/_main/track-product/tabs';
 import PhysicalProductContentCard from 'src/components/cards/physicalProductContent';
 // Static generation with ISR
@@ -44,13 +41,30 @@ export async function generateMetadata({ params }) {
   const images = product.images || [];
 
   return {
-    title: product.metaTitle || product.name,
-    description: product.metaDescription || product.shortDescription,
-    keywords: product.tags || [],
+    title: product.metaTitle || `${product.name} | Motorsport Merchandise | Lap Snaps`,
+    description:
+      product.metaDescription ||
+      product.shortDescription ||
+      `Shop ${product.name} - High-quality motorsport merchandise and race wear from Lap Snaps`,
+    keywords: product.tags?.join(', ') || `${product.name}, motorsport merchandise, race wear, track day gear`,
     openGraph: {
       title: product.name,
-      description: product.metaDescription,
-      images: images.map((v) => ({ url: v.url }))
+      description: product.metaDescription || product.shortDescription,
+      images: images.map((v) => ({ url: v.url })),
+      url: `https://lapsnaps.com/track-product/${slug}`,
+      type: 'article'
+    },
+    other: {
+      'og:type': 'product'
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title: product.name,
+      description: product.metaDescription || product.shortDescription,
+      images: images.map((v) => v.url)
+    },
+    alternates: {
+      canonical: `https://lapsnaps.com/track-product/${slug}`
     }
   };
 }
@@ -68,41 +82,72 @@ export default async function ProductDetail({ params }) {
   if (!response?.success || !response?.data) {
     notFound(); // Show 404 page
   }
-  
+
   const { data, totalRating, totalReviews, brand, category } = response;
   const isSimpleProduct = data?.type === 'simple';
 
+  const structuredData = {
+    '@context': 'https://schema.org',
+    '@type': 'Product',
+    name: data.name,
+    description: data.shortDescription || data.content,
+    image: data.images?.map((img) => img.url) || [],
+    brand: {
+      '@type': 'Brand',
+      name: brand?.name || 'Lap Snaps'
+    },
+    category: category?.name,
+    offers: {
+      '@type': 'Offer',
+      url: `https://lapsnaps.com/track-product/${slug}`,
+      priceCurrency: 'USD',
+      price: data.price || 0,
+      availability: data.inStock ? 'https://schema.org/InStock' : 'https://schema.org/OutOfStock'
+    },
+    aggregateRating: totalRating
+      ? {
+          '@type': 'AggregateRating',
+          ratingValue: totalRating,
+          reviewCount: totalReviews || 0
+        }
+      : undefined
+  };
+
   return (
-    <Box>
-      <Container maxWidth="xl">
-        <Stack direction={'column'} gap={3}>
-          <HeaderBreadcrumbs
-            heading="Product Details"
-            links={[{ name: 'Home', href: '/' }, { name: 'Products', href: '/track-products' }, { name: data?.name }]}
-          />
+    <>
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }} />
 
-          <PhysicalProductDetail
-            data={data}
-            brand={brand}
-            slug={slug}
-            category={category}
-            totalRating={totalRating}
-            totalReviews={totalReviews}
-            isSimpleProduct={isSimpleProduct}
-          />
-          <PhysicalProductContentCard content={data.content} name={data.name} />
+      <Box>
+        <Container maxWidth="xl">
+          <Stack direction={'column'} gap={3}>
+            <HeaderBreadcrumbs
+              heading="Product Details"
+              links={[{ name: 'Home', href: '/' }, { name: 'Products', href: '/track-products' }, { name: data?.name }]}
+            />
 
-          <PhysicalProductTabs
-            product={{ description: data.content, _id: data._id }}
-            totalRating={totalRating}
-            totalReviews={totalReviews}
-          />
+            <PhysicalProductDetail
+              data={data}
+              brand={brand}
+              slug={slug}
+              category={category}
+              totalRating={totalRating}
+              totalReviews={totalReviews}
+              isSimpleProduct={isSimpleProduct}
+            />
+            <PhysicalProductContentCard content={data.content} name={data.name} />
 
-          <AdditionalPhysicalProductInfo />
+            <PhysicalProductTabs
+              product={{ description: data.content, _id: data._id }}
+              totalRating={totalRating}
+              totalReviews={totalReviews}
+            />
 
-          {/* <RelatedPhysicalProducts id={data._id} category={category?.slug} /> */}
-        </Stack>
-      </Container>
-    </Box>
+            <AdditionalPhysicalProductInfo />
+
+            {/* <RelatedPhysicalProducts id={data._id} category={category?.slug} /> */}
+          </Stack>
+        </Container>
+      </Box>
+    </>
   );
 }
