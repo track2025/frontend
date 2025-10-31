@@ -147,7 +147,9 @@ export default function CheckoutGuestForm({
                 error={Boolean(touched.country && errors.country)}
                 helperText={touched.country && errors.country}
               >
-                {countries.map((option) => (
+                <option value="">-- Select Country --</option>
+
+                {countries?.map((option) => (
                   <option key={option.code} value={option.label}>
                     {option.label}
                   </option>

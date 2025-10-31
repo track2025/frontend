@@ -543,7 +543,7 @@ const CheckoutMain = () => {
         };
 
         // Handle credit card submission here
-        console.log('Credit card payment data:', data);
+        // console.log('Credit card payment data:', data);
       }
     }
   });

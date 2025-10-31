@@ -38,6 +38,7 @@ const TrustPaymentButton = ({
   onSubmit
 }) => {
   const [error, setError] = useState(null);
+  console.log(userDetails, 'Check the user details');
 
   const handlePayment = () => {
     // Validate required fields
