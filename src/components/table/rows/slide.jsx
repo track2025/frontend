@@ -10,24 +10,12 @@ import { Box, TableRow, Skeleton, TableCell, Typography, Stack, IconButton, Tool
 import { MdCancel, MdCheckCircle, MdEdit, MdDelete } from 'react-icons/md';
 
 // components
-import Label from 'src/components/label';
+// import Label from 'src/components/label';
 import BlurImage from 'src/components/blurImage';
 
 // utils
 import { fDateShort } from 'src/utils/formatTime';
 
-// Styled thumbnail container
-// const ThumbImgStyle = styled(Box)(({ theme }) => ({
-//   width: 50,
-//   height: 50,
-//   minWidth: 50,
-//   background: theme.palette.background.default,
-//   marginRight: theme.spacing(2),
-//   border: '1px solid ' + theme.palette.divider,
-//   borderRadius: theme.shape.borderRadiusSm,
-//   position: 'relative',
-//   overflow: 'hidden',
-// }));
 
 export default function SlideRow({ isLoading, row, sn, handleClickOpen, handleClickOpenStatus }) {
   const router = useRouter();
@@ -46,14 +34,6 @@ export default function SlideRow({ isLoading, row, sn, handleClickOpen, handleCl
             <Skeleton variant="rectangular" width={50} height={50} sx={{ borderRadius: 1, mr: 2 }} />
           ) : (
             <></>
-            // <ThumbImgStyle>
-            //   <BlurImage
-            //     alt={row?.title}
-            //     src={row?.images?.[0]?.url}
-            //     layout="fill"
-            //     objectFit="cover"
-            //   />
-            // </ThumbImgStyle>
           )}
           <Typography variant="subtitle2" noWrap>
             {isLoading ? <Skeleton variant="text" width={120} /> : row?.title}
@@ -69,7 +49,7 @@ export default function SlideRow({ isLoading, row, sn, handleClickOpen, handleCl
         {isLoading ? (
           <Skeleton variant="text" />
         ) : (
-          <Label
+          <Typography
             sx={{
               width: 70,
               fontSize: '0.60rem',
@@ -79,7 +59,7 @@ export default function SlideRow({ isLoading, row, sn, handleClickOpen, handleCl
             }}
           >
             {row?.isActive ? 'Approved' : 'Draft'}
-          </Label>
+          </Typography>
         )}
       </TableCell>
 
