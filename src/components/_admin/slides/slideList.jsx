@@ -91,6 +91,7 @@ export default function SlideList() {
   }
 
   const handleClickOpenStatus = (prop) => () => {
+    console.log("approve")
     setMarkSlide(prop);
     setOpenStatus(true);
   };

@@ -136,13 +136,13 @@ export default async function ProductDetail({ params }) {
             />
             <PhysicalProductContentCard content={data.content} name={data.name} />
 
-            <PhysicalProductTabs
+            {/* <PhysicalProductTabs
               product={{ description: data.content, _id: data._id }}
               totalRating={totalRating}
               totalReviews={totalReviews}
-            />
+            /> */}
 
-            <AdditionalPhysicalProductInfo />
+            {/* <AdditionalPhysicalProductInfo /> */}
 
             {/* <RelatedPhysicalProducts id={data._id} category={category?.slug} /> */}
           </Stack>

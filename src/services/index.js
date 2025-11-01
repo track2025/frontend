@@ -953,6 +953,11 @@ Slides
 =====================================
 */
 
+export const getSlideByAdmin = async (slug) => {
+  const { data } = await http.get(`/admin/slides/${slug}`);
+  return data;
+};
+
 export const getSlidesByAdmin = async (params) => {
   const { data } = await http.get(`/admin/slides?${params}`);
   return data;
@@ -968,7 +973,17 @@ export const updateSlideByAdmin = async ({ currentSlug, ...payload }) => {
   return data;
 };
 
+export const deleteSlideByAdmin = async (slug) => {
+  const { data } = await http.delete(`/admin/slides/${slug}`);
+  return data;
+};
+
 export const updateSlideActiveInactiveByAdmin = async ({ slug, ...payload }) => {
   const { data: response } = await http.put(`/admin/slides/active/${slug}`, payload);
   return response;
+};
+
+export const fetchCarouselItems = async () => {
+  const { data } = await http.get(`/home/hero-carousel/active`);
+  return data;
 };

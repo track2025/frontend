@@ -33,7 +33,30 @@ export default function SlideRow({ isLoading, row, sn, handleClickOpen, handleCl
           {isLoading ? (
             <Skeleton variant="rectangular" width={50} height={50} sx={{ borderRadius: 1, mr: 2 }} />
           ) : (
-            <></>
+            <Box
+              sx={{
+                position: 'relative',
+                overflow: 'hidden',
+                width: 50,
+                height: 50,
+                bgcolor: 'background.default',
+                mr: 2,
+                border: '1px solid #666',
+                borderRadius: '6px',
+                img: {
+                  borderRadius: '2px'
+                }
+              }}
+            >
+              <BlurImage
+                alt={row?.description}
+                blurDataURL={row?.images[0].blurDataURL}
+                placeholder="blur"
+                src={row?.images[0].url}
+                layout="fill"
+                objectFit="cover"
+              />
+            </Box>
           )}
           <Typography variant="subtitle2" noWrap>
             {isLoading ? <Skeleton variant="text" width={120} /> : row?.title}
@@ -77,12 +100,8 @@ export default function SlideRow({ isLoading, row, sn, handleClickOpen, handleCl
           ) : (
             <>
               <Tooltip title={!row?.isActive ? 'Approve' : 'Draft'}>
-                <IconButton onClick={() => handleClickOpenStatus(row)}>
-                  {!row?.isActive ? (
-                    <MdCheckCircle color="green" size={23} />
-                  ) : (
-                    <MdCancel color="orange" size={23} />
-                  )}
+                <IconButton onClick={handleClickOpenStatus(row)}>
+                  {!row?.isActive ? <MdCheckCircle color="green" size={23} /> : <MdCancel color="orange" size={23} />}
                 </IconButton>
               </Tooltip>
 
@@ -93,7 +112,7 @@ export default function SlideRow({ isLoading, row, sn, handleClickOpen, handleCl
               </Tooltip>
 
               <Tooltip title="Delete">
-                <IconButton onClick={() => handleClickOpen(row.slug)}>
+                <IconButton onClick={handleClickOpen(row.slug)}>
                   <MdDelete />
                 </IconButton>
               </Tooltip>
