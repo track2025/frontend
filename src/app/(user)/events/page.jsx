@@ -1,13 +1,12 @@
 'use client';
-import { useRouter } from 'next/navigation';
+import Link from 'next/link';
 import { Box, Container, Typography, Grid, Card, CardActionArea, CardContent } from '@mui/material';
 import { getSuperEvents } from 'src/services';
 import { useEffect, useState } from 'react';
-import LinearIndeterminate from 'src/components/loading';
 import LoadingSpinner from 'src/components/UI/Spinner';
+import { getCountryFlag } from 'src/utils/flags';
 
 export default function EventsPage() {
-  const router = useRouter();
   const [eventsData, setEventData] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
 
@@ -63,284 +62,6 @@ export default function EventsPage() {
   });
 
   const countriesData = Object.values(countriesMap);
-
-  // Country flag emojis map
-  // const flagMap = {
-  //   AE: '🇦🇪',
-  //   GB: '🇬🇧',
-  //   IT: '🇮🇹',
-  //   DE: '🇩🇪',
-  //   BE: '🇧🇪',
-  //   FR: '🇫🇷',
-  //   ES: '🇪🇸',
-  //   US: '🇺🇸'
-  // };
-
-  function getFlagEmoji(countryCode) {
-    const defaultFlag = '🏳️'; // fallback flag
-    if (!countryCode || countryCode.length !== 2) return defaultFlag;
-
-    try {
-      const flag = countryCode.toUpperCase().replace(/./g, (char) => String.fromCodePoint(127397 + char.charCodeAt()));
-
-      // Basic validity check: flag should be 4 bytes (2 regional indicators)
-      return flag.length === 4 ? flag : defaultFlag;
-    } catch {
-      return defaultFlag;
-    }
-  }
-
-  // Build the map for all ISO country codes
-  const countryCodes = [
-    'AD',
-    'AE',
-    'AF',
-    'AG',
-    'AI',
-    'AL',
-    'AM',
-    'AO',
-    'AQ',
-    'AR',
-    'AS',
-    'AT',
-    'AU',
-    'AW',
-    'AX',
-    'AZ',
-    'BA',
-    'BB',
-    'BD',
-    'BE',
-    'BF',
-    'BG',
-    'BH',
-    'BI',
-    'BJ',
-    'BL',
-    'BM',
-    'BN',
-    'BO',
-    'BQ',
-    'BR',
-    'BS',
-    'BT',
-    'BV',
-    'BW',
-    'BY',
-    'BZ',
-    'CA',
-    'CC',
-    'CD',
-    'CF',
-    'CG',
-    'CH',
-    'CI',
-    'CK',
-    'CL',
-    'CM',
-    'CN',
-    'CO',
-    'CR',
-    'CU',
-    'CV',
-    'CW',
-    'CX',
-    'CY',
-    'CZ',
-    'DE',
-    'DJ',
-    'DK',
-    'DM',
-    'DO',
-    'DZ',
-    'EC',
-    'EE',
-    'EG',
-    'EH',
-    'ER',
-    'ES',
-    'ET',
-    'FI',
-    'FJ',
-    'FM',
-    'FO',
-    'FR',
-    'GA',
-    'GB',
-    'GD',
-    'GE',
-    'GF',
-    'GG',
-    'GH',
-    'GI',
-    'GL',
-    'GM',
-    'GN',
-    'GP',
-    'GQ',
-    'GR',
-    'GT',
-    'GU',
-    'GW',
-    'GY',
-    'HK',
-    'HM',
-    'HN',
-    'HR',
-    'HT',
-    'HU',
-    'ID',
-    'IE',
-    'IL',
-    'IM',
-    'IN',
-    'IO',
-    'IQ',
-    'IR',
-    'IS',
-    'IT',
-    'JE',
-    'JM',
-    'JO',
-    'JP',
-    'KE',
-    'KG',
-    'KH',
-    'KI',
-    'KM',
-    'KN',
-    'KP',
-    'KR',
-    'KW',
-    'KY',
-    'KZ',
-    'LA',
-    'LB',
-    'LC',
-    'LI',
-    'LK',
-    'LR',
-    'LS',
-    'LT',
-    'LU',
-    'LV',
-    'LY',
-    'MA',
-    'MC',
-    'MD',
-    'ME',
-    'MF',
-    'MG',
-    'MH',
-    'MK',
-    'ML',
-    'MM',
-    'MN',
-    'MO',
-    'MP',
-    'MQ',
-    'MR',
-    'MS',
-    'MT',
-    'MU',
-    'MV',
-    'MW',
-    'MX',
-    'MY',
-    'MZ',
-    'NA',
-    'NC',
-    'NE',
-    'NF',
-    'NG',
-    'NI',
-    'NL',
-    'NO',
-    'NP',
-    'NR',
-    'NU',
-    'NZ',
-    'OM',
-    'PA',
-    'PE',
-    'PF',
-    'PG',
-    'PH',
-    'PK',
-    'PL',
-    'PM',
-    'PN',
-    'PR',
-    'PS',
-    'PT',
-    'PW',
-    'PY',
-    'QA',
-    'RE',
-    'RO',
-    'RS',
-    'RU',
-    'RW',
-    'SA',
-    'SB',
-    'SC',
-    'SD',
-    'SE',
-    'SG',
-    'SH',
-    'SI',
-    'SJ',
-    'SK',
-    'SL',
-    'SM',
-    'SN',
-    'SO',
-    'SR',
-    'SS',
-    'ST',
-    'SV',
-    'SX',
-    'SY',
-    'SZ',
-    'TC',
-    'TD',
-    'TF',
-    'TG',
-    'TH',
-    'TJ',
-    'TK',
-    'TL',
-    'TM',
-    'TN',
-    'TO',
-    'TR',
-    'TT',
-    'TV',
-    'TZ',
-    'UA',
-    'UG',
-    'UM',
-    'US',
-    'UY',
-    'UZ',
-    'VA',
-    'VC',
-    'VE',
-    'VG',
-    'VI',
-    'VN',
-    'VU',
-    'WF',
-    'WS',
-    'YE',
-    'YT',
-    'ZA',
-    'ZM',
-    'ZW'
-  ];
-
-  const flagMap = Object.fromEntries(countryCodes.map((code) => [code, getFlagEmoji(code)]));
 
   // Sort by highest upcoming event count first, then by total events
   const sortedCountries = [...countriesData].sort((a, b) => {
@@ -476,7 +197,7 @@ export default function EventsPage() {
                       #{index + 1}
                     </Box>
                   )}
-                  <CardActionArea onClick={() => router.push(`/events/${country.slug}`)} sx={{ height: '100%', p: 3 }}>
+                  <CardActionArea component={Link} href={`/events/${country.slug}`} sx={{ height: '100%', p: 3 }}>
                     <CardContent sx={{ textAlign: 'center', p: 0 }}>
                       {/* Country Flag */}
                       <Typography
@@ -486,7 +207,7 @@ export default function EventsPage() {
                           lineHeight: 1
                         }}
                       >
-                        {flagMap[country.countryCode] || '🏁'}
+                        {getCountryFlag(country.countryCode)}
                       </Typography>
 
                       {/* Country Name - H3 */}

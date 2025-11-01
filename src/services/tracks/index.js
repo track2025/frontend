@@ -1,7 +1,14 @@
 import http from '../http';
 
-export const getTracks = async ({ limit = 12, page = 1 }) => {
-  const { data } = await http.get(`/tracks?limit=${limit}&page=${page}`).catch((e) => {
+export const getTracks = async ({ limit = 12, page = 1, search = '' }) => {
+  const params = new URLSearchParams();
+  params.append('limit', limit);
+  params.append('page', page);
+  if (search) {
+    params.append('search', search);
+  }
+
+  const { data } = await http.get(`/tracks?${params.toString()}`).catch((e) => {
     throw e;
   });
   return data;
