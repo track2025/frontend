@@ -4,6 +4,8 @@ import { Container, Typography } from "@mui/material"
 import WhyUs from "src/components/_main/home/whyUs"
 import TopBanners from "src/components/_main/home/topBanners"
 import Head from "next/head"
+import HeroCarousel from "src/components/_main/HeroCarousel"
+import { useProgressiveLoading } from "src/hooks/useProgressiveLoading"
 
 // Dynamic imports
 const Categories = dynamic(() => import("src/components/_main/home/categories"))
@@ -39,6 +41,11 @@ export default function IndexPage() {
       },
     },
   }
+
+  const { isLoading } = useProgressiveLoading(
+    ["hero"],
+    800
+  );
 
   return (
     <>
@@ -82,6 +89,7 @@ export default function IndexPage() {
           Your browser does not support the video tag.
         </video>
       </div>
+
       <Typography
         variant="h1"
         component="h1"
@@ -98,13 +106,26 @@ export default function IndexPage() {
       >
         Welcome to Lap Snaps — High-Quality Vehicle Photography
       </Typography>
+
       <TopBanners />
+
       <Container maxWidth="xl">
         <FeaturedProducts />
       </Container>
+
       <Banner />
+
       <Container maxWidth="xl">
+
+        <div className="flex flex-col lg:flex-row gap-6 ">
+          <div className="w-full lg:w-2/3 xl:w-3/4">
+            <HeroCarousel loading={isLoading("hero")} />
+          </div>
+        </div>
+
         <TopCollection />
+
+
 
         <WhyUs />
 
@@ -112,7 +133,9 @@ export default function IndexPage() {
 
         {/* <Shops /> */}
       </Container>
+
       <Testimonials />
+
       <Container maxWidth="xl">
         <Brands />
       </Container>

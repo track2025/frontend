@@ -8,7 +8,9 @@ import PhysicalProductCard from 'src/components/cards/physicalProductCard';
 
 export default function ProductList({ ...props }) {
   const { data, isLoading, isMobile } = props;
-  const products = data?.data;
+  const products = Array.isArray(data) ? data : data?.data || [];
+
+  console.log("Products:", products);
 
   return (
     <Box mb={3} mt={2}>

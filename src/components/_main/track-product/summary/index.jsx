@@ -287,24 +287,7 @@ export default function PhysicalProductDetailsSumary({ ...props }) {
               alignItems={{ sm: 'center', xs: 'start' }}
               justifyContent={'space-between'}
             >
-              {product.deliveryType === 'physical' ? (
-                <Stack direction="row" alignItems="center" spacing={1}>
-                  <div>
-                    <PhysicalIncrementer
-                      quantity={values.quantity}
-                      stockQuantity={stockQuantity}
-                      onDecrease={() => setFieldValue('quantity', values.quantity - 1)}
-                      onIncrease={() => setFieldValue('quantity', values.quantity + 1)}
-                    />
-
-                    {touched.quantity && errors.quantity && (
-                      <FormHelperText error>{touched.quantity && errors.quantity}</FormHelperText>
-                    )}
-                  </div>
-                </Stack>
-              ) : (
-                <div />
-              )}
+              
               <Stack direction={'row'} gap={1} alignItems="center">
                 {product.price <= product.salePrice ? null : (
                   <Typography component="span" color="text.secondary" sx={{ textDecoration: 'line-through' }}>
@@ -325,10 +308,28 @@ export default function PhysicalProductDetailsSumary({ ...props }) {
               </Stack>
             </Stack>
 
-            <Stack direction={{ sm: 'row', xs: 'column' }} spacing={1}>
+            <Stack direction={{ sm: 'row', xs: 'column' }} spacing={3}>
+              {product.deliveryType === 'physical' ? (
+                <Stack direction="row" alignItems="center" spacing={1}>
+                  <div>
+                    <PhysicalIncrementer
+                      quantity={values.quantity}
+                      stockQuantity={stockQuantity}
+                      onDecrease={() => setFieldValue('quantity', values.quantity - 1)}
+                      onIncrease={() => setFieldValue('quantity', values.quantity + 1)}
+                    />
+
+                    {touched.quantity && errors.quantity && (
+                      <FormHelperText error>{touched.quantity && errors.quantity}</FormHelperText>
+                    )}
+                  </div>
+                </Stack>
+              ) : (
+                <div />
+              )}
+
               <Button
-                fullWidth
-                size="large"
+                size="medium"
                 disabled={isMaxQuantity || stockQuantity < 1}
                 type="button"
                 color="primary"
@@ -338,7 +339,7 @@ export default function PhysicalProductDetailsSumary({ ...props }) {
               >
                 Add to Cart
               </Button>
-              <Button
+              {/* <Button
                 disabled={stockQuantity < 1}
                 fullWidth
                 size="large"
@@ -348,7 +349,7 @@ export default function PhysicalProductDetailsSumary({ ...props }) {
                 startIcon={<IoBagCheckOutline />}
               >
                 Buy Now
-              </Button>{' '}
+              </Button>{' '} */}
               {product.deliveryType === 'digital' && Boolean(product.demo) && (
                 <Button
                   fullWidth

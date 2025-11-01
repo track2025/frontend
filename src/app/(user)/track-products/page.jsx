@@ -5,6 +5,7 @@ import { Box, Container } from "@mui/material"
 import HeaderBreadcrumbs from "src/components/headerBreadcrumbs"
 import ProductList from "src/components/_main/track-products"
 import FilterChips from "src/components/_main/track-products/search-params-list"
+import TrackProductsClient from "src/components/_main/track-products/trackProductsClient"
 
 const baseUrl = process.env.BASE_URL
 
@@ -31,13 +32,13 @@ export const metadata = {
 }
 
 export default async function Listing() {
-  const res = await fetch(`${baseUrl}/api/user/physical-products/filters`, {
-    next: { revalidate: 60 },
-  })
+  const filtersRes = await fetch(`${baseUrl}/api/user/physical-products/filters`, { next: { revalidate: 60 } });
+  const filtersData = await filtersRes.json();
+  const filters = filtersData.data;
 
-  const response = await res.json()
-
-  const { data: filters } = response
+  const cateRes = await fetch(`${baseUrl}/api/admin/all-physical-categories`, { next: { revalidate: 60 } });
+  const categoriesData = await cateRes.json();
+  const categories = categoriesData.data || categoriesData;
 
   const structuredData = {
     "@context": "https://schema.org",
@@ -66,10 +67,8 @@ export default async function Listing() {
                 },
               ]}
             />
-            <Box>
-              <FilterChips />
-            </Box>
-            <ProductList filters={filters} />
+
+            <TrackProductsClient filters={filters} categories={categories} />
           </Container>
         </Box>
       </Box>

@@ -6,11 +6,9 @@ import { Stack, Drawer, Typography, Skeleton, Button, MenuItem, FormControl, Sel
 import { usePathname, useSearchParams } from 'next/navigation';
 import { useRouter } from 'next-nprogress-bar';
 import { MdTune } from 'react-icons/md';
-import shape from 'src/theme/shape';
 import PhysicalFilter from './filters';
-import * as api from 'src/services';
 
-export default function SortBar({ productData, isLoading, sortData, filters, category = { data: [] } }) {
+export default function SortBar({ productData, isLoading, sortData, filters }) {
   const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
@@ -18,9 +16,6 @@ export default function SortBar({ productData, isLoading, sortData, filters, cat
   const [itemsPerPage, setItemsPerPage] = useState('12');
   const [state, setState] = useState(null);
   const [openDrawer, setOpenDrawer] = useState(false);
-  const [selectedCategory, setSelectedCategory] = useState(searchParams.get('category') || '');
-  const [selectedSubCategory, setSelectedSubCategory] = useState(searchParams.get('subCategory') || '');
-  const [availableSubCategories, setAvailableSubCategories] = useState([]);
 
   // Helper to update query param in URL
   const updateQuery = useCallback((params) => {
@@ -31,32 +26,6 @@ export default function SortBar({ productData, isLoading, sortData, filters, cat
     });
     router.push(`${pathname}?${query.toString()}`, 'isPathname');
   }, [router, pathname, searchParams]);
-
-  // Handle category change
-  const handleCategoryChange = async (event) => {
-    const categorySlug = event.target.value;
-    setSelectedCategory(categorySlug);
-    setSelectedSubCategory('');
-    setAvailableSubCategories([]);
-
-    updateQuery({ category: categorySlug, subCategory: '' });
-
-    if (categorySlug) {
-      try {
-        const response = await api.getPhysicalSubCategoriesByCategory(categorySlug);
-        setAvailableSubCategories(response?.data || []);
-      } catch {
-        setAvailableSubCategories([]);
-      }
-    }
-  };
-
-  // Handle subcategory change
-  const handleSubCategoryChange = (event) => {
-    const subCategorySlug = event.target.value;
-    setSelectedSubCategory(subCategorySlug);
-    updateQuery({ subCategory: subCategorySlug });
-  };
 
   // Handle sort change
   const handleSortChange = (event) => {
@@ -94,20 +63,6 @@ export default function SortBar({ productData, isLoading, sortData, filters, cat
                   price === '-1' ? 'Price high to low' :
                     'Top Rated'
     );
-
-    // Sync category and subcategory from URL
-    const categoryParam = searchParams.get('category') || '';
-    const subCategoryParam = searchParams.get('subCategory') || '';
-    setSelectedCategory(categoryParam);
-    setSelectedSubCategory(subCategoryParam);
-
-    if (categoryParam) {
-      api.getPhysicalSubCategoriesByCategory(categoryParam)
-        .then(res => setAvailableSubCategories(res?.data || []))
-        .catch(() => setAvailableSubCategories([]));
-    } else {
-      setAvailableSubCategories([]);
-    }
   }, [searchParams]);
 
   return (
@@ -123,31 +78,6 @@ export default function SortBar({ productData, isLoading, sortData, filters, cat
         </Typography>
 
         <Stack direction="row" spacing={1} flexWrap="wrap" alignItems="center">
-          {/* Category */}
-          <FormControl size="small" sx={{ minWidth: 140 }}>
-            <Select value={selectedCategory} onChange={handleCategoryChange} displayEmpty>
-              <MenuItem value="">All Categories</MenuItem>
-              {category.data.map(cat => (
-                <MenuItem key={cat.slug} value={cat.slug}>{cat.name}</MenuItem>
-              ))}
-            </Select>
-          </FormControl>
-
-          {/* Subcategory */}
-          <FormControl size="small" sx={{ minWidth: 140 }}>
-            <Select
-              value={selectedSubCategory}
-              onChange={handleSubCategoryChange}
-              displayEmpty
-              disabled={!availableSubCategories.length}
-            >
-              <MenuItem value="">All Subcategories</MenuItem>
-              {availableSubCategories.map(sub => (
-                <MenuItem key={sub.slug} value={sub.slug}>{sub.name}</MenuItem>
-              ))}
-            </Select>
-          </FormControl>
-
           {/* Sort */}
           <FormControl size="small" sx={{ minWidth: 150 }}>
             {state ? (
@@ -188,7 +118,6 @@ export default function SortBar({ productData, isLoading, sortData, filters, cat
 SortBar.propTypes = {
   productData: PropTypes.object.isRequired,
   sortData: PropTypes.array.isRequired,
-  category: PropTypes.object,
   isLoading: PropTypes.bool.isRequired,
   filters: PropTypes.array,
 };

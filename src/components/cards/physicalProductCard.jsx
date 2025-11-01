@@ -78,7 +78,8 @@ export default function PhysicalProductCard({ ...props }) {
     }
   });
 
-  const { name, slug, images, _id } = !loading && product;
+  const { name, slug, images, image, _id } = product || {};
+
   // averageRating
   const linkTo = `/track-product/${slug ? slug : ''}${product?.variant ? `?variant=${product.variant}` : ''}`;
 
@@ -105,7 +106,6 @@ export default function PhysicalProductCard({ ...props }) {
     toast.success('Added to compare list');
     dispatch(addCompareProduct(product._id));
   };
-
   const onRemoveCompare = async (event) => {
     event.stopPropagation();
     toast.success('Removed from compare list');
@@ -156,100 +156,18 @@ export default function PhysicalProductCard({ ...props }) {
           ) : (
             <BlurImage
               alt={name}
-              src={images[0].url}
+              src={images?.[0]?.url || image?.url || '/placeholder.jpg'}
               fill
               draggable="false"
-              // Reduced image size for better performance
               sizes="(max-width: 200px) 50vw, 20vw"
-              // Add quality optimization
               quality={75}
-              // Add priority only for above-the-fold images
               priority={false}
-              // Add placeholder for better UX
               placeholder="blur"
-              blurDataURL={images[0].blurDataURL || '/images/placeholder.jpg'}
+              blurDataURL={images?.[0]?.blurDataURL || '/images/placeholder.jpg'}
             />
+
           )}
         </Box>
-        <Zoom in={openActions}>
-          <Box>
-            <Stack
-              direction={'row'}
-              sx={{
-                position: 'absolute',
-                bottom: 8,
-                left: '50%',
-                transform: 'translate(-50%, 0px)',
-                bgcolor: 'background.paper',
-                borderRadius: '27px',
-                p: '2px',
-                zIndex: 11
-              }}
-            >
-              <Tooltip title="Quick View">
-                <span>
-                  <IconButton
-                    aria-label="Quick View"
-                    disabled={loading || product?.stockQuantity < 1 || quickViewLoading}
-                    onClick={handleQuickView}
-                    size={isTablet ? 'small' : 'medium'}
-                  >
-                    {quickViewLoading ? <Skeleton variant="circular" width={24} height={24} /> : <GoEye />}
-                  </IconButton>
-                </span>
-              </Tooltip>
-
-              {wishlist?.filter((v) => v === _id).length > 0 ? (
-                <Tooltip title="Remove from cart">
-                  <IconButton
-                    disabled={isLoading}
-                    onClick={onClickWishList}
-                    aria-label="Remove from cart"
-                    color="primary"
-                    size={isTablet ? 'small' : 'medium'}
-                  >
-                    <IoIosHeart />
-                  </IconButton>
-                </Tooltip>
-              ) : (
-                <Tooltip title="Add to wishlist">
-                  <IconButton
-                    disabled={isLoading}
-                    onClick={onClickWishList}
-                    aria-label="add to wishlist"
-                    size={isTablet ? 'small' : 'medium'}
-                  >
-                    <IoMdHeartEmpty />
-                  </IconButton>
-                </Tooltip>
-              )}
-              {compareProducts?.filter((v) => v._id === _id).length > 0 ? (
-                <Tooltip title="Remove from cart">
-                  <IconButton
-                    disabled={isLoading}
-                    onClick={onRemoveCompare}
-                    aria-label="Remove from compare"
-                    color="primary"
-                    size={isTablet ? 'small' : 'medium'}
-                  >
-                    <GoGitCompare />
-                  </IconButton>
-                </Tooltip>
-              ) : (
-                <Tooltip title="Add to compare">
-                  <IconButton
-                    disabled={isLoading}
-                    onClick={onAddCompare}
-                    aria-label="add to compare"
-                    size={isTablet ? 'small' : 'medium'}
-                  >
-                    <GoGitCompare />
-                  </IconButton>
-                </Tooltip>
-              )}
-            </Stack>
-          </Box>
-        </Zoom>
       </Box>
 
       <Stack

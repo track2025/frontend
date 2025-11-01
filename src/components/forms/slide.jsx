@@ -44,7 +44,6 @@ export default function SlideForm({ data: currentSlide, isLoading: slideLoading 
       retry: false,
       onSuccess: (data) => {
         toast.success(data.message);
-
         router.push('/admin/slides');
       },
       onError: (error) => {

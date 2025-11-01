@@ -60,24 +60,24 @@ export default function SlideList() {
 
   // prettier-ignore
   const { mutate: changeActivation, isLoading: activationLoading } = useMutation(
-      api.updateSlideActiveInactiveByAdmin, // mutation function here
-      {
-        onSuccess: (data) => {
-          toast.success(data.message);
-          handleClose();
-          // ✅ Refetch products list
-          queryClient.invalidateQueries(['slides']);
-        },
-        onError: (error) => {
-          console.log(error);
-          let errorMessage = parseMongooseError(error?.message);
-          toast.error(errorMessage || 'We ran into an issue. Please refresh the page or try again.', {
-            autoClose: false, // Prevents auto-dismissal
-            closeOnClick: true // Allows clicking on the close icon
-          });
-        }
+    api.updateSlideActiveInactiveByAdmin, // mutation function here
+    {
+      onSuccess: (data) => {
+        toast.success(data.message);
+        handleClose();
+        // ✅ Refetch products list
+        queryClient.invalidateQueries(['slides']);
+      },
+      onError: (error) => {
+        console.log(error);
+        let errorMessage = parseMongooseError(error?.message);
+        toast.error(errorMessage || 'We ran into an issue. Please refresh the page or try again.', {
+          autoClose: false, // Prevents auto-dismissal
+          closeOnClick: true // Allows clicking on the close icon
+        });
       }
-    );
+    }
+  );
 
   async function changeActiveInactive() {
     try {
@@ -91,6 +91,7 @@ export default function SlideList() {
   }
 
   const handleClickOpenStatus = (prop) => () => {
+    console.log("approve")
     setMarkSlide(prop);
     setOpenStatus(true);
   };
@@ -134,7 +135,7 @@ export default function SlideList() {
         </DialogActions>
       </Dialog>
 
-      {/* <Table
+      <Table
         headData={TABLE_HEAD}
         data={data ?? { success: true, data: [], total: 0, count: 0, currentPage: 1 }}
         isLoading={isLoading}
@@ -142,7 +143,7 @@ export default function SlideList() {
         handleClickOpen={handleClickOpen}
         handleClickOpenStatus={handleClickOpenStatus}
         isSearch
-      /> */}
+      />
     </>
   );
 }
