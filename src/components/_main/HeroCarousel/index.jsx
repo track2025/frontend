@@ -86,7 +86,7 @@ export default function HeroCarousel() {
     );
 
   return (
-    <div className="position-relative rounded-4 w-100 mt-5" style={{ height: "400px", overflow: "hidden" }}>
+    <div className="position-relative w-100 mt-5" style={{ height: "450px", overflow: "hidden" }}>
       <div className="h-100 w-100 d-flex transition-slide" style={{ transform: `translateX(-${currentSlide * 100}%)`, transition: "transform 0.5s ease-in-out" }}>
         {bannerItems.map((banner, index) => (
           <div key={banner._id || banner.id || index} className="flex-shrink-0 w-100 h-100 position-relative">
@@ -112,7 +112,7 @@ export default function HeroCarousel() {
                     )}
                   </h1>
                 )}
-                {banner.description && <Typography className="col-md-6 mb-3" sx={{ zIndex: 11, color: '#fff', fontSize: '18px' }} variant="body1">{banner.description}</Typography>}
+                {banner.description && <Typography className="col-md-12 mb-3" sx={{ zIndex: 11, color: '#fff', fontSize: '18px' }} variant="body1">{banner.description}</Typography>}
                 {banner.buttonText && banner.buttonLink && (
                   <Link href={banner.buttonLink} passHref legacyBehavior>
                     <Button

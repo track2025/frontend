@@ -113,15 +113,18 @@ export default function IndexPage() {
         <FeaturedProducts />
       </Container>
 
-      <Banner />
+      {/* <Banner /> */}
+
+      <div className="flex flex-col lg:flex-row gap-6 ">
+        <div className="w-full lg:w-2/3 xl:w-3/4">
+          <HeroCarousel loading={isLoading("hero")} />
+        </div>
+      </div>
+
 
       <Container maxWidth="xl">
 
-        <div className="flex flex-col lg:flex-row gap-6 ">
-          <div className="w-full lg:w-2/3 xl:w-3/4">
-            <HeroCarousel loading={isLoading("hero")} />
-          </div>
-        </div>
+
 
         <TopCollection />
 
