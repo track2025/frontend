@@ -83,7 +83,7 @@ export default function PhysicalSubCategoryRow({ isLoading, row, handleClickOpen
               <BlurImage
                 priority
                 fill
-                alt={row?.parentCategory.name}
+                alt={row?.parentCategory?.name}
                 src={row?.parentCategory?.cover?.url}
                 objectFit="cover"
               />
