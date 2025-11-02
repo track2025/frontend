@@ -28,7 +28,7 @@ import { TbCategory2 } from 'react-icons/tb';
 import { BsShop } from 'react-icons/bs';
 import { BsCart3 } from 'react-icons/bs';
 import { LuUsers } from 'react-icons/lu';
-import { PiShootingStarBold } from 'react-icons/pi';
+import { PiShootingStarBold, PiSlideshowLight } from 'react-icons/pi';
 import { SlEnvolopeLetter } from 'react-icons/sl';
 import { IoFileTrayFull, IoLogInOutline, IoSettingsOutline } from 'react-icons/io5';
 import { RiCoupon5Line } from 'react-icons/ri';
@@ -182,6 +182,13 @@ export const navlinks = [
     title: 'Products',
     slug: 'physical-products',
     icon: <BsShop />,
+    isSearch: false
+  },
+  {
+    id: 20,
+    title: 'Slides',
+    slug: 'slides',
+    icon: <PiSlideshowLight  />,
     isSearch: false
   },
   {

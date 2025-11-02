@@ -4,7 +4,8 @@ import Image from "next/image";
 import Link from "next/link";
 import { fetchCarouselItems } from "src/services";
 import HeroCarouselSkeleton from "src/components/skeletons/HeroCarouselSkeleton";
-import { Button } from "@mui/material";
+import { Button, Typography, useTheme } from "@mui/material";
+import { IoIosArrowForward } from "react-icons/io";
 
 const FALLBACK_BANNERS = [
   {
@@ -22,6 +23,7 @@ export default function HeroCarousel() {
   const [currentSlide, setCurrentSlide] = useState(0);
   const [bannerItems, setBannerItems] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
+  const theme = useTheme();
 
   const loadBanners = useCallback(async () => {
     try {
@@ -103,14 +105,33 @@ export default function HeroCarousel() {
                 {(banner.title || banner.highlight) && (
                   <h1 className="display-5 fw-bold mb-3">
                     {banner.title && <span>{banner.title} </span>}
-                    {banner.highlight && <span className="text-info">{banner.highlight}</span>}
+                    {banner.highlight && (
+                      <span style={{ color: theme.palette.primary.main }}>
+                        {banner.highlight}
+                      </span>
+                    )}
                   </h1>
                 )}
-                {banner.description && <p className="lead mb-3">{banner.description}</p>}
+                {banner.description && <Typography className="col-md-6 mb-3" sx={{ zIndex: 11, color: '#fff', fontSize: '18px' }} variant="body1">{banner.description}</Typography>}
                 {banner.buttonText && banner.buttonLink && (
                   <Link href={banner.buttonLink} passHref legacyBehavior>
-                    <Button variant="light">
-                      {banner.buttonText} <span className="ms-2">→</span>
+                    <Button
+                      variant="contained"
+                      color="secondary"
+                      size="large"
+                      endIcon={<IoIosArrowForward />}
+                      sx={{
+                        bgcolor: '#000000',
+                        color: '#ffffff',
+                        borderRadius: 6,
+                        textTransform: 'none',
+                        '&:hover': {
+                          bgcolor: '#1a1a1a',
+                          opacity: 0.9
+                        }
+                      }}
+                    >
+                      {banner.buttonText}
                     </Button>
                   </Link>
                 )}
@@ -123,16 +144,21 @@ export default function HeroCarousel() {
       {/* Carousel controls */}
       {bannerItems.length > 1 && (
         <>
-          <button
+          {/* <button
             onClick={prevSlide}
             className="btn btn-dark rounded-pill opacity-75"
             style={{
-              width: "50px",
-              height: "50px",
+              color: theme.palette.primary.main,
+              fontSize: "30px",           // increase font size
+              width: "60px",
+              height: "60px",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",   // center text horizontally and vertically
               position: "absolute",
-              top: "80%",      // 80% from top
-              left: "20px",    // 20px from left
-              transform: "translateY(-50%)", // center vertically relative to top
+              top: "83%",
+              left: "20px",
+              transform: "translateY(-50%)",
             }}
             aria-label="Previous slide"
           >
@@ -143,17 +169,22 @@ export default function HeroCarousel() {
             onClick={nextSlide}
             className="btn btn-dark rounded-pill opacity-75"
             style={{
-              width: "50px",
-              height: "50px",
+              color: theme.palette.primary.main,
+              fontSize: "30px",           // increase font size
+              width: "60px",
+              height: "60px",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
               position: "absolute",
-              top: "80%",       // 80% from top
-              right: "20px",    // 20px from right
+              top: "83%",
+              right: "20px",
               transform: "translateY(-50%)",
             }}
             aria-label="Next slide"
           >
             ›
-          </button>
+          </button> */}
 
           {/* Indicators */}
           <div className="position-absolute bottom-0 start-0 mb-3 ms-3 d-flex gap-2">
@@ -161,12 +192,19 @@ export default function HeroCarousel() {
               <button
                 key={index}
                 onClick={() => goToSlide(index)}
-                className={`rounded-pill ${index === currentSlide ? "bg-info" : "bg-light"} border-0`}
-                style={{ width: "30px", height: "5px" }}
+                className="rounded-pill border-0"
+                style={{
+                  width: "30px",
+                  height: "5px",
+                  backgroundColor: index === currentSlide
+                    ? theme.palette.primary.main   // active slide
+                    : 'rgba(255,255,255,0.4)'           // inactive slide (light gray)
+                }}
                 aria-label={`Go to slide ${index + 1}`}
               ></button>
             ))}
           </div>
+
         </>
       )}
     </div>
