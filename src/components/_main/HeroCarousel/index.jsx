@@ -97,7 +97,7 @@ export default function HeroCarousel() {
               className="object-fit-cover"
               priority={index === 0}
             />
-            <div className="position-absolute top-0 start-0 w-100 h-100 bg-dark opacity-50"></div>
+            <div className="position-absolute top-0 start-0 w-100 h-100 bg-black opacity-50"></div>
 
             {/* Overlay content */}
             {(banner.title || banner.highlight || banner.description || banner.buttonText) && (
