@@ -50,11 +50,8 @@ export default function TrackDetailsClient({ track }) {
   // Create a ref for the products section
   const productsSectionRef = useRef(null);
 
-<<<<<<< HEAD
-=======
   console.log('params_____======<><><>', params);
 
->>>>>>> 2025/11/01/theme-track-search-filter
   const slug = params.slug;
 
   // Get page and search from URL on component mount and when URL changes
@@ -91,11 +88,8 @@ export default function TrackDetailsClient({ track }) {
 
   const _searchQuery = getSearchParams(searchParams);
 
-<<<<<<< HEAD
-=======
   console.log('_______________________________ slug:', slug);
 
->>>>>>> 2025/11/01/theme-track-search-filter
   // Fetch products on client side
   const { data: productsData, isLoading: productsLoading } = useQuery(
     _searchQuery,
@@ -348,11 +342,7 @@ export default function TrackDetailsClient({ track }) {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbStructuredData) }}
       /> */}
 
-<<<<<<< HEAD
-      <Box sx={{ minHeight: '100vh', bgcolor: (theme) => alpha(theme.palette.info.light, 0.1) }}>
-=======
       <Box sx={{ minHeight: '100vh', bgcolor: (theme) => (theme.palette.mode !== 'dark' ? '#fff' : '#000') }}>
->>>>>>> 2025/11/01/theme-track-search-filter
         {/* Breadcrumbs */}
         <Container maxWidth="xl" sx={{ pt: 3 }}>
           <Breadcrumbs separator={<NavigateNextIcon fontSize="small" />} aria-label="breadcrumb">
