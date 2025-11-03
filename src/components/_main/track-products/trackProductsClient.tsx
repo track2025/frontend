@@ -14,9 +14,8 @@ export default function TrackProductsClient({ filters, categories }: Props) {
     
 
     return (
-        <div className='mt-4'>
-            <CategoryFilter categories={categories} onProductsChange={setProducts} />
-            <FilterChips />
+        <div className=''>
+            {/* <FilterChips /> */}
             <ProductListing filters={filters} initialProducts={products} />
         </div>
     );

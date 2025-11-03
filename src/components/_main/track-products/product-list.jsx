@@ -16,9 +16,23 @@ export default function ProductList({ ...props }) {
     <Box mb={3} mt={2}>
       <Grid container spacing={isMobile ? 1 : 1}>
         {!isLoading && products?.length < 1 && <NoDataFoundIllustration />}
-        {(isLoading ? Array.from(new Array(8)) : products)?.map((product) => (
-          <Grid key={Math.random()} size={{ lg: 2, md: 3, sm: 4, xs: 6 }} sx={{ transition: 'all 0.3s ease-in-out' }}>
-            <PhysicalProductCard product={product} loading={isLoading} isMobile={isMobile} />
+        {(isLoading ? Array.from(new Array(8)) : products)?.map((product, index) => (
+          <Grid
+            key={product?._id || `skeleton-${index}`}
+            spacing={0}
+            size={{ lg: 2, md: 3, sm: 4, xs: 6 }}
+            sx={{
+              display: 'flex',
+              alignItems: 'stretch', 
+              transition: 'all 0.3s ease-in-out',
+            }}
+          >
+            <PhysicalProductCard
+              product={product}
+              loading={isLoading}
+              isMobile={isMobile}
+              sx={{ flexGrow: 1, height: '100%' }} 
+            />
           </Grid>
         ))}
       </Grid>
@@ -28,7 +42,11 @@ export default function ProductList({ ...props }) {
 
 // add propTypes
 ProductList.propTypes = {
-  data: PropTypes.object.isRequired,
+  data: PropTypes.oneOfType([PropTypes.array, PropTypes.object]),
   isLoading: PropTypes.bool.isRequired,
   isMobile: PropTypes.bool.isRequired
+};
+
+ProductList.defaultProps = {
+  data: []
 };

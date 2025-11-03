@@ -63,6 +63,7 @@
     "otp-generator": "^4.0.1",
     "path": "^0.12.7",
     "prettier": "^3.2.5",
+    "primereact": "^10.9.7",
     "react": "latest",
     "react-apexcharts": "^1.4.1",
     "react-countdown": "^2.3.5",

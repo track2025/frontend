@@ -3,9 +3,9 @@ import { Box, Container } from "@mui/material"
 
 // components
 import HeaderBreadcrumbs from "src/components/headerBreadcrumbs"
-import ProductList from "src/components/_main/track-products"
-import FilterChips from "src/components/_main/track-products/search-params-list"
 import TrackProductsClient from "src/components/_main/track-products/trackProductsClient"
+import MegaMenu from "src/components/_main/track-products/megamenu"
+import MegaMenuClient from "src/components/_main/track-products/MegaMenuClient"
 
 const baseUrl = process.env.BASE_URL
 
@@ -40,6 +40,8 @@ export default async function Listing() {
   const categoriesData = await cateRes.json();
   const categories = categoriesData.data || categoriesData;
 
+
+
   const structuredData = {
     "@context": "https://schema.org",
     "@type": "CollectionPage",
@@ -54,22 +56,7 @@ export default async function Listing() {
 
       <Box>
         <Box sx={{ bgcolor: "background.default" }}>
-          <Container maxWidth="xl">
-            <HeaderBreadcrumbs
-              heading="Track Products"
-              links={[
-                {
-                  name: "Home",
-                  href: "/",
-                },
-                {
-                  name: "Track Products",
-                },
-              ]}
-            />
-
-            <TrackProductsClient filters={filters} categories={categories} />
-          </Container>
+          <MegaMenuClient categories={categories} filters={filters} />
         </Box>
       </Box>
     </>

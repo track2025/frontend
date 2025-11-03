@@ -6,10 +6,9 @@ import { useSelector } from 'react-redux';
 import Link from 'next/link';
 import { useRouter } from 'next-nprogress-bar';
 import { toast } from 'react-hot-toast';
-import dynamic from 'next/dynamic';
 
 // mui
-import { Box, Card, Typography, Stack, IconButton, useMediaQuery, Tooltip, Skeleton, Zoom, Chip } from '@mui/material';
+import { Box, Typography, Stack, useMediaQuery, Skeleton, Chip } from '@mui/material';
 // components
 import { useDispatch } from 'src/redux';
 import { setWishlist } from 'src/redux/slices/wishlist';
@@ -23,23 +22,18 @@ import { useCurrencyFormatter } from 'src/hooks/formatCurrency';
 import * as api from 'src/services';
 // icons
 import { IoMdHeartEmpty } from 'react-icons/io';
-import { GoEye } from 'react-icons/go';
 import { GoGitCompare } from 'react-icons/go';
 import { IoIosHeart } from 'react-icons/io';
-import { FaRegStar } from 'react-icons/fa';
-// dynamic
-const ProductDetailsDialog = dynamic(() => import('../dialog/physicalProductDetails'));
 
 export default function PhysicalProductCard({ ...props }) {
   const { product, loading } = props;
   const cCurrency = useCurrencyConvert();
   const fCurrency = useCurrencyFormatter();
 
-  const [open, setOpen] = useState(false);
   const [openActions, setOpenActions] = useState(false);
   const router = useRouter();
   const dispatch = useDispatch();
-  // type error
+
   const { wishlist } = useSelector(({ wishlist }) => wishlist);
   const { user } = useSelector(({ user }) => user);
   const { products: compareProducts } = useSelector(({ compare }) => compare);
@@ -48,22 +42,7 @@ export default function PhysicalProductCard({ ...props }) {
   const { isAuthenticated } = useSelector(({ user }) => user);
   const isTablet = useMediaQuery('(max-width:900px)');
   const [isLoading, setLoading] = useState(false);
-  const [quickViewLoading, setQuickViewLoading] = useState(false);
-  const [quickViewData, setQuickViewData] = useState(null);
 
-  const handleQuickView = async (event) => {
-    event.stopPropagation();
-    setQuickViewLoading(true);
-    try {
-      const data = await api.getProductBySlug(product.slug);
-      setQuickViewData(data); // store product details
-      setOpen(true); // open dialog
-    } catch (err) {
-      toast.error(err?.response?.data?.message || 'Failed to load product details');
-    } finally {
-      setQuickViewLoading(false);
-    }
-  };
   const { mutate } = useMutation({
     mutationFn: api.updateWishlist,
     onSuccess: (data) => {
@@ -80,7 +59,6 @@ export default function PhysicalProductCard({ ...props }) {
 
   const { name, slug, images, image, _id } = product || {};
 
-  // averageRating
   const linkTo = `/track-product/${slug ? slug : ''}${product?.variant ? `?variant=${product.variant}` : ''}`;
 
   const onClickWishList = async (event) => {
@@ -90,69 +68,93 @@ export default function PhysicalProductCard({ ...props }) {
     }
     if (!isAuthenticated) {
       event.stopPropagation();
+      event.preventDefault();
       router.push('/auth/sign-in');
     } else {
       event.stopPropagation();
+      event.preventDefault();
       setLoading(true);
       await mutate(_id);
     }
   };
-  const onAddCompare = async (event) => {
-    if (isNotUser) {
-      toast.error('Only user can add to compare');
-      return;
-    }
-    event.stopPropagation();
-    toast.success('Added to compare list');
-    dispatch(addCompareProduct(product._id));
-  };
-  const onRemoveCompare = async (event) => {
-    event.stopPropagation();
-    toast.success('Removed from compare list');
-    dispatch(removeCompareProduct(_id));
-  };
+
   return (
-    <Card
+    <Box
+      component={!loading && product?.stockQuantity > 0 ? Link : 'div'}
+      href={!loading && product?.stockQuantity > 0 ? linkTo : undefined}
       onMouseEnter={() => !isLoading && setOpenActions(true)}
       onMouseLeave={() => setOpenActions(false)}
-      sx={{ display: 'block' }}
+      sx={{
+        display: 'block',
+        position: 'relative',
+        bgcolor: 'background.paper',
+        borderRadius: 0,
+        width: '100%',
+        overflow: 'hidden',
+        boxShadow: '0 2px 8px rgba(0,0,0,0.08)',
+        transition: 'all 0.3s ease',
+        textDecoration: 'none',
+        color: 'inherit',
+        '&:hover': {
+          transform: 'translateY(-4px)',
+          boxShadow: '0 8px 24px rgba(0,0,0,0.12)',
+        },
+      }}
     >
+      {/* Image Container */}
       <Box sx={{ position: 'relative' }}>
         {!loading && product?.stockQuantity < 1 && (
           <Chip
             size="small"
             sx={{
-              top: isTablet ? 8 : 12,
-              left: isTablet ? 8 : 12,
+              top: 8,
+              left: 8,
               zIndex: 9,
               position: 'absolute',
               textTransform: 'uppercase',
-              fontSize: isTablet ? 8 : 12
+              fontSize: 10,
+              fontWeight: 600,
+              height: 24,
             }}
             label="Out of Stock"
-            color={'error'}
+            color="error"
           />
         )}
+
+        {/* 🟣 Variant Badge (replaces discount) */}
+        {!loading && product?.variant && (
+          <Chip
+            size="small"
+            sx={{
+              top: 8,
+              right: 8,
+              zIndex: 9,
+              position: 'absolute',
+              bgcolor: 'primary.main',
+              color: 'white',
+              fontSize: 10,
+              fontWeight: 600,
+              height: 24,
+              textTransform: 'uppercase',
+            }}
+            label={product?.variant}
+          />
+        )}
+
         <Box
-          {...(!loading &&
-            product?.stockQuantity > 0 && {
-            component: Link,
-            href: linkTo
-          })}
           sx={{
-            bgcolor: isLoading || loading ? 'transparent' : 'common.white',
+            bgcolor: isLoading || loading ? 'grey.100' : 'common.white',
             position: 'relative',
-            cursor: 'pointer',
+            cursor: product?.stockQuantity > 0 ? 'pointer' : 'default',
             aspectRatio: '1 / 1',
-            '&:after': { content: `""`, display: 'block', paddingBottom: '100%' },
-            width: '100%',
-            img: {
-              objectFit: 'cover'
-            }
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            overflow: 'hidden',
           }}
         >
           {loading ? (
-            <Skeleton variant="rectangular" width="100%" sx={{ height: '100%', position: 'absolute' }} />
+            <Skeleton variant="rectangular" width="100%" height="100%" />
           ) : (
             <BlurImage
               alt={name}
@@ -164,74 +166,86 @@ export default function PhysicalProductCard({ ...props }) {
               priority={false}
               placeholder="blur"
               blurDataURL={images?.[0]?.blurDataURL || '/images/placeholder.jpg'}
+              style={{
+                objectFit: 'contain', // keeps padding space
+                padding: '6px',
+                transition: 'transform 0.3s ease',
+              }}
+              className="product-image"
             />
-
           )}
         </Box>
       </Box>
 
+      {/* Content */}
       <Stack
-        justifyContent="center"
+        spacing={1}
         sx={{
-          zIndex: 111,
-          p: 1,
-          width: '100%',
-          a: { color: 'text.primary', textDecoration: 'none' }
+          p: 2,
+          pt: 1.5,
+          display: 'flex',
+          flex: 1,
+          justifyContent: 'space-between', // ✅ evenly space name & price
         }}
       >
-        <Box sx={{ display: 'grid' }}>
-          <Typography
-            sx={{
-              cursor: 'pointer',
-              textTransform: 'capitalize'
-            }}
-            {...(product?.stockQuantity > 0 && { component: Link, href: linkTo })}
-            variant={'subtitle1'}
-            noWrap
-          >
-            {loading ? <Skeleton variant="text" width={120} /> : name}{' '}
-            {product?.variant ? ' | ' + product?.variant.split('/').join(' | ').toUpperCase() : ''}
-          </Typography>
-        </Box>
+        {/* Product Name */}
+        <Typography
+          sx={{
+            cursor: product?.stockQuantity > 0 ? 'pointer' : 'default',
+            textTransform: 'capitalize',
+            fontWeight: 600,
+            fontSize: '0.95rem',
+            lineHeight: 1.3,
+            overflow: 'hidden',
+            display: '-webkit-box',
+            textAlign: 'center',
+            WebkitLineClamp: 2,
+            WebkitBoxOrient: 'vertical',
+            '&:hover': {
+              color: product?.stockQuantity > 0 ? 'primary.main' : 'inherit',
+            },
+          }}
+          variant="body1"
+        >
+          {loading ? <Skeleton variant="text" width="100%" /> : name}
+        </Typography>
 
-        <Stack spacing={0.5} direction="row" justifyContent={'space-between'} alignItems="center">
+        {/* Price Section */}
+        <Stack direction="row" alignItems="center" spacing={1} justifyContent="center">
           <Typography
-            variant={isTablet ? 'body1' : 'h5'}
+            variant="h6"
             component="p"
             sx={{
               fontWeight: 700,
-              display: 'flex',
-              alignItems: 'center',
-              '& .discount': { fontSize: { md: 14, xs: 12 }, fontWeight: 600, color: 'error.main', ml: 0.5 }
+              color: 'primary.main',
             }}
           >
             {loading ? (
-              <Skeleton variant="text" width={120} />
+              <Skeleton variant="text" width={80} />
             ) : (
-              <>
-                <span>{fCurrency(cCurrency(product?.salePrice))}</span>
-                {100 - (product?.salePrice / product?.price) * 100 > 1 && (
-                  <span className="discount">
-                    ({`-${(100 - (product?.salePrice / product?.price) * 100).toFixed()}%`})
-                  </span>
-                )}
-              </>
+              fCurrency(cCurrency(product?.salePrice))
             )}
           </Typography>
+
+          {!loading && product?.salePrice < product?.price && (
+            <Typography
+              variant="body2"
+              sx={{
+                color: 'text.disabled',
+                textDecoration: 'line-through',
+                fontWeight: 500,
+              }}
+            >
+              {fCurrency(cCurrency(product?.price))}
+            </Typography>
+          )}
         </Stack>
       </Stack>
-      {open && quickViewData && (
-        <ProductDetailsDialog
-          product={quickViewData}
-          slug={product.slug}
-          open={open}
-          isSimpleProduct={product.type === 'simple'}
-          onClose={() => setOpen(false)}
-        />
-      )}
-    </Card>
+
+    </Box>
   );
 }
+
 PhysicalProductCard.propTypes = {
   product: PropTypes.shape({
     _id: PropTypes.string.isRequired,
@@ -244,7 +258,11 @@ PhysicalProductCard.propTypes = {
     salePrice: PropTypes.number,
     stockQuantity: PropTypes.number,
     colors: PropTypes.array,
-    averageRating: PropTypes.number
+    averageRating: PropTypes.number,
+    variant: PropTypes.string,
+    rating: PropTypes.number,
+    reviewCount: PropTypes.number,
+    type: PropTypes.string
   }),
   loading: PropTypes.bool.isRequired
 };
