@@ -107,6 +107,9 @@ export default function Navbar() {
             </Stack>
             <Stack gap={4} direction="row" alignItems={'center'} sx={{ display: { md: 'flex', xs: 'none' } }}>
               <MenuDesktop navConfig={menu} />
+            </Stack>
+
+            <Stack gap={2} direction="row" alignItems={'center'}>
               <Button
                 className="text-nowrap"
                 variant="contained"
@@ -116,16 +119,13 @@ export default function Navbar() {
                   color: 'background.paper',
                   textTransform: 'none',
                   '&:hover': {
-                    bgcolor: 'text.primary', // keeps color consistent on hover
+                    bgcolor: 'text.primary',
                     opacity: 0.9
                   }
                 }}
               >
                 Race Wear
               </Button>
-            </Stack>
-
-            <Stack gap={2} direction="row" alignItems={'center'}>
               <LanguageSelect />
               <SettingMode />
               {/* <WishlistPopover />

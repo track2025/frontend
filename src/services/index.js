@@ -897,6 +897,7 @@ export const getUserPhysicalProducts = async (query = '') => {
   const { data } = await http.get(`/user/physical-products${query}`);
   return data;
 };
+
 export const getUserPhysicalProductDetails = async (pid) => {
   const { data } = await http.get(`/user/physical-products/${pid}`);
   return data;

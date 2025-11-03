@@ -101,7 +101,7 @@ export default function HeroCarousel() {
 
             {/* Overlay content */}
             {(banner.title || banner.highlight || banner.description || banner.buttonText) && (
-              <div className="position-absolute top-0 start-0 w-100 h-100 d-flex flex-column justify-content-center align-items-start p-4 text-white" style={{ maxWidth: "600px" }}>
+              <div className="position-absolute top-0 start-0 w-100 h-100 d-flex flex-column justify-content-center align-items-center align-items-md-start text-center text-md-start p-4 text-white" style={{ maxWidth: "600px" }}>
                 {(banner.title || banner.highlight) && (
                   <h1 className="display-5 fw-bold mb-3">
                     {banner.title && <span>{banner.title} </span>}
