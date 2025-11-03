@@ -49,7 +49,16 @@ const LabelStyle = styled(Typography)(({ theme }) => ({
   fontWeight: 500
 }));
 
-export default function SortBar({ compaign, productData, shop, isLoading, sortData, category, subCategory }) {
+export default function SortBar({
+  compaign,
+  productData,
+  shop,
+  isLoading,
+  sortData,
+  category,
+  subCategory,
+  showLocationSearch = true
+}) {
   // filterData
   const router = useRouter();
   const pathname = usePathname();
@@ -216,44 +225,27 @@ export default function SortBar({ compaign, productData, shop, isLoading, sortDa
           </Stack>
 
           {/* Location - Always Visible */}
-          <TextField
-            size="small"
-            fullWidth
-            placeholder="Filter by Location"
-            value={location}
-            onFocus={() => setFocus(true)}
-            onKeyDown={onKeyDown}
-            onChange={(e) => {
-              setLocation(e.target.value);
-              router.push(`${pathname}?${setQueryParam('location', e.target.value)}`, 'isPathname');
-            }}
-            InputProps={{
-              startAdornment: (
-                <InputAdornment position="start">
-                  <LocationOnIcon color="primary" />
-                </InputAdornment>
-              )
-            }}
-          />
-
-          {/* Toggle Button for Advanced Filters */}
-          <Button
-            variant="outlined"
-            onClick={() => setShowAdvancedFilters(!showAdvancedFilters)}
-            endIcon={showAdvancedFilters ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
-            sx={{
-              minWidth: 180,
-              justifyContent: 'space-between'
-            }}
-          >
-            {showAdvancedFilters ? 'Hide Filters' : 'Advanced Filters'}
-          </Button>
-        </Stack>
-
-        {/* Advanced Filters - Collapsible */}
-        <Collapse in={showAdvancedFilters}>
-          <Stack direction={{ xs: 'column', sm: 'row' }} spacing={2} alignItems="center">
-            {/* Registration */}
+          {showLocationSearch ? (
+            <TextField
+              size="small"
+              fullWidth
+              placeholder="Filter by Location"
+              value={location}
+              onFocus={() => setFocus(true)}
+              onKeyDown={onKeyDown}
+              onChange={(e) => {
+                setLocation(e.target.value);
+                router.push(`${pathname}?${setQueryParam('location', e.target.value)}`, 'isPathname');
+              }}
+              InputProps={{
+                startAdornment: (
+                  <InputAdornment position="start">
+                    <LocationOnIcon color="primary" />
+                  </InputAdornment>
+                )
+              }}
+            />
+          ) : (
             <TextField
               size="small"
               fullWidth
@@ -272,6 +264,45 @@ export default function SortBar({ compaign, productData, shop, isLoading, sortDa
                 )
               }}
             />
+          )}
+          {/* Toggle Button for Advanced Filters */}
+
+          <Button
+            variant="outlined"
+            onClick={() => setShowAdvancedFilters(!showAdvancedFilters)}
+            endIcon={showAdvancedFilters ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
+            sx={{
+              minWidth: { xs: '100%', md: 180 }, // full width on mobile, 180px on desktop
+              justifyContent: 'space-between'
+            }}
+          >
+            {showAdvancedFilters ? 'Hide Filters' : 'Advanced Filters'}
+          </Button>
+        </Stack>
+
+        {/* Advanced Filters - Collapsible */}
+        <Collapse in={showAdvancedFilters}>
+          <Stack direction={{ xs: 'column', sm: 'row' }} spacing={2} alignItems="center">
+            {/* Registration */}
+            {showLocationSearch &&  <TextField
+              size="small"
+              fullWidth
+              placeholder="Search by Registration"
+              value={search}
+              onFocus={() => setFocus(true)}
+              onKeyDown={onKeyDown}
+              onChange={(e) => {
+                setSearch(e.target.value);
+              }}
+              InputProps={{
+                startAdornment: (
+                  <InputAdornment position="start">
+                    <DirectionsCarIcon color="primary" />
+                  </InputAdornment>
+                )
+              }}
+            />}
+           
 
             {/* Car Make */}
             <TextField
@@ -383,7 +414,7 @@ export default function SortBar({ compaign, productData, shop, isLoading, sortDa
         </Stack>
 
         {/* Results Count */}
-        <Typography
+        {/* <Typography
           variant="body1"
           color="text.secondary"
           sx={{
@@ -406,7 +437,7 @@ export default function SortBar({ compaign, productData, shop, isLoading, sortDa
               </>
             )
           )}
-        </Typography>
+        </Typography> */}
       </Stack>
 
       <Drawer

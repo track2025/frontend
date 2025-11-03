@@ -16,7 +16,7 @@ function Slide({ item, isLoading, isMobile, id }) {
           priority
           fill
           objectFit="cover"
-          sizes="50%"
+          sizes="40%"
           src={item?.url || item?.src}
           alt="hero-carousel"
         />
@@ -27,7 +27,7 @@ function Slide({ item, isLoading, isMobile, id }) {
         sx={{
           position: 'absolute',
           inset: 0,
-          bgcolor: 'rgba(0,0,0,0.1)',
+          // bgcolor: 'rgba(0,0,0,0.1)',
         }}
       />
     </Box>
@@ -90,8 +90,8 @@ export default function ProductDetailsSlider({ product, selectedVariant, isSimpl
           position: 'relative',
           overflow: 'hidden',
           width: '100%',
-          border: '1px solid #e0e0e0',
-          borderRadius: shape.borderRadiusMd,
+          // border: '1px solid #e0e0e0',
+          // borderRadius: shape.borderRadiusMd,
           aspectRatio: '1 / 1',
         }}
         ref={mainRef}
@@ -136,7 +136,7 @@ export default function ProductDetailsSlider({ product, selectedVariant, isSimpl
                 overflow: 'hidden',
                 cursor: 'pointer',
                 position: 'relative',
-                outline: selectedIndex === index ? '2px solid #1976d2' : 'none',
+                outline: selectedIndex === index ? '2px solid #EE1E50' : 'none',
                 outlineOffset: 2,
               }}
             >

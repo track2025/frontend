@@ -50,7 +50,7 @@ export default function TrackDetailsClient({ track }) {
   // Create a ref for the products section
   const productsSectionRef = useRef(null);
 
-  console.log('params_____======<><><>', params)
+  console.log('params_____======<><><>', params);
 
   const slug = params.slug;
 
@@ -77,24 +77,18 @@ export default function TrackDetailsClient({ track }) {
       const newUrl = `${window.location.pathname}${params.toString() ? `?${params.toString()}` : ''}`;
       window.history.replaceState(null, '', newUrl);
     }
-    
   }, [searchParams, currentPage]);
 
   // Create a stable query key that doesn't include circular references
   const queryKey = `track-products-${slug}-${rate}-${currentPage}-${itemsPerPage}-${searchQuery}`;
-  
 
   const getSearchParams = (searchParams) => {
     return searchParams.toString().length ? '?' + searchParams.toString() : '';
   };
 
-  
   const _searchQuery = getSearchParams(searchParams);
 
-
-  console.log('_______________________________ slug:', slug)
-
-
+  console.log('_______________________________ slug:', slug);
 
   // Fetch products on client side
   const { data: productsData, isLoading: productsLoading } = useQuery(
@@ -104,6 +98,7 @@ export default function TrackDetailsClient({ track }) {
       queryParams.append('location', track.name);
       queryParams.append('page', currentPage.toString());
       queryParams.append('limit', itemsPerPage.toString());
+      queryParams.append('date', 1);
 
       // Add search parameter if search query exists
       if (searchQuery.trim()) {
@@ -113,10 +108,10 @@ export default function TrackDetailsClient({ track }) {
       if (rate) {
         queryParams.append('rate', rate);
       }
-      
+
       const queryString = `?${queryParams.toString()}`;
 
-      console.log('query string :::::::::', queryString)
+      console.log('query string :::::::::', queryString);
       // return getProducts(queryString);
       return getProducts(queryString);
     },
@@ -125,10 +120,6 @@ export default function TrackDetailsClient({ track }) {
       staleTime: 5 * 60 * 1000
     }
   );
-
-
-
-
 
   // Fetch events for this track
   const { data: eventsData, isLoading: eventsLoading } = useQuery(
@@ -339,7 +330,6 @@ export default function TrackDetailsClient({ track }) {
 
   const theme = useTheme();
 
-
   return (
     <>
       {/* Structured Data for SEO */}
@@ -352,7 +342,7 @@ export default function TrackDetailsClient({ track }) {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbStructuredData) }}
       /> */}
 
-      <Box sx={{ minHeight: '100vh', bgcolor: (theme) => alpha(theme.palette.info.light, 0.1), }}>
+      <Box sx={{ minHeight: '100vh', bgcolor: (theme) => (theme.palette.mode !== 'dark' ? '#fff' : '#000') }}>
         {/* Breadcrumbs */}
         <Container maxWidth="xl" sx={{ pt: 3 }}>
           <Breadcrumbs separator={<NavigateNextIcon fontSize="small" />} aria-label="breadcrumb">
@@ -475,7 +465,7 @@ export default function TrackDetailsClient({ track }) {
         </Box>
 
         {/* Main Content */}
-        <Container maxWidth="xl" sx={{ py: { xs: 4, md: 6 } }}>
+        <Container maxWidth="xl" sx={{ py: { xs: 7, md: 6 }, px: { xs: 4, md: 7 } }}>
           {/* Description */}
           <Box sx={{ mb: 6 }}>
             <Typography
@@ -484,7 +474,7 @@ export default function TrackDetailsClient({ track }) {
                 fontSize: { xs: '1.5rem', md: '1.75rem' },
                 fontWeight: 700,
                 // color: '#1a1a1a',
-                mb: 2,
+                mb: 2
                 // color: theme.palette.secondary.main
               }}
             >
@@ -519,7 +509,8 @@ export default function TrackDetailsClient({ track }) {
                     top: { lg: 76 },
                     zIndex: 10,
                     // bgcolor: '#f8f9fa',
-                    bgcolor: (theme) => alpha(theme.palette.info.light, 0.1),
+                    bgcolor: theme.palette.mode !== 'dark' ? '#fff' : '#000',
+                    // bgcolor: 'red',
                     py: 2
                   }}
                 >
@@ -534,15 +525,7 @@ export default function TrackDetailsClient({ track }) {
                   >
                     Track Products & Gallery
                   </Typography>
-                  <SortBar
-                    sortData={sortData}
-                    productData={products}
-                    // category={subCategory?.parentCategory || category}
-                    // shop={shop}
-                    // subCategory={subCategory}
-                    // isLoading={isLoading}
-                    // compaign={compaign}
-                  />
+                  <SortBar sortData={sortData} productData={products} showLocationSearch={false} />
                 </Box>
 
                 {/* Products Grid */}
@@ -567,7 +550,7 @@ export default function TrackDetailsClient({ track }) {
                     )}
                   </Box>
                 ) : (
-                  <Box sx={{ textAlign: 'center', py: 6,  borderRadius: 2, boxShadow: 1 }}>
+                  <Box sx={{ textAlign: 'center', py: 6, borderRadius: 2, boxShadow: 1 }}>
                     <Typography variant="body1" sx={{ mb: 1 }}>
                       {searchQuery ? `No products found for "${searchQuery}"` : 'No products available for this track'}
                     </Typography>
@@ -598,7 +581,7 @@ export default function TrackDetailsClient({ track }) {
                       variant="h3"
                       sx={{
                         fontWeight: 700,
-                        fontSize: '1.25rem',
+                        fontSize: '1.25rem'
                         // color: '#1a1a1a'
                       }}
                     >
@@ -649,13 +632,13 @@ export default function TrackDetailsClient({ track }) {
                             {event.title || 'Upcoming Event'}
                           </Typography>
                           <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-                            <CalendarTodayIcon sx={{ fontSize: 16,  }} />
-                            <Typography variant="body2" sx={{fontWeight: 500 }}>
+                            <CalendarTodayIcon sx={{ fontSize: 16 }} />
+                            <Typography variant="body2" sx={{ fontWeight: 500 }}>
                               {event.date ? formatDate(event.date) : 'Date TBA'}
                             </Typography>
                           </Box>
                           {event.startTime && (
-                            <Typography variant="caption" sx={{display: 'block', mt: 0.5 }}>
+                            <Typography variant="caption" sx={{ display: 'block', mt: 0.5 }}>
                               {event.startTime} {event.endTime && `- ${event.endTime}`}
                             </Typography>
                           )}

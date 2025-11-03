@@ -10,15 +10,28 @@ import { IoIosRemove } from 'react-icons/io';
 import { IoIosAdd } from 'react-icons/io';
 
 const IncrementerStyle = styled('div')(({ theme }) => ({
-  border: '1px solid ' + theme.palette.divider,
-  borderRadius: 27,
-  display: 'flex',
-  alignItems: 'center',
-  justifyContent: 'space-between',
-  svg: {
-    fontSize: 22
-  }
+  // border: '1px solid ' + theme.palette.divider,
+  // // borderRadius: 27,
+  // display: 'flex',
+  // alignItems: 'center',
+  // justifyContent: 'space-between',
+  // svg: {
+  //   fontSize: 22
+  // }
 }));
+const _styles = {
+  display: 'flex',
+  borderRadius: '8px',
+  border: '1px solid #ccc',
+  outline: 'none',
+  fontSize: '14px',
+  textTransform: 'uppercase',
+  backgroundColor: '#f4f4f4',
+  borderWidth: 0,
+  outline:'none',
+  width: 100,
+  alignItems: 'center'
+}
 
 function PhysicalIncrementer({ ...props }) {
   const { stockQuantity, quantity, onIncrease, onDecrease, cart } = props;
@@ -26,6 +39,7 @@ function PhysicalIncrementer({ ...props }) {
   return (
     <Stack gap={0.5}>
       <IncrementerStyle
+      style={_styles}
         sx={{
           gap: cart ? 0.5 : 1,
           p: cart ? 0.2 : 0.5
@@ -34,7 +48,9 @@ function PhysicalIncrementer({ ...props }) {
         <IconButton size="small" color="primary" onClick={onDecrease} disabled={quantity <= 1}>
           <IoIosRemove />
         </IconButton>
-        <Typography variant="subtitle1" color="text.primary">
+        <Typography variant="subtitle1" color="text.primary" style={{
+          width: 50
+        }}>
           {quantity}
         </Typography>
 
