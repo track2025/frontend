@@ -50,8 +50,6 @@ export default function TrackDetailsClient({ track }) {
   // Create a ref for the products section
   const productsSectionRef = useRef(null);
 
-  console.log('params_____======<><><>', params);
-
   const slug = params.slug;
 
   // Get page and search from URL on component mount and when URL changes
@@ -88,8 +86,6 @@ export default function TrackDetailsClient({ track }) {
 
   const _searchQuery = getSearchParams(searchParams);
 
-  console.log('_______________________________ slug:', slug);
-
   // Fetch products on client side
   const { data: productsData, isLoading: productsLoading } = useQuery(
     _searchQuery,
@@ -98,7 +94,6 @@ export default function TrackDetailsClient({ track }) {
       queryParams.append('location', track.name);
       queryParams.append('page', currentPage.toString());
       queryParams.append('limit', itemsPerPage.toString());
-      queryParams.append('date', 1);
 
       // Add search parameter if search query exists
       if (searchQuery.trim()) {
@@ -342,7 +337,7 @@ export default function TrackDetailsClient({ track }) {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbStructuredData) }}
       /> */}
 
-      <Box sx={{ minHeight: '100vh', bgcolor: (theme) => (theme.palette.mode !== 'dark' ? '#fff' : '#000') }}>
+      <Box sx={{ minHeight: '100vh', bgcolor: (theme) => alpha(theme.palette.info.light, 0.1) }}>
         {/* Breadcrumbs */}
         <Container maxWidth="xl" sx={{ pt: 3 }}>
           <Breadcrumbs separator={<NavigateNextIcon fontSize="small" />} aria-label="breadcrumb">
@@ -465,7 +460,7 @@ export default function TrackDetailsClient({ track }) {
         </Box>
 
         {/* Main Content */}
-        <Container maxWidth="xl" sx={{ py: { xs: 7, md: 6 }, px: { xs: 4, md: 7 } }}>
+        <Container maxWidth="xl" sx={{ py: { xs: 4, md: 6 } }}>
           {/* Description */}
           <Box sx={{ mb: 6 }}>
             <Typography
@@ -509,8 +504,7 @@ export default function TrackDetailsClient({ track }) {
                     top: { lg: 76 },
                     zIndex: 10,
                     // bgcolor: '#f8f9fa',
-                    bgcolor: theme.palette.mode !== 'dark' ? '#fff' : '#000',
-                    // bgcolor: 'red',
+                    bgcolor: (theme) => alpha(theme.palette.info.light, 0.1),
                     py: 2
                   }}
                 >
@@ -525,7 +519,15 @@ export default function TrackDetailsClient({ track }) {
                   >
                     Track Products & Gallery
                   </Typography>
-                  <SortBar sortData={sortData} productData={products} showLocationSearch={false} />
+                  <SortBar
+                    sortData={sortData}
+                    productData={products}
+                    // category={subCategory?.parentCategory || category}
+                    // shop={shop}
+                    // subCategory={subCategory}
+                    // isLoading={isLoading}
+                    // compaign={compaign}
+                  />
                 </Box>
 
                 {/* Products Grid */}
