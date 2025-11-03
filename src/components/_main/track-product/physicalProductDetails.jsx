@@ -15,8 +15,9 @@ export default function PhysicalProductDetail({ ...props }) {
         p: 2,
         mt: isDialog ? 0 : 0,
         borderWidth: 0,
-        bgcolor: 'background.paper',
-        mb: isDialog ? 0 : 0
+        bgcolor: '#',
+        mb: isDialog ? 0 : 0,
+        px: { xs: 3, md: 15 } 
       }}
     >
       <Grid container spacing={3}>
@@ -36,6 +37,7 @@ export default function PhysicalProductDetail({ ...props }) {
             selectedVariant={selectedVariant}
           />
         </Grid>
+
         <Grid
           size={{
             xs: 12,

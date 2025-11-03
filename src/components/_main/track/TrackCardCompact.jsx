@@ -81,7 +81,7 @@ export function TrackCardCompact({ track, onClick }) {
           }
         }}
       >
-        <CardActionArea component={Link} href={`/tracks/${track.slug}`} sx={{ p: 1, pr: 2 }}>
+        <CardActionArea component={Link} href={`/tracks/${track.slug}?date=-1`} sx={{ p: 1, pr: 2 }}>
           <Stack direction="row" alignItems="center" spacing={2}>
             <Image
               src={track.logo?.url || '/default-track-image.jpg'}

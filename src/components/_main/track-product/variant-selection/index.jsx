@@ -3,59 +3,53 @@ import Image from 'next/image';
 import { Typography, Stack, Tooltip, Box, Button } from '@mui/material';
 import { capitalize } from 'lodash';
 
-export default function PhysicalProductVariantSelection({ names = [], variants = [], product, selectedVariant, onChangeVariant }) {
+export default function PhysicalProductVariantSelection({
+  names = [],
+  variants = [],
+  product,
+  selectedVariant,
+  onChangeVariant
+}) {
   return (
-    <Stack gap={0.5}>
+    <div style={{ width: '95%' }}>
       {names.map((name, index) => (
         <Fragment key={index}>
-          <Typography variant="subtitle1" color="text.primary">
+          {/* <Typography variant="subtitle1" color="text.primary">
             {name}
-          </Typography>
+          </Typography> */}
 
-          <Stack direction="row" gap={2} sx={{ flexWrap: 'wrap' }}>
-            {[...new Set(variants[index] || [])].map((variant, ind) =>
-              name.toLowerCase() === 'color' ? (
-                <Tooltip title={capitalize(variant)} key={variant}>
-                  <Box
-                    onClick={() => onChangeVariant(variant, index)}
-                    sx={{
-                      position: 'relative',
-                      width: 60,
-                      height: 60,
-                      borderRadius: '8px',
-                      cursor: 'pointer',
-                      overflow: 'hidden',
-                      border: (theme) =>
-                        `2px solid ${
-                          selectedVariant?.split('/')?.includes(variant)
-                            ? theme.palette.primary.main
-                            : theme.palette.divider
-                        }`
-                    }}
-                  >
-                    <Image
-                      src={product?.variants?.[ind]?.images?.[0]?.url || '/placeholder.png'}
-                      alt={variant}
-                      fill
-                      style={{ objectFit: 'cover' }}
-                    />
-                  </Box>
-                </Tooltip>
-              ) : (
-                <Button
-                  key={variant}
-                  variant={selectedVariant?.split('/')?.includes(variant) ? 'contained' : 'outlined'}
-                  color="primary"
-                  sx={{ textTransform: 'uppercase' }}
-                  onClick={() => onChangeVariant(variant, index)}
-                >
-                  {variant}
-                </Button>
-              )
-            )}
-          </Stack>
+          {names.map((name, index) => (
+            <>
+              <Typography variant="subtitle2" color="text.secondary" style={{textTransform: "uppercase", fontWeight:'bolder'}}>
+                {name}
+              </Typography>
+
+              <select
+                value={(variants[index] || []).find((v) => selectedVariant?.split('/')?.includes(v)) || ''}
+                onChange={(e) => onChangeVariant(e.target.value, index)}
+                style={{
+                  width: '95%',
+                  padding: '10px',
+                  borderRadius: '8px',
+                  border: '1px solid #ccc',
+                  outline: 'none',
+                  fontSize: '14px',
+                  textTransform: 'uppercase',
+                  backgroundColor: '#f4f4f4',
+                  borderWidth: 0,
+                  outline:'none'
+                }}
+              >
+                {[...new Set(variants[index] || [])].map((variant, ind) => (
+                  <option key={variant} value={variant} style={{textTransform: "capitalize", fontWeight: 'bolder'}}>
+                    {variant.charAt(0).toUpperCase() + variant.slice(1)}
+                  </option>
+                ))}
+              </select>
+            </>
+          ))}
         </Fragment>
       ))}
-    </Stack>
+    </div>
   );
 }

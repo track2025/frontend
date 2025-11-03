@@ -247,7 +247,7 @@ export default function PhysicalProductDetailsSumary({ ...props }) {
               {product.brand?.name}
             </Typography>
 
-            <Typography variant="h3" component={'h1'} lineHeight={1}>
+            <Typography variant="h1" component={'h1'} lineHeight={1}>
               {product?.name}
             </Typography>
             <Typography noWrap variant="subtitle1" color="text.secondary">
@@ -257,7 +257,7 @@ export default function PhysicalProductDetailsSumary({ ...props }) {
               <Stack direction="row" alignItems="center" spacing={1}>
                 <Rating value={totalRating} precision={0.1} size="small" readOnly />
                 <Typography variant="subtitle2" color="text.secondary">
-                  {totalReviews || 0} {totalReviews > 1 ? 'Reviews' : 'Review'}
+                  {totalReviews || 0} {totalReviews > 1 ? 'verified ratings' : 'verified ratings'}
                 </Typography>
               </Stack>
             </Stack>
@@ -273,29 +273,13 @@ export default function PhysicalProductDetailsSumary({ ...props }) {
               </Typography>
             )} */}
 
-            <PhysicalProductVariantSelection
-              names={names}
-              variants={variants}
-              product={product}
-              selectedVariant={selectedVariant}
-              onChangeVariant={onChangeVariant}
-            />
-
             <Stack
               direction={{ sm: 'row', xs: 'column-reverse' }}
               gap={1}
               alignItems={{ sm: 'center', xs: 'start' }}
               justifyContent={'space-between'}
             >
-              
               <Stack direction={'row'} gap={1} alignItems="center">
-                {product.price <= product.salePrice ? null : (
-                  <Typography component="span" color="text.secondary" sx={{ textDecoration: 'line-through' }}>
-                    {isLoaded && (
-                      <del>{fCurrency(cCurrency(parseInt((isSimpleProduct ? product : variantObj).price)))}</del>
-                    )}
-                  </Typography>
-                )}{' '}
                 <Typography
                   variant="h3"
                   sx={{
@@ -305,13 +289,39 @@ export default function PhysicalProductDetailsSumary({ ...props }) {
                 >
                   {isLoaded && fCurrency(cCurrency(parseInt((isSimpleProduct ? product : variantObj).salePrice)))}{' '}
                 </Typography>
+                {product.price <= product.salePrice ? null : (
+                  <Typography component="span" color="text.secondary" sx={{ textDecoration: 'line-through' }}>
+                    {isLoaded && (
+                      <del>{fCurrency(cCurrency(parseInt((isSimpleProduct ? product : variantObj).price)))}</del>
+                    )}
+                  </Typography>
+                )}{' '}
               </Stack>
             </Stack>
 
-            <Stack direction={{ sm: 'row', xs: 'column' }} spacing={3}>
+            <div
+              style={{
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'space-between'
+              }}
+            >
+              <PhysicalProductVariantSelection
+                names={names}
+                variants={variants}
+                product={product}
+                selectedVariant={selectedVariant}
+                onChangeVariant={onChangeVariant}
+              />
+
               {product.deliveryType === 'physical' ? (
                 <Stack direction="row" alignItems="center" spacing={1}>
                   <div>
+
+                    <Typography variant="subtitle2" color="text.secondary" style={{fontWeight: 'bolder'}}>
+                      QUANTITY
+                    </Typography>
+
                     <PhysicalIncrementer
                       quantity={values.quantity}
                       stockQuantity={stockQuantity}
@@ -327,18 +337,9 @@ export default function PhysicalProductDetailsSumary({ ...props }) {
               ) : (
                 <div />
               )}
+            </div>
 
-              <Button
-                size="medium"
-                disabled={isMaxQuantity || stockQuantity < 1}
-                type="button"
-                color="primary"
-                variant="contained"
-                onClick={() => handleAddCart()}
-                startIcon={<FiShoppingCart />}
-              >
-                Add to Cart
-              </Button>
+            <Stack direction={{ sm: 'row', xs: 'column' }} spacing={3}>
               {/* <Button
                 disabled={stockQuantity < 1}
                 fullWidth
@@ -366,7 +367,31 @@ export default function PhysicalProductDetailsSumary({ ...props }) {
               )}
             </Stack>
 
-            <Stack direction="row" spacing={1} justifyContent={'end'}>
+            <Stack>
+              <Button
+                size="medium"
+                disabled={isMaxQuantity || stockQuantity < 1}
+                type="button"
+                color="primary"
+                variant="contained"
+                onClick={() => handleAddCart()}
+                // startIcon={<FiShoppingCart />}
+                style={{
+                  fontWeight: 'bolder',
+                  fontSize: 14,
+                  padding: 23,
+                  borderRadius: 0
+                }}
+              >
+                ADD TO CART
+              </Button>
+            </Stack>
+
+
+
+
+
+            <Stack direction="row" spacing={1} justifyContent={'end'} marginTop={1}>
               <Tooltip title="Copy Prooduct URL">
                 <IconButton
                   aria-label="copy"
@@ -380,6 +405,9 @@ export default function PhysicalProductDetailsSumary({ ...props }) {
               </Tooltip>
               {isInitialized && <SocialShare />}
             </Stack>
+
+
+
             <Stack direction="row" alignItems="center" spacing={2} justifyContent={'end'}>
               {shippingData.map((item, index) => (
                 <Stack
@@ -415,8 +443,8 @@ const shippingData = [
     icon: <MdLockOutline size={20} />,
     name: 'Secure payment'
   },
-  {
-    icon: <FaRegStar size={20} />,
-    name: '2 years full warranty'
-  }
+  // {
+  //   icon: <FaRegStar size={20} />,
+  //   name: '2 years full warranty'
+  // }
 ];
