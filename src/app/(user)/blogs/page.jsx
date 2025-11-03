@@ -1,7 +1,9 @@
 'use client';
 import { useSearchParams } from 'next/navigation';
 import { useState, useEffect } from 'react';
-import { Box, Container, Typography, Grid, Alert } from '@mui/material';
+import { Box, Container, Typography, Grid, Alert, TextField, InputAdornment, IconButton, Paper } from '@mui/material';
+import SearchIcon from '@mui/icons-material/Search';
+import ClearIcon from '@mui/icons-material/Clear';
 import { getBlogs } from 'src/services/blogs';
 import { BlogCard } from 'src/components/_main/blog/BlogCard';
 import { BlogCardSkeleton } from 'src/components/_main/blog/BlogCardSkeleton';
@@ -12,6 +14,8 @@ export default function BlogsPage() {
   const [blogPosts, setBlogPosts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [searchTerm, setSearchTerm] = useState('');
+  const [actualSearchTerm, setActualSearchTerm] = useState(''); // Track the search term used in API call
   const [pagination, setPagination] = useState({
     currentPage: 1,
     totalPages: 1,
@@ -19,79 +23,114 @@ export default function BlogsPage() {
     itemsPerPage: 8
   });
 
-  // Get page from URL on component mount and when URL changes
+  // Get page and search from URL on component mount and when URL changes
   useEffect(() => {
     const pageFromUrl = searchParams.get('page');
+    const searchFromUrl = searchParams.get('search') || '';
     const pageNum = pageFromUrl && !isNaN(pageFromUrl) ? parseInt(pageFromUrl, 10) : 1;
+
+    // Set search term from URL
+    setSearchTerm(searchFromUrl);
+    setActualSearchTerm(searchFromUrl); // Also set the actual search term
 
     // Only fetch if it's a valid page number
     if (pageNum > 0) {
-      fetchBlogs(pageNum);
+      fetchBlogs(pageNum, searchFromUrl);
 
-      // Update URL if no page parameter exists
+      // Update URL if no page parameter exists (always include page parameter for consistency)
       if (!pageFromUrl) {
-        const params = new URLSearchParams();
-        params.set('page', pageNum.toString());
-        const newUrl = `${window.location.pathname}${params.toString() ? `?${params.toString()}` : ''}`;
-        window.history.replaceState(null, '', newUrl);
+        updateUrl(pageNum, searchFromUrl);
       }
     }
   }, [searchParams]);
 
-  const fetchBlogs = async (page = 1) => {
+  const updateUrl = (page, search) => {
+    const params = new URLSearchParams();
+
+    // Always include page parameter for consistency
+    params.set('page', page.toString());
+
+    if (search) {
+      params.set('search', search);
+    }
+
+    const newUrl = `${window.location.pathname}${params.toString() ? `?${params.toString()}` : ''}`;
+    window.history.replaceState(null, '', newUrl);
+  };
+
+  const fetchBlogs = async (page = 1, search = '') => {
     try {
       setLoading(true);
       setError(null);
       const response = await getBlogs({
         limit: pagination.itemsPerPage,
-        page: page
+        page: page,
+        search: search
       });
 
       console.log('API Response:', response); // Debug log
 
       if (response.success) {
         setBlogPosts(response.data || []);
+        setActualSearchTerm(search); // Update actual search term with what was used in API call
 
         setPagination((prev) => ({
           ...prev,
           currentPage: response.currentPage || page,
-          totalPages: response.count || 1, // 'count' is total pages from API
-          totalItems: response.total || 0 // 'total' is total items from API
+          totalPages: response.count || 1,
+          totalItems: response.total || 0
         }));
 
         console.log('Pagination state:', {
-          // Debug log
           currentPage: response.currentPage || page,
           totalPages: response.count,
           totalItems: response.total,
-          itemsPerPage: pagination.itemsPerPage
+          itemsPerPage: pagination.itemsPerPage,
+          searchTerm: search
         });
       } else {
         setError('Failed to load blog posts');
         setBlogPosts([]);
+        setActualSearchTerm(search); // Still update even on error
       }
     } catch (err) {
       console.error('Error fetching blogs:', err);
       setError(err?.message || 'Unable to load blog posts. Please try again later.');
       setBlogPosts([]);
+      setActualSearchTerm(search); // Still update even on error
     } finally {
       setLoading(false);
     }
   };
 
   const handlePageChange = (event, newPage) => {
-    // Update URL with the new page parameter
-    const params = new URLSearchParams();
-    params.set('page', newPage.toString());
-    const newUrl = `${window.location.pathname}${params.toString() ? `?${params.toString()}` : ''}`;
-
-    // Use replaceState to update URL without refreshing the page
-    window.history.replaceState(null, '', newUrl);
-
+    updateUrl(newPage, searchTerm);
     // The useEffect will trigger because searchParams changed, which will call fetchBlogs
   };
 
-  console.log('Render - Pagination:', pagination); // Debug log
+  const handleSearchChange = (event) => {
+    setSearchTerm(event.target.value);
+  };
+
+  const handleSearchSubmit = (event) => {
+    if (event) {
+      event.preventDefault();
+    }
+    // Reset to page 1 when searching
+    updateUrl(1, searchTerm);
+    // The useEffect will trigger because searchParams changed, which will call fetchBlogs
+  };
+
+  const handleClearSearch = () => {
+    setSearchTerm('');
+    // Reset to page 1 when clearing search
+    updateUrl(1, '');
+    // The useEffect will trigger because searchParams changed, which will call fetchBlogs
+  };
+
+  // Calculate showing range
+  const startItem = (pagination.currentPage - 1) * pagination.itemsPerPage + 1;
+  const endItem = Math.min(pagination.currentPage * pagination.itemsPerPage, pagination.totalItems);
 
   return (
     <>
@@ -115,7 +154,6 @@ export default function BlogsPage() {
             sx={{
               fontSize: { xs: '1.2rem', sm: '1.4rem', md: '1.8rem' },
               fontWeight: 800,
-              // color: '#1a1a1a',
               textAlign: 'center',
               mb: 2
             }}
@@ -129,7 +167,6 @@ export default function BlogsPage() {
             sx={{
               fontSize: { xs: '1rem', sm: '1.1rem', md: '1.2rem' },
               fontWeight: 400,
-              // color: '#666',
               textAlign: 'center',
               mb: 6,
               maxWidth: '800px',
@@ -139,11 +176,65 @@ export default function BlogsPage() {
             Expert tips, tutorials, and insights for motorsport photographers and track day enthusiasts
           </Typography>
 
+          {/* Search Bar */}
+          <Paper
+            component="form"
+            onSubmit={handleSearchSubmit}
+            sx={{
+              mb: 4,
+              maxWidth: 600,
+              mx: 'auto',
+              // p: 1,
+              borderRadius: '28px', // Fully rounded corners
+              background: 'transparent'
+            }}
+          >
+            <TextField
+              fullWidth
+              placeholder="Search blog posts..."
+              value={searchTerm}
+              onChange={handleSearchChange}
+              InputProps={{
+                startAdornment: (
+                  <InputAdornment position="start">
+                    <SearchIcon color="action" />
+                  </InputAdornment>
+                ),
+                endAdornment: searchTerm && (
+                  <InputAdornment position="end">
+                    <IconButton aria-label="clear search" onClick={handleClearSearch} edge="end" size="small">
+                      <ClearIcon />
+                    </IconButton>
+                  </InputAdornment>
+                ),
+                sx: {
+                  borderRadius: '24px' // Fully rounded corners for the input
+                }
+              }}
+            />
+          </Paper>
+
           {/* Error state */}
           {error && (
             <Alert severity="error" sx={{ mb: 4 }}>
               {error}
             </Alert>
+          )}
+
+          {/* Results Count - Show when we have results and only one page */}
+          {!loading && blogPosts.length > 0 && pagination.totalPages === 1 && (
+            <Typography
+              variant="body2"
+              sx={{
+                color: '#666',
+                textAlign: 'center',
+                mb: 3
+              }}
+            >
+              {actualSearchTerm
+                ? `Found ${pagination.totalItems} result${pagination.totalItems !== 1 ? 's' : ''} for "${actualSearchTerm}"`
+                : `Showing ${startItem}-${endItem} of ${pagination.totalItems} blog posts`}
+            </Typography>
           )}
 
           {/* Blog Posts Grid */}
@@ -164,10 +255,10 @@ export default function BlogsPage() {
               <Grid item size={12}>
                 <Box sx={{ textAlign: 'center', py: 8 }}>
                   <Typography variant="h5" sx={{ color: '#666', mb: 2 }}>
-                    No blog posts found
+                    {actualSearchTerm ? 'No blog posts found matching your search' : 'No blog posts found'}
                   </Typography>
                   <Typography variant="body1" sx={{ color: '#999' }}>
-                    Check back later for new content!
+                    {actualSearchTerm ? 'Try adjusting your search terms' : 'Check back later for new content!'}
                   </Typography>
                 </Box>
               </Grid>

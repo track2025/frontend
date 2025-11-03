@@ -1,5 +1,7 @@
 'use client';
 import Link from 'next/link';
+import { useSearchParams } from 'next/navigation';
+import { useState, useEffect, useRef } from 'react';
 import {
   Box,
   Container,
@@ -11,15 +13,51 @@ import {
   CardContent,
   Chip,
   Button,
-  CardActionArea
+  CardActionArea,
+  TextField,
+  InputAdornment,
+  IconButton,
+  Paper
 } from '@mui/material';
 import NavigateNextIcon from '@mui/icons-material/NavigateNext';
 import CalendarTodayIcon from '@mui/icons-material/CalendarToday';
 import LocationOnIcon from '@mui/icons-material/LocationOn';
 import AccessTimeIcon from '@mui/icons-material/AccessTime';
+import SearchIcon from '@mui/icons-material/Search';
+import ClearIcon from '@mui/icons-material/Clear';
 import { getCountryFlag } from 'src/utils/flags';
 
 export default function CountryEventsClient({ countryEvents, countryInfo, countrySlug }) {
+  const searchParams = useSearchParams();
+  const [searchTerm, setSearchTerm] = useState('');
+  const [filteredEvents, setFilteredEvents] = useState(countryEvents);
+  const debounceRef = useRef(null);
+
+  // Get search term from URL on component mount
+  useEffect(() => {
+    const searchFromUrl = searchParams.get('search') || '';
+    setSearchTerm(searchFromUrl);
+  }, [searchParams]);
+
+  // Filter events when search term changes
+  useEffect(() => {
+    if (!searchTerm.trim()) {
+      setFilteredEvents(countryEvents);
+    } else {
+      const searchLower = searchTerm.toLowerCase().trim();
+      const filtered = countryEvents.filter(
+        (event) =>
+          event.title.toLowerCase().includes(searchLower) ||
+          event.trackName.toLowerCase().includes(searchLower) ||
+          event.city.toLowerCase().includes(searchLower) ||
+          // event.type.toLowerCase().includes(searchLower) ||
+          event.category.toLowerCase().includes(searchLower) ||
+          event.description.toLowerCase().includes(searchLower)
+      );
+      setFilteredEvents(filtered);
+    }
+  }, [searchTerm, countryEvents]);
+
   const formatDate = (dateString) => {
     const date = new Date(dateString);
     return date.toLocaleDateString('en-US', {
@@ -41,14 +79,58 @@ export default function CountryEventsClient({ countryEvents, countryInfo, countr
       'Beginner Friendly': '#388e3c',
       Motorcycle: '#ed6c02',
       Advanced: '#7b1fa2',
-      'Open Track': '#0288d1'
+      'Open Track': '#0288d1',
+      Drift: '#7b1fa2'
     };
     return colors[type] || '#666';
   };
 
+  const handleSearchChange = (event) => {
+    const newSearchTerm = event.target.value;
+    setSearchTerm(newSearchTerm);
+
+    // Clear previous debounce
+    if (debounceRef.current) {
+      clearTimeout(debounceRef.current);
+    }
+
+    // Set new debounce to update URL after typing stops
+    debounceRef.current = setTimeout(() => {
+      updateUrl(newSearchTerm);
+    }, 300); // 300ms debounce
+  };
+
+  const handleClearSearch = () => {
+    setSearchTerm('');
+    updateUrl('');
+
+    // Clear debounce if any
+    if (debounceRef.current) {
+      clearTimeout(debounceRef.current);
+    }
+  };
+
+  const updateUrl = (search) => {
+    const params = new URLSearchParams();
+    if (search.trim()) {
+      params.set('search', search.trim());
+    }
+    const newUrl = `${window.location.pathname}${params.toString() ? `?${params.toString()}` : ''}`;
+    window.history.replaceState(null, '', newUrl);
+  };
+
+  // Cleanup on unmount
+  useEffect(() => {
+    return () => {
+      if (debounceRef.current) {
+        clearTimeout(debounceRef.current);
+      }
+    };
+  }, []);
+
   return (
     <>
-      <Box sx={{  minHeight: '100vh', py: { xs: 3, md: 5 } }}>
+      <Box sx={{ minHeight: '100vh', py: { xs: 3, md: 5 } }}>
         <Container maxWidth="xl">
           {/* Breadcrumbs */}
           <Breadcrumbs separator={<NavigateNextIcon fontSize="small" />} sx={{ mb: 3 }} aria-label="breadcrumb">
@@ -75,7 +157,7 @@ export default function CountryEventsClient({ countryEvents, countryInfo, countr
               p: { xs: 3, md: 4 },
               // bgcolor: 'white',
               borderRadius: 2,
-              boxShadow: 2,
+              boxShadow: 2
               // background: 'linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%)'
             }}
           >
@@ -110,7 +192,7 @@ export default function CountryEventsClient({ countryEvents, countryInfo, countr
             </Typography>
 
             <Chip
-              label={`${countryEvents.length} Upcoming Events`}
+              label={`${filteredEvents.length} Upcoming Events${searchTerm ? ` for "${searchTerm}"` : ''}`}
               sx={{
                 bgcolor: '#EE1E50',
                 color: 'white',
@@ -122,8 +204,44 @@ export default function CountryEventsClient({ countryEvents, countryInfo, countr
             />
           </Box>
 
+          {/* Search Bar */}
+          <Paper
+            sx={{
+              mb: 4,
+              maxWidth: 600,
+              mx: 'auto',
+              // p: 1,
+              borderRadius: '28px', // Fully rounded corners
+              background: 'transparent'
+            }}
+          >
+            <TextField
+              fullWidth
+              placeholder="Search events by title, track, or city..."
+              value={searchTerm}
+              onChange={handleSearchChange}
+              InputProps={{
+                startAdornment: (
+                  <InputAdornment position="start">
+                    <SearchIcon color="action" />
+                  </InputAdornment>
+                ),
+                endAdornment: searchTerm && (
+                  <InputAdornment position="end">
+                    <IconButton aria-label="clear search" onClick={handleClearSearch} edge="end" size="small">
+                      <ClearIcon />
+                    </IconButton>
+                  </InputAdornment>
+                ),
+                sx: {
+                  borderRadius: '24px' // Fully rounded corners for the input
+                }
+              }}
+            />
+          </Paper>
+
           {/* Events List */}
-          {countryEvents.length === 0 ? (
+          {filteredEvents.length === 0 ? (
             <Box
               sx={{
                 textAlign: 'center',
@@ -134,11 +252,18 @@ export default function CountryEventsClient({ countryEvents, countryInfo, countr
               }}
             >
               <Typography variant="h4" sx={{ color: '#666', mb: 2 }}>
-                No Upcoming Events
+                {searchTerm ? 'No Events Found' : 'No Upcoming Events'}
               </Typography>
               <Typography variant="body1" sx={{ color: '#999', mb: 3 }}>
-                There are currently no upcoming events in {countryInfo.country}.
+                {searchTerm
+                  ? `No events found matching "${searchTerm}" in ${countryInfo.country}.`
+                  : `There are currently no upcoming events in ${countryInfo.country}.`}
               </Typography>
+              {searchTerm && (
+                <Button variant="outlined" onClick={handleClearSearch} sx={{ mr: 2 }}>
+                  Clear Search
+                </Button>
+              )}
               <Button
                 variant="contained"
                 component={Link}
@@ -153,7 +278,7 @@ export default function CountryEventsClient({ countryEvents, countryInfo, countr
             </Box>
           ) : (
             <Grid container spacing={2}>
-              {countryEvents.map((event, index) => (
+              {filteredEvents.map((event, index) => (
                 <Grid item size={12} key={event.id}>
                   <Card
                     sx={{
@@ -208,8 +333,8 @@ export default function CountryEventsClient({ countryEvents, countryInfo, countr
                             <Box sx={{ p: { xs: 2, sm: 2.5 } }}>
                               {/* Event Type and Category Chips */}
                               <Box sx={{ display: 'flex', gap: 1, mb: 1.5, flexWrap: 'wrap' }}>
-                                <Chip
-                                  label={event.type}
+                                {/* <Chip
+                                  label={event.type || 'Track Event'}
                                   size="small"
                                   sx={{
                                     bgcolor: getEventTypeColor(event.type),
@@ -217,7 +342,7 @@ export default function CountryEventsClient({ countryEvents, countryInfo, countr
                                     fontWeight: 600,
                                     height: 24
                                   }}
-                                />
+                                /> */}
                                 <Chip
                                   label={event.category}
                                   size="small"
@@ -254,19 +379,19 @@ export default function CountryEventsClient({ countryEvents, countryInfo, countr
                               {/* Event Details */}
                               <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: { xs: 1.5, sm: 2.5 }, mb: 1.5 }}>
                                 <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.75 }}>
-                                  <CalendarTodayIcon sx={{ fontSize: 18}} />
+                                  <CalendarTodayIcon sx={{ fontSize: 18 }} />
                                   <Typography variant="body2" sx={{ fontWeight: 500 }}>
                                     {formatDate(event.date)}
                                   </Typography>
                                 </Box>
                                 <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.75 }}>
-                                  <AccessTimeIcon sx={{ fontSize: 18}} />
+                                  <AccessTimeIcon sx={{ fontSize: 18 }} />
                                   <Typography variant="body2" sx={{ fontWeight: 500 }}>
                                     {formatTimeRange(event.startTime, event.endTime)}
                                   </Typography>
                                 </Box>
                                 <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.75 }}>
-                                  <LocationOnIcon sx={{ fontSize: 18}} />
+                                  <LocationOnIcon sx={{ fontSize: 18 }} />
                                   <Typography variant="body2" sx={{ fontWeight: 500 }}>
                                     {event.trackName}
                                   </Typography>

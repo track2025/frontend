@@ -1,8 +1,9 @@
 'use client';
 import { useSearchParams } from 'next/navigation';
 import { useState, useEffect } from 'react';
-import { Typography, Box, Container, Grid, Alert, TextField, InputAdornment } from '@mui/material';
+import { Typography, Box, Container, Grid, Alert, TextField, InputAdornment, IconButton } from '@mui/material';
 import SearchIcon from '@mui/icons-material/Search';
+import ClearIcon from '@mui/icons-material/Clear';
 import { getTracks } from 'src/services/tracks';
 import { TrackCardCompact, TrackCardCompactSkeleton } from 'src/components/_main/track/TrackCardCompact';
 import { BlogPagination } from 'src/components/_main/blog/BlogPagination';
@@ -107,6 +108,15 @@ export default function TracksPage() {
     window.history.replaceState(null, '', newUrl);
   };
 
+  const handleClearSearch = () => {
+    setSearchTerm('');
+    // Reset to page 1 when clearing search
+    const params = new URLSearchParams();
+    params.set('page', '1');
+    const newUrl = `${window.location.pathname}${params.toString() ? `?${params.toString()}` : ''}`;
+    window.history.replaceState(null, '', newUrl);
+  };
+
   // Safe structured data generation
   const structuredData = {
     '@context': 'https://schema.org',
@@ -137,6 +147,9 @@ export default function TracksPage() {
       }))
     }
   };
+
+  const startItem = (pagination.currentPage - 1) * pagination.itemsPerPage + 1;
+  const endItem = Math.min(pagination.currentPage * pagination.itemsPerPage, pagination.totalItems);
 
   return (
     <>
@@ -218,6 +231,13 @@ export default function TracksPage() {
                     <SearchIcon color="action" />
                   </InputAdornment>
                 ),
+                endAdornment: searchTerm && (
+                  <InputAdornment position="end">
+                    <IconButton aria-label="clear search" onClick={handleClearSearch} edge="end" size="small">
+                      <ClearIcon />
+                    </IconButton>
+                  </InputAdornment>
+                ),
                 sx: {
                   borderRadius: 3,
                   // backgroundColor: 'white',
@@ -239,6 +259,18 @@ export default function TracksPage() {
             </Alert>
           )}
 
+          <Typography
+            variant="body2"
+            sx={{
+              color: '#666',
+              textAlign: 'center',
+              width: '100%',
+              mb: 2
+            }}
+          >
+            Showing {startItem}-{endItem} of {pagination.totalItems} results
+          </Typography>
+
           {/* Tracks Grid - Using compact layout similar to Brands component */}
           <Grid container spacing={2} justifyContent="center">
             {loading ? (
@@ -250,6 +282,7 @@ export default function TracksPage() {
               ))
             ) : tracks.length > 0 ? (
               // Actual tracks with compact layout
+
               tracks.map((track) => (
                 <Grid item xs={12} sm={6} md={4} lg={3} key={track._id}>
                   <TrackCardCompact track={track} />
