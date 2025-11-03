@@ -62,6 +62,8 @@ export default function ProductListing({ category, subCategory, shop, compaign }
     ? getSearchParams(new URLSearchParams({ ...Object.fromEntries(searchParams), brand }))
     : getSearchParams(searchParams);
 
+    console.log('==========>>>>', searchQuery)
+
   const { data, isLoading } = useQuery(
     ['products' + (category || subCategory ? '-with-category' : ''), searchQuery, category, subCategory, shop],
     () =>

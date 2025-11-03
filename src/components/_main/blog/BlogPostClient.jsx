@@ -65,7 +65,7 @@ export default function BlogPostClient({ post }) {
   };
 
   return (
-    <Box sx={{ bgcolor: '#f8f9fa', minHeight: '100vh' }}>
+    <Box sx={{  minHeight: '100vh' }}>
       {/* Hero Image */}
       <Box
         sx={{
@@ -109,7 +109,7 @@ export default function BlogPostClient({ post }) {
         </Breadcrumbs>
 
         {/* Article Header */}
-        <Box sx={{ bgcolor: 'white', p: { xs: 3, md: 5 }, borderRadius: 2, boxShadow: 2, mb: 4 }}>
+        <Box sx={{  p: { xs: 3, md: 5 }, borderRadius: 2, boxShadow: 2, mb: 4 }}>
           {/* Category */}
           {post.category && (
             <Chip
@@ -129,7 +129,7 @@ export default function BlogPostClient({ post }) {
             sx={{
               fontSize: { xs: '1.5rem', sm: '1.8rem', md: '2.2rem' },
               fontWeight: 800,
-              color: '#1a1a1a',
+              // color: '#1a1a1a',
               mb: 3,
               lineHeight: 1.2
             }}
@@ -155,7 +155,7 @@ export default function BlogPostClient({ post }) {
                 sx={{
                   fontWeight: 600,
                   fontSize: '1rem',
-                  color: '#1a1a1a'
+                  // color: '#1a1a1a'
                 }}
               >
                 {post.author}
@@ -164,16 +164,16 @@ export default function BlogPostClient({ post }) {
 
             {post.publishedDate && (
               <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5 }}>
-                <CalendarTodayIcon sx={{ fontSize: 16, color: '#666' }} />
-                <Typography variant="body2" sx={{ color: '#666' }}>
+                <CalendarTodayIcon sx={{ fontSize: 16,  }} />
+                <Typography variant="body2" sx={{  }}>
                   {formatDate(post.publishedDate)}
                 </Typography>
               </Box>
             )}
 
             <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5 }}>
-              <AccessTimeIcon sx={{ fontSize: 16, color: '#666' }} />
-              <Typography variant="body2" sx={{ color: '#666' }}>
+              <AccessTimeIcon sx={{ fontSize: 16,  }} />
+              <Typography variant="body2" sx={{  }}>
                 {calculateReadTime()}
               </Typography>
             </Box>
@@ -183,8 +183,8 @@ export default function BlogPostClient({ post }) {
 
           {/* Share Icons */}
           <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-            <ShareIcon sx={{ color: '#666', fontSize: 20 }} />
-            <Typography variant="body2" sx={{ color: '#666', mr: 1 }}>
+            <ShareIcon sx={{  fontSize: 20 }} />
+            <Typography variant="body2" sx={{  mr: 1 }}>
               Share:
             </Typography>
             <IconButton
@@ -212,7 +212,7 @@ export default function BlogPostClient({ post }) {
         </Box>
 
         {/* Article Content */}
-        <Box sx={{ bgcolor: 'white', p: { xs: 3, md: 5 }, borderRadius: 2, boxShadow: 2 }}>
+        <Box sx={{  p: { xs: 3, md: 5 }, borderRadius: 2, boxShadow: 2 }}>
           <Box
             dangerouslySetInnerHTML={{ __html: post.content }}
             sx={{
@@ -225,7 +225,7 @@ export default function BlogPostClient({ post }) {
               '& h1': {
                 fontSize: { xs: '1.8rem', md: '2.2rem' },
                 fontWeight: 800,
-                color: '#1a1a1a',
+                // color: '#1a1a1a',
                 mt: 4,
                 mb: 3,
                 lineHeight: 1.2
@@ -233,7 +233,7 @@ export default function BlogPostClient({ post }) {
               '& h2': {
                 fontSize: { xs: '1.5rem', md: '1.75rem' },
                 fontWeight: 700,
-                color: '#1a1a1a',
+                // color: '#1a1a1a',
                 mt: 4,
                 mb: 2,
                 lineHeight: 1.3
@@ -241,7 +241,7 @@ export default function BlogPostClient({ post }) {
               '& h3': {
                 fontSize: { xs: '1.25rem', md: '1.5rem' },
                 fontWeight: 600,
-                color: '#1a1a1a',
+                // color: '#1a1a1a',
                 mt: 3,
                 mb: 1.5,
                 lineHeight: 1.3
@@ -249,7 +249,7 @@ export default function BlogPostClient({ post }) {
               '& h4': {
                 fontSize: { xs: '1.1rem', md: '1.25rem' },
                 fontWeight: 600,
-                color: '#1a1a1a',
+                // color: '#1a1a1a',
                 mt: 3,
                 mb: 1,
                 lineHeight: 1.4
@@ -259,7 +259,7 @@ export default function BlogPostClient({ post }) {
               '& p': {
                 fontSize: '1.05rem',
                 lineHeight: 1.8,
-                color: '#333',
+                // color: '#333',
                 mb: 2.5
               },
 
@@ -271,13 +271,13 @@ export default function BlogPostClient({ post }) {
               '& li': {
                 fontSize: '1.05rem',
                 lineHeight: 1.8,
-                color: '#333',
+                // color: '#333',
                 mb: 1
               },
 
               // Links
               '& a': {
-                color: '#EE1E50',
+                // color: '#EE1E50',
                 textDecoration: 'none',
                 fontWeight: 600,
                 '&:hover': {
@@ -305,14 +305,14 @@ export default function BlogPostClient({ post }) {
                 fontStyle: 'italic',
                 '& p': {
                   mb: 0,
-                  color: '#666'
+                  // color: '#666'
                 }
               },
 
               // Code blocks
               '& pre': {
                 bgcolor: '#1a1a1a',
-                color: 'white',
+                // color: 'white',
                 p: 3,
                 borderRadius: 1,
                 overflow: 'auto',
@@ -321,7 +321,7 @@ export default function BlogPostClient({ post }) {
               },
               '& code': {
                 bgcolor: '#f5f5f5',
-                color: '#EE1E50',
+                // color: '#EE1E50',
                 px: 1,
                 borderRadius: 1,
                 fontSize: '0.9rem',
@@ -329,7 +329,7 @@ export default function BlogPostClient({ post }) {
               },
               '& pre code': {
                 bgcolor: 'transparent',
-                color: 'inherit',
+                // color: 'inherit',
                 px: 0
               },
 
@@ -359,7 +359,7 @@ export default function BlogPostClient({ post }) {
               // Strong and emphasis
               '& strong, & b': {
                 fontWeight: 700,
-                color: '#1a1a1a'
+                // color: '#1a1a1a'
               },
               '& em, & i': {
                 fontStyle: 'italic'
@@ -371,7 +371,7 @@ export default function BlogPostClient({ post }) {
         {/* Share Again at Bottom */}
         <Box
           sx={{
-            bgcolor: 'white',
+            // bgcolor: 'white',
             p: 3,
             borderRadius: 2,
             boxShadow: 2,

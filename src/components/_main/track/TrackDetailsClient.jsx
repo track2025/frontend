@@ -37,6 +37,7 @@ import { getTrackEventsByTrackSlug } from 'src/services/tracks';
 import ProductList from '../../_main/products/productList';
 import { BlogPagination } from 'src/components/_main/blog/BlogPagination';
 import SortBar from 'src/components/_main/products/sortbar';
+import { alpha, useTheme } from '@mui/material/styles';
 
 export default function TrackDetailsClient({ track }) {
   const [searchQuery, setSearchQuery] = useState('');
@@ -48,6 +49,8 @@ export default function TrackDetailsClient({ track }) {
 
   // Create a ref for the products section
   const productsSectionRef = useRef(null);
+
+  console.log('params_____======<><><>', params)
 
   const slug = params.slug;
 
@@ -74,17 +77,31 @@ export default function TrackDetailsClient({ track }) {
       const newUrl = `${window.location.pathname}${params.toString() ? `?${params.toString()}` : ''}`;
       window.history.replaceState(null, '', newUrl);
     }
+    
   }, [searchParams, currentPage]);
 
   // Create a stable query key that doesn't include circular references
   const queryKey = `track-products-${slug}-${rate}-${currentPage}-${itemsPerPage}-${searchQuery}`;
+  
+
+  const getSearchParams = (searchParams) => {
+    return searchParams.toString().length ? '?' + searchParams.toString() : '';
+  };
+
+  
+  const _searchQuery = getSearchParams(searchParams);
+
+
+  console.log('_______________________________ slug:', slug)
+
+
 
   // Fetch products on client side
   const { data: productsData, isLoading: productsLoading } = useQuery(
-    queryKey,
+    _searchQuery,
     () => {
       const queryParams = new URLSearchParams();
-      queryParams.append('brand', slug);
+      queryParams.append('location', track.name);
       queryParams.append('page', currentPage.toString());
       queryParams.append('limit', itemsPerPage.toString());
 
@@ -96,7 +113,11 @@ export default function TrackDetailsClient({ track }) {
       if (rate) {
         queryParams.append('rate', rate);
       }
+      
       const queryString = `?${queryParams.toString()}`;
+
+      console.log('query string :::::::::', queryString)
+      // return getProducts(queryString);
       return getProducts(queryString);
     },
     {
@@ -104,6 +125,10 @@ export default function TrackDetailsClient({ track }) {
       staleTime: 5 * 60 * 1000
     }
   );
+
+
+
+
 
   // Fetch events for this track
   const { data: eventsData, isLoading: eventsLoading } = useQuery(
@@ -312,6 +337,9 @@ export default function TrackDetailsClient({ track }) {
     { title: 'Newest', key: 'date', value: -1 }
   ];
 
+  const theme = useTheme();
+
+
   return (
     <>
       {/* Structured Data for SEO */}
@@ -324,7 +352,7 @@ export default function TrackDetailsClient({ track }) {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbStructuredData) }}
       /> */}
 
-      <Box sx={{ minHeight: '100vh', bgcolor: '#f8f9fa' }}>
+      <Box sx={{ minHeight: '100vh', bgcolor: (theme) => alpha(theme.palette.info.light, 0.1), }}>
         {/* Breadcrumbs */}
         <Container maxWidth="xl" sx={{ pt: 3 }}>
           <Breadcrumbs separator={<NavigateNextIcon fontSize="small" />} aria-label="breadcrumb">
@@ -455,8 +483,9 @@ export default function TrackDetailsClient({ track }) {
               sx={{
                 fontSize: { xs: '1.5rem', md: '1.75rem' },
                 fontWeight: 700,
-                color: '#1a1a1a',
-                mb: 2
+                // color: '#1a1a1a',
+                mb: 2,
+                // color: theme.palette.secondary.main
               }}
             >
               About {trackName}
@@ -465,7 +494,9 @@ export default function TrackDetailsClient({ track }) {
               sx={{
                 fontSize: '16px',
                 lineHeight: 1.7,
-                color: '#333',
+                // color: '#333',
+                // color: theme.palette.secondary.main,
+
                 mb: 2,
                 whiteSpace: 'pre-line'
               }}
@@ -487,7 +518,8 @@ export default function TrackDetailsClient({ track }) {
                     position: { lg: 'sticky' },
                     top: { lg: 76 },
                     zIndex: 10,
-                    bgcolor: '#f8f9fa',
+                    // bgcolor: '#f8f9fa',
+                    bgcolor: (theme) => alpha(theme.palette.info.light, 0.1),
                     py: 2
                   }}
                 >
@@ -495,7 +527,7 @@ export default function TrackDetailsClient({ track }) {
                     variant="h3"
                     sx={{
                       fontWeight: 700,
-                      color: '#1a1a1a',
+                      // color: '#1a1a1a',
                       fontSize: { xs: '1.25rem', md: '1.5rem' },
                       mb: 2
                     }}
@@ -535,11 +567,11 @@ export default function TrackDetailsClient({ track }) {
                     )}
                   </Box>
                 ) : (
-                  <Box sx={{ textAlign: 'center', py: 6, bgcolor: 'white', borderRadius: 2, boxShadow: 1 }}>
-                    <Typography variant="body1" sx={{ color: '#666', mb: 1 }}>
+                  <Box sx={{ textAlign: 'center', py: 6,  borderRadius: 2, boxShadow: 1 }}>
+                    <Typography variant="body1" sx={{ mb: 1 }}>
                       {searchQuery ? `No products found for "${searchQuery}"` : 'No products available for this track'}
                     </Typography>
-                    <Typography variant="caption" sx={{ color: '#999' }}>
+                    <Typography variant="caption">
                       {searchQuery ? 'Try adjusting your search terms' : 'Check back later for track-related products'}
                     </Typography>
                   </Box>
@@ -551,7 +583,7 @@ export default function TrackDetailsClient({ track }) {
             <Grid item size={{ xs: 12, lg: 4 }}>
               <Card
                 sx={{
-                  bgcolor: 'white',
+                  // bgcolor: 'white',
                   boxShadow: 3,
                   borderRadius: 2,
                   border: '1px solid #e0e0e0',
@@ -567,7 +599,7 @@ export default function TrackDetailsClient({ track }) {
                       sx={{
                         fontWeight: 700,
                         fontSize: '1.25rem',
-                        color: '#1a1a1a'
+                        // color: '#1a1a1a'
                       }}
                     >
                       Upcoming Events
@@ -590,7 +622,7 @@ export default function TrackDetailsClient({ track }) {
                             borderRadius: 1,
                             transition: 'all 0.2s ease',
                             '&:hover': {
-                              bgcolor: '#f8f9fa',
+                              bgcolor: '#f8f9fa07',
                               transform: 'translateX(4px)'
                             }
                           }}
@@ -617,13 +649,13 @@ export default function TrackDetailsClient({ track }) {
                             {event.title || 'Upcoming Event'}
                           </Typography>
                           <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-                            <CalendarTodayIcon sx={{ fontSize: 16, color: '#666' }} />
-                            <Typography variant="body2" sx={{ color: '#666', fontWeight: 500 }}>
+                            <CalendarTodayIcon sx={{ fontSize: 16,  }} />
+                            <Typography variant="body2" sx={{fontWeight: 500 }}>
                               {event.date ? formatDate(event.date) : 'Date TBA'}
                             </Typography>
                           </Box>
                           {event.startTime && (
-                            <Typography variant="caption" sx={{ color: '#999', display: 'block', mt: 0.5 }}>
+                            <Typography variant="caption" sx={{display: 'block', mt: 0.5 }}>
                               {event.startTime} {event.endTime && `- ${event.endTime}`}
                             </Typography>
                           )}

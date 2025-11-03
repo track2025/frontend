@@ -5,6 +5,7 @@ import { getSuperEvents } from 'src/services';
 import { useEffect, useState } from 'react';
 import LoadingSpinner from 'src/components/UI/Spinner';
 import { getCountryFlag } from 'src/utils/flags';
+import { alpha, useTheme } from '@mui/material/styles';
 
 export default function EventsPage() {
   const [eventsData, setEventData] = useState([]);
@@ -119,7 +120,8 @@ export default function EventsPage() {
 
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }} />
 
-      <Box sx={{ bgcolor: '#f8f9fa', minHeight: '100vh', py: { xs: 4, md: 6 } }}>
+{/* TODO */}
+      <Box sx={{  minHeight: '100vh', py: { xs: 4, md: 6 } }}>
         <Container maxWidth="xl">
           {/* H1 Heading */}
           <Typography
@@ -127,7 +129,7 @@ export default function EventsPage() {
             sx={{
               fontSize: { xs: '1.3rem', sm: '1.6rem', md: '2rem' },
               fontWeight: 800,
-              color: '#1a1a1a',
+              // color: '#1a1a1a',
               textAlign: 'center',
               mb: 2
             }}
@@ -141,7 +143,7 @@ export default function EventsPage() {
             sx={{
               fontSize: { xs: '1rem', sm: '1.1rem', md: '1.2rem' },
               fontWeight: 400,
-              color: '#666',
+              // color: '#666',
               textAlign: 'center',
               mb: 6,
               maxWidth: '800px',
@@ -216,7 +218,7 @@ export default function EventsPage() {
                         sx={{
                           fontSize: '1.25rem',
                           fontWeight: 700,
-                          color: '#1a1a1a',
+                          // color: '#1a1a1a',
                           mb: 2
                         }}
                       >
@@ -245,7 +247,7 @@ export default function EventsPage() {
                           <Typography
                             variant="body2"
                             sx={{
-                              color: '#666',
+                              // color: '#666',
                               fontSize: '0.85rem'
                             }}
                           >
@@ -257,7 +259,7 @@ export default function EventsPage() {
                             sx={{
                               fontSize: '1.5rem',
                               fontWeight: 700,
-                              color: '#666'
+                              // color: '#666'
                             }}
                           >
                             {country.eventCount}
@@ -265,7 +267,7 @@ export default function EventsPage() {
                           <Typography
                             variant="body2"
                             sx={{
-                              color: '#666',
+                              // color: '#666',
                               fontSize: '0.85rem'
                             }}
                           >
@@ -283,7 +285,7 @@ export default function EventsPage() {
                               <Typography
                                 variant="body2"
                                 sx={{
-                                  color: '#666',
+                                  // color: '#666',
                                   fontWeight: 600,
                                   mb: 1,
                                   fontSize: '0.8rem'
@@ -302,7 +304,7 @@ export default function EventsPage() {
                                       mb: 1,
                                       p: 1,
                                       borderRadius: 1,
-                                      backgroundColor: '#f8f9fa',
+                                      // backgroundColor: theme.,
                                       '&:last-child': {
                                         mb: 0
                                       }
@@ -314,7 +316,8 @@ export default function EventsPage() {
                                         height: 30,
                                         borderRadius: 1,
                                         overflow: 'hidden',
-                                        flexShrink: 0
+                                        flexShrink: 0,
+                                        marginRight: 2
                                       }}
                                     >
                                       <Box
@@ -324,7 +327,8 @@ export default function EventsPage() {
                                         sx={{
                                           width: '100%',
                                           height: '100%',
-                                          objectFit: 'cover'
+                                          objectFit: 'cover',
+                                          bgcolor: 'pink'
                                         }}
                                         onError={(e) => {
                                           e.target.style.display = 'none';
@@ -333,30 +337,39 @@ export default function EventsPage() {
                                         }}
                                       />
                                     </Box>
-                                    <Box sx={{ flex: 1, minWidth: 0 }}>
+                                    <Box sx={{ flex: 1, minWidth: 0, }}>
                                       <Typography
                                         variant="body2"
                                         sx={{
                                           fontWeight: 600,
-                                          color: '#1a1a1a',
+                                          // color: '#1a1a1a',
                                           fontSize: '0.75rem',
                                           lineHeight: 1.2,
                                           overflow: 'hidden',
                                           textOverflow: 'ellipsis',
-                                          whiteSpace: 'nowrap'
+                                          whiteSpace: 'nowrap',
+                                          textAlign: 'left'
+
                                         }}
                                       >
                                         {featuredEvent.title}
                                       </Typography>
                                       <Typography
-                                        variant="caption"
+                                        variant="body2"
                                         sx={{
-                                          color: '#666',
-                                          fontSize: '0.7rem'
+                                          lineHeight: 1.2,
+                                          overflow: 'hidden',
+                                          textOverflow: 'ellipsis',
+                                          whiteSpace: 'nowrap',
+                                          textAlign: 'left',
+                                          fontSize: '0.7rem',
+                                          marginTop: .5
+
                                         }}
                                       >
                                         {formatDate(featuredEvent.date)} • {featuredEvent.trackName}
                                       </Typography>
+                                     
                                     </Box>
                                   </Box>
                                 );
@@ -393,7 +406,7 @@ export default function EventsPage() {
             <Typography
               variant="body1"
               sx={{
-                color: '#666',
+                // color: '#666',
                 fontSize: '0.9rem'
               }}
             >

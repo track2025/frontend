@@ -107,7 +107,7 @@ export default function BlogsPage() {
       />
       <link rel="canonical" href="https://lapsnaps.com/blogs" />
 
-      <Box sx={{ bgcolor: '#f8f9fa', minHeight: '100vh', py: { xs: 4, md: 6 } }}>
+      <Box sx={{ minHeight: '100vh', py: { xs: 4, md: 6 } }}>
         <Container maxWidth="xl">
           {/* H1 Heading */}
           <Typography
@@ -115,7 +115,7 @@ export default function BlogsPage() {
             sx={{
               fontSize: { xs: '1.2rem', sm: '1.4rem', md: '1.8rem' },
               fontWeight: 800,
-              color: '#1a1a1a',
+              // color: '#1a1a1a',
               textAlign: 'center',
               mb: 2
             }}
@@ -129,7 +129,7 @@ export default function BlogsPage() {
             sx={{
               fontSize: { xs: '1rem', sm: '1.1rem', md: '1.2rem' },
               fontWeight: 400,
-              color: '#666',
+              // color: '#666',
               textAlign: 'center',
               mb: 6,
               maxWidth: '800px',

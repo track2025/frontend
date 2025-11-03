@@ -48,7 +48,7 @@ export default function CountryEventsClient({ countryEvents, countryInfo, countr
 
   return (
     <>
-      <Box sx={{ bgcolor: '#f8f9fa', minHeight: '100vh', py: { xs: 3, md: 5 } }}>
+      <Box sx={{  minHeight: '100vh', py: { xs: 3, md: 5 } }}>
         <Container maxWidth="xl">
           {/* Breadcrumbs */}
           <Breadcrumbs separator={<NavigateNextIcon fontSize="small" />} sx={{ mb: 3 }} aria-label="breadcrumb">
@@ -73,10 +73,10 @@ export default function CountryEventsClient({ countryEvents, countryInfo, countr
               textAlign: 'center',
               mb: 4,
               p: { xs: 3, md: 4 },
-              bgcolor: 'white',
+              // bgcolor: 'white',
               borderRadius: 2,
               boxShadow: 2,
-              background: 'linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%)'
+              // background: 'linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%)'
             }}
           >
             <Typography sx={{ fontSize: '4rem', mb: 2, lineHeight: 1 }}>
@@ -89,7 +89,7 @@ export default function CountryEventsClient({ countryEvents, countryInfo, countr
               sx={{
                 fontSize: { xs: '1.3rem', sm: '1.6rem', md: '2rem' },
                 fontWeight: 800,
-                color: '#1a1a1a',
+                // color: '#1a1a1a',
                 mb: 1
               }}
             >
@@ -102,7 +102,7 @@ export default function CountryEventsClient({ countryEvents, countryInfo, countr
               sx={{
                 fontSize: { xs: '0.9rem', sm: '1rem', md: '1.1rem' },
                 fontWeight: 400,
-                color: '#666',
+                // color: '#666',
                 mb: 2
               }}
             >
@@ -243,7 +243,7 @@ export default function CountryEventsClient({ countryEvents, countryInfo, countr
                                 sx={{
                                   fontSize: { xs: '1.1rem', sm: '1.2rem' },
                                   fontWeight: 700,
-                                  color: '#1a1a1a',
+                                  // color: '#1a1a1a',
                                   mb: 1.5,
                                   lineHeight: 1.3
                                 }}
@@ -254,20 +254,20 @@ export default function CountryEventsClient({ countryEvents, countryInfo, countr
                               {/* Event Details */}
                               <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: { xs: 1.5, sm: 2.5 }, mb: 1.5 }}>
                                 <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.75 }}>
-                                  <CalendarTodayIcon sx={{ fontSize: 18, color: '#666' }} />
-                                  <Typography variant="body2" sx={{ color: '#666', fontWeight: 500 }}>
+                                  <CalendarTodayIcon sx={{ fontSize: 18}} />
+                                  <Typography variant="body2" sx={{ fontWeight: 500 }}>
                                     {formatDate(event.date)}
                                   </Typography>
                                 </Box>
                                 <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.75 }}>
-                                  <AccessTimeIcon sx={{ fontSize: 18, color: '#666' }} />
-                                  <Typography variant="body2" sx={{ color: '#666', fontWeight: 500 }}>
+                                  <AccessTimeIcon sx={{ fontSize: 18}} />
+                                  <Typography variant="body2" sx={{ fontWeight: 500 }}>
                                     {formatTimeRange(event.startTime, event.endTime)}
                                   </Typography>
                                 </Box>
                                 <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.75 }}>
-                                  <LocationOnIcon sx={{ fontSize: 18, color: '#666' }} />
-                                  <Typography variant="body2" sx={{ color: '#666', fontWeight: 500 }}>
+                                  <LocationOnIcon sx={{ fontSize: 18}} />
+                                  <Typography variant="body2" sx={{ fontWeight: 500 }}>
                                     {event.trackName}
                                   </Typography>
                                 </Box>
@@ -277,7 +277,7 @@ export default function CountryEventsClient({ countryEvents, countryInfo, countr
                               <Typography
                                 variant="body2"
                                 sx={{
-                                  color: '#555',
+                                  // color: '#555',
                                   lineHeight: 1.6,
                                   display: '-webkit-box',
                                   WebkitLineClamp: 2,

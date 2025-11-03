@@ -102,7 +102,7 @@ export const BlogCard = ({ post, onClick }) => {
               sx={{
                 fontSize: { xs: '1.2rem', sm: '1.3rem', md: '1.4rem' },
                 fontWeight: 700,
-                color: '#1a1a1a',
+                // color: '#1a1a1a',
                 mb: 2,
                 lineHeight: 1.3,
                 display: '-webkit-box',
@@ -110,15 +110,15 @@ export const BlogCard = ({ post, onClick }) => {
                 WebkitBoxOrient: 'vertical',
                 overflow: 'hidden'
               }}
-            >
-              {post.title}
+            >  {post.title} 
+            {/* TODO */}
             </Typography>
 
             {/* Excerpt */}
             <Typography
               variant="body2"
               sx={{
-                color: '#666',
+                // color: '#666',
                 mb: 3,
                 lineHeight: 1.6,
                 flexGrow: 1,
@@ -141,12 +141,12 @@ export const BlogCard = ({ post, onClick }) => {
                 borderTop: '1px solid #e0e0e0'
               }}
             >
-              <Typography variant="caption" sx={{ color: '#666', fontWeight: 600 }}>
+              <Typography variant="caption" sx={{  fontWeight: 600 }}>
                 {post.author}
               </Typography>
               <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5 }}>
-                <AccessTimeIcon sx={{ fontSize: 14, color: '#666' }} />
-                <Typography variant="caption" sx={{ color: '#666' }}>
+                <AccessTimeIcon sx={{ fontSize: 14,  }} />
+                <Typography variant="caption" sx={{  }}>
                   {calculateReadTime()}
                 </Typography>
               </Box>
@@ -154,7 +154,7 @@ export const BlogCard = ({ post, onClick }) => {
 
             {/* Published Date */}
             {post.publishedDate && (
-              <Typography variant="caption" sx={{ color: '#999', mt: 1 }}>
+              <Typography variant="caption" sx={{  mt: 1 }}>
                 {formatDate(post.publishedDate)}
               </Typography>
             )}
@@ -175,6 +175,8 @@ export const BlogCard = ({ post, onClick }) => {
       </Card>
     );
   }
+
+
 
   // Use Link for better performance when no custom onClick
   return (
@@ -253,7 +255,7 @@ export const BlogCard = ({ post, onClick }) => {
             sx={{
               fontSize: { xs: '1.2rem', sm: '1.3rem', md: '1.4rem' },
               fontWeight: 700,
-              color: '#1a1a1a',
+              // color: '#1a1a1a',
               mb: 2,
               lineHeight: 1.3,
               display: '-webkit-box',
@@ -269,7 +271,7 @@ export const BlogCard = ({ post, onClick }) => {
           <Typography
             variant="body2"
             sx={{
-              color: '#666',
+              // color: '#666',
               mb: 3,
               lineHeight: 1.6,
               flexGrow: 1,
@@ -292,12 +294,12 @@ export const BlogCard = ({ post, onClick }) => {
               borderTop: '1px solid #e0e0e0'
             }}
           >
-            <Typography variant="caption" sx={{ color: '#666', fontWeight: 600 }}>
+            <Typography variant="caption" sx={{  fontWeight: 600 }}>
               {post.author}
             </Typography>
             <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5 }}>
-              <AccessTimeIcon sx={{ fontSize: 14, color: '#666' }} />
-              <Typography variant="caption" sx={{ color: '#666' }}>
+              <AccessTimeIcon sx={{ fontSize: 14, }} />
+              <Typography variant="caption" sx={{ }}>
                 {calculateReadTime()}
               </Typography>
             </Box>
@@ -305,7 +307,7 @@ export const BlogCard = ({ post, onClick }) => {
 
           {/* Published Date */}
           {post.publishedDate && (
-            <Typography variant="caption" sx={{ color: '#999', mt: 1 }}>
+            <Typography variant="caption" sx={{  mt: 1 }}>
               {formatDate(post.publishedDate)}
             </Typography>
           )}

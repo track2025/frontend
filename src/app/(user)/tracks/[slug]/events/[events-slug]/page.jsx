@@ -157,7 +157,7 @@ export default function EventDetailPage() {
       </Head>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }} />
 
-      <Box sx={{ bgcolor: "#f8f9fa", minHeight: "100vh", py: { xs: 3, md: 5 } }}>
+      <Box sx={{  minHeight: "100vh", py: { xs: 3, md: 5 } }}>
         <Container maxWidth="xl">
           {/* Breadcrumbs */}
           <Breadcrumbs separator={<NavigateNextIcon fontSize="small" />} sx={{ mb: 3 }} aria-label="breadcrumb">
