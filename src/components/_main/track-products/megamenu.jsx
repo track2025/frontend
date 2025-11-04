@@ -1,5 +1,4 @@
 "use client";
-
 import React, { useState, useRef } from "react";
 import { IoIosArrowBack, IoIosArrowForward } from "react-icons/io";
 import { useTheme } from "@mui/material/styles";
@@ -9,6 +8,7 @@ const MegaMenu = ({ categories, onSelectSubCategory }) => {
     const [activeMenu, setActiveMenu] = useState(null);
     const timeoutRef = useRef(null);
     const scrollRef = useRef(null);
+    const primaryColor = theme.palette.primary.main;
 
     const handleMouseEnter = (idx) => {
         clearTimeout(timeoutRef.current);
@@ -33,8 +33,6 @@ const MegaMenu = ({ categories, onSelectSubCategory }) => {
         }
     };
 
-    const primaryColor = theme.palette.primary.main;
-
     return (
         <nav
             className="navbar navbar-expand-lg bg-white border-bottom shadow-sm position-relative"
@@ -57,16 +55,9 @@ const MegaMenu = ({ categories, onSelectSubCategory }) => {
                         <li className="nav-item d-lg-none me-2 flex-shrink-0">
                             <button
                                 onClick={() => scrollMenu("left")}
-                                className="btn shadow-sm d-flex align-items-center justify-content-center"
-                                style={{
-                                    borderRadius: "50%",
-                                    width: "44px",
-                                    height: "44px",
-                                    backgroundColor: primaryColor,
-                                    color: "#fff",
-                                }}
+                                className="btn p-0 border-0 bg-transparent"
                             >
-                                <IoIosArrowBack size={28} />
+                                <IoIosArrowBack size={28} style={{ color: primaryColor }} />
                             </button>
                         </li>
 
@@ -78,20 +69,16 @@ const MegaMenu = ({ categories, onSelectSubCategory }) => {
                                     }`}
                                 onMouseEnter={() => handleMouseEnter(idx)}
                             >
-                                <a
-                                    className="nav-link fw-semibold text-uppercase dropdown-toggle"
-                                    href="#"
-                                    role="button"
+                                <button
+                                    type="button"
+                                    className="nav-link fw-semibold text-uppercase dropdown-toggle bg-transparent border-0"
                                     style={{
-                                        color:
-                                            activeMenu === idx
-                                                ? primaryColor
-                                                : "#212529",
+                                        color: activeMenu === idx ? primaryColor : "#212529",
                                         transition: "color 0.2s ease",
                                     }}
                                 >
                                     {category.name}
-                                </a>
+                                </button>
                             </li>
                         ))}
 
@@ -99,16 +86,9 @@ const MegaMenu = ({ categories, onSelectSubCategory }) => {
                         <li className="nav-item d-lg-none ms-2 flex-shrink-0">
                             <button
                                 onClick={() => scrollMenu("right")}
-                                className="btn shadow-sm d-flex align-items-center justify-content-center"
-                                style={{
-                                    borderRadius: "50%",
-                                    width: "44px",
-                                    height: "44px",
-                                    backgroundColor: primaryColor,
-                                    color: "#fff",
-                                }}
+                                className="btn p-0 border-0 bg-transparent"
                             >
-                                <IoIosArrowForward size={28} />
+                                <IoIosArrowForward size={28} style={{ color: primaryColor }} />
                             </button>
                         </li>
                     </ul>
@@ -135,72 +115,50 @@ const MegaMenu = ({ categories, onSelectSubCategory }) => {
                         <div className="container-fluid py-1 px-4">
                             <div className="row g-0">
                                 {(() => {
-                                    const subCategories =
-                                        categories[activeMenu].subCategories;
-                                    const totalColumns = Math.ceil(
-                                        subCategories.length / 5
-                                    );
+                                    const subCategories = categories[activeMenu].subCategories;
+                                    const totalColumns = Math.ceil(subCategories.length / 5);
 
-                                    return Array.from({
-                                        length: totalColumns,
-                                    }).map((_, colIndex) => {
-                                        const startIndex = colIndex * 5;
-                                        const endIndex = startIndex + 5;
-                                        const columnItems =
-                                            subCategories.slice(
+                                    return Array.from({ length: totalColumns }).map(
+                                        (_, colIndex) => {
+                                            const startIndex = colIndex * 5;
+                                            const endIndex = startIndex + 5;
+                                            const columnItems = subCategories.slice(
                                                 startIndex,
                                                 endIndex
                                             );
 
-                                        return (
-                                            <div
-                                                key={`col-${colIndex}`}
-                                                className="col-auto"
-                                            >
-                                                <div className="d-flex flex-column px-3">
-                                                    {columnItems.map(
-                                                        (sub, itemIndex) => (
-                                                            <a
-                                                                key={
-                                                                    sub._id ||
-                                                                    itemIndex
-                                                                }
-                                                                href="#"
-                                                                className="text-dark text-decoration-none d-block py-1"
-                                                                onClick={(e) => {
-                                                                    e.preventDefault();
+                                            return (
+                                                <div key={`col-${colIndex}`} className="col-auto">
+                                                    <div className="d-flex flex-column px-3">
+                                                        {columnItems.map((sub, itemIndex) => (
+                                                            <button
+                                                                key={sub._id || itemIndex}
+                                                                type="button"
+                                                                className="bg-transparent border-0 text-start text-dark text-decoration-none d-block py-1"
+                                                                onClick={() =>
                                                                     handleSubCategorySelect(
-                                                                        categories[
-                                                                            activeMenu
-                                                                        ].slug,
+                                                                        categories[activeMenu].slug,
                                                                         sub.slug
-                                                                    );
-                                                                }}
-                                                                style={{
-                                                                    transition:
-                                                                        "color 0.2s ease",
-                                                                }}
-                                                                onMouseEnter={(
-                                                                    e
-                                                                ) =>
-                                                                (e.target.style.color =
-                                                                    primaryColor)
+                                                                    )
                                                                 }
-                                                                onMouseLeave={(
-                                                                    e
-                                                                ) =>
-                                                                (e.target.style.color =
-                                                                    "#212529")
+                                                                style={{
+                                                                    transition: "color 0.2s ease",
+                                                                }}
+                                                                onMouseEnter={(e) =>
+                                                                    (e.target.style.color = primaryColor)
+                                                                }
+                                                                onMouseLeave={(e) =>
+                                                                    (e.target.style.color = "#212529")
                                                                 }
                                                             >
                                                                 {sub.name}
-                                                            </a>
-                                                        )
-                                                    )}
+                                                            </button>
+                                                        ))}
+                                                    </div>
                                                 </div>
-                                            </div>
-                                        );
-                                    });
+                                            );
+                                        }
+                                    );
                                 })()}
                             </div>
                         </div>
