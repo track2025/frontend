@@ -50,7 +50,6 @@ export default function TrackDetailsClient({ track }) {
   // Create a ref for the products section
   const productsSectionRef = useRef(null);
 
-  console.log('params_____======<><><>', params);
 
   const slug = params.slug;
 
@@ -88,7 +87,6 @@ export default function TrackDetailsClient({ track }) {
 
   const _searchQuery = getSearchParams(searchParams);
 
-  console.log('_______________________________ slug:', slug);
 
   // Fetch products on client side
   const { data: productsData, isLoading: productsLoading } = useQuery(
