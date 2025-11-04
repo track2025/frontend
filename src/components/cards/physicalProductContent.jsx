@@ -3,7 +3,7 @@ import React from 'react';
 
 export default function PhysicalProductContentCard({ content, name }) {
   return (
-    <Card>
+    <Card style={{marginLeft: -10}}>
       <CardContent>
         <Typography variant="h4" color="text.primary" gutterBottom>
           About {name}

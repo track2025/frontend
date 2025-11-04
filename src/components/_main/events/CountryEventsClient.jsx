@@ -130,10 +130,18 @@ export default function CountryEventsClient({ countryEvents, countryInfo, countr
 
   return (
     <>
-      <Box sx={{ minHeight: '100vh', py: { xs: 3, md: 5 } }}>
-        <Container maxWidth="xl">
+      <Box sx={{ /*minHeight: '100vh',*/ py: { xs: 3, md: 1 } }}>
+        <Container maxWidth="xl" style={{
+          position: 'relative'
+        }}>
           {/* Breadcrumbs */}
-          <Breadcrumbs separator={<NavigateNextIcon fontSize="small" />} sx={{ mb: 3 }} aria-label="breadcrumb">
+        <div style={{
+          // marginBottom: -20
+          position: 'absolute',
+          top: 8,
+          left: 20
+        }}>
+        <Breadcrumbs separator={<NavigateNextIcon fontSize="small" />} sx={{ mb: 3.5 }} aria-label="breadcrumb">
             <MuiLink
               underline="hover"
               color="inherit"
@@ -148,6 +156,7 @@ export default function CountryEventsClient({ countryEvents, countryInfo, countr
               <Typography color="text.primary">{countryInfo.country}</Typography>
             )}
           </Breadcrumbs>
+        </div>
 
           {/* Header with Flag */}
           <Box
