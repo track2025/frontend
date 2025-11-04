@@ -108,12 +108,14 @@ export default function IndexPage() {
       </Typography>
 
       <TopBanners />
+      
+      <Banner />
 
       <Container maxWidth="xl">
         <FeaturedProducts />
       </Container>
 
-      <Banner />
+
 
 
 
