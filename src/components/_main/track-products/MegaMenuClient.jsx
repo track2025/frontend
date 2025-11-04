@@ -33,11 +33,7 @@ const MegaMenuClient = ({ categories, filters }) => {
         setSelectedCategory(category);
         setSelectedSubCategory(subCategory);
 
-        const params = new URLSearchParams(searchParams.toString());
-        params.set("category", category);
-        params.set("subcategory", subCategory);
-
-        router.push(`?${params.toString()}`);
+        + router.replace(`?category=${category}&subcategory=${subCategory}`, { scroll: false });
     };
 
     return (
@@ -69,6 +65,7 @@ const MegaMenuClient = ({ categories, filters }) => {
                             <Link
                                 underline="hover"
                                 color="inherit"
+                                className="text-capitalize"
                                 href={`/track-products?category=${encodeURIComponent(selectedCategory)}`}
                             >
                                 {selectedCategory.replace(/-/g, " ")}
@@ -76,7 +73,7 @@ const MegaMenuClient = ({ categories, filters }) => {
                         )}
 
                         {selectedSubCategory && (
-                            <Typography color="text.primary">
+                            <Typography color="text.primary" className="text-capitalize">
                                 {selectedSubCategory.replace(/-/g, " ")}
                             </Typography>
                         )}

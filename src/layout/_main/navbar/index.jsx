@@ -118,14 +118,16 @@ export default function Navbar() {
                   bgcolor: 'primary.main',
                   color: 'background.paper',
                   textTransform: 'none',
+                  display: { xs: 'none', md: 'inline-flex' },
                   '&:hover': {
                     bgcolor: 'text.primary',
-                    opacity: 0.9
-                  }
+                    opacity: 0.9,
+                  },
                 }}
               >
                 Race Wear
               </Button>
+
               <LanguageSelect />
               <SettingMode />
               {/* <WishlistPopover />
