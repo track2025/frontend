@@ -2,7 +2,7 @@
   "menu": [
     {
       "title": "Collections",
-      "path": "/race-track/collection"
+      "path": "/race-track/collection?date=-1"
     },
     {
       "title": "Photographers",
