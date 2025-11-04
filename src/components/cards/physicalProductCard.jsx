@@ -121,26 +121,6 @@ export default function PhysicalProductCard({ ...props }) {
           />
         )}
 
-        {/* 🟣 Variant Badge (replaces discount) */}
-        {!loading && product?.variant && (
-          <Chip
-            size="small"
-            sx={{
-              top: 8,
-              right: 8,
-              zIndex: 9,
-              position: 'absolute',
-              bgcolor: 'primary.main',
-              color: 'white',
-              fontSize: 10,
-              fontWeight: 600,
-              height: 24,
-              textTransform: 'uppercase',
-            }}
-            label={product?.variant}
-          />
-        )}
-
         <Box
           sx={{
             bgcolor: isLoading || loading ? 'grey.100' : 'common.white',

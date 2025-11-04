@@ -52,6 +52,14 @@ const MegaMenuClient = ({ categories, filters }) => {
                     <Breadcrumbs
                         separator={<NavigateNextIcon fontSize="small" />}
                         aria-label="breadcrumb"
+                        maxItems={3} // 👈 limits visible items
+                        itemsBeforeCollapse={1} // 👈 show 1 item before the "..."
+                        itemsAfterCollapse={1} // 👈 show 1 item after the "..."
+                        sx={{
+                            fontSize: { xs: '0.85rem', md: '1rem' }, // adjust font size
+                            overflow: 'hidden',
+                            textOverflow: 'ellipsis',
+                        }}
                     >
                         <Link underline="hover" color="inherit" href="/">
                             Home
@@ -79,6 +87,7 @@ const MegaMenuClient = ({ categories, filters }) => {
                         )}
                     </Breadcrumbs>
                 </Box>
+
 
                 {/* ✅ Product Listing */}
                 <TrackProductsClient
