@@ -40,25 +40,6 @@ export default function EventDetailClient({ eventData, trackSlug }) {
     <Box sx={{ minHeight: '100vh', py: { xs: 3, md: 5 } }}>
       <Container maxWidth="xl">
         {/* Breadcrumbs */}
-        <Breadcrumbs separator={<NavigateNextIcon fontSize="small" />} sx={{ mb: 3 }} aria-label="breadcrumb">
-          <Link
-            underline="hover"
-            color="inherit"
-            href="/tracks"
-            sx={{ cursor: 'pointer', '&:hover': { color: '#EE1E50' } }}
-          >
-            Tracks
-          </Link>
-          <Link
-            underline="hover"
-            color="inherit"
-            href={`/tracks/${trackSlug}`}
-            sx={{ cursor: 'pointer', '&:hover': { color: '#EE1E50' } }}
-          >
-            {eventData.trackName}
-          </Link>
-          <Typography color="text.primary">{eventData.title}</Typography>
-        </Breadcrumbs>
 
         {/* Banner Image */}
         <Box
@@ -69,9 +50,79 @@ export default function EventDetailClient({ eventData, trackSlug }) {
             overflow: 'hidden',
             mb: 4,
             position: 'relative',
-            backgroundColor: '#e0e0e0' // Fallback background color
+            backgroundColor: '#e0e0e0', // Fallback background color
+            '&::after': {
+              content: '""',
+              position: 'absolute',
+              top: 0,
+              left: 0,
+              width: '100%',
+              height: '100%',
+              bgcolor: 'rgba(0, 0, 0, 0.5)', // adjust opacity as needed
+              zIndex: 1,
+            },
+          }}
+          style={{
+            marginTop: -20
           }}
         >
+          <div
+            style={{
+              position: 'absolute',
+              top: 20,
+              left: 25,
+              zIndex: 100
+            }}
+          >
+            <Breadcrumbs separator={<NavigateNextIcon fontSize="small" />} sx={{ mb: 3 }} aria-label="breadcrumb">
+              <Link
+                underline="hover"
+                color="#ddd"
+                href="/tracks"
+                sx={{
+                  cursor: 'pointer',
+                  '&:hover': { color: '#EE1E50' }
+                }}
+              >
+                Tracks
+              </Link>
+              <Link
+                underline="hover"
+                color="#ddd"
+                href={`/tracks/${trackSlug}`}
+                sx={{
+                  cursor: 'pointer',
+                  '&:hover': { color: '#EE1E50' }
+                }}
+              >
+                {eventData.trackName}
+              </Link>
+              <Typography color="#fff" >
+                {eventData.title}
+              </Typography>
+            </Breadcrumbs>
+
+            {/* <Breadcrumbs separator={<NavigateNextIcon fontSize="small" />} sx={{ mb: 3 }} aria-label="breadcrumb">
+          <Link
+            underline="hover"
+            color="#ddd"
+            href="/tracks"
+            sx={{ cursor: 'pointer', '&:hover': { color: '#EE1E50' } }}
+          >
+            Tracks  
+          </Link>
+          <Link
+            underline="hover"
+            color="#ddd"
+            href={`/tracks/${trackSlug}`}
+            sx={{ cursor: 'pointer', '&:hover': { color: '#EE1E50' } }}
+          >
+            {eventData.trackName}
+          </Link>
+          <Typography color="#bbbfff">{eventData.title}</Typography>
+        </Breadcrumbs> */}
+          </div>
+
           <Box
             component="img"
             src={eventData.image.url}

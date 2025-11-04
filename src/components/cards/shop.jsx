@@ -175,7 +175,7 @@ export default function ShopCard({ ...props }) {
               color="primary"
               size="small"
               type="button"
-              onClick={() => router.push(baseUrl + shop?.slug)}
+              onClick={() => router.push(baseUrl + shop?.slug +'?date=-1')}
               startIcon={<AiOutlineShop />}
               sx={{
                 borderRadius: 6,

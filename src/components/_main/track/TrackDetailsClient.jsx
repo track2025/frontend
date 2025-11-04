@@ -50,7 +50,6 @@ export default function TrackDetailsClient({ track }) {
   // Create a ref for the products section
   const productsSectionRef = useRef(null);
 
-  console.log('params_____======<><><>', params);
 
   const slug = params.slug;
 
@@ -88,7 +87,6 @@ export default function TrackDetailsClient({ track }) {
 
   const _searchQuery = getSearchParams(searchParams);
 
-  console.log('_______________________________ slug:', slug);
 
   // Fetch products on client side
   const { data: productsData, isLoading: productsLoading } = useQuery(
@@ -344,7 +342,7 @@ export default function TrackDetailsClient({ track }) {
 
       <Box sx={{ minHeight: '100vh', bgcolor: (theme) => (theme.palette.mode !== 'dark' ? '#fff' : '#000') }}>
         {/* Breadcrumbs */}
-        <Container maxWidth="xl" sx={{ pt: 3 }}>
+        {/* <Container maxWidth="xl" sx={{ pt: 3 }}>
           <Breadcrumbs separator={<NavigateNextIcon fontSize="small" />} aria-label="breadcrumb">
             <MuiLink underline="hover" color="inherit" href="/" sx={{ cursor: 'pointer' }}>
               Home
@@ -354,7 +352,7 @@ export default function TrackDetailsClient({ track }) {
             </MuiLink>
             <Typography color="text.primary">{trackName}</Typography>
           </Breadcrumbs>
-        </Container>
+        </Container> */}
 
         {/* Banner Section */}
         <Box
@@ -363,9 +361,30 @@ export default function TrackDetailsClient({ track }) {
             height: { xs: 300, sm: 400, md: 500 },
             bgcolor: '#000',
             overflow: 'hidden',
-            mt: 2
+            mt: 0
           }}
         >
+
+<div style={{
+  position: "absolute",
+  top: 10,
+  left: 20,
+  zIndex: 100
+}}>
+<Container maxWidth="xl" sx={{ pt: 3 }}>
+          <Breadcrumbs separator={<NavigateNextIcon fontSize="small" />} aria-label="breadcrumb">
+            <MuiLink underline="hover" color="#bbb" href="/" sx={{ cursor: 'pointer' }}>
+              Home
+            </MuiLink>
+            <MuiLink underline="hover" color="#bbb" href="/tracks" sx={{ cursor: 'pointer' }}>
+              Tracks
+            </MuiLink>
+            <Typography color="#fff">{trackName}</Typography>
+          </Breadcrumbs>
+        </Container>
+</div>
+
+
           <Box
             component="img"
             src={bannerImage}
@@ -399,6 +418,10 @@ export default function TrackDetailsClient({ track }) {
               px: 2
             }}
           >
+
+
+
+
             {/* Logo */}
             {logoImage && (
               <Box
@@ -534,7 +557,9 @@ export default function TrackDetailsClient({ track }) {
                     <CircularProgress sx={{ color: '#EE1E50' }} />
                   </Box>
                 ) : products.length > 0 ? (
-                  <Box>
+                  <Box style={{
+                    marginTop: -20
+                  }}>
                     {/* Product List */}
                     <ProductList data={{ data: products }} isLoading={false} isMobile={false} />
 

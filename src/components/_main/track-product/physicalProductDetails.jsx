@@ -17,7 +17,7 @@ export default function PhysicalProductDetail({ ...props }) {
         borderWidth: 0,
         bgcolor: '#',
         mb: isDialog ? 0 : 0,
-        px: { xs: 3, md: 15 } 
+        px: { xs: 1.5, md: 15 } 
       }}
     >
       <Grid container spacing={3}>

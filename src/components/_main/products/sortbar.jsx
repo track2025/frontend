@@ -357,6 +357,9 @@ export default function SortBar({
               display: 'flex',
               justifyContent: { xs: 'flex-start', sm: 'flex-end' } // left on mobile, right on desktop
             }}
+            style={{
+              marginTop: showAdvancedFilters ? 0 : -16
+            }}
           >
             <Stack direction="row" gap={1} alignItems="center">
               <FormControl size="small" fullWidth sx={{ maxWidth: 200 }}>
