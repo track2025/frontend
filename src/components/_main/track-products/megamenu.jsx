@@ -119,7 +119,7 @@ const MegaMenu = ({ categories, onSelectSubCategory }) => {
             {activeMenu !== null &&
                 categories[activeMenu]?.subCategories?.length > 0 && (
                     <div
-                        className="dropdown-menu border-0 rounded-0 py-2 shadow-sm d-block"
+                        className="dropdown-menu border-0 rounded-0 py-1 shadow-sm d-block"
                         style={{
                             position: "absolute",
                             top: "95%",
@@ -132,7 +132,7 @@ const MegaMenu = ({ categories, onSelectSubCategory }) => {
                         onMouseEnter={() => handleMouseEnter(activeMenu)}
                         onMouseLeave={handleMouseLeave}
                     >
-                        <div className="container-fluid py-2">
+                        <div className="container-fluid py-1 px-4">
                             <div className="row g-0">
                                 {(() => {
                                     const subCategories =
