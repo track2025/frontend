@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server';
-import countries from '@/lib/countries.json';
+import countries from 'src/utils/counties';
 
 export async function GET(request) {
   const serverMapsApiKey = process.env.GOOGLE_MAPS_SERVER_API_KEY;
