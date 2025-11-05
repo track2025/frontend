@@ -162,6 +162,7 @@ export default function RegisterForm() {
         'Username must start with a letter or number and can contain letters, numbers, dots, and underscores. Length must be between 3 and 30 characters.'
       ),
     defaultPrice: Yup.number().required('Default Price is required'),
+    country: Yup.string().required('Country is required'),
     firstName: Yup.string().max(50, 'Too long!').required('First name is required'),
     lastName: Yup.string().max(50, 'Too long!').required('Last name is required'),
     email: Yup.string().email('Enter valid email').required('Email is required'),
@@ -205,11 +206,19 @@ export default function RegisterForm() {
     validationSchema: userType === 'photographer' ? ShopSettingSchema : UserSchema,
     onSubmit: async (values) => {
       if (userType === 'photographer') {
-        const { file, ...rest } = values;
+        const { file, country, ...rest } = values;
+
+        // ensure address.country gets the selected value
+        const payload = {
+          ...rest,
+          address: {
+            ...values.address,
+            country: country || values.address.country,
+          },
+        };
+
         try {
-          createShop({
-            ...rest
-          });
+          createShop(payload);
         } catch (error) {
           console.error(error);
         }
@@ -219,7 +228,7 @@ export default function RegisterForm() {
             firstName: values.firstName,
             lastName: values.lastName,
             email: values.email,
-            password: values.password
+            password: values.password,
           });
         } catch (error) {
           console.error(error);
@@ -535,6 +544,50 @@ export default function RegisterForm() {
                       </div>
                     </Box>
 
+                    <Box sx={{ width: '100%' }} mt={3}>
+                      <div>
+                        <LabelStyle component="label" htmlFor="country">
+                          Country
+                        </LabelStyle>
+                        <TextField
+                          select
+                          id="country"
+                          label="Select Country"
+                          fullWidth
+                          {...getFieldProps('country')}
+                          error={Boolean(touched.country && errors.country)}
+                          helperText={touched.country && errors.country}
+                        >
+                          {[
+                            'United States',
+                            'United Kingdom',
+                            'Canada',
+                            'Australia',
+                            'Germany',
+                            'France',
+                            'Italy',
+                            'Spain',
+                            'Netherlands',
+                            'Nigeria',
+                            'South Africa',
+                            'Kenya',
+                            'India',
+                            'Japan',
+                            'China',
+                            'Brazil',
+                            'Mexico',
+                            'Argentina',
+                            'United Arab Emirates',
+                            'Saudi Arabia',
+                          ].map((country) => (
+                            <MenuItem key={country} value={country}>
+                              {country}
+                            </MenuItem>
+                          ))}
+                        </TextField>
+                      </div>
+                    </Box>
+
                     <Stack mt={3} spacing={2} direction="row" flexGrow="wrap">
                       <Box sx={{ width: '100%' }}>
                         <LabelStyle>Default Price</LabelStyle>
@@ -616,6 +669,8 @@ export default function RegisterForm() {
                     </Box>
                   </>
                 )}
+
+
 
                 <Typography variant="body2" align="center" color="text.secondary" mt={3}>
                   By registering, I agree to Lap Snaps&nbsp;
