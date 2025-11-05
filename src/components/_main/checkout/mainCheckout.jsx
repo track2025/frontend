@@ -7,7 +7,7 @@ import { useMutation } from 'react-query';
 import { toast } from 'react-hot-toast';
 import { sum } from 'lodash';
 // mui
-import { Box, Grid, Typography, Modal, Paper, IconButton, Alert, CircularProgress } from '@mui/material';
+import { Box, Grid, Typography, Modal, Paper, IconButton, Alert, CircularProgress, Backdrop } from '@mui/material';
 import { Close, BugReport } from '@mui/icons-material';
 import LoadingButton from '@mui/lab/LoadingButton';
 // yup
@@ -157,6 +157,30 @@ const ResponseAlertModal = ({ open, onClose, title, message, type = 'info' }) =>
   );
 };
 
+// Full Page Loader Component
+const FullPageLoader = ({ message = 'Processing your payment...' }) => {
+  return (
+    <Backdrop
+      sx={{
+        color: '#fff',
+        zIndex: 9999,
+        backgroundColor: 'rgba(0, 0, 0, 0.8)',
+        flexDirection: 'column',
+        gap: 3
+      }}
+      open={true}
+    >
+      <CircularProgress size={80} thickness={4} sx={{ color: '#EE1E50' }} />
+      <Typography variant="h5" sx={{ color: '#fff', textAlign: 'center', maxWidth: '80%' }}>
+        {message}
+      </Typography>
+      <Typography variant="body1" sx={{ color: 'rgba(255, 255, 255, 0.8)', textAlign: 'center', maxWidth: '80%' }}>
+        Please wait while we verify your payment. Do not close this page or refresh.
+      </Typography>
+    </Backdrop>
+  );
+};
+
 // Trust Payment Status Handler Component
 const TrustPaymentHandler = ({ onProcessTrustPayment, isDeveloper, addDebugLog, onError }) => {
   const [isProcessing, setIsProcessing] = useState(false);
@@ -285,6 +309,7 @@ const CheckoutMain = () => {
   const [isTrustPaymentCallback, setIsTrustPaymentCallback] = useState(false);
   const [trustPaymentError, setTrustPaymentError] = useState(null);
   const [showCheckoutInterface, setShowCheckoutInterface] = useState(true);
+  const [showProcessingOverlay, setShowProcessingOverlay] = useState(false);
 
   // Add to debug log - only if developer
   const addDebugLog = useCallback(
@@ -322,18 +347,19 @@ const CheckoutMain = () => {
 
   const { mutate, isLoading } = useMutation('order', api.placeOrder, {
     onSuccess: (data) => {
+      console.log({ data });
       if (isDeveloper) {
         addDebugLog('Order placed successfully', 'success');
         addDebugLog(data, 'info');
       }
 
       localStorage.removeItem('trustPaymentUserDetails');
+      dispatch(resetCart());
       toast.success(
         "🎉 Your order was successful! We've emailed you the download link. You can also find it anytime in the 'My Orders' section of your account."
       );
-      setProcessingTo(false);
       router.push(`/order/${data.orderId}`);
-      dispatch(resetCart());
+      // setProcessingTo(false);
     },
     onError: (err) => {
       const errorMsg = err.message || 'Something went wrong';
@@ -346,6 +372,7 @@ const CheckoutMain = () => {
       localStorage.removeItem('trustPaymentUserDetails');
       toast.error(errorMsg);
       setProcessingTo(false);
+      setShowProcessingOverlay(false); // Hide overlay on error
       // Show checkout interface again on order error
       setShowCheckoutInterface(true);
     }
@@ -382,6 +409,9 @@ const CheckoutMain = () => {
         return;
       }
       handleTrustPaymentCallback.called = true;
+
+      // Show processing overlay immediately
+      setShowProcessingOverlay(true);
 
       // Small delay to ensure async operations settle before proceeding
       await new Promise((resolve) => setTimeout(resolve, 500));
@@ -435,6 +465,7 @@ const CheckoutMain = () => {
         }
 
         mutate(orderData);
+        // Overlay will remain visible until onSuccess/onError is called
       } else {
         localStorage.removeItem('trustPaymentUserDetails');
 
@@ -461,6 +492,7 @@ const CheckoutMain = () => {
 
         toast.error(errorMessage);
         setProcessingTo(false);
+        setShowProcessingOverlay(false); // Hide overlay on error
         setShowCheckoutInterface(true);
       }
     },
@@ -470,6 +502,7 @@ const CheckoutMain = () => {
   // Handle Trust Payment processing errors
   const handleTrustPaymentError = useCallback((errorMessage) => {
     setTrustPaymentError(errorMessage);
+    setShowProcessingOverlay(false); // Hide overlay on error
     setShowCheckoutInterface(true);
     toast.error('Failed to process payment status. Please try again.');
   }, []);
@@ -513,7 +546,7 @@ const CheckoutMain = () => {
   const formik = useFormik({
     initialValues: {
       firstName: userData?.firstName || '',
-      lastName: userData?.lastName || '',
+      lastName: userData?.LastName || '',
       email: userData?.email || '',
       address: '',
       city: '',
@@ -608,26 +641,29 @@ const CheckoutMain = () => {
     setDebugLogs([]);
   };
 
-  // If we're processing a Trust Payment callback, show the handler
+  // If we're processing a Trust Payment callback, show the handler with overlay
   if (isTrustPaymentCallback && !showCheckoutInterface) {
     return (
-      <Suspense
-        fallback={
-          <Box display="flex" justifyContent="center" alignItems="center" minHeight="60vh">
-            <CircularProgress />
-            <Typography variant="h6" sx={{ ml: 2 }}>
-              Loading...
-            </Typography>
-          </Box>
-        }
-      >
-        <TrustPaymentHandler
-          onProcessTrustPayment={handleTrustPaymentCallback}
-          onError={handleTrustPaymentError}
-          isDeveloper={isDeveloper}
-          addDebugLog={addDebugLog}
-        />
-      </Suspense>
+      <>
+        <Suspense
+          fallback={
+            <Box display="flex" justifyContent="center" alignItems="center" minHeight="60vh">
+              <CircularProgress />
+              <Typography variant="h6" sx={{ ml: 2 }}>
+                Loading...
+              </Typography>
+            </Box>
+          }
+        >
+          <TrustPaymentHandler
+            onProcessTrustPayment={handleTrustPaymentCallback}
+            onError={handleTrustPaymentError}
+            isDeveloper={isDeveloper}
+            addDebugLog={addDebugLog}
+          />
+        </Suspense>
+        {showProcessingOverlay && <FullPageLoader />}
+      </>
     );
   }
 
@@ -689,6 +725,9 @@ const CheckoutMain = () => {
           </Grid>
         </Box>
       </Form>
+
+      {/* Show overlay when processing payment */}
+      {showProcessingOverlay && <FullPageLoader />}
 
       {/* Debug Console - Only show for developer */}
       {isDeveloper && (
