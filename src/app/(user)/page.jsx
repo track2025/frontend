@@ -108,29 +108,14 @@ export default function IndexPage() {
       </Typography>
 
       <TopBanners />
-      
-      <Banner />
 
       <Container maxWidth="xl">
-        <FeaturedProducts />
+        <WhyUs />
       </Container>
 
 
-
-
-
-
       <Container maxWidth="xl">
-
-
-
-        <TopCollection />
-
-        <WhyUs />
-
-        {/* <Categories /> */}
-
-        {/* <Shops /> */}
+        <FeaturedProducts />
       </Container>
 
       <div className="flex flex-col lg:flex-row gap-6 ">
@@ -139,7 +124,17 @@ export default function IndexPage() {
         </div>
       </div>
 
+      <Container maxWidth="xl">
+        <TopCollection />
+        {/* <Categories /> */}
+
+        {/* <Shops /> */}
+      </Container>
+
+
+
       {/* <Testimonials /> */}
+      <Banner />
 
       <Container maxWidth="xl">
         <Brands />
