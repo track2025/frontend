@@ -152,6 +152,7 @@ export default function LanguageSelect() {
   const autoChangeCurrency = async () => {
     try {
       const currentLocation = await getLocation();
+
       const selectedCurrency = enhancedCurrencies?.find((cur) => cur.code === currentLocation?.currency_code);
       if (selectedCurrency) {
         return selectedCurrency;
@@ -159,6 +160,7 @@ export default function LanguageSelect() {
       const usdCurrency = enhancedCurrencies?.find((cur) => cur.code === 'USD');
       return usdCurrency;
     } catch (error) {
+      console.log('err in curr::', error);
       const usdCurrency = enhancedCurrencies?.find((cur) => cur.code === 'USD');
       return usdCurrency;
     }

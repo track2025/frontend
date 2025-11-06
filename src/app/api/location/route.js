@@ -43,6 +43,7 @@ export async function GET(request) {
 
     const currentCountry = countries.find((c) => c.code === countryComponent?.short_name);
 
+    console.log('rreturning location data for ip:', clientIp);
     return NextResponse.json({
       country_code: currentCountry?.code || 'US',
       name: currentCountry?.name || countryComponent?.long_name || 'United States of America',
