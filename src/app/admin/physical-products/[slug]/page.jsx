@@ -12,6 +12,7 @@ export default async function page(props) {
   const params = await props.params;
   const { data: categories } = await api.getAllPhysicalCategoriesByAdmin();
   const { data: brands } = await api.getAllPhysicalBrandsByAdmin();
+  const { data: attributes } = await api.getAllPhysicalAttributesByAdmin();
   
 
   return (
@@ -33,7 +34,7 @@ export default async function page(props) {
           }
         ]}
       />
-      <EditPhysicalProduct brands={brands} categories={categories} slug={params.slug} />
+      <EditPhysicalProduct brands={brands} categories={categories} slug={params.slug} attributes={attributes}  />
     </div>
   );
 }

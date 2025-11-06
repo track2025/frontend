@@ -91,24 +91,46 @@ export default function VariableProduct({ formik, variants, setCount, count, isI
     setFieldValue(`variants[${index}].images`, []);
   };
 
-  // Variant selection logic
-  const handleAddVariant = () => setFieldValue('selectedVariants', [...values.selectedVariants, { name: '', value: [] }]);
+  // Variant selection logic - UPDATED FOR DUPLICATE NAMES
+  const handleAddVariant = () => {
+    if (availableVariants.length > 0) {
+      const firstAvailable = availableVariants[0];
+      setFieldValue('selectedVariants', [
+        ...values.selectedVariants,
+        {
+          ...firstAvailable,
+          value: firstAvailable.values || [] // Initialize with all values
+        }
+      ]);
+      setAvailableVariants(prev => prev.filter(v => v._id !== firstAvailable._id));
+      setCount(prev => prev + 1);
+    }
+  };
+
   const handleVariantChange = (index, event) => {
     setCount(prev => prev + 1);
-    const newName = event.target.value;
-    const oldName = values.selectedVariants[index].name;
+    const selectedId = event.target.value;
+    const selectedVariant = availableVariants.find(v => v._id === selectedId);
+    const oldVariantId = values.selectedVariants[index]._id;
+
     const newSelectedVariants = [...values.selectedVariants];
-    newSelectedVariants[index] = { name: newName, value: [] };
+    newSelectedVariants[index] = {
+      ...selectedVariant,
+      value: selectedVariant.values || [] // Initialize with all possible values
+    };
+
     setFieldValue('selectedVariants', newSelectedVariants);
+
     setAvailableVariants(prev => {
       let updated = [...prev];
-      if (oldName) {
-        const oldVar = variants.find(v => v.name === oldName);
+      if (oldVariantId) {
+        const oldVar = variants.find(v => v._id === oldVariantId);
         if (oldVar) updated.push(oldVar);
       }
-      return updated.filter(v => v.name !== newName);
+      return updated.filter(v => v._id !== selectedId);
     });
   };
+
   const handleVariantValueChange = (index, event) => {
     setCount(prev => prev + 1);
     const selectedValues = Array.isArray(event.target.value) ? event.target.value : [event.target.value];
@@ -116,31 +138,93 @@ export default function VariableProduct({ formik, variants, setCount, count, isI
     newSelectedVariants[index].value = selectedValues;
     setFieldValue('selectedVariants', newSelectedVariants);
   };
+
   const handleRemoveVariant = (index) => {
-    const removedName = values.selectedVariants[index].name;
+    const removedId = values.selectedVariants[index]._id;
     const newSelected = values.selectedVariants.filter((_, i) => i !== index);
     setFieldValue('selectedVariants', newSelected);
-    if (removedName) {
-      const removedObj = variants.find(v => v.name === removedName);
+    if (removedId) {
+      const removedObj = variants.find(v => v._id === removedId);
       if (removedObj) setAvailableVariants([...availableVariants, removedObj]);
     }
   };
 
   useEffect(() => {
-    if (!isLoading) {
+    if (!isLoading && values.selectedVariants && values.selectedVariants.length > 0) {
+      // Filter out variants that don't have values selected
+      const validSelectedVariants = values.selectedVariants.filter(
+        variant => variant.name && variant.value && variant.value.length > 0
+      );
+
+      if (validSelectedVariants.length === 0) return;
+
       const result = {
-        names: values.selectedVariants.map(v => v.name),
-        data: generateCombinations(values.selectedVariants) || []
+        names: validSelectedVariants.map(v => v.name),
+        data: generateCombinations(validSelectedVariants) || []
       };
 
       if (isInitialized) {
-        setFieldValue('variants', result.data.map(v => ({ ...v, variant: result.names.join('/'), stockQuantity: '', sku: '', images: [], blob: [] })));
+        // Create a mapping of old variant structure to preserve data
+        const oldVariantsMap = values.variants.reduce((acc, variant) => {
+          acc[variant.name] = variant;
+          return acc;
+        }, {});
+
+        // Preserve data based on index when possible, fallback to name matching
+        setFieldValue('variants', result.data.map((newVariant, index) => {
+          // First try to find by index (for similar structures)
+          const existingVariantByIndex = values.variants[index];
+
+          // Then try to find by exact name match
+          const existingVariantByName = oldVariantsMap[newVariant.name];
+
+          // Use index-based matching first, then fallback to name matching
+          const existingVariant = existingVariantByIndex || existingVariantByName;
+
+          if (existingVariant) {
+            // Keep all existing data and update the structure
+            return {
+              ...existingVariant,
+              name: newVariant.name,
+              variant: result.names.join('/')
+            };
+          } else {
+            // Create new variant with empty data
+            return {
+              ...newVariant,
+              variant: result.names.join('/'),
+              stockQuantity: '',
+              sku: '',
+              images: [],
+              blob: [],
+              price: '',
+              salePrice: ''
+            };
+          }
+        }));
       } else {
-        setFieldValue('variants', result.data.map((v, i) => ({ ...v, variant: values.variants[i].variant, stockQuantity: values.variants[i].stockQuantity, sku: values.variants[i].sku, images: values.variants[i].images, blob: [] })));
+        // Initial load - map existing variants to the generated combinations
+        setFieldValue('variants', result.data.map((v, i) => {
+          const existingVariant = values.variants[i];
+          return existingVariant ? {
+            ...existingVariant,
+            name: v.name,
+            variant: result.names.join('/')
+          } : {
+            ...v,
+            variant: result.names.join('/'),
+            stockQuantity: '',
+            sku: '',
+            images: [],
+            blob: [],
+            price: '',
+            salePrice: ''
+          };
+        }));
         setInitialized(true);
       }
     }
-  }, [count]);
+  }, [count, isLoading]);
 
   const isDigital = values.deliveryType === 'digital';
 
@@ -150,16 +234,35 @@ export default function VariableProduct({ formik, variants, setCount, count, isI
         {values.selectedVariants.map((variant, index) => (
           <Stack direction="row" spacing={2} alignItems="center" key={index}>
             <FormControl fullWidth>
-              <Select value={variant.name} onChange={e => handleVariantChange(index, e)} renderValue={selected => selected}>
-                {availableVariants.map(v => <MenuItem key={v.name} value={v.name}>{v.name}</MenuItem>)}
+              <Select
+                value={variant.name || ''} // Changed from variant.name to variant._id
+                onChange={e => handleVariantChange(index, e)}
+                renderValue={(selected) => {
+                  const selectedVariant = availableVariants.find(v => v._id === selected) || variant;
+                  return selectedVariant.name;
+                }}
+              >
+                {availableVariants.map(v => (
+                  <MenuItem key={v._id} value={v._id}>{v.name}</MenuItem>
+                ))}
               </Select>
             </FormControl>
             {variant.name && (
               <FormControl fullWidth>
                 <InputLabel>{`Values for ${variant.name}`}</InputLabel>
-                <Select multiple value={variant.value} onChange={e => handleVariantValueChange(index, e)} input={<OutlinedInput label={`Values for ${variant.name}`} />} renderValue={selected => selected.join(', ')}>
-                  {variants.find(v => v.name === variant.name)?.values.map(value => (
-                    <MenuItem key={value} value={value}><Checkbox checked={variant.value.includes(value)} /><ListItemText primary={value} /></MenuItem>
+                <Select
+                  multiple
+                  value={variant.value || []}
+                  onChange={e => handleVariantValueChange(index, e)}
+                  input={<OutlinedInput label={`Values for ${variant.name}`} />}
+                  renderValue={selected => selected.join(', ')}
+                >
+                  {/* Use the actual variant object's values, not searching by name */}
+                  {(variant.values || []).map(value => (
+                    <MenuItem key={value} value={value}>
+                      <Checkbox checked={(variant.value || []).includes(value)} />
+                      <ListItemText primary={value} />
+                    </MenuItem>
                   ))}
                 </Select>
               </FormControl>

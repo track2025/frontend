@@ -23,6 +23,7 @@ import { physicalProductSchema } from 'src/validations';
 const STATUS_OPTIONS = ['pending', 'draft', 'published'];
 
 // ----------------------------------------------------------------------
+// In PhysicalProductForm.jsx
 const getVariants = (param) => {
   const converted = param.reduce((acc, item) => {
     const attributes = item.name.split('/');
@@ -35,8 +36,16 @@ const getVariants = (param) => {
         if (!existingAttribute.values.includes(attributes[index])) {
           existingAttribute.values.push(attributes[index]);
         }
+        // Also populate the value array with the actual selected values
+        if (!existingAttribute.value.includes(attributes[index])) {
+          existingAttribute.value.push(attributes[index]);
+        }
       } else {
-        acc.push({ name: key, values: [attributes[index]] });
+        acc.push({
+          name: key,
+          values: [attributes[index]],
+          value: [attributes[index]] // Initialize value with the actual values
+        });
       }
     });
 
