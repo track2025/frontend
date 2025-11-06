@@ -1,14 +1,33 @@
 "use client";
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import { IoIosArrowBack, IoIosArrowForward } from "react-icons/io";
 import { useTheme } from "@mui/material/styles";
 
 const MegaMenu = ({ categories, onSelectSubCategory }) => {
     const theme = useTheme();
     const [activeMenu, setActiveMenu] = useState(null);
+    const [showLeftArrow, setShowLeftArrow] = useState(false);
+    const [showRightArrow, setShowRightArrow] = useState(true);
     const timeoutRef = useRef(null);
     const scrollRef = useRef(null);
     const primaryColor = theme.palette.primary.main;
+
+    // check scroll position to toggle arrows visibility
+    const handleScroll = () => {
+        const el = scrollRef.current;
+        if (!el) return;
+
+        const { scrollLeft, scrollWidth, clientWidth } = el;
+        setShowLeftArrow(scrollLeft > 0);
+        setShowRightArrow(scrollLeft + clientWidth < scrollWidth - 5);
+    };
+
+    useEffect(() => {
+        const el = scrollRef.current;
+        if (el) el.addEventListener("scroll", handleScroll);
+        handleScroll(); // initial check
+        return () => el && el.removeEventListener("scroll", handleScroll);
+    }, []);
 
     const handleMouseEnter = (idx) => {
         clearTimeout(timeoutRef.current);
@@ -39,7 +58,37 @@ const MegaMenu = ({ categories, onSelectSubCategory }) => {
             onMouseLeave={handleMouseLeave}
         >
             <div className="container-fluid position-relative">
-                <div className="overflow-hidden w-100 position-relative px-2">
+                {/* Floating Scroll Buttons */}
+                {showLeftArrow && (
+                    <button
+                        onClick={() => scrollMenu("left")}
+                        className="btn bg-white shadow-sm border rounded-circle position-absolute start-0 top-50 translate-middle-y d-flex align-items-center justify-content-center"
+                        style={{
+                            zIndex: 10,
+                            width: 36,
+                            height: 36,
+                            transform: "translateY(-50%)",
+                        }}
+                    >
+                        <IoIosArrowBack size={22} style={{ color: primaryColor }} />
+                    </button>
+                )}
+                {showRightArrow && (
+                    <button
+                        onClick={() => scrollMenu("right")}
+                        className="btn bg-white shadow-sm border rounded-circle position-absolute end-0 top-50 translate-middle-y d-flex align-items-center justify-content-center"
+                        style={{
+                            zIndex: 10,
+                            width: 36,
+                            height: 36,
+                            transform: "translateY(-50%)",
+                        }}
+                    >
+                        <IoIosArrowForward size={22} style={{ color: primaryColor }} />
+                    </button>
+                )}
+
+                <div className="overflow-hidden w-100 position-relative px-4">
                     <ul
                         ref={scrollRef}
                         className="navbar-nav flex-row flex-nowrap align-items-center w-100 mb-2 mb-lg-0"
@@ -51,22 +100,10 @@ const MegaMenu = ({ categories, onSelectSubCategory }) => {
                             scrollBehavior: "smooth",
                         }}
                     >
-                        {/* Left Scroll Button */}
-                        <li className="nav-item d-lg-none me-2 flex-shrink-0">
-                            <button
-                                onClick={() => scrollMenu("left")}
-                                className="btn p-0 border-0 bg-transparent"
-                            >
-                                <IoIosArrowBack size={28} style={{ color: primaryColor }} />
-                            </button>
-                        </li>
-
-                        {/* Category Items */}
                         {categories.map((category, idx) => (
                             <li
                                 key={category._id || idx}
-                                className={`nav-item dropdown mx-3 flex-shrink-0 ${activeMenu === idx ? "active" : ""
-                                    }`}
+                                className={`nav-item dropdown mx-3 flex-shrink-0 ${activeMenu === idx ? "active" : ""}`}
                                 onMouseEnter={() => handleMouseEnter(idx)}
                             >
                                 <button
@@ -81,16 +118,6 @@ const MegaMenu = ({ categories, onSelectSubCategory }) => {
                                 </button>
                             </li>
                         ))}
-
-                        {/* Right Scroll Button */}
-                        <li className="nav-item d-lg-none ms-2 flex-shrink-0">
-                            <button
-                                onClick={() => scrollMenu("right")}
-                                className="btn p-0 border-0 bg-transparent"
-                            >
-                                <IoIosArrowForward size={28} style={{ color: primaryColor }} />
-                            </button>
-                        </li>
                     </ul>
                 </div>
             </div>
@@ -117,48 +144,40 @@ const MegaMenu = ({ categories, onSelectSubCategory }) => {
                                 {(() => {
                                     const subCategories = categories[activeMenu].subCategories;
                                     const totalColumns = Math.ceil(subCategories.length / 5);
+                                    return Array.from({ length: totalColumns }).map((_, colIndex) => {
+                                        const startIndex = colIndex * 5;
+                                        const endIndex = startIndex + 5;
+                                        const columnItems = subCategories.slice(startIndex, endIndex);
 
-                                    return Array.from({ length: totalColumns }).map(
-                                        (_, colIndex) => {
-                                            const startIndex = colIndex * 5;
-                                            const endIndex = startIndex + 5;
-                                            const columnItems = subCategories.slice(
-                                                startIndex,
-                                                endIndex
-                                            );
-
-                                            return (
-                                                <div key={`col-${colIndex}`} className="col-auto">
-                                                    <div className="d-flex flex-column px-3">
-                                                        {columnItems.map((sub, itemIndex) => (
-                                                            <button
-                                                                key={sub._id || itemIndex}
-                                                                type="button"
-                                                                className="bg-transparent border-0 text-start text-dark text-decoration-none d-block py-1"
-                                                                onClick={() =>
-                                                                    handleSubCategorySelect(
-                                                                        categories[activeMenu].slug,
-                                                                        sub.slug
-                                                                    )
-                                                                }
-                                                                style={{
-                                                                    transition: "color 0.2s ease",
-                                                                }}
-                                                                onMouseEnter={(e) =>
-                                                                    (e.target.style.color = primaryColor)
-                                                                }
-                                                                onMouseLeave={(e) =>
-                                                                    (e.target.style.color = "#212529")
-                                                                }
-                                                            >
-                                                                {sub.name}
-                                                            </button>
-                                                        ))}
-                                                    </div>
+                                        return (
+                                            <div key={`col-${colIndex}`} className="col-auto">
+                                                <div className="d-flex flex-column px-3">
+                                                    {columnItems.map((sub, itemIndex) => (
+                                                        <button
+                                                            key={sub._id || itemIndex}
+                                                            type="button"
+                                                            className="bg-transparent border-0 text-start text-dark text-decoration-none d-block py-1"
+                                                            onClick={() =>
+                                                                handleSubCategorySelect(
+                                                                    categories[activeMenu].slug,
+                                                                    sub.slug
+                                                                )
+                                                            }
+                                                            style={{ transition: "color 0.2s ease" }}
+                                                            onMouseEnter={(e) =>
+                                                                (e.target.style.color = primaryColor)
+                                                            }
+                                                            onMouseLeave={(e) =>
+                                                                (e.target.style.color = "#212529")
+                                                            }
+                                                        >
+                                                            {sub.name}
+                                                        </button>
+                                                    ))}
                                                 </div>
-                                            );
-                                        }
-                                    );
+                                            </div>
+                                        );
+                                    });
                                 })()}
                             </div>
                         </div>
