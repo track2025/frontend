@@ -1,5 +1,5 @@
 'use client';
-import { useState, useRef, useEffect } from 'react';
+import { useState, useRef, useEffect, useMemo } from 'react';
 import Link from 'next/link';
 import { useParams, useSearchParams } from 'next/navigation';
 import { useSelector } from 'react-redux';
@@ -9,8 +9,6 @@ import {
   Container,
   Grid,
   Typography,
-  TextField,
-  InputAdornment,
   Accordion,
   AccordionSummary,
   AccordionDetails,
@@ -21,101 +19,192 @@ import {
   Breadcrumbs,
   Link as MuiLink,
   CircularProgress,
-  IconButton,
   CardActionArea
 } from '@mui/material';
-import SearchIcon from '@mui/icons-material/Search';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import EventIcon from '@mui/icons-material/Event';
 import CalendarTodayIcon from '@mui/icons-material/CalendarToday';
 import NavigateNextIcon from '@mui/icons-material/NavigateNext';
 import LocationOnIcon from '@mui/icons-material/LocationOn';
 import SpeedIcon from '@mui/icons-material/Speed';
-import ClearIcon from '@mui/icons-material/Clear';
 import { getProducts } from 'src/services';
 import { getTrackEventsByTrackSlug } from 'src/services/tracks';
 import ProductList from '../../_main/products/productList';
 import { BlogPagination } from 'src/components/_main/blog/BlogPagination';
-import SortBar from 'src/components/_main/products/sortbar';
-import { alpha, useTheme } from '@mui/material/styles';
+import SortBar2 from 'src/components/_main/products/sortbar2';
+import { useTheme } from '@mui/material/styles';
 
 export default function TrackDetailsClient({ track }) {
-  const [searchQuery, setSearchQuery] = useState('');
   const [currentPage, setCurrentPage] = useState(1);
-  const [itemsPerPage] = useState(12);
+  const [itemsPerPage, setItemsPerPage] = useState('12');
   const params = useParams();
   const searchParams = useSearchParams();
   const { rate } = useSelector(({ settings }) => settings);
 
   // Create a ref for the products section
   const productsSectionRef = useRef(null);
-
+  const previousFiltersRef = useRef('');
 
   const slug = params.slug;
 
-  // Get page and search from URL on component mount and when URL changes
+  // Get all query parameters that affect data fetching
+  const pageFromUrl = searchParams.get('page');
+  const searchFromUrl = searchParams.get('search');
+  const limitFromUrl = searchParams.get('limit');
+  const makeFromUrl = searchParams.get('make');
+  const modelFromUrl = searchParams.get('model');
+  const dateFromUrl = searchParams.get('date_captured');
+  const locationFromUrl = searchParams.get('location');
+  const topFromUrl = searchParams.get('top');
+  const nameFromUrl = searchParams.get('name');
+  const dateSortFromUrl = searchParams.get('date');
+  const priceFromUrl = searchParams.get('price');
+
+  const searchQuery = searchFromUrl || '';
+
+  // Create a string representation of current filters for comparison
+  const currentFiltersString = useMemo(() => {
+    const filterParams = {
+      search: searchFromUrl,
+      make: makeFromUrl,
+      model: modelFromUrl,
+      date: dateFromUrl,
+      location: locationFromUrl,
+      top: topFromUrl,
+      name: nameFromUrl,
+      dateSort: dateSortFromUrl,
+      price: priceFromUrl
+    };
+    return JSON.stringify(filterParams);
+  }, [
+    searchFromUrl,
+    makeFromUrl,
+    modelFromUrl,
+    dateFromUrl,
+    locationFromUrl,
+    topFromUrl,
+    nameFromUrl,
+    dateSortFromUrl,
+    priceFromUrl
+  ]);
+
+  // Check if there are any active filters (excluding default pagination)
+  const hasActiveFilters = useMemo(() => {
+    const filterParams = [searchFromUrl, makeFromUrl, modelFromUrl, dateFromUrl, locationFromUrl];
+
+    const sortParams = [topFromUrl, nameFromUrl, dateSortFromUrl, priceFromUrl];
+
+    const hasFilterParams = filterParams.some((param) => param && param.trim() !== '');
+
+    const hasSortParams = sortParams.some((param) => {
+      if (!param) return false;
+      return true;
+    });
+
+    return hasFilterParams || hasSortParams;
+  }, [
+    searchFromUrl,
+    makeFromUrl,
+    modelFromUrl,
+    dateFromUrl,
+    locationFromUrl,
+    topFromUrl,
+    nameFromUrl,
+    dateSortFromUrl,
+    priceFromUrl
+  ]);
+
+  // Update current page and items per page from URL on mount and when URL changes
   useEffect(() => {
-    const pageFromUrl = searchParams.get('page');
-    const searchFromUrl = searchParams.get('search');
-
-    // Set search query from URL
-    if (searchFromUrl !== null) {
-      setSearchQuery(searchFromUrl);
-    }
-
-    // Set page from URL
     if (pageFromUrl && !isNaN(pageFromUrl)) {
       const pageNum = parseInt(pageFromUrl, 10);
       if (pageNum > 0 && pageNum !== currentPage) {
         setCurrentPage(pageNum);
       }
-    } else {
-      // If no page parameter in URL, set it to page 1 and update URL
-      const params = new URLSearchParams(searchParams.toString());
-      params.set('page', '1');
-      const newUrl = `${window.location.pathname}${params.toString() ? `?${params.toString()}` : ''}`;
-      window.history.replaceState(null, '', newUrl);
+    } else if (!pageFromUrl && currentPage !== 1) {
+      setCurrentPage(1);
     }
-  }, [searchParams, currentPage]);
 
-  // Create a stable query key that doesn't include circular references
-  const queryKey = `track-products-${slug}-${rate}-${currentPage}-${itemsPerPage}-${searchQuery}`;
+    if (limitFromUrl && ['12', '18', '24', '30'].includes(limitFromUrl)) {
+      setItemsPerPage(limitFromUrl);
+    } else if (!limitFromUrl && itemsPerPage !== '12') {
+      setItemsPerPage('12');
+    }
+  }, [pageFromUrl, limitFromUrl, currentPage, itemsPerPage]);
 
-  const getSearchParams = (searchParams) => {
-    return searchParams.toString().length ? '?' + searchParams.toString() : '';
+  // Scroll to products section when filters change
+  useEffect(() => {
+    // Only scroll if:
+    // 1. We have active filters
+    // 2. The products section ref exists
+    // 3. The filters have actually changed
+    if (hasActiveFilters && productsSectionRef.current && currentFiltersString !== previousFiltersRef.current) {
+      console.log('Scrolling to products section due to filter change');
+
+      const timer = setTimeout(() => {
+        if (productsSectionRef.current) {
+          productsSectionRef.current.scrollIntoView({
+            behavior: 'smooth',
+            block: 'start',
+            inline: 'nearest'
+          });
+        }
+      }, 100);
+
+      // Update the previous filters reference
+      previousFiltersRef.current = currentFiltersString;
+
+      return () => clearTimeout(timer);
+    }
+  }, [hasActiveFilters, currentFiltersString]);
+
+  // Build query parameters for API call
+  const buildQueryParams = () => {
+    const queryParams = new URLSearchParams();
+    queryParams.append('location', track.name);
+    queryParams.append('page', currentPage.toString());
+    queryParams.append('limit', itemsPerPage.toString());
+    queryParams.append('date', '1');
+
+    if (searchQuery.trim()) {
+      queryParams.append('search', searchQuery.trim());
+    }
+
+    if (makeFromUrl?.trim()) {
+      queryParams.append('make', makeFromUrl.trim());
+    }
+
+    if (modelFromUrl?.trim()) {
+      queryParams.append('model', modelFromUrl.trim());
+    }
+
+    if (dateFromUrl) {
+      queryParams.append('date_captured', dateFromUrl);
+    }
+
+    if (rate) {
+      queryParams.append('rate', rate);
+    }
+
+    return queryParams.toString();
   };
 
-  const _searchQuery = getSearchParams(searchParams);
-
+  // Create a comprehensive query key that includes all dependencies
+  const queryKey = `track-products-${slug}-${rate}-${currentPage}-${itemsPerPage}-${searchQuery}-${makeFromUrl}-${modelFromUrl}-${dateFromUrl}`;
 
   // Fetch products on client side
   const { data: productsData, isLoading: productsLoading } = useQuery(
-    _searchQuery,
+    queryKey,
     () => {
-      const queryParams = new URLSearchParams();
-      queryParams.append('location', track.name);
-      queryParams.append('page', currentPage.toString());
-      queryParams.append('limit', itemsPerPage.toString());
-      queryParams.append('date', 1);
-
-      // Add search parameter if search query exists
-      if (searchQuery.trim()) {
-        queryParams.append('search', searchQuery.trim());
-      }
-
-      if (rate) {
-        queryParams.append('rate', rate);
-      }
-
-      const queryString = `?${queryParams.toString()}`;
-
-      console.log('query string :::::::::', queryString);
-      // return getProducts(queryString);
-      return getProducts(queryString);
+      const queryString = buildQueryParams();
+      console.log('Fetching products with query:', queryString);
+      return getProducts(`?${queryString}`);
     },
     {
-      enabled: !!slug,
-      staleTime: 5 * 60 * 1000
+      enabled: !!slug && !!track.name,
+      staleTime: 5 * 60 * 1000,
+      refetchOnWindowFocus: false,
+      keepPreviousData: true
     }
   );
 
@@ -129,7 +218,12 @@ export default function TrackDetailsClient({ track }) {
     }
   );
 
-  console.log({ productsData, eventsData });
+  console.log('Component state:', {
+    hasActiveFilters,
+    currentFiltersString,
+    previousFilters: previousFiltersRef.current,
+    filtersChanged: currentFiltersString !== previousFiltersRef.current
+  });
 
   // Extract products and pagination data from response
   const products = productsData?.data || [];
@@ -141,82 +235,19 @@ export default function TrackDetailsClient({ track }) {
   // Use the same pagination structure as blogs
   const pagination = {
     currentPage: paginationInfo.currentPage || currentPage,
-    totalPages: paginationInfo.count || Math.ceil((paginationInfo.total || 0) / itemsPerPage),
+    totalPages: paginationInfo.count || Math.ceil((paginationInfo.total || 0) / parseInt(itemsPerPage, 10)),
     totalItems: paginationInfo.total || 0,
-    itemsPerPage: itemsPerPage
-  };
-
-  // Handle search input change
-  const handleSearchChange = (e) => {
-    const value = e.target.value;
-    setSearchQuery(value);
-
-    // Update URL with search parameter
-    const params = new URLSearchParams(searchParams.toString());
-
-    if (value.trim()) {
-      params.set('search', value.trim());
-    } else {
-      params.delete('search');
-    }
-
-    // Reset to page 1 when searching
-    params.set('page', '1');
-    setCurrentPage(1);
-
-    const newUrl = `${window.location.pathname}${params.toString() ? `?${params.toString()}` : ''}`;
-    window.history.replaceState(null, '', newUrl);
-  };
-
-  // Handle search submit (when user presses enter)
-  const handleSearchSubmit = (e) => {
-    if (e.key === 'Enter') {
-      // Scroll to products section when searching
-      if (productsSectionRef.current) {
-        productsSectionRef.current.scrollIntoView({
-          behavior: 'smooth',
-          block: 'start'
-        });
-      }
-    }
-  };
-
-  // Clear search
-  const handleClearSearch = () => {
-    setSearchQuery('');
-
-    // Update URL - remove search parameter
-    const params = new URLSearchParams(searchParams.toString());
-    params.delete('search');
-    params.set('page', '1');
-    setCurrentPage(1);
-
-    const newUrl = `${window.location.pathname}${params.toString() ? `?${params.toString()}` : ''}`;
-    window.history.replaceState(null, '', newUrl);
-
-    // Scroll to products section
-    if (productsSectionRef.current) {
-      productsSectionRef.current.scrollIntoView({
-        behavior: 'smooth',
-        block: 'start'
-      });
-    }
+    itemsPerPage: parseInt(itemsPerPage, 10)
   };
 
   // Handle page change - update URL and scroll to products section
   const handlePageChange = (event, newPage) => {
     setCurrentPage(newPage);
 
-    // Update URL with the new page parameter
     const params = new URLSearchParams(searchParams.toString());
-
-    // Always set the page parameter, even for page 1
     params.set('page', newPage.toString());
 
-    // Construct the new URL with all existing query parameters
     const newUrl = `${window.location.pathname}${params.toString() ? `?${params.toString()}` : ''}`;
-
-    // Use replaceState to update URL without refreshing the page
     window.history.replaceState(null, '', newUrl);
 
     // Scroll to the top of the products section
@@ -258,68 +289,7 @@ export default function TrackDetailsClient({ track }) {
     });
   };
 
-  // Structured data for SEO
-  const structuredData = {
-    '@context': 'https://schema.org',
-    '@type': 'Place',
-    '@id': `https://lapsnaps.com/tracks/${track.slug}`,
-    name: trackName,
-    description: trackDescription,
-    url: `https://lapsnaps.com/tracks/${track.slug}`,
-    image: bannerImage,
-    ...(trackAddress && {
-      address: {
-        '@type': 'PostalAddress',
-        ...(trackAddress && { streetAddress: trackAddress }),
-        addressLocality: trackCity,
-        ...(trackRegion && { addressRegion: trackRegion }),
-        addressCountry: trackCountry
-      }
-    }),
-    ...(track.phone && { telephone: track.phone }),
-    ...(track.email && { email: track.email }),
-    ...(track.website && { sameAs: [track.website] })
-  };
-
-  const faqStructuredData = {
-    '@context': 'https://schema.org',
-    '@type': 'FAQPage',
-    mainEntity: trackFaqs.map((faq, index) => ({
-      '@type': 'Question',
-      name: faq.question || `Question ${index + 1}`,
-      acceptedAnswer: {
-        '@type': 'Answer',
-        text: faq.answer || 'No answer available.'
-      }
-    }))
-  };
-
-  const breadcrumbStructuredData = {
-    '@context': 'https://schema.org',
-    '@type': 'BreadcrumbList',
-    itemListElement: [
-      {
-        '@type': 'ListItem',
-        position: 1,
-        name: 'Home',
-        item: 'https://lapsnaps.com'
-      },
-      {
-        '@type': 'ListItem',
-        position: 2,
-        name: 'Tracks',
-        item: 'https://lapsnaps.com/tracks'
-      },
-      {
-        '@type': 'ListItem',
-        position: 3,
-        name: trackName,
-        item: `https://lapsnaps.com/tracks/${track.slug}`
-      }
-    ]
-  };
   const sortData = [
-    // { title: 'Top Rated', key: 'top', value: -1 },
     { title: 'Price low to high', key: 'price', value: 1 },
     { title: 'Price high to low', key: 'price', value: -1 },
     { title: 'Oldest', key: 'date', value: 1 },
@@ -330,60 +300,36 @@ export default function TrackDetailsClient({ track }) {
 
   return (
     <>
-      {/* Structured Data for SEO */}
-      {/* <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }} />
-      {trackFaqs.length > 0 && (
-        <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqStructuredData) }} />
-      )}
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbStructuredData) }}
-      /> */}
-
-      <Box sx={{ minHeight: '100vh', bgcolor: (theme) => (theme.palette.mode !== 'dark' ? '#fff' : '#000') }}>
-        {/* Breadcrumbs */}
-        {/* <Container maxWidth="xl" sx={{ pt: 3 }}>
-          <Breadcrumbs separator={<NavigateNextIcon fontSize="small" />} aria-label="breadcrumb">
-            <MuiLink underline="hover" color="inherit" href="/" sx={{ cursor: 'pointer' }}>
-              Home
-            </MuiLink>
-            <MuiLink underline="hover" color="inherit" href="/tracks" sx={{ cursor: 'pointer' }}>
-              Tracks
-            </MuiLink>
-            <Typography color="text.primary">{trackName}</Typography>
-          </Breadcrumbs>
-        </Container> */}
-
+      <Box sx={{ minHeight: '100vh' }}>
         {/* Banner Section */}
         <Box
           sx={{
             position: 'relative',
             height: { xs: 300, sm: 400, md: 500 },
-            bgcolor: '#000',
             overflow: 'hidden',
             mt: 0
           }}
         >
-
-<div style={{
-  position: "absolute",
-  top: 10,
-  left: 20,
-  zIndex: 100
-}}>
-<Container maxWidth="xl" sx={{ pt: 3 }}>
-          <Breadcrumbs separator={<NavigateNextIcon fontSize="small" />} aria-label="breadcrumb">
-            <MuiLink underline="hover" color="#bbb" href="/" sx={{ cursor: 'pointer' }}>
-              Home
-            </MuiLink>
-            <MuiLink underline="hover" color="#bbb" href="/tracks" sx={{ cursor: 'pointer' }}>
-              Tracks
-            </MuiLink>
-            <Typography color="#fff">{trackName}</Typography>
-          </Breadcrumbs>
-        </Container>
-</div>
-
+          <div
+            style={{
+              position: 'absolute',
+              top: 10,
+              left: 20,
+              zIndex: 100
+            }}
+          >
+            <Container maxWidth="xl" sx={{ pt: 3 }}>
+              <Breadcrumbs separator={<NavigateNextIcon fontSize="small" />} aria-label="breadcrumb">
+                <MuiLink underline="hover" color="#bbb" href="/" sx={{ cursor: 'pointer' }}>
+                  Home
+                </MuiLink>
+                <MuiLink underline="hover" color="#bbb" href="/tracks" sx={{ cursor: 'pointer' }}>
+                  Tracks
+                </MuiLink>
+                <Typography color="#fff">{trackName}</Typography>
+              </Breadcrumbs>
+            </Container>
+          </div>
 
           <Box
             component="img"
@@ -418,10 +364,6 @@ export default function TrackDetailsClient({ track }) {
               px: 2
             }}
           >
-
-
-
-
             {/* Logo */}
             {logoImage && (
               <Box
@@ -496,9 +438,7 @@ export default function TrackDetailsClient({ track }) {
               sx={{
                 fontSize: { xs: '1.5rem', md: '1.75rem' },
                 fontWeight: 700,
-                // color: '#1a1a1a',
                 mb: 2
-                // color: theme.palette.secondary.main
               }}
             >
               About {trackName}
@@ -507,9 +447,6 @@ export default function TrackDetailsClient({ track }) {
               sx={{
                 fontSize: '16px',
                 lineHeight: 1.7,
-                // color: '#333',
-                // color: theme.palette.secondary.main,
-
                 mb: 2,
                 whiteSpace: 'pre-line'
               }}
@@ -524,31 +461,24 @@ export default function TrackDetailsClient({ track }) {
             <Grid item size={{ xs: 12, lg: 8 }}>
               {/* Products Section with ref for scrolling */}
               <Box ref={productsSectionRef}>
-                {/* Search Section - Sticky */}
-                <Box
-                  sx={{
-                    mb: 4,
-                    position: { lg: 'sticky' },
-                    top: { lg: 76 },
-                    zIndex: 10,
-                    // bgcolor: '#f8f9fa',
-                    bgcolor: theme.palette.mode !== 'dark' ? '#fff' : '#000',
-                    // bgcolor: 'red',
-                    py: 2
-                  }}
-                >
+                {/* Search Section - NO LONGER STICKY */}
+                <Box sx={{ mb: 4, py: 2 }}>
                   <Typography
                     variant="h3"
                     sx={{
                       fontWeight: 700,
-                      // color: '#1a1a1a',
                       fontSize: { xs: '1.25rem', md: '1.5rem' },
                       mb: 2
                     }}
                   >
                     Track Products & Gallery
                   </Typography>
-                  <SortBar sortData={sortData} productData={products} showLocationSearch={false} />
+                  <SortBar2
+                    sortData={sortData}
+                    productData={products}
+                    showLocationSearch={false}
+                    showApplyButton={true}
+                  />
                 </Box>
 
                 {/* Products Grid */}
@@ -557,9 +487,7 @@ export default function TrackDetailsClient({ track }) {
                     <CircularProgress sx={{ color: '#EE1E50' }} />
                   </Box>
                 ) : products.length > 0 ? (
-                  <Box style={{
-                    marginTop: -20
-                  }}>
+                  <Box style={{ marginTop: -20 }}>
                     {/* Product List */}
                     <ProductList data={{ data: products }} isLoading={false} isMobile={false} />
 
@@ -591,7 +519,6 @@ export default function TrackDetailsClient({ track }) {
             <Grid item size={{ xs: 12, lg: 4 }}>
               <Card
                 sx={{
-                  // bgcolor: 'white',
                   boxShadow: 3,
                   borderRadius: 2,
                   border: '1px solid #e0e0e0',
@@ -607,7 +534,6 @@ export default function TrackDetailsClient({ track }) {
                       sx={{
                         fontWeight: 700,
                         fontSize: '1.25rem'
-                        // color: '#1a1a1a'
                       }}
                     >
                       Upcoming Events
@@ -715,7 +641,6 @@ export default function TrackDetailsClient({ track }) {
                     key={index}
                     sx={{
                       mb: 2,
-                      bgcolor: 'white',
                       border: '1px solid #e0e0e0',
                       boxShadow: '0 4px 12px rgba(0,0,0,0.05)',
                       borderRadius: '12px !important',
