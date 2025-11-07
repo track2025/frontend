@@ -68,12 +68,12 @@ export default function EventForm({ data: currentEvent, isLoading: eventLoading 
       retry: false,
       onSuccess: (data) => {
         toast.success(data.message);
-        router.back();
+        router.push('/admin/blogs');
       },
       onError: (error) => {
         let errorMessage = parseMongooseError(error?.message);
         toast.error(errorMessage || 'We ran into an issue. Please refresh the page or try again.', {
-          duration: 10000 // Prevents auto-dismissal
+          duration: 10000
         });
       }
     }
@@ -126,8 +126,15 @@ export default function EventForm({ data: currentEvent, isLoading: eventLoading 
     validationSchema: EventSchema,
     onSubmit: async (values) => {
       try {
+        const lowerCasedValues = Object.fromEntries(
+          Object.entries(values).map(([key, value]) => [
+            key,
+            typeof value === 'string' ? value.toLowerCase() : value
+          ])
+        );
+
         mutate({
-          ...values,
+          ...lowerCasedValues,
           ...(currentEvent && {
             currentSlug: currentEvent.slug
           })
@@ -392,11 +399,30 @@ export default function EventForm({ data: currentEvent, isLoading: eventLoading 
                       {eventLoading ? (
                         <Skeleton variant="rectangular" width="100%" height={56} />
                       ) : (
-                        <Select native {...getFieldProps('status')}>
+                        <Select
+                          native
+                          {...getFieldProps('status')}
+                          value={
+                            values.status
+                              ? values.status.charAt(0).toUpperCase() + values.status.slice(1).toLowerCase()
+                              : ''
+                          }
+                          onChange={(e) =>
+                            setFieldValue(
+                              'status',
+                              e.target.value.charAt(0).toUpperCase() + e.target.value.slice(1).toLowerCase()
+                            )
+                          }
+                          className="text-capitalize"
+                        >
                           <option value="" style={{ display: 'none' }} />
                           {STATUS_OPTIONS.map((s) => (
-                            <option key={s} value={s}>
-                              {s}
+                            <option
+                              key={s}
+                              className="text-capitalize"
+                              value={s.charAt(0).toUpperCase() + s.slice(1).toLowerCase()}
+                            >
+                              {s.charAt(0).toUpperCase() + s.slice(1).toLowerCase()}
                             </option>
                           ))}
                         </Select>
@@ -411,7 +437,7 @@ export default function EventForm({ data: currentEvent, isLoading: eventLoading 
                   <Skeleton variant="rectangular" width="100%" height={56} />
                 ) : (
                   <LoadingButton type="submit" variant="contained" size="large" loading={isLoading} sx={{ mt: 3 }}>
-                    {currentEvent ? 'Update Event' : 'Add New Event'}
+                    {currentEvent ? 'Update Blog' : 'Add New Blog'}
                   </LoadingButton>
                 )}
               </Stack>
