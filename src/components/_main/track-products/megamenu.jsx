@@ -16,7 +16,6 @@ const MegaMenu = ({ categories, onSelectSubCategory }) => {
     const handleScroll = () => {
         const el = scrollRef.current;
         if (!el) return;
-
         const { scrollLeft, scrollWidth, clientWidth } = el;
         setShowLeftArrow(scrollLeft > 0);
         setShowRightArrow(scrollLeft + clientWidth < scrollWidth - 5);

@@ -21,7 +21,7 @@ export default function Page() {
         heading="Contact Us"
         links={[
           {
-            name: 'Home',
+            name: 'Home', 
             href: '/'
           },
           {

@@ -188,7 +188,7 @@ export default function RegisterForm() {
       file: '',
       slug: '',
       phone: '',
-      country: 'AE', // Default to United Arab Emirates code
+      country: 'AE',
       defaultCurrency: 'AED',
       defaultPrice: 100,
       paymentInfo: {
@@ -577,7 +577,7 @@ export default function RegisterForm() {
                     <Box mt={3}>
                       <Stack direction="row" justifyContent="space-between">
                         <LabelStyle variant="body1" component={'label'} color="text.primary">
-                          Logo
+                          Logo (optional)
                         </LabelStyle>
                       </Stack>
                       <UploadSingleFile
@@ -602,7 +602,7 @@ export default function RegisterForm() {
                     <Box mt={3}>
                       <Stack direction="row" justifyContent="space-between">
                         <LabelStyle variant="body1" component={'label'} color="text.primary">
-                          Cover Image
+                          Cover Image (optional)
                         </LabelStyle>
                       </Stack>
                       <UploadSingleFile
