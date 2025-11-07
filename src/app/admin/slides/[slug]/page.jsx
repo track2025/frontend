@@ -20,7 +20,7 @@ Page.propTypes = {
 export default function Page({ params }) {
   const { data, isLoading } = useQuery(['slide'], () => api.getSlideByAdmin(params.slug), {
     onError: (err) => {
-      toast.error(err.message || 'Something went wrong!');
+      toast.error(err.message || 'Failed to load slide!');
     }
   });
 

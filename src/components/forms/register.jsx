@@ -30,7 +30,7 @@ import {
 import Cropper from 'react-easy-crop';
 import { Dialog, DialogContent, DialogActions, Button } from '@mui/material';
 import UploadSingleFile from 'src/components/upload/UploadSingleFile';
-import countries from 'src/components/_main/checkout/countries.json';
+
 import { useQuery } from 'react-query';
 import { useSelector } from 'react-redux';
 import { MdOutlineVisibility } from 'react-icons/md';
@@ -50,6 +50,7 @@ import { Form, FormikProvider, useFormik } from 'formik';
 import * as api from 'src/services';
 import uploadToSpaces from 'src/utils/upload';
 import { useSearchParams } from 'next/navigation';
+import countries from 'src/utils/counties';
 
 RegisterForm.propTypes = {
   data: PropTypes.object,
@@ -140,10 +141,7 @@ export default function RegisterForm() {
         { duration: 10000 }
       );
 
-      //toast.success(`Welcome, ${data.user.firstName}! We’ve sent a one-time password (OTP) to your email. Please check your inbox.`);
       setloading(false);
-      //dispatch(verifyUser());
-      //router.push(redirect || '/');
       router.push(redirect ? `/auth/verify-otp?redirect=${redirect}` : `/auth/verify-otp`);
     },
     onError: (err) => {
@@ -162,6 +160,7 @@ export default function RegisterForm() {
         'Username must start with a letter or number and can contain letters, numbers, dots, and underscores. Length must be between 3 and 30 characters.'
       ),
     defaultPrice: Yup.number().required('Default Price is required'),
+    country: Yup.string().required('Country is required'),
     firstName: Yup.string().max(50, 'Too long!').required('First name is required'),
     lastName: Yup.string().max(50, 'Too long!').required('Last name is required'),
     email: Yup.string().email('Enter valid email').required('Email is required'),
@@ -171,6 +170,7 @@ export default function RegisterForm() {
   const UserSchema = Yup.object().shape({
     firstName: Yup.string().max(50, 'Too long!').required('First name is required'),
     lastName: Yup.string().max(50, 'Too long!').required('Last name is required'),
+    country: Yup.string().required('Country is required'),
     email: Yup.string().email('Enter valid email').required('Email is required'),
     password: Yup.string().required('Password is required').min(8, 'Password should be 8 characters or longer.')
   });
@@ -188,6 +188,7 @@ export default function RegisterForm() {
       file: '',
       slug: '',
       phone: '',
+      country: 'AE', // Default to United Arab Emirates code
       defaultCurrency: 'AED',
       defaultPrice: 100,
       paymentInfo: {
@@ -195,7 +196,7 @@ export default function RegisterForm() {
         holderEmail: ''
       },
       address: {
-        country: 'United Arab Emirates',
+        country: 'AE',
         city: '',
         state: '',
         streetAddress: ''
@@ -205,11 +206,23 @@ export default function RegisterForm() {
     validationSchema: userType === 'photographer' ? ShopSettingSchema : UserSchema,
     onSubmit: async (values) => {
       if (userType === 'photographer') {
-        const { file, ...rest } = values;
+        const { file, country, ...rest } = values;
+
+        const selectedCountry = countries.find(c => c.code === country);
+
+        const payload = {
+          ...rest,
+          address: {
+            ...values.address,
+            country: {
+              code: selectedCountry?.code || values.address.country,
+              name: selectedCountry?.label || '',
+            },
+          },
+        };
+
         try {
-          createShop({
-            ...rest
-          });
+          createShop(payload);
         } catch (error) {
           console.error(error);
         }
@@ -219,7 +232,11 @@ export default function RegisterForm() {
             firstName: values.firstName,
             lastName: values.lastName,
             email: values.email,
-            password: values.password
+            password: values.password,
+            country: {
+              code: selectedCountry?.code || values.country,
+              name: selectedCountry?.label || '',
+            },
           });
         } catch (error) {
           console.error(error);
@@ -303,28 +320,6 @@ export default function RegisterForm() {
     setCropModalOpen(true); // open cropper instead of uploading immediately
   };
 
-  // const handleDropCover = async (acceptedFiles) => {
-  //   setState({ ...state, loading: 2 });
-  //   const file = acceptedFiles[0];
-  //   if (file) {
-  //     Object.assign(file, {
-  //       preview: URL.createObjectURL(file)
-  //     });
-  //   }
-  //   setFieldValue('file', file);
-  //   try {
-  //     const uploaded = await uploadToSpaces(file, (progress) => {
-  //       setState({ ...state, loading: progress });
-  //     });
-
-  //     setFieldValue('cover', uploaded);
-  //     setState({ ...state, loading: false });
-  //   } catch (err) {
-  //     console.error('Upload failed:', err);
-  //     setState({ ...state, loading: false });
-  //   }
-  // };
-
   const handleTitleChange = (event) => {
     const title = event.target.value;
     const slug = title
@@ -360,16 +355,6 @@ export default function RegisterForm() {
             onClick={async () => {
               try {
                 const croppedFile = await getCroppedImg(imageSrc, croppedAreaPixels);
-
-                //setFieldValue('file', file);
-                //   try {
-                //     const uploaded = await uploadToSpaces(file, (progress) => {
-                //       setState({ ...state, loading: progress });
-                //     });
-
-                //     setFieldValue('cover', uploaded);
-                //     setState({ ...state, loading: false });
-                //   }
 
                 setFieldValue('file', croppedFile);
 
@@ -464,6 +449,30 @@ export default function RegisterForm() {
                     />
                   </Stack>
                 </Stack>
+
+                {/* Country Field - For Both User Types */}
+                <Box sx={{ width: '100%' }} mt={3}>
+                  <div>
+                    <LabelStyle component="label" htmlFor="country">
+                      Country
+                    </LabelStyle>
+                    <TextField
+                      select
+                      id="country"
+                      label="Select Country"
+                      fullWidth
+                      {...getFieldProps('country')}
+                      error={Boolean(touched.country && errors.country)}
+                      helperText={touched.country && errors.country}
+                    >
+                      {countries.map((country) => (
+                        <MenuItem key={country.code} value={country.code}>
+                          {country.label}
+                        </MenuItem>
+                      ))}
+                    </TextField>
+                  </div>
+                </Box>
 
                 <Stack mt={3} spacing={2} width={1}>
                   <LabelStyle color="text.primary" htmlFor="email" component={'label'}>

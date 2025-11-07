@@ -15,7 +15,7 @@ EditPhysicalProduct.propTypes = {
   isVendor: PropTypes.boolean
 };
 
-export default function EditPhysicalProduct({ brands, categories, slug, isVendor }) {
+export default function EditPhysicalProduct({ brands, categories, slug, isVendor, attributes  }) {
   const { data, isPending: isLoading } = useQuery({
     queryKey: ['coupon-codes', slug, isVendor], // Added slug and isVendor as dependencies
     queryFn: () => api[isVendor ? 'getVendorProductBySlug' : 'getPhysicalProductByAdmin'](slug)
@@ -27,6 +27,7 @@ export default function EditPhysicalProduct({ brands, categories, slug, isVendor
       currentProduct={data?.data}
       isLoading={isLoading}
       isVendor={isVendor}
+      attributes={attributes}
     />
   );
 }

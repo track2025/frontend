@@ -50,7 +50,7 @@ export default function BrandList() {
           id={id}
           apicall={setApicall}
           endPoint="deletePhysicalBrandByAdmin"
-          type={'Physical Brand deleted'}
+          type={'Brand deleted'}
           deleteMessage={
             'This brand is linked to products. Deleting it will also remove all related data. Are you sure you want to continue?'
           }

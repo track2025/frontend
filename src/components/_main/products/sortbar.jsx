@@ -284,25 +284,26 @@ export default function SortBar({
         <Collapse in={showAdvancedFilters}>
           <Stack direction={{ xs: 'column', sm: 'row' }} spacing={2} alignItems="center">
             {/* Registration */}
-            {showLocationSearch &&  <TextField
-              size="small"
-              fullWidth
-              placeholder="Search by Registration"
-              value={search}
-              onFocus={() => setFocus(true)}
-              onKeyDown={onKeyDown}
-              onChange={(e) => {
-                setSearch(e.target.value);
-              }}
-              InputProps={{
-                startAdornment: (
-                  <InputAdornment position="start">
-                    <DirectionsCarIcon color="primary" />
-                  </InputAdornment>
-                )
-              }}
-            />}
-           
+            {showLocationSearch && (
+              <TextField
+                size="small"
+                fullWidth
+                placeholder="Search by Registration"
+                value={search}
+                onFocus={() => setFocus(true)}
+                onKeyDown={onKeyDown}
+                onChange={(e) => {
+                  setSearch(e.target.value);
+                }}
+                InputProps={{
+                  startAdornment: (
+                    <InputAdornment position="start">
+                      <DirectionsCarIcon color="primary" />
+                    </InputAdornment>
+                  )
+                }}
+              />
+            )}
 
             {/* Car Make */}
             <TextField

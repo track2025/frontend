@@ -15,7 +15,7 @@ import { Payment } from '@mui/icons-material';
  * @param {string} profile - Trust Payments profile to use (default: "default")
  * @param {string} domain - Trust Payments domain (default: production)
  * @param {string} journey - Payment journey: "choice" or "details" (default: "choice")
- * @param {string} successUrl - URL to redirect after successful payment
+ * @param {string} successUrl - URL to redirect after successful payment (optional - will use current domain + /checkout if not provided)
  * @param {string} errorUrl - URL to redirect after failed/declined payment
  * @param {object} userDetails - Customer billing details (optional)
  * @param {function} onSubmit - Callback fired when form is submitted
@@ -24,20 +24,24 @@ const TrustPaymentButton = ({
   amount,
   currency = 'GBP',
   orderReference,
-  siteReference = 'test_fbecomltd143257',
-  // siteReference = 'fbecomltd143258',
+  siteReference = process.env.NEXT_PUBLIC_TRUST_PAYMENT_SITE_REFERENCE,
   profile = 'default',
   domain = 'https://payments.securetrading.net',
   journey = 'choice', // 'choice' for multiple payment methods, 'details' for card only
-  // successUrl = 'http://localhost:3001/checkout',
-  successUrl = 'https://lapsnaps.com/checkout',
-  // successUrl = 'https://frontend-five-pi-67.vercel.app/checkout',
+  successUrl, // Optional - will be generated from current domain
   errorUrl,
   userDetails = {},
   disabled = false,
   onSubmit
 }) => {
   const [error, setError] = useState(null);
+
+  // Function to get current domain and build success URL
+  const getSuccessUrl = () => {
+    if (successUrl) return successUrl;
+    const currentDomain = window.location.origin;
+    return `${currentDomain}/checkout`;
+  };
 
   const handlePayment = () => {
     // Validate required fields
@@ -58,12 +62,16 @@ const TrustPaymentButton = ({
     setError(null);
 
     try {
+      // Get dynamic success URL
+      const dynamicSuccessUrl = getSuccessUrl();
+
       // console.log('[Trust Payments] Submitting payment form:', {
       //   amount,
       //   currency,
       //   orderReference,
       //   siteReference,
-      //   journey
+      //   journey,
+      //   successUrl: dynamicSuccessUrl
       // });
 
       // Store user details in localStorage before redirecting (shared across tabs)
@@ -106,9 +114,9 @@ const TrustPaymentButton = ({
       }
 
       // Redirect URLs with rule identifiers
-      if (successUrl) {
+      if (dynamicSuccessUrl) {
         addInput('ruleidentifier', 'STR-6'); // Enable success redirect rule
-        addInput('successfulurlredirect', successUrl);
+        addInput('successfulurlredirect', dynamicSuccessUrl);
       }
 
       if (errorUrl) {

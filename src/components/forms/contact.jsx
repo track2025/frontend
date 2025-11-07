@@ -8,6 +8,8 @@ import { Box, Stack, Grid, TextField } from '@mui/material';
 import { LoadingButton } from '@mui/lab';
 // yup
 import * as Yup from 'yup';
+// import './ContactStyles.css';
+
 // formik
 import { useFormik, Form, FormikProvider } from 'formik';
 const ContactUs = () => {
@@ -62,23 +64,32 @@ const ContactUs = () => {
     <div >
       {/* from section  */}
       <Stack className="form-section">
-        <Box className="form-feed">
+        <Box className="form-feed" style={{color: 'red'}}>
           <FormikProvider value={formik}>
             <Form autoComplete="off" noValidate onSubmit={handleSubmit}>
-              <Grid container spacing={3}>
-                <Grid item xs={12} md={6}>
+              <Grid container spacing={1} className="flex_input_xx">
+
+                <Grid className='input_container_item' item xs={12} md={1} style={{bacgroundColor: 'red',}}>
                   <TextField
                     label={'First Name'}
-                    className="text-feed"
+                    style={{
+                      marginBottom: 10
+                    }}
+                    className="text-feed "
                     fullWidth
                     {...getFieldProps('firstName')}
                     error={Boolean(touched.firstName && errors.firstName)}
                     helperText={touched.firstName && errors.firstName}
                   />
                 </Grid>
-                <Grid item xs={12} md={6}>
+
+                
+                <Grid item xs={12} md={6} className='input_container_item'>
                   <TextField
                     label={'Last Name'}
+                    style={{
+                      marginBottom: 10
+                    }}
                     className="text-feed"
                     fullWidth
                     {...getFieldProps('lastName')}
@@ -87,8 +98,9 @@ const ContactUs = () => {
                   />
                 </Grid>
               </Grid>
-              <Grid container spacing={3} mt={{ md: 0.1, xs: 0 }}>
-                <Grid item xs={12} md={6}>
+
+              <Grid container spacing={3} mt={{ md: 0.1, xs: 0 }} className="flex_input_xx">
+                <Grid item xs={12} md={6} className='input_container_item'>
                   <TextField
                     label={'Your Email'}
                     className="text-feed"
@@ -98,7 +110,7 @@ const ContactUs = () => {
                     helperText={touched.email && errors.email}
                   />
                 </Grid>
-                <Grid item xs={12} md={6}>
+                <Grid item xs={12} md={6} className='input_container_item'>
                   <TextField
                     label={'Your Phone'}
                     className="text-feed"
