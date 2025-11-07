@@ -66,7 +66,7 @@ const ContactUs = () => {
           <FormikProvider value={formik}>
             <Form autoComplete="off" noValidate onSubmit={handleSubmit}>
               <Grid container spacing={3}>
-                <Grid item xs={12} md={6}>
+                <Grid item xs={12} md={6} sx={{ width: { xs: '100%', md: 'auto' } }}>
                   <TextField
                     label={'First Name'}
                     className="text-feed"
@@ -76,7 +76,7 @@ const ContactUs = () => {
                     helperText={touched.firstName && errors.firstName}
                   />
                 </Grid>
-                <Grid item xs={12} md={6}>
+                <Grid item xs={12} md={6} sx={{ width: { xs: '100%', md: 'auto' } }}>
                   <TextField
                     label={'Last Name'}
                     className="text-feed"
@@ -87,8 +87,9 @@ const ContactUs = () => {
                   />
                 </Grid>
               </Grid>
-              <Grid container spacing={3} mt={{ md: 0.1, xs: 0 }}>
-                <Grid item xs={12} md={6}>
+              {/* Email && Phone */}
+              <Grid container spacing={3} mt={{ md: 3, xs: 3 }}>
+                <Grid item xs={12} md={6} sx={{ width: { xs: '100%', md: 'auto' } }} >
                   <TextField
                     label={'Your Email'}
                     className="text-feed"
@@ -98,7 +99,7 @@ const ContactUs = () => {
                     helperText={touched.email && errors.email}
                   />
                 </Grid>
-                <Grid item xs={12} md={6}>
+                <Grid item xs={12} md={6} sx={{ width: { xs: '100%', md: 'auto' } }}>
                   <TextField
                     label={'Your Phone'}
                     className="text-feed"
@@ -109,6 +110,8 @@ const ContactUs = () => {
                   />
                 </Grid>
               </Grid>
+
+              {/* Your message */}
               <Grid item xs={12} mt={3}>
                 <TextField
                   label={'Your Message'}

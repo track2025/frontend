@@ -14,18 +14,24 @@ import { PiPhoneCall } from 'react-icons/pi';
 const index = () => {
   return (
     <RootStyled>
-      <Grid container spacing={6}>
+      <Grid
+        container
+        spacing={3}
+        display="flex"
+        justifyContent="center"
+        alignItems="center"
+      >
         <Grid
           item
           xs={12}
           md={6}
-          textAlign={{ xs: 'center', md: 'left' }}
+          textAlign={{ xs: 'center', md: 'center' }}
           display="flex"
           justifyContent="center"
           alignItems="center"
         >
           <Stack>
-            
+
             <Typography variant="h1" fontWeight={800} sx={{ marginY: 2 }}>
               Get in touch <span>Today!</span>
             </Typography>
@@ -36,7 +42,7 @@ const index = () => {
             </Typography>
           </Stack>
         </Grid>
-          <ContactUs />
+        <ContactUs />
       </Grid>
     </RootStyled>
   );
