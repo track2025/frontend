@@ -14,7 +14,7 @@
    width: 90%;
 }
 
-@media (max-width: 600px){
+@media (max-width: 800px){
    .form_wrapper {
       flex-direction: column;
       padding: 0px;
