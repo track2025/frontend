@@ -18,11 +18,9 @@ export const metadata = {
 export default async function VerifyOTP() {
   return (
     <>
-      <AuthGuard>
         <Box className="auth-pages">
           <OTPMain />
         </Box>
-      </AuthGuard>
     </>
   );
 }

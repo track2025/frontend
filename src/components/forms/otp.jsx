@@ -5,11 +5,9 @@ import { useSearchParams } from 'next/navigation';
 import { toast } from 'react-hot-toast';
 import OtpInput from 'react-otp-input';
 import Countdown from 'react-countdown';
-import { useSelector, useDispatch } from 'react-redux';
 // api
 import * as api from 'src/services';
 import { useMutation } from 'react-query';
-import { verifyUser } from 'src/redux/slices/user';
 // mui
 import { Box, Card, Stack, Container, Typography } from '@mui/material';
 import { LoadingButton } from '@mui/lab';
@@ -73,47 +71,41 @@ const renderer = ({ minutes, seconds }) => {
     </>
   );
 };
+
 export default function VerifyOTPForm() {
   const router = useRouter();
   const theme = useTheme();
-  const dispatch = useDispatch();
   const searchParam = useSearchParams();
   const redirect = searchParam.get('redirect');
-  const { user } = useSelector((state) => state.user);
+  const tempUserId = searchParam.get('tempUserId');
   const [loading, setLoading] = React.useState(false);
   const [resendLoading, setResendLoading] = React.useState(false);
   const [otp, setOtp] = React.useState('');
   const [complete, setComplete] = React.useState(false);
-  const [countdownDate, setCountdownDate] = React.useState(Date.now() + 60000); // Add this state
+  const [countdownDate, setCountdownDate] = React.useState(Date.now() + 60000);
 
   const onOtpChange = (value) => {
     setOtp(value);
-    setComplete(false); // Reset complete state
+    setComplete(false);
   };
+
   const { mutate } = useMutation(api.verifyOTP, {
     retry: false,
-    onSuccess: async () => {
+    onSuccess: async (data) => {
       setLoading(false);
-      dispatch(verifyUser());
 
-      user?.role == 'vendor'
-        ? toast.success(
-            'Your photographer account is now under review. You will not be able to post until your account is approved. Please log in again to access your dashboard. You will be redirected to the login page to continue.',
-            {
-              duration: 10000 // 10 seconds
-            }
-          )
-        : toast.success('OTP verified successfully!', {
-            duration: 10000 // 10 seconds
-          });
+      toast.success(data.message || 'OTP verified successfully!', {
+        duration: 10000
+      });
 
-      router.push(redirect || '/');
+      router.push('/auth/login');
     },
-    onError: () => {
-      toast.error('Invalid OTP.');
+    onError: (error) => {
+      toast.error(error.message || 'Invalid OTP.');
       setLoading(false);
     }
   });
+
   const { mutate: ResendOTPMutate } = useMutation(api.resendOTP, {
     retry: false,
     onSuccess: async () => {
@@ -121,17 +113,46 @@ export default function VerifyOTPForm() {
       toast.success('OTP resent');
       setResendLoading(false);
     },
-    onError: () => {
-      toast.error('Invalid OTP.');
+    onError: (error) => {
+      toast.error(error.message || 'Failed to resend OTP.');
       setResendLoading(false);
     }
   });
 
   const onResend = () => {
     setResendLoading(true);
-    ResendOTPMutate({ email: user.email });
-    setCountdownDate(Date.now() + 60000); // Reset countdown date on OTP change
+
+    // Use tempUserId for OTP resend
+    if (tempUserId) {
+      ResendOTPMutate({ tempUserId });
+    } else {
+      toast.error('Unable to resend OTP');
+      setResendLoading(false);
+    }
+
+    setCountdownDate(Date.now() + 60000);
   };
+
+  const handleVerify = () => {
+    if (otp.length < 6) {
+      toast.error('Please enter a 6-digit OTP');
+      return;
+    }
+
+    setLoading(true);
+
+    // Use tempUserId for OTP verification
+    if (tempUserId) {
+      mutate({
+        otp,
+        tempUserId
+      });
+    } else {
+      toast.error('Unable to verify OTP');
+      setLoading(false);
+    }
+  };
+
   return (
     <Container maxWidth="sm">
       <Card
@@ -189,13 +210,7 @@ export default function VerifyOTPForm() {
               }}
               loading={loading}
               disabled={otp.length < 6 || (complete && loading)}
-              onClick={() => {
-                setLoading(true);
-                mutate({
-                  otp,
-                  email: user.email
-                });
-              }}
+              onClick={handleVerify}
             >
               Verify
             </LoadingButton>

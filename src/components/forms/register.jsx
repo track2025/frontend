@@ -119,9 +119,40 @@ export default function RegisterForm() {
   });
 
   // Mutation for user registration
+  // const { mutate: registerUser, isLoading: isRegistering } = useMutation(api.register, {
+  //   onSuccess: async (data) => {
+  //     dispatch(setLogin(data.user));
+  //     const cookieOptions = {
+  //       path: '/',
+  //       secure: process.env.NODE_ENV === 'production',
+  //       sameSite: 'strict',
+  //       maxAge: 86400
+  //     };
+
+  //     document.cookie = `token=${data.token}; ${Object.entries(cookieOptions)
+  //       .map(([key, value]) => `${key}=${value}`)
+  //       .join('; ')}`;
+  //     document.cookie = `userRole=${data.user.role}; ${Object.entries(cookieOptions)
+  //       .map(([key, value]) => `${key}=${value}`)
+  //       .join('; ')}`;
+
+  //     toast.success(
+  //       `Welcome, ${data.user.firstName}! You're all set. Start exploring and shop amazing track race photos and videos from your favorite photographers. An OTP has been sent to ${data.user.email}, please verify your account.`,
+  //       { duration: 10000 }
+  //     );
+
+  //     setloading(false);
+  //     router.push(redirect ? `/auth/verify-otp?redirect=${redirect}` : `/auth/verify-otp`);
+  //   },
+  //   onError: (err) => {
+  //     let errorMessage = parseMongooseError(err?.message);
+  //     toast.error(errorMessage || 'We ran into an issue. Please refresh the page or try again.', {
+  //       duration: 10000
+  //     });
+  //   }
+  // });
   const { mutate: registerUser, isLoading: isRegistering } = useMutation(api.register, {
     onSuccess: async (data) => {
-      dispatch(setLogin(data.user));
       const cookieOptions = {
         path: '/',
         secure: process.env.NODE_ENV === 'production',
@@ -129,20 +160,42 @@ export default function RegisterForm() {
         maxAge: 86400
       };
 
-      document.cookie = `token=${data.token}; ${Object.entries(cookieOptions)
-        .map(([key, value]) => `${key}=${value}`)
-        .join('; ')}`;
-      document.cookie = `userRole=${data.user.role}; ${Object.entries(cookieOptions)
-        .map(([key, value]) => `${key}=${value}`)
-        .join('; ')}`;
+      // For new OTP flow - only set login if we have token and user data
+      if (data.token && data.user) {
+        dispatch(setLogin(data.user));
+        document.cookie = `token=${data.token}; ${Object.entries(cookieOptions)
+          .map(([key, value]) => `${key}=${value}`)
+          .join('; ')}`;
+        document.cookie = `userRole=${data.user.role}; ${Object.entries(cookieOptions)
+          .map(([key, value]) => `${key}=${value}`)
+          .join('; ')}`;
 
-      toast.success(
-        `Welcome, ${data.user.firstName}! You're all set. Start exploring and shop amazing track race photos and videos from your favorite photographers. An OTP has been sent to ${data.user.email}, please verify your account.`,
-        { duration: 10000 }
-      );
+        toast.success(
+          `Welcome, ${data.user.firstName}! You're all set. Start exploring and shop amazing track race photos and videos from your favorite photographers. An OTP has been sent to ${data.user.email}, please verify your account.`,
+          { duration: 10000 }
+        );
 
-      setloading(false);
-      router.push(redirect ? `/auth/verify-otp?redirect=${redirect}` : `/auth/verify-otp`);
+        setloading(false);
+        router.push(redirect ? `/auth/verify-otp?redirect=${redirect}` : `/auth/verify-otp`);
+      }
+      // For new OTP flow with tempUserId
+      else if (data.tempUserId) {
+        toast.success(
+          data.message || "OTP sent to your email. Please verify to complete registration.",
+          { duration: 10000 }
+        );
+
+        setloading(false);
+        router.push(redirect ? `/auth/verify-otp?tempUserId=${data.tempUserId}&redirect=${redirect}` : `/auth/verify-otp?tempUserId=${data.tempUserId}`);
+      }
+      // Fallback - shouldn't happen but just in case
+      else {
+        toast.success(
+          "Registration successful! Please check your email for verification.",
+          { duration: 10000 }
+        );
+        setloading(false);
+      }
     },
     onError: (err) => {
       let errorMessage = parseMongooseError(err?.message);
@@ -227,6 +280,8 @@ export default function RegisterForm() {
           console.error(error);
         }
       } else {
+        const selectedCountry = countries.find(c => c.code === values.country);
+
         try {
           registerUser({
             firstName: values.firstName,

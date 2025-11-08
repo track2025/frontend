@@ -41,6 +41,7 @@ export default async function Listing() {
   const categories = categoriesData.data || categoriesData;
 
 
+  console.log("Categories", categories);
 
   const structuredData = {
     "@context": "https://schema.org",
