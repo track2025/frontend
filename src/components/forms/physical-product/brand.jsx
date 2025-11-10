@@ -65,12 +65,12 @@ export default function PhysicalBrandsForm({ data: currentBrand, isLoading: bran
   });
 
   const BrandSchema = Yup.object().shape({
-    name: Yup.string().required('Brand name is required'),
+    name: Yup.string().required('Brand name is required').max(100, 'Brand name cannot exceed 100 characters.'),
     logo: Yup.mixed().required('Logo is required'),
     slug: Yup.string().required('Slug is required'),
-    description: Yup.string().required('Description is required'),
-    metaTitle: Yup.string().required('Meta title is required'),
-    metaDescription: Yup.string().required('Meta description is required')
+    description: Yup.string().required('Description is required').max(500,'Description cannot exceed 500 characters.'),
+    metaTitle: Yup.string().required('Meta title is required').max(100,'Meta title cannot exceed 100 characters.'),
+    metaDescription: Yup.string().required('Meta description is required').max(200,'Meta description cannot exceed 200 characters.')
   });
   
 

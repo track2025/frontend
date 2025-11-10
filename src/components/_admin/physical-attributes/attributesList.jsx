@@ -17,7 +17,6 @@ import DeletePhysicalDialog from 'src/components/dialog/deletePhysical';
 import Table from 'src/components/table/table';
 
 const TABLE_HEAD = [
-  { id: 'id', label: 'ID' },
   { id: 'name', label: 'Attribute' },
   { id: 'values', label: 'Values' },
   { id: '', label: 'Actions' }
