@@ -20,7 +20,10 @@ import {
   Skeleton,
   MenuItem,
   IconButton,
-  Button
+  Button,
+  Tooltip,
+  Autocomplete,
+  Chip
 } from '@mui/material';
 import { Add, Delete } from '@mui/icons-material';
 // formik
@@ -36,6 +39,7 @@ import uploadToSpaces from 'src/utils/upload';
 import TimezoneSelect from 'react-timezone-select';
 import TimezoneSearch from '../settings/TimezoneSearch';
 import parseMongooseError from 'src/utils/errorHandler';
+import { FaRegCircleQuestion } from 'react-icons/fa6';
 
 const LabelStyle = styled(Typography)(({ theme }) => ({
   ...theme.typography.subtitle2,
@@ -98,20 +102,24 @@ export default function LocationsForm({ data: currentLocation, isLoading: locati
 
   const LocationSchema = Yup.object().shape({
     name: Yup.string().required('Name is required'),
+    metaTitle: Yup.string().required('MetaTitle is required'),
     slug: Yup.string().required('Slug is required'),
     description: Yup.string().required('Description is required'),
+    metaDescription: Yup.string().required('MetaDescription is required'),
     fullDescription: Yup.string(),
     logo: Yup.mixed().required('Logo is required'),
     bannerImage: Yup.mixed().required('Banner image is required'),
-    thumbnailImage: Yup.mixed().required('Thumbnail image is required'),
+    thumbnailImage: Yup.mixed(),
     timezone: Yup.string().required('Timezone is required')
   });
 
   const formik = useFormik({
-    initialValues: {
+    initialValues: {  
       name: currentLocation?.name || '',
+      metaTItle: currentLocation?.metaTitle || '',
       slug: currentLocation?.slug || '',
       description: currentLocation?.description || '',
+      metaDescription: currentLocation?.metaDescription || '',
       fullDescription: currentLocation?.fullDescription || '',
       country: currentLocation?.country || '',
       countryCode: currentLocation?.countryCode || '',
@@ -192,6 +200,7 @@ export default function LocationsForm({ data: currentLocation, isLoading: locati
                     {[
                       { name: 'name', label: 'Location Name', onChange: handleTitleChange },
                       { name: 'description', label: 'Short Description', multiline: true, rows: 3 },
+                      { name: 'description', label: 'Meta Description', multiline: true, rows: 3 },
                       { name: 'fullDescription', label: 'Full Description', multiline: true, rows: 6 },
                       { name: 'country', label: 'Country' },
                       { name: 'countryCode', label: 'Country Code' },
@@ -299,19 +308,38 @@ export default function LocationsForm({ data: currentLocation, isLoading: locati
 
                     {/* Keywords */}
                     <FormControl fullWidth>
-                      <LabelStyle>Keywords</LabelStyle>
-                      <Select
+                      <Typography variant="overline">
+                        Keywords
+                        <Tooltip title="Press enter to add keyword" placement="top" arrow>
+                          <IconButton sx={{ color: 'text.secondary', p: 0, px: 1 }} size="small">
+                            <FaRegCircleQuestion />
+                          </IconButton>
+                        </Tooltip>
+                      </Typography>
+
+                      <Autocomplete
                         multiple
+                        freeSolo
                         value={values.keywords}
-                        onChange={(e) => setFieldValue('keywords', e.target.value)}
-                        renderValue={(selected) => selected.join(', ')}
-                      >
-                        {KEYWORD_OPTIONS.map((option) => (
-                          <MenuItem key={option} value={option}>
-                            {option}
-                          </MenuItem>
-                        ))}
-                      </Select>
+                        onChange={(e, newValue) => setFieldValue('keywords', newValue)}
+                        options={KEYWORD_OPTIONS} // use your predefined keyword list
+                        renderTags={(value, getTagProps) =>
+                          value.map((option, index) => (
+                            <Chip
+                              size="small"
+                              {...getTagProps({ index })}
+                              label={option}
+                            />
+                          ))
+                        }
+                        renderInput={(params) => (
+                          <TextField
+                            {...params}
+                            error={Boolean(touched.keywords && errors.keywords)}
+                            helperText={touched.keywords && errors.keywords}
+                          />
+                        )}
+                      />
                     </FormControl>
 
                     {/* Status */}
@@ -363,7 +391,7 @@ export default function LocationsForm({ data: currentLocation, isLoading: locati
                 </Card>
               </Grid>
 
-              <Grid item xs={12} sx={{ width: { xs: '100%', md: '50%' } }}>
+              {/* <Grid item xs={12} sx={{ width: { xs: '100%', md: '50%' } }}>
                 <Card sx={{ p: 3 }}>
                   <LabelStyle>Thumbnail Image</LabelStyle>
                   <UploadSingleFile
@@ -376,7 +404,7 @@ export default function LocationsForm({ data: currentLocation, isLoading: locati
                     <FormHelperText error>{errors.thumbnailImage}</FormHelperText>
                   )}
                 </Card>
-              </Grid>
+              </Grid> */}
             </Grid>
 
             {/* FAQs Section */}
