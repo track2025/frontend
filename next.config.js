@@ -79,7 +79,8 @@ const nextConfig = {
         protocol: 'https',
         hostname: 'www.trackschool.com.au'
       }
-    ]
+    ],
+    unoptimized: true
   }
 };
 
