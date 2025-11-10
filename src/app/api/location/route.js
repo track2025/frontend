@@ -7,6 +7,7 @@ export async function GET(request) {
   try {
     // Get client IP from request headers
     const clientIp = request.headers.get('x-forwarded-for') || request.headers.get('x-real-ip') || 'unknown';
+    // const clientIp = '81.2.69.142';
 
     // First call: Google Geolocation API
     const geolocationRes = await fetch(`https://www.googleapis.com/geolocation/v1/geolocate?key=${serverMapsApiKey}`, {
@@ -42,6 +43,7 @@ export async function GET(request) {
     );
 
     const currentCountry = countries.find((c) => c.code === countryComponent?.short_name);
+    console.log({ geocodeData: geocodeData.results[0], currentCountry });
 
     console.log('rreturning location data for ip:', clientIp);
     return NextResponse.json({

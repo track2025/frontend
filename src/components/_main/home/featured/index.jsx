@@ -12,8 +12,14 @@ import { useQuery } from 'react-query';
 import ProductsCarousel from 'src/components/carousels/gridSlider';
 // icons
 import { IoIosArrowForward } from 'react-icons/io';
-export default function Index() {
-  const { data, isLoading } = useQuery(['featured-products'], () => api.getFeaturedProducts());
+
+export default function FeaturedProducts({ initialData = [] }) {
+  const { data, isLoading } = useQuery(['featured-products'], () => api.getFeaturedProducts(), {
+    initialData: initialData.length > 0 ? { data: initialData } : undefined,
+    staleTime: 1000 * 60 * 5 // 5 minutes
+  });
+
+  const products = data?.data || initialData;
 
   return (
     <Box>
@@ -25,10 +31,10 @@ export default function Index() {
       >
         <Box>
           <Typography variant="h2" color="text.primary" mt={{ xs: 4, md: 8 }}>
-          Featured Photos
+            Featured Photos
           </Typography>
           <Typography variant="body1" color="text.secondary" mb={{ xs: 3, md: 5 }}>
-          A curated showcase of powerful images that capture beauty, emotion, and story in a single frame.
+            A curated showcase of powerful images that capture beauty, emotion, and story in a single frame.
           </Typography>
         </Box>
         <Button
@@ -49,12 +55,12 @@ export default function Index() {
         </Button>
       </Stack>
 
-      {!isLoading && !Boolean(data?.data.length) ? (
+      {!isLoading && products.length === 0 ? (
         <Typography variant="h3" color="error.main" textAlign="center">
           No Photos yet
         </Typography>
       ) : (
-        <ProductsCarousel data={data?.data || []} isLoading={isLoading} />
+        <ProductsCarousel data={products} isLoading={isLoading && products.length === 0} />
       )}
     </Box>
   );
