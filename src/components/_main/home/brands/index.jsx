@@ -5,13 +5,20 @@ import { useRouter } from 'next-nprogress-bar';
 import Image from 'src/components/blurImage';
 // mui
 import { Typography, Box, Stack, Card, Grid, Skeleton, CardActionArea } from '@mui/material';
-// // api
+// api
 import * as api from 'src/services';
 import { useQuery } from 'react-query';
 
-export default function Brands() {
+export default function Brands({ initialData = [] }) {
   const { push } = useRouter();
-  const { data, isLoading } = useQuery(['get-brands-products'], () => api.getHomeBrands());
+
+  // Use initial data from server, but keep client-side updating
+  const { data, isLoading } = useQuery(['get-brands-products'], () => api.getHomeBrands(), {
+    initialData: initialData.length > 0 ? { data: initialData } : undefined,
+    staleTime: 1000 * 60 * 5 // 5 minutes
+  });
+
+  const brands = data?.data || initialData;
 
   return (
     <Box
@@ -37,11 +44,17 @@ export default function Brands() {
         Explore iconic race tracks from around the world—captured through the lens of passion, speed, and precision
       </Typography>
 
-      {isLoading ? (
-        <Skeleton variant="rounded" width={80} height={80} />
-      ) : Boolean(data?.data.length) ? (
+      {isLoading && !brands.length ? (
         <Grid container alignItems="center" justifyContent="center" spacing={2}>
-          {(isLoading ? Array.from(new Array(6)) : data?.data).map((v) => (
+          {Array.from(new Array(6)).map((_, index) => (
+            <Grid key={index} item xs={6} sm={3} md={2}>
+              <Skeleton variant="rounded" width="100%" height={100} />
+            </Grid>
+          ))}
+        </Grid>
+      ) : brands.length > 0 ? (
+        <Grid container alignItems="center" justifyContent="center" spacing={2}>
+          {brands.map((v) => (
             <Grid key={v._id} item xs={6} sm={3} md={2}>
               <Card
                 className="slider-main"

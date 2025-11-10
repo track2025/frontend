@@ -12,8 +12,8 @@ import ActionBar from 'src/layout/_main/actionbar';
 // Meta information
 export const metadata = {
   title: 'Lap Snaps | Your Gateway to Seamless Car Race Photos and Videos',
-  description:
-    'Log in to Lap Snaps for secure access to your account. Enjoy seamless car race photo and video shopping, personalized experiences, and hassle-free transactions. Your trusted portal to a world of convenience awaits. Login now!',
+  // description:
+  //   'Log in to Lap Snaps for secure access to your account. Enjoy seamless car race photo and video shopping, personalized experiences, and hassle-free transactions. Your trusted portal to a world of convenience awaits. Login now!',
   applicationName: 'Lap Snaps',
   authors: 'Lap Snaps',
   keywords: 'race, track, fast cars, Lap Snaps, Commerce, Lap Snaps,  Lap Snaps',

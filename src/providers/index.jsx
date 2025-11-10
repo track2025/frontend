@@ -1,7 +1,7 @@
 'use client';
 import { useState } from 'react';
 import PropTypes from 'prop-types';
-import dynamic from 'next/dynamic';
+// import dynamic from 'next/dynamic';
 
 // mui
 import { LinearProgress, Stack } from '@mui/material';
@@ -23,9 +23,10 @@ import GlobalStyles from 'src/theme/globalStyles';
 import AuthProvider from './auth';
 
 // dynamic import
-const ProgressBar = dynamic(() => import('src/components/ProgressBar'), {
-  ssr: false
-});
+// const ProgressBar = dynamic(() => import('src/components/ProgressBar'), {
+//   ssr: false
+// });
+import ProgressBar from 'src/components/ProgressBar';
 
 export default function Providers(props) {
   const [queryClient] = useState(
@@ -58,13 +59,13 @@ export default function Providers(props) {
                   }}
                 >
                   <LinearProgress
-                      sx={{
-                        backgroundColor: '#e0e0e0', // light gray track (optional)
-                        '& .MuiLinearProgress-bar': {
-                          backgroundColor: '#000000', // black progress bar
-                        }
-                      }}
-                    />
+                    sx={{
+                      backgroundColor: '#e0e0e0', // light gray track (optional)
+                      '& .MuiLinearProgress-bar': {
+                        backgroundColor: '#000000' // black progress bar
+                      }
+                    }}
+                  />
                 </Stack>
               }
               persistor={persistor}
