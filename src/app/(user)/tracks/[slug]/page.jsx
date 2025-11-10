@@ -120,9 +120,7 @@ export async function generateMetadata({ params }) {
     const trackName = track.name || 'Race Track';
     const trackCity = track.city || '';
     const trackCountry = track.country || '';
-    const trackDescription =
-      track.description ||
-      `Explore ${trackName} motorsport track details, events, and gallery.`;
+    const trackDescription = track.description || `Explore ${trackName} motorsport track details, events, and gallery.`;
 
     const locationParts = [];
     if (trackCity) locationParts.push(trackCity);
@@ -136,36 +134,38 @@ export async function generateMetadata({ params }) {
       openGraph: {
         title: trackName,
         description: location ? `Race track in ${location}` : trackDescription,
-        images: track.bannerImage?.url || track.thumbnailImage?.url
-          ? [
-              {
-                url: track.bannerImage?.url || track.thumbnailImage?.url,
-                width: 1200,
-                height: 630,
-                alt: `${trackName} race track`,
-              },
-            ]
-          : [],
+        images:
+          track.bannerImage?.url || track.thumbnailImage?.url
+            ? [
+                {
+                  url: track.bannerImage?.url || track.thumbnailImage?.url,
+                  width: 1200,
+                  height: 630,
+                  alt: `${trackName} race track`
+                }
+              ]
+            : [],
         type: 'website',
         url: `https://lapsnaps.com/tracks/${track.slug}`,
-        siteName: 'LapSnaps',
+        siteName: 'LapSnaps'
       },
       twitter: {
         card: 'summary_large_image',
         title: trackName,
         description: location ? `Race track in ${location}` : trackDescription,
-        images: track.bannerImage?.url || track.thumbnailImage?.url
-          ? [track.bannerImage?.url || track.thumbnailImage?.url]
-          : [],
+        images:
+          track.bannerImage?.url || track.thumbnailImage?.url
+            ? [track.bannerImage?.url || track.thumbnailImage?.url]
+            : []
       },
       alternates: {
-        canonical: `https://lapsnaps.com/tracks/${track.slug}`,
-      },
+        canonical: `https://lapsnaps.com/tracks/${track.slug}`
+      }
     };
   } catch (error) {
     return {
       title: 'Race Track | LapSnaps',
-      description: 'Explore race tracks and motorsport circuits worldwide.',
+      description: 'Explore race tracks and motorsport circuits worldwide.'
     };
   }
 }
@@ -182,6 +182,8 @@ export default async function TrackDetailsPage({ params }) {
     }
 
     const track = trackResponse.data;
+
+    console.log('======>>>', track);
 
     const structuredData = {
       '@context': 'https://schema.org',
@@ -200,7 +202,33 @@ export default async function TrackDetailsPage({ params }) {
           longitude: track.longitude
         },
       image: track.bannerImage?.url || track.thumbnailImage?.url,
-      url: `https://lapsnaps.com/tracks/${track.slug}`
+      url: `https://lapsnaps.com/tracks/${track.slug}`,
+      /*
+      ...(track.length > 0 && {
+        about: {
+          '@type': 'ItemList',
+          itemListElement: track.slice(0, 10).map((product, index) => ({
+            '@type': 'ListItem',
+            position: index + 1,
+            item: {
+              '@type': 'Product',
+              name: generateProductName(product),
+              description: generateProductDescription(product),
+              image: product.images?.[0]?.url || product.orignalImage?.[0]?.url || '',
+              url: `https://lapsnaps.com/products/${product.slug || product._id}`,
+              ...(product.priceSale && {
+                offers: {
+                  '@type': 'Offer',
+                  price: product.priceSale,
+                  priceCurrency: product.currency || 'GBP',
+                  availability: 'https://schema.org/InStock'
+                }
+              })
+            }
+          }))
+        }
+      })
+        */
     };
 
     const faqStructuredData =
