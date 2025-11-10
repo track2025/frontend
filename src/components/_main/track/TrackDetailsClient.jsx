@@ -471,7 +471,7 @@ export default function TrackDetailsClient({ track }) {
                       mb: 2
                     }}
                   >
-                    Track Products & Gallery
+                    {trackName} Track Day Photos & Gallery
                   </Typography>
                   <SortBar2
                     sortData={sortData}
@@ -627,7 +627,7 @@ export default function TrackDetailsClient({ track }) {
                 sx={{
                   fontWeight: 800,
                   mb: 6,
-                  color: '#1a1a1a',
+                  // color: '#1a1a1a',
                   textAlign: 'center',
                   fontSize: { xs: '1.75rem', md: '2.25rem' }
                 }}
@@ -654,12 +654,12 @@ export default function TrackDetailsClient({ track }) {
                         px: 3
                       }}
                     >
-                      <Typography sx={{ fontWeight: 700, color: '#1a1a1a', fontSize: '1.1rem' }}>
+                      <Typography sx={{ fontWeight: 700, fontSize: '1.1rem' }}>
                         {faq.question || `Question ${index + 1}`}
                       </Typography>
                     </AccordionSummary>
-                    <AccordionDetails sx={{ bgcolor: '#fafafa', px: 3, py: 3 }}>
-                      <Typography sx={{ color: '#555', lineHeight: 1.7, fontSize: '1rem' }}>
+                    <AccordionDetails sx={{  px: 3, py: 3 }}>
+                      <Typography sx={{  lineHeight: 1.7, fontSize: '1rem' }}>
                         {faq.answer || 'No answer available.'}
                       </Typography>
                     </AccordionDetails>
