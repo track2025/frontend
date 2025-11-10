@@ -388,7 +388,8 @@ export default function SortBar({
 
   // Set default sort state to first item in sortData
   useEffect(() => {
-    const defaultSort = sortData?.[0]?.title || 'Newest';
+    console.log('xxxxx', sortData)
+    const defaultSort = sortData?.[3]?.title || 'Newest';
     setState(
       top === '-1'
         ? 'Top Rated'
