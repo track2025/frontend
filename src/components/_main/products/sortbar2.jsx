@@ -59,13 +59,14 @@ export default function SortBar({
   category,
   subCategory,
   showLocationSearch = true,
-  showApplyButton = false
+  showApplyButton = false,
+  defaultItemsPerPage = '12'
 }) {
   // filterData
   const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
-  const [itemsPerPage, setItemsPerPage] = useState('12');
+  const [itemsPerPage, setItemsPerPage] = useState(defaultItemsPerPage);
   const top = searchParams.get('top');
   const name = searchParams.get('name');
   const date = searchParams.get('date');
@@ -88,7 +89,7 @@ export default function SortBar({
   const [focus, setFocus] = useState(false);
   const [filtersLoading, setFiltersLoading] = useState(false);
   const [showAdvancedFilters, setShowAdvancedFilters] = useState(false);
-
+  const [ITEMS_PER_PAGE_OPTIONS, setITEMS_PER_PAGE_OPTIONS] = useState(['12', '24', '32', '40']);
   // Track applied filters (from URL)
   const [appliedFilters, setAppliedFilters] = useState({
     search: searchQuery,
@@ -145,30 +146,8 @@ export default function SortBar({
     });
   }, [searchQuery, locationQuery, makeQuery, modelQuery, dateQuery]);
 
-  // Set initial limit and page in URL if not present - This ensures they are always in URL before initial fetch
-  useEffect(() => {
-    const params = new URLSearchParams(searchParams.toString());
-
-    // Only set default parameters if they're not already in URL and we're not in the middle of other filter operations
-    if (!hasActiveFiltersFromUrl()) {
-      let shouldUpdate = false;
-
-      if (!params.has('limit')) {
-        params.set('limit', '12');
-        shouldUpdate = true;
-      }
-
-      if (!params.has('page')) {
-        params.set('page', '1');
-        shouldUpdate = true;
-      }
-
-      if (shouldUpdate) {
-        // Use replace to avoid adding to browser history
-        window.history.replaceState(null, '', `${pathname}?${params.toString()}`);
-      }
-    }
-  }, [pathname, searchParams, hasActiveFiltersFromUrl]);
+  // REMOVED: The useEffect that was adding page=1 and limit=12 on mount
+  // This was causing the issue - we don't need to add default params on mount
 
   // Check if any current inputs have values (for Apply button)
   const hasActiveInputs = useMemo(() => {
@@ -306,13 +285,12 @@ export default function SortBar({
       params.delete('date_captured');
     }
 
-    // Always ensure page and limit are present
-    // Reset to page 1 when applying filters
-    params.set('page', '1');
+    // Reset to page 1 when applying filters, but remove default values
+    params.delete('page'); // Remove page param - defaults to 1
 
-    // Ensure limit is always present, default to 12 if not set
-    if (!params.has('limit')) {
-      params.set('limit', '12');
+    // Remove limit if it's the default value
+    if (params.get('limit') === defaultItemsPerPage) {
+      params.delete('limit');
     }
 
     router.push(`${pathname}?${params.toString()}`, 'isPathname');
@@ -343,13 +321,12 @@ export default function SortBar({
           break;
       }
 
-      // Always ensure page and limit are present after clearing a filter
-      // Reset to page 1 when clearing filters
-      params.set('page', '1');
+      // Reset to page 1 when clearing filters, but remove default values
+      params.delete('page'); // Remove page param - defaults to 1
 
-      // Ensure limit is always present, default to 12 if not set
-      if (!params.has('limit')) {
-        params.set('limit', '12');
+      // Remove limit if it's the default value
+      if (params.get('limit') === defaultItemsPerPage) {
+        params.delete('limit');
       }
 
       router.push(`${pathname}?${params.toString()}`, 'isPathname');
@@ -361,7 +338,7 @@ export default function SortBar({
   const clearAllFilters = useCallback(() => {
     const params = new URLSearchParams(searchParams);
 
-    // Remove all filter parameters but keep limit
+    // Remove all filter parameters including page and sort params
     ['search', 'location', 'make', 'model', 'date_captured', 'page', 'top', 'name', 'date', 'price'].forEach(
       (param) => {
         params.delete(param);
@@ -375,12 +352,9 @@ export default function SortBar({
     setModel('');
     setDateCaptured('');
 
-    // Always ensure page and limit are present after clearing all filters
-    params.set('page', '1');
-
-    // Ensure limit is always present, default to 12 if not set
-    if (!params.has('limit')) {
-      params.set('limit', '12');
+    // Remove limit if it's the default value
+    if (params.get('limit') === defaultItemsPerPage) {
+      params.delete('limit');
     }
 
     router.push(`${pathname}?${params.toString()}`, 'isPathname');
@@ -388,7 +362,6 @@ export default function SortBar({
 
   // Set default sort state to first item in sortData
   useEffect(() => {
-    console.log('xxxxx', sortData)
     const defaultSort = sortData?.[3]?.title || 'Newest';
     setState(
       top === '-1'
@@ -411,8 +384,11 @@ export default function SortBar({
 
   // Update itemsPerPage when limit changes in URL
   useEffect(() => {
-    if (limit && ['12', '18', '24', '30'].includes(limit)) {
+    if (limit && ITEMS_PER_PAGE_OPTIONS.includes(limit)) {
       setItemsPerPage(limit);
+    } else {
+      // If no limit in URL or invalid, default to DEFAULT_ITEMS_PER_PAGE but don't add to URL
+      setItemsPerPage(defaultItemsPerPage);
     }
   }, [limit]);
 
@@ -695,8 +671,6 @@ export default function SortBar({
                 minWidth: { xs: '100%', sm: 160 },
                 width: { xs: '100%', sm: 'auto' },
                 order: { xs: 2, sm: 1 }
-                // Add proper spacing
-                // marginTop: { xs: 0, sm: 0 } //handled by stack flexGap
               }}
             >
               Apply Filters
@@ -757,26 +731,36 @@ export default function SortBar({
                   id="items-select"
                   value={itemsPerPage}
                   onChange={(e) => {
-                    setItemsPerPage(e.target.value);
-                    router.push(`${pathname}?${createQueryString('limit', e.target.value)}`, 'isPathname');
+                    const newLimit = e.target.value;
+                    setItemsPerPage(newLimit);
+
+                    const params = new URLSearchParams(searchParams);
+
+                    // Only add limit to URL if it's not the default
+                    if (newLimit === defaultItemsPerPage) {
+                      params.delete('limit');
+                    } else {
+                      params.set('limit', newLimit);
+                    }
+
+                    // Remove page param when changing limit (reset to page 1)
+                    params.delete('page');
+
+                    router.push(`${pathname}?${params.toString()}`, 'isPathname');
                   }}
                   displayEmpty
                 >
-                  {['12', '18', '24', '30'].map((item) => (
+                  {ITEMS_PER_PAGE_OPTIONS.map((item) => (
                     <MenuItem key={Math.random()} value={item}>
                       Show: {item}
                     </MenuItem>
                   ))}
                 </Select>
               </FormControl>
-
-              {/* REMOVED: Mobile filter button - This was the button with MdTune icon */}
             </Stack>
           </Box>
         </Stack>
       </Stack>
-
-      {/* REMOVED: Mobile filter drawer since we removed the button that triggers it */}
     </>
   );
 }

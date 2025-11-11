@@ -33,17 +33,6 @@ export default function TracksPage() {
     // Only fetch if it's a valid page number
     if (pageNum > 0) {
       fetchTracks(pageNum, searchFromUrl);
-
-      // Update URL if no page parameter exists
-      if (!pageFromUrl) {
-        const params = new URLSearchParams();
-        if (searchFromUrl) {
-          params.set('search', searchFromUrl);
-        }
-        params.set('page', pageNum.toString());
-        const newUrl = `${window.location.pathname}${params.toString() ? `?${params.toString()}` : ''}`;
-        window.history.replaceState(null, '', newUrl);
-      }
     }
   }, [searchParams]);
 
