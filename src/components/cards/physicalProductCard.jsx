@@ -123,7 +123,6 @@ export default function PhysicalProductCard({ ...props }) {
 
         <Box
           sx={{
-            bgcolor: isLoading || loading ? 'grey.100' : 'common.white',
             position: 'relative',
             cursor: product?.stockQuantity > 0 ? 'pointer' : 'default',
             aspectRatio: '1 / 1',

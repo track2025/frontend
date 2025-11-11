@@ -302,7 +302,9 @@ export default function PhysicalProductDetailsSumary({ ...props }) {
             <div
               style={{
                 display: 'flex',
-                alignItems: 'center',
+                flexDirection: 'column',
+                alignItems: 'start',
+                gap: '10px',
                 justifyContent: 'space-between'
               }}
             >
@@ -315,8 +317,8 @@ export default function PhysicalProductDetailsSumary({ ...props }) {
               />
 
               {product.deliveryType === 'physical' ? (
-                <Stack direction="row" alignItems="center" spacing={1}>
-                  <div>
+                <Stack direction="row" alignItems="center" spacing={1} width='100%'>
+                  <div className='w-full'>
 
                     <Typography variant="subtitle2" color="text.secondary" style={{fontWeight: 'bolder'}}>
                       QUANTITY

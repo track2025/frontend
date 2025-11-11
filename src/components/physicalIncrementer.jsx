@@ -37,7 +37,7 @@ function PhysicalIncrementer({ ...props }) {
   const { stockQuantity, quantity, onIncrease, onDecrease, cart } = props;
 
   return (
-    <Stack gap={0.5}>
+    <Stack gap={0.5} className='w-full'>
       <IncrementerStyle
       style={_styles}
         sx={{

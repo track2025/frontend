@@ -2,6 +2,7 @@
 import React, { useState, useRef, useEffect } from "react";
 import { IoIosArrowBack, IoIosArrowForward } from "react-icons/io";
 import { useTheme } from "@mui/material/styles";
+import { Typography } from "@mui/material";
 
 const MegaMenu = ({ categories, onSelectSubCategory }) => {
     const theme = useTheme();
@@ -53,7 +54,7 @@ const MegaMenu = ({ categories, onSelectSubCategory }) => {
 
     return (
         <nav
-            className="navbar navbar-expand-lg bg-white border-bottom shadow-sm position-relative"
+            className="navbar navbar-expand-lg border-bottom shadow-sm position-relative"
             onMouseLeave={handleMouseLeave}
         >
             <div className="container-fluid position-relative">
@@ -105,16 +106,16 @@ const MegaMenu = ({ categories, onSelectSubCategory }) => {
                                 className={`nav-item dropdown mx-3 flex-shrink-0 ${activeMenu === idx ? "active" : ""}`}
                                 onMouseEnter={() => handleMouseEnter(idx)}
                             >
-                                <button
+                                <Typography
                                     type="button"
                                     className="nav-link fw-semibold text-uppercase dropdown-toggle bg-transparent border-0"
                                     style={{
-                                        color: activeMenu === idx ? primaryColor : "#212529",
+                                        color: activeMenu === idx && primaryColor ,
                                         transition: "color 0.2s ease",
                                     }}
                                 >
                                     {category.name}
-                                </button>
+                                </Typography>
                             </li>
                         ))}
                     </ul>
@@ -131,7 +132,7 @@ const MegaMenu = ({ categories, onSelectSubCategory }) => {
                             top: "95%",
                             left: 0,
                             width: "100%",
-                            backgroundColor: "#fff",
+                            backgroundColor: theme.palette.background.paper,
                             zIndex: 1050,
                             transition: "opacity 0.2s ease-in-out",
                         }}
@@ -155,7 +156,7 @@ const MegaMenu = ({ categories, onSelectSubCategory }) => {
                                                         <button
                                                             key={sub._id || itemIndex}
                                                             type="button"
-                                                            className="bg-transparent border-0 text-start text-dark text-decoration-none d-block py-1"
+                                                            className="bg-transparent border-0 text-start text-decoration-none d-block py-1"
                                                             onClick={() =>
                                                                 handleSubCategorySelect(
                                                                     categories[activeMenu].slug,

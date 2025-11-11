@@ -10,45 +10,40 @@ export default function PhysicalProductVariantSelection({
   selectedVariant,
   onChangeVariant
 }) {
+
+  console.log("Variation Names", names);
+
   return (
-    <div style={{ width: '95%' }}>
+    <div style={{ width: '100%', display: 'flex'}}>
       {names.map((name, index) => (
-        <Fragment key={index}>
-          {/* <Typography variant="subtitle1" color="text.primary">
+        <div style={{ width: '100%', display: 'grid'}}>
+          <Typography variant="subtitle2" color="text.secondary" style={{ textTransform: "uppercase", fontWeight: 'bolder' }}>
             {name}
-          </Typography> */}
-
-          {names.map((name, index) => (
-            <>
-              <Typography variant="subtitle2" color="text.secondary" style={{textTransform: "uppercase", fontWeight:'bolder'}}>
-                {name}
-              </Typography>
-
-              <select
-                value={(variants[index] || []).find((v) => selectedVariant?.split('/')?.includes(v)) || ''}
-                onChange={(e) => onChangeVariant(e.target.value, index)}
-                style={{
-                  width: '95%',
-                  padding: '10px',
-                  borderRadius: '8px',
-                  border: '1px solid #ccc',
-                  outline: 'none',
-                  fontSize: '14px',
-                  textTransform: 'uppercase',
-                  backgroundColor: '#f4f4f4',
-                  borderWidth: 0,
-                  outline:'none'
-                }}
-              >
-                {[...new Set(variants[index] || [])].map((variant, ind) => (
-                  <option key={variant} value={variant} style={{textTransform: "capitalize", fontWeight: 'bolder'}}>
-                    {variant.charAt(0).toUpperCase() + variant.slice(1)}
-                  </option>
-                ))}
-              </select>
-            </>
-          ))}
-        </Fragment>
+          </Typography>
+  
+          <select
+            value={(variants[index] || []).find((v) => selectedVariant?.split('/')?.includes(v)) || ''}
+            onChange={(e) => onChangeVariant(e.target.value, index)}
+            style={{
+              width: '95%',
+              padding: '10px',
+              borderRadius: '8px',
+              border: '1px solid #ccc',
+              outline: 'none',
+              fontSize: '14px',
+              textTransform: 'uppercase',
+              backgroundColor: '#f4f4f4',
+              borderWidth: 0,
+              outline: 'none'
+            }}
+          >
+            {[...new Set(variants[index] || [])].map((variant, ind) => (
+              <option key={variant} value={variant} style={{ textTransform: "capitalize", fontWeight: 'bolder' }}>
+                {variant.charAt(0).toUpperCase() + variant.slice(1)}
+              </option>
+            ))}
+          </select>
+        </div>
       ))}
     </div>
   );
