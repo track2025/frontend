@@ -64,7 +64,7 @@ export default function BrandsRow({ isLoading, row, handleClickOpen, sn }) {
           </Typography>
         </Box>
       </TableCell>
-      <TableCell>{isLoading ? <Skeleton variant="text" /> : capitalize(row?.type)}</TableCell>
+      {/* <TableCell>{isLoading ? <Skeleton variant="text" /> : capitalize(row?.type)}</TableCell> */}
       <TableCell>{isLoading ? <Skeleton variant="text" /> : capitalize(row?.startTime)}</TableCell>
       <TableCell>{isLoading ? <Skeleton variant="text" /> : capitalize(row?.endTime)}</TableCell>
       <TableCell>{isLoading ? <Skeleton variant="text" /> : capitalize(row?.status)}</TableCell>

@@ -60,7 +60,14 @@ export default function PhysicalSubCategoryForm({
       router.push('/admin/physical-categories/sub-categories');
     },
     onError: (error) => {
-      toast.error(error?.response?.data?.message || 'Something went wrong!');
+      console.log("error:::", error?.data?.message)
+      let arr = error?.data?.message;
+      if (Array.isArray(arr) && arr.length > 1) {
+        arr.forEach((err) => toast.error(err));
+        return;
+      } else {
+        toast.error(error?.data?.message?.[0] || 'Something went wrong');
+      }
     }
   });
   const { mutateAsync: deleteMutate } = useMutation({
@@ -81,6 +88,16 @@ export default function PhysicalSubCategoryForm({
     parentCategory: Yup.string().required('Category is required')
   });
 
+
+  console.log('====>', currentCategory?.parentCategory)
+  // console.log("::::", categories[0]?._id)
+
+  console.log('categories array', categories)
+
+  // let curCar  = categories.findOne(cat => cat._id === currentCategory?.parentCategory);
+  // console.log('current category', curCar)
+  
+
   const formik = useFormik({
     initialValues: {
       name: currentCategory?.name || '',
@@ -91,7 +108,7 @@ export default function PhysicalSubCategoryForm({
 
       slug: currentCategory?.slug || '',
       status: currentCategory?.status || STATUS_OPTIONS[0],
-      parentCategory: currentCategory?.category || (categories && categories[0]?._id) || ''
+      parentCategory: currentCategory?.parentCategory // || (categories && categories[0]?._id) || ''
     },
     enableReinitialize: true,
     validationSchema: subCategorySchema,
@@ -158,7 +175,7 @@ export default function PhysicalSubCategoryForm({
                       <Skeleton variant="text" width={140} />
                     ) : (
                       <Typography variant="overline" color="text.primary" htmlFor="category-name" component={'label'}>
-                        Sub Category Name
+                        Sub Category Name 
                       </Typography>
                     )}
                     {categoryLoading ? (
@@ -259,6 +276,7 @@ export default function PhysicalSubCategoryForm({
                         Description
                       </Typography>
                     )}
+
                     {categoryLoading ? (
                       <Skeleton variant="rounded" width="100%" height={240} />
                     ) : (
