@@ -63,7 +63,7 @@ export default function PaymentSummary({ loading, cart }) {
         <Stack direction="row" alignItem="center" justifyContent="space-between" spacing={2} mt={2}>
           <Typography variant="subtitle1">Total:</Typography>
           <Typography variant="subtitle1">
-            {loading ? <Skeleton variant="text" width={80} /> : fCurrency(cCurrency(total))}
+            {loading ? <Skeleton variant="text" width={80} /> : fCurrency(cCurrency(subtotal))}
           </Typography>
         </Stack>
         <Box sx={{ position: 'relative', width: '100%', height: 26, mt: 2 }}>

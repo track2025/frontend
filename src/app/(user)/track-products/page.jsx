@@ -2,9 +2,6 @@
 import { Box, Container } from "@mui/material"
 
 // components
-import HeaderBreadcrumbs from "src/components/headerBreadcrumbs"
-import TrackProductsClient from "src/components/_main/track-products/trackProductsClient"
-import MegaMenu from "src/components/_main/track-products/megamenu"
 import MegaMenuClient from "src/components/_main/track-products/MegaMenuClient"
 
 const baseUrl = process.env.BASE_URL
