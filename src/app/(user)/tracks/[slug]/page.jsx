@@ -1,6 +1,7 @@
 import { notFound } from 'next/navigation';
 import { getTrackBySlug } from 'src/services/tracks';
 import TrackDetailsClient from 'src/components/_main/track/TrackDetailsClient';
+import { getProducts } from 'src/services';
 
 /*
 export async function generateMetadata({ params }) {
@@ -176,14 +177,16 @@ export default async function TrackDetailsPage({ params }) {
   try {
     // Fetch track data
     const trackResponse = await getTrackBySlug(slug);
+    const trackProducts = await getProducts('?location=' + trackResponse?.data?.name + '&limit=10');
+    const products = trackProducts.success ? trackProducts.data : [];
+
+    console.log('Fetched products for track:', products);
 
     if (!trackResponse.success || !trackResponse.data) {
       notFound();
     }
 
     const track = trackResponse.data;
-
-    console.log('======>>>', track);
 
     const structuredData = {
       '@context': 'https://schema.org',
@@ -203,32 +206,43 @@ export default async function TrackDetailsPage({ params }) {
         },
       image: track.bannerImage?.url || track.thumbnailImage?.url,
       url: `https://lapsnaps.com/tracks/${track.slug}`,
-      /*
-      ...(track.length > 0 && {
+
+      // ✅ Append product data as an ItemList for SEO
+
+      ...(products.length > 0 && {
         about: {
           '@type': 'ItemList',
-          itemListElement: track.slice(0, 10).map((product, index) => ({
-            '@type': 'ListItem',
-            position: index + 1,
-            item: {
-              '@type': 'Product',
-              name: generateProductName(product),
-              description: generateProductDescription(product),
-              image: product.images?.[0]?.url || product.orignalImage?.[0]?.url || '',
-              url: `https://lapsnaps.com/products/${product.slug || product._id}`,
-              ...(product.priceSale && {
-                offers: {
-                  '@type': 'Offer',
-                  price: product.priceSale,
-                  priceCurrency: product.currency || 'GBP',
-                  availability: 'https://schema.org/InStock'
-                }
-              })
-            }
-          }))
+          itemListElement: products.slice(0, 10).map((product, index) => {
+            const name = product.name || `Photo captured at ${product.location || track.name}`;
+            const description =
+              product.description ||
+              `Captured at ${product.location || track.name} on ${new Date(
+                product.dateCaptured
+              ).toLocaleDateString()}. Professionally taken and available for purchase.`;
+
+            return {
+              '@type': 'ListItem',
+              position: index + 1,
+              item: {
+                '@type': 'Product',
+                name,
+                description,
+                image: product.image?.url || '',
+                url: `https://lapsnaps.com/products/${product.slug}`,
+                sku: product._id,
+                ...(product.priceSale && {
+                  offers: {
+                    '@type': 'Offer',
+                    price: String(product.priceSale),
+                    priceCurrency: product.currency || 'GBP',
+                    availability: 'https://schema.org/InStock'
+                  }
+                })
+              }
+            };
+          })
         }
       })
-        */
     };
 
     const faqStructuredData =
