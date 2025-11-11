@@ -153,7 +153,7 @@ export default function LanguageSelect() {
     try {
       const currentLocation = await getLocation();
 
-      const selectedCurrency = enhancedCurrencies?.find((cur) => cur.code === currentLocation?.currency_code);
+      const selectedCurrency = enhancedCurrencies?.find((cur) => cur.countryCode === currentLocation?.country_code);
       if (selectedCurrency) {
         return selectedCurrency;
       }

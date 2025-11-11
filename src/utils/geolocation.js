@@ -18,7 +18,6 @@ export default async function getLocation() {
     }
 
     const locationData = await geolocationRes.json();
-    console.log('Geolocation data:', locationData);
 
     // Step 2: Send coordinates to your API for geocoding
     const res = await fetch('/api/location', {
@@ -37,6 +36,7 @@ export default async function getLocation() {
     }
 
     const fullLocationData = await res.json();
+    // console.log('Full location data:', fullLocationData);
 
     return fullLocationData;
   } catch (error) {
