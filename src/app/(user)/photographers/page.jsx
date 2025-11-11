@@ -51,16 +51,51 @@ export default async function ShopComponent() {
           "@type": "Person",
           "@id": `https://lapsnaps.com/photographers/${photographer.slug}`,
           name: photographer.title || photographer.name,
-          description: photographer.description,
+          description:
+            photographer.description ||
+            `Professional motorsport photographer specializing in race track and vehicle photography`,
           image: photographer.logo?.url || photographer.cover?.url,
+          jobTitle: "Motorsport Photographer",
+          knowsAbout: [
+            "Motorsport Photography",
+            "Race Track Photography",
+            "Vehicle Photography",
+            "Track Day Photography",
+          ],
+          url: `https://lapsnaps.com/photographers/${photographer.slug}`,
+          workExample: {
+            "@type": "ImageGallery",
+            name: `${photographer.title || photographer.name} Portfolio`,
+            url: `https://lapsnaps.com/photographers/${photographer.slug}`,
+          },
         },
       })),
     },
   }
 
+  const breadcrumbSchema = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      {
+        "@type": "ListItem",
+        position: 1,
+        name: "Home",
+        item: "https://lapsnaps.com",
+      },
+      {
+        "@type": "ListItem",
+        position: 2,
+        name: "Photographers",
+        item: "https://lapsnaps.com/photographers",
+      },
+    ],
+  }
+
   return (
     <>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }} />
 
       <Container maxWidth="xl">
         <Stack

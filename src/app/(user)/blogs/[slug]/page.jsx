@@ -1,6 +1,7 @@
 import { notFound } from "next/navigation"
 import { getBlogBySlug } from "src/services/blogs"
 import BlogPostClient from "src/components/_main/blog/BlogPostClient"
+import BlogPostServer from "src/components/_main/blog/BlogPostServer"
 
 // Generate metadata for SEO
 export async function generateMetadata({ params }) {
@@ -120,7 +121,10 @@ export default async function BlogPostPage({ params }) {
     return (
       <>
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }} />
-        <BlogPostClient post={response.data} />
+        <BlogPostServer post={post} />
+        <div style={{ display: "none" }}>
+          <BlogPostClient post={response.data} />
+        </div>
       </>
     )
   } catch (error) {
