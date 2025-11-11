@@ -14,11 +14,6 @@ export default function AttributesRow({ isLoading, row, index, handleClickOpen, 
       <TableCell>{isLoading ? <Skeleton variant="text" /> : <>{sn}</>}</TableCell>
       <TableCell component="th" scope="row">
         <Typography variant="subtitle2" noWrap>
-          {isLoading ? <Skeleton variant="text" width={120} sx={{ ml: 1 }} /> : `#ID: ${index}`}
-        </Typography>
-      </TableCell>
-      <TableCell component="th" scope="row">
-        <Typography variant="subtitle2" noWrap>
           {isLoading ? <Skeleton variant="text" width={120} sx={{ ml: 1 }} /> : row?.name}
         </Typography>
       </TableCell>

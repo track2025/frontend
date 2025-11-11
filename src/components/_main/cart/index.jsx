@@ -28,7 +28,7 @@ export default function CartMain() {
   const { mutate } = useMutation(api.getCart, {
     onSuccess: (res) => {
       setLoading(false);
-      dispatch(getCart(res.data));
+      // dispatch(getCart(res.data));
     },
     onError: (err) => {
       const message = JSON.stringify(err.response.data.message);

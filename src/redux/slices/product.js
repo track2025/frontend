@@ -26,7 +26,7 @@ const slice = createSlice({
 
       const subtotal = sum(cart.map((product) => (product.priceSale || product.price) * product.quantity));
       const discount = cart.length === 0 ? 0 : state.checkout.discount;
-      const shipping = cart.length === 0 ? 0 : shippingFee;
+      const shipping = (cart.length === 0 || cart[0].checkoutType === "product") ? 0 : shippingFee;
       const billing = cart.length === 0 ? null : state.checkout.billing;
 
       state.checkout.cart = cart;

@@ -37,7 +37,6 @@ const ThumbImgStyle = styled(Box)(({ theme }) => ({
 
 export default function CartProductList({ ...props }) {
   const { onDelete, isLoading, cart } = props;
-  console.log(cart, 'Check the chart checkoutType');
   const checkoutType = cart[0]?.checkoutType;
 
   const cCurrency = useCurrencyConvert();
