@@ -37,20 +37,21 @@ import { useTheme } from '@mui/material/styles';
 export default function TrackDetailsClient({ track }) {
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage, setItemsPerPage] = useState('12');
+  const [isInitialLoad, setIsInitialLoad] = useState(true);
+
   const params = useParams();
   const searchParams = useSearchParams();
   const { rate } = useSelector(({ settings }) => settings);
 
-  // Create a ref for the products section
   const productsSectionRef = useRef(null);
   const previousFiltersRef = useRef('');
 
   const slug = params.slug;
 
-  // Get all query parameters that affect data fetching
+  // Get all query parameters
   const pageFromUrl = searchParams.get('page');
-  const searchFromUrl = searchParams.get('search');
   const limitFromUrl = searchParams.get('limit');
+  const searchFromUrl = searchParams.get('search');
   const makeFromUrl = searchParams.get('make');
   const modelFromUrl = searchParams.get('model');
   const dateFromUrl = searchParams.get('date_captured');
@@ -59,6 +60,7 @@ export default function TrackDetailsClient({ track }) {
   const nameFromUrl = searchParams.get('name');
   const dateSortFromUrl = searchParams.get('date');
   const priceFromUrl = searchParams.get('price');
+  const DEFAULT_ITEMS_PER_PAGE = itemsPerPage;
 
   const searchQuery = searchFromUrl || '';
 
@@ -88,14 +90,12 @@ export default function TrackDetailsClient({ track }) {
     priceFromUrl
   ]);
 
-  // Check if there are any active filters (excluding default pagination)
+  // Check if there are any active filters
   const hasActiveFilters = useMemo(() => {
     const filterParams = [searchFromUrl, makeFromUrl, modelFromUrl, dateFromUrl, locationFromUrl];
-
     const sortParams = [topFromUrl, nameFromUrl, dateSortFromUrl, priceFromUrl];
 
     const hasFilterParams = filterParams.some((param) => param && param.trim() !== '');
-
     const hasSortParams = sortParams.some((param) => {
       if (!param) return false;
       return true;
@@ -114,8 +114,9 @@ export default function TrackDetailsClient({ track }) {
     priceFromUrl
   ]);
 
-  // Update current page and items per page from URL on mount and when URL changes
+  // Update current page and items per page from URL
   useEffect(() => {
+    // Sync page from URL
     if (pageFromUrl && !isNaN(pageFromUrl)) {
       const pageNum = parseInt(pageFromUrl, 10);
       if (pageNum > 0 && pageNum !== currentPage) {
@@ -125,22 +126,33 @@ export default function TrackDetailsClient({ track }) {
       setCurrentPage(1);
     }
 
-    if (limitFromUrl && ['12', '18', '24', '30'].includes(limitFromUrl)) {
-      setItemsPerPage(limitFromUrl);
-    } else if (!limitFromUrl && itemsPerPage !== '12') {
-      setItemsPerPage('12');
+    // Sync limit from URL
+    if (limitFromUrl && ITEMS_PER_PAGE_OPTIONS.includes(limitFromUrl)) {
+      if (limitFromUrl !== itemsPerPage) {
+        setItemsPerPage(limitFromUrl);
+      }
+    } else if (!limitFromUrl && itemsPerPage !== DEFAULT_ITEMS_PER_PAGE) {
+      setItemsPerPage(DEFAULT_ITEMS_PER_PAGE);
     }
-  }, [pageFromUrl, limitFromUrl, currentPage, itemsPerPage]);
+  }, [pageFromUrl, limitFromUrl]);
+
+  // Mark initial load as complete after first render
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setIsInitialLoad(false);
+    }, 100);
+
+    return () => clearTimeout(timer);
+  }, []);
 
   // Scroll to products section when filters change
   useEffect(() => {
-    // Only scroll if:
-    // 1. We have active filters
-    // 2. The products section ref exists
-    // 3. The filters have actually changed
-    if (hasActiveFilters && productsSectionRef.current && currentFiltersString !== previousFiltersRef.current) {
-      console.log('Scrolling to products section due to filter change');
-
+    if (
+      !isInitialLoad &&
+      hasActiveFilters &&
+      productsSectionRef.current &&
+      currentFiltersString !== previousFiltersRef.current
+    ) {
       const timer = setTimeout(() => {
         if (productsSectionRef.current) {
           productsSectionRef.current.scrollIntoView({
@@ -151,12 +163,10 @@ export default function TrackDetailsClient({ track }) {
         }
       }, 100);
 
-      // Update the previous filters reference
       previousFiltersRef.current = currentFiltersString;
-
       return () => clearTimeout(timer);
     }
-  }, [hasActiveFilters, currentFiltersString]);
+  }, [hasActiveFilters, currentFiltersString, isInitialLoad]);
 
   // Build query parameters for API call
   const buildQueryParams = () => {
@@ -189,15 +199,14 @@ export default function TrackDetailsClient({ track }) {
     return queryParams.toString();
   };
 
-  // Create a comprehensive query key that includes all dependencies
+  // Create query key
   const queryKey = `track-products-${slug}-${rate}-${currentPage}-${itemsPerPage}-${searchQuery}-${makeFromUrl}-${modelFromUrl}-${dateFromUrl}`;
 
-  // Fetch products on client side
+  // Fetch products
   const { data: productsData, isLoading: productsLoading } = useQuery(
     queryKey,
     () => {
       const queryString = buildQueryParams();
-      console.log('Fetching products with query:', queryString);
       return getProducts(`?${queryString}`);
     },
     {
@@ -208,7 +217,7 @@ export default function TrackDetailsClient({ track }) {
     }
   );
 
-  // Fetch events for this track
+  // Fetch events
   const { data: eventsData, isLoading: eventsLoading } = useQuery(
     `track-events-${slug}`,
     () => getTrackEventsByTrackSlug(slug),
@@ -218,21 +227,10 @@ export default function TrackDetailsClient({ track }) {
     }
   );
 
-  console.log('Component state:', {
-    hasActiveFilters,
-    currentFiltersString,
-    previousFilters: previousFiltersRef.current,
-    filtersChanged: currentFiltersString !== previousFiltersRef.current
-  });
-
-  // Extract products and pagination data from response
   const products = productsData?.data || [];
   const paginationInfo = productsData || {};
-
-  // Extract events data
   const upcomingEvents = eventsData?.data || [];
 
-  // Use the same pagination structure as blogs
   const pagination = {
     currentPage: paginationInfo.currentPage || currentPage,
     totalPages: paginationInfo.count || Math.ceil((paginationInfo.total || 0) / parseInt(itemsPerPage, 10)),
@@ -240,17 +238,30 @@ export default function TrackDetailsClient({ track }) {
     itemsPerPage: parseInt(itemsPerPage, 10)
   };
 
-  // Handle page change - update URL and scroll to products section
+  // Handle page change
   const handlePageChange = (event, newPage) => {
     setCurrentPage(newPage);
 
     const params = new URLSearchParams(searchParams.toString());
-    params.set('page', newPage.toString());
+
+    // Only add page parameter if it's not page 1
+    if (newPage === 1) {
+      params.delete('page');
+    } else {
+      params.set('page', newPage.toString());
+    }
+
+    // Only add limit parameter if it's not the default
+    if (itemsPerPage === DEFAULT_ITEMS_PER_PAGE) {
+      params.delete('limit');
+    } else {
+      params.set('limit', itemsPerPage.toString());
+    }
 
     const newUrl = `${window.location.pathname}${params.toString() ? `?${params.toString()}` : ''}`;
     window.history.replaceState(null, '', newUrl);
 
-    // Scroll to the top of the products section
+    // Scroll to products section
     if (productsSectionRef.current) {
       productsSectionRef.current.scrollIntoView({
         behavior: 'smooth',
@@ -266,8 +277,6 @@ export default function TrackDetailsClient({ track }) {
   const trackDescription = track.fullDescription || track.description || 'No description available.';
   const trackLength = track.length || 'N/A';
   const trackCorners = track.corners || 'N/A';
-  const trackAddress = track.address || '';
-  const trackRegion = track.region || '';
 
   // Image URLs with fallbacks
   const defaultBannerUrl =
@@ -276,7 +285,6 @@ export default function TrackDetailsClient({ track }) {
   const logoImage = track.logo?.url || null;
 
   // Arrays with fallbacks
-  const trackFacilities = track.facilities || [];
   const trackFaqs = track.faqs || [];
 
   const formatDate = (dateString) => {
@@ -461,7 +469,7 @@ export default function TrackDetailsClient({ track }) {
             <Grid item size={{ xs: 12, lg: 8 }}>
               {/* Products Section with ref for scrolling */}
               <Box ref={productsSectionRef}>
-                {/* Search Section - NO LONGER STICKY */}
+                {/* Search Section */}
                 <Box sx={{ mb: 4, py: 2 }}>
                   <Typography
                     variant="h3"
@@ -478,6 +486,7 @@ export default function TrackDetailsClient({ track }) {
                     productData={products}
                     showLocationSearch={false}
                     showApplyButton={true}
+                    defaultItemsPerPage={itemsPerPage}
                   />
                 </Box>
 
@@ -491,7 +500,7 @@ export default function TrackDetailsClient({ track }) {
                     {/* Product List */}
                     <ProductList data={{ data: products }} isLoading={false} isMobile={false} />
 
-                    {/* Pagination - Using the same BlogPagination component */}
+                    {/* Pagination */}
                     {!productsLoading && pagination.totalPages > 1 && (
                       <BlogPagination
                         currentPage={pagination.currentPage}
@@ -619,7 +628,7 @@ export default function TrackDetailsClient({ track }) {
             </Grid>
           </Grid>
 
-          {/* FAQ Section - Only show if FAQs exist */}
+          {/* FAQ Section */}
           {trackFaqs.length > 0 && (
             <Box sx={{ mt: 8 }}>
               <Typography
@@ -627,7 +636,6 @@ export default function TrackDetailsClient({ track }) {
                 sx={{
                   fontWeight: 800,
                   mb: 6,
-                  // color: '#1a1a1a',
                   textAlign: 'center',
                   fontSize: { xs: '1.75rem', md: '2.25rem' }
                 }}
@@ -658,8 +666,8 @@ export default function TrackDetailsClient({ track }) {
                         {faq.question || `Question ${index + 1}`}
                       </Typography>
                     </AccordionSummary>
-                    <AccordionDetails sx={{  px: 3, py: 3 }}>
-                      <Typography sx={{  lineHeight: 1.7, fontSize: '1rem' }}>
+                    <AccordionDetails sx={{ px: 3, py: 3 }}>
+                      <Typography sx={{ lineHeight: 1.7, fontSize: '1rem' }}>
                         {faq.answer || 'No answer available.'}
                       </Typography>
                     </AccordionDetails>

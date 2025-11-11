@@ -36,19 +36,16 @@ export default function BlogsPage() {
     // Only fetch if it's a valid page number
     if (pageNum > 0) {
       fetchBlogs(pageNum, searchFromUrl);
-
-      // Update URL if no page parameter exists (always include page parameter for consistency)
-      if (!pageFromUrl) {
-        updateUrl(pageNum, searchFromUrl);
-      }
     }
   }, [searchParams]);
 
   const updateUrl = (page, search) => {
     const params = new URLSearchParams();
 
-    // Always include page parameter for consistency
-    params.set('page', page.toString());
+    // Only include page parameter if it's not page 1 (clean URL for initial load)
+    if (page > 1) {
+      params.set('page', page.toString());
+    }
 
     if (search) {
       params.set('search', search);
