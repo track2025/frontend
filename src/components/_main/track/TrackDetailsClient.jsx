@@ -229,6 +229,8 @@ export default function TrackDetailsClient({ track }) {
   const products = productsData?.data || [];
   const paginationInfo = productsData || {};
 
+  console.log('products data::::', productsData);
+
   // Extract events data
   const upcomingEvents = eventsData?.data || [];
 
