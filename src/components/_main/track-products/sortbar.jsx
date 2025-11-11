@@ -2,7 +2,7 @@
 import PropTypes from 'prop-types';
 import { useState, useEffect, useCallback } from 'react';
 import { isString } from 'lodash';
-import { Stack, Drawer, Typography, Skeleton, Button, MenuItem, FormControl, Select, Paper } from '@mui/material';
+import { Stack, Drawer, Typography, Skeleton, Button, MenuItem, FormControl, Select, Paper, useTheme } from '@mui/material';
 import { usePathname, useSearchParams } from 'next/navigation';
 import { useRouter } from 'next-nprogress-bar';
 import { MdTune } from 'react-icons/md';
@@ -12,6 +12,7 @@ export default function SortBar({ productData, isLoading, sortData, filters }) {
   const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
+  const theme = useTheme  ();
 
   const [itemsPerPage, setItemsPerPage] = useState('12');
   const [state, setState] = useState(null);
@@ -66,7 +67,7 @@ export default function SortBar({ productData, isLoading, sortData, filters }) {
   }, [searchParams]);
 
   return (
-    <Paper elevation={2} sx={{ p: 2, mb: 2, borderRadius: 2, bgcolor: 'white' }}>
+    <Paper elevation={2} sx={{ p: 2, mb: 2, borderRadius: 2, bgcolor: theme.palette.background.paper }}>
       <Stack direction={{ xs: 'column', md: 'row' }} justifyContent="space-between" alignItems="center" spacing={2}>
         <Typography variant="body2" color="text.secondary">
           {isLoading ? <Skeleton variant="text" width={150} /> :
