@@ -2,6 +2,7 @@
 import { Box, Container } from "@mui/material"
 import HeaderBreadcrumbs from "src/components/headerBreadcrumbs"
 import ProductList from "src/components/_main/products"
+import CollectionBanner from "src/components/_main/banner/CollectionBanner"
 
 // ✅ Example dynamic SEO generator (if you have brand in URL)
 export async function generateMetadata({ searchParams }) {
@@ -77,7 +78,7 @@ export default async function Listing({ searchParams }) {
       <Box>
         <Box sx={{ bgcolor: "background.default" }}>
           <Container maxWidth="xl">
-            <HeaderBreadcrumbs heading="Media" links={[{ name: "Home", href: "/" }, { name: "Media" }]} />
+            <CollectionBanner />
             <ProductList />
           </Container>
         </Box>

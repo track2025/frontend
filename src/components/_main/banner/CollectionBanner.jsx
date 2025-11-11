@@ -1,12 +1,12 @@
 import React from 'react';
 
-const Banner = () => {
+const CollectionBanner = () => {
     return (
         <div
             className="position-relative d-flex align-items-center justify-content-center text-white"
             style={{
                 height: '300px',
-                backgroundImage: 'linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.5)), url("images/store-banner.jpg")',
+                backgroundImage: 'linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.5)), url("images/collection-banner.jpg")',
                 backgroundSize: 'cover',
                 backgroundPosition: 'center',
                 backgroundRepeat: 'no-repeat'
@@ -20,4 +20,4 @@ const Banner = () => {
     );
 };
 
-export default Banner;
+export default CollectionBanner;

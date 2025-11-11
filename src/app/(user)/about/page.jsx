@@ -9,6 +9,7 @@ import dynamic from "next/dynamic"
 
 // skeleton component import
 import HeaderBreadcrumbsSkeleton from "src/components/skeletons/breadcrumbs"
+import AboutBanner from "src/components/_main/banner/AboutBanner"
 
 // Dynamically importing the HeaderBreadcrumbs component with a fallback to a skeleton loader while loading
 const HeaderBreadcrumbs = dynamic(() => import("src/components/headerBreadcrumbs"), {
@@ -110,18 +111,7 @@ export default function Page() {
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }} />
 
       <Container maxWidth="xl">
-        <HeaderBreadcrumbs
-          heading="About Us"
-          links={[
-            {
-              name: "Home",
-              href: "/",
-            },
-            {
-              name: "About us",
-            },
-          ]}
-        />
+        <AboutBanner />
         <AboutUs />
       </Container>
     </>
