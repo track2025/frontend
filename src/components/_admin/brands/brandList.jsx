@@ -14,7 +14,7 @@ import Table from 'src/components/table/table';
 import Brand from 'src/components/table/rows/brand';
 
 const TABLE_HEAD = [
-  { id: 'name', label: 'Brands', alignRight: false, sort: true },
+  { id: 'name', label: 'Locations', alignRight: false, sort: true },
   { id: 'status', label: 'Status', alignRight: false },
   { id: 'createdAt', label: 'Date', alignRight: false, sort: true },
   { id: '', label: 'Actions', alignRight: true }
