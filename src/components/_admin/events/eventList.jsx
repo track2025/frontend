@@ -19,6 +19,7 @@ const TABLE_HEAD = [
   { id: 'startTime', label: 'Start Time', alignRight: false },
   { id: 'endTime', label: 'End Time', alignRight: false },
   { id: 'status', label: 'Status', alignRight: false },
+  { id: 'status', label: 'Active Status', alignRight: false },
   { id: 'createdAt', label: 'Date', alignRight: false, sort: true },
   { id: '', label: 'Actions', alignRight: true }
 ];

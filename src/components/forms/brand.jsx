@@ -114,7 +114,7 @@ export default function LocationsForm({ data: currentLocation, isLoading: locati
   });
 
   const formik = useFormik({
-    initialValues: {  
+    initialValues: {
       name: currentLocation?.name || '',
       metaTitle: currentLocation?.metaTitle || '',
       slug: currentLocation?.slug || '',

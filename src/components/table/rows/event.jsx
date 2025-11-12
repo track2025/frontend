@@ -2,6 +2,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { capitalize } from 'lodash';
 import { useRouter } from 'next-nprogress-bar';
+import { useMutation } from 'react-query';
+import * as api from 'src/services';
 
 // mui
 import { styled } from '@mui/material/styles';
@@ -13,12 +15,8 @@ import BlurImage from 'src/components/blurImage';
 // utils
 import { fDateShort } from 'src/utils/formatTime';
 
-// components
-import Label from 'src/components/label';
-
 // icons
-import { MdEdit } from 'react-icons/md';
-import { MdDelete } from 'react-icons/md';
+import { MdEdit, MdDelete, MdCheck, MdClose } from 'react-icons/md';
 
 const ThumbImgStyle = styled(Box)(({ theme }) => ({
   width: 50,
@@ -32,9 +30,25 @@ const ThumbImgStyle = styled(Box)(({ theme }) => ({
   position: 'relative',
   overflow: 'hidden'
 }));
+
 export default function BrandsRow({ isLoading, row, handleClickOpen, sn }) {
   const router = useRouter();
   const theme = useTheme();
+
+  // Mutation to toggle active status
+  const { mutate: toggleActive } = useMutation(
+    ({ slug, activeStatus }) => api.updateEventActiveStatus({ slug, activeStatus }),
+    {
+      onSuccess: (data) => {
+        toast.success(data.message);
+        // Optionally trigger refetch or update cache
+      },
+      onError: (error) => {
+        toast.error(error?.message || 'Failed to update active status');
+      }
+    }
+  );
+
   return (
     <TableRow hover key={Math.random()}>
       <TableCell>{isLoading ? <Skeleton variant="text" /> : <>{sn}</>}</TableCell>
@@ -68,6 +82,25 @@ export default function BrandsRow({ isLoading, row, handleClickOpen, sn }) {
       <TableCell>{isLoading ? <Skeleton variant="text" /> : capitalize(row?.startTime)}</TableCell>
       <TableCell>{isLoading ? <Skeleton variant="text" /> : capitalize(row?.endTime)}</TableCell>
       <TableCell>{isLoading ? <Skeleton variant="text" /> : capitalize(row?.status)}</TableCell>
+
+      {/* Active Status */}
+      <TableCell align="center">
+        {isLoading ? (
+          <Skeleton variant="rectangular" width={34} height={34} />
+        ) : (
+          <IconButton
+            sx={{
+              bgcolor: row.activeStatus ? 'green' : 'red',
+              '&:hover': { bgcolor: row.activeStatus ? '#2e7d32' : '#c62828' },
+              color: 'white'
+            }}
+            onClick={() => toggleActive({ slug: row.slug, activeStatus: !row.activeStatus })}
+          >
+            {row.activeStatus ? <MdCheck /> : <MdClose />}
+          </IconButton>
+        )}
+      </TableCell>
+
       <TableCell>{isLoading ? <Skeleton variant="text" /> : <> {fDateShort(row.createdAt)} </>}</TableCell>
 
       <TableCell align="right">
@@ -96,6 +129,7 @@ export default function BrandsRow({ isLoading, row, handleClickOpen, sn }) {
     </TableRow>
   );
 }
+
 BrandsRow.propTypes = {
   isLoading: PropTypes.bool.isRequired,
   sn: PropTypes.number,
@@ -106,6 +140,7 @@ BrandsRow.propTypes = {
     }),
     description: PropTypes.string,
     status: PropTypes.string,
+    activeStatus: PropTypes.bool,
     createdAt: PropTypes.string,
     slug: PropTypes.string
   }).isRequired,

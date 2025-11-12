@@ -149,6 +149,11 @@ export const updateEventByAdmin = async ({ currentSlug, ...payload }) => {
   return data;
 };
 
+export const updateEventActiveStatus = async ({ slug, activeStatus }) => {
+  const { data } = await http.patch(`/admin/events/${slug}/toggle-status`, { activeStatus });
+  return data;
+};
+
 export const getAllCategoriesByAdmin = async () => {
   const { data } = await http.get(`/admin/all-categories`);
   return data;

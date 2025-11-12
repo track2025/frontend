@@ -128,6 +128,7 @@ export default function EventForm({ data: currentEvent, isLoading: apiLoading })
       image: currentEvent?.image || null,
       thumbnailImage: currentEvent?.thumbnailImage || null,
       status: currentEvent?.status || STATUS_OPTIONS[0],
+      activeStatus: currentEvent?.activeStatus ?? false,
       featured: currentEvent?.featured || false,
       seoJunk: currentEvent?.seoJunk || '',
       content: currentEvent?.content || '' // html content as string
@@ -373,6 +374,19 @@ export default function EventForm({ data: currentEvent, isLoading: apiLoading })
                               {option}
                             </option>
                           ))}
+                        </Select>
+                      </FormControl>
+
+                      <FormControl fullWidth>
+                        <LabelStyle>Active Status</LabelStyle>
+                        <Select
+                          native
+                          {...getFieldProps('activeStatus')}
+                          value={values.activeStatus ? 'true' : 'false'}
+                          onChange={(e) => setFieldValue('activeStatus', e.target.value === 'true')}
+                        >
+                          <option value="true">Active</option>
+                          <option value="false">Inactive</option>
                         </Select>
                       </FormControl>
 
