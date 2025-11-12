@@ -66,7 +66,7 @@ export default function SortBar({ productData, isLoading, sortData, filters }) {
   }, [searchParams]);
 
   return (
-    <Paper elevation={2} sx={{ p: 2, mb: 2, borderRadius: 2, bgcolor: 'white' }}>
+    <Paper elevation={2} sx={{ p: 2, mb: 2, borderRadius: 2,  }}>
       <Stack direction={{ xs: 'column', md: 'row' }} justifyContent="space-between" alignItems="center" spacing={2}>
         <Typography variant="body2" color="text.secondary">
           {isLoading ? <Skeleton variant="text" width={150} /> :

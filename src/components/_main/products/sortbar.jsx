@@ -146,6 +146,7 @@ export default function SortBar({
     }
   }, [dateCaptured, pathname, router, setQueryParam, dateQuery]);
 
+  /*
   useEffect(() => {
     setItemsPerPage(isString(limit) ? limit : '12');
     setState(
@@ -166,6 +167,32 @@ export default function SortBar({
                     : 'Top Rated'
     );
     // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [name || date || price || limit || top]);
+  */
+
+  useEffect(() => {
+    setItemsPerPage(isString(limit) ? limit : '12');
+    setState(
+      top === '-1'
+        ? 'Top Rated'
+        : name === '1'
+          ? 'Asceding'
+          : name === '-1'
+            ? 'Desceding'
+            : date === '1'
+              ? 'Oldest'
+              : date === '-1'
+                ? 'Newest'
+                : price === '1'
+                  ? 'Price low to high'
+                  : price === '-1'
+                    ? 'Price high to low'
+                    : 'Newest' // 👈 default when no query param exists
+    );
+
+      if (!top && !name && !date && !price) {
+    router.push(`${pathname}?${createQueryString('date', '-1')}`, 'isPathname');
+  }
   }, [name || date || price || limit || top]);
 
   const onKeyDown = (e) => {

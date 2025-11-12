@@ -12,6 +12,10 @@ const MegaMenu = ({ categories, onSelectSubCategory }) => {
     const scrollRef = useRef(null);
     const primaryColor = theme.palette.primary.main;
 
+    let color = theme.palette.mode === "light" ? "#000" : "#fff";
+    let backgroundColor = theme.palette.mode === "light" ? "#fff" : "#121212";
+
+
     // check scroll position to toggle arrows visibility
     const handleScroll = () => {
         const el = scrollRef.current;
@@ -53,15 +57,18 @@ const MegaMenu = ({ categories, onSelectSubCategory }) => {
 
     return (
         <nav
-            className="navbar navbar-expand-lg bg-white border-bottom shadow-sm position-relative"
+            className="navbar navbar-expand-lg border-bottom shadow-sm position-relative"
             onMouseLeave={handleMouseLeave}
+            style={{
+                borderBottomColor: "#ddd"
+            }}
         >
             <div className="container-fluid position-relative">
                 {/* Floating Scroll Buttons */}
                 {showLeftArrow && (
                     <button
                         onClick={() => scrollMenu("left")}
-                        className="btn bg-white shadow-sm border rounded-circle position-absolute start-0 top-50 translate-middle-y d-flex align-items-center justify-content-center"
+                        className="btn shadow-sm border rounded-circle position-absolute start-0 top-50 translate-middle-y d-flex align-items-center justify-content-center"
                         style={{
                             zIndex: 10,
                             width: 36,
@@ -75,7 +82,7 @@ const MegaMenu = ({ categories, onSelectSubCategory }) => {
                 {showRightArrow && (
                     <button
                         onClick={() => scrollMenu("right")}
-                        className="btn bg-white shadow-sm border rounded-circle position-absolute end-0 top-50 translate-middle-y d-flex align-items-center justify-content-center"
+                        className="btn shadow-sm border rounded-circle position-absolute end-0 top-50 translate-middle-y d-flex align-items-center justify-content-center"
                         style={{
                             zIndex: 10,
                             width: 36,
@@ -109,7 +116,7 @@ const MegaMenu = ({ categories, onSelectSubCategory }) => {
                                     type="button"
                                     className="nav-link fw-semibold text-uppercase dropdown-toggle bg-transparent border-0"
                                     style={{
-                                        color: activeMenu === idx ? primaryColor : "#212529",
+                                        color: activeMenu === idx ? primaryColor : color,
                                         transition: "color 0.2s ease",
                                     }}
                                 >
@@ -131,7 +138,7 @@ const MegaMenu = ({ categories, onSelectSubCategory }) => {
                             top: "95%",
                             left: 0,
                             width: "100%",
-                            backgroundColor: "#fff",
+                            backgroundColor:backgroundColor,
                             zIndex: 1050,
                             transition: "opacity 0.2s ease-in-out",
                         }}
@@ -155,14 +162,14 @@ const MegaMenu = ({ categories, onSelectSubCategory }) => {
                                                         <button
                                                             key={sub._id || itemIndex}
                                                             type="button"
-                                                            className="bg-transparent border-0 text-start text-dark text-decoration-none d-block py-1"
+                                                            className="bg-transparent border-0 text-start text-decoration-none d-block py-1"
                                                             onClick={() =>
                                                                 handleSubCategorySelect(
                                                                     categories[activeMenu].slug,
                                                                     sub.slug
                                                                 )
                                                             }
-                                                            style={{ transition: "color 0.2s ease" }}
+                                                            style={{ transition: "color 0.2s ease", color }}
                                                             onMouseEnter={(e) =>
                                                                 (e.target.style.color = primaryColor)
                                                             }

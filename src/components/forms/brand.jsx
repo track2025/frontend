@@ -48,7 +48,7 @@ const LabelStyle = styled(Typography)(({ theme }) => ({
   lineHeight: 2.5
 }));
 
-const STATUS_OPTIONS = ['active', 'deactive'];
+const STATUS_OPTIONS = ['active', 'inactive'];
 
 const FACILITY_OPTIONS = [
   'Pit Garages',
@@ -77,7 +77,7 @@ export default function LocationsForm({ data: currentLocation, isLoading: locati
   const [state, setState] = useState({ loading: false });
 
   const { mutate, isLoading } = useMutation(
-    currentLocation ? 'update' : 'new',
+    // currentLocation ? 'update' : 'new',
     currentLocation ? api.updateBrandByAdmin : api.addBrandByAdmin,
     {
       retry: false,
@@ -116,7 +116,7 @@ export default function LocationsForm({ data: currentLocation, isLoading: locati
   const formik = useFormik({
     initialValues: {  
       name: currentLocation?.name || '',
-      metaTItle: currentLocation?.metaTitle || '',
+      metaTitle: currentLocation?.metaTitle || '',
       slug: currentLocation?.slug || '',
       description: currentLocation?.description || '',
       metaDescription: currentLocation?.metaDescription || '',
@@ -199,7 +199,7 @@ export default function LocationsForm({ data: currentLocation, isLoading: locati
                   <Stack spacing={3}>
                     {[
                       { name: 'name', label: 'Location Name', onChange: handleTitleChange },
-                      { name: 'description', label: 'Short Description', multiline: true, rows: 3 },
+                      { name: 'description', label: 'Meta Title', multiline: true, rows: 3 },
                       { name: 'description', label: 'Meta Description', multiline: true, rows: 3 },
                       { name: 'fullDescription', label: 'Full Description', multiline: true, rows: 6 },
                       { name: 'country', label: 'Country' },
@@ -451,7 +451,7 @@ export default function LocationsForm({ data: currentLocation, isLoading: locati
           {/* Submit */}
           <Box mt={3} textAlign="right">
             <LoadingButton type="submit" variant="contained" size="large" loading={isLoading}>
-              {currentLocation ? 'Update Location' : 'Add Location'}
+              {currentLocation ? 'Update Location -' : 'Add Location'}
             </LoadingButton>
           </Box>
         </Form>

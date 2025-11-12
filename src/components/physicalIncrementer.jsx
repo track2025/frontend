@@ -26,7 +26,7 @@ const _styles = {
   outline: 'none',
   fontSize: '14px',
   textTransform: 'uppercase',
-  backgroundColor: '#f4f4f4',
+  // backgroundColor: '#f4f4f4',
   borderWidth: 0,
   outline:'none',
   width: 100,
@@ -48,7 +48,7 @@ function PhysicalIncrementer({ ...props }) {
         <IconButton size="small" color="primary" onClick={onDecrease} disabled={quantity <= 1}>
           <IoIosRemove />
         </IconButton>
-        <Typography variant="subtitle1" color="text.primary" style={{
+        <Typography variant="subtitle1"  style={{
           width: 50
         }}>
           {quantity}
