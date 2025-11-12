@@ -57,6 +57,9 @@ export default function ProductListing({
     // Don't use initialData here to avoid conflicts with our manual state management
   });
 
+  console.log("Initial products on mount::", data);
+  console.log('searchQuery::', searchQuery)
+
   // Update displayData when initialProducts changes (from server props)
   useEffect(() => {
     console.log("Initial products updated:", initialProducts);

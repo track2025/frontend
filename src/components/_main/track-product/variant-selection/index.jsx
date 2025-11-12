@@ -11,7 +11,8 @@ export default function PhysicalProductVariantSelection({
   onChangeVariant
 }) {
   return (
-    <div style={{ width: '95%' }}>
+    // <div style={{ width: '95%' }}>
+    <Box width={'95%'}>
       {names.map((name, index) => (
         <Fragment key={index}>
           {/* <Typography variant="subtitle1" color="text.primary">
@@ -20,7 +21,11 @@ export default function PhysicalProductVariantSelection({
 
           {names.map((name, index) => (
             <>
-              <Typography variant="subtitle2" color="text.secondary" style={{textTransform: "uppercase", fontWeight:'bolder'}}>
+              <Typography
+                variant="subtitle2"
+                color="text.secondary"
+                style={{ textTransform: 'uppercase', fontWeight: 'bolder' }}
+              >
                 {name}
               </Typography>
 
@@ -37,11 +42,11 @@ export default function PhysicalProductVariantSelection({
                   textTransform: 'uppercase',
                   backgroundColor: '#f4f4f4',
                   borderWidth: 0,
-                  outline:'none'
+                  outline: 'none'
                 }}
               >
                 {[...new Set(variants[index] || [])].map((variant, ind) => (
-                  <option key={variant} value={variant} style={{textTransform: "capitalize", fontWeight: 'bolder'}}>
+                  <option key={variant} value={variant} style={{ textTransform: 'capitalize', fontWeight: 'bolder' }}>
                     {variant.charAt(0).toUpperCase() + variant.slice(1)}
                   </option>
                 ))}
@@ -50,6 +55,6 @@ export default function PhysicalProductVariantSelection({
           ))}
         </Fragment>
       ))}
-    </div>
+    </Box>
   );
 }

@@ -312,11 +312,15 @@ export default function TrackDetailsClient({ track }) {
             mt: 0
           }}
         >
-          <div
-            style={{
+          <Box
+            sx={{
               position: 'absolute',
-              top: 10,
-              left: 20,
+              top: {
+                xs: '-10px', // mobile
+                sm: 10, // tablet
+                md: 10 // desktop
+              },
+              left: 0,
               zIndex: 100
             }}
           >
@@ -331,15 +335,15 @@ export default function TrackDetailsClient({ track }) {
                 <Typography color="#fff">{trackName}</Typography>
               </Breadcrumbs>
             </Container>
-          </div>
+          </Box>
 
           <Box
             component="img"
             src={bannerImage}
             alt={`${trackName} - ${trackCity}, ${trackCountry}`}
             sx={{
-              width: '100%',
-              height: '100%',
+              width: '60%',
+              height: '60%',
               objectFit: 'cover',
               opacity: 0.8
             }}
@@ -370,16 +374,17 @@ export default function TrackDetailsClient({ track }) {
             {logoImage && (
               <Box
                 sx={{
-                  width: { xs: 100, sm: 120, md: 140 },
-                  height: { xs: 100, sm: 120, md: 140 },
+                  width: { xs: 50, sm: 120, md: 140 },
+                  height: { xs: 50, sm: 120, md: 140 },
                   margin: '0 auto 20px',
                   bgcolor: 'white',
                   borderRadius: '50%',
-                  p: 2,
+                  p: 1,
                   boxShadow: '0 20px 40px rgba(0,0,0,0.3)',
                   display: 'flex',
                   alignItems: 'center',
-                  justifyContent: 'center'
+                  justifyContent: 'center',
+                  overflow: 'hidden'
                 }}
               >
                 <Box
@@ -387,8 +392,8 @@ export default function TrackDetailsClient({ track }) {
                   src={logoImage}
                   alt={`${trackName} logo`}
                   sx={{
-                    width: '85%',
-                    height: '85%',
+                    width: '100%',
+                    height: '100%',
                     objectFit: 'contain'
                   }}
                   onError={(e) => {
@@ -405,8 +410,8 @@ export default function TrackDetailsClient({ track }) {
               sx={{
                 color: 'white',
                 fontWeight: 800,
-                fontSize: { xs: '1.75rem', sm: '2.5rem', md: '3rem' },
-                textShadow: '0 2px 10px rgba(0,0,0,0.5)',
+                fontSize: { xs: '20px', sm: '2.5rem', md: '3rem' },
+                textShadow: '0 2px 11px rgba(0,0,0,0.5)',
                 mb: 1
               }}
             >
@@ -416,14 +421,62 @@ export default function TrackDetailsClient({ track }) {
             {/* Location and Track Info */}
             <Box sx={{ display: 'flex', alignItems: 'center', gap: 2, flexWrap: 'wrap', justifyContent: 'center' }}>
               <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5 }}>
-                <LocationOnIcon sx={{ color: 'white', fontSize: 20 }} />
-                <Typography sx={{ color: 'white', fontSize: '1.1rem' }}>
+                <LocationOnIcon
+                  sx={{
+                    color: 'white',
+                    fontSize: {
+                      xs: '13px', // 👈 mobile view
+                      sm: '0.95rem', // small tablets
+                      md: '1.1rem' // desktop and above
+                    }
+                  }}
+                />
+                <Typography
+                  sx={{
+                    color: 'white',
+                    fontSize: {
+                      xs: '13px', // 👈 mobile view
+                      sm: '0.95rem', // small tablets
+                      md: '1.1rem' // desktop and above
+                    }
+                  }}
+                >
                   {trackCity}, {trackCountry}
                 </Typography>
               </Box>
-              <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5 }}>
-                <SpeedIcon sx={{ color: 'white', fontSize: 20 }} />
-                <Typography sx={{ color: 'white', fontSize: '1.1rem' }}>
+              <Box
+                sx={{
+                  display: 'flex',
+                  alignItems: { xs: 'flex-start', sm: 'center', md: 'center' },
+                  gap: 0.5,
+                  width: {
+                    xs: '80%', // 👈 mobile view
+                    sm: '90%',
+                    md: '90%'
+                  }
+                }}
+              >
+                <SpeedIcon
+                  sx={{
+                    color: 'white',
+                    fontSize: {
+                      xs: '13px', // 👈 mobile view
+                      sm: '0.95rem', // small tablets
+                      md: '1.1rem' // desktop and above
+                    },
+                    marginTop: { xs: '3px', sm: '0', md: '0' }
+                  }}
+                />
+                <Typography
+                  sx={{
+                    color: 'white',
+                    fontSize: {
+                      xs: '13px', // 👈 mobile view
+                      sm: '0.95rem', // small tablets
+                      md: '1.1rem' // desktop and above
+                    }
+                  }}
+                >
                   {trackLength} • {trackCorners} Corners
                 </Typography>
               </Box>
@@ -660,8 +713,8 @@ export default function TrackDetailsClient({ track }) {
                         {faq.question || `Question ${index + 1}`}
                       </Typography>
                     </AccordionSummary>
-                    <AccordionDetails sx={{  px: 3, py: 3 }}>
-                      <Typography sx={{  lineHeight: 1.7, fontSize: '1rem' }}>
+                    <AccordionDetails sx={{ px: 3, py: 3 }}>
+                      <Typography sx={{ lineHeight: 1.7, fontSize: '1rem' }}>
                         {faq.answer || 'No answer available.'}
                       </Typography>
                     </AccordionDetails>

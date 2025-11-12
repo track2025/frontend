@@ -49,7 +49,7 @@ export default function Page() {
     <div>
       <HeaderBreadcrumbs
         admin
-        heading="Product List"
+        heading="Media List"
         links={[
           {
             name: 'Dashboard',
