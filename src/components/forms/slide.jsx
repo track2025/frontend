@@ -163,13 +163,13 @@ export default function SlideForm({ data: currentSlide, isLoading: slideLoading 
   return (
     <Box position="relative">
       <FormikProvider value={formik}>
-        <Form noValidate autoComplete="off" onSubmit={handleSubmit}>
-          <Grid container spacing={2}>
+        <Form noValidate autoComplete="off" className='bg-blue-500 w-full' onSubmit={handleSubmit}>
+          <Grid spacing={2}>
             <Grid item xs={12} md={12}>
-              <Card sx={{ p: 3 }}>
+              <Card className='w-full' sx={{ p: 3 }}>
                 {/* Title + Highlight */}
                 <Grid container spacing={2}>
-                  <Grid item xs={12} md={6}>
+                  <Grid item xs={12}>
                     <Typography component="label" htmlFor="slide-title">
                       Title
                     </Typography>
@@ -181,8 +181,9 @@ export default function SlideForm({ data: currentSlide, isLoading: slideLoading 
                       helperText={touched.title && errors.title}
                     />
                   </Grid>
-                  <Grid item xs={12} md={6}>
-                    <Typography>
+
+                  <Grid item xs={12}>
+                    <Typography component="label" htmlFor="slide-highlight">
                       Highlight
                     </Typography>
                     <TextField
@@ -193,12 +194,9 @@ export default function SlideForm({ data: currentSlide, isLoading: slideLoading 
                       helperText={touched.highlight && errors.highlight}
                     />
                   </Grid>
-                </Grid>
 
-                {/* Button Text + Status */}
-                <Grid container spacing={2} sx={{ mt: 2 }}>
-                  <Grid item xs={12} md={6}>
-                    <Typography>
+                  <Grid item xs={12}>
+                    <Typography component="label" htmlFor="button-text">
                       Button Text
                     </Typography>
                     <TextField
@@ -210,8 +208,8 @@ export default function SlideForm({ data: currentSlide, isLoading: slideLoading 
                     />
                   </Grid>
 
-                  <Grid item xs={12} md={6}>
-                    <Typography>
+                  <Grid item xs={12}>
+                    <Typography component="label" htmlFor="button-link">
                       Button Link
                     </Typography>
                     <TextField
@@ -223,6 +221,7 @@ export default function SlideForm({ data: currentSlide, isLoading: slideLoading 
                     />
                   </Grid>
                 </Grid>
+
 
                 {/* Description */}
                 <Stack sx={{ mt: 2 }}>
