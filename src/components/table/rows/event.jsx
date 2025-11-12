@@ -86,20 +86,24 @@ export default function BrandsRow({ isLoading, row, handleClickOpen, sn }) {
       {/* Active Status */}
       <TableCell align="center">
         {isLoading ? (
-          <Skeleton variant="rectangular" width={34} height={34} />
+          <Skeleton variant="rectangular" width={24} height={24} />
         ) : (
           <IconButton
+            size="small"
             sx={{
+              width: 28,
+              height: 28,
               bgcolor: row.activeStatus ? 'green' : 'red',
               '&:hover': { bgcolor: row.activeStatus ? '#2e7d32' : '#c62828' },
               color: 'white'
             }}
             onClick={() => toggleActive({ slug: row.slug, activeStatus: !row.activeStatus })}
           >
-            {row.activeStatus ? <MdCheck /> : <MdClose />}
+            {row.activeStatus ? <MdCheck size={18} /> : <MdClose size={18} />}
           </IconButton>
         )}
       </TableCell>
+
 
       <TableCell>{isLoading ? <Skeleton variant="text" /> : <> {fDateShort(row.createdAt)} </>}</TableCell>
 

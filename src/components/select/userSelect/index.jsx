@@ -104,7 +104,7 @@ export default function UserSelect({ isAdmin }) {
                 }
               }}
             >
-              Hi, {isAuthenticated && user.firstName + ' ' + user.lastName}{' '}
+              {/* Hi, {isAuthenticated && user.firstName + ' ' + user.lastName}{' '} */}
               <KeyboardArrowDownRoundedIcon sx={{ fontSize: 18 }} />
             </Typography>
           )}

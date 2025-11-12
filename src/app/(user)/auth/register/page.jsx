@@ -18,7 +18,6 @@ export const metadata = {
 export default async function Register() {
   return (
     <>
-      <GuestGuard>
         <Container maxWidth="sm">
           <Card
             sx={{
@@ -39,7 +38,6 @@ export default async function Register() {
             <RegisterMain />
           </Card>
         </Container>
-      </GuestGuard>
     </>
   );
 }

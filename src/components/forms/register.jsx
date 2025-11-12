@@ -87,30 +87,18 @@ export default function RegisterForm() {
   const { mutate: createShop, isLoading: isCreatingShop } = useMutation('new-user-shop', api.addShopByUser, {
     retry: false,
     onSuccess: async (data) => {
-      dispatch(setLogin(data.user));
-      const cookieOptions = {
-        path: '/',
-        secure: process.env.NODE_ENV === 'production',
-        sameSite: 'strict',
-        maxAge: 86400
-      };
-
-      document.cookie = `token=${data.token}; ${Object.entries(cookieOptions)
-        .map(([key, value]) => `${key}=${value}`)
-        .join('; ')}`;
-
-      document.cookie = `userRole=${data.user.role}; ${Object.entries(cookieOptions)
-        .map(([key, value]) => `${key}=${value}`)
-        .join('; ')}`;
+      // No longer setting login or cookies here since user is not created yet
+      // OTP verification happens first, then user gets created
 
       toast.success(
         "We've sent a one-time password (OTP) to your email. Please enter it to verify your email address and finish setting up your photographer account.",
         { duration: 10000 }
       );
 
+      // Redirect to OTP verification with tempUserId
       setTimeout(() => {
-        router.push(`/auth/verify-otp?redirect=%2Fvendor%2Fdashboard`);
-      }, 3000);
+        router.push(`/auth/verify-otp?tempUserId=${data.tempUserId}`);
+      }, 2000);
     },
     onError: (error) => {
       let errorMessage = parseMongooseError(error?.message);
