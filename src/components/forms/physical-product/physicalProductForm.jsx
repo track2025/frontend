@@ -78,8 +78,8 @@ export default function PhysicalProductForm({
       router.push((isVendor ? '/vendor' : '/admin') + '/physical-products');
     },
     onError: (error) => {
-      console.error(error);
-      let errorMessage = parseMongooseError(error?.response?.data?.message);
+      console.error('error:::==>', error?.message);
+      let errorMessage = error?.message;
       toast.error(errorMessage || 'Something went wrong!');
     }
   });
@@ -136,8 +136,8 @@ export default function PhysicalProductForm({
           ...(currentProduct && { currentSlug: currentProduct.slug })
         });
       } catch (error) {
-        console.error(error);
-        let errorMessage = parseMongooseError(error?.response?.data?.message);
+        console.error('error', error);
+        let errorMessage = error?.message;
         toast.error(errorMessage || 'Something went wrong!');
       }
     }

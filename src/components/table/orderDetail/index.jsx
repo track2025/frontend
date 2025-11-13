@@ -108,6 +108,10 @@ export default function TableDetails({ ...props }) {
                         color="black"
                         size="small"
                         href={`/api/download?fileUrl=${encodeURIComponent(row?.orignalImageUrl)}`}
+
+                        style={{
+                          marginLeft: -30
+                        }}
                       >
                         Download Media
                       </Button>

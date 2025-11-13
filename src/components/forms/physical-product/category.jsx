@@ -55,7 +55,7 @@ export default function PhysicalCategoryForm({ data: currentCategory, isLoading:
       router.push('/admin/physical-categories');
     },
     onError: (error) => {
-      toast.error(error?.response?.data?.message || 'Something went wrong!');
+      toast.error(error?.message || 'Something went wrong!');
     }
   });
 

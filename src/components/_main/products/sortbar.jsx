@@ -190,9 +190,9 @@ export default function SortBar({
                     : 'Newest' // 👈 default when no query param exists
     );
 
-      if (!top && !name && !date && !price) {
-    router.push(`${pathname}?${createQueryString('date', '-1')}`, 'isPathname');
-  }
+  //     if (!top && !name && !date && !price) {
+  //   router.push(`${pathname}?${createQueryString('date', '-1')}`, 'isPathname');
+  // }
   }, [name || date || price || limit || top]);
 
   const onKeyDown = (e) => {
