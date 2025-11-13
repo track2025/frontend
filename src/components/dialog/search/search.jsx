@@ -15,7 +15,7 @@ import MenuList from '@mui/material/MenuList';
 import MenuItem from '@mui/material/MenuItem';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ClearIcon from '@mui/icons-material/Clear';
-import IconButton from '@mui/material/IconButton';  
+import IconButton from '@mui/material/IconButton';
 
 import CircularProgress from '@mui/material/CircularProgress';
 import Divider from '@mui/material/Divider';
@@ -55,7 +55,7 @@ export default function Search({ ...props }) {
     category: '',
     subCategory: '',
     shop: '',
-    date_captured:''
+    date_captured: ''
   });
 
   const router = useRouter();
@@ -91,7 +91,12 @@ export default function Search({ ...props }) {
   };
   React.useEffect(() => {
     const delayDebounceFn = setTimeout(() => {
-      mutate({ query: search, category: state.category, subCategory: state.subCategory, dateCaptured: state.date_captured });
+      mutate({
+        query: search,
+        category: state.category,
+        subCategory: state.subCategory,
+        dateCaptured: state.date_captured
+      });
     }, 1000);
 
     return () => clearTimeout(delayDebounceFn);
@@ -99,12 +104,17 @@ export default function Search({ ...props }) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [search]);
   React.useEffect(() => {
-    mutate({ query: search, category: state.category, subCategory: state.subCategory, dateCaptured: state.date_captured });
+    mutate({
+      query: search,
+      category: state.category,
+      subCategory: state.subCategory,
+      dateCaptured: state.date_captured
+    });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [state.category, state.subCategory, state.date_captured]);
 
   return (
-    <>
+    <Box>
       <TextField
         id="standard-basic"
         variant="standard"
@@ -115,10 +125,10 @@ export default function Search({ ...props }) {
           setSearch(e.target.value);
           setstate({ ...state, initialized: true });
         }}
-        fullWidth
+        // fullWidth
         InputProps={{
           startAdornment: (
-            <InputAdornment position="start" sx={{ justifyContent: 'center' }}>
+            <InputAdornment position="start">
               {isLoading ? (
                 <CircularProgress sx={{ width: '24px !important', height: '24px !important' }} />
               ) : (
@@ -132,23 +142,25 @@ export default function Search({ ...props }) {
             position: 'sticky',
             top: 0,
             zIndex: 1,
-            bgcolor: 'background.paper'
+            bgcolor: 'background.paper',
+            padding: '0px 15px',
+            width: '100%'
           }),
           '& .MuiInput-root': {
             height: { lg: 72, md: 72, sm: 72, xs: 56 }
           },
           '& .MuiInputAdornment-root': {
-            width: 100,
-            mr: 0,
+            // width: 100,
+            // ml: 3,
             svg: {
-              mx: 'auto',
+              // mx: 'auto',
               color: 'primary.main'
             }
           }
         }}
       />
-      <Stack gap={1} direction="row" p={1}>
-       
+
+      <Stack gap={1} direction="row" padding={"20px"} marginTop={"10px"}>
         <FormControl fullWidth>
           <LabelStyle component={'label'} htmlFor="category">
             Car Make
@@ -172,81 +184,54 @@ export default function Search({ ...props }) {
             </Select>
           )}
         </FormControl>
-        {/* <FormControl fullWidth>
-          <LabelStyle component={'label'} htmlFor="subCategory">
-            Car Model
+
+        <FormControl fullWidth>
+          <LabelStyle component="label" htmlFor="date">
+            Date Captured
           </LabelStyle>
+
           {filtersLoading ? (
             <Skeleton variant="rounded" height={40} width="100%" />
           ) : (
-            <Select
-              disabled={!Boolean(state.category)}
-              id="subCategory"
+            <TextField
+              id="date"
+              type="date"
               size="small"
-              labelId="demo-simple-select-label"
-              value={state.subCategory}
-              onChange={(e) => setstate({ ...state, subCategory: e.target.value })}
-            >
-              <MenuItem value=""></MenuItem>
-              {filters?.categories
-                .find((cat) => cat._id === state.category)
-                ?.subCategories.map((subcat) => (
-                  <MenuItem value={subcat._id} key={subcat._id}>
-                    {subcat.name}
-                  </MenuItem>
-                ))}
-            </Select>
+              fullWidth
+              value={state.date_captured || ''}
+              onChange={(e) => setstate({ ...state, date_captured: e.target.value })}
+              InputLabelProps={{ shrink: true }}
+              InputProps={{
+                // Hide default calendar icon when our clear button is shown
+                endAdornment: (
+                  <InputAdornment position="end">
+                    {state.date_captured && (
+                      <IconButton
+                        size="small"
+                        onClick={() => setstate({ ...state, date_captured: '' })}
+                        edge="end"
+                        sx={{ padding: '4px' }}
+                      >
+                        <ClearIcon fontSize="small" />
+                      </IconButton>
+                    )}
+                  </InputAdornment>
+                ),
+                sx: {
+                  height: 40,
+                  '& input': {
+                    height: '100%',
+                    padding: '8.5px 14px'
+                  },
+                  // Hide the native calendar icon
+                  '& input[type="date"]::-webkit-calendar-picker-indicator': {
+                    display: state.date_captured ? 'none' : 'block'
+                  }
+                }
+              }}
+            />
           )}
-        </FormControl> */}
-
-<FormControl fullWidth>
-  <LabelStyle component="label" htmlFor="date">
-    Date Captured
-  </LabelStyle>
-
-  {filtersLoading ? (
-    <Skeleton variant="rounded" height={40} width="100%" />
-  ) : (
-    <TextField
-      id="date"
-      type="date"
-      size="small"
-      fullWidth
-      value={state.date_captured || ''}
-      onChange={(e) => setstate({ ...state, date_captured: e.target.value })}
-      InputLabelProps={{ shrink: true }}
-      InputProps={{
-        // Hide default calendar icon when our clear button is shown
-        endAdornment: (
-          <InputAdornment position="end">
-            {state.date_captured && (
-              <IconButton
-                size="small"
-                onClick={() => setstate({ ...state, date_captured: '' })}
-                edge="end"
-                sx={{ padding: '4px' }}
-              >
-                <ClearIcon fontSize="small" />
-              </IconButton>
-            )}
-          </InputAdornment>
-        ),
-        sx: {
-          height: 40,
-          '& input': {
-            height: '100%',
-            padding: '8.5px 14px',
-          },
-          // Hide the native calendar icon
-          '& input[type="date"]::-webkit-calendar-picker-indicator': {
-            display: state.date_captured ? 'none' : 'block'
-          }
-        },
-      }}
-    />
-  )}
-</FormControl> 
-
+        </FormControl>
       </Stack>
       <Divider />
       <Box className="scroll-main">
@@ -356,6 +341,6 @@ export default function Search({ ...props }) {
           </Stack>
         )}
       </Box>
-    </>
+    </Box>
   );
 }

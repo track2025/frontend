@@ -299,6 +299,7 @@ export default function PhysicalProductDetailsSumary({ ...props }) {
               </Stack>
             </Stack>
 
+<<<<<<< HEAD
             <div
               style={{
                 display: 'flex',
@@ -307,6 +308,13 @@ export default function PhysicalProductDetailsSumary({ ...props }) {
                 gap: '10px',
                 justifyContent: 'space-between'
               }}
+=======
+            <Box
+              display="flex"
+              alignItems={{ xs: 'flex-start', sm: 'center' }}
+              justifyContent="space-between"
+              flexDirection={{ xs: 'column', sm: 'row' }} // 👈 column on mobile, row on desktop
+>>>>>>> 2025/11/11/changes-from-docs
             >
               <PhysicalProductVariantSelection
                 names={names}
@@ -317,10 +325,16 @@ export default function PhysicalProductDetailsSumary({ ...props }) {
               />
 
               {product.deliveryType === 'physical' ? (
+<<<<<<< HEAD
                 <Stack direction="row" alignItems="center" spacing={1} width='100%'>
                   <div className='w-full'>
 
                     <Typography variant="subtitle2" color="text.secondary" style={{fontWeight: 'bolder'}}>
+=======
+                <Stack direction="row" alignItems="center" spacing={1}>
+                  <div>
+                    <Typography variant="subtitle2" color="text.secondary" style={{ fontWeight: 'bolder' }}>
+>>>>>>> 2025/11/11/changes-from-docs
                       QUANTITY
                     </Typography>
 
@@ -339,7 +353,7 @@ export default function PhysicalProductDetailsSumary({ ...props }) {
               ) : (
                 <div />
               )}
-            </div>
+            </Box>
 
             <Stack direction={{ sm: 'row', xs: 'column' }} spacing={3}>
               {/* <Button
@@ -389,10 +403,6 @@ export default function PhysicalProductDetailsSumary({ ...props }) {
               </Button>
             </Stack>
 
-
-
-
-
             <Stack direction="row" spacing={1} justifyContent={'end'} marginTop={1}>
               <Tooltip title="Copy Prooduct URL">
                 <IconButton
@@ -407,8 +417,6 @@ export default function PhysicalProductDetailsSumary({ ...props }) {
               </Tooltip>
               {isInitialized && <SocialShare />}
             </Stack>
-
-
 
             <Stack direction="row" alignItems="center" spacing={2} justifyContent={'end'}>
               {shippingData.map((item, index) => (
@@ -444,7 +452,7 @@ const shippingData = [
   {
     icon: <MdLockOutline size={20} />,
     name: 'Secure payment'
-  },
+  }
   // {
   //   icon: <FaRegStar size={20} />,
   //   name: '2 years full warranty'

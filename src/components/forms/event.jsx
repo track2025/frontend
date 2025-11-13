@@ -104,7 +104,8 @@ export default function EventForm({ data: currentEvent, isLoading: apiLoading })
     category: Yup.string().optional('Category is required'),
     image: Yup.mixed().required('Main image is required'),
     thumbnailImage: Yup.mixed().required('Thumbnail image is required'),
-    content: Yup.string().required('Content is required')
+    content: Yup.string().required('Content is required'),
+    description: Yup.string().required('Description is required')
   });
 
   // --- Formik
@@ -124,7 +125,7 @@ export default function EventForm({ data: currentEvent, isLoading: apiLoading })
       endTime: currentEvent?.endTime || '',
       category: currentEvent?.category || '',
       description: currentEvent?.description || '',
-      fullDescription: currentEvent?.fullDescription || '',
+      // fullDescription: currentEvent?.fullDescription || '',
       image: currentEvent?.image || null,
       thumbnailImage: currentEvent?.thumbnailImage || null,
       status: currentEvent?.status || STATUS_OPTIONS[0],
@@ -246,11 +247,19 @@ export default function EventForm({ data: currentEvent, isLoading: apiLoading })
                     {/* Description */}
                     <div>
                       <LabelStyle htmlFor="description">Short Description</LabelStyle>
-                      <TextField fullWidth id="description" rows={3} multiline {...getFieldProps('description')} />
+                      <TextField
+                        fullWidth
+                        id="description"
+                        rows={3}
+                        multiline
+                        {...getFieldProps('description')}
+                        error={Boolean(touched.description && errors.description)}
+                        helperText={touched.description && errors.description}
+                      />
                     </div>
 
                     {/* Full Description */}
-                    <div>
+                    {/* <div>
                       <LabelStyle htmlFor="fullDescription">Full Description</LabelStyle>
                       <TextField
                         fullWidth
@@ -259,7 +268,7 @@ export default function EventForm({ data: currentEvent, isLoading: apiLoading })
                         multiline
                         {...getFieldProps('fullDescription')}
                       />
-                    </div>
+                    </div> */}
 
                     {/* Content (HTML) */}
                     <div>
@@ -349,6 +358,9 @@ export default function EventForm({ data: currentEvent, isLoading: apiLoading })
                         type="date"
                         InputLabelProps={{ shrink: true }}
                         {...getFieldProps('date')}
+
+                        error={Boolean(touched.date && errors.date)}
+                        helperText={touched.date && errors.date}
                       />
                       <TextField
                         fullWidth
@@ -356,6 +368,8 @@ export default function EventForm({ data: currentEvent, isLoading: apiLoading })
                         type="time"
                         InputLabelProps={{ shrink: true }}
                         {...getFieldProps('startTime')}
+                           error={Boolean(touched.startTime && errors.startTime)}
+                        helperText={touched.startTime && errors.startTime}
                       />
                       <TextField
                         fullWidth
@@ -363,8 +377,16 @@ export default function EventForm({ data: currentEvent, isLoading: apiLoading })
                         type="time"
                         InputLabelProps={{ shrink: true }}
                         {...getFieldProps('endTime')}
+                             error={Boolean(touched.endTime && errors.endTime)}
+                        helperText={touched.endTime && errors.endTime}
                       />
-                      <TextField fullWidth label="Category" {...getFieldProps('category')} />
+                      <TextField fullWidth label="Category" {...getFieldProps('category')} 
+                      
+                       error={Boolean(touched.endTime && errors.endTime)}
+                        helperText={touched.endTime && errors.endTime}
+
+                        
+                      />
 
                       <FormControl fullWidth>
                         <LabelStyle>Status</LabelStyle>

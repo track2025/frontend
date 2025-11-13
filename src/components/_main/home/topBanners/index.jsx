@@ -79,24 +79,41 @@ export default function Index() {
                   Discover high-quality photographs of vehicles from professional photographers worldwide.
                 </Typography>
                 <Box>
-                  <Button
-                    component={Link}
-                    href="/race-track/collection"
-                    variant="contained"
-                    size="large"
-                    sx={{
-                      bgcolor: "#ffffff",
-                      color: "#000000",
-                      borderRadius: 6,
-                      textTransform: "none",
-                      transition: "background-color 0.3s ease",
-                      "&:hover": {
-                        bgcolor: "#f0f0f0",
-                      },
-                    }}
-                  >
-                    View Collection
-                  </Button>
+
+                   {/* View Collection Button */}
+      <Button
+  component={Link}
+  href="/race-track/collection"
+  variant="contained"
+  sx={{
+    bgcolor: '#ffffff',
+    color: '#000000',
+    borderRadius: 6,
+    textTransform: 'none',
+    transition: 'background-color 0.3s ease',
+    '&:hover': {
+      bgcolor: '#f0f0f0',
+    },
+    fontSize: {
+      xs: '12px', // mobile view
+      sm: '0.85rem',
+      md: '1rem',
+    },
+    padding: {
+      xs: '2px 10px', // mobile view
+      sm: '8px 18px',
+      md: '10px 22px',
+    },
+    minWidth: {
+      xs: '112px', // mobile view
+      sm: '140px',
+      md: 'auto',
+    },
+  }}
+>
+  View Collection
+</Button>
+                
                 </Box>
               </Stack>
             </Card>
@@ -170,24 +187,42 @@ export default function Index() {
                 </Typography>
 
                 <Box>
-                  <Button
-                    component={Link}
-                    href={"/create-shop"}
-                    variant="contained"
-                    size="large"
-                    sx={{
-                      bgcolor: "#000000",
-                      color: "#ffffff",
-                      borderRadius: 6,
-                      textTransform: "none",
-                      "&:hover": {
-                        bgcolor: "#1a1a1a",
-                        opacity: 0.9,
-                      },
-                    }}
-                  >
-                    Start Selling Now
-                  </Button>
+                  
+                
+                <Button
+  component={Link}
+  href="/create-shop"
+  variant="contained"
+  sx={{
+    bgcolor: '#000000',
+    color: '#ffffff',
+    borderRadius: 6,
+    textTransform: 'none',
+    '&:hover': {
+      bgcolor: '#1a1a1a',
+      opacity: 0.9,
+    },
+    fontSize: {
+      xs: '12px',
+      sm: '0.85rem',
+      md: '1rem',
+    },
+    padding: {
+      xs: '2px 10px',
+      sm: '8px 18px',
+      md: '10px 22px',
+    },
+    minWidth: {
+      xs: '112px',
+      sm: '140px',
+      md: 'auto',
+    },
+  }}
+>
+  Start Selling Now
+</Button>
+
+
                 </Box>
               </Stack>
             </Card>

@@ -13,6 +13,10 @@ const MegaMenu = ({ categories, onSelectSubCategory }) => {
     const scrollRef = useRef(null);
     const primaryColor = theme.palette.primary.main;
 
+    let color = theme.palette.mode === "light" ? "#000" : "#fff";
+    let backgroundColor = theme.palette.mode === "light" ? "#fff" : "#121212";
+
+
     // check scroll position to toggle arrows visibility
     const handleScroll = () => {
         const el = scrollRef.current;
@@ -56,13 +60,16 @@ const MegaMenu = ({ categories, onSelectSubCategory }) => {
         <nav
             className="navbar navbar-expand-lg border-bottom shadow-sm position-relative"
             onMouseLeave={handleMouseLeave}
+            style={{
+                borderBottomColor: "#ddd"
+            }}
         >
             <div className="container-fluid position-relative">
                 {/* Floating Scroll Buttons */}
                 {showLeftArrow && (
                     <button
                         onClick={() => scrollMenu("left")}
-                        className="btn bg-white shadow-sm border rounded-circle position-absolute start-0 top-50 translate-middle-y d-flex align-items-center justify-content-center"
+                        className="btn shadow-sm border rounded-circle position-absolute start-0 top-50 translate-middle-y d-flex align-items-center justify-content-center"
                         style={{
                             zIndex: 10,
                             width: 36,
@@ -76,7 +83,7 @@ const MegaMenu = ({ categories, onSelectSubCategory }) => {
                 {showRightArrow && (
                     <button
                         onClick={() => scrollMenu("right")}
-                        className="btn bg-white shadow-sm border rounded-circle position-absolute end-0 top-50 translate-middle-y d-flex align-items-center justify-content-center"
+                        className="btn shadow-sm border rounded-circle position-absolute end-0 top-50 translate-middle-y d-flex align-items-center justify-content-center"
                         style={{
                             zIndex: 10,
                             width: 36,
@@ -110,7 +117,11 @@ const MegaMenu = ({ categories, onSelectSubCategory }) => {
                                     type="button"
                                     className="nav-link fw-semibold text-uppercase dropdown-toggle bg-transparent border-0"
                                     style={{
+<<<<<<< HEAD
                                         color: activeMenu === idx && primaryColor ,
+=======
+                                        color: activeMenu === idx ? primaryColor : color,
+>>>>>>> 2025/11/11/changes-from-docs
                                         transition: "color 0.2s ease",
                                     }}
                                 >
@@ -132,7 +143,11 @@ const MegaMenu = ({ categories, onSelectSubCategory }) => {
                             top: "95%",
                             left: 0,
                             width: "100%",
+<<<<<<< HEAD
                             backgroundColor: theme.palette.background.paper,
+=======
+                            backgroundColor:backgroundColor,
+>>>>>>> 2025/11/11/changes-from-docs
                             zIndex: 1050,
                             transition: "opacity 0.2s ease-in-out",
                         }}
@@ -163,7 +178,7 @@ const MegaMenu = ({ categories, onSelectSubCategory }) => {
                                                                     sub.slug
                                                                 )
                                                             }
-                                                            style={{ transition: "color 0.2s ease" }}
+                                                            style={{ transition: "color 0.2s ease", color }}
                                                             onMouseEnter={(e) =>
                                                                 (e.target.style.color = primaryColor)
                                                             }

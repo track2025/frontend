@@ -14,7 +14,12 @@ import Table from 'src/components/table/table';
 import Event from 'src/components/table/rows/event';
 
 const TABLE_HEAD = [
+<<<<<<< HEAD
   { id: 'name', label: 'Events', alignRight: false, sort: true },
+=======
+  { id: 'name', label: 'Brands', alignRight: false, sort: true },
+  // { id: 'type', label: 'Type', alignRight: false },
+>>>>>>> 2025/11/11/changes-from-docs
   { id: 'startTime', label: 'Start Time', alignRight: false },
   { id: 'endTime', label: 'End Time', alignRight: false },
   { id: 'status', label: 'Status', alignRight: false },
