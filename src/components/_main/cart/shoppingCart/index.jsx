@@ -39,6 +39,8 @@ export default function ShoppingCart({ loading }) {
   const { checkout } = useSelector(({ product }) => product);
   const { cart } = checkout;
 
+  console.log("Cart Item", cart);
+
   const [count, setCount] = React.useState(0);
 
   const isEmptyCart = cart.length === 0;

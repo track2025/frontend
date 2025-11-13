@@ -26,6 +26,7 @@ import MyAvatar from 'src/components/myAvatar';
 import { IoIosArrowForward } from 'react-icons/io';
 import QrCode2Icon from '@mui/icons-material/QrCode2';
 import QRCode from 'react-qr-code';
+import BlurImage from 'src/components/blurImage';
 
 const RootStyle = styled(Card)(({ theme }) => ({
   marginBottom: theme.spacing(3),
@@ -79,42 +80,170 @@ export default function ShopDetailCover({ data, isLoading, isUser, page }) {
 
   const handleDownloadQR = () => {
     try {
-      const svg = document.getElementById('qr-code-svg');
-      if (!svg) {
-        throw new Error('QR code SVG not found');
+      // Get the QR code SVG element
+      const qrSvg = document.getElementById('qr-code-svg');
+
+      if (!qrSvg) {
+        throw new Error('QR code not found');
       }
 
-      const canvas = document.createElement('canvas');
-      const ctx = canvas.getContext('2d');
-      canvas.width = 300;
-      canvas.height = 300;
-
-      // Use document.createElement instead of new Image()
-      const img = document.createElement('img');
-      img.onload = () => {
-        // Draw white background
-        ctx.fillStyle = '#ffffff';
-        ctx.fillRect(0, 0, canvas.width, canvas.height);
-
-        // Draw the QR code
-        ctx.drawImage(img, 50, 50, 200, 200);
-
-        // Convert to PNG and trigger download
-        const pngUrl = canvas.toDataURL('image/png');
-        const downloadLink = document.createElement('a');
-        downloadLink.download = `${data?.title || data?.name || 'photographer'}-qr-code.png`;
-        downloadLink.href = pngUrl;
-        document.body.appendChild(downloadLink);
-        downloadLink.click();
-        document.body.removeChild(downloadLink);
-      };
-
       // Convert SVG to data URL
-      const svgData = new XMLSerializer().serializeToString(svg);
-      img.src = 'data:image/svg+xml;base64,' + btoa(unescape(encodeURIComponent(svgData)));
+      const svgData = new XMLSerializer().serializeToString(qrSvg);
+      const svgDataUrl = 'data:image/svg+xml;base64,' + btoa(unescape(encodeURIComponent(svgData)));
+
+      // Create a new window for printing
+      const printWindow = window.open('', '_blank');
+
+      printWindow.document.write(`
+      <!DOCTYPE html>
+      <html>
+        <head>
+          <title>${data?.title || data?.name || 'Business Card'}</title>
+          <style>
+            body { 
+              margin: 0; 
+              padding: 40px; 
+              font-family: Arial, sans-serif; 
+              background: white;
+              display: flex;
+              flex-direction: column;
+              align-items: center;
+              min-height: 100vh;
+            }
+            @media print {
+              body { 
+                margin: 0; 
+                padding: 20px; 
+              }
+            }
+            .print-container { 
+              text-align: center; 
+              max-width: 100%; 
+            }
+            .title {
+              margin: 0 0 30px 0; 
+              color: #333;
+              font-size: 24px;
+              font-weight: bold;
+            }
+            .business-cards { 
+              display: flex; 
+              flex-direction: column; 
+              align-items: center; 
+              gap: 20px; 
+              margin: 20px 0; 
+            }
+            .business-card { 
+              width: 350px; 
+              height: 200px; 
+              border: 1px solid #e0e0e0; 
+              border-radius: 8px; 
+              box-shadow: 0 4px 12px rgba(0,0,0,0.15); 
+              overflow: hidden;
+              position: relative;
+            }
+            .business-card img { 
+              width: 100%; 
+              height: 100%; 
+              object-fit: cover; 
+            }
+            .qr-overlay {
+              position: absolute;
+              top: 50%;
+              right: 16px;
+              transform: translateY(-50%);
+              background: white;
+              padding: 8px;
+              border-radius: 4px;
+              box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+              border: 1px solid #e0e0e0;
+            }
+            .qr-overlay img {
+              width: 130px;
+              height: 130px;
+              object-fit: contain;
+            }
+            .timestamp {
+              margin-top: 30px;
+              color: #666;
+              font-size: 14px;
+            }
+          </style>
+        </head>
+        <body>
+          <div class="print-container">
+            <h1 class="title">${data?.title || data?.name || 'Business Card'}</h1>
+            <div class="business-cards">
+              <!-- Business Card Front -->
+              <div class="business-card">
+                <img src="${window.location.origin}/images/business_front.jpg" alt="Business Card Front" 
+                     onerror="this.style.display='none'; this.parentElement.innerHTML += '<div style=\\'position:absolute; top:50%; left:50%; transform:translate(-50%,-50%);\\'>Front Card Image</div>'" />
+              </div>
+              
+              <!-- Business Card Back with QR Code -->
+              <div class="business-card">
+                <img src="${window.location.origin}/images/business_back.jpg" alt="Business Card Back" 
+                     onerror="this.style.display='none'; this.parentElement.innerHTML += '<div style=\\'position:absolute; top:50%; left:50%; transform:translate(-50%,-50%);\\'>Back Card Image</div>'" />
+                <div class="qr-overlay">
+                  <img src="${svgDataUrl}" alt="QR Code" />
+                </div>
+              </div>
+            </div>
+            <p class="timestamp">Generated on ${new Date().toLocaleDateString()}</p>
+          </div>
+          
+          <script>
+            // Wait for images to load before printing
+            window.onload = function() {
+              const images = document.querySelectorAll('img');
+              let loadedCount = 0;
+              const totalImages = images.length;
+              
+              if (totalImages === 0) {
+                setTimeout(printNow, 500);
+                return;
+              }
+              
+              images.forEach(img => {
+                if (img.complete) {
+                  loadedCount++;
+                } else {
+                  img.onload = () => {
+                    loadedCount++;
+                    if (loadedCount === totalImages) {
+                      setTimeout(printNow, 500);
+                    }
+                  };
+                  img.onerror = () => {
+                    loadedCount++;
+                    if (loadedCount === totalImages) {
+                      setTimeout(printNow, 500);
+                    }
+                  };
+                }
+              });
+              
+              // Fallback in case some images don't load
+              setTimeout(printNow, 3000);
+            };
+            
+            function printNow() {
+              window.print();
+              // Close window after printing (optional)
+              // window.afterprint = function() {
+              //   setTimeout(() => window.close(), 1000);
+              // };
+            }
+          </script>
+        </body>
+      </html>
+    `);
+
+      printWindow.document.close();
+
     } catch (error) {
-      console.error('Error downloading QR code:', error);
-      alert('Failed to download QR code. Please try again.');
+      console.error('Error printing:', error);
+      alert('Failed to print. Please try again.');
     }
   };
 
@@ -213,20 +342,95 @@ export default function ShopDetailCover({ data, isLoading, isUser, page }) {
       </div>
 
       {/* QR Code Dialog */}
-      <Dialog open={openQR} onClose={() => setOpenQR(false)}>
+      <Dialog open={openQR} onClose={() => setOpenQR(false)} maxWidth="sm" fullWidth>
         <DialogContent sx={{ textAlign: 'center', p: 4 }}>
           <Typography variant="h6" gutterBottom>
             {data?.title || data?.name}
           </Typography>
-          <Box sx={{ p: 2, bgcolor: 'white', display: 'inline-block', mb: 2 }}>
-            <QRCode
-              id="qr-code-svg"
-              value={qrValue}
-              size={200}
-              level="H"
-              style={{ height: 'auto', maxWidth: '100%', width: '100%' }}
-            />
+
+          {/* Container for stacked business cards */}
+          <Box sx={{
+            display: 'flex',
+            flexDirection: 'column',
+            gap: 2,
+            justifyContent: 'center',
+            mb: 2,
+            alignItems: 'center',
+            position: 'relative' // For absolute positioning of QR code
+          }}>
+            {/* Business Card Front */}
+            <Box sx={{
+              p: 1,
+              bgcolor: 'white',
+              width: 350, // Increased from 280
+              height: 200,// Increased from 160
+              border: '1px solid #e0e0e0',
+              borderRadius: '8px', // Increased border radius
+              boxShadow: '0 4px 12px rgba(0,0,0,0.15)', // Enhanced shadow
+              position: 'relative',
+              zIndex: 1
+            }}>
+              <BlurImage
+                src="/images/business_front.jpg"
+                alt="Business Card Front"
+                fill
+                style={{
+                  objectFit: 'cover',
+                  borderRadius: '6px'
+                }}
+              />
+            </Box>
+
+            {/* Business Card Back with QR Code */}
+            <Box sx={{
+              p: 1,
+              bgcolor: 'white',
+              width: 350, // Increased from 280
+              height: 200, // Increased from 160
+              border: '1px solid #e0e0e0',
+              borderRadius: '8px', // Increased border radius
+              boxShadow: '0 4px 12px rgba(0,0,0,0.15)', // Enhanced shadow
+              position: 'relative',
+            }}>
+              <BlurImage
+                src="/images/business_back.jpg"
+                alt="Business Card Back"
+                fill
+                style={{
+                  objectFit: 'cover',
+                  borderRadius: '6px'
+                }}
+              />
+
+              {/* QR Code positioned absolutely on top of back card */}
+              <Box sx={{
+                position: 'absolute',
+                top: '50%',
+                right: 16, // Position from right edge
+                transform: 'translateY(-50%)',
+                bgcolor: 'white',
+                p: 1,
+                borderRadius: '4px',
+                boxShadow: '0 2px 8px rgba(0,0,0,0.2)',
+                border: '1px solid #e0e0e0'
+              }}>
+                <QRCode
+                  id="qr-code-svg"
+                  value={qrValue}
+                  size={130} // Smaller size for card placement
+                  level="H"
+                  style={{
+                    height: 'auto',
+                    maxWidth: '100%',
+                    width: '100%',
+                    display: 'block'
+                  }}
+                />
+              </Box>
+            </Box>
           </Box>
+
+          {/* Download Button */}
           <Button variant="contained" onClick={handleDownloadQR} fullWidth>
             Download QR Code
           </Button>

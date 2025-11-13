@@ -15,7 +15,6 @@ import Event from 'src/components/table/rows/event';
 
 const TABLE_HEAD = [
   { id: 'name', label: 'Events', alignRight: false, sort: true },
-  { id: 'type', label: 'Type', alignRight: false },
   { id: 'startTime', label: 'Start Time', alignRight: false },
   { id: 'endTime', label: 'End Time', alignRight: false },
   { id: 'status', label: 'Status', alignRight: false },

@@ -13,7 +13,7 @@ const AboutBanner = () => {
             }}
         >
             <div className="text-center position-relative z-1">
-                <h1 className="display-5 fw-bold mb-3">About Us</h1>
+                {/* <h1 className="display-5 fw-bold mb-3">About Us</h1> */}
                 {/* <p className="fs-5 mb-4">Superior kartwear and equipment designed to shave seconds off your lap times</p> */}
             </div>
         </div>

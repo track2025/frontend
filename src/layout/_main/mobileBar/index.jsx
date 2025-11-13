@@ -28,7 +28,7 @@ const getIcon = (href, totalItems) => {
   switch (href) {
     case '/':
       return <HiOutlineHome size={18} />;
-    case '/search':
+    case '/race-track/collection':
       return <IoSearch size={18} />;
     case '/cart':
       return (
@@ -55,7 +55,7 @@ const getActiveIcon = (href, totalItems) => {
   switch (href) {
     case '/':
       return <HiHome size={18} />;
-    case '/search':
+    case '/race-track/collection':
       return <IoSearch size={18} />;
     case '/cart':
       return (
@@ -110,7 +110,7 @@ export default function MobileBar() {
             ? 4
             : pathname.includes('/cart')
               ? 2
-              : pathname.includes('/search')
+              : pathname.includes('/race-track/collection')
                 ? 1
                 : 0;
       return index;

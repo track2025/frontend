@@ -37,11 +37,14 @@ export default function BrandsRow({ isLoading, row, handleClickOpen, sn }) {
 
   // Mutation to toggle active status
   const { mutate: toggleActive } = useMutation(
-    ({ slug, activeStatus }) => api.updateEventActiveStatus({ slug, activeStatus }),
+    (slug) => api.updateEventActiveStatus(slug),
     {
       onSuccess: (data) => {
         toast.success(data.message);
-        // Optionally trigger refetch or update cache
+        // Trigger refetch to update the table with fresh data
+        if (refetch) {
+          refetch();
+        }
       },
       onError: (error) => {
         toast.error(error?.message || 'Failed to update active status');
@@ -78,7 +81,6 @@ export default function BrandsRow({ isLoading, row, handleClickOpen, sn }) {
           </Typography>
         </Box>
       </TableCell>
-      <TableCell>{isLoading ? <Skeleton variant="text" /> : capitalize(row?.type)}</TableCell>
       <TableCell>{isLoading ? <Skeleton variant="text" /> : capitalize(row?.startTime)}</TableCell>
       <TableCell>{isLoading ? <Skeleton variant="text" /> : capitalize(row?.endTime)}</TableCell>
       <TableCell>{isLoading ? <Skeleton variant="text" /> : capitalize(row?.status)}</TableCell>
@@ -97,7 +99,7 @@ export default function BrandsRow({ isLoading, row, handleClickOpen, sn }) {
               '&:hover': { bgcolor: row.activeStatus ? '#2e7d32' : '#c62828' },
               color: 'white'
             }}
-            onClick={() => toggleActive({ slug: row.slug, activeStatus: !row.activeStatus })}
+            onClick={() => toggleActive(row.slug)}
           >
             {row.activeStatus ? <MdCheck size={18} /> : <MdClose size={18} />}
           </IconButton>

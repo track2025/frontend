@@ -149,8 +149,13 @@ export const updateEventByAdmin = async ({ currentSlug, ...payload }) => {
   return data;
 };
 
-export const updateEventActiveStatus = async ({ slug, activeStatus }) => {
-  const { data } = await http.patch(`/admin/events/${slug}/toggle-status`, { activeStatus });
+export const updateEventActiveStatus = async (slug) => {
+  const { data } = await http.put(`/admin/events/${slug}/toggle-status`);
+  return data;
+};
+
+export const contactUs = async (contactData) => {
+  const { data } = await http.post('/contact', contactData);
   return data;
 };
 

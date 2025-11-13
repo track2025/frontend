@@ -155,7 +155,7 @@ export default function PhysicalProductDetailsSumary({ ...props }) {
   const handleAddCart = () => {
     if (isNotUser) {
       toast.error('Only user can add to cart');
-      return;
+      return; 
     }
     const alreadyProduct = checkout.cart.filter(
       (item) => item.sku === (isSimpleProduct ? product : variantObj).sku && item.deliveryType === 'digital'

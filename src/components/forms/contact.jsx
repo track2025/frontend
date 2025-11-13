@@ -2,6 +2,7 @@
 
 import React from 'react';
 import toast from 'react-hot-toast';
+import { useMutation } from 'react-query';
 
 // material ui
 import { Box, Stack, Grid, TextField } from '@mui/material';
@@ -10,14 +11,28 @@ import { LoadingButton } from '@mui/lab';
 import * as Yup from 'yup';
 // formik
 import { useFormik, Form, FormikProvider } from 'formik';
+
+// services
+import * as api from 'src/services';
+
 const ContactUs = () => {
-  const [loading, setLoading] = React.useState(false);
-  const ResetPasswordSchema = Yup.object().shape({
-    email: Yup.string().email('Email is required').required('Email is required'),
-    firstName: Yup.string().required('First name is required'),
-    lastName: Yup.string().required('Last name is required'),
-    phone: Yup.number().required('Phone number is required'),
-    message: Yup.string().required('Message is required')
+  const ContactSchema = Yup.object().shape({
+    email: Yup.string()
+      .email('Please enter a valid email address')
+      .required('Email is required'),
+    firstName: Yup.string()
+      .required('First name is required')
+      .max(50, 'First name cannot exceed 50 characters'),
+    lastName: Yup.string()
+      .required('Last name is required')
+      .max(50, 'Last name cannot exceed 50 characters'),
+    phone: Yup.string()
+      .matches(/^[0-9+\-\s()]*$/, 'Please enter a valid phone number')
+      .max(20, 'Phone number cannot exceed 20 characters'),
+    message: Yup.string()
+      .required('Message is required')
+      .max(1000, 'Message cannot exceed 1000 characters')
+      .min(10, 'Message should be at least 10 characters')
   });
 
   const formik = useFormik({
@@ -28,39 +43,28 @@ const ContactUs = () => {
       phone: '',
       message: ''
     },
-    validationSchema: ResetPasswordSchema,
+    validationSchema: ContactSchema,
     onSubmit: async (values, { resetForm }) => {
-      try {
-        setLoading(true);
-        setTimeout(() => {
-          resetForm();
-          setLoading(false);
-          toast.success('Message sent!');
-        }, 1000);
-        // mutate({
-        //   ...values
-        // });
-      } catch (error) {
-        toast.error(error);
-      }
+      mutate(values);
     }
   });
-  const { errors, touched, handleSubmit, getFieldProps } = formik;
-  // const { mutate } = useMutation(api.contactUs, {
-  //   onSuccess: async () => {
-  //     resetForm();
-  //     setLoading(false);
-  //     toast.success('Message sent!');
-  //   },
-  //   onError: (err) => {
-  //     setLoading(false);
-  //     toast.error(err.response.data.message);
-  //   }
-  // });
+
+  const { errors, touched, handleSubmit, getFieldProps, resetForm } = formik;
+
+  const { mutate, isLoading } = useMutation(api.contactUs, {
+    onSuccess: (data) => {
+      resetForm();
+      toast.success(data.message || 'Message sent successfully! We will get back to you soon.');
+    },
+    onError: (error) => {
+      const errorMessage = error.response?.data?.message || error.message || 'Failed to send message. Please try again.';
+      toast.error(errorMessage);
+    }
+  });
 
   return (
-    <div >
-      {/* from section  */}
+    <div>
+      {/* form section */}
       <Stack className="form-section">
         <Box className="form-feed">
           <FormikProvider value={formik}>
@@ -87,13 +91,15 @@ const ContactUs = () => {
                   />
                 </Grid>
               </Grid>
+              
               {/* Email && Phone */}
               <Grid container spacing={3} mt={{ md: 3, xs: 3 }}>
-                <Grid item xs={12} md={6} sx={{ width: { xs: '100%', md: 'auto' } }} >
+                <Grid item xs={12} md={6} sx={{ width: { xs: '100%', md: 'auto' } }}>
                   <TextField
                     label={'Your Email'}
                     className="text-feed"
                     fullWidth
+                    type="email"
                     {...getFieldProps('email')}
                     error={Boolean(touched.email && errors.email)}
                     helperText={touched.email && errors.email}
@@ -120,8 +126,8 @@ const ContactUs = () => {
                   rows={5}
                   fullWidth
                   {...getFieldProps('message')}
-                  error={Boolean(touched?.message && errors?.message)}
-                  helperText={touched?.message && errors?.message}
+                  error={Boolean(touched.message && errors.message)}
+                  helperText={touched.message && errors.message}
                 />
               </Grid>
 
@@ -131,11 +137,12 @@ const ContactUs = () => {
                 fullWidth
                 size="large"
                 className="send-btn"
-                loading={loading}
+                loading={isLoading}
                 sx={{
                   textTransform: 'capitalize',
                   fontWeight: 'bold',
-                  fontSize: '16px'
+                  fontSize: '16px',
+                  mt: 3
                 }}
               >
                 Send Message
