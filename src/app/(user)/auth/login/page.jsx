@@ -19,6 +19,7 @@ export const metadata = {
 export default async function Login() {
   return (
     <>
+    <GuestGuard>
         <Container maxWidth="sm">
           <Card
             sx={{
@@ -42,7 +43,7 @@ export default async function Login() {
             <LoginMain />
           </Card>
         </Container>
-      {/* </GuestGuard> */}
+      </GuestGuard>
     </>
   );
 }
