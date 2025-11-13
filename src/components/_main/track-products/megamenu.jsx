@@ -117,11 +117,7 @@ const MegaMenu = ({ categories, onSelectSubCategory }) => {
                                     type="button"
                                     className="nav-link fw-semibold text-uppercase dropdown-toggle bg-transparent border-0"
                                     style={{
-<<<<<<< HEAD
-                                        color: activeMenu === idx && primaryColor ,
-=======
                                         color: activeMenu === idx ? primaryColor : color,
->>>>>>> 2025/11/11/changes-from-docs
                                         transition: "color 0.2s ease",
                                     }}
                                 >
@@ -143,11 +139,7 @@ const MegaMenu = ({ categories, onSelectSubCategory }) => {
                             top: "95%",
                             left: 0,
                             width: "100%",
-<<<<<<< HEAD
-                            backgroundColor: theme.palette.background.paper,
-=======
                             backgroundColor:backgroundColor,
->>>>>>> 2025/11/11/changes-from-docs
                             zIndex: 1050,
                             transition: "opacity 0.2s ease-in-out",
                         }}
