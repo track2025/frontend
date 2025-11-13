@@ -1,6 +1,7 @@
 import React from 'react';
 // guard
 import AuthGuard from 'src/guards/auth';
+import GuestGuard from 'src/guards/guest';
 // mui
 import { Box } from '@mui/material';
 //  components
@@ -18,9 +19,11 @@ export const metadata = {
 export default async function VerifyOTP() {
   return (
     <>
+      <GuestGuard>
         <Box className="auth-pages">
           <OTPMain />
         </Box>
+      </GuestGuard>
     </>
   );
 }
