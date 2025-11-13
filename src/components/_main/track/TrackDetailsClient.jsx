@@ -348,8 +348,8 @@ export default function TrackDetailsClient({ track }) {
             src={bannerImage}
             alt={`${trackName} - ${trackCity}, ${trackCountry}`}
             sx={{
-              width: '60%',
-              height: '60%',
+              width: '100%',
+              height: '100%',
               objectFit: 'cover',
               opacity: 0.8
             }}
@@ -426,7 +426,7 @@ export default function TrackDetailsClient({ track }) {
 
             {/* Location and Track Info */}
             <Box sx={{ display: 'flex', alignItems: 'center', gap: 2, flexWrap: 'wrap', justifyContent: 'center' }}>
-              <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5 }}>
+              <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5, justifyContent: 'center' }}>
                 <LocationOnIcon
                   sx={{
                     color: 'white',
@@ -444,7 +444,8 @@ export default function TrackDetailsClient({ track }) {
                       xs: '13px', // 👈 mobile view
                       sm: '0.95rem', // small tablets
                       md: '1.1rem' // desktop and above
-                    }
+                    },
+                    textAlign: 'center'
                   }}
                 >
                   {trackCity}, {trackCountry}
@@ -459,7 +460,8 @@ export default function TrackDetailsClient({ track }) {
                     xs: '80%', // 👈 mobile view
                     sm: '90%',
                     md: '90%'
-                  }
+                  },
+                  justifyContent: 'center'
                 }}
               >
                 <SpeedIcon
@@ -480,7 +482,8 @@ export default function TrackDetailsClient({ track }) {
                       xs: '13px', // 👈 mobile view
                       sm: '0.95rem', // small tablets
                       md: '1.1rem' // desktop and above
-                    }
+                    },
+                    textAlign: 'center'
                   }}
                 >
                   {trackLength} • {trackCorners} Corners
