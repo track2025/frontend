@@ -92,7 +92,7 @@ export default function Footer() {
           <Grid item md={4} xs={12} flexGrow={1}>
             <Stack spacing={3}>
               <Link href={`/`}>
-                <Image src="/logo.png" alt="Logo" width={250} height={20} className="img-fluid" />
+                <Image src="/logo_black.png" alt="Logo" width={250} height={20} className="img-fluid" />
               </Link>
 
               <Typography variant="body1" color="text.secondary">
