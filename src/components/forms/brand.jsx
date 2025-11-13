@@ -36,7 +36,6 @@ import * as api from 'src/services';
 import UploadSingleFile from 'src/components/upload/UploadSingleFile';
 import uploadToSpaces from 'src/utils/upload';
 // timezone
-import TimezoneSelect from 'react-timezone-select';
 import TimezoneSearch from '../settings/TimezoneSearch';
 import parseMongooseError from 'src/utils/errorHandler';
 import { FaRegCircleQuestion } from 'react-icons/fa6';
@@ -77,7 +76,6 @@ export default function LocationsForm({ data: currentLocation, isLoading: locati
   const [state, setState] = useState({ loading: false });
 
   const { mutate, isLoading } = useMutation(
-    // currentLocation ? 'update' : 'new',
     currentLocation ? api.updateBrandByAdmin : api.addBrandByAdmin,
     {
       retry: false,
@@ -88,7 +86,7 @@ export default function LocationsForm({ data: currentLocation, isLoading: locati
       onError: (error) => {
         let errorMessage = parseMongooseError(error?.message);
         toast.error(errorMessage || 'We ran into an issue. Please refresh the page or try again.', {
-          duration: 10000 // Prevents auto-dismissal
+          duration: 10000
         });
       }
     }
@@ -100,17 +98,62 @@ export default function LocationsForm({ data: currentLocation, isLoading: locati
     }
   });
 
+  // Fixed validation schema matching the model
   const LocationSchema = Yup.object().shape({
     name: Yup.string().required('Name is required'),
-    metaTitle: Yup.string().required('metaTitle is required'),
+    metaTitle: Yup.string()
+      .required('Meta Title is required')
+      .max(100, 'Meta Title cannot exceed 100 characters'),
     slug: Yup.string().required('Slug is required'),
     description: Yup.string().required('Description is required'),
-    metaDescription: Yup.string().required('MetaDescription is required'),
+    metaDescription: Yup.string()
+      .required('Meta Description is required')
+      .max(200, 'Meta Description cannot exceed 200 characters'),
     fullDescription: Yup.string(),
-    logo: Yup.mixed().required('Logo is required'),
-    bannerImage: Yup.mixed().required('Banner image is required'),
-    thumbnailImage: Yup.mixed(),
-    timezone: Yup.string().required('Timezone is required')
+    country: Yup.string(),
+    countryCode: Yup.string(),
+    city: Yup.string(),
+    region: Yup.string(),
+    address: Yup.string(),
+    timezone: Yup.string().required('Timezone is required'),
+    length: Yup.string(),
+    corners: Yup.string(),
+    width: Yup.string(),
+    yearOpened: Yup.string(),
+    facilities: Yup.array().of(Yup.string()),
+    keywords: Yup.array().of(Yup.string()),
+    website: Yup.string(),
+    phone: Yup.string(),
+    email: Yup.string().email('Please enter a valid email'),
+    status: Yup.string().required('Status is required'),
+    logo: Yup.object()
+      .shape({
+        _id: Yup.string().required('Logo ID is required'),
+        url: Yup.string().required('Logo URL is required'),
+        blurDataURL: Yup.string().required('Logo blur data is required')
+      })
+      .required('Logo is required'),
+    bannerImage: Yup.object()
+      .shape({
+        _id: Yup.string().required('Banner ID is required'),
+        url: Yup.string().required('Banner URL is required'),
+        blurDataURL: Yup.string().required('Banner blur data is required')
+      })
+      .required('Banner image is required'),
+    thumbnailImage: Yup.object()
+      .shape({
+        _id: Yup.string(),
+        url: Yup.string(),
+        blurDataURL: Yup.string()
+      })
+      .nullable(),
+    seoJunk: Yup.string(),
+    faqs: Yup.array().of(
+      Yup.object().shape({
+        question: Yup.string().required('FAQ question is required'),
+        answer: Yup.string().required('FAQ answer is required')
+      })
+    )
   });
 
   const formik = useFormik({
@@ -137,6 +180,7 @@ export default function LocationsForm({ data: currentLocation, isLoading: locati
       phone: currentLocation?.phone || '',
       email: currentLocation?.email || '',
       status: currentLocation?.status || STATUS_OPTIONS[0],
+      seoJunk: currentLocation?.seoJunk || '', // Added missing field
       logo: currentLocation?.logo || null,
       bannerImage: currentLocation?.bannerImage || null,
       thumbnailImage: currentLocation?.thumbnailImage || null,
@@ -144,19 +188,38 @@ export default function LocationsForm({ data: currentLocation, isLoading: locati
     },
     enableReinitialize: true,
     validationSchema: LocationSchema,
-    onSubmit: async (values) => {
+    onSubmit: async (values, { setSubmitting }) => {
       try {
-        mutate({
+        console.log('🔍 Submitting form with values:', values);
+        
+        // Validate required images
+        if (!values.logo || !values.logo.url) {
+          toast.error('Logo is required');
+          setSubmitting(false);
+          return;
+        }
+        if (!values.bannerImage || !values.bannerImage.url) {
+          toast.error('Banner image is required');
+          setSubmitting(false);
+          return;
+        }
+
+        const payload = {
           ...values,
           ...(currentLocation && { currentSlug: currentLocation.slug })
-        });
+        };
+
+        console.log('🔍 Sending payload:', payload);
+        mutate(payload);
       } catch (error) {
-        console.error(error);
+        console.error('Form submission error:', error);
+        toast.error('Form submission failed');
+        setSubmitting(false);
       }
     }
   });
 
-  const { errors, values, touched, handleSubmit, setFieldValue, getFieldProps } = formik;
+  const { errors, values, touched, handleSubmit, setFieldValue, getFieldProps, isValid, dirty } = formik;
 
   const handleTitleChange = (event) => {
     const title = event.target.value;
@@ -178,18 +241,51 @@ export default function LocationsForm({ data: currentLocation, isLoading: locati
         setState({ ...state, loading: progress });
       });
 
-      setFieldValue(fileKey, uploaded);
+      // Ensure the uploaded object matches the image schema
+      const imageData = {
+        _id: uploaded._id || `img-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`,
+        url: uploaded.url,
+        blurDataURL: uploaded.blurDataURL || 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNkYPhfDwAChwGA60e6kgAAAABJRU5ErkJggg=='
+      };
+
+      setFieldValue(fileKey, imageData);
       setState({ ...state, loading: false });
+      console.log(`✅ ${fileKey} uploaded:`, imageData);
     } catch (err) {
       console.error('Upload failed:', err);
       setState({ ...state, loading: false });
+      toast.error(`Failed to upload ${fileKey}`);
     }
+  };
+
+  const handleFormSubmit = (e) => {
+    e.preventDefault();
+    
+    // Manually trigger validation
+    formik.validateForm().then((validationErrors) => {
+      console.log('🔍 Validation errors:', validationErrors);
+      
+      if (Object.keys(validationErrors).length === 0) {
+        console.log('✅ Form is valid, submitting...');
+        handleSubmit(e);
+      } else {
+        console.log('❌ Form has validation errors:', validationErrors);
+        toast.error('Please fix the form errors before submitting');
+        
+        // Scroll to first error
+        const firstError = Object.keys(validationErrors)[0];
+        const element = document.getElementById(firstError);
+        if (element) {
+          element.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }
+      }
+    });
   };
 
   return (
     <Box position="relative">
       <FormikProvider value={formik}>
-        <Form noValidate autoComplete="off" onSubmit={handleSubmit}>
+        <Form noValidate autoComplete="off" onSubmit={handleFormSubmit}>
           {/* ================= Top Section ================= */}
           <Box sx={{ width: '100%' }}>
             <Grid container spacing={2}>
@@ -198,10 +294,10 @@ export default function LocationsForm({ data: currentLocation, isLoading: locati
                 <Card sx={{ p: 3, height: '100%' }}>
                   <Stack spacing={3}>
                     {[
-                      { name: 'name', label: 'Location Name', onChange: handleTitleChange },
-                      { name: 'metaTitle', label: 'Meta Title', multiline: true, rows: 3 },
-                      { name: 'description', label: 'Short Description', multiline: true, rows: 2 },
-                      { name: 'metaDescription', label: 'Meta Description', multiline: true, rows: 3 },
+                      { name: 'name', label: 'Location Name *', onChange: handleTitleChange },
+                      { name: 'metaTitle', label: 'Meta Title *', multiline: true, rows: 3 },
+                      { name: 'description', label: 'Short Description *', multiline: true, rows: 2 },
+                      { name: 'metaDescription', label: 'Meta Description *', multiline: true, rows: 3 },
                       { name: 'fullDescription', label: 'Full Description', multiline: true, rows: 6 },
                       { name: 'country', label: 'Country' },
                       { name: 'countryCode', label: 'Country Code' },
@@ -248,8 +344,7 @@ export default function LocationsForm({ data: currentLocation, isLoading: locati
                       </>
                     ) : (
                       <>
-                        <LabelStyle>Timezone</LabelStyle>
-
+                        <LabelStyle>Timezone *</LabelStyle>
                         <TimezoneSearch
                           value={values.timezone}
                           onChange={(val) => setFieldValue('timezone', val)}
@@ -267,7 +362,7 @@ export default function LocationsForm({ data: currentLocation, isLoading: locati
                       { name: 'yearOpened', label: 'Year Opened' },
                       { name: 'website', label: 'Website' },
                       { name: 'phone', label: 'Phone' },
-                      { name: 'email', label: 'Email' }
+                      { name: 'email', label: 'Email', type: 'email' }
                     ].map((field) => (
                       <div key={field.name}>
                         {locationLoading ? (
@@ -281,6 +376,7 @@ export default function LocationsForm({ data: currentLocation, isLoading: locati
                             <TextField
                               id={field.name}
                               fullWidth
+                              type={field.type || 'text'}
                               {...getFieldProps(field.name)}
                               error={Boolean(touched[field.name] && errors[field.name])}
                               helperText={touched[field.name] && errors[field.name]}
@@ -317,13 +413,12 @@ export default function LocationsForm({ data: currentLocation, isLoading: locati
                           </IconButton>
                         </Tooltip>
                       </Typography>
-
                       <Autocomplete
                         multiple
                         freeSolo
                         value={values.keywords}
                         onChange={(e, newValue) => setFieldValue('keywords', newValue)}
-                        options={KEYWORD_OPTIONS} // use your predefined keyword list
+                        options={KEYWORD_OPTIONS}
                         renderTags={(value, getTagProps) =>
                           value.map((option, index) => (
                             <Chip
@@ -344,8 +439,8 @@ export default function LocationsForm({ data: currentLocation, isLoading: locati
                     </FormControl>
 
                     {/* Status */}
-                    <FormControl fullWidth>
-                      <LabelStyle>Status</LabelStyle>
+                    <FormControl fullWidth error={Boolean(touched.status && errors.status)}>
+                      <LabelStyle>Status *</LabelStyle>
                       <Select native {...getFieldProps('status')}>
                         {STATUS_OPTIONS.map((status) => (
                           <option key={status} value={status}>
@@ -353,7 +448,19 @@ export default function LocationsForm({ data: currentLocation, isLoading: locati
                           </option>
                         ))}
                       </Select>
+                      {touched.status && errors.status && (
+                        <FormHelperText error>{errors.status}</FormHelperText>
+                      )}
                     </FormControl>
+
+                    {/* SEO Junk */}
+                    <TextField
+                      label="SEO Junk"
+                      fullWidth
+                      {...getFieldProps('seoJunk')}
+                      error={Boolean(touched.seoJunk && errors.seoJunk)}
+                      helperText={touched.seoJunk && errors.seoJunk}
+                    />
                   </Stack>
                 </Card>
               </Grid>
@@ -366,7 +473,7 @@ export default function LocationsForm({ data: currentLocation, isLoading: locati
               {/* Images */}
               <Grid item xs={12} sx={{ width: { xs: '100%', md: '50%' } }}>
                 <Card sx={{ p: 3 }}>
-                  <LabelStyle>Logo</LabelStyle>
+                  <LabelStyle>Logo *</LabelStyle>
                   <UploadSingleFile
                     file={values.logo}
                     onDrop={(files) => handleDrop('logo', files)}
@@ -379,7 +486,7 @@ export default function LocationsForm({ data: currentLocation, isLoading: locati
 
               <Grid item xs={12} sx={{ width: { xs: '100%', md: '46%' } }}>
                 <Card sx={{ p: 3 }}>
-                  <LabelStyle>Banner Image</LabelStyle>
+                  <LabelStyle>Banner Image *</LabelStyle>
                   <UploadSingleFile
                     file={values.bannerImage}
                     onDrop={(files) => handleDrop('bannerImage', files)}
@@ -392,7 +499,7 @@ export default function LocationsForm({ data: currentLocation, isLoading: locati
                 </Card>
               </Grid>
 
-              {/* <Grid item xs={12} sx={{ width: { xs: '100%', md: '50%' } }}>
+              <Grid item xs={12} sx={{ width: { xs: '100%', md: '50%' } }}>
                 <Card sx={{ p: 3 }}>
                   <LabelStyle>Thumbnail Image</LabelStyle>
                   <UploadSingleFile
@@ -405,7 +512,7 @@ export default function LocationsForm({ data: currentLocation, isLoading: locati
                     <FormHelperText error>{errors.thumbnailImage}</FormHelperText>
                   )}
                 </Card>
-              </Grid> */}
+              </Grid>
             </Grid>
 
             {/* FAQs Section */}
@@ -418,13 +525,33 @@ export default function LocationsForm({ data: currentLocation, isLoading: locati
                     <>
                       {values.faqs.map((faq, index) => (
                         <Stack key={index} spacing={2} sx={{ mb: 2, border: '1px solid #ddd', p: 2, borderRadius: 1 }}>
-                          <TextField label="Question" fullWidth {...getFieldProps(`faqs[${index}].question`)} />
+                          <TextField 
+                            label="Question *" 
+                            fullWidth 
+                            {...getFieldProps(`faqs[${index}].question`)}
+                            error={Boolean(
+                              touched.faqs?.[index]?.question && 
+                              errors.faqs?.[index]?.question
+                            )}
+                            helperText={
+                              touched.faqs?.[index]?.question && 
+                              errors.faqs?.[index]?.question
+                            }
+                          />
                           <TextField
-                            label="Answer"
+                            label="Answer *"
                             fullWidth
                             multiline
                             rows={3}
                             {...getFieldProps(`faqs[${index}].answer`)}
+                            error={Boolean(
+                              touched.faqs?.[index]?.answer && 
+                              errors.faqs?.[index]?.answer
+                            )}
+                            helperText={
+                              touched.faqs?.[index]?.answer && 
+                              errors.faqs?.[index]?.answer
+                            }
                           />
                           <IconButton
                             color="error"
@@ -451,8 +578,14 @@ export default function LocationsForm({ data: currentLocation, isLoading: locati
 
           {/* Submit */}
           <Box mt={3} textAlign="right">
-            <LoadingButton type="submit" variant="contained" size="large" loading={isLoading}>
-              {currentLocation ? 'Update Location -' : 'Add Location'}
+            <LoadingButton 
+              type="submit" 
+              variant="contained" 
+              size="large" 
+              loading={isLoading}
+              disabled={!dirty || !isValid}
+            >
+              {currentLocation ? 'Update Location' : 'Add Location'}
             </LoadingButton>
           </Box>
         </Form>
