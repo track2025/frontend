@@ -199,14 +199,9 @@ export default function LocationsForm({ data: currentLocation, isLoading: locati
                   <Stack spacing={3}>
                     {[
                       { name: 'name', label: 'Location Name', onChange: handleTitleChange },
-<<<<<<< HEAD
                       { name: 'metaTitle', label: 'Meta Title', multiline: true, rows: 3 },
                       { name: 'description', label: 'Short Description', multiline: true, rows: 2 },
                       { name: 'metaDescription', label: 'Meta Description', multiline: true, rows: 3 },
-=======
-                      { name: 'description', label: 'Meta Title', multiline: true, rows: 3 },
-                      { name: 'description', label: 'Meta Description', multiline: true, rows: 3 },
->>>>>>> 2025/11/11/changes-from-docs
                       { name: 'fullDescription', label: 'Full Description', multiline: true, rows: 6 },
                       { name: 'country', label: 'Country' },
                       { name: 'countryCode', label: 'Country Code' },
