@@ -12,6 +12,8 @@ import { useCurrencyFormatter } from 'src/hooks/formatCurrency';
 export default function CheckoutCard({ cart, loading }) {
   const cCurrency = useCurrencyConvert();
   const fCurrency = useCurrencyFormatter();
+
+  console.log("Cart Items: ", cart);
   return (
     <Card sx={{ mb: 2 }}>
       <CardContent>
@@ -50,13 +52,26 @@ export default function CheckoutCard({ cart, loading }) {
                   <Stack direction="row" gap={1}></Stack>
                 </Box>
               </Stack>
-              <Typography variant="subtitle1">
-                {loading ? (
-                  <Skeleton variant="text" width={60} />
-                ) : (
-                  <>{fCurrency(cCurrency(parseFloat(value?.priceSale)))}</>
-                )}
-              </Typography>
+              <Stack direction="row" alignItems="center" spacing={5}>
+                {value?.checkoutType && value?.checkoutType === 'physical-product' ?
+                  <Typography variant="subtitle1">
+                    {loading ? (
+                      <Skeleton variant="text" width={60} />
+                    ) : (
+                      <>{value?.quantity}</>
+                    )}
+                  </Typography>
+                  : null
+                }
+
+                <Typography variant="subtitle1">
+                  {loading ? (
+                    <Skeleton variant="text" width={60} />
+                  ) : (
+                    <>{fCurrency(cCurrency(parseFloat(value?.subtotal)))}</>
+                  )}
+                </Typography>
+              </Stack>
             </Stack>
             {index !== array.length - 1 && <Divider />}
           </React.Fragment>

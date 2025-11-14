@@ -295,7 +295,7 @@ const CheckoutMain = () => {
   // Check if user is the developer for debugging
   const isDeveloper = userData?.email === 'nowopeyemi@gmail.com';
 
-  // Debug state - only initialize if developer
+  // Debuxxg state - only initialize if developer
   const [debugLogs, setDebugLogs] = useState(isDeveloper ? [] : []);
   const [showDebugConsole, setShowDebugConsole] = useState(false);
   const [alertModal, setAlertModal] = useState({

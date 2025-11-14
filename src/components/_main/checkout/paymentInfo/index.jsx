@@ -25,12 +25,13 @@ function isExpired(expirationDate) {
 }
 
 export default function PaymentInfo({ setCouponCode, setTotal, checkoutType, values }) {
-  console.log(values, 'OKK SEE THE VALUES');
   const { product } = useSelector((state) => state);
   const { total, shipping, subtotal } = product.checkout;
   const [code, setCode] = useState('');
   const cCurrency = useCurrencyConvert();
   const fCurrency = useCurrencyFormatter();
+
+  console.log(product, subtotal, total, 'Items value');
 
   const [discountPrice, setDiscountPrice] = useState(null);
   const [appliedDiscount, setDiscount] = useState(null);
