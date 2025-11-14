@@ -35,7 +35,7 @@ export default async function OrderPage() {
           },
           {
             name: 'Profile',
-            href: '/profile/orders'
+            href: '/profile/'
           },
           {
             name: 'Orders'

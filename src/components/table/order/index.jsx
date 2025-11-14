@@ -1,7 +1,7 @@
 'use client';
 import React from 'react';
 import PropTypes from 'prop-types';
-
+import "./tableStyles.css"
 //  mui
 import {
   Typography,
@@ -87,96 +87,48 @@ export default function TableCard({ ...props }) {
         checkoutType={checkoutType}
       />
       <Divider />
-      <Table>
-        <TableBody>
-          <TableRow className="body-row">
-            <TableCell colSpan={4}></TableCell>
-            <TableCell align="right">
-              {isLoading ? (
-                <Skeleton variant="text" className="skeleton-text" width={100} />
-              ) : (
-                <strong>Subtotal</strong>
-              )}
-            </TableCell>
-            <TableCell align="right">
-              {isLoading ? (
-                <Skeleton variant="text" className="skeleton-text" width={100} />
-              ) : (
-                <strong>{fCurrency(cCurrency(data?.subTotal))}</strong>
-              )}
-            </TableCell>
-          </TableRow>
+    <table className="custom-table">
+  <tbody>
+    <tr className="body-row">
+      {/* <td colSpan="5"></td> */}
+      <td colSpan="0" style={{ textAlign: 'left' }}>
+        {isLoading ? (
+          <div className="skeleton-text" style={{ width: 100, height: 16, background: '#e0e0e0' }} />
+        ) : (
+          <strong>Subtotal</strong>
+        )}
+      </td>
+      <td style={{ textAlign: 'right' }}>
+        {isLoading ? (
+          <div className="skeleton-text" style={{ width: 100, height: 16, background: '#e0e0e0' }} />
+        ) : (
+          <strong>{fCurrency(cCurrency(data?.subTotal))}</strong>
+        )}
+      </td>
+    </tr>
 
-          {checkoutType === 'physical-product' && (
-            <TableRow className="body-row">
-              <TableCell colSpan={4}></TableCell>
-              <TableCell align="right">
-                {isLoading ? (
-                  <Skeleton variant="text" className="skeleton-text" width={100} />
-                ) : (
-                  <strong>Shipping Fee</strong>
-                )}
-              </TableCell>
-              <TableCell align="right">
-                {isLoading ? (
-                  <Skeleton variant="text" className="skeleton-text" width={100} />
-                ) : (
-                  <strong>{fCurrency(cCurrency(data?.shipping))}</strong>
-                )}
-              </TableCell>
-            </TableRow>
+    {checkoutType === 'physical-product' && (
+      <tr className="body-row">
+        {/* <td colSpan="5"></td> */}
+        <td colSpan="0" style={{ textAlign: 'left' }}>
+          {isLoading ? (
+            <div className="skeleton-text" style={{ width: 100, height: 16, background: '#e0e0e0' }} />
+          ) : (
+            <strong>Shipping Fee</strong>
           )}
+        </td>
+        <td style={{ textAlign: 'right' }}>
+          {isLoading ? (
+            <div className="skeleton-text" style={{ width: 100, height: 16, background: '#e0e0e0' }} />
+          ) : (
+            <strong>{fCurrency(cCurrency(data?.shipping))}</strong>
+          )}
+        </td>
+      </tr>
+    )}
+  </tbody>
+</table>
 
-          {/* <TableRow>
-            <TableCell colSpan={4}></TableCell>
-            <TableCell align="right">
-              {isLoading ? (
-                <Skeleton variant="text" className="skeleton-text" width={100} />
-              ) : (
-                <strong>Shipping Fee</strong>
-              )}
-            </TableCell>
-
-            <TableCell align="right">
-              {isLoading ? (
-                <Skeleton variant="text" className="skeleton-text" width={100} />
-              ) : (
-                <strong>{fCurrency(data?.shipping * conversionRate)}</strong>
-              )}
-            </TableCell>
-          </TableRow> */}
-          {/* <TableRow>
-            <TableCell colSpan={4}></TableCell>
-            <TableCell align="right">
-              {isLoading ? (
-                <Skeleton variant="text" className="skeleton-text" width={100} />
-              ) : (
-                <strong>Discount</strong>
-              )}
-            </TableCell>
-            <TableCell align="right">
-              {isLoading ? (
-                <Skeleton variant="text" className="skeleton-text" width={100} />
-              ) : (
-                <strong>-{fCurrency(data?.discount * conversionRate)}</strong>
-              )}
-            </TableCell>
-          </TableRow>
-          <TableRow>
-            <TableCell colSpan={4}></TableCell>
-            <TableCell align="right">
-              {isLoading ? <Skeleton variant="text" className="skeleton-text" width={100} /> : <strong>Total</strong>}
-            </TableCell>
-            <TableCell align="right">
-              {isLoading ? (
-                <Skeleton variant="text" className="skeleton-text" width={100} />
-              ) : (
-                <strong>{fCurrency(data?.total * conversionRate)}</strong>
-              )}
-            </TableCell>
-          </TableRow> */}
-        </TableBody>
-      </Table>
     </RootStyled>
   );
 }

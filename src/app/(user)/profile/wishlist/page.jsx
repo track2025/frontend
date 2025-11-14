@@ -45,7 +45,7 @@ export default function Wishlist() {
           },
           {
             name: 'Profile',
-            href: '/profile/wishlist'
+            href: '/profile/'
           },
           {
             name: 'Wishlist'

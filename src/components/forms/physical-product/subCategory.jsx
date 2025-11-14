@@ -62,11 +62,15 @@ export default function PhysicalSubCategoryForm({
     onError: (error) => {
       console.log("error:::", error?.data?.message)
       let arr = error?.data?.message;
-      if (Array.isArray(arr) && arr.length > 1) {
+      
+      if (Array.isArray(arr) && arr.length >= 1) {
         arr.forEach((err) => toast.error(err));
         return;
-      } else {
-        toast.error(error?.data?.message?.[0] || 'Something went wrong');
+      } 
+
+      if(typeof error?.data?.message === 'string'){
+        toast.error(error?.data?.message || 'Something went wrong!');
+        return;
       }
     }
   });
