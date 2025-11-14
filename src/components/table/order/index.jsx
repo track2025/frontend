@@ -47,6 +47,11 @@ export default function TableCard({ ...props }) {
   const fCurrency = useCurrencyFormatter();
   const cCurrency = useCurrencyConvert();
   const conversionRate = data?.conversionRate;
+
+  const subTotal = data?.items?.reduce(
+    (sum, item) => sum + (item.priceSale || item.price) * item.quantity,
+    0
+  );
   return (
     <RootStyled sx={{ marginBottom: '50px' }}>
       {isLoading ? (
@@ -87,47 +92,46 @@ export default function TableCard({ ...props }) {
         checkoutType={checkoutType}
       />
       <Divider />
-    <table className="custom-table">
-  <tbody>
-    <tr className="body-row">
-      {/* <td colSpan="5"></td> */}
-      <td colSpan="0" style={{ textAlign: 'left' }}>
-        {isLoading ? (
-          <div className="skeleton-text" style={{ width: 100, height: 16, background: '#e0e0e0' }} />
-        ) : (
-          <strong>Subtotal</strong>
-        )}
-      </td>
-      <td style={{ textAlign: 'right' }}>
-        {isLoading ? (
-          <div className="skeleton-text" style={{ width: 100, height: 16, background: '#e0e0e0' }} />
-        ) : (
-          <strong>{fCurrency(cCurrency(data?.subTotal))}</strong>
-        )}
-      </td>
-    </tr>
+      <table className="custom-table">
+        <tbody>
+          <tr className="body-row">
+            <td colSpan="0" style={{ textAlign: 'left' }}>
+              {isLoading ? (
+                <div className="skeleton-text" style={{ width: 100, height: 16, background: '#e0e0e0' }} />
+              ) : (
+                <strong>Subtotal</strong>
+              )}
+            </td>
+            <td style={{ textAlign: 'right' }}>
+              {isLoading ? (
+                <div className="skeleton-text" style={{ width: 100, height: 16, background: '#e0e0e0' }} />
+              ) : (
+                <strong>{fCurrency(cCurrency(subTotal))}</strong>
+              )}
+            </td>
+          </tr>
 
-    {checkoutType === 'physical-product' && (
-      <tr className="body-row">
-        {/* <td colSpan="5"></td> */}
-        <td colSpan="0" style={{ textAlign: 'left' }}>
-          {isLoading ? (
-            <div className="skeleton-text" style={{ width: 100, height: 16, background: '#e0e0e0' }} />
-          ) : (
-            <strong>Shipping Fee</strong>
+          {checkoutType === 'physical-product' && (
+            <tr className="body-row">
+              {/* <td colSpan="5"></td> */}
+              <td colSpan="0" style={{ textAlign: 'left' }}>
+                {isLoading ? (
+                  <div className="skeleton-text" style={{ width: 100, height: 16, background: '#e0e0e0' }} />
+                ) : (
+                  <strong>Shipping Fee</strong>
+                )}
+              </td>
+              <td style={{ textAlign: 'right' }}>
+                {isLoading ? (
+                  <div className="skeleton-text" style={{ width: 100, height: 16, background: '#e0e0e0' }} />
+                ) : (
+                  <strong>{fCurrency(cCurrency(data?.shipping))}</strong>
+                )}
+              </td>
+            </tr>
           )}
-        </td>
-        <td style={{ textAlign: 'right' }}>
-          {isLoading ? (
-            <div className="skeleton-text" style={{ width: 100, height: 16, background: '#e0e0e0' }} />
-          ) : (
-            <strong>{fCurrency(cCurrency(data?.shipping))}</strong>
-          )}
-        </td>
-      </tr>
-    )}
-  </tbody>
-</table>
+        </tbody>
+      </table>
 
     </RootStyled>
   );

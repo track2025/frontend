@@ -435,6 +435,17 @@ const CheckoutMain = () => {
         const items = cart.map(({ ...others }) => others);
         const totalItems = sum(items.map((item) => item.quantity));
 
+        // Calculate subtotal using sale price if available
+        const subTotal = items.reduce(
+          (sum, item) => sum + (item.priceSale || item.price) * item.quantity,
+          0
+        );
+
+        // Determine shipping fee
+        const shipping = values.country && values.country !== 'United Arab Emirates'
+          ? parseInt(process.env.SHIPPING_FEE_OUTER || 0)
+          : parseInt(process.env.SHIPPING_FEE || 0);
+
         const orderData = {
           paymentMethod: 'Trust Payments',
           items,
@@ -452,12 +463,23 @@ const CheckoutMain = () => {
           checkoutType,
           totalItems,
           couponCode: couponCode || null,
-          currency: 'GBP',
+          currency: currency,
           conversionRate: rate,
-          shipping: process.env.SHIPPING_FEE || 0,
+
+          // Use calculated subtotal
+          subTotal,
+
+          // Shipping fee
+          shipping,
+
+          // Total = subtotal + shipping
+          total: subTotal + shipping,
+
           paymentId: transactionReference,
           description: `Order from Trust Payments - ${transactionReference}`
         };
+
+        console.log("Order Details", orderData);
 
         if (isDeveloper) {
           addDebugLog('Submitting Trust Payment order', 'info');
@@ -621,6 +643,7 @@ const CheckoutMain = () => {
     } else {
       setLoading(true);
       // Sync Redux cart to backend (same as old version)
+      console.log("Cart Details", cart)
       getCartMutate(cart);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -667,6 +690,27 @@ const CheckoutMain = () => {
     );
   }
 
+  console.log('🔍 Payment Gateway Amount Debug:');
+  console.log('🔍 totalWithDiscount:', totalWithDiscount);
+  console.log('🔍 checkout.total:', total);
+  console.log('🔍 checkoutType:', checkoutType);
+  console.log('🔍 values.country:', values.country);
+  console.log('🔍 SHIPPING_FEE_OUTER:', process.env.SHIPPING_FEE_OUTER);
+  console.log('🔍 SHIPPING_FEE:', process.env.SHIPPING_FEE);
+
+  const subtotal = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+
+  const shippingFee = checkoutType === 'physical-product' ?
+    (values?.country && values?.country != 'United Arab Emirates'
+      ? parseInt(process.env.SHIPPING_FEE_OUTER || 0)
+      : parseInt(process.env.SHIPPING_FEE || 0)
+    )
+    : 0;
+
+  const calculatedAmount = totalWithDiscount || (subtotal + shippingFee);
+
+  console.log('🔍 Correct calculation:', subtotal, '+', shippingFee, '=', calculatedAmount);
+
   // Show regular checkout interface
   return (
     <FormikProvider value={formik}>
@@ -700,7 +744,7 @@ const CheckoutMain = () => {
                 setValue={setPaymentMethod}
                 showApplePay={true}
                 useMockMode={false}
-                amount={totalWithDiscount || total}
+                amount={calculatedAmount}
                 currency={currency || 'GBP'}
                 orderReference={Date.now()}
                 isFormValid={isFormValid}

@@ -16,6 +16,9 @@ export const metadata = {
 
 export default async function OrderMain({ params }) {
   const { oid } = params;
+
+  
+
   let data;
   try {
     const response = await fetch(process.env.BASE_URL + '/api/orders/' + oid);
@@ -28,14 +31,16 @@ export default async function OrderMain({ params }) {
     notFound();
   }
 
+  console.log("Items: ",data);
+  
   return (
     <Box>
       <Container maxWidth="xl">
         <Stack spacing={1} textAlign="center" mt={8} mb={5} justifyContent="center" alignItems="center">
           <Typography variant="h3">Thank you for your purchase!</Typography>
-          <Typography variant="subtitle1" color="text.secondary" sx={{ maxWidth: 600 }}>
+          {/* <Typography variant="subtitle1" color="text.secondary" sx={{ maxWidth: 600 }}>
             Thank you for your purchase! We truly value your business and are committed to providing outstanding service. Please note that only physical products from your order are available for download. You can access them using the link below or the one sent to your email.
-          </Typography>
+          </Typography> */}
           <Typography
             variant="subtitle1"
             color="text.primary"
