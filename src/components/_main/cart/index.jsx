@@ -25,6 +25,8 @@ export default function CartMain() {
   const { checkout } = useSelector(({ product }) => product);
   const { cart } = checkout;
   const [loading, setLoading] = React.useState(true);
+
+  console.log("checkout Items: ", checkout);
   const { mutate } = useMutation(api.getCart, {
     onSuccess: (res) => {
       setLoading(false);
@@ -36,6 +38,7 @@ export default function CartMain() {
       toast.error(message ? JSON.parse(message) : 'We ran into an issue. Please refresh the page or try again.');
     }
   });
+  
   React.useEffect(() => {
     setLoading(true);
     mutate(cart);

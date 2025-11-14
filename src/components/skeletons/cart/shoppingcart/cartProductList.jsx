@@ -27,9 +27,9 @@ export default function CartProductListSkeleton() {
         </TableHead>
 
         <TableBody>
-          {Array.from(new Array(3)).map((i) => {
+          {Array.from({ length: 3 }).map((_, index)  => {
             return (
-              <TableRow key={i}>
+              <TableRow key={`skeleton-row-${index}`}>
                 <TableCell>
                   <Box className="product-sec">
                     <Skeleton variant="rounded" width={56} height={56} sx={{ mr: 2 }} />

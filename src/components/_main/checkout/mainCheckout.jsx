@@ -1,163 +1,34 @@
 'use client';
-import React, { useState, useEffect, useRef, useCallback, Suspense } from 'react';
+import React, { useState, useEffect, useRef, Suspense } from 'react';
 import dynamic from 'next/dynamic';
 import { useRouter } from 'next-nprogress-bar';
 import { useDispatch, useSelector } from 'react-redux';
 import { useMutation } from 'react-query';
 import { toast } from 'react-hot-toast';
 import { sum } from 'lodash';
-// mui
-import { Box, Grid, Typography, Modal, Paper, IconButton, Alert, CircularProgress, Backdrop } from '@mui/material';
-import { Close, BugReport } from '@mui/icons-material';
+import { Box, Grid, CircularProgress, Backdrop } from '@mui/material';
 import LoadingButton from '@mui/lab/LoadingButton';
-// yup
 import * as Yup from 'yup';
-// formik
 import { useFormik, Form, FormikProvider } from 'formik';
-// api
 import * as api from 'src/services';
-
-// Components
 import { resetCart, getCart } from 'src/redux/slices/product';
 import CheckoutGuestFormSkeleton from '../skeletons/checkout/checkoutForm';
 import PaymentInfoSkeleton from '../skeletons/checkout/paymentInfo';
 import CardItemSekelton from '../skeletons/checkout/cartItems';
-// hooks
-import { useCurrencyConvert } from 'src/hooks/convertCurrency';
 import TrustPaymentMethodCard from './TrustPaymentMethod';
 
-// dynamic components
 const CheckoutForm = dynamic(() => import('src/components/forms/checkout'), {
   loading: () => <CheckoutGuestFormSkeleton />
 });
+
 const PaymentInfo = dynamic(() => import('src/components/_main/checkout/paymentInfo'), {
   loading: () => <PaymentInfoSkeleton />
 });
+
 const CartItemsCard = dynamic(() => import('src/components/cards/cartItems'), {
   loading: () => <CardItemSekelton />
 });
 
-// Debug Console Component
-const DebugConsole = ({ logs, onClear, open, onClose }) => {
-  const modalStyle = {
-    position: 'fixed',
-    bottom: '20px',
-    right: '20px',
-    width: '80%',
-    maxWidth: '500px',
-    maxHeight: '60vh',
-    overflow: 'auto',
-    bgcolor: 'background.paper',
-    border: '2px solid #000',
-    boxShadow: 24,
-    p: 2,
-    zIndex: 9999
-  };
-
-  return (
-    <>
-      <IconButton
-        onClick={onClose}
-        sx={{
-          position: 'fixed',
-          bottom: '90px',
-          right: '20px',
-          zIndex: 10000,
-          backgroundColor: 'primary.main',
-          color: 'white',
-          '&:hover': {
-            backgroundColor: 'primary.dark'
-          }
-        }}
-      >
-        <BugReport />
-      </IconButton>
-
-      <Modal open={open} onClose={onClose}>
-        <Paper sx={modalStyle}>
-          <Box display="flex" justifyContent="space-between" alignItems="center" mb={2}>
-            <Typography variant="h6">Debug Console</Typography>
-            <Box>
-              <IconButton onClick={onClear} size="small" sx={{ mr: 1 }}>
-                <Typography variant="body2">Clear</Typography>
-              </IconButton>
-              <IconButton onClick={onClose} size="small">
-                <Close />
-              </IconButton>
-            </Box>
-          </Box>
-
-          <Box sx={{ height: '40vh', overflow: 'auto' }}>
-            {logs.length === 0 ? (
-              <Typography variant="body2" color="text.secondary">
-                No logs yet. Payment interactions will appear here.
-              </Typography>
-            ) : (
-              logs.map((log, index) => (
-                <Box
-                  key={index}
-                  sx={{ mb: 1, p: 1, bgcolor: log.type === 'error' ? 'error.light' : 'grey.100', borderRadius: 1 }}
-                >
-                  <Typography
-                    variant="caption"
-                    display="block"
-                    color={log.type === 'error' ? 'error.contrastText' : 'text.secondary'}
-                  >
-                    {new Date(log.timestamp).toLocaleTimeString()}
-                  </Typography>
-                  <Typography variant="body2" sx={{ fontFamily: 'monospace', whiteSpace: 'pre-wrap' }}>
-                    {log.message}
-                  </Typography>
-                </Box>
-              ))
-            )}
-          </Box>
-        </Paper>
-      </Modal>
-    </>
-  );
-};
-
-// Response Alert Modal
-const ResponseAlertModal = ({ open, onClose, title, message, type = 'info' }) => {
-  const modalStyle = {
-    position: 'absolute',
-    top: '50%',
-    left: '50%',
-    transform: 'translate(-50%, -50%)',
-    width: '80%',
-    maxWidth: '500px',
-    bgcolor: 'background.paper',
-    border: '2px solid #000',
-    boxShadow: 24,
-    p: 3
-  };
-
-  return (
-    <Modal open={open} onClose={onClose}>
-      <Paper sx={modalStyle}>
-        <Box display="flex" justifyContent="space-between" alignItems="center" mb={2}>
-          <Typography variant="h6" color={type}>
-            {title}
-          </Typography>
-          <IconButton onClick={onClose} size="small">
-            <Close />
-          </IconButton>
-        </Box>
-
-        <Alert severity={type} sx={{ mb: 2 }}>
-          <Typography variant="body1">{message}</Typography>
-        </Alert>
-
-        <LoadingButton onClick={onClose} variant="contained" fullWidth>
-          Close
-        </LoadingButton>
-      </Paper>
-    </Modal>
-  );
-};
-
-// Full Page Loader Component
 const FullPageLoader = ({ message = 'Processing your payment...' }) => {
   return (
     <Backdrop
@@ -171,29 +42,25 @@ const FullPageLoader = ({ message = 'Processing your payment...' }) => {
       open={true}
     >
       <CircularProgress size={80} thickness={4} sx={{ color: '#EE1E50' }} />
-      <Typography variant="h5" sx={{ color: '#fff', textAlign: 'center', maxWidth: '80%' }}>
+      <Box sx={{ color: '#fff', textAlign: 'center', maxWidth: '80%' }}>
         {message}
-      </Typography>
-      <Typography variant="body1" sx={{ color: 'rgba(255, 255, 255, 0.8)', textAlign: 'center', maxWidth: '80%' }}>
+      </Box>
+      <Box sx={{ color: 'rgba(255, 255, 255, 0.8)', textAlign: 'center', maxWidth: '80%' }}>
         Please wait while we verify your payment. Do not close this page or refresh.
-      </Typography>
+      </Box>
     </Backdrop>
   );
 };
 
-// Trust Payment Status Handler Component
-const TrustPaymentHandler = ({ onProcessTrustPayment, isDeveloper, addDebugLog, onError }) => {
+const TrustPaymentHandler = ({ onProcessTrustPayment, onError }) => {
   const [isProcessing, setIsProcessing] = useState(false);
   const [statusChecked, setStatusChecked] = useState(false);
-  const [hasError, setHasError] = useState(false);
 
   useEffect(() => {
     const handleTrustPaymentStatus = async () => {
       if (typeof window === 'undefined' || statusChecked) return;
 
       const urlParams = new URLSearchParams(window.location.search);
-
-      // Check if this is a Trust Payments callback
       const hasTrustParams = urlParams.has('settlestatus') || urlParams.has('errorcode');
 
       if (!hasTrustParams) {
@@ -201,19 +68,9 @@ const TrustPaymentHandler = ({ onProcessTrustPayment, isDeveloper, addDebugLog, 
         return;
       }
 
-      if (isDeveloper) {
-        addDebugLog('Trust Payments callback detected', 'info');
-        addDebugLog('URL Params:', 'info');
-        urlParams.forEach((value, key) => {
-          addDebugLog(`${key}: ${value}`, 'info');
-        });
-      }
-
       setIsProcessing(true);
-      setHasError(false);
 
       try {
-        // Extract Trust Payments parameters
         const settleStatus = urlParams.get('settlestatus');
         const errorCode = urlParams.get('errorcode');
         const orderReference = urlParams.get('orderreference');
@@ -221,11 +78,6 @@ const TrustPaymentHandler = ({ onProcessTrustPayment, isDeveloper, addDebugLog, 
         const siteReference = urlParams.get('sitereference');
         const paymentType = urlParams.get('paymenttypedescription');
 
-        if (isDeveloper) {
-          addDebugLog(`Processing Trust Payment: settleStatus=${settleStatus}, errorCode=${errorCode}`, 'info');
-        }
-
-        // Process the payment status
         await onProcessTrustPayment({
           settleStatus: parseInt(settleStatus),
           errorCode: errorCode ? parseInt(errorCode) : null,
@@ -235,10 +87,6 @@ const TrustPaymentHandler = ({ onProcessTrustPayment, isDeveloper, addDebugLog, 
           paymentType
         });
       } catch (error) {
-        if (isDeveloper) {
-          addDebugLog(`Trust Payment processing error: ${error.message}`, 'error');
-        }
-        setHasError(true);
         onError(error.message);
       } finally {
         setIsProcessing(false);
@@ -247,31 +95,18 @@ const TrustPaymentHandler = ({ onProcessTrustPayment, isDeveloper, addDebugLog, 
     };
 
     handleTrustPaymentStatus();
-  }, [onProcessTrustPayment, statusChecked, isDeveloper, addDebugLog, onError]);
+  }, [onProcessTrustPayment, statusChecked, onError]);
 
   if (isProcessing) {
     return (
       <Box display="flex" flexDirection="column" alignItems="center" justifyContent="center" py={10}>
         <CircularProgress size={60} />
-        <Typography variant="h6" sx={{ mt: 2 }}>
+        <Box sx={{ mt: 2 }}>
           Verifying your payment...
-        </Typography>
-        <Typography variant="body2" color="text.secondary" sx={{ mt: 1 }}>
+        </Box>
+        <Box sx={{ color: 'text.secondary', mt: 1 }}>
           Please wait while we confirm your payment status with Trust Payments.
-        </Typography>
-      </Box>
-    );
-  }
-
-  if (hasError) {
-    return (
-      <Box display="flex" flexDirection="column" alignItems="center" justifyContent="center" py={10}>
-        <Alert severity="error" sx={{ width: '100%', maxWidth: 400 }}>
-          <Typography variant="h6">Payment Verification Failed</Typography>
-          <Typography variant="body2" sx={{ mt: 1 }}>
-            There was an issue verifying your payment. Please try again or contact support if the problem persists.
-          </Typography>
-        </Alert>
+        </Box>
       </Box>
     );
   }
@@ -281,253 +116,157 @@ const TrustPaymentHandler = ({ onProcessTrustPayment, isDeveloper, addDebugLog, 
 
 const CheckoutMain = () => {
   const router = useRouter();
-  const cCurrency = useCurrencyConvert();
   const dispatch = useDispatch();
   const { currency, rate, selectedCountry } = useSelector(({ settings }) => settings);
   const { checkout } = useSelector(({ product }) => product);
   const { user: userData } = useSelector(({ user }) => user);
-  const { cart, total } = checkout;
-  // console.log(cart, 'OKKK SEEE THE CART');
+  const { total, cart } = checkout;
   const checkoutType = cart[0]?.checkoutType;
   const [paymentMethod, setPaymentMethod] = useState('apple_pay');
   const [checked, setChecked] = React.useState(false);
 
-  // Check if user is the developer for debugging
-  const isDeveloper = userData?.email === 'nowopeyemi@gmail.com';
-
-  // Debuxxg state - only initialize if developer
-  const [debugLogs, setDebugLogs] = useState(isDeveloper ? [] : []);
-  const [showDebugConsole, setShowDebugConsole] = useState(false);
-  const [alertModal, setAlertModal] = useState({
-    open: false,
-    title: '',
-    message: '',
-    type: 'info'
-  });
-
-  // Trust Payment state
   const [isTrustPaymentCallback, setIsTrustPaymentCallback] = useState(false);
-  const [trustPaymentError, setTrustPaymentError] = useState(null);
   const [showCheckoutInterface, setShowCheckoutInterface] = useState(true);
   const [showProcessingOverlay, setShowProcessingOverlay] = useState(false);
-
-  // Add to debug log - only if developer
-  const addDebugLog = useCallback(
-    (message, type = 'info') => {
-      if (!isDeveloper) return;
-
-      const logEntry = {
-        timestamp: new Date(),
-        message: typeof message === 'object' ? JSON.stringify(message, null, 2) : message,
-        type
-      };
-
-      setDebugLogs((prev) => [...prev, logEntry]);
-
-      // Also show important errors as alerts - only if developer
-      if (type === 'error' && isDeveloper) {
-        setAlertModal({
-          open: true,
-          title: 'Error',
-          message: typeof message === 'object' ? JSON.stringify(message, null, 2) : message,
-          type: 'error'
-        });
-      }
-    },
-    [isDeveloper]
-  );
 
   const handleChangeShipping = (event) => {
     setChecked(event.target.checked);
   };
 
+  console.log("Checkout ITems", checkout);
   const [couponCode, setCouponCode] = useState(null);
   const [isProcessing, setProcessingTo] = useState(false);
   const [totalWithDiscount, setTotalWithDiscount] = useState(null);
 
   const { mutate, isLoading } = useMutation('order', api.placeOrder, {
     onSuccess: (data) => {
-      console.log({ data });
-      if (isDeveloper) {
-        addDebugLog('Order placed successfully', 'success');
-        addDebugLog(data, 'info');
-      }
-
       localStorage.removeItem('trustPaymentUserDetails');
       dispatch(resetCart());
       toast.success(
         "🎉 Your order was successful! We've emailed you the download link. You can also find it anytime in the 'My Orders' section of your account."
       );
       router.push(`/order/${data.orderId}`);
-      // setProcessingTo(false);
     },
     onError: (err) => {
       const errorMsg = err.message || 'Something went wrong';
-
-      if (isDeveloper) {
-        addDebugLog(`Order error: ${errorMsg}`, 'error');
-        addDebugLog(err, 'error');
-      }
-
       localStorage.removeItem('trustPaymentUserDetails');
       toast.error(errorMsg);
       setProcessingTo(false);
-      setShowProcessingOverlay(false); // Hide overlay on error
-      // Show checkout interface again on order error
+      setShowProcessingOverlay(false);
       setShowCheckoutInterface(true);
     }
   });
 
-  // Cart sync mutation - syncs Redux cart to backend
   const [loading, setLoading] = React.useState(true);
   const { mutate: getCartMutate } = useMutation(api.getCart, {
     onSuccess: (res) => {
-      if (isDeveloper) {
-        addDebugLog('Cart synced successfully', 'success');
-      }
       dispatch(getCart(res.data));
       setLoading(false);
     },
     onError: (err) => {
       const message = err.response?.data?.message || 'Failed to sync cart';
       setLoading(false);
-
-      if (isDeveloper) {
-        addDebugLog(`Cart sync error: ${message}`, 'error');
-        addDebugLog(err, 'error');
-      }
-
       toast.error(message || 'We ran into an issue. Please refresh the page or try again.');
     }
   });
 
-  const handleTrustPaymentCallback = useCallback(
-    async (trustData) => {
-      // Prevent double execution
-      if (handleTrustPaymentCallback.called) {
-        console.log('⚠️ Skipping duplicate Trust callback call');
-        return;
+  const handleTrustPaymentCallback = async (trustData) => {
+    if (handleTrustPaymentCallback.called) {
+      return;
+    }
+    handleTrustPaymentCallback.called = true;
+
+    setShowProcessingOverlay(true);
+    await new Promise((resolve) => setTimeout(resolve, 500));
+
+    const { settleStatus, errorCode, orderReference, transactionReference, siteReference, paymentType } = trustData;
+    const isSuccess = settleStatus === 0 && errorCode === 0;
+
+    if (isSuccess) {
+      const storedUserDetails = localStorage.getItem('trustPaymentUserDetails');
+      let userDataToUse = valuesRef.current;
+
+      if (storedUserDetails) {
+        try {
+          userDataToUse = JSON.parse(storedUserDetails);
+        } catch (error) {
+          console.error('Error parsing stored user details:', error);
+        }
       }
-      handleTrustPaymentCallback.called = true;
 
-      // Show processing overlay immediately
-      setShowProcessingOverlay(true);
+      const items = cart.map(({ ...others }) => others);
+      const totalItems = sum(items.map((item) => item.quantity));
 
-      // Small delay to ensure async operations settle before proceeding
-      await new Promise((resolve) => setTimeout(resolve, 500));
+      const subTotal = items.reduce(
+        (sum, item) => sum + (item.priceSale || item.price) * item.quantity,
+        0
+      );
 
-      const { settleStatus, errorCode, orderReference, transactionReference, siteReference, paymentType } = trustData;
+      const shipping = userDataToUse.country && userDataToUse.country !== 'United Arab Emirates'
+        ? parseInt(process.env.SHIPPING_FEE_OUTER || 0)
+        : parseInt(process.env.SHIPPING_FEE || 0);
 
-      const isSuccess = settleStatus === 0 && errorCode === 0;
+      const orderData = {
+        paymentMethod: 'Trust Payments',
+        items,
+        user: {
+          firstName: userDataToUse.billingFirstName || userDataToUse.firstName || '',
+          lastName: userDataToUse.billingLastName || userDataToUse.lastName || '',
+          email: userDataToUse.billingEmail || userDataToUse.email || '',
+          address: userDataToUse.address || '',
+          city: userDataToUse.city || '',
+          state: userDataToUse.state || '',
+          country: userDataToUse.country || '',
+          zip: userDataToUse.zip || '',
+          note: userDataToUse.note || ''
+        },
+        checkoutType,
+        totalItems,
+        couponCode: couponCode || null,
+        currency: "GBP",
+        conversionRate: rate,
+        subTotal: subtotal,
+        shipping,
+        total: total + shipping,
+        paymentId: transactionReference,
+        description: `Order from Trust Payments - ${transactionReference}`
+      };
 
-      if (isSuccess) {
-        const storedUserDetails = localStorage.getItem('trustPaymentUserDetails');
-        let userDataToUse = valuesRef.current;
+      mutate(orderData);
+    } else {
+      localStorage.removeItem('trustPaymentUserDetails');
 
-        if (storedUserDetails) {
-          try {
-            userDataToUse = JSON.parse(storedUserDetails);
-          } catch (error) {
-            console.error('Error parsing stored user details:', error);
-          }
-        }
+      let errorMessage = 'Payment was not successful.';
 
-        const items = cart.map(({ ...others }) => others);
-        const totalItems = sum(items.map((item) => item.quantity));
-
-        // Calculate subtotal using sale price if available
-        const subTotal = items.reduce(
-          (sum, item) => sum + (item.priceSale || item.price) * item.quantity,
-          0
-        );
-
-        // Determine shipping fee
-        const shipping = values.country && values.country !== 'United Arab Emirates'
-          ? parseInt(process.env.SHIPPING_FEE_OUTER || 0)
-          : parseInt(process.env.SHIPPING_FEE || 0);
-
-        const orderData = {
-          paymentMethod: 'Trust Payments',
-          items,
-          user: {
-            firstName: userDataToUse.billingFirstName || userDataToUse.firstName || '',
-            lastName: userDataToUse.billingLastName || userDataToUse.lastName || '',
-            email: userDataToUse.billingEmail || userDataToUse.email || '',
-            address: userDataToUse.address || '',
-            city: userDataToUse.city || '',
-            state: userDataToUse.state || '',
-            country: userDataToUse.country || '',
-            zip: userDataToUse.zip || '',
-            note: userDataToUse.note || ''
-          },
-          checkoutType,
-          totalItems,
-          couponCode: couponCode || null,
-          currency: currency,
-          conversionRate: rate,
-
-          // Use calculated subtotal
-          subTotal,
-
-          // Shipping fee
-          shipping,
-
-          // Total = subtotal + shipping
-          total: subTotal + shipping,
-
-          paymentId: transactionReference,
-          description: `Order from Trust Payments - ${transactionReference}`
-        };
-
-        console.log("Order Details", orderData);
-
-        if (isDeveloper) {
-          addDebugLog('Submitting Trust Payment order', 'info');
-          addDebugLog(orderData, 'info');
-        }
-
-        mutate(orderData);
-        // Overlay will remain visible until onSuccess/onError is called
-      } else {
-        localStorage.removeItem('trustPaymentUserDetails');
-
-        let errorMessage = 'Payment was not successful.';
-
-        switch (settleStatus) {
-          case 2:
-            errorMessage = 'Payment was declined. Please try a different payment method.';
-            break;
-          case 3:
-            errorMessage = 'Payment was referred. Please contact your bank.';
-            break;
-          case 5:
-            errorMessage = 'Payment failed. Please try again.';
-            break;
-          case 6:
-            errorMessage = 'Payment was cancelled.';
-            break;
-          default:
-            errorMessage = `Payment status: ${settleStatus}. Please try again or contact support.`;
-        }
-
-        if (isDeveloper) addDebugLog(`Trust Payment failed: ${errorMessage}`, 'error');
-
-        toast.error(errorMessage);
-        setProcessingTo(false);
-        setShowProcessingOverlay(false); // Hide overlay on error
-        setShowCheckoutInterface(true);
+      switch (settleStatus) {
+        case 2:
+          errorMessage = 'Payment was declined. Please try a different payment method.';
+          break;
+        case 3:
+          errorMessage = 'Payment was referred. Please contact your bank.';
+          break;
+        case 5:
+          errorMessage = 'Payment failed. Please try again.';
+          break;
+        case 6:
+          errorMessage = 'Payment was cancelled.';
+          break;
+        default:
+          errorMessage = `Payment status: ${settleStatus}. Please try again or contact support.`;
       }
-    },
-    [cart, couponCode, rate]
-  );
 
-  // Handle Trust Payment processing errors
-  const handleTrustPaymentError = useCallback((errorMessage) => {
-    setTrustPaymentError(errorMessage);
-    setShowProcessingOverlay(false); // Hide overlay on error
+      toast.error(errorMessage);
+      setProcessingTo(false);
+      setShowProcessingOverlay(false);
+      setShowCheckoutInterface(true);
+    }
+  };
+
+  const handleTrustPaymentError = (errorMessage) => {
+    setShowProcessingOverlay(false);
     setShowCheckoutInterface(true);
     toast.error('Failed to process payment status. Please try again.');
-  }, []);
+  };
 
   const [isFormValid, setIsFormValid] = useState(false);
 
@@ -560,11 +299,9 @@ const CheckoutMain = () => {
       then: (schema) => schema.required('Country is required'),
       otherwise: (schema) => schema.notRequired().nullable()
     }),
-
     checkoutType: Yup.string().optional('')
   });
 
-  // Define initial values
   const formik = useFormik({
     initialValues: {
       firstName: userData?.firstName || '',
@@ -581,7 +318,6 @@ const CheckoutMain = () => {
     enableReinitialize: true,
     validationSchema: NewAddressSchema,
     onSubmit: async (values) => {
-      // For credit card payments only (if you add this later)
       if (paymentMethod === 'credit_card') {
         const items = cart.map(({ ...others }) => others);
         const totalItems = sum(items.map((item) => item.quantity));
@@ -596,16 +332,12 @@ const CheckoutMain = () => {
           conversionRate: rate,
           shipping: process.env.SHIPPING_FEE || 0
         };
-
-        // Handle credit card submission here
-        // console.log('Credit card payment data:', data);
       }
     }
   });
 
   const { errors, values, touched, handleSubmit, getFieldProps } = formik;
 
-  // Check form validity
   useEffect(() => {
     const checkValidity = () => {
       const isValid =
@@ -629,12 +361,10 @@ const CheckoutMain = () => {
 
   const valuesRef = useRef(formik.values);
 
-  // Update the ref whenever values change
   useEffect(() => {
     valuesRef.current = formik.values;
   }, [formik.values]);
 
-  // Initialize component - sync cart to backend
   React.useEffect(() => {
     formik.validateForm();
 
@@ -642,14 +372,10 @@ const CheckoutMain = () => {
       router.push('/');
     } else {
       setLoading(true);
-      // Sync Redux cart to backend (same as old version)
-      console.log("Cart Details", cart)
       getCartMutate(cart);
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  // Check if we're processing a Trust Payment callback
   useEffect(() => {
     if (typeof window !== 'undefined') {
       const urlParams = new URLSearchParams(window.location.search);
@@ -659,47 +385,6 @@ const CheckoutMain = () => {
     }
   }, []);
 
-  // Clear debug logs
-  const clearDebugLogs = () => {
-    setDebugLogs([]);
-  };
-
-  // If we're processing a Trust Payment callback, show the handler with overlay
-  if (isTrustPaymentCallback && !showCheckoutInterface) {
-    return (
-      <>
-        <Suspense
-          fallback={
-            <Box display="flex" justifyContent="center" alignItems="center" minHeight="60vh">
-              <CircularProgress />
-              <Typography variant="h6" sx={{ ml: 2 }}>
-                Loading...
-              </Typography>
-            </Box>
-          }
-        >
-          <TrustPaymentHandler
-            onProcessTrustPayment={handleTrustPaymentCallback}
-            onError={handleTrustPaymentError}
-            isDeveloper={isDeveloper}
-            addDebugLog={addDebugLog}
-          />
-        </Suspense>
-        {showProcessingOverlay && <FullPageLoader />}
-      </>
-    );
-  }
-
-  console.log('🔍 Payment Gateway Amount Debug:');
-  console.log('🔍 totalWithDiscount:', totalWithDiscount);
-  console.log('🔍 checkout.total:', total);
-  console.log('🔍 checkoutType:', checkoutType);
-  console.log('🔍 values.country:', values.country);
-  console.log('🔍 SHIPPING_FEE_OUTER:', process.env.SHIPPING_FEE_OUTER);
-  console.log('🔍 SHIPPING_FEE:', process.env.SHIPPING_FEE);
-
-  const subtotal = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
-
   const shippingFee = checkoutType === 'physical-product' ?
     (values?.country && values?.country != 'United Arab Emirates'
       ? parseInt(process.env.SHIPPING_FEE_OUTER || 0)
@@ -707,11 +392,33 @@ const CheckoutMain = () => {
     )
     : 0;
 
-  const calculatedAmount = totalWithDiscount || (subtotal + shippingFee);
+  const calculatedAmount = totalWithDiscount || (total + shippingFee);
 
-  console.log('🔍 Correct calculation:', subtotal, '+', shippingFee, '=', calculatedAmount);
+  console.log("Total + shipping: ", total, shippingFee, calculatedAmount)
 
-  // Show regular checkout interface
+  if (isTrustPaymentCallback && !showCheckoutInterface) {
+    return (
+      <>
+        <Suspense
+          fallback={
+            <Box display="flex" justifyContent="center" alignItems="center" minHeight="60vh">
+              <CircularProgress />
+              <Box sx={{ ml: 2 }}>
+                Loading...
+              </Box>
+            </Box>
+          }
+        >
+          <TrustPaymentHandler
+            onProcessTrustPayment={handleTrustPaymentCallback}
+            onError={handleTrustPaymentError}
+          />
+        </Suspense>
+        {showProcessingOverlay && <FullPageLoader />}
+      </>
+    );
+  }
+
   return (
     <FormikProvider value={formik}>
       <Form autoComplete="off" noValidate onSubmit={handleSubmit}>
@@ -719,7 +426,6 @@ const CheckoutMain = () => {
           <Grid container spacing={2}>
             <Grid item xs={12} md={8} flexGrow={1}>
               <CartItemsCard cart={cart} loading={loading} />
-
               <CheckoutForm
                 getFieldProps={getFieldProps}
                 touched={touched}
@@ -738,14 +444,13 @@ const CheckoutMain = () => {
                 checkoutType={checkoutType}
                 values={values}
               />
-
               <TrustPaymentMethodCard
                 value={paymentMethod}
                 setValue={setPaymentMethod}
                 showApplePay={true}
                 useMockMode={false}
                 amount={calculatedAmount}
-                currency={currency || 'GBP'}
+                currency='GBP'
                 orderReference={Date.now()}
                 isFormValid={isFormValid}
                 loading={isLoading || isProcessing || loading}
@@ -770,29 +475,7 @@ const CheckoutMain = () => {
         </Box>
       </Form>
 
-      {/* Show overlay when processing payment */}
       {showProcessingOverlay && <FullPageLoader />}
-
-      {/* Debug Console - Only show for developer */}
-      {isDeveloper && (
-        <DebugConsole
-          logs={debugLogs}
-          onClear={clearDebugLogs}
-          open={showDebugConsole}
-          onClose={() => setShowDebugConsole(!showDebugConsole)}
-        />
-      )}
-
-      {/* Response Alert Modal - Only show for developer */}
-      {isDeveloper && (
-        <ResponseAlertModal
-          open={alertModal.open}
-          onClose={() => setAlertModal({ ...alertModal, open: false })}
-          title={alertModal.title}
-          message={alertModal.message}
-          type={alertModal.type}
-        />
-      )}
     </FormikProvider>
   );
 };

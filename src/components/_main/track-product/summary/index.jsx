@@ -21,12 +21,8 @@ import { useCurrencyFormatter } from 'src/hooks/formatCurrency';
 import { MdContentCopy } from 'react-icons/md';
 import { LiaShippingFastSolid } from 'react-icons/lia';
 import { MdLockOutline } from 'react-icons/md';
-import { FaRegStar } from 'react-icons/fa';
-import { FiShoppingCart } from 'react-icons/fi';
-import { IoBagCheckOutline } from 'react-icons/io5';
 import { useSearchParams } from 'next/navigation';
 import { FiExternalLink } from 'react-icons/fi';
-import VariantSelection from '../variant-selection';
 import SocialShare from '../social-share';
 import PhysicalIncrementer from 'src/components/physicalIncrementer';
 import PhysicalProductVariantSelection from '../variant-selection';
@@ -94,7 +90,6 @@ export default function PhysicalProductDetailsSumary({ ...props }) {
     checkout?.cart?.filter((item) => item._id === product._id)?.map((item) => item.quantity)[0] >= stockQuantity;
 
   const onAddCart = (param) => {
-    console.log(param, 'OKK SEE THE REDUX SET PARAMS');
     toast.success('Added to cart');
     dispatch(addPhysicalCart(param));
   };
@@ -116,7 +111,7 @@ export default function PhysicalProductDetailsSumary({ ...props }) {
         );
 
         if (!Boolean(alreadyProduct.length)) {
-          onAddCart({
+          onAddCart({  
             pid: product._id,
             name: product.name,
             sku: (isSimpleProduct ? product : variantObj).sku,

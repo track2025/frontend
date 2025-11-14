@@ -17,7 +17,7 @@ export const metadata = {
 export default async function OrderMain({ params }) {
   const { oid } = params;
 
-  
+
 
   let data;
   try {
@@ -27,12 +27,12 @@ export default async function OrderMain({ params }) {
     }
     const json = await response.json();
     data = json.data;
+    console.log("Items: ", data);
   } catch (error) {
     notFound();
   }
 
-  console.log("Items: ",data);
-  
+
   return (
     <Box>
       <Container maxWidth="xl">

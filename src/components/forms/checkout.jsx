@@ -23,7 +23,7 @@ export default function CheckoutGuestForm({
       <Stack spacing={{ xs: 2, sm: 3 }} p={3} mt={1}>
         <Stack direction={{ xs: 'column', sm: 'row' }} spacing={2}>
           <Stack spacing={0.5} width={1}>
-            <Typography variant="overline" color="text.primary" for="firstName" component={'label'}>
+            <Typography variant="overline" color="text.primary" htmlFor="firstName" component={'label'}>
               First Name
             </Typography>
             <TextField
@@ -35,7 +35,7 @@ export default function CheckoutGuestForm({
             />
           </Stack>
           <Stack spacing={0.5} width={1}>
-            <Typography variant="overline" color="text.primary" for="lastName" component={'label'}>
+            <Typography variant="overline" color="text.primary" htmlFor="lastName" component={'label'}>
               Last Name
             </Typography>
             <TextField
@@ -49,7 +49,7 @@ export default function CheckoutGuestForm({
         </Stack>
         <Stack direction={{ xs: 'column', sm: 'row' }} spacing={2}>
           <Stack spacing={0.5} width={1}>
-            <Typography variant="overline" color="text.primary" for="email" component={'label'}>
+            <Typography variant="overline" color="text.primary" htmlFor="email" component={'label'}>
               Email
             </Typography>
             <TextField
@@ -61,7 +61,7 @@ export default function CheckoutGuestForm({
           </Stack>
 
           {/* <Stack gap={0.5} width={1}>
-            <Typography variant="overline" color="text.primary" for="phone" component={'label'}>
+            <Typography variant="overline" color="text.primary" htmlFor="phone" component={'label'}>
               Phone
             </Typography>
             <TextField
@@ -87,7 +87,7 @@ export default function CheckoutGuestForm({
         {checkoutType === 'physical-product' && (
           <>
             <Stack spacing={0.5} width={1}>
-              <Typography variant="overline" color="text.primary" for="address" component={'label'}>
+              <Typography variant="overline" color="text.primary" htmlFor="address" component={'label'}>
                 Address
               </Typography>
               <TextField
@@ -174,7 +174,7 @@ export default function CheckoutGuestForm({
           </>
         )}
         {/* <Stack spacing={0.5} width={1}>
-          <Typography variant="overline" color="text.primary" for="address" component={'label'}>
+          <Typography variant="overline" color="text.primary" htmlFor="address" component={'label'}>
             Address
           </Typography>
           <TextField
@@ -186,7 +186,7 @@ export default function CheckoutGuestForm({
         </Stack>
         <Stack direction={{ xs: 'column', sm: 'row' }} spacing={2}>
           <Stack spacing={0.5} width={1}>
-            <Typography variant="overline" color="text.primary" for="city" component={'label'}>
+            <Typography variant="overline" color="text.primary" htmlFor="city" component={'label'}>
               Town City
             </Typography>
             <TextField
@@ -197,7 +197,7 @@ export default function CheckoutGuestForm({
             />
           </Stack>
           <Stack spacing={0.5} width={1}>
-            <Typography variant="overline" color="text.primary" for="state" component={'label'}>
+            <Typography variant="overline" color="text.primary" htmlFor="state" component={'label'}>
               State
             </Typography>
             <TextField
@@ -208,7 +208,7 @@ export default function CheckoutGuestForm({
             />
           </Stack>
           <Stack spacing={0.5} width={1}>
-            <Typography variant="overline" color="text.primary" for="zip" component={'label'}>
+            <Typography variant="overline" color="text.primary" htmlFor="zip" component={'label'}>
               Zip/Postal Code
             </Typography>
             <TextField
@@ -221,7 +221,7 @@ export default function CheckoutGuestForm({
           </Stack>
         </Stack>
         <Stack spacing={0.5} width={1}>
-          <Typography variant="overline" color="text.primary" for="country" component={'label'}>
+          <Typography variant="overline" color="text.primary" htmlFor="country" component={'label'}>
             Country
           </Typography>
           <TextField
@@ -241,7 +241,7 @@ export default function CheckoutGuestForm({
           </TextField>
         </Stack> */}
         {/* <Stack spacing={0.5} width={1}>
-          <Typography variant="overline" color="text.primary" for="note" component={'label'}>
+          <Typography variant="overline" color="text.primary" htmlFor="note" component={'label'}>
             Note
           </Typography>
           <TextField

@@ -31,8 +31,6 @@ export default function PaymentInfo({ setCouponCode, setTotal, checkoutType, val
   const cCurrency = useCurrencyConvert();
   const fCurrency = useCurrencyFormatter();
 
-  console.log(product, subtotal, total, 'Items value');
-
   const [discountPrice, setDiscountPrice] = useState(null);
   const [appliedDiscount, setDiscount] = useState(null);
 
@@ -86,19 +84,19 @@ export default function PaymentInfo({ setCouponCode, setTotal, checkoutType, val
         </Typography>
 
         <Stack spacing={0} mt={1} mb={2} gap={1}>
-          <Stack direction="row" alignItem="center" justifyContent="space-between" spacing={2}>
+          <Stack direction="row" alignItems="center" justifyContent="space-between" spacing={2}>
             <Typography variant="subtitle2" color="text.secondary">
               Subtotal:
             </Typography>
             <Typography variant="subtitle2">{fCurrency(cCurrency(subtotal))}</Typography>
           </Stack>
-          <Stack direction="row" alignItem="center" justifyContent="space-between" spacing={2}>
+          <Stack direction="row" alignItems="center" justifyContent="space-between" spacing={2}>
             <Typography variant="subtitle2" color="text.secondary">
               Discount:
             </Typography>
             <Typography variant="subtitle2">-{fCurrency(cCurrency(appliedDiscount || 0))}</Typography>
           </Stack>
-          {/* <Stack direction="row" alignItem="center" justifyContent="space-between" spacing={2}>
+          {/* <Stack direction="row" alignItems="center" justifyContent="space-between" spacing={2}>
             <Typography variant="subtitle2" color="text.secondary">
               Shipping:
             </Typography>
@@ -128,7 +126,7 @@ export default function PaymentInfo({ setCouponCode, setTotal, checkoutType, val
         </Stack>
 
         {checkoutType === 'physical-product' && (
-          <Stack direction="row" alignItem="center" justifyContent="space-between" spacing={2}>
+          <Stack direction="row" alignItems="center" justifyContent="space-between" spacing={2}>
             <Typography variant="subtitle2" color="text.secondary">
               Shipping:
             </Typography>
@@ -147,10 +145,10 @@ export default function PaymentInfo({ setCouponCode, setTotal, checkoutType, val
         )}
 
         <Divider />
-        <Stack direction="row" alignItem="center" justifyContent="space-between" spacing={2} mt={2}>
+        <Stack direction="row" alignItems="center" justifyContent="space-between" spacing={2} mt={2}>
           <Typography variant="subtitle1">Total:</Typography>
           <Typography variant="subtitle1">
-            {fCurrency(cCurrency(discountPrice || (subtotal + (checkoutType === 'physical-product' ?
+            {fCurrency(cCurrency(discountPrice || (total + (checkoutType === 'physical-product' ?
               (values?.country && values?.country != 'United Arab Emirates'
                 ? parseInt(process.env.SHIPPING_FEE_OUTER || 0)
                 : parseInt(process.env.SHIPPING_FEE || 0)

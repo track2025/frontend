@@ -63,7 +63,7 @@ export default function ForgetPasswordForm({ ...props }) {
       <Form autoComplete="off" noValidate onSubmit={handleSubmit}>
         <Stack spacing={3}>
           <Stack gap={0.5} width={1}>
-            <Typography variant="overline" color="text.primary" for="email" component={'label'}>
+            <Typography variant="overline" color="text.primary" htmlFor="email" component={'label'}>
               Email
             </Typography>
             <TextField

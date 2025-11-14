@@ -43,6 +43,8 @@ export default function BrandList() {
     setOpen(false);
   };
 
+  console.log("", data);
+
   return (
     <>
       <Dialog onClose={handleClose} open={open} maxWidth={'xs'}>
