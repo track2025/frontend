@@ -34,7 +34,7 @@ const slice = createSlice({
       state.checkout.shipping = shipping;
       state.checkout.billing = billing;
       state.checkout.subtotal = subtotal;
-      state.checkout.total = cart[0].checkoutType == 'physical-product' ? subtotal + (parseInt(shipping) || 0) : subtotal;
+      state.checkout.total = subtotal;
     },
 
     addPhysicalCart(state, action) {

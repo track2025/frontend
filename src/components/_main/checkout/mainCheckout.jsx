@@ -134,6 +134,7 @@ const CheckoutMain = () => {
   };
 
   console.log("Checkout ITems", checkout);
+
   const [couponCode, setCouponCode] = useState(null);
   const [isProcessing, setProcessingTo] = useState(false);
   const [totalWithDiscount, setTotalWithDiscount] = useState(null);
@@ -171,6 +172,22 @@ const CheckoutMain = () => {
   });
 
   const handleTrustPaymentCallback = async (trustData) => {
+    // ✅ Only process in the payment gateway tab, not the original tab
+    if (window.opener) {
+      // This is the payment gateway tab - proceed
+      console.log('🔄 Processing payment in gateway tab');
+    } else {
+      // This is the original tab - check if we should process
+      const shouldProcess = sessionStorage.getItem('trustPaymentProcessed') !== 'true';
+
+      if (!shouldProcess) {
+        console.log('🛑 Skipping payment processing in original tab');
+        return;
+      }
+    }
+    // Mark as processed to prevent duplicates
+    sessionStorage.setItem('trustPaymentProcessed', 'true');
+
     if (handleTrustPaymentCallback.called) {
       return;
     }
@@ -225,9 +242,9 @@ const CheckoutMain = () => {
         couponCode: couponCode || null,
         currency: "GBP",
         conversionRate: rate,
-        subTotal: subtotal,
+        subTotal,
         shipping,
-        total: total + shipping,
+        total: checkoutType == "product" ? total : total + shipping,
         paymentId: transactionReference,
         description: `Order from Trust Payments - ${transactionReference}`
       };

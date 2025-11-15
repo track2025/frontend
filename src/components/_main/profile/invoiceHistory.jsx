@@ -35,6 +35,8 @@ export default function InvoiceHistory() {
     { id: 'action', label: 'Action', alignRight: true, sort: true }
   ];
 
+  console.log("Orders", data)
+
   return (
     <Box mt={3}>
       {isLoading ? null : (
