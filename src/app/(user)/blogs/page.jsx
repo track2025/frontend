@@ -78,21 +78,15 @@ export default async function BlogsPage({ searchParams }) {
     blogPost: blogPosts.slice(0, 10).map((post) => ({
       '@type': 'BlogPosting',
       headline: post.title,
-      description: post.excerpt,
-      image: post.heroImage?.url || post.featuredImage?.url,
-      datePublished: post.publishedDate,
-      // url: `https://lapsnaps.com/blogs/${post.slug}`,
-
       author: {
         '@type': 'Person',
         name: post.author
       },
-
+      description: post.excerpt,
       datePublished: post.publishedDate || post.createdAt,
       dateModified: post.updatedAt,
-
+      datePublished: post.publishedDate,
       image: post.heroImage?.url || post.featuredImage?.url,
-
       articleBody: post.content,
 
       mainEntityOfPage: {
