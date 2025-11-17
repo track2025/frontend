@@ -83,14 +83,13 @@ export default async function TrackDetailsPage({ params }) {
     const eventsData = await getTrackEventsByTrackSlug(slug);
     const upcomingEvents = eventsData?.data || [];
 
-    // console.log('Fetched products for track:', products);
-
     if (!trackResponse.success || !trackResponse.data) {
       notFound();
     }
 
     const track = trackResponse.data;
 
+    // Fixed: Added missing URL field for SportsActivityLocation
     const structuredData = {
       '@context': 'https://schema.org',
       '@type': 'SportsActivityLocation',
@@ -98,7 +97,7 @@ export default async function TrackDetailsPage({ params }) {
       name: track.name,
       description: track.description || `Professional motorsport photography from ${track.name}`,
       image: track.bannerImage?.url || track.thumbnailImage?.url,
-      url: `https://lapsnaps.com/tracks/${track.slug}`,
+      url: `https://lapsnaps.com/tracks/${track.slug}`, // ✅ REQUIRED: Was missing
       address: {
         '@type': 'PostalAddress',
         addressLocality: track.city,
@@ -115,42 +114,73 @@ export default async function TrackDetailsPage({ params }) {
       ...(track.latitude &&
         track.longitude && {
           hasMap: `https://www.google.com/maps?q=${track.latitude},${track.longitude}`
-        }),
-      ...(products.length > 0 && {
-        about: {
-          '@type': 'ItemList',
-          itemListElement: products.slice(0, 10).map((product, index) => {
-            const name = product.name || `Photo captured at ${product.location || track.name}`;
-            const description =
-              product.description ||
-              `Captured at ${product.location || track.name} on ${new Date(
-                product.dateCaptured
-              ).toLocaleDateString()}. Professionally taken and available for purchase.`;
+        })
+    };
+
+    // Fixed: Complete Product schema with all required fields
+    const productStructuredData =
+      products.length > 0
+        ? products.map((product, index) => {
+            // Format date to YYYY-MM-DD (matching the card component)
+            const formatDate = (dateStr) => {
+              if (!dateStr) return '2025';
+              const date = new Date(dateStr);
+              const yyyy = date.getFullYear();
+              const mm = String(date.getMonth() + 1).padStart(2, '0');
+              const dd = String(date.getDate()).padStart(2, '0');
+              return `${yyyy}-${mm}-${dd}`;
+            };
+
+            // Slugify location (matching the card component)
+            const slugify = (text) => {
+              if (!text) return 'race-track';
+              return text
+                .toString()
+                .trim()
+                .toLowerCase()
+                .replace(/\s+/g, '-')
+                .replace(/[^\w\-]+/g, '')
+                .replace(/\-\-+/g, '-')
+                .replace(/^-+/, '')
+                .replace(/-+$/, '');
+            };
+
+            const locationSlug = slugify(product.location);
+            const dateSlug = formatDate(product.dateCaptured);
+            const productUrl = `/event/${locationSlug}/${dateSlug}/pictures/${product.slug}`;
+            const fullProductUrl = `https://lapsnaps.com${productUrl}`;
 
             return {
-              '@type': 'ListItem',
-              position: index + 1,
-              item: {
-                '@type': 'Product',
-                name,
-                description,
-                image: product.image?.url || '',
-                url: `https://lapsnaps.com/products/${product.slug}`,
-                sku: product._id,
-                ...(product.priceSale && {
-                  offers: {
-                    '@type': 'Offer',
-                    price: String(product.priceSale),
-                    priceCurrency: product.currency || 'GBP',
-                    availability: 'https://schema.org/InStock'
-                  }
+              '@context': 'https://schema.org',
+              '@type': 'Product',
+              name: product.name || `Photo captured at ${product.location || track.name}`,
+              description:
+                product.description ||
+                `Professional motorsport photography captured at ${product.location || track.name}`,
+              image: product.image?.url || '',
+              url: fullProductUrl, // ✅ UPDATED: Now matches actual product URL structure
+              sku: product._id || product.slug,
+              mpn: product._id,
+              brand: {
+                '@type': 'Brand',
+                name: product.photographer?.name || 'LapSnaps'
+              },
+              offers: {
+                '@type': 'Offer',
+                price: String(product.priceSale || product.price),
+                priceCurrency: product.currency || 'GBP',
+                availability: product.stock > 0 ? 'https://schema.org/InStock' : 'https://schema.org/OutOfStock',
+                url: fullProductUrl, // ✅ UPDATED: Consistent URL
+                ...(product.priceValidUntil && {
+                  priceValidUntil: product.priceValidUntil
                 })
-              }
+              },
+              ...(product.category && {
+                category: product.category
+              })
             };
           })
-        }
-      })
-    };
+        : [];
 
     const faqStructuredData =
       Array.isArray(track.faqs) && track.faqs.length > 0
@@ -195,8 +225,22 @@ export default async function TrackDetailsPage({ params }) {
 
     return (
       <>
+        {/* Track Schema */}
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }} />
+
+        {/* Product Schemas - One for each product */}
+        {productStructuredData.map((productSchema, index) => (
+          <script
+            key={index}
+            type="application/ld+json"
+            dangerouslySetInnerHTML={{ __html: JSON.stringify(productSchema) }}
+          />
+        ))}
+
+        {/* Breadcrumb Schema */}
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }} />
+
+        {/* FAQ Schema */}
         {faqStructuredData && (
           <script
             type="application/ld+json"
@@ -205,7 +249,6 @@ export default async function TrackDetailsPage({ params }) {
             }}
           />
         )}
-        {/* <TrackDetailsServer track={track} upcomingEvents={upcomingEvents} /> */}
 
         <TrackDetailsClient track={track} />
       </>
