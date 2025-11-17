@@ -226,6 +226,9 @@ export default function ProductDetailsSumary({ ...props }) {
     event.stopPropagation();
     dispatch(removeCompareProduct(product?._id));
   };
+
+  console.log("Photographer", product);
+
   return (
     <RootStyled>
       <FormikProvider value={formik}>
