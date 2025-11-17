@@ -11,20 +11,40 @@ export const metadata = {
   keywords:
     'motorsport events, track days, racing events, car events, bike events, motorsport calendar, track day calendar, racing calendar worldwide',
   openGraph: {
-    title: 'Motorsport Events & Track Days Worldwide | LapSnaps',
-    description: 'Browse upcoming car & bike motorsport events by country.',
-    url: 'https://lapsnaps.com/events',
-    type: 'website'
+    title: "Motorsport Events & Track Days Worldwide | LapSnaps",
+    description: "Browse upcoming car & bike motorsport events by country.",
+    url: "https://lapsnaps.com/events",
+    type: "website",
+    images: [
+      {
+        url: "https://lapsnaps.com/og-events-image.jpg",
+        width: 1200,
+        height: 630,
+        alt: "Motorsport Events & Track Days Worldwide",
+      },
+    ],
   },
   twitter: {
-    card: 'summary_large_image',
-    title: 'Motorsport Events & Track Days Worldwide | LapSnaps',
-    description: 'Browse upcoming car & bike motorsport events by country.'
+    card: "summary_large_image",
+    title: "Motorsport Events & Track Days Worldwide | LapSnaps",
+    description: "Browse upcoming car & bike motorsport events by country.",
+    images: ["https://lapsnaps.com/twitter-events-image.jpg"],
   },
   alternates: {
-    canonical: 'https://lapsnaps.com/events'
-  }
-};
+    canonical: "https://lapsnaps.com/events",
+  },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      'max-video-preview': -1,
+      'max-image-preview': 'large',
+      'max-snippet': -1,
+    },
+  },
+}
 
 export const dynamic = 'force-dynamic';
 
@@ -45,11 +65,13 @@ export default async function EventsPage() {
         countryCode: event.countryCode,
         eventCount: 0,
         upcomingEvents: 0,
-        featuredEvents: []
-      };
+        featuredEvents: [],
+        allEvents: [],
+      }
     }
 
-    countriesMap[event.countrySlug].eventCount++;
+    countriesMap[event.countrySlug].eventCount++
+    countriesMap[event.countrySlug].allEvents.push(event)
 
     const eventDate = new Date(event.date);
     eventDate.setHours(0, 0, 0, 0);
@@ -63,8 +85,9 @@ export default async function EventsPage() {
           date: event.date,
           trackName: event.trackName,
           type: event.type,
-          image: event.image
-        });
+          image: event.image,
+          slug: event.slug,
+        })
       }
     }
   });
@@ -108,18 +131,52 @@ export default async function EventsPage() {
   //   },
   // }
 
-  const structuredData = {
-    '@context': 'https://schema.org',
-    '@type': 'CollectionPage',
-    name: 'Motorsport Events & Track Days Worldwide',
+  // Create Event schema for all events
+  const eventSchemas = eventsData.map((event, index) => ({
+    "@context": "https://schema.org",
+    "@type": "Event",
+    name: event.title,
+    startDate: event.date,
+    endDate: event.endDate || event.date, // Use endDate if available, otherwise same as startDate
+    eventStatus: "https://schema.org/EventScheduled",
+    eventAttendanceMode: "https://schema.org/OfflineEventAttendanceMode",
+    location: {
+      "@type": "Place",
+      name: event.trackName,
+      address: {
+        "@type": "PostalAddress",
+        addressCountry: event.country,
+        addressRegion: event.region || event.country,
+      },
+    },
+    description: `${event.type} event at ${event.trackName} in ${event.country}`,
+    image: event.image?.url || "https://lapsnaps.com/default-event-image.jpg",
+    url: `https://lapsnaps.com/events/${event.countrySlug}/${event.slug}`,
+    offers: {
+      "@type": "Offer",
+      url: `https://lapsnaps.com/events/${event.countrySlug}/${event.slug}`,
+      availability: "https://schema.org/InStock",
+    },
+    organizer: {
+      "@type": "Organization",
+      name: "LapSnaps",
+      url: "https://lapsnaps.com",
+    },
+  }))
+
+  const collectionPageSchema = {
+    "@context": "https://schema.org",
+    "@type": "CollectionPage",
+    name: "Motorsport Events & Track Days Worldwide",
     description:
       'Browse upcoming car & bike motorsport events worldwide. Find track days, racing events, and motorsport photography opportunities.',
     url: 'https://lapsnaps.com/events',
 
     mainEntity: {
-      '@type': 'ItemList',
-      itemListElement: eventsData.map((event, index) => ({
-        '@type': 'ListItem',
+      "@type": "ItemList",
+      numberOfItems: eventsData.length,
+      itemListElement: sortedCountries.map((country, index) => ({
+        "@type": "ListItem",
         position: index + 1,
 
         item: {
@@ -177,12 +234,24 @@ export default async function EventsPage() {
 
   return (
     <>
-      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }} />
+      {/* JSON-LD Structured Data */}
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(collectionPageSchema) }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }} />
 
-      <Box sx={{ minHeight: '100vh', py: { xs: 4, md: 6 } }}>
+      {/* Event Schemas */}
+      {eventSchemas.map((schema, index) => (
+        <script
+          key={index}
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }}
+        />
+      ))}
+
+      <Box sx={{ minHeight: "100vh", py: { xs: 4, md: 6 } }}>
         <Container maxWidth="xl">
+          {/* H1 - Main Page Title */}
           <Typography
+            component="h1"
             variant="h1"
             sx={{
               fontSize: { xs: '1.3rem', sm: '1.6rem', md: '2rem' },
@@ -194,7 +263,9 @@ export default async function EventsPage() {
             Upcoming Car & Bike Motorsport Events by Country
           </Typography>
 
+          {/* H2 - Subtitle */}
           <Typography
+            component="h2"
             variant="h2"
             sx={{
               fontSize: { xs: '1rem', sm: '1.1rem', md: '1.2rem' },
@@ -262,7 +333,9 @@ export default async function EventsPage() {
                         {getCountryFlag(country.countryCode)}
                       </Typography>
 
+                      {/* H3 - Country Name */}
                       <Typography
+                        component="h3"
                         variant="h3"
                         sx={{
                           fontSize: '1.25rem',
@@ -325,11 +398,13 @@ export default async function EventsPage() {
                           {country.featuredEvents.length > 0 && (
                             <Box sx={{ mt: 2, pt: 2, borderTop: '1px solid #f0f0f0' }}>
                               <Typography
-                                variant="body2"
+                                component="h4"
+                                variant="h4"
                                 sx={{
                                   fontWeight: 600,
                                   mb: 1,
-                                  fontSize: '0.8rem'
+                                  fontSize: "0.8rem",
+                                  textAlign: "center",
                                 }}
                               >
                                 Featured Events:
@@ -353,7 +428,8 @@ export default async function EventsPage() {
                                     <EventCardImage imageUrl={featuredEvent.image.url} />
                                     <Box sx={{ flex: 1, minWidth: 0 }}>
                                       <Typography
-                                        variant="body2"
+                                        component="h5"
+                                        variant="h5"
                                         sx={{
                                           fontWeight: 600,
                                           fontSize: '0.75rem',
@@ -410,7 +486,19 @@ export default async function EventsPage() {
             ))}
           </Grid>
 
-          <Box sx={{ mt: 6, textAlign: 'center' }}>
+          {/* H2 - Summary Section */}
+          <Box sx={{ mt: 6, textAlign: "center" }}>
+            <Typography
+              component="h2"
+              variant="h2"
+              sx={{
+                fontSize: "1.1rem",
+                fontWeight: 600,
+                mb: 2,
+              }}
+            >
+              Global Motorsport Events Summary
+            </Typography>
             <Typography
               variant="body1"
               sx={{
