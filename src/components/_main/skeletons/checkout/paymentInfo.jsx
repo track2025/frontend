@@ -11,7 +11,7 @@ export default function PaymentInfoSkeleton() {
         </Typography>
 
         <Stack spacing={0} mt={1} mb={2} gap={1}>
-          <Stack direction="row" alignItem="center" justifyContent="space-between" spacing={2}>
+          <Stack direction="row" alignItems="center" justifyContent="space-between" spacing={2}>
             <Typography variant="subtitle2" color="text.secondary">
               <Skeleton variant="text" width={80} />
             </Typography>
@@ -19,7 +19,7 @@ export default function PaymentInfoSkeleton() {
               <Skeleton variant="text" width={80} />
             </Typography>
           </Stack>
-          <Stack direction="row" alignItem="center" justifyContent="space-between" spacing={2}>
+          <Stack direction="row" alignItems="center" justifyContent="space-between" spacing={2}>
             <Typography variant="subtitle2" color="text.secondary">
               <Skeleton variant="text" width={80} />
             </Typography>
@@ -27,7 +27,7 @@ export default function PaymentInfoSkeleton() {
               <Skeleton variant="text" width={80} />
             </Typography>
           </Stack>
-          <Stack direction="row" alignItem="center" justifyContent="space-between" spacing={2}>
+          <Stack direction="row" alignItems="center" justifyContent="space-between" spacing={2}>
             <Typography variant="subtitle2" color="text.secondary">
               <Skeleton variant="text" width={80} />
             </Typography>
@@ -42,7 +42,7 @@ export default function PaymentInfoSkeleton() {
           </Stack>
         </Stack>
         <Divider />
-        <Stack direction="row" alignItem="center" justifyContent="space-between" spacing={2} mt={2}>
+        <Stack direction="row" alignItems="center" justifyContent="space-between" spacing={2} mt={2}>
           <Typography variant="subtitle1">
             <Skeleton variant="text" width={80} />
           </Typography>

@@ -45,6 +45,8 @@ export default function AdminProducts() {
     setOpen(false);
   };
 
+  console.log("Photograoher Data:", data);
+  
   return (
     <>
       <Dialog onClose={handleClose} open={open} maxWidth={'xs'}>

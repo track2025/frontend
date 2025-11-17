@@ -68,7 +68,7 @@ export default function ResetPasswordForm({ ...props }) {
       <Form autoComplete="off" noValidate onSubmit={handleSubmit}>
         <Stack spacing={3}>
           <Stack gap={0.5} width={1}>
-            <Typography variant="overline" color="text.primary" for="password" component={'label'}>
+            <Typography variant="overline" color="text.primary" htmlFor="password" component={'label'}>
               Password
             </Typography>
             <TextField
@@ -96,7 +96,7 @@ export default function ResetPasswordForm({ ...props }) {
             />
           </Stack>
           <Stack gap={0.5} width={1}>
-            <Typography variant="overline" color="text.primary" for="confirmPassword" component={'label'}>
+            <Typography variant="overline" color="text.primary" htmlFor="confirmPassword" component={'label'}>
               Confirm Password
             </Typography>
             <TextField

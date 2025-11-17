@@ -122,7 +122,7 @@ export default function TableDetails({ ...props }) {
                 )}
 
                 <TableCell align="right">
-                  {row ? `${fCurrency(cCurrency(row?.priceSale))}` : <Skeleton variant="text" width={100} />}
+                  {row ? `${fCurrency(cCurrency(row?.subtotal))}` : <Skeleton variant="text" width={100} />}
                 </TableCell>
               </TableRow>
             ))}

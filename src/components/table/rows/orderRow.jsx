@@ -13,6 +13,8 @@ import BlurImage from 'src/components/blurImage';
 
 // icons
 import { IoEye } from 'react-icons/io5';
+import { useCurrencyConvert } from 'src/hooks/convertCurrency';
+import { useCurrencyFormatter } from 'src/hooks/formatCurrency';
 
 OrderRowas.propTypes = {
   isLoading: PropTypes.bool.isRequired,
@@ -45,6 +47,8 @@ export default function OrderRowas({ sn, ...props }) {
   const { isLoading, row } = props;
   const router = useRouter();
   const theme = useTheme();
+  const cCurrency = useCurrencyConvert();
+  const fCurrency = useCurrencyFormatter();
   return (
     <TableRow
       hover
@@ -84,7 +88,7 @@ export default function OrderRowas({ sn, ...props }) {
       <TableCell>
         {' '}
         {/* type error */}
-        {isLoading ? <Skeleton variant="text" /> : row?.total}
+        {isLoading ? <Skeleton variant="text" /> : fCurrency(cCurrency(row?.total))}
       </TableCell>
       <TableCell>
         {row?.checkoutType != 'physical-product' && (

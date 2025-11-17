@@ -36,7 +36,7 @@ export default function PaymentSummary({ loading, cart }) {
           Payment Summary
         </Typography>
         <Stack spacing={0} mt={1} mb={2}>
-          <Stack direction="row" alignItem="center" justifyContent="space-between" spacing={2}>
+          <Stack direction="row" alignItems="center" justifyContent="space-between" spacing={2}>
             <Typography variant="subtitle2" color="text.secondary">
               Subtotal:
             </Typography>
@@ -44,7 +44,7 @@ export default function PaymentSummary({ loading, cart }) {
               {loading ? <Skeleton variant="text" width={80} /> : fCurrency(cCurrency(subtotal))}
             </Typography>
           </Stack>
-          {/* <Stack direction="row" alignItem="center" justifyContent="space-between" spacing={2}>
+          {/* <Stack direction="row" alignItems="center" justifyContent="space-between" spacing={2}>
             <Typography variant="subtitle2" color="text.secondary">
               Shipping:
             </Typography>
@@ -60,10 +60,10 @@ export default function PaymentSummary({ loading, cart }) {
           </Stack> */}
         </Stack>
         <Divider />
-        <Stack direction="row" alignItem="center" justifyContent="space-between" spacing={2} mt={2}>
+        <Stack direction="row" alignItems="center" justifyContent="space-between" spacing={2} mt={2}>
           <Typography variant="subtitle1">Total:</Typography>
           <Typography variant="subtitle1">
-            {loading ? <Skeleton variant="text" width={80} /> : fCurrency(cCurrency(subtotal))}
+            {loading ? <Skeleton variant="text" width={80} /> : fCurrency(cCurrency(total))}
           </Typography>
         </Stack>
         <Box sx={{ position: 'relative', width: '100%', height: 26, mt: 2 }}>

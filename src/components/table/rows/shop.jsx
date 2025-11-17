@@ -27,6 +27,7 @@ import { MdDelete } from 'react-icons/md';
 import { IoEye } from 'react-icons/io5';
 export default function ProductRow({ isLoading, row, handleClickOpen, sn }) {
   const router = useRouter();
+  console.log("Photographer Row: ", row);
   return (
     <TableRow hover key={Math.random()}>
       <TableCell>{isLoading ? <Skeleton variant="text" /> : <>{sn}</>}</TableCell>
@@ -83,19 +84,19 @@ export default function ProductRow({ isLoading, row, handleClickOpen, sn }) {
           ) : row.vendor?.cover ? (
             <BlurImageAvatar
               priority
-              alt={row.vendor.firstName}
-              src={row?.vendor.cover?.url}
-              blurDaraURL={row?.vendor.cover?.blurDaraURL}
+              alt={row.vendor?.firstName}
+              src={row?.vendor?.cover?.url}
+              blurDaraURL={row?.vendor?.cover?.blurDaraURL}
               layout="fill"
               objectFit="cover"
             />
           ) : (
-            <Avatar size="small">{row.vendor.firstName.toUpperCase().slice(0, 1)}</Avatar>
+            <Avatar size="small">{row?.vendor?.firstName.toUpperCase().slice(0, 1)}</Avatar>
           )}
-          {isLoading ? <Skeleton variant="text" width={100} /> : `${row.vendor.firstName} ${row.vendor.lastName}`}
+          {isLoading ? <Skeleton variant="text" width={100} /> : `${row?.vendor?.firstName} ${row?.vendor?.lastName}`}
         </Box>
       </TableCell>
-      <TableCell>{isLoading ? <Skeleton variant="text" /> : <>{row.products.length || 0}</>}</TableCell>
+      <TableCell>{isLoading ? <Skeleton variant="text" /> : <>{row?.products?.length || 0}</>}</TableCell>
 
       <TableCell>
         {isLoading ? (

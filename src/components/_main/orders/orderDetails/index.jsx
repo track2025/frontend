@@ -18,7 +18,7 @@ Details.propTypes = {
 
 export default function Details({ ...props }) {
   const { data, isLoading } = props;
-  // console.log(data, 'OKK Checking the data');
+  console.log(data, 'OKK Checking the data');
   const user = data?.user;
   const fCurrency = useCurrencyFormatter(data?.currency);
   return (
