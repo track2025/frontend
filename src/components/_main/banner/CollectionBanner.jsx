@@ -1,5 +1,5 @@
 import React from 'react';
-import BreadcrumbLink from 'src/components/BreadCrumbLink';
+import BreadcrumbLink from 'src/components/BreadcrumbLink';
 
 const CollectionBanner = ({ breadcrumbs }) => {
   return (
