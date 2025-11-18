@@ -13,8 +13,8 @@ const Banner = () => {
             }}
         >
             <div className="text-center text-md-start px-5">
-                <h1 className="display-5 fw-bold mb-3">Precision. Protection. Performance.</h1>
-                <p className="fs-5 mb-2">Built for racers, trusted worldwide.</p>
+                <h1 className="display-5 fw-bold mb-3">Track-Day Racing Gear & Motorsport Equipment</h1>
+                <h2 className="fs-5 mb-2">Premium helmets, racewear, pit gear, and accessories for track-day drivers and racers.</h2>
             </div>
         </div>
     );
