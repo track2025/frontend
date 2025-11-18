@@ -59,7 +59,7 @@ export default function WhyUs() {
             >
               {v.icon}
               <Stack>
-                <Typography variant="h5" color="text.primary">
+                <Typography variant="h2" color="text.primary" style={{fontSize: 24}}>
                   {v.title}
                 </Typography>
                 <Typography variant="body2" color="text.secondary">

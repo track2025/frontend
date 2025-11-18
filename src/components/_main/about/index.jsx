@@ -54,7 +54,7 @@ export default function Index() {
               effortless for photographers to share their work and for drivers and riders to find lasting memories of
               their time on track.
               <br /> <br />
-              <h3 style={{ fontSize: 18, fontWeight: 'bold' }}>Why We Exist</h3>
+              <h2 style={{ fontSize: 18, fontWeight: 'bold' }}>Why We Exist</h2>
               At every track day, photographers capture incredible moments. Yet selling those photos is often awkward
               and unreliable. Many end up giving their work away for free or relying on photo shoots that rarely happen.
               At the same time, car and bike owners leave the track searching social media, hoping to find even one good
@@ -63,7 +63,7 @@ export default function Index() {
               Lap Snaps bridges that gap by creating a professional platform where photographers can showcase and sell
               their work, and where vehicle owners can easily discover and purchase it.
               <br /> <br />
-              <h3 style={{ fontSize: 18, fontWeight: 'bold' }}>For Photographers</h3>
+              <h2 style={{ fontSize: 18, fontWeight: 'bold' }}>For Photographers</h2>
               Lap Snaps gives photographers a dedicated space to turn their passion into income. You can upload up to
               one thousand photos or videos at a time, with automatic watermarking to protect your work. Each upload can
               be tagged with track, date, vehicle make and model, and registration details, making it simple for owners
@@ -74,13 +74,13 @@ export default function Index() {
               a photo or video is purchased. There are no subscription or sign-up fees, making it completely free to
               start using.
               <br /> <br />
-              <h3 style={{ fontSize: 18, fontWeight: 'bold' }}>For Drivers and Riders</h3>
+              <h2 style={{ fontSize: 18, fontWeight: 'bold' }}>For Drivers and Riders</h2>
               Lap Snaps makes it simple for car and bike owners to relive their time on track. You can search by track,
               date, vehicle details, or registration number to locate media of your vehicle. Once you find a
               photographer you like, you can follow their page and receive notifications whenever new photos or videos
               of your car or bike are uploaded.
               <br /> <br />
-              <h3 style={{ fontSize: 18, fontWeight: 'bold' }}>Our Vision</h3>
+              <h2 style={{ fontSize: 18, fontWeight: 'bold' }}>Our Vision</h2>
               Lap Snaps is designed to revolutionize the way motorsport memories are captured and shared. By removing
               barriers for photographers and making it easy for drivers and riders to discover media of their vehicles,
               we are building a community where every moment on track can be preserved and celebrated.

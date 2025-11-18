@@ -24,7 +24,7 @@ export default function CheckoutCard({ cart, loading }) {
 
         {cart.map((value, index, array) => (
           <React.Fragment key={Math.random()}>
-            <Stack direction="row" alignItems="center" justifyContent="space-between" spacing={2} py={1}>
+            <Stack direction="row" alignItems="center"  spacing={2} py={1}>
               <Stack direction="row" alignItems="center" spacing={2}>
                 {loading ? (
                   <Skeleton variant="rounded" width={64} height={64} />
@@ -45,14 +45,15 @@ export default function CheckoutCard({ cart, loading }) {
                     <Image priority src={value.image} alt="product" layout="fill" objectFit="cover" />
                   </Box>
                 )}
+                
+              </Stack>
+              <Stack direction="row" width={"100%"} flexWrap={"wrap"} justifyContent={"space-between"}>
                 <Box>
-                  <Typography variant="subtitle1" noWrap>
+                  <Typography variant="subtitle1">
                     {loading ? <Skeleton variant="text" width={160} /> : value?.name?.slice(0, 18)}
                   </Typography>
                   <Stack direction="row" gap={1}></Stack>
                 </Box>
-              </Stack>
-              <Stack direction="row" alignItems="center" spacing={5}>
                 {value?.checkoutType && value?.checkoutType === 'physical-product' ?
                   <Typography variant="subtitle1">
                     {loading ? (

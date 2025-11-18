@@ -142,22 +142,7 @@ export default function Page() {
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }} />
 
       <Container maxWidth="xl">
-        {/* H1 - Main Page Title */}
-        <Typography
-          component="h1"
-          variant="h1"
-          sx={{
-            fontWeight: 600,
-            fontSize: { xs: '28px', md: '30px', marginTop: '20px', marginBottom: '10px' },
-            lineHeight: 1.2,
-            overflow: 'hidden',
-            textOverflow: 'ellipsis',
-            whiteSpace: 'nowrap',
-            textAlign: 'left'
-          }}
-        >
-          About LapSnaps
-        </Typography>
+       
 
         <AboutBanner />
         <AboutUs />

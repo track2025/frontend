@@ -66,6 +66,8 @@ export default function EventForm({ data: currentEvent, isLoading: apiLoading })
 
   const [state, setState] = useState({ loading: false });
 
+  console.log('trackData::', trackData);
+
   // --- Mutations
   const { mutate, isLoading } = useMutation(
     currentEvent ? 'update' : 'new',
@@ -98,6 +100,8 @@ export default function EventForm({ data: currentEvent, isLoading: apiLoading })
     trackName: Yup.string().required('Track Name is required'),
     country: Yup.string().required('Country is required'),
     city: Yup.string().required('City is required'),
+    address: Yup.string().required('Address is required'),
+    postalCode: Yup.string().required('Postal code is required'),
     date: Yup.string().required('Date is required'),
     startTime: Yup.string().required('Start Time is required'),
     endTime: Yup.string().required('End Time is required'),
@@ -120,6 +124,8 @@ export default function EventForm({ data: currentEvent, isLoading: apiLoading })
       countrySlug: currentEvent?.countrySlug || '',
       countryCode: currentEvent?.countryCode || '',
       city: currentEvent?.city || '',
+      address: currentEvent?.address || '',
+      postalCode: currentEvent?.postalCode || '',
       date: currentEvent?.date || '',
       startTime: currentEvent?.startTime || '',
       endTime: currentEvent?.endTime || '',
@@ -304,14 +310,24 @@ export default function EventForm({ data: currentEvent, isLoading: apiLoading })
                         loading={brandApiLoading}
                         value={trackData?.data?.find((track) => track._id === values.trackId) || null}
                         onChange={(event, newValue) => {
+                          console.log('New Value:', newValue);
+
                           if (newValue) {
                             setFieldValue('trackName', newValue.name);
                             setFieldValue('trackId', newValue._id);
                             setFieldValue('trackSlug', newValue.slug);
+                            setFieldValue('country', newValue.country);
+                            setFieldValue('city', newValue.city);
+                            setFieldValue('countrySlug', newValue?.countryCode?.toLowerCase());
+                            setFieldValue('countryCode', newValue.countryCode);
                           } else {
                             setFieldValue('trackName', '');
                             setFieldValue('trackId', '');
                             setFieldValue('trackSlug', '');
+                            setFieldValue('country', '');
+                            setFieldValue('city', '');
+                            setFieldValue('countrySlug', '');
+                            setFieldValue('countryCode', '');
                           }
                         }}
                         renderInput={(params) => (
@@ -327,6 +343,7 @@ export default function EventForm({ data: currentEvent, isLoading: apiLoading })
 
                       <Autocomplete
                         options={countries}
+                        disabled={true}
                         getOptionLabel={(option) => option.label}
                         value={countries?.find((c) => c.label === values.country) || null}
                         onChange={(event, newValue) => {
@@ -336,6 +353,7 @@ export default function EventForm({ data: currentEvent, isLoading: apiLoading })
                         }}
                         renderInput={(params) => (
                           <TextField
+                            disabled={true}
                             {...params}
                             label="Country"
                             placeholder="Select a country"
@@ -345,11 +363,26 @@ export default function EventForm({ data: currentEvent, isLoading: apiLoading })
                         )}
                       />
                       <TextField
+                        disabled={true}
                         label="City"
                         {...getFieldProps('city')}
                         placeholder=""
                         error={Boolean(touched.city && errors.city)}
                         helperText={touched.city && errors.city}
+                      />
+                      <TextField
+                        label="Address"
+                        {...getFieldProps('address')}
+                        placeholder=""
+                        error={Boolean(touched.address && errors.address)}
+                        helperText={touched.address && errors.address}
+                      />
+                      <TextField
+                        label="Postal Code"
+                        {...getFieldProps('postalCode')}
+                        placeholder=""
+                        error={Boolean(touched.postalCode && errors.postalCode)}
+                        helperText={touched.postalCode && errors.postalCode}
                       />
 
                       <TextField
@@ -358,7 +391,6 @@ export default function EventForm({ data: currentEvent, isLoading: apiLoading })
                         type="date"
                         InputLabelProps={{ shrink: true }}
                         {...getFieldProps('date')}
-
                         error={Boolean(touched.date && errors.date)}
                         helperText={touched.date && errors.date}
                       />
@@ -368,7 +400,7 @@ export default function EventForm({ data: currentEvent, isLoading: apiLoading })
                         type="time"
                         InputLabelProps={{ shrink: true }}
                         {...getFieldProps('startTime')}
-                           error={Boolean(touched.startTime && errors.startTime)}
+                        error={Boolean(touched.startTime && errors.startTime)}
                         helperText={touched.startTime && errors.startTime}
                       />
                       <TextField
@@ -377,15 +409,15 @@ export default function EventForm({ data: currentEvent, isLoading: apiLoading })
                         type="time"
                         InputLabelProps={{ shrink: true }}
                         {...getFieldProps('endTime')}
-                             error={Boolean(touched.endTime && errors.endTime)}
+                        error={Boolean(touched.endTime && errors.endTime)}
                         helperText={touched.endTime && errors.endTime}
                       />
-                      <TextField fullWidth label="Category" {...getFieldProps('category')} 
-                      
-                       error={Boolean(touched.endTime && errors.endTime)}
+                      <TextField
+                        fullWidth
+                        label="Category"
+                        {...getFieldProps('category')}
+                        error={Boolean(touched.endTime && errors.endTime)}
                         helperText={touched.endTime && errors.endTime}
-
-                        
                       />
 
                       <FormControl fullWidth>
