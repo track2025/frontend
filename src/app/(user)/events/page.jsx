@@ -153,8 +153,7 @@ export default async function EventsPage() {
     }
   };
 
-  // console.log('Event Data:', eventsData);
-  console.log('Structured Data for Events Page:', JSON.stringify(structuredData, null, 2));
+  // console.log('Structured Data for Events Page:', JSON.stringify(structuredData, null, 2));
 
   const breadcrumbSchema = {
     '@context': 'https://schema.org',
