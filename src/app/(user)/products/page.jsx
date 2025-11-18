@@ -1,6 +1,5 @@
 // mui
 import { Box, Container } from '@mui/material';
-import HeaderBreadcrumbs from 'src/components/headerBreadcrumbs';
 import ProductList from 'src/components/_main/products';
 import CollectionBanner from 'src/components/_main/banner/CollectionBanner';
 
@@ -61,12 +60,20 @@ export default async function Listing({ searchParams }) {
     // notFound();
   }
 
+  const brandTitle = brand
+    ? brand
+        .split('-')
+        .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+        .join(' ')
+    : null;
+
+  // Main structured data for the collection page
   const structuredData = {
     '@context': 'https://schema.org',
     '@type': 'CollectionPage',
-    name: brand ? `${brand} Race Event Photos` : 'Motorsport Photography Collection',
-    description: brand
-      ? `High-quality vehicle and race event photos from ${brand}`
+    name: brandTitle ? `${brandTitle} Race Event Photos` : 'Motorsport Photography Collection',
+    description: brandTitle
+      ? `High-quality vehicle and race event photos from ${brandTitle}`
       : 'Professional motorsport photography from race tracks worldwide',
     url: brand ? `https://lapsnaps.com/products?brand=${brand}` : 'https://lapsnaps.com/products'
   };
@@ -74,12 +81,28 @@ export default async function Listing({ searchParams }) {
   // Generate breadcrumbs data
   const breadcrumbs = [
     { href: '/', name: 'Home' },
-    { href: '/products', name: brand ? `${brand} Photos` : 'All Photos' }
+    { href: '/products', name: brandTitle ? `${brandTitle} Photos` : 'All Photos' }
   ];
+
+  // Breadcrumb structured data
+  const breadcrumbStructuredData = {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: breadcrumbs.map((item, index) => ({
+      '@type': 'ListItem',
+      position: index + 1,
+      name: item.name,
+      item: `https://lapsnaps.com${item.href}${index === breadcrumbs.length - 1 ? '' : ''}`
+    }))
+  };
 
   return (
     <>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }} />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbStructuredData) }}
+      />
 
       <Box>
         <Box sx={{ bgcolor: 'background.default' }}>
