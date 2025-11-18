@@ -26,12 +26,11 @@ export default function CartMain() {
   const { cart } = checkout;
   const [loading, setLoading] = React.useState(true);
 
-  console.log("Cart Index: ", cart);
-
   const { mutate } = useMutation(api.getCart, {
     onSuccess: (res) => {
       setLoading(false);
-      // dispatch(getCart(res.data));
+      console.log('api cart', res.data);
+      dispatch(getCart(res.data));
     },
     onError: (err) => {
       const message = JSON.stringify(err.response.data.message);
@@ -39,7 +38,7 @@ export default function CartMain() {
       toast.error(message ? JSON.parse(message) : 'We ran into an issue. Please refresh the page or try again.');
     }
   });
-  
+
   React.useEffect(() => {
     setLoading(true);
     mutate(cart);
