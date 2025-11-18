@@ -2,36 +2,20 @@
 import { Box, Container } from '@mui/material';
 import ProductList from 'src/components/_main/products';
 import CollectionBanner from 'src/components/_main/banner/CollectionBanner';
+import { getProducts } from 'src/services';
 
-// ✅ Example dynamic SEO generator (if you have brand in URL)
-export async function generateMetadata({ searchParams }) {
-  const brandSlug = searchParams?.brand || null;
-
-  const toTitleCase = (slug) => {
-    if (!slug) return '';
-    return slug
-      .split('-')
-      .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
-      .join(' ');
-  };
-
-  const brand = toTitleCase(brandSlug);
-
-  const title = brand
-    ? `${brand} Race Event Photos & Vehicle Gallery | Lap Snaps`
-    : 'Motorsport Photography & Race Track Vehicle Photos | Lap Snaps';
-  const description = brand
-    ? `Explore stunning vehicle and race event photos from ${brand}. High-quality motorsport photography from professional photographers.`
-    : 'Browse high-quality vehicle photography from race tracks and motorsport events around the world. Professional track day and racing event photos.';
-  const canonical = brand ? `https://lapsnaps.com/products?brand=${brandSlug}` : `https://lapsnaps.com/products`;
+// ✅ Dynamic SEO generator
+export async function generateMetadata() {
+  const title = 'Motorsport Photography & Race Track Vehicle Photos | Lap Snaps';
+  const description =
+    'Browse high-quality vehicle photography from race tracks and motorsport events around the world. Professional track day and racing event photos.';
+  const canonical = 'https://lapsnaps.com/products';
   const image = 'https://lapsnaps.com/opengraph-image.png';
 
   return {
     title,
     description,
-    keywords: brand
-      ? `${brand} photos, ${brand} racing, motorsport photography, vehicle photos, race track images`
-      : 'motorsport photography, race track photos, vehicle photography, track day images, racing event photos',
+    keywords: 'motorsport photography, race track photos, vehicle photography, track day images, racing event photos',
     alternates: {
       canonical
     },
@@ -51,38 +35,105 @@ export async function generateMetadata({ searchParams }) {
   };
 }
 
+// Helper functions from your ShopProductCard
+const slugify = (text) => {
+  if (!text) return 'race-track';
+  return text
+    .toString()
+    .trim()
+    .toLowerCase()
+    .replace(/\s+/g, '-') // Replace spaces with -
+    .replace(/[^\w\-]+/g, '') // Remove all non-word chars
+    .replace(/\-\-+/g, '-') // Replace multiple - with single -
+    .replace(/^-+/, '') // Trim - from start
+    .replace(/-+$/, ''); // Trim - from end
+};
+
+// Format date to YYYY-MM-DD
+const formatDate = (dateStr) => {
+  if (!dateStr) return '2025';
+  const date = new Date(dateStr);
+  const yyyy = date.getFullYear();
+  const mm = String(date.getMonth() + 1).padStart(2, '0');
+  const dd = String(date.getDate()).padStart(2, '0');
+  return `${yyyy}-${mm}-${dd}`;
+};
+
+// Generate product detail URL
+const generateProductUrl = (product) => {
+  const locationSlug = slugify(product.location);
+  const dateSlug = formatDate(product.dateCaptured);
+  return `/event/${locationSlug}/${dateSlug}/pictures/${product.slug}`;
+};
+
 // ✅ Server Component (renders HTML + SEO)
-export default async function Listing({ searchParams }) {
-  const brand = searchParams?.brand;
+export default async function Listing() {
+  // Fetch products from API route
+  const productsData = await getProducts();
+  // console.log('==========>>>> productsData', productsData);
 
-  if (!brand && !Object.keys(searchParams).length) {
-    // Optional: handle invalid brand or empty params
-    // notFound();
-  }
-
-  const brandTitle = brand
-    ? brand
-        .split('-')
-        .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
-        .join(' ')
-    : null;
-
-  // Main structured data for the collection page
-  const structuredData = {
-    '@context': 'https://schema.org',
-    '@type': 'CollectionPage',
-    name: brandTitle ? `${brandTitle} Race Event Photos` : 'Motorsport Photography Collection',
-    description: brandTitle
-      ? `High-quality vehicle and race event photos from ${brandTitle}`
-      : 'Professional motorsport photography from race tracks worldwide',
-    url: brand ? `https://lapsnaps.com/products?brand=${brand}` : 'https://lapsnaps.com/products'
-  };
+  // Handle case where productsData might be an object with data property
+  const products = Array.isArray(productsData) ? productsData : productsData?.data || [];
 
   // Generate breadcrumbs data
   const breadcrumbs = [
     { href: '/', name: 'Home' },
-    { href: '/products', name: brandTitle ? `${brandTitle} Photos` : 'All Photos' }
+    { href: '/race-track/collection', name: 'All Photos' }
   ];
+
+  // Main structured data for the collection page with products
+  const structuredData = {
+    '@context': 'https://schema.org',
+    '@type': 'CollectionPage',
+    name: 'Motorsport Photography Collection',
+    description: 'Professional motorsport photography from race tracks worldwide',
+    url: 'https://lapsnaps.com/race-track/collection',
+    mainEntity: {
+      '@type': 'ItemList',
+      numberOfItems: products.length,
+      itemListElement: products.map((product, index) => {
+        // Format date for description
+        const formattedDate = product.dateCaptured
+          ? new Date(product.dateCaptured).toLocaleDateString('en-US', {
+              year: 'numeric',
+              month: 'long',
+              day: 'numeric'
+            })
+          : 'recently';
+
+        // Generate the correct product URL
+        const productUrl = `https://lapsnaps.com${generateProductUrl(product)}`;
+
+        return {
+          '@type': 'ListItem',
+          position: index + 1,
+          item: {
+            '@type': 'Product',
+            '@id': productUrl,
+            name: product.name || `${product.location} Motorsport Photos`,
+            description: `Professional motorsport photography from ${product.location} captured on ${formattedDate}. High-quality race track photos available for purchase.`,
+            image: product.images?.[0]?.url,
+            offers: {
+              '@type': 'Offer',
+              price: product.priceSale,
+              priceCurrency: product.currency,
+              availability: 'https://schema.org/InStock',
+              url: productUrl
+            },
+            category: product.category || 'Motorsport Photography',
+            locationCreated: product.location
+              ? {
+                  '@type': 'Place',
+                  name: product.location
+                }
+              : undefined,
+            dateCreated: product.dateCaptured,
+            productionDate: product.dateCaptured
+          }
+        };
+      })
+    }
+  };
 
   // Breadcrumb structured data
   const breadcrumbStructuredData = {
@@ -92,7 +143,7 @@ export default async function Listing({ searchParams }) {
       '@type': 'ListItem',
       position: index + 1,
       name: item.name,
-      item: `https://lapsnaps.com${item.href}${index === breadcrumbs.length - 1 ? '' : ''}`
+      item: `https://lapsnaps.com${item.href}`
     }))
   };
 
@@ -109,7 +160,8 @@ export default async function Listing({ searchParams }) {
           <Container maxWidth="xl">
             {/* Pass breadcrumbs to the banner */}
             <CollectionBanner breadcrumbs={breadcrumbs} />
-            <ProductList />
+            {/* Pass products data to ProductList */}
+            <ProductList initialProducts={products} />
           </Container>
         </Box>
       </Box>

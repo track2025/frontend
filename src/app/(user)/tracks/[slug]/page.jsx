@@ -1,7 +1,7 @@
 import { notFound } from 'next/navigation';
 import { getTrackBySlug } from 'src/services/tracks';
 import TrackDetailsClient from 'src/components/_main/track/TrackDetailsClient';
-import TrackDetailsServer from 'src/components/_main/track/TrackDetailsServer';
+// import TrackDetailsServer from 'src/components/_main/track/TrackDetailsServer';
 import { getProducts } from 'src/services';
 import { getTrackEventsByTrackSlug } from 'src/services/tracks';
 
@@ -73,6 +73,64 @@ export async function generateMetadata({ params }) {
   }
 }
 
+// Helper functions for URL generation
+const slugify = (text) => {
+  if (!text) return 'race-track';
+  return text
+    .toString()
+    .trim()
+    .toLowerCase()
+    .replace(/\s+/g, '-')
+    .replace(/[^\w\-]+/g, '')
+    .replace(/\-\-+/g, '-')
+    .replace(/^-+/, '')
+    .replace(/-+$/, '');
+};
+
+const formatDate = (dateStr) => {
+  if (!dateStr) return '2025';
+  const date = new Date(dateStr);
+  const yyyy = date.getFullYear();
+  const mm = String(date.getMonth() + 1).padStart(2, '0');
+  const dd = String(date.getDate()).padStart(2, '0');
+  return `${yyyy}-${mm}-${dd}`;
+};
+
+const generateProductUrl = (product) => {
+  const locationSlug = slugify(product.location);
+  const dateSlug = formatDate(product.dateCaptured);
+  return `/event/${locationSlug}/${dateSlug}/pictures/${product.slug}`;
+};
+
+// Helper function to build address object safely
+const buildAddressObject = (track) => {
+  const address = {};
+
+  // Only add properties that exist and are not empty
+  if (track.address?.trim()) {
+    address.streetAddress = track.address.trim();
+  }
+
+  if (track.city?.trim()) {
+    address.addressLocality = track.city.trim();
+  }
+
+  if (track.region?.trim()) {
+    address.addressRegion = track.region.trim();
+  }
+
+  if (track.postalCode?.trim()) {
+    address.postalCode = track.postalCode.trim();
+  }
+
+  if (track.country?.trim()) {
+    address.addressCountry = track.country.trim();
+  }
+
+  // Only return address object if it has at least one property
+  return Object.keys(address).length > 0 ? address : null;
+};
+
 export default async function TrackDetailsPage({ params }) {
   const { slug } = params;
 
@@ -89,7 +147,10 @@ export default async function TrackDetailsPage({ params }) {
 
     const track = trackResponse.data;
 
-    // Fixed: Added missing URL field for SportsActivityLocation
+    // Build address object safely
+    const addressObject = buildAddressObject(track);
+
+    // SportsActivityLocation - Updated with complete address
     const structuredData = {
       '@context': 'https://schema.org',
       '@type': 'SportsActivityLocation',
@@ -97,12 +158,14 @@ export default async function TrackDetailsPage({ params }) {
       name: track.name,
       description: track.description || `Professional motorsport photography from ${track.name}`,
       image: track.bannerImage?.url || track.thumbnailImage?.url,
-      url: `https://lapsnaps.com/tracks/${track.slug}`, // ✅ REQUIRED: Was missing
-      address: {
-        '@type': 'PostalAddress',
-        addressLocality: track.city,
-        addressCountry: track.country
-      },
+      url: `https://lapsnaps.com/tracks/${track.slug}`,
+      // Only include address if we have at least one address component
+      ...(addressObject && {
+        address: {
+          '@type': 'PostalAddress',
+          ...addressObject
+        }
+      }),
       ...(track.latitude &&
         track.longitude && {
           geo: {
@@ -114,73 +177,48 @@ export default async function TrackDetailsPage({ params }) {
       ...(track.latitude &&
         track.longitude && {
           hasMap: `https://www.google.com/maps?q=${track.latitude},${track.longitude}`
-        })
+        }),
+      // Additional properties for better SEO
+      ...(track.phone && { telephone: track.phone }),
+      ...(track.email && { email: track.email }),
+      ...(track.website && { sameAs: track.website })
     };
 
-    // Fixed: Complete Product schema with all required fields
-    const productStructuredData =
-      products.length > 0
-        ? products.map((product, index) => {
-            // Format date to YYYY-MM-DD (matching the card component)
-            const formatDate = (dateStr) => {
-              if (!dateStr) return '2025';
-              const date = new Date(dateStr);
-              const yyyy = date.getFullYear();
-              const mm = String(date.getMonth() + 1).padStart(2, '0');
-              const dd = String(date.getDate()).padStart(2, '0');
-              return `${yyyy}-${mm}-${dd}`;
-            };
+    // Product Schema - ✅ All required fields included
+    const productStructuredData = products.map((product, index) => {
+      const fullProductUrl = `https://lapsnaps.com${generateProductUrl(product)}`;
 
-            // Slugify location (matching the card component)
-            const slugify = (text) => {
-              if (!text) return 'race-track';
-              return text
-                .toString()
-                .trim()
-                .toLowerCase()
-                .replace(/\s+/g, '-')
-                .replace(/[^\w\-]+/g, '')
-                .replace(/\-\-+/g, '-')
-                .replace(/^-+/, '')
-                .replace(/-+$/, '');
-            };
-
-            const locationSlug = slugify(product.location);
-            const dateSlug = formatDate(product.dateCaptured);
-            const productUrl = `/event/${locationSlug}/${dateSlug}/pictures/${product.slug}`;
-            const fullProductUrl = `https://lapsnaps.com${productUrl}`;
-
-            return {
-              '@context': 'https://schema.org',
-              '@type': 'Product',
-              name: product.name || `Photo captured at ${product.location || track.name}`,
-              description:
-                product.description ||
-                `Professional motorsport photography captured at ${product.location || track.name}`,
-              image: product.image?.url || '',
-              url: fullProductUrl, // ✅ UPDATED: Now matches actual product URL structure
-              sku: product._id || product.slug,
-              mpn: product._id,
-              brand: {
-                '@type': 'Brand',
-                name: product.photographer?.name || 'LapSnaps'
-              },
-              offers: {
-                '@type': 'Offer',
-                price: String(product.priceSale || product.price),
-                priceCurrency: product.currency || 'GBP',
-                availability: product.stock > 0 ? 'https://schema.org/InStock' : 'https://schema.org/OutOfStock',
-                url: fullProductUrl, // ✅ UPDATED: Consistent URL
-                ...(product.priceValidUntil && {
-                  priceValidUntil: product.priceValidUntil
-                })
-              },
-              ...(product.category && {
-                category: product.category
-              })
-            };
-          })
-        : [];
+      return {
+        '@context': 'https://schema.org',
+        '@type': 'Product',
+        name: product.name || `Photo captured at ${product.location || track.name}`,
+        description:
+          product.description || `Professional motorsport photography captured at ${product.location || track.name}`,
+        image: product.images?.[0]?.url || '',
+        url: fullProductUrl,
+        sku: product._id,
+        mpn: product._id,
+        brand: {
+          '@type': 'Brand',
+          name: product.photographer?.name || 'LapSnaps'
+        },
+        offers: {
+          '@type': 'Offer',
+          price: String(product.priceSale || product.price),
+          priceCurrency: product.currency || 'GBP',
+          availability: 'https://schema.org/InStock', // ✅ Always in stock
+          url: fullProductUrl,
+          seller: {
+            // ✅ REQUIRED: Was missing
+            '@type': 'Organization',
+            name: 'LapSnaps'
+          }
+        },
+        ...(product.category && {
+          category: product.category
+        })
+      };
+    });
 
     const faqStructuredData =
       Array.isArray(track.faqs) && track.faqs.length > 0

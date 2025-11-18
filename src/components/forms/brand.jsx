@@ -75,22 +75,19 @@ export default function LocationsForm({ data: currentLocation, isLoading: locati
   const router = useRouter();
   const [state, setState] = useState({ loading: false });
 
-  const { mutate, isLoading } = useMutation(
-    currentLocation ? api.updateBrandByAdmin : api.addBrandByAdmin,
-    {
-      retry: false,
-      onSuccess: (data) => {
-        toast.success(data.message);
-        router.push('/admin/locations');
-      },
-      onError: (error) => {
-        let errorMessage = parseMongooseError(error?.message);
-        toast.error(errorMessage || 'We ran into an issue. Please refresh the page or try again.', {
-          duration: 10000
-        });
-      }
+  const { mutate, isLoading } = useMutation(currentLocation ? api.updateBrandByAdmin : api.addBrandByAdmin, {
+    retry: false,
+    onSuccess: (data) => {
+      toast.success(data.message);
+      router.push('/admin/locations');
+    },
+    onError: (error) => {
+      let errorMessage = parseMongooseError(error?.message);
+      toast.error(errorMessage || 'We ran into an issue. Please refresh the page or try again.', {
+        duration: 10000
+      });
     }
-  );
+  });
 
   const { mutate: deleteMutate } = useMutation(api.singleDeleteFile, {
     onError: (error) => {
@@ -98,23 +95,22 @@ export default function LocationsForm({ data: currentLocation, isLoading: locati
     }
   });
 
-  // Fixed validation schema matching the model
+  // Updated validation schema with all address fields required
   const LocationSchema = Yup.object().shape({
     name: Yup.string().required('Name is required'),
-    metaTitle: Yup.string()
-      .required('Meta Title is required')
-      .max(100, 'Meta Title cannot exceed 100 characters'),
+    metaTitle: Yup.string().required('Meta Title is required').max(100, 'Meta Title cannot exceed 100 characters'),
     slug: Yup.string().required('Slug is required'),
     description: Yup.string().required('Description is required'),
     metaDescription: Yup.string()
       .required('Meta Description is required')
       .max(200, 'Meta Description cannot exceed 200 characters'),
     fullDescription: Yup.string(),
-    country: Yup.string(),
-    countryCode: Yup.string(),
-    city: Yup.string(),
-    region: Yup.string(),
-    address: Yup.string(),
+    country: Yup.string().required('Country is required'), // Made required
+    countryCode: Yup.string().required('Country code is required'), // Made required
+    city: Yup.string().required('City is required'), // Made required
+    region: Yup.string().required('Region is required'), // Made required
+    address: Yup.string().required('Address is required'), // Made required
+    postalCode: Yup.string().required('Postal code is required'),
     timezone: Yup.string().required('Timezone is required'),
     length: Yup.string(),
     corners: Yup.string(),
@@ -169,6 +165,7 @@ export default function LocationsForm({ data: currentLocation, isLoading: locati
       city: currentLocation?.city || '',
       region: currentLocation?.region || '',
       address: currentLocation?.address || '',
+      postalCode: currentLocation?.postalCode || '',
       timezone: currentLocation?.timezone || '',
       length: currentLocation?.length || '',
       corners: currentLocation?.corners || '',
@@ -180,7 +177,7 @@ export default function LocationsForm({ data: currentLocation, isLoading: locati
       phone: currentLocation?.phone || '',
       email: currentLocation?.email || '',
       status: currentLocation?.status || STATUS_OPTIONS[0],
-      seoJunk: currentLocation?.seoJunk || '', // Added missing field
+      seoJunk: currentLocation?.seoJunk || '',
       logo: currentLocation?.logo || null,
       bannerImage: currentLocation?.bannerImage || null,
       thumbnailImage: currentLocation?.thumbnailImage || null,
@@ -191,7 +188,7 @@ export default function LocationsForm({ data: currentLocation, isLoading: locati
     onSubmit: async (values, { setSubmitting }) => {
       try {
         console.log('🔍 Submitting form with values:', values);
-        
+
         // Validate required images
         if (!values.logo || !values.logo.url) {
           toast.error('Logo is required');
@@ -245,7 +242,9 @@ export default function LocationsForm({ data: currentLocation, isLoading: locati
       const imageData = {
         _id: uploaded._id || `img-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`,
         url: uploaded.url,
-        blurDataURL: uploaded.blurDataURL || 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNkYPhfDwAChwGA60e6kgAAAABJRU5ErkJggg=='
+        blurDataURL:
+          uploaded.blurDataURL ||
+          'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNkYPhfDwAChwGA60e6kgAAAABJRU5ErkJggg=='
       };
 
       setFieldValue(fileKey, imageData);
@@ -260,18 +259,18 @@ export default function LocationsForm({ data: currentLocation, isLoading: locati
 
   const handleFormSubmit = (e) => {
     e.preventDefault();
-    
+
     // Manually trigger validation
     formik.validateForm().then((validationErrors) => {
       console.log('🔍 Validation errors:', validationErrors);
-      
+
       if (Object.keys(validationErrors).length === 0) {
         console.log('✅ Form is valid, submitting...');
         handleSubmit(e);
       } else {
         console.log('❌ Form has validation errors:', validationErrors);
         toast.error('Please fix the form errors before submitting');
-        
+
         // Scroll to first error
         const firstError = Object.keys(validationErrors)[0];
         const element = document.getElementById(firstError);
@@ -299,11 +298,12 @@ export default function LocationsForm({ data: currentLocation, isLoading: locati
                       { name: 'description', label: 'Short Description *', multiline: true, rows: 2 },
                       { name: 'metaDescription', label: 'Meta Description *', multiline: true, rows: 3 },
                       { name: 'fullDescription', label: 'Full Description', multiline: true, rows: 6 },
-                      { name: 'country', label: 'Country' },
-                      { name: 'countryCode', label: 'Country Code' },
-                      { name: 'city', label: 'City' },
-                      { name: 'region', label: 'Region' },
-                      { name: 'address', label: 'Address', multiline: true, rows: 2 }
+                      { name: 'country', label: 'Country *' }, // Added asterisk
+                      { name: 'countryCode', label: 'Country Code *' }, // Added asterisk
+                      { name: 'city', label: 'City *' }, // Added asterisk
+                      { name: 'region', label: 'Region *' }, // Added asterisk
+                      { name: 'address', label: 'Address *', multiline: true, rows: 2 }, // Added asterisk
+                      { name: 'postalCode', label: 'Postal Code *' }
                     ].map((field) => (
                       <div key={field.name}>
                         {locationLoading ? (
@@ -420,13 +420,7 @@ export default function LocationsForm({ data: currentLocation, isLoading: locati
                         onChange={(e, newValue) => setFieldValue('keywords', newValue)}
                         options={KEYWORD_OPTIONS}
                         renderTags={(value, getTagProps) =>
-                          value.map((option, index) => (
-                            <Chip
-                              size="small"
-                              {...getTagProps({ index })}
-                              label={option}
-                            />
-                          ))
+                          value.map((option, index) => <Chip size="small" {...getTagProps({ index })} label={option} />)
                         }
                         renderInput={(params) => (
                           <TextField
@@ -448,9 +442,7 @@ export default function LocationsForm({ data: currentLocation, isLoading: locati
                           </option>
                         ))}
                       </Select>
-                      {touched.status && errors.status && (
-                        <FormHelperText error>{errors.status}</FormHelperText>
-                      )}
+                      {touched.status && errors.status && <FormHelperText error>{errors.status}</FormHelperText>}
                     </FormControl>
 
                     {/* SEO Junk */}
@@ -525,18 +517,12 @@ export default function LocationsForm({ data: currentLocation, isLoading: locati
                     <>
                       {values.faqs.map((faq, index) => (
                         <Stack key={index} spacing={2} sx={{ mb: 2, border: '1px solid #ddd', p: 2, borderRadius: 1 }}>
-                          <TextField 
-                            label="Question *" 
-                            fullWidth 
+                          <TextField
+                            label="Question *"
+                            fullWidth
                             {...getFieldProps(`faqs[${index}].question`)}
-                            error={Boolean(
-                              touched.faqs?.[index]?.question && 
-                              errors.faqs?.[index]?.question
-                            )}
-                            helperText={
-                              touched.faqs?.[index]?.question && 
-                              errors.faqs?.[index]?.question
-                            }
+                            error={Boolean(touched.faqs?.[index]?.question && errors.faqs?.[index]?.question)}
+                            helperText={touched.faqs?.[index]?.question && errors.faqs?.[index]?.question}
                           />
                           <TextField
                             label="Answer *"
@@ -544,14 +530,8 @@ export default function LocationsForm({ data: currentLocation, isLoading: locati
                             multiline
                             rows={3}
                             {...getFieldProps(`faqs[${index}].answer`)}
-                            error={Boolean(
-                              touched.faqs?.[index]?.answer && 
-                              errors.faqs?.[index]?.answer
-                            )}
-                            helperText={
-                              touched.faqs?.[index]?.answer && 
-                              errors.faqs?.[index]?.answer
-                            }
+                            error={Boolean(touched.faqs?.[index]?.answer && errors.faqs?.[index]?.answer)}
+                            helperText={touched.faqs?.[index]?.answer && errors.faqs?.[index]?.answer}
                           />
                           <IconButton
                             color="error"
@@ -578,10 +558,10 @@ export default function LocationsForm({ data: currentLocation, isLoading: locati
 
           {/* Submit */}
           <Box mt={3} textAlign="right">
-            <LoadingButton 
-              type="submit" 
-              variant="contained" 
-              size="large" 
+            <LoadingButton
+              type="submit"
+              variant="contained"
+              size="large"
               loading={isLoading}
               disabled={!dirty || !isValid}
             >

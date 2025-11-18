@@ -61,48 +61,90 @@ export default async function BlogsPage({ searchParams }) {
     error = err?.message || 'Unable to load blog posts. Please try again later.';
   }
 
-  const structuredData = {
+  // CollectionPage Schema for listing page
+  const collectionPageSchema = {
     '@context': 'https://schema.org',
-    '@type': 'Blog',
+    '@type': 'CollectionPage',
     name: 'LapSnaps Blog – Motorsport Photography & Track-Day Insights',
     description: 'Expert tips, tutorials, and insights for motorsport photographers and track day enthusiasts',
     url: 'https://lapsnaps.com/blogs',
-    publisher: {
-      '@type': 'Organization',
-      name: 'Lap Snaps',
-      logo: {
-        '@type': 'ImageObject',
-        url: 'https://lapsnaps.com/logo.png'
-      }
+    mainEntity: {
+      '@type': 'ItemList',
+      numberOfItems: blogPosts.length,
+      itemListElement: blogPosts.map((post, index) => ({
+        '@type': 'ListItem',
+        position: index + 1,
+        item: {
+          '@type': 'BlogPosting',
+          headline: post.title,
+          author: {
+            '@type': 'Person',
+            name: post.author || 'LapSnaps Team'
+          },
+          description: post.excerpt || post.description || `Read ${post.title} on LapSnaps blog`,
+          datePublished: post.publishedDate || post.createdAt,
+          dateModified: post.updatedAt || post.publishedDate || post.createdAt,
+          image: post.heroImage?.url || post.featuredImage?.url,
+          url: `https://lapsnaps.com/blogs/${post.slug}`,
+          publisher: {
+            '@type': 'Organization',
+            name: 'LapSnaps',
+            logo: {
+              '@type': 'ImageObject',
+              url: 'https://lapsnaps.com/logo.png'
+            }
+          },
+          mainEntityOfPage: {
+            '@type': 'WebPage',
+            '@id': `https://lapsnaps.com/blogs/${post.slug}`
+          }
+        }
+      }))
     },
-    blogPost: blogPosts.slice(0, 10).map((post) => ({
-      '@type': 'BlogPosting',
-      headline: post.title,
-      author: {
-        '@type': 'Person',
-        name: post.author
-      },
-      description: post.excerpt,
-      datePublished: post.publishedDate || post.createdAt,
-      dateModified: post.updatedAt,
-      datePublished: post.publishedDate,
-      image: post.heroImage?.url || post.featuredImage?.url,
-      articleBody: post.content,
-
-      mainEntityOfPage: {
-        '@type': 'WebPage',
-        '@id': `https://lapsnaps.com/blogs/${post.slug}`
-      }
-    }))
+    about: {
+      '@type': 'Blog',
+      name: 'LapSnaps Blog',
+      description: 'Motorsport photography tips, track day guides, and photography tutorials'
+    }
   };
 
-  console.log('Structured Data for Blogs Page:', JSON.stringify(structuredData, null, 2));
+  // BreadcrumbList Schema
+  const breadcrumbSchema = {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      {
+        '@type': 'ListItem',
+        position: 1,
+        name: 'Home',
+        item: 'https://lapsnaps.com'
+      },
+      {
+        '@type': 'ListItem',
+        position: 2,
+        name: 'Blog',
+        item: 'https://lapsnaps.com/blogs'
+      }
+    ]
+  };
 
-  // console.log('blogPosts:', blogPosts);
+  // console.log('Structured Data for Blogs Page:', JSON.stringify(collectionPageSchema, null, 2));
 
   return (
     <>
-      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }} />
+      {/* CollectionPage Schema */}
+      <script
+        key="collection-page-schema"
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(collectionPageSchema) }}
+      />
+
+      {/* BreadcrumbList Schema */}
+      <script
+        key="breadcrumb-schema"
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
+      />
 
       <BlogsServerPage blogPosts={blogPosts} pagination={pagination} searchTerm={search} />
 

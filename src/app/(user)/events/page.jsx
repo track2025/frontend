@@ -48,8 +48,84 @@ export const metadata = {
 
 export const dynamic = 'force-dynamic';
 
+// Helper function to build location object safely
+const buildLocationObject = (event) => {
+  const location = {
+    '@type': 'Place',
+    name: event.trackName
+  };
+
+  // Build address if we have location data
+  const address = {};
+
+  if (event.address?.trim()) {
+    address.streetAddress = event.address.trim();
+  }
+
+  if (event.city?.trim()) {
+    address.addressLocality = event.city.trim();
+  }
+
+  if (event.postalCode?.trim()) {
+    address.postalCode = event.postalCode.trim();
+  }
+
+  if (event.country?.trim()) {
+    address.addressCountry = event.country.trim();
+  }
+
+  // Only add address if we have at least one component
+  if (Object.keys(address).length > 0) {
+    location.address = {
+      '@type': 'PostalAddress',
+      ...address
+    };
+  }
+
+  return location;
+};
+
+// Helper function to build organizer object
+const buildOrganizerObject = () => ({
+  '@type': 'Organization',
+  name: 'LapSnaps',
+  url: 'https://lapsnaps.com'
+});
+
+// Helper function to build offer object
+const buildOfferObject = (event) => ({
+  '@type': 'Offer',
+  url: `https://lapsnaps.com/events/${event.countrySlug}/${event.slug}`,
+  availability: 'https://schema.org/InStock',
+  priceCurrency: 'GBP', // Default currency
+  category: 'Motorsport Event'
+});
+
+// Helper function to build date-time strings
+const buildDateTime = (event) => {
+  const baseDate = {
+    startDate: event.date,
+    endDate: event.endDate || event.date
+  };
+
+  // Add time components if available
+  if (event.startTime) {
+    baseDate.startDate = `${event.date}T${event.startTime}`;
+    baseDate.doorTime = `${event.date}T${event.startTime}`;
+  }
+
+  if (event.endTime && event.endDate) {
+    baseDate.endDate = `${event.endDate}T${event.endTime}`;
+  } else if (event.endTime) {
+    baseDate.endDate = `${event.date}T${event.endTime}`;
+  }
+
+  return baseDate;
+};
+
 export default async function EventsPage() {
   const eventsData = await getSuperEvents();
+  // console.log('Events data:', eventsData);
 
   // Get today's date at start of day for accurate comparison
   const today = new Date();
@@ -84,7 +160,6 @@ export default async function EventsPage() {
           title: event.title,
           date: event.date,
           trackName: event.trackName,
-          type: event.type,
           image: event.image,
           slug: event.slug
         });
@@ -109,40 +184,69 @@ export default async function EventsPage() {
     });
   };
 
-  // Create Event schema for all events
-  const eventSchemas = eventsData.map((event, index) => ({
-    '@context': 'https://schema.org',
-    '@type': 'Event',
-    name: event.title,
-    startDate: event.date,
-    endDate: event.endDate || event.date,
-    eventStatus: 'https://schema.org/EventScheduled',
-    eventAttendanceMode: 'https://schema.org/OfflineEventAttendanceMode',
-    location: {
-      '@type': 'Place',
-      name: event.trackName,
-      address: {
-        '@type': 'PostalAddress',
-        addressCountry: event.country,
-        addressRegion: event.region || event.country
-      }
-    },
-    description: `${event.type} event at ${event.trackName} in ${event.country}`,
-    image: event.image?.url || 'https://lapsnaps.com/default-event-image.jpg',
-    url: `https://lapsnaps.com/events/${event.countrySlug}/${event.slug}`,
-    offers: {
-      '@type': 'Offer',
-      url: `https://lapsnaps.com/events/${event.countrySlug}/${event.slug}`,
-      availability: 'https://schema.org/InStock'
-    },
-    organizer: {
-      '@type': 'Organization',
-      name: 'LapSnaps',
-      url: 'https://lapsnaps.com'
-    }
-  }));
+  // Create clean Event schemas for all events
+  const eventSchemas = eventsData.map((event, index) => {
+    const eventUrl = `https://lapsnaps.com/events/${event.countrySlug}/${event.slug}`;
+    const dateTime = buildDateTime(event);
 
-  // Fixed CollectionPage schema - using country data instead of undefined event variable
+    // Base event schema with required fields
+    const baseSchema = {
+      '@context': 'https://schema.org',
+      '@type': 'Event',
+      name: event.title,
+      ...dateTime,
+      eventStatus: 'https://schema.org/EventScheduled',
+      eventAttendanceMode: 'https://schema.org/OfflineEventAttendanceMode',
+      location: buildLocationObject(event),
+      description: event.description || `Motorsport event at ${event.trackName} in ${event.country}`,
+      image: event.image?.url || 'https://lapsnaps.com/default-event-image.jpg',
+      url: eventUrl,
+      offers: buildOfferObject(event),
+      organizer: buildOrganizerObject()
+    };
+
+    // Add optional fields if available
+    const cleanSchema = {
+      ...baseSchema,
+      // Add category if available
+      ...(event.category && { category: event.category }),
+
+      // Add status
+      ...(event.status && {
+        eventStatus:
+          event.status === 'Open'
+            ? 'https://schema.org/EventScheduled'
+            : event.status === 'Upcoming'
+              ? 'https://schema.org/EventScheduled'
+              : 'https://schema.org/EventPostponed'
+      }),
+
+      // Add performer (the track/circuit)
+      performer: {
+        '@type': 'SportsTeam',
+        name: event.trackName,
+        location: buildLocationObject(event)
+      },
+
+      // Add country context
+      ...(event.country && {
+        areaServed: event.country,
+        location: {
+          ...baseSchema.location,
+          ...(event.country && {
+            containedInPlace: {
+              '@type': 'Country',
+              name: event.country
+            }
+          })
+        }
+      })
+    };
+
+    return cleanSchema;
+  });
+
+  // Enhanced CollectionPage schema
   const collectionPageSchema = {
     '@context': 'https://schema.org',
     '@type': 'CollectionPage',
@@ -164,10 +268,41 @@ export default async function EventsPage() {
           address: {
             '@type': 'PostalAddress',
             addressCountry: country.name
-          }
+          },
+          // Add country-specific event information
+          ...(country.upcomingEvents > 0 && {
+            event: {
+              '@type': 'Event',
+              name: `Motorsport Events in ${country.name}`,
+              startDate: today.toISOString().split('T')[0],
+              eventAttendanceMode: 'https://schema.org/OfflineEventAttendanceMode',
+              location: {
+                '@type': 'Place',
+                address: {
+                  '@type': 'PostalAddress',
+                  addressCountry: country.name
+                }
+              }
+            }
+          })
         }
       }))
-    }
+    },
+    // Add aggregate event data
+    about: {
+      '@type': 'SportsOrganization',
+      name: 'LapSnaps Motorsport Events',
+      description: 'Organizer of motorsport events and track days worldwide'
+    },
+    ...(eventsData.length > 0 && {
+      temporalCoverage: {
+        startDate: eventsData.reduce(
+          (earliest, event) => (event.date < earliest ? event.date : earliest),
+          eventsData[0].date
+        ),
+        endDate: eventsData.reduce((latest, event) => (event.date > latest ? event.date : latest), eventsData[0].date)
+      }
+    })
   };
 
   const breadcrumbSchema = {
@@ -438,30 +573,6 @@ export default async function EventsPage() {
               </Grid>
             ))}
           </Grid>
-
-          {/* H2 - Summary Section */}
-          {/* <Box sx={{ mt: 6, textAlign: 'center' }}>
-            <Typography
-              component="h2"
-              variant="h2"
-              sx={{
-                fontSize: '1.1rem',
-                fontWeight: 600,
-                mb: 2
-              }}
-            >
-              Global Motorsport Events Summary
-            </Typography>
-            <Typography
-              variant="body1"
-              sx={{
-                fontSize: '0.9rem'
-              }}
-            >
-              Showing {sortedCountries.length} countries with {eventsData.length} total events •{' '}
-              {eventsData.filter((event) => new Date(event.date) >= today).length} upcoming events
-            </Typography>
-          </Box> */}
         </Container>
       </Box>
     </>

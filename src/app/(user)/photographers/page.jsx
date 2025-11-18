@@ -35,7 +35,7 @@ export const metadata = {
 
 export default async function ShopComponent() {
   const data = await api.getShops();
-  console.log('Photographers data:', data);
+  // console.log('Photographers data:', data);
 
   const structuredData = {
     '@context': 'https://schema.org',
@@ -51,7 +51,7 @@ export default async function ShopComponent() {
         item: {
           '@type': 'Person',
           '@id': `https://lapsnaps.com/photographers/${photographer.slug}`,
-          name: photographer.title || photographer.name,
+          name: photographer.title || photographer.name || 'LapSnaps Professional Photographer',
           description:
             photographer.description ||
             `Professional motorsport photographer specializing in race track and vehicle photography`,
@@ -63,12 +63,8 @@ export default async function ShopComponent() {
             'Vehicle Photography',
             'Track Day Photography'
           ],
-          url: `https://lapsnaps.com/photographers/${photographer.slug}`,
-          workExample: {
-            '@type': 'ImageGallery',
-            name: `${photographer.title || photographer.name} Portfolio`,
-            url: `https://lapsnaps.com/photographers/${photographer.slug}`
-          }
+          url: `https://lapsnaps.com/photographers/${photographer.slug}`
+          // Removed invalid workExample property
         }
       }))
     }
