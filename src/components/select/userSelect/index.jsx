@@ -28,8 +28,6 @@ export default function UserSelect({ isAdmin }) {
   const anchorRef = React.useRef(null);
   const [openUser, setOpen] = React.useState(false);
 
-  console.log("User", user);
-
   const handleOpenUser = () => {
     if (!isAuthenticated) {
       router.push('/auth/login');

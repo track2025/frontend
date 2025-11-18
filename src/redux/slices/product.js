@@ -22,20 +22,31 @@ const slice = createSlice({
   reducers: {
     // CHECKOUT
     getCart(state, action) {
-      const cart = action.payload;
+      const cart = action.payload || [];
 
-      const subtotal = sum(cart.map((product) => (product.priceSale || product.price) * product.quantity));
-      const discount = cart.length === 0 ? 0 : state.checkout.discount;
-      const shipping = (cart.length === 0 || cart[0].checkoutType === "product") ? 0 : shippingFee;
-      const billing = cart.length === 0 ? null : state.checkout.billing;
+      // normalize shop on every item: if shop is not an object, convert to { id: shop }
+      const normalizedCart = cart.map((p) => {
+        const shop = p.shop && typeof p.shop === 'object'
+          ? p.shop
+          : p.shop
+            ? { id: p.shop } // at least keep the id
+            : null;
+        return { ...p, shop };
+      });
 
-      state.checkout.cart = cart;
+      const subtotal = sum(normalizedCart.map((product) => (product.priceSale || product.price) * product.quantity));
+      const discount = normalizedCart.length === 0 ? 0 : state.checkout.discount;
+      const shipping = (normalizedCart.length === 0 || normalizedCart[0].checkoutType === "product") ? 0 : shippingFee;
+      const billing = normalizedCart.length === 0 ? null : state.checkout.billing;
+
+      state.checkout.cart = normalizedCart;
       state.checkout.discount = discount;
       state.checkout.shipping = shipping;
       state.checkout.billing = billing;
       state.checkout.subtotal = subtotal;
       state.checkout.total = subtotal;
     },
+
 
     addPhysicalCart(state, action) {
       const product = action.payload;
@@ -72,7 +83,8 @@ const slice = createSlice({
       const updatedProduct = {
         ...product,
         checkoutType: 'product',
-        sku: `${product.pid}`
+        sku: `${product.pid}`,
+        shop: product.shop
       };
 
       // ✅ Remove all physical products before adding normal product
@@ -87,7 +99,8 @@ const slice = createSlice({
           if (isExisted) {
             return {
               ..._product,
-              quantity: 1
+              quantity: 1,
+              shop: updatedProduct.shop,
             };
           }
           return _product;

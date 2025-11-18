@@ -26,7 +26,8 @@ export default function CartMain() {
   const { cart } = checkout;
   const [loading, setLoading] = React.useState(true);
 
-  console.log("checkout Items: ", checkout);
+  console.log("Cart Index: ", cart);
+
   const { mutate } = useMutation(api.getCart, {
     onSuccess: (res) => {
       setLoading(false);

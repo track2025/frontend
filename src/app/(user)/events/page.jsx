@@ -109,35 +109,13 @@ export default async function EventsPage() {
     });
   };
 
-  // const structuredData = {
-  //   "@context": "https://schema.org",
-  //   "@type": "CollectionPage",
-  //   name: "Motorsport Events & Track Days Worldwide",
-  //   description:
-  //     "Browse upcoming car & bike motorsport events by country. Find track days, racing events, and motorsport photography opportunities worldwide.",
-  //   url: "https://lapsnaps.com/events",
-  //   mainEntity: {
-  //     "@type": "ItemList",
-  //     itemListElement: sortedCountries.map((country, index) => ({
-  //       "@type": "ListItem",
-  //       position: index + 1,
-  //       item: {
-  //         "@type": "Place",
-  //         name: country.name,
-  //         url: `https://lapsnaps.com/events/${country.slug}`,
-  //         description: `${country.upcomingEvents} upcoming motorsport events in ${country.name}`,
-  //       },
-  //     })),
-  //   },
-  // }
-
   // Create Event schema for all events
   const eventSchemas = eventsData.map((event, index) => ({
     "@context": "https://schema.org",
     "@type": "Event",
     name: event.title,
     startDate: event.date,
-    endDate: event.endDate || event.date, // Use endDate if available, otherwise same as startDate
+    endDate: event.endDate || event.date,
     eventStatus: "https://schema.org/EventScheduled",
     eventAttendanceMode: "https://schema.org/OfflineEventAttendanceMode",
     location: {
@@ -164,6 +142,7 @@ export default async function EventsPage() {
     },
   }))
 
+  // Fixed CollectionPage schema - using country data instead of undefined event variable
   const collectionPageSchema = {
     "@context": "https://schema.org",
     "@type": "CollectionPage",
@@ -171,47 +150,25 @@ export default async function EventsPage() {
     description:
       'Browse upcoming car & bike motorsport events worldwide. Find track days, racing events, and motorsport photography opportunities.',
     url: 'https://lapsnaps.com/events',
-
     mainEntity: {
       "@type": "ItemList",
       numberOfItems: eventsData.length,
       itemListElement: sortedCountries.map((country, index) => ({
         "@type": "ListItem",
         position: index + 1,
-
         item: {
-          '@type': 'Event',
-
-          name: event.title,
-          description: event.description || event.fullDescription || '',
-
-          startDate: `${event.date}T${event.startTime || '00:00'}`,
-          endDate: event.endTime ? `${event.date}T${event.endTime}` : undefined,
-
-          eventAttendanceMode: 'https://schema.org/OfflineEventAttendanceMode',
-
-          url: `https://lapsnaps.com/tracks/${event.trackSlug}/events/${event.slug}`,
-
-          image: event.image?.url || event.thumbnailImage?.url || undefined,
-
-          location: {
-            '@type': 'Place',
-            name: event.trackName,
-            url: `https://lapsnaps.com/tracks/${event.trackSlug}`,
-
-            address: {
-              '@type': 'PostalAddress',
-              addressLocality: event.city || '',
-              addressCountry: event.country || ''
-            }
+          '@type': 'Place',
+          name: country.name,
+          url: `https://lapsnaps.com/events/${country.slug}`,
+          description: `${country.upcomingEvents} upcoming motorsport events in ${country.name}`,
+          address: {
+            '@type': 'PostalAddress',
+            addressCountry: country.name
           }
         }
       }))
     }
   };
-
-  // console.log('Event Data:', eventsData);
-  console.log('Structured Data for Events Page:', JSON.stringify(structuredData, null, 2));
 
   const breadcrumbSchema = {
     '@context': 'https://schema.org',
