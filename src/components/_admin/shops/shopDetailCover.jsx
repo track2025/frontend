@@ -240,7 +240,6 @@ export default function ShopDetailCover({ data, isLoading, isUser, page }) {
     `);
 
       printWindow.document.close();
-
     } catch (error) {
       console.error('Error printing:', error);
       alert('Failed to print. Please try again.');
@@ -301,7 +300,7 @@ export default function ShopDetailCover({ data, isLoading, isUser, page }) {
                 textAlign: { xs: 'center', md: 'left' }
               }}
             >
-              <Typography variant="h4">
+              <Typography variant="h1" sx={{ fontSize: { xs: '20px', md: '30px' } }}>
                 {isLoading ? <Skeleton variant="text" width={220} /> : data?.title || data?.name}
               </Typography>
               {isUser ? (
@@ -349,27 +348,31 @@ export default function ShopDetailCover({ data, isLoading, isUser, page }) {
           </Typography>
 
           {/* Container for stacked business cards */}
-          <Box sx={{
-            display: 'flex',
-            flexDirection: 'column',
-            gap: 2,
-            justifyContent: 'center',
-            mb: 2,
-            alignItems: 'center',
-            position: 'relative' // For absolute positioning of QR code
-          }}>
+          <Box
+            sx={{
+              display: 'flex',
+              flexDirection: 'column',
+              gap: 2,
+              justifyContent: 'center',
+              mb: 2,
+              alignItems: 'center',
+              position: 'relative' // For absolute positioning of QR code
+            }}
+          >
             {/* Business Card Front */}
-            <Box sx={{
-              p: 1,
-              bgcolor: 'white',
-              width: 350, // Increased from 280
-              height: 200,// Increased from 160
-              border: '1px solid #e0e0e0',
-              borderRadius: '8px', // Increased border radius
-              boxShadow: '0 4px 12px rgba(0,0,0,0.15)', // Enhanced shadow
-              position: 'relative',
-              zIndex: 1
-            }}>
+            <Box
+              sx={{
+                p: 1,
+                bgcolor: 'white',
+                width: 350, // Increased from 280
+                height: 200, // Increased from 160
+                border: '1px solid #e0e0e0',
+                borderRadius: '8px', // Increased border radius
+                boxShadow: '0 4px 12px rgba(0,0,0,0.15)', // Enhanced shadow
+                position: 'relative',
+                zIndex: 1
+              }}
+            >
               <BlurImage
                 src="/images/business_front.jpg"
                 alt="Business Card Front"
@@ -382,16 +385,18 @@ export default function ShopDetailCover({ data, isLoading, isUser, page }) {
             </Box>
 
             {/* Business Card Back with QR Code */}
-            <Box sx={{
-              p: 1,
-              bgcolor: 'white',
-              width: 350, // Increased from 280
-              height: 200, // Increased from 160
-              border: '1px solid #e0e0e0',
-              borderRadius: '8px', // Increased border radius
-              boxShadow: '0 4px 12px rgba(0,0,0,0.15)', // Enhanced shadow
-              position: 'relative',
-            }}>
+            <Box
+              sx={{
+                p: 1,
+                bgcolor: 'white',
+                width: 350, // Increased from 280
+                height: 200, // Increased from 160
+                border: '1px solid #e0e0e0',
+                borderRadius: '8px', // Increased border radius
+                boxShadow: '0 4px 12px rgba(0,0,0,0.15)', // Enhanced shadow
+                position: 'relative'
+              }}
+            >
               <BlurImage
                 src="/images/business_back.jpg"
                 alt="Business Card Back"
@@ -403,17 +408,19 @@ export default function ShopDetailCover({ data, isLoading, isUser, page }) {
               />
 
               {/* QR Code positioned absolutely on top of back card */}
-              <Box sx={{
-                position: 'absolute',
-                top: '50%',
-                right: 16, // Position from right edge
-                transform: 'translateY(-50%)',
-                bgcolor: 'white',
-                p: 1,
-                borderRadius: '4px',
-                boxShadow: '0 2px 8px rgba(0,0,0,0.2)',
-                border: '1px solid #e0e0e0'
-              }}>
+              <Box
+                sx={{
+                  position: 'absolute',
+                  top: '50%',
+                  right: 16, // Position from right edge
+                  transform: 'translateY(-50%)',
+                  bgcolor: 'white',
+                  p: 1,
+                  borderRadius: '4px',
+                  boxShadow: '0 2px 8px rgba(0,0,0,0.2)',
+                  border: '1px solid #e0e0e0'
+                }}
+              >
                 <QRCode
                   id="qr-code-svg"
                   value={qrValue}

@@ -1,11 +1,11 @@
-import NextLink from "next/link"
+import NextLink from 'next/link';
 
 // mui
-import { Typography, Box, Button, Stack } from "@mui/material"
+import { Typography, Box, Button, Stack } from '@mui/material';
 // components
-import ProductsCarousel from "src/components/carousels/gridSlider"
+import ProductsCarousel from 'src/components/carousels/gridSlider';
 // icons
-import { IoIosArrowForward } from "react-icons/io"
+import { IoIosArrowForward } from 'react-icons/io';
 
 export default function FeaturedProductsServer({ products }) {
   return (
@@ -14,10 +14,15 @@ export default function FeaturedProductsServer({ products }) {
         direction="row"
         justifyContent="space-between"
         alignItems="center"
-        textAlign={{ xs: "center", md: "left" }}
+        textAlign={{ xs: 'center', md: 'left' }}
       >
         <Box>
-          <Typography variant="h2" color="text.primary" mt={{ xs: 4, md: 8 }}>
+          <Typography
+            variant="h2"
+            color="text.primary"
+            mt={{ xs: 4, md: 8 }}
+            sx={{ fontSize: { xs: '20px', md: '25px' } }}
+          >
             Featured Photos
           </Typography>
           <Typography variant="body1" color="text.secondary" mb={{ xs: 3, md: 5 }}>
@@ -30,9 +35,9 @@ export default function FeaturedProductsServer({ products }) {
           size="large"
           sx={{
             borderRadius: 6,
-            display: { xs: "none", md: "flex" },
+            display: { xs: 'none', md: 'flex' },
             minWidth: 130,
-            px: 1,
+            px: 1
           }}
           endIcon={<IoIosArrowForward />}
           component={NextLink}
@@ -50,5 +55,5 @@ export default function FeaturedProductsServer({ products }) {
         <ProductsCarousel data={products} isLoading={false} />
       )}
     </Box>
-  )
+  );
 }

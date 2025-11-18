@@ -1,5 +1,6 @@
 import React from 'react';
 import BreadcrumbLink from 'src/components/BreadcrumbLink';
+import { Typography } from '@mui/material';
 
 const CollectionBanner = ({ breadcrumbs }) => {
   return (
@@ -40,7 +41,9 @@ const CollectionBanner = ({ breadcrumbs }) => {
       </div>
 
       <div className="text-center position-relative z-1">
-        <h1 className="display-5 fw-bold mb-3">Explore All Track-Day Photos & Motorsport Images</h1>
+        <Typography component="h1" className="display-5 fw-bold mb-3" sx={{ fontSize: { xs: '20px', md: '30px' } }}>
+          Explore All Track-Day Photos & Motorsport Images
+        </Typography>{' '}
         <h2 className="fs-6 mb-4">
           Search thousands of professionally captured car & bike track-day photos from photographers worldwide.
         </h2>

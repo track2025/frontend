@@ -23,7 +23,12 @@ export default function Index() {
         alignItems="center"
       >
         <Box width="100%">
-          <Typography variant="h2" color="text.primary" mt={{ xs: 4, md: 8 }}>
+          <Typography
+            variant="h2"
+            color="text.primary"
+            mt={{ xs: 4, md: 8 }}
+            sx={{ fontSize: { xs: '28px', md: '25px' } }}
+          >
             Recently Added
           </Typography>
           <Typography variant="body1" color="text.secondary" mb={{ xs: 3, md: 5 }}>

@@ -190,7 +190,12 @@ export default async function Listing({ params }) {
                     <Box sx={{ width: '100%' }}>
                       <Stack direction="row" alignItems="center" justifyContent="center" spacing={1}>
                         <HiOutlineLocationMarker size={20} color="text.secondary" />
-                        <Typography variant="h6" color="text.primary" fontWeight="500">
+                        <Typography
+                          variant="h2"
+                          color="text.primary"
+                          fontWeight="500"
+                          sx={{ fontSize: { xs: '15px', md: '20px' } }}
+                        >
                           {shopData.address.streetAddress}
                           {shopData.address.city && `, ${shopData.address.city}`}
                           {shopData.address.country && `, ${shopData.address.country}`}

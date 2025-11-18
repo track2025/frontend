@@ -1,38 +1,52 @@
 // material ui
-import { Box, Grid, Typography } from "@mui/material"
+import { Box, Grid, Typography } from '@mui/material';
 // components
-import WhyUs from "../home/whyUs"
+import WhyUs from '../home/whyUs';
 
 const Data = [
   {
-    name: "Vendors",
-    range: "65k+",
-    description: "Contrary to popular belief, Lorem is not simply random text.",
+    name: 'Vendors',
+    range: '65k+',
+    description: 'Contrary to popular belief, Lorem is not simply random text.'
   },
   {
-    name: "Earnings",
-    range: "$45B+",
-    description: "Contrary to popular belief, Lorem is not simply random text.",
+    name: 'Earnings',
+    range: '$45B+',
+    description: 'Contrary to popular belief, Lorem is not simply random text.'
   },
   {
-    name: "Sold",
-    range: "25M+",
-    description: "Contrary to popular belief, Lorem is not simply random text.",
+    name: 'Sold',
+    range: '25M+',
+    description: 'Contrary to popular belief, Lorem is not simply random text.'
   },
   {
-    name: "Products",
-    range: "70k+",
-    description: "Contrary to popular belief, Lorem is not simply random text.",
-  },
-]
+    name: 'Products',
+    range: '70k+',
+    description: 'Contrary to popular belief, Lorem is not simply random text.'
+  }
+];
 
 export default function Index() {
   return (
     <>
       <Box sx={{ my: 8 }}>
         <Grid container>
-          <Grid item md={6} xs={12} sx={{ display: "flex", flexDirection: "column", justifyContent: "center" }}>
-            <Typography variant="h6" fontSize="16px" textTransform="uppercase" color="primary">
+          <Grid item md={6} xs={12} sx={{ display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
+            <Typography
+              variant="h2"
+              fontSize="16px"
+              textTransform="uppercase"
+              color="primary"
+              sx={{
+                fontWeight: 600,
+                fontSize: { xs: '20px', md: '20px' },
+                lineHeight: 1.2,
+                overflow: 'hidden',
+                textOverflow: 'ellipsis',
+                whiteSpace: 'nowrap',
+                textAlign: 'left'
+              }}
+            >
               Who We Are?
             </Typography>
             <Typography variant="body1" fontWeight={400} color="text.secondary" mt={2}>
@@ -40,8 +54,7 @@ export default function Index() {
               effortless for photographers to share their work and for drivers and riders to find lasting memories of
               their time on track.
               <br /> <br />
-              <b>Why We Exist</b>
-              <br />
+              <h3 style={{ fontSize: 18, fontWeight: 'bold' }}>Why We Exist</h3>
               At every track day, photographers capture incredible moments. Yet selling those photos is often awkward
               and unreliable. Many end up giving their work away for free or relying on photo shoots that rarely happen.
               At the same time, car and bike owners leave the track searching social media, hoping to find even one good
@@ -50,8 +63,7 @@ export default function Index() {
               Lap Snaps bridges that gap by creating a professional platform where photographers can showcase and sell
               their work, and where vehicle owners can easily discover and purchase it.
               <br /> <br />
-              <b>For Photographers</b>
-              <br />
+              <h3 style={{ fontSize: 18, fontWeight: 'bold' }}>For Photographers</h3>
               Lap Snaps gives photographers a dedicated space to turn their passion into income. You can upload up to
               one thousand photos or videos at a time, with automatic watermarking to protect your work. Each upload can
               be tagged with track, date, vehicle make and model, and registration details, making it simple for owners
@@ -62,15 +74,13 @@ export default function Index() {
               a photo or video is purchased. There are no subscription or sign-up fees, making it completely free to
               start using.
               <br /> <br />
-              <b>For Drivers and Riders</b>
-              <br />
+              <h3 style={{ fontSize: 18, fontWeight: 'bold' }}>For Drivers and Riders</h3>
               Lap Snaps makes it simple for car and bike owners to relive their time on track. You can search by track,
               date, vehicle details, or registration number to locate media of your vehicle. Once you find a
               photographer you like, you can follow their page and receive notifications whenever new photos or videos
               of your car or bike are uploaded.
               <br /> <br />
-              <b>Our Vision</b>
-              <br />
+              <h3 style={{ fontSize: 18, fontWeight: 'bold' }}>Our Vision</h3>
               Lap Snaps is designed to revolutionize the way motorsport memories are captured and shared. By removing
               barriers for photographers and making it easy for drivers and riders to discover media of their vehicles,
               we are building a community where every moment on track can be preserved and celebrated.
@@ -83,5 +93,5 @@ export default function Index() {
       {/* WhyUs  */}
       <WhyUs />
     </>
-  )
+  );
 }

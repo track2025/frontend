@@ -11,27 +11,27 @@ export const metadata = {
   keywords:
     'motorsport events, track days, racing events, car events, bike events, motorsport calendar, track day calendar, racing calendar worldwide',
   openGraph: {
-    title: "Motorsport Events & Track Days Worldwide | LapSnaps",
-    description: "Browse upcoming car & bike motorsport events by country.",
-    url: "https://lapsnaps.com/events",
-    type: "website",
+    title: 'Motorsport Events & Track Days Worldwide | LapSnaps',
+    description: 'Browse upcoming car & bike motorsport events by country.',
+    url: 'https://lapsnaps.com/events',
+    type: 'website',
     images: [
       {
-        url: "https://lapsnaps.com/og-events-image.jpg",
+        url: 'https://lapsnaps.com/og-events-image.jpg',
         width: 1200,
         height: 630,
-        alt: "Motorsport Events & Track Days Worldwide",
-      },
-    ],
+        alt: 'Motorsport Events & Track Days Worldwide'
+      }
+    ]
   },
   twitter: {
-    card: "summary_large_image",
-    title: "Motorsport Events & Track Days Worldwide | LapSnaps",
-    description: "Browse upcoming car & bike motorsport events by country.",
-    images: ["https://lapsnaps.com/twitter-events-image.jpg"],
+    card: 'summary_large_image',
+    title: 'Motorsport Events & Track Days Worldwide | LapSnaps',
+    description: 'Browse upcoming car & bike motorsport events by country.',
+    images: ['https://lapsnaps.com/twitter-events-image.jpg']
   },
   alternates: {
-    canonical: "https://lapsnaps.com/events",
+    canonical: 'https://lapsnaps.com/events'
   },
   robots: {
     index: true,
@@ -41,10 +41,10 @@ export const metadata = {
       follow: true,
       'max-video-preview': -1,
       'max-image-preview': 'large',
-      'max-snippet': -1,
-    },
-  },
-}
+      'max-snippet': -1
+    }
+  }
+};
 
 export const dynamic = 'force-dynamic';
 
@@ -66,12 +66,12 @@ export default async function EventsPage() {
         eventCount: 0,
         upcomingEvents: 0,
         featuredEvents: [],
-        allEvents: [],
-      }
+        allEvents: []
+      };
     }
 
-    countriesMap[event.countrySlug].eventCount++
-    countriesMap[event.countrySlug].allEvents.push(event)
+    countriesMap[event.countrySlug].eventCount++;
+    countriesMap[event.countrySlug].allEvents.push(event);
 
     const eventDate = new Date(event.date);
     eventDate.setHours(0, 0, 0, 0);
@@ -86,8 +86,8 @@ export default async function EventsPage() {
           trackName: event.trackName,
           type: event.type,
           image: event.image,
-          slug: event.slug,
-        })
+          slug: event.slug
+        });
       }
     }
   });
@@ -111,50 +111,50 @@ export default async function EventsPage() {
 
   // Create Event schema for all events
   const eventSchemas = eventsData.map((event, index) => ({
-    "@context": "https://schema.org",
-    "@type": "Event",
+    '@context': 'https://schema.org',
+    '@type': 'Event',
     name: event.title,
     startDate: event.date,
     endDate: event.endDate || event.date,
-    eventStatus: "https://schema.org/EventScheduled",
-    eventAttendanceMode: "https://schema.org/OfflineEventAttendanceMode",
+    eventStatus: 'https://schema.org/EventScheduled',
+    eventAttendanceMode: 'https://schema.org/OfflineEventAttendanceMode',
     location: {
-      "@type": "Place",
+      '@type': 'Place',
       name: event.trackName,
       address: {
-        "@type": "PostalAddress",
+        '@type': 'PostalAddress',
         addressCountry: event.country,
-        addressRegion: event.region || event.country,
-      },
+        addressRegion: event.region || event.country
+      }
     },
     description: `${event.type} event at ${event.trackName} in ${event.country}`,
-    image: event.image?.url || "https://lapsnaps.com/default-event-image.jpg",
+    image: event.image?.url || 'https://lapsnaps.com/default-event-image.jpg',
     url: `https://lapsnaps.com/events/${event.countrySlug}/${event.slug}`,
     offers: {
-      "@type": "Offer",
+      '@type': 'Offer',
       url: `https://lapsnaps.com/events/${event.countrySlug}/${event.slug}`,
-      availability: "https://schema.org/InStock",
+      availability: 'https://schema.org/InStock'
     },
     organizer: {
-      "@type": "Organization",
-      name: "LapSnaps",
-      url: "https://lapsnaps.com",
-    },
-  }))
+      '@type': 'Organization',
+      name: 'LapSnaps',
+      url: 'https://lapsnaps.com'
+    }
+  }));
 
   // Fixed CollectionPage schema - using country data instead of undefined event variable
   const collectionPageSchema = {
-    "@context": "https://schema.org",
-    "@type": "CollectionPage",
-    name: "Motorsport Events & Track Days Worldwide",
+    '@context': 'https://schema.org',
+    '@type': 'CollectionPage',
+    name: 'Motorsport Events & Track Days Worldwide',
     description:
       'Browse upcoming car & bike motorsport events worldwide. Find track days, racing events, and motorsport photography opportunities.',
     url: 'https://lapsnaps.com/events',
     mainEntity: {
-      "@type": "ItemList",
+      '@type': 'ItemList',
       numberOfItems: eventsData.length,
       itemListElement: sortedCountries.map((country, index) => ({
-        "@type": "ListItem",
+        '@type': 'ListItem',
         position: index + 1,
         item: {
           '@type': 'Place',
@@ -197,14 +197,10 @@ export default async function EventsPage() {
 
       {/* Event Schemas */}
       {eventSchemas.map((schema, index) => (
-        <script
-          key={index}
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }}
-        />
+        <script key={index} type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }} />
       ))}
 
-      <Box sx={{ minHeight: "100vh", py: { xs: 4, md: 6 } }}>
+      <Box sx={{ minHeight: '100vh', py: { xs: 4, md: 6 } }}>
         <Container maxWidth="xl">
           {/* H1 - Main Page Title */}
           <Typography
@@ -360,8 +356,8 @@ export default async function EventsPage() {
                                 sx={{
                                   fontWeight: 600,
                                   mb: 1,
-                                  fontSize: "0.8rem",
-                                  textAlign: "center",
+                                  fontSize: { xs: '15px', md: '20px' },
+                                  textAlign: 'center'
                                 }}
                               >
                                 Featured Events:
@@ -389,7 +385,7 @@ export default async function EventsPage() {
                                         variant="h5"
                                         sx={{
                                           fontWeight: 600,
-                                          fontSize: '0.75rem',
+                                          fontSize: { xs: '15px', md: '15px' },
                                           lineHeight: 1.2,
                                           overflow: 'hidden',
                                           textOverflow: 'ellipsis',
@@ -444,14 +440,14 @@ export default async function EventsPage() {
           </Grid>
 
           {/* H2 - Summary Section */}
-          <Box sx={{ mt: 6, textAlign: "center" }}>
+          {/* <Box sx={{ mt: 6, textAlign: 'center' }}>
             <Typography
               component="h2"
               variant="h2"
               sx={{
-                fontSize: "1.1rem",
+                fontSize: '1.1rem',
                 fontWeight: 600,
-                mb: 2,
+                mb: 2
               }}
             >
               Global Motorsport Events Summary
@@ -465,7 +461,7 @@ export default async function EventsPage() {
               Showing {sortedCountries.length} countries with {eventsData.length} total events •{' '}
               {eventsData.filter((event) => new Date(event.date) >= today).length} upcoming events
             </Typography>
-          </Box>
+          </Box> */}
         </Container>
       </Box>
     </>

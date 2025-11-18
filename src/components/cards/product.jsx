@@ -155,6 +155,7 @@ export default function ShopProductCard({ ...props }) {
       onMouseEnter={() => !isLoading && setOpenActions(true)}
       onMouseLeave={() => setOpenActions(false)}
       sx={{
+        marginBottom: '10px',
         display: 'block',
         boxShadow:
           theme.palette.mode === 'light' ? '0 6px 16px rgba(145, 158, 171, 25%)' : '0 6px 16px rgb(5 6 6 / 25%)'
