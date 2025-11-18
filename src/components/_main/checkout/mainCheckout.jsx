@@ -212,6 +212,8 @@ const CheckoutMain = () => {
       }
 
       const items = cart.map(({ ...others }) => others);
+
+
       const totalItems = sum(items.map((item) => item.quantity));
 
       const subTotal = items.reduce(
@@ -411,7 +413,6 @@ const CheckoutMain = () => {
 
   const calculatedAmount = totalWithDiscount || (total + shippingFee);
 
-  console.log("Total + shipping: ", total, shippingFee, calculatedAmount)
 
   if (isTrustPaymentCallback && !showCheckoutInterface) {
     return (

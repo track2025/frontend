@@ -30,7 +30,12 @@ export default function FeaturedProducts({ initialData = [] }) {
         textAlign={{ xs: 'center', md: 'left' }}
       >
         <Box>
-          <Typography variant="h2" color="text.primary" mt={{ xs: 4, md: 8 }}>
+          <Typography
+            variant="h2"
+            color="text.primary"
+            mt={{ xs: 4, md: 8 }}
+            sx={{ fontSize: { xs: '20px', md: '25px' } }}
+          >
             Featured Photos
           </Typography>
           <Typography variant="body1" color="text.secondary" mb={{ xs: 3, md: 5 }}>

@@ -498,7 +498,7 @@ export default function TrackDetailsClient({ track }) {
           {/* Description */}
           <Box sx={{ mb: 6 }}>
             <Typography
-              variant="h2"
+              variant="h3"
               sx={{
                 fontSize: { xs: '1.5rem', md: '1.75rem' },
                 fontWeight: 700,
@@ -528,14 +528,14 @@ export default function TrackDetailsClient({ track }) {
                 {/* Search Section */}
                 <Box sx={{ mb: 4, py: 2 }}>
                   <Typography
-                    variant="h3"
+                    variant="h2"
                     sx={{
                       fontWeight: 700,
                       fontSize: { xs: '1.25rem', md: '1.5rem' },
                       mb: 2
                     }}
                   >
-                    {trackName} Track Day Photos & Gallery
+                    Professional motorsport photography from {trackName}
                   </Typography>
                   <SortBar2
                     sortData={sortData}

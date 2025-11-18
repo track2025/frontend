@@ -296,12 +296,12 @@ export default function RegisterForm() {
           </Button>
         </DialogActions>
       </Dialog>
-      
+
       <Box position="relative">
         <Typography variant="h2" color="text-primary" py={6}>
           Create your photographer profile
         </Typography>
-        
+
         <FormikProvider value={formik}>
           <Form noValidate autoComplete="off" onSubmit={handleSubmit}>
             <Grid container spacing={2}>
@@ -310,7 +310,7 @@ export default function RegisterForm() {
                 sx={{
                   width: {
                     xs: '100%', // mobile
-                    md: '60%' // desktop
+                    md: '100%' // desktop
                   }
                 }}
               >
@@ -546,7 +546,7 @@ export default function RegisterForm() {
                     variant="contained"
                     size="large"
                     loading={isCreatingShop}
-                    sx={{ ml: 'auto', mt: 3 }}
+                    sx={{ mt: 3, mx: 'auto', display: 'block' }}
                   >
                     Create Photographer Account
                   </LoadingButton>

@@ -58,9 +58,9 @@ export default function EventDetailClient({ eventData, trackSlug }) {
               left: 0,
               width: '100%',
               height: '100%',
-              bgcolor: 'rgba(0, 0, 0, 0.5)', // adjust opacity as needed
-              zIndex: 1,
-            },
+              bgcolor: 'rgba(0, 0, 0, 0.2)', // adjust opacity as needed
+              zIndex: 1
+            }
           }}
           style={{
             marginTop: -20
@@ -97,9 +97,7 @@ export default function EventDetailClient({ eventData, trackSlug }) {
               >
                 {eventData.trackName}
               </Link>
-              <Typography color="#fff" >
-                {eventData.title}
-              </Typography>
+              <Typography color="#fff">{eventData.title}</Typography>
             </Breadcrumbs>
 
             {/* <Breadcrumbs separator={<NavigateNextIcon fontSize="small" />} sx={{ mb: 3 }} aria-label="breadcrumb">

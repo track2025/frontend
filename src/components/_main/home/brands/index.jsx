@@ -27,7 +27,7 @@ export default function Brands({ initialData = [] }) {
         display: { md: 'block', xs: 'none' }
       }}
     >
-      <Typography variant="h1" color="text.primary" textAlign="center">
+      <Typography variant="h2" color="text.primary" textAlign="center" sx={{ fontSize: { xs: '28px', md: '25px' } }}>
         Race Track Locations
       </Typography>
       <Typography

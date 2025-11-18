@@ -14,11 +14,13 @@ import * as api from 'src/services';
 import { useQuery } from 'react-query';
 const TABLE_HEAD = [
   { id: 'name', label: 'User', alignRight: false },
+  { id: 'photographer', label: 'Photographer', alignRight: false },
   { id: 'total', label: 'Total', alignRight: false, sort: true },
   { id: 'items', label: 'items', alignRight: false },
   { id: 'createdAt', label: 'Date', alignRight: false, sort: true },
   { id: '', label: 'actions', alignRight: true }
 ];
+
 export default function OrdersAdminList({ isVendor, shops, searchBy }) {
   const searchParams = useSearchParams();
   const params = new URLSearchParams(searchParams);
@@ -35,6 +37,9 @@ export default function OrdersAdminList({ isVendor, shops, searchBy }) {
         toast.error(err.response.data.message || 'We ran into an issue. Please refresh the page or try again.')
     }
   );
+
+    console.log("Order Row: ", data);
+  
   const [open, setOpen] = useState(false);
 
   const [id, setId] = useState(null);

@@ -1,96 +1,97 @@
-import React from "react"
+import React from 'react';
 
 // mui
-import { Typography, Grid, Box, Stack, Container } from "@mui/material"
+import { Typography, Grid, Box, Stack, Container } from '@mui/material';
 
 // components
-import ShopCard from "src/components/cards/shop"
+import ShopCard from 'src/components/cards/shop';
 
 // api
-import * as api from "src/services"
+import * as api from 'src/services';
 
-export const dynamic = "force-dynamic"
+export const dynamic = 'force-dynamic';
 
 export const metadata = {
-  title: "Professional Motorsport Photographers | Lap Snaps",
+  title: 'Professional Motorsport Photographers | Lap Snaps',
   description:
-    "Browse talented motorsport photographers who capture stunning vehicle and racing moments. Find professional track day photographers and racing event photography services.",
+    'Browse talented motorsport photographers who capture stunning vehicle and racing moments. Find professional track day photographers and racing event photography services.',
   keywords:
-    "motorsport photographers, race track photographers, vehicle photography, track day photography, racing event photographers, professional car photography",
+    'motorsport photographers, race track photographers, vehicle photography, track day photography, racing event photographers, professional car photography',
   openGraph: {
-    title: "Professional Motorsport Photographers | Lap Snaps",
-    description: "Browse talented motorsport photographers who capture stunning vehicle and racing moments",
-    url: "https://lapsnaps.com/photographers",
-    type: "website",
+    title: 'Professional Motorsport Photographers | Lap Snaps',
+    description: 'Browse talented motorsport photographers who capture stunning vehicle and racing moments',
+    url: 'https://lapsnaps.com/photographers',
+    type: 'website'
   },
   twitter: {
-    card: "summary_large_image",
-    title: "Professional Motorsport Photographers | Lap Snaps",
-    description: "Browse talented motorsport photographers who capture stunning vehicle and racing moments",
+    card: 'summary_large_image',
+    title: 'Professional Motorsport Photographers | Lap Snaps',
+    description: 'Browse talented motorsport photographers who capture stunning vehicle and racing moments'
   },
   alternates: {
-    canonical: "https://lapsnaps.com/photographers",
-  },
-}
+    canonical: 'https://lapsnaps.com/photographers'
+  }
+};
 
 export default async function ShopComponent() {
-  const data = await api.getShops()
+  const data = await api.getShops();
+  console.log('Photographers data:', data);
 
   const structuredData = {
-    "@context": "https://schema.org",
-    "@type": "CollectionPage",
-    name: "Professional Motorsport Photographers",
-    description: "Browse talented motorsport photographers who capture stunning vehicle and racing moments",
-    url: "https://lapsnaps.com/photographers",
+    '@context': 'https://schema.org',
+    '@type': 'CollectionPage',
+    name: 'Professional Motorsport Photographers',
+    description: 'Browse talented motorsport photographers who capture stunning vehicle and racing moments',
+    url: 'https://lapsnaps.com/photographers',
     mainEntity: {
-      "@type": "ItemList",
+      '@type': 'ItemList',
       itemListElement: data?.data?.map((photographer, index) => ({
-        "@type": "ListItem",
+        '@type': 'ListItem',
         position: index + 1,
         item: {
-          "@type": "Person",
-          "@id": `https://lapsnaps.com/photographers/${photographer.slug}`,
+          '@type': 'Person',
+          '@id': `https://lapsnaps.com/photographers/${photographer.slug}`,
           name: photographer.title || photographer.name,
           description:
             photographer.description ||
             `Professional motorsport photographer specializing in race track and vehicle photography`,
           image: photographer.logo?.url || photographer.cover?.url,
-          jobTitle: "Motorsport Photographer",
+          jobTitle: 'Motorsport Photographer',
           knowsAbout: [
-            "Motorsport Photography",
-            "Race Track Photography",
-            "Vehicle Photography",
-            "Track Day Photography",
+            'Motorsport Photography',
+            'Race Track Photography',
+            'Vehicle Photography',
+            'Track Day Photography'
           ],
           url: `https://lapsnaps.com/photographers/${photographer.slug}`,
           workExample: {
-            "@type": "ImageGallery",
+            '@type': 'ImageGallery',
             name: `${photographer.title || photographer.name} Portfolio`,
-            url: `https://lapsnaps.com/photographers/${photographer.slug}`,
-          },
-        },
-      })),
-    },
-  }
+            url: `https://lapsnaps.com/photographers/${photographer.slug}`
+          }
+        }
+      }))
+    }
+  };
 
   const breadcrumbSchema = {
-    "@context": "https://schema.org",
-    "@type": "BreadcrumbList",
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
     itemListElement: [
       {
-        "@type": "ListItem",
+        '@type': 'ListItem',
         position: 1,
-        name: "Home",
-        item: "https://lapsnaps.com",
+        name: 'Home',
+        item: 'https://lapsnaps.com'
       },
       {
-        "@type": "ListItem",
+        '@type': 'ListItem',
         position: 2,
-        name: "Photographers",
-        item: "https://lapsnaps.com/photographers",
-      },
-    ],
-  }
+        name: 'Photographers',
+        item: 'https://lapsnaps.com/photographers'
+      }
+    ]
+  };
 
   return (
     <>
@@ -99,10 +100,10 @@ export default async function ShopComponent() {
 
       <Container maxWidth="xl">
         <Stack
-          direction={"column"}
+          direction={'column'}
           sx={{
             gap: 3,
-            mt: 5,
+            mt: 5
           }}
         >
           <Box>
@@ -110,11 +111,20 @@ export default async function ShopComponent() {
               variant="h1"
               color="text.primary"
               textAlign="center"
-              sx={{ fontSize: { xs: "1.8rem", md: "2.5rem" } }}
+              sx={{ fontSize: { xs: '1.8rem', md: '2.5rem' } }}
             >
               Professional Motorsport Photographers
             </Typography>
-            <Typography variant="body1" color="text.secondary" textAlign="center">
+            <Typography
+              variant="h2"
+              color="text.secondary"
+              textAlign="center"
+              sx={{
+                fontSize: { xs: '0.8rem', md: '1.2rem' },
+                fontWeight: 'normal', // ← remove bold
+                lineHeight: 1.6
+              }}
+            >
               Talented photographers who capture stunning car and racing moments for you
             </Typography>
           </Box>
@@ -137,5 +147,5 @@ export default async function ShopComponent() {
         </Stack>
       </Container>
     </>
-  )
+  );
 }

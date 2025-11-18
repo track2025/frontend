@@ -164,6 +164,9 @@ export default function ProductDetailsSumary({ ...props }) {
     }
   };
 
+
+  const photographer = { id: product.shop, username: shopDetails[0].username }
+
   const formik = useFormik({
     enableReinitialize: true,
     initialValues: {
@@ -183,7 +186,7 @@ export default function ProductDetailsSumary({ ...props }) {
             sku: product.sku,
             color: colorSelected,
             size: sizeSelected,
-            shop: product.shop,
+            shop: photographer,
             image: product?.images[0].url,
             quantity: values.quantity,
             price: product.priceSale === 0 ? product.price : product.priceSale,
@@ -204,7 +207,7 @@ export default function ProductDetailsSumary({ ...props }) {
   const handleAddCart = () => {
     onAddCart({
       pid: product._id,
-      shop: product.shop,
+      shop: photographer,
       image: product?.images[0].url,
       quantity: values.quantity,
       price: product.priceSale === 0 ? product.price : product.priceSale,
@@ -226,6 +229,8 @@ export default function ProductDetailsSumary({ ...props }) {
     event.stopPropagation();
     dispatch(removeCompareProduct(product?._id));
   };
+
+
   return (
     <RootStyled>
       <FormikProvider value={formik}>
@@ -246,23 +251,23 @@ export default function ProductDetailsSumary({ ...props }) {
                   </Stack>
 
                   <Stack spacing={1} mt={1.5}>
-                                <Link 
-              href={`/photographers/${shopDetails?.[0]?.username}`} 
-              style={{ textDecoration: "none", color: "inherit" }}
->
-                    <Stack direction="row" spacing={1} alignItems="center">
-                      <Avatar
-                        src={shopDetails?.[0]?.logo?.url}
-                        alt={shopDetails?.[0]?.username}
-                        sx={{ width: 40, height: 40 }}
-                      >
-                        {shopDetails?.[0]?.username?.[0]?.toUpperCase() || 'S'}
-                      </Avatar>
-                      <Typography variant="body" fontWeight={500}>
-                        {shopDetails?.[0]?.username}
-                        <Typography variant="body2">Photographer</Typography>
-                      </Typography>
-                    </Stack></Link>
+                    <Link
+                      href={`/photographers/${shopDetails?.[0]?.username}`}
+                      style={{ textDecoration: "none", color: "inherit" }}
+                    >
+                      <Stack direction="row" spacing={1} alignItems="center">
+                        <Avatar
+                          src={shopDetails?.[0]?.logo?.url}
+                          alt={shopDetails?.[0]?.username}
+                          sx={{ width: 40, height: 40 }}
+                        >
+                          {shopDetails?.[0]?.username?.[0]?.toUpperCase() || 'S'}
+                        </Avatar>
+                        <Typography variant="body" fontWeight={500}>
+                          {shopDetails?.[0]?.username}
+                          <Typography variant="body2">Photographer</Typography>
+                        </Typography>
+                      </Stack></Link>
                   </Stack>
                   {category?.name && (
                     <Stack direction="row" alignItems="center" spacing={1}>
