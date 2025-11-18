@@ -1,6 +1,6 @@
 'use client';
 import React, { useState } from 'react';
-import { useMutation } from 'react-query';
+import { useMutation, useQuery } from 'react-query';
 import axios from 'axios';
 import toast from 'react-hot-toast';
 import PropTypes from 'prop-types';
@@ -18,7 +18,8 @@ import {
   FormControl,
   FormHelperText,
   Grid,
-  Skeleton
+  Skeleton,
+  MenuItem
 } from '@mui/material';
 import Cropper from 'react-easy-crop';
 import { Dialog, DialogContent, DialogActions, Button } from '@mui/material';
@@ -61,6 +62,8 @@ export default function AdminShopForm({ data: currentShop, isLoading: shopLoadin
     open: false
   });
 
+  const { data } = useQuery(['get-currencies'], () => api.getCurrencies());
+
   const { mutate, isLoading } = useMutation(
     currentShop ? 'update' : 'new',
     currentShop ? api.updateAdminShopByAdmin : api.addAdminShopByAdmin,
@@ -86,7 +89,9 @@ export default function AdminShopForm({ data: currentShop, isLoading: shopLoadin
   const ShopSettingScema = Yup.object().shape({
     username: Yup.string().required('username is required'),
     cover: Yup.mixed().required('Cover is required'),
-    logo: Yup.mixed().required('logo is required')
+    logo: Yup.mixed().required('logo is required'),
+    defaultPrice: Yup.number().required('Default Price is required'),
+    defaultCurrency: Yup.string().required('Default Price is required')
     // description: Yup.string().required('Description is required'),
     //phone: Yup.string().required('Phone Number is required')
     //paymentInfo: Yup.object().shape({
@@ -100,6 +105,8 @@ export default function AdminShopForm({ data: currentShop, isLoading: shopLoadin
     initialValues: {
       username: currentShop?.username || '',
       title: currentShop?.title || '',
+      defaultCurrency: currentShop?.defaultCurrency || 'AED',
+      defaultPrice: currentShop?.defaultPrice || 100,
       cover: currentShop?.cover || null,
       logo: currentShop?.logo || null,
       description: currentShop?.description || '',
@@ -107,8 +114,8 @@ export default function AdminShopForm({ data: currentShop, isLoading: shopLoadin
         status: currentShop ? currentShop.status : STATUS_OPTIONS[0], // Only include message if currentShop exists
         message:
           currentShop?.status === 'cancel' ||
-          currentShop?.status === 'closed' ||
-          currentShop?.status === 'action required'
+            currentShop?.status === 'closed' ||
+            currentShop?.status === 'action required'
             ? currentShop.message
             : ''
       }),
@@ -482,6 +489,30 @@ export default function AdminShopForm({ data: currentShop, isLoading: shopLoadin
                   <Stack spacing={3}>
                     <Card sx={{ p: 3 }}>
                       <Stack spacing={2}>
+                        <TextField
+                          select
+                          label="Currency"
+                          fullWidth
+                          {...getFieldProps('defaultCurrency')}
+                          error={Boolean(touched.defaultCurrency && errors.defaultCurrency)}
+                          helperText={touched.defaultCurrency && errors.defaultCurrency}
+                        >
+                          {data?.data?.map((cur, index) => (
+                            <MenuItem key={index} value={cur.code}>
+                              {cur.code}
+                            </MenuItem>
+                          ))}
+                        </TextField>
+
+                        <TextField
+                          type="number"
+                          label={`Price (${values.defaultCurrency})`}
+                          fullWidth
+                          {...getFieldProps('defaultPrice')}
+                          error={Boolean(touched.defaultPrice && errors.defaultPrice)}
+                          helperText={touched.defaultPrice && errors.defaultPrice}
+                        />
+
                         {/* <div>
                         {shopLoading ? (
                           <Skeleton variant="text" width={150} />
@@ -706,29 +737,29 @@ export default function AdminShopForm({ data: currentShop, isLoading: shopLoadin
                             {(values.status === 'cancel' ||
                               values.status === 'closed' ||
                               values.status === 'action required') && (
-                              <div>
-                                {shopLoading ? (
-                                  <Skeleton variant="text" width={150} />
-                                ) : (
-                                  <LabelStyle component={'label'} htmlFor="message">
-                                    Message
-                                  </LabelStyle>
-                                )}
-                                {shopLoading ? (
-                                  <Skeleton variant="rectangular" width="100%" height={240} />
-                                ) : (
-                                  <TextField
-                                    id="message"
-                                    fullWidth
-                                    {...getFieldProps('message')}
-                                    error={Boolean(touched.message && errors.message)}
-                                    helperText={touched.message && errors.message}
-                                    rows={4}
-                                    multiline
-                                  />
-                                )}
-                              </div>
-                            )}
+                                <div>
+                                  {shopLoading ? (
+                                    <Skeleton variant="text" width={150} />
+                                  ) : (
+                                    <LabelStyle component={'label'} htmlFor="message">
+                                      Message
+                                    </LabelStyle>
+                                  )}
+                                  {shopLoading ? (
+                                    <Skeleton variant="rectangular" width="100%" height={240} />
+                                  ) : (
+                                    <TextField
+                                      id="message"
+                                      fullWidth
+                                      {...getFieldProps('message')}
+                                      error={Boolean(touched.message && errors.message)}
+                                      helperText={touched.message && errors.message}
+                                      rows={4}
+                                      multiline
+                                    />
+                                  )}
+                                </div>
+                              )}
                           </Stack>
                         )}
                       </Stack>
