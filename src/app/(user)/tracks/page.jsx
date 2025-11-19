@@ -25,6 +25,63 @@ export const metadata = {
   }
 };
 
+// Helper function to extract postal code from address string
+const extractPostalCode = (address) => {
+  if (!address) return '';
+
+  // Common postal code patterns
+  const patterns = [
+    /[A-Z]{1,2}\d{1,2}[A-Z]?\s*\d[A-Z]{2}/, // UK format: AB1 2CD, W1A 1AA
+    /\d{5}(-\d{4})?/, // US format: 12345 or 12345-6789
+    /[A-Z]\d[A-Z]\s*\d[A-Z]\d/, // Canadian format: A1A 1A1
+    /\d{4}/ // Basic 4-digit codes (Australia, etc.)
+  ];
+
+  for (const pattern of patterns) {
+    const match = address.match(pattern);
+    if (match) {
+      return match[0].trim();
+    }
+  }
+
+  return '';
+};
+
+// Helper function to build address object safely (same as track details page)
+const buildAddressObject = (track) => {
+  const address = {};
+
+  // Use track.address as streetAddress if available
+  if (track.address?.trim()) {
+    address.streetAddress = track.address.trim();
+  }
+
+  if (track.city?.trim()) {
+    address.addressLocality = track.city.trim();
+  }
+
+  if (track.region?.trim()) {
+    address.addressRegion = track.region.trim();
+  }
+
+  // Prioritize dedicated postalCode field, fall back to extracting from address
+  if (track.postalCode?.trim()) {
+    address.postalCode = track.postalCode.trim();
+  } else if (track.address?.trim()) {
+    const extractedPostalCode = extractPostalCode(track.address);
+    if (extractedPostalCode) {
+      address.postalCode = extractedPostalCode;
+    }
+  }
+
+  if (track.country?.trim()) {
+    address.addressCountry = track.country.trim();
+  }
+
+  // Only return address object if it has at least one property
+  return Object.keys(address).length > 0 ? address : null;
+};
+
 export default async function TracksPage({ searchParams }) {
   const params = await searchParams;
   const page = params?.page ? Number.parseInt(params.page, 10) : 1;
@@ -73,37 +130,37 @@ export default async function TracksPage({ searchParams }) {
     mainEntity: {
       '@type': 'ItemList',
       itemListElement: tracks.map((track, index) => {
-        // Parse street + postal from address string
-        // Example: "Anglesey Circuit, Ty Croes, Anglesey, LL63 5TF, Wales."
-        const addressParts = track.address?.split(',')?.map((s) => s.trim()) || [];
-        const postalCode = addressParts.find((p) => /\d/.test(p)) || ''; // detects like "LL63 5TF"
+        // Build address object safely using the helper function
+        const addressObject = buildAddressObject(track);
 
-
-        return {
+        // Build the base item without address first
+        const baseItem = {
           '@type': 'ListItem',
           position: index + 1,
-
           item: {
             '@type': 'SportsActivityLocation',
             '@id': `https://lapsnaps.com/tracks/${track.slug || track._id}`,
             name: track.name || 'Unknown Track',
-
             description:
               track.description || `Professional motorsport photography from ${track.name || 'this race track'}`,
-
             image: track.bannerImage?.url || track.thumbnailImage?.url || undefined,
-
             url: `https://lapsnaps.com/tracks/${track.slug || track._id}`,
-
-            address: {
-              '@type': 'PostalAddress',
-              streetAddress: track.address,
-              addressLocality: track.city || '',
-              postalCode,
-              addressCountry: track.country || ''
-            }
+            // Additional optional properties
+            ...(track.phone && { telephone: track.phone }),
+            ...(track.email && { email: track.email }),
+            ...(track.website && { sameAs: track.website })
           }
         };
+
+        // Only add address if we have address data
+        if (addressObject) {
+          baseItem.item.address = {
+            '@type': 'PostalAddress',
+            ...addressObject
+          };
+        }
+
+        return baseItem;
       })
     }
   };

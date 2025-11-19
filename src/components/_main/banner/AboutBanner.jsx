@@ -1,67 +1,63 @@
 import React from 'react';
-import { Container, Typography } from '@mui/material';
+import Image from 'next/image';
+import { Box, Typography } from '@mui/material';
 
 const AboutBanner = () => {
   return (
-    <div
-      className="position-relative d-flex align-items-center justify-content-center text-white"
-      style={{
-        height: '300px'
+    <Box
+      sx={{
+        position: 'relative',
+        height: '300px',
+        width: '100%',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        color: 'white',
+        overflow: 'hidden'
       }}
     >
-      {/* Image */}
-      <img
-        src="images/about-us-banner.jpg"
-        alt="Motorsport photography banner showcasing global track-day images for the LapSnaps About page."
-        style={{
+      {/* Background Image with Overlay */}
+      <Box
+        sx={{
           position: 'absolute',
-          width: '100%',
-          height: '100%',
-          objectFit: 'cover',
-          objectPosition: 'center',
           top: 0,
           left: 0,
-          zIndex: 0
-        }}
-      />
-
-      {/* Dark gradient overlay */}
-      <div
-        style={{
-          position: 'absolute',
           width: '100%',
           height: '100%',
-          top: 0,
-          left: 0,
-          background: 'linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.5))',
+          backgroundColor: 'rgba(0, 0, 0, 0.6)', // Dark overlay
           zIndex: 1
         }}
       />
 
-      {/* Text content */}
-      <div className="text-center position-relative" style={{ zIndex: 2 }}>
-        <Typography
-          component="h1"
-          variant="h1"
-          sx={{
-            fontWeight: 600,
-            fontSize: {
-              xs: '28px',
-              md: '30px'
-            },
-            marginTop: '20px',
-            marginBottom: '10px',
-            lineHeight: 1.2,
-            overflow: 'hidden',
-            textOverflow: 'ellipsis',
-            whiteSpace: 'nowrap',
-            textAlign: 'left'
-          }}
-        >
-          About LapSnaps
-        </Typography>
-      </div>
-    </div>
+      {/* Next.js Image Component */}
+      <Image
+        src="/images/about-us-banner.jpg"
+        alt="LapSnaps About Us - Professional Motorsport Photography Services"
+        fill
+        priority
+        style={{
+          objectFit: 'cover',
+          objectPosition: 'center'
+        }}
+      />
+
+      {/* Content */}
+      <Box
+        sx={{
+          position: 'relative',
+          zIndex: 2,
+          textAlign: 'center'
+        }}
+      >
+        {/* Optional: Add text content here if needed */}
+        {/* <Typography variant="h3" component="h2" sx={{ fontWeight: 'bold', mb: 2 }}>
+                    About Us
+                </Typography>
+                <Typography variant="h6">
+                    Superior kartwear and equipment designed to shave seconds off your lap times
+                </Typography> */}
+      </Box>
+    </Box>
   );
 };
 
