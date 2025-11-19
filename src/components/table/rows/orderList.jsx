@@ -90,6 +90,7 @@ export default function OrderList({ isLoading, row, isUser, isVendor, sn }) {
         </Box>
       </TableCell>
 
+      <TableCell>{isLoading ? <Skeleton variant="text" /> : row?.shop[0]?.username}</TableCell>
       <TableCell>{isLoading ? <Skeleton variant="text" /> : fCurrency(row.total)}</TableCell>
       <TableCell>{isLoading ? <Skeleton variant="text" /> : row.items.length}</TableCell>
       

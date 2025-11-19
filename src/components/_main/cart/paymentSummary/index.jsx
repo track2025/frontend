@@ -22,8 +22,6 @@ export default function PaymentSummary({ loading, cart }) {
   const { product } = useSelector((state) => state);
   const { total, shipping, subtotal } = product.checkout;
 
-  console.log("Payment Summary", product);
-
   const router = useRouter();
 
   const isEmptyCart = cart.length === 0;

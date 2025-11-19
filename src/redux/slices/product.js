@@ -24,22 +24,13 @@ const slice = createSlice({
     getCart(state, action) {
       const cart = action.payload || [];
 
-      // normalize shop on every item: if shop is not an object, convert to { id: shop }
-      const normalizedCart = cart.map((p) => {
-        const shop = p.shop && typeof p.shop === 'object'
-          ? p.shop
-          : p.shop
-            ? { id: p.shop } // at least keep the id
-            : null;
-        return { ...p, shop };
-      });
 
-      const subtotal = sum(normalizedCart.map((product) => (product.priceSale || product.price) * product.quantity));
-      const discount = normalizedCart.length === 0 ? 0 : state.checkout.discount;
-      const shipping = (normalizedCart.length === 0 || normalizedCart[0].checkoutType === "product") ? 0 : shippingFee;
-      const billing = normalizedCart.length === 0 ? null : state.checkout.billing;
+      const subtotal = sum(cart.map((product) => (product.priceSale || product.price) * product.quantity));
+      const discount = cart.length === 0 ? 0 : state.checkout.discount;
+      const shipping = (cart.length === 0 || cart[0].checkoutType === "product") ? 0 : shippingFee;
+      const billing = cart.length === 0 ? null : state.checkout.billing;
 
-      state.checkout.cart = normalizedCart;
+      state.checkout.cart = cart;
       state.checkout.discount = discount;
       state.checkout.shipping = shipping;
       state.checkout.billing = billing;

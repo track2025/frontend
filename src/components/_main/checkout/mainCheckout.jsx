@@ -133,7 +133,7 @@ const CheckoutMain = () => {
     setChecked(event.target.checked);
   };
 
-  console.log("Checkout ITems", checkout);
+  console.log("Checkout ITems", cart);
 
   const [couponCode, setCouponCode] = useState(null);
   const [isProcessing, setProcessingTo] = useState(false);
@@ -141,12 +141,13 @@ const CheckoutMain = () => {
 
   const { mutate, isLoading } = useMutation('order', api.placeOrder, {
     onSuccess: (data) => {
+      console.log("Order Response Data", data);
       localStorage.removeItem('trustPaymentUserDetails');
       dispatch(resetCart());
       toast.success(
         "🎉 Your order was successful! We've emailed you the download link. You can also find it anytime in the 'My Orders' section of your account."
       );
-      router.push(`/order/${data.orderId}`);
+      router.push(`/profile/orders`);
     },
     onError: (err) => {
       const errorMsg = err.message || 'Something went wrong';

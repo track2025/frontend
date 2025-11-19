@@ -26,7 +26,6 @@ export default function CartMain() {
   const { cart } = checkout;
   const [loading, setLoading] = React.useState(true);
 
-  console.log("Cart Screen", checkout);
 
   const { mutate } = useMutation(api.getCart, {
     onSuccess: (res) => {
@@ -43,7 +42,7 @@ export default function CartMain() {
 
   React.useEffect(() => {
     setLoading(true);
-    // mutate(cart);
+    mutate(cart);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
