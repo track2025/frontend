@@ -136,6 +136,7 @@ export default function ProductDetailsSumary({ ...props }) {
     checkout.cart.filter((item) => item._id === product?._id).map((item) => item.quantity)[0] >= product?.available;
 
   const onAddCart = (param) => {
+    console.log("Params: ", param);
     toast.success('Added to cart');
     dispatch(addCart(param));
   };
@@ -165,7 +166,6 @@ export default function ProductDetailsSumary({ ...props }) {
   };
 
 
-  const photographer = { id: product.shop, username: shopDetails[0].username }
 
   const formik = useFormik({
     enableReinitialize: true,
@@ -186,7 +186,7 @@ export default function ProductDetailsSumary({ ...props }) {
             sku: product.sku,
             color: colorSelected,
             size: sizeSelected,
-            shop: photographer,
+            shop: product.shop,
             image: product?.images[0].url,
             quantity: values.quantity,
             price: product.priceSale === 0 ? product.price : product.priceSale,
@@ -207,7 +207,7 @@ export default function ProductDetailsSumary({ ...props }) {
   const handleAddCart = () => {
     onAddCart({
       pid: product._id,
-      shop: photographer,
+      shop: product.shop,
       image: product?.images[0].url,
       quantity: values.quantity,
       price: product.priceSale === 0 ? product.price : product.priceSale,
