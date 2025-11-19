@@ -1,7 +1,8 @@
 // app/sitemap.js
 import * as api from 'src/services';
-import { getTracks, getSuperEvents } from 'src/services/tracks';
+import { getTracks } from 'src/services/tracks';
 import { getBlogs } from 'src/services/blogs';
+import { getSuperEvents } from 'src/services';
 
 const BASE_URL = 'https://lapsnaps.com';
 

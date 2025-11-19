@@ -6,6 +6,11 @@ import 'simplebar-react/dist/simplebar.min.css';
 import BootstrapInit from 'src/components/BootstrapInit';
 import NextTopLoader from 'nextjs-toploader';
 
+export const metadata = {
+  metadataBase: new URL('https://lapsnaps.com')
+  // ... other metadata
+};
+
 export default function RootLayout({ children }) {
   return (
     <html lang={'en-US'}>

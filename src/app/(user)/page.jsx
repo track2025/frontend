@@ -65,6 +65,7 @@ async function getHomeData() {
 }
 
 export const metadata = {
+  metadataBase: new URL('https://lapsnaps.com'),
   title: 'Lap Snaps | High-Quality Vehicle Photography from Race Tracks Worldwide',
   description:
     'Discover professional motorsport photography from race tracks worldwide. Browse vehicle photos, track day images, and racing event galleries from top photographers.',
