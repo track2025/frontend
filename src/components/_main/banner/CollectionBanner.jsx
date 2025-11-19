@@ -1,54 +1,125 @@
 import React from 'react';
+import Image from 'next/image';
+import { Box, Typography, Container } from '@mui/material';
 import BreadcrumbLink from 'src/components/BreadcrumbLink';
-import { Typography } from '@mui/material';
 
 const CollectionBanner = ({ breadcrumbs }) => {
   return (
-    <div
-      className="position-relative d-flex align-items-center justify-content-center text-white"
-      style={{
+    <Box
+      sx={{
+        position: 'relative',
         height: '300px',
-        backgroundImage: 'linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.5)), url("images/collection-banner.jpg")',
-        backgroundSize: 'cover',
-        backgroundPosition: 'center',
-        backgroundRepeat: 'no-repeat'
+        width: '100%',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        color: 'white',
+        overflow: 'hidden'
       }}
     >
-      {/* Custom Breadcrumbs positioned top left - Very light overlay, no border */}
-      <div
-        className="position-absolute top-0 start-0 z-2 m-3"
+      {/* Background Image */}
+      <Image
+        src="/images/collection-banner.jpg"
+        alt="Explore All Track-Day Photos & Motorsport Images - Search thousands of professionally captured car & bike track-day photos from photographers worldwide"
+        fill
+        priority
         style={{
+          objectFit: 'cover',
+          objectPosition: 'center'
+        }}
+      />
+
+      {/* Gradient Overlay - Same as original */}
+      <Box
+        sx={{
+          position: 'absolute',
+          top: 0,
+          left: 0,
+          width: '100%',
+          height: '100%',
+          background: 'linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.5))',
+          zIndex: 1
+        }}
+      />
+
+      {/* Custom Breadcrumbs positioned top left */}
+      <Box
+        sx={{
+          position: 'absolute',
+          top: 16,
+          left: 16,
+          zIndex: 2,
           background: 'rgba(0,0,0,0.15)',
           borderRadius: '6px',
           backdropFilter: 'blur(1px)',
           padding: '6px 12px'
         }}
       >
-        <nav className="d-flex align-items-center" style={{ fontSize: '0.9rem' }}>
+        <Box
+          component="nav"
+          sx={{
+            display: 'flex',
+            alignItems: 'center',
+            fontSize: '0.9rem'
+          }}
+        >
           {breadcrumbs.map((crumb, index) => (
-            <div key={index} className="d-flex align-items-center">
+            <Box key={index} sx={{ display: 'flex', alignItems: 'center' }}>
               {index > 0 && (
-                <span className="mx-2" style={{ color: 'rgba(255,255,255,0.6)' }}>
+                <Typography
+                  component="span"
+                  sx={{
+                    mx: 1,
+                    color: 'rgba(255,255,255,0.6)'
+                  }}
+                >
                   ›
-                </span>
+                </Typography>
               )}
               <BreadcrumbLink href={crumb.href} isLast={index === breadcrumbs.length - 1}>
                 {crumb.name}
               </BreadcrumbLink>
-            </div>
+            </Box>
           ))}
-        </nav>
-      </div>
+        </Box>
+      </Box>
 
-      <div className="text-center position-relative z-1">
-        <Typography component="h1" className="display-5 fw-bold mb-3" sx={{ fontSize: { xs: '20px', md: '30px' } }}>
+      {/* Main Content */}
+      <Box
+        sx={{
+          position: 'relative',
+          zIndex: 2,
+          textAlign: 'center',
+          px: 2
+        }}
+      >
+        <Typography
+          component="h1"
+          variant="h1"
+          sx={{
+            fontSize: { xs: '1.5rem', md: '2rem' },
+            fontWeight: 'bold',
+            mb: 2,
+            lineHeight: 1.2
+          }}
+        >
           Explore All Track-Day Photos & Motorsport Images
-        </Typography>{' '}
-        <h2 className="fs-6 mb-4">
+        </Typography>
+        <Typography
+          component="h2"
+          variant="h2"
+          sx={{
+            fontSize: { xs: '0.9rem', md: '1rem' },
+            mb: 2,
+            lineHeight: 1.4,
+            fontWeight: 400,
+            opacity: 0.9
+          }}
+        >
           Search thousands of professionally captured car & bike track-day photos from photographers worldwide.
-        </h2>
-      </div>
-    </div>
+        </Typography>
+      </Box>
+    </Box>
   );
 };
 

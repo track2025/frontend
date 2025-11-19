@@ -343,20 +343,36 @@ export default function TrackDetailsClient({ track }) {
             </Container>
           </Box>
 
+          {/* Banner Image with Next.js Image component */}
           <Box
-            component="img"
-            src={bannerImage}
-            alt={`${trackName} - ${trackCity}, ${trackCountry}`}
             sx={{
+              position: 'absolute',
+              top: 0,
+              left: 0,
               width: '100%',
-              height: '100%',
-              objectFit: 'cover',
-              opacity: 0.8
+              height: '100%'
             }}
-            onError={(e) => {
-              e.target.src = defaultBannerUrl;
-            }}
-          />
+          >
+            <Box
+              component="img"
+              src={bannerImage}
+              alt={`${trackName} - ${trackCity}, ${trackCountry}`}
+              sx={{
+                width: '100%',
+                height: '100%',
+                objectFit: 'cover',
+                opacity: 0.8
+              }}
+              onError={(e) => {
+                console.log('Banner image failed to load, using fallback');
+                e.target.src = defaultBannerUrl;
+              }}
+              onLoad={(e) => {
+                console.log('Banner image loaded successfully');
+              }}
+            />
+          </Box>
+
           <Box
             sx={{
               position: 'absolute',
@@ -403,14 +419,18 @@ export default function TrackDetailsClient({ track }) {
                     objectFit: 'contain'
                   }}
                   onError={(e) => {
+                    console.log('Logo image failed to load, hiding logo');
                     e.target.style.display = 'none';
                     e.target.parentElement.style.display = 'none';
+                  }}
+                  onLoad={(e) => {
+                    console.log('Logo image loaded successfully');
                   }}
                 />
               </Box>
             )}
 
-            {/* Track Name */}
+            {/* Rest of the banner content remains the same */}
             <Typography
               variant="h1"
               sx={{
@@ -431,9 +451,9 @@ export default function TrackDetailsClient({ track }) {
                   sx={{
                     color: 'white',
                     fontSize: {
-                      xs: '13px', // 👈 mobile view
-                      sm: '0.95rem', // small tablets
-                      md: '1.1rem' // desktop and above
+                      xs: '13px',
+                      sm: '0.95rem',
+                      md: '1.1rem'
                     }
                   }}
                 />
@@ -441,9 +461,9 @@ export default function TrackDetailsClient({ track }) {
                   sx={{
                     color: 'white',
                     fontSize: {
-                      xs: '13px', // 👈 mobile view
-                      sm: '0.95rem', // small tablets
-                      md: '1.1rem' // desktop and above
+                      xs: '13px',
+                      sm: '0.95rem',
+                      md: '1.1rem'
                     },
                     textAlign: 'center'
                   }}
@@ -457,7 +477,7 @@ export default function TrackDetailsClient({ track }) {
                   alignItems: { xs: 'flex-start', sm: 'center', md: 'center' },
                   gap: 0.5,
                   width: {
-                    xs: '80%', // 👈 mobile view
+                    xs: '80%',
                     sm: '90%',
                     md: '90%'
                   },
@@ -468,9 +488,9 @@ export default function TrackDetailsClient({ track }) {
                   sx={{
                     color: 'white',
                     fontSize: {
-                      xs: '13px', // 👈 mobile view
-                      sm: '0.95rem', // small tablets
-                      md: '1.1rem' // desktop and above
+                      xs: '13px',
+                      sm: '0.95rem',
+                      md: '1.1rem'
                     },
                     marginTop: { xs: '3px', sm: '0', md: '0' }
                   }}
@@ -479,9 +499,9 @@ export default function TrackDetailsClient({ track }) {
                   sx={{
                     color: 'white',
                     fontSize: {
-                      xs: '13px', // 👈 mobile view
-                      sm: '0.95rem', // small tablets
-                      md: '1.1rem' // desktop and above
+                      xs: '13px',
+                      sm: '0.95rem',
+                      md: '1.1rem'
                     },
                     textAlign: 'center'
                   }}

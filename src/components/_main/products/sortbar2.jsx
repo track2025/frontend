@@ -58,7 +58,7 @@ export default function SortBar({
   sortData,
   category,
   subCategory,
-  showLocationSearch = true,
+  showLocationSearch = false,
   showApplyButton = false,
   defaultItemsPerPage = '12'
 }) {
@@ -145,9 +145,6 @@ export default function SortBar({
       date_captured: dateQuery
     });
   }, [searchQuery, locationQuery, makeQuery, modelQuery, dateQuery]);
-
-  // REMOVED: The useEffect that was adding page=1 and limit=12 on mount
-  // This was causing the issue - we don't need to add default params on mount
 
   // Check if any current inputs have values (for Apply button)
   const hasActiveInputs = useMemo(() => {
@@ -402,14 +399,18 @@ export default function SortBar({
     <>
       <Stack spacing={2} pt={2}>
         {/* Search Filters Row */}
+        {/* Search Filters Row */}
         <Stack direction={{ xs: 'column', sm: 'row' }} spacing={2} alignItems="stretch" justifyContent="space-between">
-          {/* Date Filter - Always Visible */}
-          <Stack direction="row" gap={1} flex={1} width="100%">
+          {/* Date Filter - Takes up more space */}
+          <Stack direction="row" gap={1} flex={2} width="100%">
+            {' '}
+            {/* Changed flex from 1 to 2 */}
             <FormControl
               fullWidth
               sx={{
-                maxWidth: { xs: '100%', sm: 200, md: 250 },
-                minWidth: { xs: 'auto', sm: 150 }
+                maxWidth: { xs: '100%', sm: 'none' }, // Remove maxWidth on desktop
+                minWidth: { xs: 'auto', sm: 'auto' }, // Allow it to grow
+                flex: 1
               }}
             >
               {filtersLoading ? (
@@ -423,7 +424,10 @@ export default function SortBar({
                   value={dateCaptured}
                   onChange={(e) => setDateCaptured(e.target.value)}
                   onKeyDown={onKeyDown}
-                  InputLabelProps={{ shrink: false }}
+                  InputLabelProps={{
+                    shrink: true // This makes the label always visible when focused or has value
+                  }}
+                  label="Filter by Date" // Add a label for better UX
                   InputProps={{
                     endAdornment: (
                       <InputAdornment position="end">
@@ -440,77 +444,43 @@ export default function SortBar({
                       </InputAdornment>
                     )
                   }}
+                  // Additional styling for better mobile appearance
+                  sx={{
+                    '& .MuiInputLabel-root': {
+                      transform: 'translate(14px, 9px) scale(1)', // Position label inside the field
+                      '&.MuiInputLabel-shrink': {
+                        transform: 'translate(14px, -9px) scale(0.75)' // Standard MUI label positioning when shrunk
+                      }
+                    },
+                    '& .MuiInputBase-input': {
+                      '&::placeholder': {
+                        opacity: 1, // Ensure placeholder is visible
+                        color: 'text.secondary'
+                      }
+                    }
+                  }}
+                  placeholder={dateCaptured ? '' : 'Select Date'} // Fallback placeholder
                 />
               )}
             </FormControl>
           </Stack>
 
-          {/* Location or Search - Always Visible */}
-          {showLocationSearch ? (
-            <TextField
-              size="small"
-              fullWidth
-              placeholder="Filter by Location"
-              value={location}
-              onFocus={() => setFocus(true)}
-              onKeyDown={onKeyDown}
-              onChange={(e) => setLocation(e.target.value)}
-              InputProps={{
-                startAdornment: (
-                  <InputAdornment position="start">
-                    <LocationOnIcon />
-                  </InputAdornment>
-                ),
-                endAdornment: location && (
-                  <InputAdornment position="end">
-                    <IconButton size="small" onClick={() => clearFilter('location')} edge="end" sx={{ padding: '4px' }}>
-                      <ClearIcon fontSize="small" />
-                    </IconButton>
-                  </InputAdornment>
-                )
-              }}
-              sx={{
-                minWidth: { xs: 'auto', sm: 200 }
-              }}
-            />
-          ) : (
-            <TextField
-              size="small"
-              fullWidth
-              placeholder="Search by Registration"
-              value={search}
-              onFocus={() => setFocus(true)}
-              onKeyDown={onKeyDown}
-              onChange={(e) => setSearch(e.target.value)}
-              InputProps={{
-                startAdornment: (
-                  <InputAdornment position="start">
-                    <DirectionsCarIcon />
-                  </InputAdornment>
-                ),
-                endAdornment: search && (
-                  <InputAdornment position="end">
-                    <IconButton size="small" onClick={() => clearFilter('search')} edge="end" sx={{ padding: '4px' }}>
-                      <ClearIcon fontSize="small" />
-                    </IconButton>
-                  </InputAdornment>
-                )
-              }}
-              sx={{
-                minWidth: { xs: 'auto', sm: 200 }
-              }}
-            />
-          )}
-
-          {/* Toggle Button for Advanced Filters */}
+          {/* Advanced Filters Button - Takes up less space */}
           <Button
             variant="outlined"
             onClick={() => setShowAdvancedFilters(!showAdvancedFilters)}
             endIcon={showAdvancedFilters ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
             sx={{
-              minWidth: { xs: '100%', sm: 180 },
+              minWidth: { xs: '100%', sm: 200 }, // Slightly increased from 180
               width: { xs: '100%', sm: 'auto' },
-              justifyContent: 'space-between'
+              justifyContent: 'space-between',
+              borderColor: 'divider',
+              color: 'text.primary',
+              flex: 1, // Give it some flex but less than date
+              '&:hover': {
+                borderColor: 'text.secondary', // Slightly darker on hover
+                backgroundColor: 'action.hover' // Add subtle hover background
+              }
             }}
           >
             {showAdvancedFilters ? 'Hide Filters' : 'Advanced Filters'}

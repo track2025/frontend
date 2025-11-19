@@ -190,9 +190,9 @@ export default function SortBar({
                     : 'Newest' // 👈 default when no query param exists
     );
 
-  //     if (!top && !name && !date && !price) {
-  //   router.push(`${pathname}?${createQueryString('date', '-1')}`, 'isPathname');
-  // }
+    //     if (!top && !name && !date && !price) {
+    //   router.push(`${pathname}?${createQueryString('date', '-1')}`, 'isPathname');
+    // }
   }, [name || date || price || limit || top]);
 
   const onKeyDown = (e) => {
@@ -224,7 +224,10 @@ export default function SortBar({
                   fullWidth
                   value={dateCaptured}
                   onChange={(e) => setDateCaptured(e.target.value)}
-                  InputLabelProps={{ shrink: false }}
+                  InputLabelProps={{
+                    shrink: true // This makes the label always visible when focused or has value
+                  }}
+                  label="Filter by Date" // Add a label for better UX
                   InputProps={{
                     endAdornment: (
                       <InputAdornment position="end">
@@ -242,10 +245,20 @@ export default function SortBar({
                     )
                   }}
                   sx={{
-                    '& .MuiInputBase-root': {
-                      color: 'primary.main' // Overall text color
+                    '& .MuiInputLabel-root': {
+                      transform: 'translate(14px, 9px) scale(1)', // Position label inside the field
+                      '&.MuiInputLabel-shrink': {
+                        transform: 'translate(14px, -9px) scale(0.75)' // Standard MUI label positioning when shrunk
+                      }
+                    },
+                    '& .MuiInputBase-input': {
+                      '&::placeholder': {
+                        opacity: 1, // Ensure placeholder is visible
+                        color: 'text.secondary'
+                      }
                     }
                   }}
+                  placeholder={dateCaptured ? '' : 'Select Date'} // Fallback placeholder
                 />
               )}
             </FormControl>
@@ -292,15 +305,21 @@ export default function SortBar({
               }}
             />
           )}
-          {/* Toggle Button for Advanced Filters */}
 
+          {/* Toggle Button for Advanced Filters */}
           <Button
             variant="outlined"
             onClick={() => setShowAdvancedFilters(!showAdvancedFilters)}
             endIcon={showAdvancedFilters ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
             sx={{
               minWidth: { xs: '100%', md: 180 }, // full width on mobile, 180px on desktop
-              justifyContent: 'space-between'
+              justifyContent: 'space-between',
+              borderColor: 'divider', // Same as other component
+              color: 'text.primary', // Same as other component
+              '&:hover': {
+                borderColor: 'text.secondary', // Slightly darker on hover
+                backgroundColor: 'action.hover' // Add subtle hover background
+              }
             }}
           >
             {showAdvancedFilters ? 'Hide Filters' : 'Advanced Filters'}

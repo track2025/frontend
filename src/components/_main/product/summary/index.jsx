@@ -35,7 +35,7 @@ import { addCart } from 'src/redux/slices/product';
 // api
 import * as api from 'src/services';
 import { useMutation } from 'react-query';
-import Link from "next/link";
+import Link from 'next/link';
 // styles
 import RootStyled from './styled';
 // components
@@ -106,6 +106,19 @@ const Incrementer = ({ ...props }) => {
 Incrementer.propTypes = {
   available: PropTypes.number.isRequired
 };
+
+const slugify = (text) => {
+  return (
+    text
+      ?.toString()
+      .toLowerCase()
+      .replace(/\s+/g, '-')
+      .replace(/[^\w-]+/g, '')
+      .replace(/--+/g, '-')
+      .replace(/^-+/, '')
+      .replace(/-+$/, '') || 'unknown'
+  );
+};
 export default function ProductDetailsSumary({ ...props }) {
   const { product, isLoading, totalRating, brand, category, id, shopDetails } = props;
   const cCurrency = useCurrencyConvert();
@@ -136,7 +149,7 @@ export default function ProductDetailsSumary({ ...props }) {
     checkout.cart.filter((item) => item._id === product?._id).map((item) => item.quantity)[0] >= product?.available;
 
   const onAddCart = (param) => {
-    console.log("Params: ", param);
+    console.log('Params: ', param);
     toast.success('Added to cart');
     dispatch(addCart(param));
   };
@@ -164,8 +177,6 @@ export default function ProductDetailsSumary({ ...props }) {
       await mutate(id);
     }
   };
-
-
 
   const formik = useFormik({
     enableReinitialize: true,
@@ -230,7 +241,6 @@ export default function ProductDetailsSumary({ ...props }) {
     dispatch(removeCompareProduct(product?._id));
   };
 
-
   return (
     <RootStyled>
       <FormikProvider value={formik}>
@@ -242,18 +252,41 @@ export default function ProductDetailsSumary({ ...props }) {
                   {product?.name}
                 </Typography>
 
-                <Stack spacing={1} mt={1} mb={3}>
+                {/* <Stack spacing={1} mt={1} mb={3}>
                   <Stack direction="row" alignItems="center" spacing={1} mt={1.5}>
                     <Typography variant="subtitle1">Location:</Typography>
                     <Typography variant="subtitle1" color="text.secondary" fontWeight={400}>
                       {product?.location || brand?.name || 'Lap Snaps'}
                     </Typography>
+                  </Stack> */}
+                <Stack spacing={1} mt={1} mb={3}>
+                  <Stack direction="row" alignItems="center" spacing={1} mt={1.5}>
+                    <Typography variant="subtitle1">Location:</Typography>
+                    <Link
+                      href={`/tracks/${slugify(product?.location || brand?.name || 'Lap Snaps')}`}
+                      style={{ textDecoration: 'none' }}
+                    >
+                      <Typography
+                        variant="subtitle1"
+                        color="text.secondary"
+                        fontWeight={400}
+                        sx={{
+                          cursor: 'pointer',
+                          '&:hover': {
+                            color: 'primary.main',
+                            textDecoration: 'underline'
+                          }
+                        }}
+                      >
+                        {product?.location || brand?.name || 'Lap Snaps'}
+                      </Typography>
+                    </Link>
                   </Stack>
 
                   <Stack spacing={1} mt={1.5}>
                     <Link
                       href={`/photographers/${shopDetails?.[0]?.username}`}
-                      style={{ textDecoration: "none", color: "inherit" }}
+                      style={{ textDecoration: 'none', color: 'inherit' }}
                     >
                       <Stack direction="row" spacing={1} alignItems="center">
                         <Avatar
@@ -267,7 +300,8 @@ export default function ProductDetailsSumary({ ...props }) {
                           {shopDetails?.[0]?.username}
                           <Typography variant="body2">Photographer</Typography>
                         </Typography>
-                      </Stack></Link>
+                      </Stack>
+                    </Link>
                   </Stack>
                   {category?.name && (
                     <Stack direction="row" alignItems="center" spacing={1}>
