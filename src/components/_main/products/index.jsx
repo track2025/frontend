@@ -14,7 +14,8 @@ import * as api from 'src/services';
 import { useQuery } from 'react-query';
 // components
 import ProductList from './productList';
-import SortBar from './sortbar';
+// import SortBar from './sortbar';
+import SortBar3 from './sortbar3';
 ProductListing.propTypes = {
   category: PropTypes.object,
   subCategory: PropTypes.object,
@@ -86,7 +87,7 @@ export default function ProductListing({ category, subCategory, shop, compaign }
 
   return (
     <>
-      <SortBar
+      <SortBar3
         sortData={sortData}
         productData={data}
         category={subCategory?.parentCategory || category}
@@ -94,6 +95,7 @@ export default function ProductListing({ category, subCategory, shop, compaign }
         subCategory={subCategory}
         isLoading={isLoading}
         compaign={compaign}
+        showLocationSearch={true}
       />
       <ProductList data={data} isLoading={isLoading} isMobile={isMobile} />
       <Pagination data={data} />

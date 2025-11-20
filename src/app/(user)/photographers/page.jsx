@@ -35,7 +35,7 @@ export const metadata = {
 
 export default async function ShopComponent() {
   const data = await api.getShops();
-  // console.log('Photographers data:', data);
+  // console.log('Photographers data:', data.data);
 
   const structuredData = {
     '@context': 'https://schema.org',
@@ -54,7 +54,7 @@ export default async function ShopComponent() {
           name: photographer.title || photographer.name || 'LapSnaps Professional Photographer',
           description:
             photographer.description ||
-            `Professional motorsport photographer specializing in race track and vehicle photography`,
+            `Professional motorsport photographer specializing in race track and vehicle photography with ${photographer.productCount || 0} photos and ${photographer.followers?.length || 0} followers`,
           image: photographer.logo?.url || photographer.cover?.url,
           jobTitle: 'Motorsport Photographer',
           knowsAbout: [
@@ -63,11 +63,51 @@ export default async function ShopComponent() {
             'Vehicle Photography',
             'Track Day Photography'
           ],
-          url: `https://lapsnaps.com/photographers/${photographer.slug}`
-          // Removed invalid workExample property
+          url: `https://lapsnaps.com/photographers/${photographer.slug}`,
+          // Add custom properties for photo count and followers
+          additionalProperty: [
+            {
+              '@type': 'PropertyValue',
+              name: 'photoCount',
+              value: photographer.productCount || 0
+            },
+            {
+              '@type': 'PropertyValue',
+              name: 'followerCount',
+              value: photographer.followers?.length || 0
+            }
+          ]
         }
       }))
     }
+  };
+
+  // Enhanced schema for photographers with detailed information
+  const photographerStructuredData = {
+    '@context': 'https://schema.org',
+    '@type': 'ItemList',
+    name: 'Motorsport Photographers Directory',
+    description: 'Directory of professional motorsport photographers with photo counts and follower information',
+    numberOfItems: data?.data?.length || 0,
+    itemListElement: data?.data?.map((photographer, index) => ({
+      '@type': 'ListItem',
+      position: index + 1,
+      item: {
+        '@type': 'Photographer',
+        name: photographer.title || photographer.name || 'LapSnaps Professional Photographer',
+        description: `Professional motorsport photographer with ${photographer.productCount || 0} track photos and ${photographer.followers?.length || 0} followers`,
+        image: photographer.logo?.url || photographer.cover?.url,
+        url: `https://lapsnaps.com/photographers/${photographer.slug}`,
+        photographer: {
+          '@type': 'Person',
+          name: photographer.title || photographer.name || 'LapSnaps Professional Photographer'
+        },
+        // Custom metrics
+        photoCount: photographer.productCount || 0,
+        followerCount: photographer.followers?.length || 0,
+        specialty: ['Motorsport Photography', 'Race Track Photography', 'Vehicle Photography']
+      }
+    }))
   };
 
   const breadcrumbSchema = {
@@ -89,10 +129,38 @@ export default async function ShopComponent() {
     ]
   };
 
+  // Summary schema for the entire photographers page
+  const pageSummarySchema = {
+    '@context': 'https://schema.org',
+    '@type': 'WebPage',
+    name: 'Professional Motorsport Photographers',
+    description: `Browse ${data?.data?.length || 0} professional motorsport photographers with a total of ${data?.data?.reduce((total, photographer) => total + (photographer.productCount || 0), 0)} photos and ${data?.data?.reduce((total, photographer) => total + (photographer.followers?.length || 0), 0)} total followers`,
+    url: 'https://lapsnaps.com/photographers',
+    mainEntity: {
+      '@type': 'ItemList',
+      numberOfItems: data?.data?.length || 0,
+      itemListElement: data?.data?.map((photographer, index) => ({
+        '@type': 'ListItem',
+        position: index + 1,
+        item: {
+          '@type': 'Person',
+          name: photographer.title,
+          description: `Photographer with ${photographer.productCount || 0} photos and ${photographer.followers?.length || 0} followers`,
+          url: `https://lapsnaps.com/photographers/${photographer.slug}`
+        }
+      }))
+    }
+  };
+
   return (
     <>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }} />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(photographerStructuredData) }}
+      />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(pageSummarySchema) }} />
 
       <Container maxWidth="xl">
         <Stack
@@ -117,12 +185,20 @@ export default async function ShopComponent() {
               textAlign="center"
               sx={{
                 fontSize: { xs: '0.8rem', md: '1.2rem' },
-                fontWeight: 'normal', // ← remove bold
+                fontWeight: 'normal',
                 lineHeight: 1.6
               }}
             >
               Talented photographers who capture stunning car and racing moments for you
             </Typography>
+
+            {/* Optional: Display summary stats */}
+            {/* <Typography variant="body2" color="text.secondary" textAlign="center" sx={{ mt: 1, fontSize: '0.9rem' }}>
+              {data?.data?.length || 0} photographers •{' '}
+              {data?.data?.reduce((total, photographer) => total + (photographer.productCount || 0), 0)} total photos •{' '}
+              {data?.data?.reduce((total, photographer) => total + (photographer.followers?.length || 0), 0)} total
+              followers
+            </Typography> */}
           </Box>
           <Box>
             <Grid container spacing={2} justifyContent="center" alignItems="center">

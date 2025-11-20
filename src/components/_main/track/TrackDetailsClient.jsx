@@ -33,6 +33,7 @@ import ProductList from '../../_main/products/productList';
 import { BlogPagination } from 'src/components/_main/blog/BlogPagination';
 import SortBar2 from 'src/components/_main/products/sortbar2';
 import { useTheme } from '@mui/material/styles';
+import SortBar3 from '../products/sortbar3';
 
 export default function TrackDetailsClient({ track }) {
   const [currentPage, setCurrentPage] = useState(1);
@@ -557,7 +558,7 @@ export default function TrackDetailsClient({ track }) {
                   >
                     Professional motorsport photography from {trackName}
                   </Typography>
-                  <SortBar2
+                  <SortBar3
                     sortData={sortData}
                     productData={products}
                     showLocationSearch={false}
