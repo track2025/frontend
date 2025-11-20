@@ -6,6 +6,7 @@ import { Container } from '@mui/material';
 // component
 import CartMain from 'src/components/_main/cart';
 import HeaderBreadcrumbs from 'src/components/headerBreadcrumbs';
+import Banner from 'src/components/_main/banner/HeroBanner';
 
 // Meta information
 export const metadata = {
@@ -21,7 +22,18 @@ export const metadata = {
 export default async function Cart() {
   return (
     <Container maxWidth="xl">
-      <HeaderBreadcrumbs
+      <Banner
+        backgroundImage="/images/cart-banner.jpg"
+        breadcrumbs={[
+          { name: 'Home', href: '/' },
+          { name: 'Products', href: '/race-track/collection' },
+          { name: 'Cart', href: '#' }
+        ]}
+        title={''}
+        // subtitle={`Explore our ${category?.name} collection`}
+        height={'250px'}
+      />
+      {/* <HeaderBreadcrumbs
         heading="Cart"
         links={[
           {
@@ -36,7 +48,7 @@ export default async function Cart() {
             name: 'Cart'
           }
         ]}
-      />
+      /> */}
       <CartMain />
     </Container>
   );

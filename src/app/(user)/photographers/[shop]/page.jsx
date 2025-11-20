@@ -306,7 +306,7 @@ export default async function Listing({ params }) {
                         >
                           {shopData.address.streetAddress}
                           {shopData.address.city && `, ${shopData.address.city}`}
-                          {shopData.address.country && `, ${shopData.address.country}`}
+                          {shopData?.address?.country && `, ${shopData.address.country.name}`}
                         </Typography>
                       </Stack>
                     </Box>
