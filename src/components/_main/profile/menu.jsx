@@ -30,8 +30,10 @@ import {
   IoPersonOutline,
   IoShieldCheckmarkOutline,
   IoDocumentTextOutline,
-  IoCameraOutline
+  IoCameraOutline,
 } from 'react-icons/io5';
+import { IoIosCall } from "react-icons/io";
+
 
 // redux
 import { setThemeMode } from 'src/redux/slices/settings';
@@ -172,6 +174,21 @@ export default function Menu() {
               <IoPersonOutline size={20} />
             </ListItemIcon>
             <ListItemText primary="About Us" />
+          </ListItemButton>
+        </ListItem>
+
+        <Divider />
+        <ListItem disablePadding>
+          <ListItemButton
+            onClick={() => {
+              router.push('/contact');
+            }}
+            sx={{ py: 2 }}
+          >
+            <ListItemIcon>
+              <IoIosCall size={20} />
+            </ListItemIcon>
+            <ListItemText primary="Contact Us" />
           </ListItemButton>
         </ListItem>
 
