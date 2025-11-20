@@ -99,7 +99,7 @@ export default function ShopSettingFrom({ data: currentShop, isLoading: category
     cover: Yup.mixed().required('Cover is required'),
     logo: Yup.mixed().required('logo is required'),
     slug: Yup.string().required('Slug is required'),
-    // description: Yup.string().required('Description is required'),
+    description: Yup.string().required('Description is required'),
     // phone: Yup.string().required('Phone Number is required'),
     defaultPrice: Yup.number().required('Default Price is required')
     // paymentInfo: Yup.object().shape({
@@ -388,11 +388,11 @@ export default function ShopSettingFrom({ data: currentShop, isLoading: category
                       </div>
                     </Box>
                   </Stack>
-                  {/* <Stack mt={3} spacing={3} direction="row" flexGrow="wrap">
+                  <Stack mt={3} spacing={3} direction="row" flexGrow="wrap">
                   <Box sx={{ width: '100%' }}>
                     <LabelStyle component={'label'} htmlFor="description">
                       {' '}
-                      {'Pay Off Line'}{' '}
+                      {'Description'}{' '}
                     </LabelStyle>
 
                     <TextField
@@ -405,8 +405,8 @@ export default function ShopSettingFrom({ data: currentShop, isLoading: category
                       multiline
                     />
                   </Box>
-                </Stack> */}
-                  <Stack mt={3} spacing={2} direction="row" spacing={3} flexGrow="wrap">
+                </Stack>
+                  <Stack mt={3}  direction="row" spacing={3} flexGrow="wrap">
                     <Box sx={{ width: '100%' }}>
                       <LabelStyle>Default Price</LabelStyle>
 
