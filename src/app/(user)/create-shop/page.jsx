@@ -19,13 +19,16 @@ export default function Page() {
   //   // eslint-disable-next-line react-hooks/exhaustive-deps
   // }, []);
   return (
-    <Container maxWidth="xl" sx={{
-      display: 'flex',
-      alignItems: 'center',
-      justifyContent: 'center',
-      minHeight: '100vh', // This ensures it takes full viewport height
-      py: 4 // Add some vertical padding
-    }}>
+    <Container
+      maxWidth="xl"
+      sx={{
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        minHeight: '100vh', // This ensures it takes height
+        py: 4 // Add some vertical padding
+      }}
+    >
       <ShopForm />
     </Container>
   );

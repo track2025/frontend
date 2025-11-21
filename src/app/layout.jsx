@@ -11,12 +11,16 @@ export const metadata = {
   // ... other metadata
 };
 
+export const viewport = {
+  width: 'device-width',
+  initialScale: 1,
+  maximumScale: 1
+};
+
 export default function RootLayout({ children }) {
   return (
     <html lang={'en-US'}>
       <head>
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-
         {/* Trust Payments JavaScript Library */}
         <Script
           src="https://cdn.eu.trustpayments.com/js/latest/st.js"

@@ -2,6 +2,24 @@ import { Box, Container, Typography, Breadcrumbs, Link as MuiLink, Chip, Divider
 import NavigateNextIcon from '@mui/icons-material/NavigateNext';
 import CalendarTodayIcon from '@mui/icons-material/CalendarToday';
 import AccessTimeIcon from '@mui/icons-material/AccessTime';
+import { calculateReadingTime } from 'src/utils/readingTime';
+
+// Helper function to process HTML links for security and new tab opening
+const processHtmlLinks = (html) => {
+  if (!html) return html;
+
+  return (
+    html
+      // Handle domain-only URLs without protocol (lapsnaps.com/path)
+      .replace(/href="(?!https?:\/\/)([a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+[^"]*)"/g, 'href="https://$1"')
+      // Handle root-relative URLs (/about)
+      .replace(/href="\/([^"]*)"/g, 'href="https://lapsnaps.com/$1"')
+      // Handle relative URLs without leading slash (about, contact, etc.)
+      .replace(/href="(?!https?:\/\/|\/)([^"#?]*)"/g, 'href="https://lapsnaps.com/$1"')
+      // Add target and rel to all links that don't have them
+      .replace(/<a(?![^>]*target=)([^>]*)>/g, '<a$1 target="_blank" rel="noopener noreferrer">')
+  );
+};
 
 export default function BlogPostServer({ post }) {
   const formatDate = (dateString) => {
@@ -14,15 +32,9 @@ export default function BlogPostServer({ post }) {
     });
   };
 
-  const calculateReadTime = () => {
-    if (post.readTime) return post.readTime;
-    if (post.content) {
-      const wordCount = post.content.replace(/<[^>]*>/g, '').split(/\s+/).length;
-      const readingTime = Math.ceil(wordCount / 200);
-      return `${readingTime} min read`;
-    }
-    return '2 min read';
-  };
+  const readTime = calculateReadingTime(post.content);
+
+  // console.log('Original content links:', post.content?.match(/<a[^>]*href="[^"]*"[^>]*>/g));
 
   return (
     <Box sx={{ minHeight: '100vh' }}>
@@ -38,7 +50,7 @@ export default function BlogPostServer({ post }) {
         <Box
           component="img"
           src={post.heroImage?.url || post.featuredImage?.url || '/images/blog-hero-placeholder.jpg'}
-          alt={post.title}
+          alt={`${post.category} – track-day photography article hero image`}
           sx={{
             width: '100%',
             height: '100%',
@@ -99,7 +111,14 @@ export default function BlogPostServer({ post }) {
             }}
           >
             <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.5 }}>
-              <Avatar src={post.authorAvatar?.url} alt={post.author} sx={{ width: 40, height: 40 }} />
+              <Avatar
+                src={
+                  post.authorAvatar?.url ||
+                  `https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.21/icons/person-circle.svg`
+                }
+                alt={post.author?.toUpperCase() || 'Author'}
+                sx={{ width: 40, height: 40 }}
+              />
               <Typography variant="h3" sx={{ fontWeight: 600, fontSize: { xs: '15px', md: '15px' } }}>
                 {post.author}
               </Typography>
@@ -114,7 +133,7 @@ export default function BlogPostServer({ post }) {
 
             <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5 }}>
               <AccessTimeIcon sx={{ fontSize: 16 }} />
-              <Typography variant="body2">{calculateReadTime()}</Typography>
+              <Typography variant="body2">{readTime?.display}</Typography>
             </Box>
           </Box>
 
@@ -124,7 +143,7 @@ export default function BlogPostServer({ post }) {
         {/* Article Content */}
         <Box sx={{ p: { xs: 3, md: 5 }, borderRadius: 2, boxShadow: 2 }}>
           <Box
-            dangerouslySetInnerHTML={{ __html: post.content }}
+            dangerouslySetInnerHTML={{ __html: processHtmlLinks(post.content) }}
             sx={{
               '& *': { maxWidth: '100%' },
               '& h1': {
@@ -161,8 +180,13 @@ export default function BlogPostServer({ post }) {
                 boxShadow: '0 4px 12px rgba(0,0,0,0.1)'
               },
               '& a': {
-                textDecoration: 'none',
-                fontWeight: 600
+                textDecoration: 'underline',
+                fontWeight: 600,
+                color: '#000',
+                '&:hover': {
+                  color: '#EE1E50',
+                  textDecoration: 'underline'
+                }
               }
             }}
           />

@@ -2,6 +2,7 @@
 import Link from 'next/link';
 import { Card, CardActionArea, CardMedia, CardContent, Chip, Typography, Box } from '@mui/material';
 import AccessTimeIcon from '@mui/icons-material/AccessTime';
+import { calculateReadingTime } from 'src/utils/readingTime';
 
 export const BlogCard = ({ post, onClick }) => {
   const formatDate = (dateString) => {
@@ -19,11 +20,12 @@ export const BlogCard = ({ post, onClick }) => {
     }
   };
 
-  const calculateReadTime = () => {
-    if (post.readTime) return post.readTime;
-    if (post.content) return `${Math.ceil(post.content.length / 1000)} min read`;
-    return '2 min read';
-  };
+  // const calculateReadTime = () => {
+  //   if (post.readTime) return post.readTime;
+  //   if (post.content) return `${Math.ceil(post.content.length / 1000)} min read`;
+  //   return '2 min read';
+  // };
+  const readTime = calculateReadingTime(post.content);
 
   // If onClick is provided, use the existing logic
   if (onClick) {
@@ -110,8 +112,10 @@ export const BlogCard = ({ post, onClick }) => {
                 WebkitBoxOrient: 'vertical',
                 overflow: 'hidden'
               }}
-            >  {post.title} 
-            {/* TODO */}
+            >
+              {' '}
+              {post.title}
+              {/* TODO */}
             </Typography>
 
             {/* Excerpt */}
@@ -141,20 +145,20 @@ export const BlogCard = ({ post, onClick }) => {
                 borderTop: '1px solid #e0e0e0'
               }}
             >
-              <Typography variant="caption" sx={{  fontWeight: 600 }}>
+              <Typography variant="caption" sx={{ fontWeight: 600 }}>
                 {post.author}
               </Typography>
               <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5 }}>
-                <AccessTimeIcon sx={{ fontSize: 14,  }} />
-                <Typography variant="caption" sx={{  }}>
-                  {calculateReadTime()}
+                <AccessTimeIcon sx={{ fontSize: 14 }} />
+                <Typography variant="caption" sx={{}}>
+                  {readTime.display}
                 </Typography>
               </Box>
             </Box>
 
             {/* Published Date */}
             {post.publishedDate && (
-              <Typography variant="caption" sx={{  mt: 1 }}>
+              <Typography variant="caption" sx={{ mt: 1 }}>
                 {formatDate(post.publishedDate)}
               </Typography>
             )}
@@ -175,8 +179,6 @@ export const BlogCard = ({ post, onClick }) => {
       </Card>
     );
   }
-
-
 
   // Use Link for better performance when no custom onClick
   return (
@@ -294,20 +296,20 @@ export const BlogCard = ({ post, onClick }) => {
               borderTop: '1px solid #e0e0e0'
             }}
           >
-            <Typography variant="caption" sx={{  fontWeight: 600 }}>
+            <Typography variant="caption" sx={{ fontWeight: 600 }}>
               {post.author}
             </Typography>
             <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5 }}>
-              <AccessTimeIcon sx={{ fontSize: 14, }} />
-              <Typography variant="caption" sx={{ }}>
-                {calculateReadTime()}
+              <AccessTimeIcon sx={{ fontSize: 14 }} />
+              <Typography variant="caption" sx={{}}>
+                {readTime.display}
               </Typography>
             </Box>
           </Box>
 
           {/* Published Date */}
           {post.publishedDate && (
-            <Typography variant="caption" sx={{  mt: 1 }}>
+            <Typography variant="caption" sx={{ mt: 1 }}>
               {formatDate(post.publishedDate)}
             </Typography>
           )}

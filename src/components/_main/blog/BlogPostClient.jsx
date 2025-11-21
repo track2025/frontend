@@ -20,6 +20,7 @@ import ShareIcon from '@mui/icons-material/Share';
 import FacebookIcon from '@mui/icons-material/Facebook';
 import TwitterIcon from '@mui/icons-material/Twitter';
 import LinkedInIcon from '@mui/icons-material/LinkedIn';
+import { calculateReadingTime } from 'src/utils/readingTime';
 
 export default function BlogPostClient({ post }) {
   const router = useRouter();
@@ -54,18 +55,11 @@ export default function BlogPostClient({ post }) {
     }
   };
 
-  const calculateReadTime = () => {
-    if (post.readTime) return post.readTime;
-    if (post.content) {
-      const wordCount = post.content.replace(/<[^>]*>/g, '').split(/\s+/).length;
-      const readingTime = Math.ceil(wordCount / 200);
-      return `${readingTime} min read`;
-    }
-    return '2 min read';
-  };
+  // const calculateReadTime = calculateReadingTime;
+  const { readTime } = calculateReadingTime(post.content);
 
   return (
-    <Box sx={{  minHeight: '100vh' }}>
+    <Box sx={{ minHeight: '100vh' }}>
       {/* Hero Image */}
       <Box
         sx={{
@@ -109,7 +103,7 @@ export default function BlogPostClient({ post }) {
         </Breadcrumbs>
 
         {/* Article Header */}
-        <Box sx={{  p: { xs: 3, md: 5 }, borderRadius: 2, boxShadow: 2, mb: 4 }}>
+        <Box sx={{ p: { xs: 3, md: 5 }, borderRadius: 2, boxShadow: 2, mb: 4 }}>
           {/* Category */}
           {post.category && (
             <Chip
@@ -154,7 +148,7 @@ export default function BlogPostClient({ post }) {
                 variant="h3"
                 sx={{
                   fontWeight: 600,
-                  fontSize: '1rem',
+                  fontSize: '1rem'
                   // color: '#1a1a1a'
                 }}
               >
@@ -164,17 +158,17 @@ export default function BlogPostClient({ post }) {
 
             {post.publishedDate && (
               <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5 }}>
-                <CalendarTodayIcon sx={{ fontSize: 16,  }} />
-                <Typography variant="body2" sx={{  }}>
+                <CalendarTodayIcon sx={{ fontSize: 16 }} />
+                <Typography variant="body2" sx={{}}>
                   {formatDate(post.publishedDate)}
                 </Typography>
               </Box>
             )}
 
             <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5 }}>
-              <AccessTimeIcon sx={{ fontSize: 16,  }} />
-              <Typography variant="body2" sx={{  }}>
-                {calculateReadTime()}
+              <AccessTimeIcon sx={{ fontSize: 16 }} />
+              <Typography variant="body2" sx={{}}>
+                {readTime?.display}
               </Typography>
             </Box>
           </Box>
@@ -183,8 +177,8 @@ export default function BlogPostClient({ post }) {
 
           {/* Share Icons */}
           <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-            <ShareIcon sx={{  fontSize: 20 }} />
-            <Typography variant="body2" sx={{  mr: 1 }}>
+            <ShareIcon sx={{ fontSize: 20 }} />
+            <Typography variant="body2" sx={{ mr: 1 }}>
               Share:
             </Typography>
             <IconButton
@@ -212,7 +206,7 @@ export default function BlogPostClient({ post }) {
         </Box>
 
         {/* Article Content */}
-        <Box sx={{  p: { xs: 3, md: 5 }, borderRadius: 2, boxShadow: 2 }}>
+        <Box sx={{ p: { xs: 3, md: 5 }, borderRadius: 2, boxShadow: 2 }}>
           <Box
             dangerouslySetInnerHTML={{ __html: post.content }}
             sx={{
@@ -304,7 +298,7 @@ export default function BlogPostClient({ post }) {
                 bgcolor: '#f8f9fa',
                 fontStyle: 'italic',
                 '& p': {
-                  mb: 0,
+                  mb: 0
                   // color: '#666'
                 }
               },
@@ -358,7 +352,7 @@ export default function BlogPostClient({ post }) {
 
               // Strong and emphasis
               '& strong, & b': {
-                fontWeight: 700,
+                fontWeight: 700
                 // color: '#1a1a1a'
               },
               '& em, & i': {

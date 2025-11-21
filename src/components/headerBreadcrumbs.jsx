@@ -91,7 +91,7 @@ export default function HeaderBreadcrumbs({ ...props }) {
           }}
         >
           <Typography
-            variant="h1"
+            variant="h2"
             gutterBottom
             sx={{
               textTransform: 'capitalize',

@@ -18,12 +18,22 @@ const HeaderBreadcrumbs = dynamic(() => import('src/components/headerBreadcrumbs
 // Meta information
 export const metadata = {
   title: 'Checkout | Lap Snaps - Secure and Convenient Checkout for Your Shopping',
-  description:
-    'Complete your purchase with confidence on Lap Snaps. Enjoy a secure and convenient checkout process.',
+  description: 'Complete your purchase with confidence on Lap Snaps. Enjoy a secure and convenient checkout process.',
   applicationName: 'Lap Snaps',
   authors: 'Lap Snaps',
-  keywords:
-    'checkout, Lap Snaps, secure checkout, convenient checkout, complete purchase, payment information, shipping information, seamless transactions, fast delivery, secure payment, easy checkout, hassle-free checkout, online shopping checkout'
+  // keywords:
+  //   'checkout, Lap Snaps, secure checkout, convenient checkout, complete purchase, payment information, shipping information, seamless transactions, fast delivery, secure payment, easy checkout, hassle-free checkout, online shopping checkout',
+  // Add noindex meta tag
+  robots: {
+    index: false,
+    follow: false,
+    nocache: true,
+    googleBot: {
+      index: false,
+      follow: false,
+      noimageindex: true
+    }
+  }
 };
 
 export default function Checkout() {

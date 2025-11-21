@@ -6,6 +6,7 @@ import PhysicalProductDetail from 'src/components/_main/track-product/physicalPr
 import AdditionalPhysicalProductInfo from 'src/components/_main/track-product/additional-info';
 import PhysicalProductTabs from 'src/components/_main/track-product/tabs';
 import PhysicalProductContentCard from 'src/components/cards/physicalProductContent';
+
 // Static generation with ISR
 export const revalidate = 60;
 
@@ -52,11 +53,11 @@ export async function generateMetadata({ params }) {
       description: product.metaDescription || product.shortDescription,
       images: images.map((v) => ({ url: v.url })),
       url: `https://lapsnaps.com/track-product/${slug}`,
-      type: 'article'
+      type: 'website'
     },
-    other: {
-      'og:type': 'product'
-    },
+    // other: {
+    //   'og:type': 'product'
+    // },
     twitter: {
       card: 'summary_large_image',
       title: product.name,
@@ -86,35 +87,30 @@ export default async function ProductDetail({ params }) {
   const { data, totalRating, totalReviews, brand, category } = response;
   const isSimpleProduct = data?.type === 'simple';
 
+  // ✅ EXACT JSON-LD Template as specified
   const structuredData = {
     '@context': 'https://schema.org',
     '@type': 'Product',
     name: data.name,
-    description: data.shortDescription || data.content,
+    description: (data.shortDescription || data.content || '').replace(/<[^>]*>/g, ''), // Plain text only
     image: data.images?.map((img) => img.url) || [],
+    sku: data.sku || data._id, // Use actual SKU or fallback to ID
     brand: {
       '@type': 'Brand',
       name: brand?.name || 'Lap Snaps'
     },
-    category: category?.name,
     offers: {
       '@type': 'Offer',
       url: `https://lapsnaps.com/track-product/${slug}`,
-      priceCurrency: 'USD',
-      price: data.price || 0,
+      priceCurrency: data.currency || 'USD',
+      price: data.salePrice?.toString() || data.price?.toString() || '0', // Use salePrice if available
       availability: data.inStock ? 'https://schema.org/InStock' : 'https://schema.org/OutOfStock'
-    },
-    aggregateRating: totalRating
-      ? {
-          '@type': 'AggregateRating',
-          ratingValue: totalRating,
-          reviewCount: totalReviews || 0
-        }
-      : undefined
+    }
   };
 
   return (
     <>
+      {/* ✅ JSON-LD Schema */}
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }} />
 
       <Box>
