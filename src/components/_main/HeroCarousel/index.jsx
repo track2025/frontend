@@ -4,7 +4,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { fetchCarouselItems } from 'src/services';
 import HeroCarouselSkeleton from 'src/components/skeletons/HeroCarouselSkeleton';
-import { Button, Typography, useTheme } from '@mui/material';
+import { Button, Typography, useTheme, Container } from '@mui/material';
 import { IoIosArrowForward } from 'react-icons/io';
 
 const FALLBACK_BANNERS = [
@@ -102,52 +102,68 @@ export default function HeroCarousel() {
 
             {/* Overlay content */}
             {(banner.title || banner.highlight || banner.description || banner.buttonText) && (
-              <div
-                className="position-absolute top-0 start-0 w-100 h-100 d-flex flex-column justify-content-center align-items-center align-items-md-start text-center text-md-start p-4 text-white"
-                style={{ maxWidth: '600px' }}
+              <Container
+                maxWidth="xl"
+                sx={{
+                  position: 'absolute',
+                  top: 0,
+                  left: 0,
+                  right: 0,
+                  bottom: 0,
+                  display: 'flex',
+                  alignItems: 'center',
+                  height: '100%'
+                }}
               >
-                {(banner.title || banner.highlight) && (
-                  <Typography
-                    component="h1"
-                    className="display-5 fw-bold mb-3"
-                    sx={{ fontSize: { xs: '28px', md: '40px' } }}
-                  >
-                    {banner.title && <span>{banner.title} </span>}
-                    {banner.highlight && <span style={{ color: theme.palette.primary.main }}>{banner.highlight}</span>}
-                  </Typography>
-                )}
-                {banner.description && (
-                  <Typography
-                    className="col-md-12 mb-3"
-                    sx={{ zIndex: 11, color: '#fff', fontSize: '18px' }}
-                    variant="body1"
-                  >
-                    {banner.description}
-                  </Typography>
-                )}
-                {banner.buttonText && banner.buttonLink && (
-                  <Link href={banner.buttonLink} passHref legacyBehavior>
-                    <Button
-                      variant="contained"
-                      color="secondary"
-                      size="large"
-                      endIcon={<IoIosArrowForward />}
-                      sx={{
-                        bgcolor: '#000000',
-                        color: '#ffffff',
-                        borderRadius: 6,
-                        textTransform: 'none',
-                        '&:hover': {
-                          bgcolor: '#1a1a1a',
-                          opacity: 0.9
-                        }
-                      }}
+                <div
+                  className="d-flex flex-column justify-content-center align-items-center align-items-md-start text-center text-md-start text-white"
+                  style={{ maxWidth: '600px' }}
+                >
+                  {(banner.title || banner.highlight) && (
+                    <Typography
+                      component="h1"
+                      className="display-5 fw-bold mb-3"
+                      sx={{ fontSize: { xs: '28px', md: '40px' } }}
                     >
-                      {banner.buttonText}
-                    </Button>
-                  </Link>
-                )}
-              </div>
+                      {banner.title && <span>{banner.title} </span>}
+                      {banner.highlight && (
+                        <span style={{ color: theme.palette.primary.main }}>{banner.highlight}</span>
+                      )}
+                    </Typography>
+                  )}
+                  {banner.description && (
+                    <Typography
+                      className="col-md-12 mb-3"
+                      sx={{ zIndex: 11, color: '#fff', fontSize: '18px' }}
+                      variant="body1"
+                    >
+                      {banner.description}
+                    </Typography>
+                  )}
+                  {banner.buttonText && banner.buttonLink && (
+                    <Link href={banner.buttonLink} passHref legacyBehavior>
+                      <Button
+                        variant="contained"
+                        color="secondary"
+                        size="large"
+                        endIcon={<IoIosArrowForward />}
+                        sx={{
+                          bgcolor: '#000000',
+                          color: '#ffffff',
+                          borderRadius: 6,
+                          textTransform: 'none',
+                          '&:hover': {
+                            bgcolor: '#1a1a1a',
+                            opacity: 0.9
+                          }
+                        }}
+                      >
+                        {banner.buttonText}
+                      </Button>
+                    </Link>
+                  )}
+                </div>
+              </Container>
             )}
           </div>
         ))}
@@ -199,24 +215,36 @@ export default function HeroCarousel() {
           </button> */}
 
           {/* Indicators */}
-          <div className="position-absolute bottom-0 start-0 mb-3 ms-3 d-flex gap-2">
-            {bannerItems.map((_, index) => (
-              <button
-                key={index}
-                onClick={() => goToSlide(index)}
-                className="rounded-pill border-0"
-                style={{
-                  width: '30px',
-                  height: '5px',
-                  backgroundColor:
-                    index === currentSlide
-                      ? theme.palette.primary.main // active slide
-                      : 'rgba(255,255,255,0.4)' // inactive slide (light gray)
-                }}
-                aria-label={`Go to slide ${index + 1}`}
-              ></button>
-            ))}
-          </div>
+          <Container
+            maxWidth="xl"
+            sx={{
+              position: 'absolute',
+              bottom: 0,
+              left: 0,
+              right: 0,
+              mb: 3,
+              pointerEvents: 'none' // Allow clicking through the container area
+            }}
+          >
+            <div className="d-flex gap-2" style={{ pointerEvents: 'auto' }}>
+              {bannerItems.map((_, index) => (
+                <button
+                  key={index}
+                  onClick={() => goToSlide(index)}
+                  className="rounded-pill border-0"
+                  style={{
+                    width: '30px',
+                    height: '5px',
+                    backgroundColor:
+                      index === currentSlide
+                        ? theme.palette.primary.main // active slide
+                        : 'rgba(255,255,255,0.4)' // inactive slide (light gray)
+                  }}
+                  aria-label={`Go to slide ${index + 1}`}
+                ></button>
+              ))}
+            </div>
+          </Container>
         </>
       )}
     </div>

@@ -43,20 +43,39 @@ const AboutBanner = () => {
 
       {/* Content */}
       <Box
-        sx={{
-          position: 'relative',
-          zIndex: 2,
-          textAlign: 'center'
-        }}
-      >
-        {/* Optional: Add text content here if needed */}
-        {/* <Typography variant="h3" component="h2" sx={{ fontWeight: 'bold', mb: 2 }}>
-                    About Us
-                </Typography>
-                <Typography variant="h6">
-                    Superior kartwear and equipment designed to shave seconds off your lap times
-                </Typography> */}
-      </Box>
+              sx={{
+                position: 'relative',
+                zIndex: 2,
+                textAlign: 'center',
+                px: 2
+              }}
+            >
+              <Typography
+                component="h1"
+                variant="h1"
+                sx={{
+                  fontSize: { xs: '1.5rem', md: '2rem' },
+                  fontWeight: 'bold',
+                  mb: 2,
+                  lineHeight: 1.2
+                }}
+              >
+               About LapSnaps – The Motorsport Photography Platform
+              </Typography>
+              <Typography
+                component="h2"
+                variant="h2"
+                sx={{
+                  fontSize: { xs: '0.9rem', md: '1rem' },
+                  mb: 2,
+                  lineHeight: 1.4,
+                  fontWeight: 400,
+                  opacity: 0.9
+                }}
+              >
+                Buy, browse, and download track-day photos from circuits worldwide
+              </Typography>
+            </Box>
     </Box>
   );
 };

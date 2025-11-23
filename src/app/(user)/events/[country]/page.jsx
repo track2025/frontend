@@ -44,17 +44,19 @@ const buildLocationObject = (event) => {
 const buildOrganizerObject = () => ({
   '@type': 'Organization',
   name: 'LapSnaps',
-  url: 'https://lapsnaps.com'
+  url: 'https://lapsnaps.com',
+  description: "Motorsport media platform where photographers upload and sell track-day photos and videos."
+
 });
 
 // Helper function to build offer object
-const buildOfferObject = (event, eventUrl) => ({
-  '@type': 'Offer',
-  url: eventUrl,
-  availability: 'https://schema.org/InStock',
-  priceCurrency: 'GBP',
-  category: 'Motorsport Event'
-});
+// const buildOfferObject = (event, eventUrl) => ({
+//   '@type': 'Offer',
+//   url: eventUrl,
+//   availability: 'https://schema.org/InStock',
+//   priceCurrency: 'GBP',
+//   category: 'Motorsport Event'
+// });
 
 // Helper function to build event URL
 const buildEventUrl = (event) => {
@@ -127,8 +129,9 @@ export async function generateMetadata({ params }) {
               eventAttendanceMode: 'https://schema.org/OfflineEventAttendanceMode',
               image: event.image?.url || '',
               location: buildLocationObject(event),
-              offers: buildOfferObject(event, eventUrl),
-              organizer: buildOrganizerObject(),
+              // offers: buildOfferObject(event, eventUrl),
+              // organizer: buildOrganizerObject(),
+              provider: buildOrganizerObject(),
               // Add performer (the track/circuit)
               performer: {
                 '@type': 'SportsTeam',
@@ -241,7 +244,7 @@ export default async function CountryEventsPage({ params }) {
         description: event.description || `Motorsport event at ${event.trackName} in ${event.country}`,
         image: event.image?.url || 'https://lapsnaps.com/default-event-image.jpg',
         url: eventUrl,
-        offers: buildOfferObject(event, eventUrl),
+        // offers: buildOfferObject(event, eventUrl),
         organizer: buildOrganizerObject(),
         // Add performer (the track/circuit)
         performer: {

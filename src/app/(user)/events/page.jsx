@@ -89,17 +89,18 @@ const buildLocationObject = (event) => {
 const buildOrganizerObject = () => ({
   '@type': 'Organization',
   name: 'LapSnaps',
-  url: 'https://lapsnaps.com'
+  url: 'https://lapsnaps.com',
+  description: "Motorsport media platform where photographers upload and sell track-day photos and videos."
 });
 
 // Helper function to build offer object
-const buildOfferObject = (event) => ({
-  '@type': 'Offer',
-  url: `https://lapsnaps.com/events/${event.countrySlug}/${event.slug}`,
-  availability: 'https://schema.org/InStock',
-  priceCurrency: 'GBP', // Default currency
-  category: 'Motorsport Event'
-});
+// const buildOfferObject = (event) => ({
+//   '@type': 'Offer',
+//   url: `https://lapsnaps.com/events/${event.countrySlug}/${event.slug}`,
+//   availability: 'https://schema.org/InStock',
+//   priceCurrency: 'GBP', // Default currency
+//   category: 'Motorsport Event'
+// });
 
 // Helper function to build date-time strings
 const buildDateTime = (event) => {
@@ -201,8 +202,9 @@ export default async function EventsPage() {
       description: event.description || `Motorsport event at ${event.trackName} in ${event.country}`,
       image: event.image?.url || 'https://lapsnaps.com/default-event-image.jpg',
       url: eventUrl,
-      offers: buildOfferObject(event),
-      organizer: buildOrganizerObject()
+      // offers: buildOfferObject(event),
+      // organizer: buildOrganizerObject()
+      provider: buildOrganizerObject(),
     };
 
     // Add optional fields if available
@@ -366,6 +368,22 @@ export default async function EventsPage() {
           >
             Discover {eventsData.filter((event) => new Date(event.date) >= today).length} upcoming events across{' '}
             {sortedCountries.length} countries
+          </Typography>
+
+          <Typography
+            variant="body1"
+            sx={{
+              fontSize: { xs: '0.9rem', sm: '1rem', md: '1.1rem' },
+              fontWeight: 400,
+              textAlign: 'center',
+              mb: 6,
+              maxWidth: '800px',
+              mx: 'auto',
+              color: 'text.secondary'
+            }}
+          >
+            Browse upcoming car and bike track-day events, racing weekends, and motorsport sessions around the world. Find
+            dates, locations, and circuits where photographers capture and upload images on LapSnaps.
           </Typography>
 
           <Grid container spacing={3}>

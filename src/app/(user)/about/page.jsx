@@ -28,7 +28,7 @@ export const metadata = {
     type: 'website',
     images: [
       {
-        url: 'https://lapsnaps.com/og-about-image.jpg',
+        url: 'https://lapsnaps.com/images/about-us-banner.jpg',
         width: 1200,
         height: 630,
         alt: 'Lap Snaps - About Us'
@@ -39,7 +39,7 @@ export const metadata = {
     card: 'summary_large_image',
     title: 'About Us | Lap Snaps - Professional Motorsport Photography',
     description: 'Learn about Lap Snaps and our mission to deliver professional motorsport photography.',
-    images: ['https://lapsnaps.com/twitter-about-image.jpg']
+    images: ['https://lapsnaps.com/images/about-us-banner.jpg']
   },
   alternates: {
     canonical: 'https://lapsnaps.com/about'

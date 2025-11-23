@@ -27,29 +27,29 @@ export async function generateMetadata({ params }) {
       });
     };
 
-    const structuredData = {
-      '@context': 'https://schema.org',
-      '@type': 'Event',
-      name: eventData.title,
-      description: eventData.description,
-      startDate: eventData.date,
-      endDate: eventData.date,
-      eventStatus: 'https://schema.org/EventScheduled',
-      eventAttendanceMode: 'https://schema.org/OfflineEventAttendanceMode',
-      location: {
-        '@type': 'Place',
-        name: eventData.trackName,
-        address: {
-          '@type': 'PostalAddress',
-          addressCountry: eventData.country
-        }
-      },
-      image: eventData.image?.url,
-      organizer: {
-        '@type': 'Organization',
-        name: 'Lap Snaps'
-      }
-    };
+    // const structuredData = {
+    //   '@context': 'https://schema.org',
+    //   '@type': 'Event',
+    //   name: eventData.title,
+    //   description: eventData.description,
+    //   startDate: eventData.date,
+    //   endDate: eventData.date,
+    //   eventStatus: 'https://schema.org/EventScheduled',
+    //   eventAttendanceMode: 'https://schema.org/OfflineEventAttendanceMode',
+    //   location: {
+    //     '@type': 'Place',
+    //     name: eventData.trackName,
+    //     address: {
+    //       '@type': 'PostalAddress',
+    //       addressCountry: eventData.country
+    //     }
+    //   },
+    //   image: eventData.image?.url,
+    //   organizer: {
+    //     '@type': 'Organization',
+    //     name: 'Lap Snaps'
+    //   }
+    // };
 
     return {
       title:
@@ -59,7 +59,7 @@ export async function generateMetadata({ params }) {
         `${eventData.title} at ${eventData.trackName} on ${formatDate(eventData.date)}. ${eventData.description}`,
       keywords:
         eventData.keywords?.join(', ') ||
-        `${eventData.title}, ${eventData.trackName}, ${eventData.type}, ${eventData.category}, motorsport event, track day, racing event`,
+        `${eventData.title}, ${eventData.trackName}, ${eventData.category}, motorsport event, track day, racing event`,
       openGraph: {
         title: `${eventData.title} - ${formatDate(eventData.date)} | ${eventData.trackName}`,
         description: eventData.description,
@@ -76,9 +76,9 @@ export async function generateMetadata({ params }) {
       alternates: {
         canonical: `https://lapsnaps.com/tracks/${slug}/events/${eventData.slug}`
       },
-      other: {
-        structuredData: JSON.stringify(structuredData)
-      }
+      // other: {
+      //   structuredData: JSON.stringify(structuredData)
+      // }
     };
   } catch (error) {
     return {
@@ -118,7 +118,7 @@ export default async function EventDetailPage({ params }) {
         }
       },
       image: eventData.image?.url,
-      organizer: {
+      provider: {
         '@type': 'Organization',
         name: 'Lap Snaps'
       }

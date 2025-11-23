@@ -399,6 +399,46 @@ export default function SortBar3({
       <Stack spacing={2} pt={2}>
         {/* Main Filters Row - Date filter, Location (if enabled), and Apply button */}
         <Stack direction={{ xs: 'column', sm: 'row' }} spacing={2} alignItems="stretch" justifyContent="space-between">
+          {/* Location Filter - Conditionally rendered */}
+          {showLocationSearch && (
+            <FormControl
+              fullWidth
+              sx={{
+                maxWidth: { xs: '100%', sm: 'none' },
+                minWidth: { xs: 'auto', sm: 'auto' },
+                flex: 2 // Give location filter same flex as date when both are shown
+              }}
+            >
+              <TextField
+                size="small"
+                fullWidth
+                placeholder="Filter by Location"
+                value={location}
+                onChange={(e) => setLocation(e.target.value)}
+                onKeyDown={onKeyDown}
+                InputProps={{
+                  startAdornment: (
+                    <InputAdornment position="start">
+                      <LocationOnIcon color="primary" />
+                    </InputAdornment>
+                  ),
+                  endAdornment: location && (
+                    <InputAdornment position="end">
+                      <IconButton
+                        size="small"
+                        onClick={() => clearFilter('location')}
+                        edge="end"
+                        sx={{ padding: '4px' }}
+                      >
+                        <ClearIcon fontSize="small" />
+                      </IconButton>
+                    </InputAdornment>
+                  )
+                }}
+              />
+            </FormControl>
+          )}
+
           {/* Date Filter - Takes majority of space */}
           <FormControl
             fullWidth
@@ -457,46 +497,6 @@ export default function SortBar3({
               />
             )}
           </FormControl>
-
-          {/* Location Filter - Conditionally rendered */}
-          {showLocationSearch && (
-            <FormControl
-              fullWidth
-              sx={{
-                maxWidth: { xs: '100%', sm: 'none' },
-                minWidth: { xs: 'auto', sm: 'auto' },
-                flex: 2 // Give location filter same flex as date when both are shown
-              }}
-            >
-              <TextField
-                size="small"
-                fullWidth
-                placeholder="Filter by Location"
-                value={location}
-                onChange={(e) => setLocation(e.target.value)}
-                onKeyDown={onKeyDown}
-                InputProps={{
-                  startAdornment: (
-                    <InputAdornment position="start">
-                      <LocationOnIcon color="primary" />
-                    </InputAdornment>
-                  ),
-                  endAdornment: location && (
-                    <InputAdornment position="end">
-                      <IconButton
-                        size="small"
-                        onClick={() => clearFilter('location')}
-                        edge="end"
-                        sx={{ padding: '4px' }}
-                      >
-                        <ClearIcon fontSize="small" />
-                      </IconButton>
-                    </InputAdornment>
-                  )
-                }}
-              />
-            </FormControl>
-          )}
 
           {/* Apply Filters Button - Takes less space */}
           <Button

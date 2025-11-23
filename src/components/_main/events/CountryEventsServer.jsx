@@ -82,6 +82,22 @@ export default function CountryEventsServer({ countryEvents, countryInfo, countr
             Upcoming car & bike track days and racing events
           </Typography>
 
+          <Typography
+            variant="body1"
+            sx={{
+              fontSize: { xs: '0.9rem', sm: '1rem', md: '1.1rem' },
+              fontWeight: 400,
+              mb: 2,
+              maxWidth: '800px',
+              mx: 'auto',
+              color: 'text.secondary'
+            }}
+          >
+            Browse upcoming car and bike track days, racing events and open track sessions across{' '}
+            {countryInfo?.country == 'this country' ? countryInfo.countrySlug.toUpperCase() : countryInfo.country}. Find
+            dates, circuits, and locations where photographers capture and upload images on LapSnaps.
+          </Typography>
+
           <Chip
             label={`${countryEvents.length} Upcoming Events`}
             sx={{

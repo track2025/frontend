@@ -248,11 +248,9 @@ export default async function IndexPage() {
         <FeaturedProductsServer products={homeData.featuredProducts} />
       </Container>
 
-      <div className="flex flex-col lg:flex-row gap-6 ">
-        <div className="w-full lg:w-2/3 xl:w-3/4">
+      
           <HeroCarousel />
-        </div>
-      </div>
+       
 
       <Container maxWidth="xl">
         <TopCollection />
