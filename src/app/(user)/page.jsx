@@ -18,7 +18,7 @@ function generateProductName(product) {
   const parts = [];
   if (product?.vehicle_make) parts.push(product.vehicle_make);
   if (product?.vehicle_model) parts.push(product.vehicle_model);
-  if (product?.location) parts.push(`at ${product.location}`);
+  if (product?.location) parts.push(` ${product.location}`);
 
   if (parts.length > 0) return parts.join(' ');
   if (product?.location) return `Motorsport Photo from ${product.location}`;
@@ -129,7 +129,7 @@ export default async function IndexPage() {
             '@type': 'Product',
             name: generateProductName(product),
             description: generateProductDescription(product),
-            image: product.images?.[0]?.url || product.orignalImage?.[0]?.url || '',
+            image: product.image?.url || '',
             url: `https://lapsnaps.com/products/${product.slug || product._id}`,
             ...(product.priceSale && {
               offers: {
@@ -248,9 +248,7 @@ export default async function IndexPage() {
         <FeaturedProductsServer products={homeData.featuredProducts} />
       </Container>
 
-      
-          <HeroCarousel />
-       
+      <HeroCarousel />
 
       <Container maxWidth="xl">
         <TopCollection />

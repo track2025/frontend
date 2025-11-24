@@ -157,7 +157,7 @@ export default async function TrackDetailsPage({ params }) {
       '@id': `https://lapsnaps.com/tracks/${track.slug}`,
       name: track.name,
       description: track.description || `Professional motorsport photography from ${track.name}`,
-      image: track.bannerImage?.url || track.thumbnailImage?.url,
+        image: track.logo?.url || track.bannerImage?.url || track.thumbnailImage?.url,
       url: `https://lapsnaps.com/tracks/${track.slug}`,
       // Only include address if we have at least one address component
       ...(addressObject && {
@@ -187,6 +187,7 @@ export default async function TrackDetailsPage({ params }) {
     // Product Schema - ✅ All required fields included
     const productStructuredData = products.map((product, index) => {
       const fullProductUrl = `https://lapsnaps.com${generateProductUrl(product)}`;
+      console.log("prrodut::", product)
 
       return {
         '@context': 'https://schema.org',
@@ -194,7 +195,7 @@ export default async function TrackDetailsPage({ params }) {
         name: product.name || `Photo captured at ${product.location || track.name}`,
         description:
           product.description || `Professional motorsport photography captured at ${product.location || track.name}`,
-        image: product.images?.[0]?.url || '',
+        image: product.image.url || '',
         url: fullProductUrl,
         sku: product._id,
         mpn: product._id,
