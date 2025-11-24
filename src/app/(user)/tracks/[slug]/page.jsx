@@ -187,7 +187,7 @@ export default async function TrackDetailsPage({ params }) {
     // Product Schema - ✅ All required fields included
     const productStructuredData = products.map((product, index) => {
       const fullProductUrl = `https://lapsnaps.com${generateProductUrl(product)}`;
-      console.log("prrodut::", product)
+      // console.log("prrodut::", product)
 
       return {
         '@context': 'https://schema.org',

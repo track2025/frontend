@@ -126,15 +126,8 @@ export default function EventForm({ data: currentEvent, isLoading: eventLoading 
     validationSchema: EventSchema,
     onSubmit: async (values) => {
       try {
-        const lowerCasedValues = Object.fromEntries(
-          Object.entries(values).map(([key, value]) => [
-            key,
-            typeof value === 'string' ? value.toLowerCase() : value
-          ])
-        );
-
         mutate({
-          ...lowerCasedValues,
+          ...values,
           ...(currentEvent && {
             currentSlug: currentEvent.slug
           })

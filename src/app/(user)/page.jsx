@@ -44,6 +44,35 @@ function generateProductDescription(product) {
   return 'High-quality motorsport photography from professional trackside photographers';
 }
 
+// Helper functions for URL generation
+const slugify = (text) => {
+  if (!text) return 'race-track';
+  return text
+    .toString()
+    .trim()
+    .toLowerCase()
+    .replace(/\s+/g, '-')
+    .replace(/[^\w\-]+/g, '')
+    .replace(/\-\-+/g, '-')
+    .replace(/^-+/, '')
+    .replace(/-+$/, '');
+};
+
+const formatDate = (dateStr) => {
+  if (!dateStr) return '2025';
+  const date = new Date(dateStr);
+  const yyyy = date.getFullYear();
+  const mm = String(date.getMonth() + 1).padStart(2, '0');
+  const dd = String(date.getDate()).padStart(2, '0');
+  return `${yyyy}-${mm}-${dd}`;
+};
+
+const generateProductUrl = (product) => {
+  const locationSlug = slugify(product.location);
+  const dateSlug = formatDate(product.dateCaptured);
+  return `/event/${locationSlug}/${dateSlug}/pictures/${product.slug}`;
+};
+
 async function getHomeData() {
   try {
     const [featuredProducts, brands] = await Promise.all([
@@ -130,7 +159,7 @@ export default async function IndexPage() {
             name: generateProductName(product),
             description: generateProductDescription(product),
             image: product.image?.url || '',
-            url: `https://lapsnaps.com/products/${product.slug || product._id}`,
+            url:  `https://lapsnaps.com${generateProductUrl(product)}`,
             ...(product.priceSale && {
               offers: {
                 '@type': 'Offer',
