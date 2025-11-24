@@ -205,7 +205,7 @@ export default async function Listing({ params }) {
       name: product.name || `Photo by ${shopData?.title || shopData?.name}`,
       description:
         product.description || `Professional motorsport photography captured by ${shopData?.title || shopData?.name}`,
-      image: product.images?.[0]?.url || '',
+      image: product.image?.url || '',
       url: fullProductUrl,
       sku: product._id,
       mpn: product._id,
