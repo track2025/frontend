@@ -92,6 +92,7 @@ export default async function Listing() {
       '@type': 'ItemList',
       numberOfItems: products.length,
       itemListElement: products.map((product, index) => {
+    
         // Format date for description
         const formattedDate = product.dateCaptured
           ? new Date(product.dateCaptured).toLocaleDateString('en-US', {
@@ -112,7 +113,7 @@ export default async function Listing() {
             '@id': productUrl,
             name: product.name || `${product.location} Motorsport Photos`,
             description: `Professional motorsport photography from ${product.location} captured on ${formattedDate}. High-quality race track photos available for purchase.`,
-            image: product.images?.[0]?.url,
+            image: product.image?.url || "",
             offers: {
               '@type': 'Offer',
               price: product.priceSale,

@@ -21,7 +21,8 @@ import {
   styled,
   Box,
   Collapse,
-  Chip
+  Chip,
+  Autocomplete
 } from '@mui/material';
 import ClearIcon from '@mui/icons-material/Clear';
 import DirectionsCarIcon from '@mui/icons-material/DirectionsCar';
@@ -36,6 +37,10 @@ import CancelIcon from '@mui/icons-material/Cancel';
 // next
 import { usePathname, useSearchParams } from 'next/navigation';
 import { useRouter } from 'next-nprogress-bar';
+import { debounce } from 'lodash';
+
+// api
+import { getTracks } from 'src/services/tracks';
 
 // dynamic component
 const Filter = dynamic(() => import('src/components/_main/products/filters'), {
@@ -89,6 +94,40 @@ export default function SortBar3({
   const [focus, setFocus] = useState(false);
   const [filtersLoading, setFiltersLoading] = useState(false);
   const [ITEMS_PER_PAGE_OPTIONS, setITEMS_PER_PAGE_OPTIONS] = useState(['12', '24', '32', '40']);
+  
+  // Autocomplete state
+  const [options, setOptions] = useState([]);
+  const [loading, setLoading] = useState(false);
+
+  // Fetch tracks for autocomplete
+  const fetchTracks = async (query) => {
+    if (!query) {
+      setOptions([]);
+      return;
+    }
+
+    setLoading(true);
+    try {
+      const response = await getTracks({ search: query, limit: 10 });
+      if (response && response.data) {
+        setOptions(response.data);
+      } else {
+        setOptions([]);
+      }
+    } catch (error) {
+      console.error('Error fetching tracks:', error);
+      setOptions([]);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  // Debounce the fetch function
+  const debouncedFetchTracks = useMemo(
+    () => debounce((query) => fetchTracks(query), 300),
+    []
+  );
+
   // Track applied filters (from URL)
   const [appliedFilters, setAppliedFilters] = useState({
     search: searchQuery,
@@ -409,32 +448,58 @@ export default function SortBar3({
                 flex: 2 // Give location filter same flex as date when both are shown
               }}
             >
-              <TextField
-                size="small"
-                fullWidth
-                placeholder="Filter by Location"
+              <Autocomplete
+                freeSolo
+                id="location-search"
+                disableClearable
+                options={options}
+                getOptionLabel={(option) => (typeof option === 'string' ? option : option.name)}
+                loading={loading}
                 value={location}
-                onChange={(e) => setLocation(e.target.value)}
-                onKeyDown={onKeyDown}
-                InputProps={{
-                  startAdornment: (
-                    <InputAdornment position="start">
-                      <LocationOnIcon color="primary" />
-                    </InputAdornment>
-                  ),
-                  endAdornment: location && (
-                    <InputAdornment position="end">
-                      <IconButton
-                        size="small"
-                        onClick={() => clearFilter('location')}
-                        edge="end"
-                        sx={{ padding: '4px' }}
-                      >
-                        <ClearIcon fontSize="small" />
-                      </IconButton>
-                    </InputAdornment>
-                  )
+                onInputChange={(event, newInputValue) => {
+                  setLocation(newInputValue);
+                  debouncedFetchTracks(newInputValue);
                 }}
+                onChange={(event, newValue) => {
+                  if (newValue) {
+                    setLocation(typeof newValue === 'string' ? newValue : newValue.name);
+                  }
+                }}
+                renderInput={(params) => (
+                  <TextField
+                    {...params}
+                    size="small"
+                    fullWidth
+                    placeholder="Filter by Location"
+                    onKeyDown={onKeyDown}
+                    InputProps={{
+                      ...params.InputProps,
+                      startAdornment: (
+                        <InputAdornment position="start" sx={{ ml: 1 }}>
+                          <LocationOnIcon color="primary" />
+                        </InputAdornment>
+                      ),
+                      endAdornment: (
+                        <InputAdornment position="end">
+                          {loading ? <CircularProgress color="inherit" size={20} /> : null}
+                          {location && (
+                            <IconButton
+                              size="small"
+                              onClick={() => {
+                                setLocation('');
+                                clearFilter('location');
+                              }}
+                              edge="end"
+                              sx={{ padding: '4px' }}
+                            >
+                              <ClearIcon fontSize="small" />
+                            </IconButton>
+                          )}
+                        </InputAdornment>
+                      )
+                    }}
+                  />
+                )}
               />
             </FormControl>
           )}

@@ -143,7 +143,7 @@ export default async function TracksPage({ searchParams }) {
             name: track.name || 'Unknown Track',
             description:
               track.description || `Professional motorsport photography from ${track.name || 'this race track'}`,
-            image: track.bannerImage?.url || track.thumbnailImage?.url || undefined,
+            image: track.logo?.url || track.bannerImage?.url || track.thumbnailImage?.url || undefined,
             url: `https://lapsnaps.com/tracks/${track.slug || track._id}`,
             // Additional optional properties
             ...(track.phone && { telephone: track.phone }),
