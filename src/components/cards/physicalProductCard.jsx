@@ -80,8 +80,8 @@ export default function PhysicalProductCard({ ...props }) {
 
   return (
     <Box
-      component={!loading && product?.stockQuantity > 0 ? Link : 'div'}
-      href={!loading && product?.stockQuantity > 0 ? linkTo : undefined}
+      component={Link}
+      href={linkTo}
       onMouseEnter={() => !isLoading && setOpenActions(true)}
       onMouseLeave={() => setOpenActions(false)}
       sx={{
@@ -124,7 +124,7 @@ export default function PhysicalProductCard({ ...props }) {
         <Box
           sx={{
             position: 'relative',
-            cursor: product?.stockQuantity > 0 ? 'pointer' : 'default',
+            cursor: 'pointer',
             aspectRatio: '1 / 1',
             display: 'flex',
             alignItems: 'center',

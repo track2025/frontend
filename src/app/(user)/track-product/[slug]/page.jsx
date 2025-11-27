@@ -108,6 +108,8 @@ export default async function ProductDetail({ params }) {
     }
   };
 
+  console.log('Product data', data)
+
   return (
     <>
       {/* ✅ JSON-LD Schema */}

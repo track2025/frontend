@@ -111,7 +111,7 @@ export default function PhysicalProductDetailsSumary({ ...props }) {
         );
 
         if (!Boolean(alreadyProduct.length)) {
-          onAddCart({  
+          onAddCart({
             pid: product._id,
             name: product.name,
             sku: (isSimpleProduct ? product : variantObj).sku,
@@ -150,7 +150,7 @@ export default function PhysicalProductDetailsSumary({ ...props }) {
   const handleAddCart = () => {
     if (isNotUser) {
       toast.error('Only user can add to cart');
-      return; 
+      return;
     }
     const alreadyProduct = checkout.cart.filter(
       (item) => item.sku === (isSimpleProduct ? product : variantObj).sku && item.deliveryType === 'digital'
@@ -376,7 +376,7 @@ export default function PhysicalProductDetailsSumary({ ...props }) {
                   borderRadius: 0
                 }}
               >
-                ADD TO CART
+                {isMaxQuantity || stockQuantity < 1 ? 'OUT OF STOCK' : 'ADD TO CART'}
               </Button>
             </Stack>
 

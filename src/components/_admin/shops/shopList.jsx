@@ -16,6 +16,8 @@ import Shop from 'src/components/table/rows/shop';
 const TABLE_HEAD = [
   { id: 'name', label: 'Photographer', alignRight: false, sort: true },
   { id: 'owner', label: 'Owner', alignRight: false, sort: true },
+  { id: 'email', label: 'Email', alignRight: false, sort: true },
+  { id: 'country', label: 'Country', alignRight: false, sort: true },
   { id: 'products', label: 'Media Files', alignRight: false, sort: true },
   { id: 'status', label: 'Status', alignRight: false, sort: false },
   { id: '', label: 'Actions', alignRight: true }

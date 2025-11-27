@@ -30,7 +30,7 @@ const SearchStyle = styled(OutlinedInput)(({ theme }) => ({
   }
 }));
 
-export default function Search() {
+export default function Search({placeholder = 'Search'}) {
   const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
@@ -75,7 +75,7 @@ export default function Search() {
       <SearchStyle
         value={search}
         onChange={onChange}
-        placeholder="Search"
+        placeholder={placeholder}
         startAdornment={
           <InputAdornment position="start">
             <IoIosSearch size={20} style={{ color: 'text.disabled' }} />

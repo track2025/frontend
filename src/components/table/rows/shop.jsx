@@ -96,6 +96,8 @@ export default function ProductRow({ isLoading, row, handleClickOpen, sn }) {
           {isLoading ? <Skeleton variant="text" width={100} /> : `${row?.vendor?.firstName} ${row?.vendor?.lastName}`}
         </Box>
       </TableCell>
+      <TableCell>{isLoading ? <Skeleton variant="text" /> : <>{row?.vendor?.email || 'nill'}</>}</TableCell>
+      <TableCell>{isLoading ? <Skeleton variant="text" /> : <>{row?.address?.country?.name || 'nill'}</>}</TableCell>
       <TableCell>{isLoading ? <Skeleton variant="text" /> : <>{row?.products?.length || 0}</>}</TableCell>
 
       <TableCell>

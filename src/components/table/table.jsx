@@ -191,7 +191,7 @@ export default function CustomTable({
             )}
 
             {/* ✅ Search Field */}
-            {isSearch ? <Search /> : null}
+            {isSearch ? <Search placeholder={"Search by Owner or Country."} /> : null}
           </Stack>
 
           {/* ✅ Filters aligned right */}

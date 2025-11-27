@@ -16,6 +16,8 @@ const TABLE_HEAD = [
   { id: 'name', label: 'User', alignRight: false },
   { id: 'photographer', label: 'Photographer', alignRight: false },
   { id: 'total', label: 'Total', alignRight: false, sort: true },
+  { id: 'Buyer_name', label: 'Buyer Name', alignRight: false, sort: true },
+  { id: 'Buyer_email', label: 'Buyer Email', alignRight: false, sort: true },
   { id: 'items', label: 'items', alignRight: false },
   { id: 'createdAt', label: 'Date', alignRight: false, sort: true },
   { id: '', label: 'actions', alignRight: true }
