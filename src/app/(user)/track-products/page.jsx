@@ -33,7 +33,7 @@ export default async function Listing() {
   const filtersData = await filtersRes.json();
   const filters = filtersData.data;
 
-  const cateRes = await fetch(`${baseUrl}/api/admin/all-physical-categories`, { next: { revalidate: 60 } });
+  const cateRes = await fetch(`${baseUrl}/api/physical-categories`, { next: { revalidate: 60 } });
   const categoriesData = await cateRes.json();
   const categories = categoriesData.data || categoriesData;
 
