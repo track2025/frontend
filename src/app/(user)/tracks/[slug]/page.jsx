@@ -48,7 +48,7 @@ export async function generateMetadata({ params }) {
                 }
               ]
             : [],
-        type: 'website',
+        type: 'profile',
         url: `https://lapsnaps.com/tracks/${track.slug}`,
         siteName: 'LapSnaps'
       },
@@ -63,6 +63,10 @@ export async function generateMetadata({ params }) {
       },
       alternates: {
         canonical: `https://lapsnaps.com/tracks/${track.slug}`
+      },
+      other: {
+        ...(track.latitude && { 'place:location:latitude': track.latitude }),
+        ...(track.longitude && { 'place:location:longitude': track.longitude })
       }
     };
   } catch (error) {

@@ -113,6 +113,11 @@ export default async function Listing() {
             name: product.name || `${product.location} Motorsport Photos`,
             description: `Professional motorsport photography from ${product.location} captured on ${formattedDate}. High-quality race track photos available for purchase.`,
             image: product.image?.url || '',
+            sku: product._id,
+            brand: {
+              '@type': 'Brand',
+              name: product.photographer?.name || 'LapSnaps'
+            },
             offers: {
               '@type': 'Offer',
               price: product.priceSale,

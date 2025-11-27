@@ -160,6 +160,11 @@ export default async function IndexPage() {
             description: generateProductDescription(product),
             image: product.image?.url || '',
             url:  `https://lapsnaps.com${generateProductUrl(product)}`,
+            sku: product._id,
+            brand: {
+              '@type': 'Brand',
+              name: product.photographer?.name || 'LapSnaps'
+            },
             ...(product.priceSale && {
               offers: {
                 '@type': 'Offer',

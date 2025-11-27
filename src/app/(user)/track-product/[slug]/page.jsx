@@ -53,7 +53,7 @@ export async function generateMetadata({ params }) {
       description: product.metaDescription || product.shortDescription,
       images: images.map((v) => ({ url: v.url })),
       url: `https://lapsnaps.com/track-product/${slug}`,
-      type: 'website'
+      type: 'website',
     },
     // other: {
     //   'og:type': 'product'

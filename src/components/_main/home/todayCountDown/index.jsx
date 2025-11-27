@@ -57,7 +57,7 @@ export default function Index() {
         px: 2
       }}
     >
-      <Image fill objectFit="cover" draggable="false" src={bgImage} alt="bg-image" />
+      <Image fill objectFit="cover" draggable="false" src={bgImage} alt="Countdown background" />
       <Stack spacing={2} position="relative">
         <Typography variant="body1" color="common.white" fontWeight={700} textAlign="center">
           Upto

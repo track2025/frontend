@@ -80,7 +80,7 @@ export default async function BlogPostPage({ params }) {
     // BlogPosting Schema with proper ImageObject
     const blogPostingSchema = {
       '@context': 'https://schema.org',
-      '@type': 'BlogPosting',
+      '@type': 'Article',
       headline: post.title,
       description: post.metaDescription || post.excerpt,
       image: {

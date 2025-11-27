@@ -7,6 +7,23 @@ import { Container, Typography } from '@mui/material';
 
 // components
 import HeaderBreadcrumbs from 'src/components/headerBreadcrumbs';
+export const metadata = {
+  title: 'Terms & Conditions – Lap Snaps',
+  description: 'Review the terms and conditions for using the LapSnaps platform and services.',
+  robots: {
+    index: false
+  },
+  alternates: {
+    canonical: 'https://lapsnaps.com/terms-and-conditions'
+  },
+  openGraph: {
+    title: 'Terms & Conditions – Lap Snaps',
+    description: 'Review the terms and conditions for using the LapSnaps platform and services.',
+    url: 'https://lapsnaps.com/terms-and-conditions',
+    type: 'website'
+  }
+};
+
 const TermsAndConditions = () => {
   return (
     <Container maxWidth="xl" sx={{ mt: 4, mb: 4 }}>

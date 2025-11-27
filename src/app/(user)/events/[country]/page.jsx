@@ -132,6 +132,12 @@ export async function generateMetadata({ params }) {
               // offers: buildOfferObject(event, eventUrl),
               // organizer: buildOrganizerObject(),
               provider: buildOrganizerObject(),
+              sameAs: [
+                event.website || 'https://lapsnaps.com',
+                event.facebookUrl || 'https://www.facebook.com/lapsnaps',
+                'https://www.instagram.com/lapsnaps',
+                'https://twitter.com/lapsnaps'
+              ].filter(Boolean),
               // Add performer (the track/circuit)
               performer: {
                 '@type': 'SportsTeam',
@@ -246,6 +252,12 @@ export default async function CountryEventsPage({ params }) {
         url: eventUrl,
         // offers: buildOfferObject(event, eventUrl),
         organizer: buildOrganizerObject(),
+        sameAs: [
+          event.website || 'https://lapsnaps.com',
+          event.facebookUrl || 'https://www.facebook.com/lapsnaps',
+          'https://www.instagram.com/lapsnaps',
+          'https://twitter.com/lapsnaps'
+        ].filter(Boolean),
         // Add performer (the track/circuit)
         performer: {
           '@type': 'SportsTeam',

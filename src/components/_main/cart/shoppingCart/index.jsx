@@ -3,6 +3,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import dynamic from 'next/dynamic';
 import { useRouter } from 'next-nprogress-bar';
+import Link from 'next/link';
 // mui
 import { Card, Button, CardHeader, Typography, Box, Skeleton, Stack, Divider } from '@mui/material';
 import { sum } from 'lodash';
@@ -114,7 +115,7 @@ export default function ShoppingCart({ loading }) {
             )}
             <Divider />
             <Stack mt={2} direction="row " justifyContent="space-between" alignItems="center">
-              <Button color="inherit" onClick={() => router.push('/')} startIcon={<IoArrowBackOutline />}>
+              <Button color="inherit" component={Link} href="/" startIcon={<IoArrowBackOutline />}>
                 Continue Shopping
               </Button>
               <Button

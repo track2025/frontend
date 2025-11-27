@@ -64,7 +64,7 @@ export async function generateMetadata({ params }) {
         title: `${eventData.title} - ${formatDate(eventData.date)} | ${eventData.trackName}`,
         description: eventData.description,
         images: [eventData.image?.url],
-        type: 'website', // Changed from "event" to "website"
+        type: 'website',
         url: `https://lapsnaps.com/tracks/${slug}/events/${eventData.slug}`
       },
       twitter: {
@@ -121,7 +121,13 @@ export default async function EventDetailPage({ params }) {
       provider: {
         '@type': 'Organization',
         name: 'Lap Snaps'
-      }
+      },
+      sameAs: [
+        eventData.website || 'https://lapsnaps.com',
+        eventData.facebookUrl || 'https://www.facebook.com/lapsnaps',
+        'https://www.instagram.com/lapsnaps',
+        'https://twitter.com/lapsnaps'
+      ].filter(Boolean)
     };
 
     return (

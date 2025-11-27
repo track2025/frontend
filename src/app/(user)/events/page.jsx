@@ -205,6 +205,12 @@ export default async function EventsPage() {
       // offers: buildOfferObject(event),
       // organizer: buildOrganizerObject()
       provider: buildOrganizerObject(),
+      sameAs: [
+        event.website || 'https://lapsnaps.com',
+        event.facebookUrl || 'https://www.facebook.com/lapsnaps',
+        'https://www.instagram.com/lapsnaps',
+        'https://twitter.com/lapsnaps'
+      ].filter(Boolean)
     };
 
     // Add optional fields if available
