@@ -42,7 +42,7 @@ export default function CheckoutCard({ cart, loading }) {
                       }
                     }}
                   >
-                    <Image priority src={value.image} alt="product" layout="fill" objectFit="cover" />
+                    <Image priority src={value.image} alt={value.name || "Product image"} layout="fill" objectFit="cover" />
                   </Box>
                 )}
                 

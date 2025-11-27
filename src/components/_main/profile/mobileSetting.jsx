@@ -1,6 +1,7 @@
 'use client';
 import React from 'react';
 import { useRouter } from 'next-nprogress-bar';
+import Link from 'next/link';
 // mui
 import {
   Stack,
@@ -68,9 +69,8 @@ export default function MobileSetting() {
         <Divider />
         <ListItem disablePadding>
           <ListItemButton
-            onClick={() => {
-              router.push('/');
-            }}
+            component={Link}
+            href="/"
             sx={{ py: 2 }}
           >
             <ListItemIcon>
@@ -87,9 +87,8 @@ export default function MobileSetting() {
               <>
                 <ListItem disablePadding>
                   <ListItemButton
-                    onClick={() => {
-                      router.push('/admin/dashboard');
-                    }}
+                    component={Link}
+                    href="/admin/dashboard"
                     sx={{ py: 2 }}
                   >
                     <ListItemIcon>
@@ -106,9 +105,8 @@ export default function MobileSetting() {
               <>
                 <ListItem disablePadding>
                   <ListItemButton
-                    onClick={() => {
-                      router.push('/vendor/dashboard');
-                    }}
+                    component={Link}
+                    href="/vendor/dashboard"
                     sx={{ py: 2 }}
                   >
                     <ListItemIcon>
@@ -122,9 +120,8 @@ export default function MobileSetting() {
             ) : null}
             <ListItem disablePadding>
               <ListItemButton
-                onClick={() => {
-                  router.push('/profile/wishlist');
-                }}
+                component={Link}
+                href="/profile/wishlist"
                 sx={{ py: 2 }}
               >
                 <ListItemIcon>
@@ -136,9 +133,8 @@ export default function MobileSetting() {
             <Divider />
             <ListItem disablePadding>
               <ListItemButton
-                onClick={() => {
-                  router.push('/profile/orders');
-                }}
+                component={Link}
+                href="/profile/orders"
                 sx={{ py: 2 }}
               >
                 <ListItemIcon>
@@ -150,11 +146,8 @@ export default function MobileSetting() {
             <Divider />
             <ListItem disablePadding>
               <ListItemButton
-                onClick={() => {
-                  router.push(
-                    user.role === 'admin' || user.role === 'super admin' ? '/admin/settings' : '/profile/general'
-                  );
-                }}
+                component={Link}
+                href={user.role === 'admin' || user.role === 'super admin' ? '/admin/settings' : '/profile/general'}
                 sx={{ py: 2 }}
               >
                 <ListItemIcon>
@@ -166,13 +159,12 @@ export default function MobileSetting() {
             <Divider />
             <ListItem disablePadding>
               <ListItemButton
-                onClick={() => {
-                  router.push(
-                    user.role === 'admin' || user.role === 'super admin'
-                      ? '/admin/settings/change-password'
-                      : '/profile/change-password'
-                  );
-                }}
+                component={Link}
+                href={
+                  user.role === 'admin' || user.role === 'super admin'
+                    ? '/admin/settings/change-password'
+                    : '/profile/change-password'
+                }
                 sx={{ py: 2 }}
               >
                 <ListItemIcon>
@@ -203,9 +195,8 @@ export default function MobileSetting() {
         ) : (
           <>
             <Button
-              onClick={() => {
-                router.push('/auth/login');
-              }}
+              component={Link}
+              href="/auth/login"
               variant="outlined"
               color="inherit"
               startIcon={<MdLogin />}
@@ -214,9 +205,8 @@ export default function MobileSetting() {
               Login
             </Button>
             <Button
-              onClick={() => {
-                router.push('/auth/register');
-              }}
+              component={Link}
+              href="/auth/register"
               variant="outlined"
               color="inherit"
               startIcon={<FaRegUserCircle />}

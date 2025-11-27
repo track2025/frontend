@@ -14,6 +14,20 @@ const HeaderBreadcrumbs = dynamic(() => import('src/components/headerBreadcrumbs
   loading: () => <HeaderBreadcrumbsSkeleton />
 });
 
+export const metadata = {
+  title: 'Contact Lap Snaps – Get in Touch',
+  description: "Have questions? Contact the Lap Snaps team for support, inquiries, or feedback. We're here to help!",
+  alternates: {
+    canonical: 'https://lapsnaps.com/contact'
+  },
+  openGraph: {
+    title: 'Contact Lap Snaps – Get in Touch',
+    description: "Have questions? Contact the Lap Snaps team for support, inquiries, or feedback. We're here to help!",
+    url: 'https://lapsnaps.com/contact',
+    type: 'website'
+  }
+};
+
 export default function Page() {
   return (
     <Container maxWidth="xl">

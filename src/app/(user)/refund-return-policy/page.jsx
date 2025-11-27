@@ -8,6 +8,20 @@ import { Container, Typography } from '@mui/material';
 // components
 import HeaderBreadcrumbs from 'src/components/headerBreadcrumbs';
 
+export const metadata = {
+  title: 'Refund & Return Policy – Lap Snaps',
+  description: 'Understand our policies regarding refunds and returns for digital and physical products.',
+  alternates: {
+    canonical: 'https://lapsnaps.com/refund-return-policy'
+  },
+  openGraph: {
+    title: 'Refund & Return Policy – Lap Snaps',
+    description: 'Understand our policies regarding refunds and returns for digital and physical products.',
+    url: 'https://lapsnaps.com/refund-return-policy',
+    type: 'website'
+  }
+};
+
 const RefundReturnPolicy = () => {
   return (
     <Container maxWidth="xl" sx={{ mt: 4, mb: 4 }}>

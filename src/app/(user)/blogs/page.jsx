@@ -12,7 +12,7 @@ export const metadata = {
     title: 'Motorsport Photography Tips & Tutorials | LapSnaps',
     description: 'Expert tips, tutorials, and insights for motorsport photographers and track day enthusiasts.',
     url: 'https://lapsnaps.com/blogs',
-    type: 'website'
+    type: 'article'
   },
   twitter: {
     card: 'summary_large_image',
@@ -75,7 +75,7 @@ export default async function BlogsPage({ searchParams }) {
         '@type': 'ListItem',
         position: index + 1,
         item: {
-          '@type': 'BlogPosting',
+          '@type': 'Article',
           headline: post.title,
           author: {
             '@type': 'Person',

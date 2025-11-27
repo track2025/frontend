@@ -8,6 +8,23 @@ import { Container, Typography } from '@mui/material';
 // components
 import HeaderBreadcrumbs from 'src/components/headerBreadcrumbs';
 
+export const metadata = {
+  title: 'Privacy Policy – Lap Snaps',
+  description: 'Learn how Lap Snaps collects, uses, and protects your personal data.',
+  robots: {
+    index: false
+  },
+  alternates: {
+    canonical: 'https://lapsnaps.com/privacy-policy'
+  },
+  openGraph: {
+    title: 'Privacy Policy – Lap Snaps',
+    description: 'Learn how Lap Snaps collects, uses, and protects your personal data.',
+    url: 'https://lapsnaps.com/privacy-policy',
+    type: 'website'
+  }
+};
+
 const PrivacyPolicy = () => {
   return (
     <Container maxWidth="xl" sx={{ mt: 4, mb: 4 }}>

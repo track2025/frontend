@@ -1,6 +1,7 @@
 'use client';
 import React from 'react';
 import { useRouter } from 'next-nprogress-bar';
+import Link from 'next/link';
 // mui
 import {
   Stack,
@@ -76,9 +77,8 @@ export default function Menu() {
         <Divider />
         <ListItem disablePadding>
           <ListItemButton
-            onClick={() => {
-              router.push('/');
-            }}
+            component={Link}
+            href="/"
             sx={{ py: 2 }}
           >
             <ListItemIcon>
@@ -90,9 +90,8 @@ export default function Menu() {
         <Divider />
         <ListItem disablePadding>
           <ListItemButton
-            onClick={() => {
-              router.push('/photographers');
-            }}
+            component={Link}
+            href="/photographers"
             sx={{ py: 2 }}
           >
             <ListItemIcon>
@@ -105,9 +104,8 @@ export default function Menu() {
         <Divider />
         <ListItem disablePadding>
           <ListItemButton
-            onClick={() => {
-              router.push('/tracks');
-            }}
+            component={Link}
+            href="/tracks"
             sx={{ py: 2 }}
           >
             <ListItemIcon>
@@ -120,9 +118,8 @@ export default function Menu() {
         <Divider />
         <ListItem disablePadding>
           <ListItemButton
-            onClick={() => {
-              router.push('/events');
-            }}
+            component={Link}
+            href="/events"
             sx={{ py: 2 }}
           >
             <ListItemIcon>
@@ -135,9 +132,8 @@ export default function Menu() {
         <Divider />
         <ListItem disablePadding>
           <ListItemButton
-            onClick={() => {
-              router.push('/blogs');
-            }}
+            component={Link}
+            href="/blogs"
             sx={{ py: 2 }}
           >
             <ListItemIcon>
@@ -150,9 +146,8 @@ export default function Menu() {
         <Divider />
         <ListItem disablePadding>
           <ListItemButton
-            onClick={() => {
-              router.push('/track-products?top=1');
-            }}
+            component={Link}
+            href="/track-products?top=1"
             sx={{ py: 2 }}
           >
             <ListItemIcon>
@@ -165,9 +160,8 @@ export default function Menu() {
         <Divider />
         <ListItem disablePadding>
           <ListItemButton
-            onClick={() => {
-              router.push('/about');
-            }}
+            component={Link}
+            href="/about"
             sx={{ py: 2 }}
           >
             <ListItemIcon>
@@ -180,9 +174,8 @@ export default function Menu() {
         <Divider />
         <ListItem disablePadding>
           <ListItemButton
-            onClick={() => {
-              router.push('/contact');
-            }}
+            component={Link}
+            href="/contact"
             sx={{ py: 2 }}
           >
             <ListItemIcon>
@@ -195,9 +188,8 @@ export default function Menu() {
         <Divider />
         <ListItem disablePadding>
           <ListItemButton
-            onClick={() => {
-              router.push('/privacy-policy');
-            }}
+            component={Link}
+            href="/privacy-policy"
             sx={{ py: 2 }}
           >
             <ListItemIcon>
@@ -210,9 +202,8 @@ export default function Menu() {
         <Divider />
         <ListItem disablePadding>
           <ListItemButton
-            onClick={() => {
-              router.push('/terms-and-conditions');
-            }}
+            component={Link}
+            href="/terms-and-conditions"
             sx={{ py: 2 }}
           >
             <ListItemIcon>
@@ -263,9 +254,8 @@ export default function Menu() {
         ) : (
           <>
             <Button
-              onClick={() => {
-                router.push('/auth/login');
-              }}
+              component={Link}
+              href="/auth/login"
               variant="outlined"
               color="inherit"
               startIcon={<MdLogin />}
@@ -274,9 +264,8 @@ export default function Menu() {
               Login
             </Button>
             <Button
-              onClick={() => {
-                router.push('/auth/register');
-              }}
+              component={Link}
+              href="/auth/register"
               variant="outlined"
               color="inherit"
               startIcon={<FaRegUserCircle />}

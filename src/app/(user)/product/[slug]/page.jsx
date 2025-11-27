@@ -67,6 +67,7 @@ export async function generateMetadata({ params }) {
     name: productName,
     description: description,
     image: response?.images?.map((img) => img.url) || [],
+    sku: response?._id,
     brand: {
       '@type': 'Brand',
       name: brandName

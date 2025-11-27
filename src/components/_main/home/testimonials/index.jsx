@@ -62,7 +62,7 @@ export default function Testimonials() {
         // display: { xs: 'none', md: 'block' }
       }}
     >
-      <Image priority src={bgImage} alt="centered-banner" layout="fill" objectFit="cover" static draggable="false" />
+      <Image priority src={bgImage} alt="Testimonials background" layout="fill" objectFit="cover" static draggable="false" />
       <Container maxWidth="xl">
         <Grid container  className="row">
           <Grid item xs={12} md={6} className="col-md-6">
