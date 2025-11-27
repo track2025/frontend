@@ -93,12 +93,17 @@ export default function OrderList({ isLoading, row, isUser, isVendor, sn }) {
       </TableCell>
 
       <TableCell>{isLoading ? <Skeleton variant="text" /> : row?.shop[0]?.username}</TableCell>
-      <TableCell>{isLoading ? <Skeleton variant="text" /> : fCurrency(row.total)}</TableCell>
+      <TableCell>
+      <div>
+          <p>{isLoading ? <Skeleton variant="text" /> : row?.user.firstName + ' ' + row?.user.lastName}</p>
+        <p style={{marginTop: -5}}>{row?.user.email}</p>
+      </div>
+      </TableCell>
 
-      <TableCell>{isLoading ? <Skeleton variant="text" /> : row?.user.firstName + ' ' + row?.user.lastName}</TableCell>
-      <TableCell>{isLoading ? <Skeleton variant="text" /> : row?.user.email} </TableCell>
+      {/* <TableCell>{isLoading ? <Skeleton variant="text" /> : row?.user.email} </TableCell> */}
 
       <TableCell>{isLoading ? <Skeleton variant="text" /> : row.items.length}</TableCell>
+      <TableCell>{isLoading ? <Skeleton variant="text" /> : fCurrency(row.total)}</TableCell>
 
       <TableCell>{isLoading ? <Skeleton variant="text" /> : <> {fDateShort(row.createdAt)} </>}</TableCell>
 

@@ -12,6 +12,7 @@ import { Dialog } from '@mui/material';
 import DeleteDialog from 'src/components/dialog/delete';
 import Table from 'src/components/table/table';
 import Shop from 'src/components/table/rows/shop';
+import countries from 'src/utils/counties';
 
 const TABLE_HEAD = [
   { id: 'name', label: 'Photographer', alignRight: false, sort: true },
@@ -47,8 +48,8 @@ export default function AdminProducts() {
     setOpen(false);
   };
 
-  console.log("Photograoher Data:", data);
-  
+  console.log('Photograoher Data:', data);
+
   return (
     <>
       <Dialog onClose={handleClose} open={open} maxWidth={'xs'}>
@@ -70,6 +71,13 @@ export default function AdminProducts() {
         row={Shop}
         handleClickOpen={handleClickOpen}
         isSearch
+        // filters={[
+        //   {
+        //     name: 'Country',
+        //     param: 'search',
+        //     data: countries.map((country) => ({ label: country.label, value: country.label })) 
+        //   }
+        // ]}
       />
     </>
   );
