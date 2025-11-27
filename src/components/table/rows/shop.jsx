@@ -100,7 +100,7 @@ export default function ProductRow({ isLoading, row, handleClickOpen, sn }) {
       <TableCell>{isLoading ? <Skeleton variant="text" /> : <>{row?.address?.country?.name || 'nill'}</>}</TableCell>
       <TableCell>{isLoading ? <Skeleton variant="text" /> : <>{row?.products?.length || 0}</>}</TableCell>
 
-      <TableCell>
+      <TableCell style={{textTransform: "capitalize"}}>
         {isLoading ? (
           <Skeleton variant="text" />
         ) : ( row?.status )}

@@ -30,7 +30,7 @@ const SearchStyle = styled(OutlinedInput)(({ theme }) => ({
   }
 }));
 
-export default function Search({placeholder = 'Search'}) {
+export default function Search() {
   const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
@@ -41,6 +41,12 @@ export default function Search({placeholder = 'Search'}) {
     const val = e.target.value;
     setSearch(val);
   };
+
+  let placeholder = 'Search';
+  if (pathname.includes('photographers')) {
+    placeholder = 'Search by name, email, or country';
+  } 
+  
 
   const createQueryString = useCallback(
     (name, value) => {

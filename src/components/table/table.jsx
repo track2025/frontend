@@ -84,6 +84,8 @@ export default function CustomTable({
     push(`${pathname}?` + createQueryString(param, val));
   };
 
+  console.log('filters:: ', filters); 
+
   const updatedHeadData = [
     {
       id: 'sn',
@@ -191,7 +193,7 @@ export default function CustomTable({
             )}
 
             {/* ✅ Search Field */}
-            {isSearch ? <Search placeholder={"Search by Owner or Country."} /> : null}
+            {isSearch ? <Search /> : null}
           </Stack>
 
           {/* ✅ Filters aligned right */}
