@@ -213,7 +213,7 @@ export const BlogCard = ({ post, onClick }) => {
           <CardMedia
             component="img"
             image={post.featuredImage?.url || '/images/blog-placeholder.jpg'}
-            alt={post.title}
+            alt={post.title || 'Blog post image'}
             sx={{
               width: '100%',
               height: '100%',
