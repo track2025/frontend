@@ -34,7 +34,7 @@ export default function UserBrandsCard({ item, isLoading }) {
               mb: 2
             }}
           >
-            <BlurImage priority fill alt={item?.name} src={item?.logo?.url} objectFit="cover" />
+            <BlurImage priority fill alt={item?.name || 'Brand logo'} src={item?.logo?.url} objectFit="cover" />
           </Box>
         )}
         <Typography

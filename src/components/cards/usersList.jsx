@@ -85,7 +85,7 @@ export default function UserListCard({ item, isLoading }) {
               <Skeleton variant="circular" width={40} height={40} />
             ) : item?.cover?.url ? (
               <ThumbImgStyle>
-                <BlurImage priority fill alt={item?.firstName + ' thumbnail'} src={item?.cover?.url} />
+                <BlurImage priority fill alt={(item?.firstName || 'User') + ' thumbnail'} src={item?.cover?.url} />
               </ThumbImgStyle>
             ) : (
               <Avatar color="primary" sx={{ mr: 1 }}>

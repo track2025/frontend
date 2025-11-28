@@ -214,7 +214,7 @@ export default function ShopProductCard({ ...props }) {
         ) : (
           <Box component={Link} href={linkTo}>
             <BlurImage
-              alt={name}
+              alt={name || 'Product image'}
               src={image.url}
               fill
               draggable="false"

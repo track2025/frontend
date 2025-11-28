@@ -1,7 +1,10 @@
 import { Box, Container, Typography, Grid } from "@mui/material"
 import { BlogCard } from "src/components/_main/blog/BlogCard"
+import BlogPaginationWithNavigation from "src/components/_main/blog/BlogPaginationWithNavigation"
+import BlogSearch from "src/components/_main/blog/BlogSearch"
 
 export default function BlogsServerPage({ blogPosts, pagination, searchTerm }) {
+  // console.log({ blogPosts, pagination, searchTerm })
   const startItem = (pagination.currentPage - 1) * pagination.itemsPerPage + 1
   const endItem = Math.min(pagination.currentPage * pagination.itemsPerPage, pagination.totalItems)
 
@@ -33,6 +36,8 @@ export default function BlogsServerPage({ blogPosts, pagination, searchTerm }) {
         >
           Expert tips, tutorials, and insights for motorsport photographers and track day enthusiasts
         </Typography>
+
+        <BlogSearch initialSearch={searchTerm} />
 
         {blogPosts.length > 0 && (
           <Typography
@@ -69,6 +74,8 @@ export default function BlogsServerPage({ blogPosts, pagination, searchTerm }) {
             </Grid>
           )}
         </Grid>
+
+        <BlogPaginationWithNavigation pagination={pagination} searchTerm={searchTerm} />
       </Container>
     </Box>
   )

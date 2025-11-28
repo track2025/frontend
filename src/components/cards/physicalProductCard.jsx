@@ -136,7 +136,7 @@ export default function PhysicalProductCard({ ...props }) {
             <Skeleton variant="rectangular" width="100%" height="100%" />
           ) : (
             <BlurImage
-              alt={name}
+              alt={name || 'Product image'}
               src={images?.[0]?.url || image?.url || '/placeholder.jpg'}
               fill
               draggable="false"
