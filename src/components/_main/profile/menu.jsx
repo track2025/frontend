@@ -153,7 +153,7 @@ export default function Menu() {
             <ListItemIcon>
               <IoImagesOutline size={20} />
             </ListItemIcon>
-            <ListItemText primary="Race Wear" />
+            <ListItemText primary="Race Store" />
           </ListItemButton>
         </ListItem>
 

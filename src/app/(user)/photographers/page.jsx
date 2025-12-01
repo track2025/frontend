@@ -93,19 +93,26 @@ export default async function ShopComponent() {
       '@type': 'ListItem',
       position: index + 1,
       item: {
-        '@type': 'Photographer',
+        '@type': 'Person',
         name: photographer.title || photographer.name || 'LapSnaps Professional Photographer',
         description: `Professional motorsport photographer with ${photographer.productCount || 0} track photos and ${photographer.followers?.length || 0} followers`,
         image: photographer.logo?.url || photographer.cover?.url,
         url: `https://lapsnaps.com/photographers/${photographer.slug}`,
-        photographer: {
-          '@type': 'Person',
-          name: photographer.title || photographer.name || 'LapSnaps Professional Photographer'
-        },
-        // Custom metrics
-        photoCount: photographer.productCount || 0,
-        followerCount: photographer.followers?.length || 0,
-        specialty: ['Motorsport Photography', 'Race Track Photography', 'Vehicle Photography']
+        jobTitle: 'Motorsport Photographer',
+        knowsAbout: ['Motorsport Photography', 'Race Track Photography', 'Vehicle Photography'],
+        // Custom metrics using additionalProperty
+        additionalProperty: [
+          {
+            '@type': 'PropertyValue',
+            name: 'photoCount',
+            value: photographer.productCount || 0
+          },
+          {
+            '@type': 'PropertyValue',
+            name: 'followerCount',
+            value: photographer.followers?.length || 0
+          }
+        ]
       }
     }))
   };
