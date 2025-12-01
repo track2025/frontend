@@ -54,9 +54,9 @@ export default function PhysicalProductDetailsSumary({ ...props }) {
     isSimpleProduct
       ? null
       : {
-          ...matchedVariant,
-          name: matchedVariant?.name
-        }
+        ...matchedVariant,
+        name: matchedVariant?.name
+      }
   );
 
   useEffect(() => {
@@ -224,7 +224,7 @@ export default function PhysicalProductDetailsSumary({ ...props }) {
           <Stack gap={1}>
             <Box>
               {(isSimpleProduct ? product : variantObj).price <=
-              (isSimpleProduct ? product : variantObj).salePrice ? null : (
+                (isSimpleProduct ? product : variantObj).salePrice ? null : (
                 <Chip
                   color={'success'}
                   label={`-${(100 - ((isSimpleProduct ? product : variantObj).salePrice / (isSimpleProduct ? product : variantObj).price) * 100).toFixed(0)}% Discount`}
@@ -368,7 +368,6 @@ export default function PhysicalProductDetailsSumary({ ...props }) {
                 color="primary"
                 variant="contained"
                 onClick={() => handleAddCart()}
-                // startIcon={<FiShoppingCart />}
                 style={{
                   fontWeight: 'bolder',
                   fontSize: 14,
@@ -378,6 +377,12 @@ export default function PhysicalProductDetailsSumary({ ...props }) {
               >
                 {isMaxQuantity || stockQuantity < 1 ? 'OUT OF STOCK' : 'ADD TO CART'}
               </Button>
+
+              {(isMaxQuantity || stockQuantity < 1) && (
+                <Typography variant="body2" sx={{ mt: 1 }}>
+                  This item is currently unavailable. You can try other available variations.
+                </Typography>
+              )}
             </Stack>
 
             <Stack direction="row" spacing={1} justifyContent={'end'} marginTop={1}>
