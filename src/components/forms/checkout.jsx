@@ -130,7 +130,6 @@ export default function CheckoutGuestForm({
                   {...getFieldProps('zip')}
                   error={Boolean(touched.zip && errors.zip)}
                   helperText={touched.zip && errors.zip}
-                  type="number"
                 />
               </Stack>
             </Stack>
