@@ -125,7 +125,7 @@ export default function Navbar() {
                   },
                 }}
               >
-                Race Wear
+                Race Store
               </Button>
 
               <LanguageSelect />
