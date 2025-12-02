@@ -31,10 +31,15 @@ export const resetPassword = async ({ newPassword, token }) => {
   return data;
 };
 
-export const adminDashboardAnalytics = async () => {
-  const { data } = await http.get(`/admin/dashboard-analytics`);
+export const adminDashboardAnalytics = async (params) => {
+  const { data } = await http.get(`/admin/dashboard-analytics?${params}`);
   return data;
 };
+export const adminNewDashboardAnalytics = async () => {
+  const { data } = await http.get(`/admin/new-dashboard-analytics`);
+  return data;
+};
+
 export const getNotifications = async (page) => {
   const { data } = await http.get(`/admin/notifications?limit=${page}`, {});
   return data;

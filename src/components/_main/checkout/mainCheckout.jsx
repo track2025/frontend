@@ -145,7 +145,7 @@ const CheckoutMain = () => {
       localStorage.removeItem('trustPaymentUserDetails');
       dispatch(resetCart());
       toast.success(
-        "🎉 Your order was successful! We've emailed you the download link. You can also find it anytime in the 'My Orders' section of your account."
+        "Order placed successfully! You can view your order in the My Orders section."
       );
       router.push(`/profile/orders`);
     },

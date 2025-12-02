@@ -10,7 +10,13 @@ import BaseOptionChart from './BaseOptionChart';
 export default function Order({ data, isLoading }) {
   const theme = useTheme();
   const chartOptions = merge(BaseOptionChart('donut'), {
-    labels: ['Pending', 'Downloaded'],
+    labels: [
+        "pending",
+        "ontheway",
+        "delivered",
+        "returned",
+        "cancelled",
+      ],
     legend: {
       position: 'bottom',
       horizontalAlign: 'center'
