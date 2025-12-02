@@ -8,6 +8,7 @@ import BlurImage from 'src/components/blurImage';
 // components
 import ColorPreviewGroup from '../colorPreviewGroup';
 import NoDataFoundIllustration from 'src/illustrations/dataNotFound';
+import { CardMedia, Chip } from '@mui/material';
 
 AdminBestSelling.propTypes = {
   loading: PropTypes.bool.isRequired,
@@ -17,6 +18,8 @@ AdminBestSelling.propTypes = {
 
 export default function AdminBestSelling({ ...props }) {
   const { data, loading, isVendor } = props;
+
+  console.log('data:::::::::', data)
 
   return (
     <>
@@ -33,7 +36,6 @@ export default function AdminBestSelling({ ...props }) {
           <CardContent>
             {(loading ? Array.from(new Array(5)) : data)?.map((value, index, array) => (
               <React.Fragment key={index}>
-                <Stack direction="row" alignItems="center" justifyContent="space-between" spacing={2} py={1}>
                   {/* <Stack direction="row" alignItems="center" spacing={2}>
                     {loading ? (
                       <Skeleton variant="rounded" width={64} height={64} />
@@ -75,12 +77,61 @@ export default function AdminBestSelling({ ...props }) {
                       </Typography>
                     </Box>
                   </Stack> */}
+
+                  <Card
+                    sx={{
+                      display: 'flex',
+                      flexDirection: 'row',
+                      alignItems: 'center',
+                      p: 2,
+                      borderRadius: 2,
+                      mb: 2
+                    }}
+                  >
+                    {/* Left: Thumbnail */}
+                    <Box
+                      component="img"
+                      src={value?.logo?.url}
+                      alt={value?.username}
+                      sx={{
+                        width: 50,
+                        height: 50,
+                        borderRadius: 2,
+                        objectFit: 'cover',
+                        mr: 2
+                      }}
+                    />
+
+                    {/* Right: Details */}
+                    <Box sx={{ flexGrow: 1 }}>
+                      <Typography variant="subtitle1" sx={{ fontWeight: 700 }}>
+                        {value?.paymentInfo?.holderName || value?.username}
+                      </Typography>
+
+                      {/* <Stack direction="row" spacing={1} sx={{ my: 1 }}>
+                        <Chip label={value?.vehicle_make} size="small" />
+                        <Chip label={value?.vehicle_model} size="small" />
+                      </Stack> */}
+
+                      <Typography variant="body2" color="text.secondary">
+                        <strong>Location:</strong> {value?.address?.streetAddress}
+                      </Typography>
+
+                      {/* <Typography variant="body2" color="text.secondary">
+                        <strong>Date:</strong> {new Date(value?.dateCaptured).toLocaleDateString()}
+                      </Typography> */}
+
+                      {/* <Typography variant="body1" sx={{ fontWeight: 600, mt: 0.5 }}>
+                        {value?.currency} {value?.priceSale}
+                      </Typography> */}
+                    </Box>
+                  </Card>
+
                   {loading ? (
                     <Skeleton variant="text" width={72} />
                   ) : (
                     <ColorPreviewGroup limit={3} colors={value?.colors} sx={{ minWidth: 72 }} />
                   )}
-                </Stack>
                 {index !== array.length - 1 && <Divider />}
               </React.Fragment>
             ))}
