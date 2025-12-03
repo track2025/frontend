@@ -41,6 +41,7 @@ export default function ShoppingCart({ loading }) {
   const { cart } = checkout;
   const [count, setCount] = React.useState(0);
 
+
   const isEmptyCart = cart.length === 0;
   const handleDeleteCart = (productId) => {
     dispatch(deleteCart(productId));

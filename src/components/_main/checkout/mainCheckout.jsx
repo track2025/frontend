@@ -133,7 +133,7 @@ const CheckoutMain = () => {
     setChecked(event.target.checked);
   };
 
-  console.log("Checkout ITems", cart);
+  console.log("Checkout ITems", cart, total);
 
   const [couponCode, setCouponCode] = useState(null);
   const [isProcessing, setProcessingTo] = useState(false);
@@ -213,7 +213,6 @@ const CheckoutMain = () => {
       }
 
       const items = cart.map(({ ...others }) => others);
-
 
       const totalItems = sum(items.map((item) => item.quantity));
 
@@ -412,8 +411,8 @@ const CheckoutMain = () => {
     )
     : 0;
 
-  const calculatedAmount = totalWithDiscount || (total + shippingFee);
-
+  const calculatedAmount = totalWithDiscount || (total + (shippingFee - checkout.shipping));
+  console.log("shippingFee, calculatedAmount", calculatedAmount);
 
   if (isTrustPaymentCallback && !showCheckoutInterface) {
     return (
@@ -437,6 +436,7 @@ const CheckoutMain = () => {
       </>
     );
   }
+
 
   return (
     <FormikProvider value={formik}>
