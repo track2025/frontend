@@ -1,7 +1,6 @@
-// PaymentInfo.jsx
 'use client';
 import React, { useState } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
+import { useSelector } from 'react-redux';
 import toast from 'react-hot-toast';
 import PropTypes from 'prop-types';
 
@@ -15,12 +14,9 @@ import { useCurrencyFormatter } from 'src/hooks/formatCurrency';
 // api
 import * as api from 'src/services';
 import { useMutation } from 'react-query';
-// redux
-import { applyCoupon, removeCoupon } from 'src/redux/slices/product';
-
 PaymentInfo.propTypes = {
-  checkoutType: PropTypes.string,
-  values: PropTypes.object
+  setCouponCode: PropTypes.func.isRequired,
+  setTotal: PropTypes.func.isRequired
 };
 
 function isExpired(expirationDate) {
@@ -28,14 +24,15 @@ function isExpired(expirationDate) {
   return currentDateTime >= new Date(expirationDate);
 }
 
-export default function PaymentInfo({ checkoutType, values }) {
-  const dispatch = useDispatch();
+export default function PaymentInfo({ setCouponCode, setTotal, checkoutType, values }) {
   const { product } = useSelector((state) => state);
-  const { total, shipping, subtotal, discount, appliedDiscount, couponCode } = product.checkout;
-
+  const { total, shipping, subtotal } = product.checkout;
   const [code, setCode] = useState('');
   const cCurrency = useCurrencyConvert();
   const fCurrency = useCurrencyFormatter();
+
+  const [discountPrice, setDiscountPrice] = useState(null);
+  const [appliedDiscount, setDiscount] = useState(null);
 
   const { mutate, isLoading } = useMutation(api.applyCouponCode, {
     onSuccess: ({ data }) => {
@@ -45,22 +42,27 @@ export default function PaymentInfo({ checkoutType, values }) {
         return;
       }
 
-      let discountAmount = 0;
-
       if (data.type === 'percent') {
-        discountAmount = (data.discount / 100) * subtotal;
+        const percentLess = data.discount;
+        setCouponCode(code);
+        // Calculate the discount amount
+        const discount = (percentLess / 100) * subtotal;
+
+        // Calculate the discounted total
+        const discountedTotal = subtotal - discount;
+        setDiscount(discount);
+
+        setDiscountPrice(discountedTotal + shipping);
+        setTotal(discountedTotal + shipping);
+        toast.success('Coupon code applied. You have saved ' + fCurrency(cCurrency(discount)));
       } else {
-        discountAmount = data.discount;
+        const discountedTotal = subtotal - data.discount;
+        setDiscount(data.discount);
+        setTotal(discountedTotal + shipping); // ← Add shipping here
+        setCouponCode(code);
+        toast.success('Coupon code applied. You have saved ' + fCurrency(cCurrency(data.discount)));
+        setDiscountPrice(discountedTotal + shipping); // ← Consistent with setTotal
       }
-
-      // Dispatch to Redux store
-      dispatch(applyCoupon({
-        discount: discountAmount,
-        couponCode: code,
-        discountType: data.type
-      }));
-
-      toast.success('Coupon code applied. You have saved ' + fCurrency(cCurrency(discountAmount)));
     },
     onError: () => {
       toast.error('Coupon code is not valid');
@@ -74,26 +76,6 @@ export default function PaymentInfo({ checkoutType, values }) {
       toast.error('Enter valid coupon code.');
     }
   };
-
-  const onRemoveCoupon = () => {
-    dispatch(removeCoupon());
-    setCode('');
-    toast.success('Coupon removed');
-  };
-
-  // Calculate shipping based on location for physical products
-  const calculateShipping = () => {
-    if (checkoutType !== 'physical-product') return 0;
-
-    if (values?.country && values?.country !== 'United Arab Emirates') {
-      return parseInt(process.env.SHIPPING_FEE_OUTER || 0);
-    }
-    return parseInt(process.env.SHIPPING_FEE || 0);
-  };
-
-  const currentShipping = checkoutType === 'physical-product' ? calculateShipping() : 0;
-  const displayTotal = total + (currentShipping - shipping); // Adjust for actual shipping
-
   return (
     <Card sx={{ mb: 2 }}>
       <CardContent sx={{ py: 2 }}>
@@ -108,13 +90,18 @@ export default function PaymentInfo({ checkoutType, values }) {
             </Typography>
             <Typography variant="subtitle2">{fCurrency(cCurrency(subtotal))}</Typography>
           </Stack>
-
           <Stack direction="row" alignItems="center" justifyContent="space-between" spacing={2}>
             <Typography variant="subtitle2" color="text.secondary">
               Discount:
             </Typography>
             <Typography variant="subtitle2">-{fCurrency(cCurrency(appliedDiscount || 0))}</Typography>
           </Stack>
+          {/* <Stack direction="row" alignItems="center" justifyContent="space-between" spacing={2}>
+            <Typography variant="subtitle2" color="text.secondary">
+              Shipping:
+            </Typography>
+            <Typography variant="subtitle2">{!shipping ? 'Free' : fCurrency(cCurrency(shipping))}</Typography>
+          </Stack> */}
 
           <Stack direction={'row'} gap={1}>
             <TextField
@@ -123,28 +110,18 @@ export default function PaymentInfo({ checkoutType, values }) {
               placeholder="Enter coupon code"
               size="small"
               value={code}
-              disabled={Boolean(couponCode)}
+              disabled={Boolean(discountPrice)}
               onChange={(e) => setCode(e.target.value)}
             />
-            {couponCode ? (
-              <LoadingButton
-                onClick={onRemoveCoupon}
-                variant="outlined"
-                color="error"
-              >
-                Remove
-              </LoadingButton>
-            ) : (
-              <LoadingButton
-                loading={isLoading}
-                onClick={onApplyCoupon}
-                variant="contained"
-                color="primary"
-                disabled={code.length < 4}
-              >
-                Apply
-              </LoadingButton>
-            )}
+            <LoadingButton
+              loading={isLoading}
+              onClick={onApplyCoupon}
+              variant="contained"
+              color="primary"
+              disabled={Boolean(discountPrice) || code.length < 4}
+            >
+              {discountPrice ? 'Applied' : 'Apply'}
+            </LoadingButton>
           </Stack>
         </Stack>
 
@@ -157,7 +134,11 @@ export default function PaymentInfo({ checkoutType, values }) {
               {isLoading ? (
                 <Skeleton variant="text" width={80} />
               ) : (
-                fCurrency(cCurrency(currentShipping))
+                <>
+                  {values?.country && values?.country != 'United Arab Emirates'
+                    ? fCurrency(cCurrency(parseInt(process.env.SHIPPING_FEE_OUTER || 0)))
+                    : fCurrency(cCurrency(parseInt(process.env.SHIPPING_FEE || 0)))}
+                </>
               )}
             </Typography>
           </Stack>
@@ -167,7 +148,13 @@ export default function PaymentInfo({ checkoutType, values }) {
         <Stack direction="row" alignItems="center" justifyContent="space-between" spacing={2} mt={2}>
           <Typography variant="subtitle1">Total:</Typography>
           <Typography variant="subtitle1">
-            {fCurrency(cCurrency(displayTotal))}
+            {fCurrency(cCurrency(discountPrice || (total + (checkoutType === 'physical-product' ?
+              (values?.country && values?.country != 'United Arab Emirates'
+                ? parseInt(process.env.SHIPPING_FEE_OUTER || 0)
+                : parseInt(process.env.SHIPPING_FEE || 0)
+              )
+              : 0
+            ))))}
           </Typography>
         </Stack>
       </CardContent>
