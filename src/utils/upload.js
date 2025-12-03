@@ -15,7 +15,7 @@ function ensureHttps(url) {
 }
 
 const uploadToSpaces = (file, onProgress) => {
-  const spaceEndpoint = new AWS.Endpoint('nyc3.digitaloceanspaces.com'); // Change region if needed
+  const spaceEndpoint = new AWS.Endpoint('lon1.digitaloceanspaces.com'); // Change region if needed
 
   const s3 = new AWS.S3({
     endpoint: spaceEndpoint,
