@@ -301,7 +301,7 @@ export default function ShopDetailCover({ data, isLoading, isUser, page }) {
               }}
             >
               <Typography variant="h1" sx={{ fontSize: { xs: '20px', md: '30px' } }}>
-                {isLoading ? <Skeleton variant="text" width={220} /> : data?.title || data?.name}
+                {isLoading ? <Skeleton variant="text" width={220} /> : data?.username || data?.name}
               </Typography>
               {isUser ? (
                 <Stack
