@@ -256,6 +256,9 @@ export default async function Listing({ params }) {
     ]
   };
 
+
+  console.log('shopData::::::::', shopData)
+
   return (
     <>
       {/* Person Schema */}
@@ -306,7 +309,7 @@ export default async function Listing({ params }) {
                         >
                           {shopData.address.streetAddress}
                           {shopData.address.city && `, ${shopData.address.city}`}
-                          {shopData?.address?.country && `, ${shopData.address.country.name}`}
+                          {/* {shopData?.address?.country && `, ${shopData.address.country.name}`} */}
                         </Typography>
                       </Stack>
                     </Box>

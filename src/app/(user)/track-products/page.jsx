@@ -37,6 +37,8 @@ export default async function Listing() {
   const categoriesData = await cateRes.json();
   const categories = categoriesData.data || categoriesData;
 
+  console.log('categories::::', categories)
+
   // Fetch products for schema using the same API as the client component
   const productsRes = await fetch(`${baseUrl}/api/user/physical-products?limit=50`, { next: { revalidate: 60 } });
   const productsData = await productsRes.json();

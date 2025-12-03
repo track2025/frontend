@@ -1,5 +1,5 @@
 'use client';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useRouter } from 'next-nprogress-bar';
 import { useMutation } from 'react-query';
 import toast from 'react-hot-toast';
@@ -102,6 +102,8 @@ export default function PhysicalSubCategoryForm({
   // console.log('current category', curCar)
   
 
+  console.log('currentCategory?.parentCategory', categories)
+
   const formik = useFormik({
     initialValues: {
       name: currentCategory?.name || '',
@@ -165,6 +167,12 @@ export default function PhysicalSubCategoryForm({
     formik.setFieldValue('slug', slug); // set the value of slug in the formik state
     formik.handleChange(event); // handle the change in formik
   };
+
+  useEffect(() => {
+  if (!categoryLoading && categories?.length > 0 && !values.parentCategory) {
+    setFieldValue("parentCategory", categories[0]._id);
+  }
+}, [categoryLoading, categories]);
 
   return (
     <Box position="relative">
