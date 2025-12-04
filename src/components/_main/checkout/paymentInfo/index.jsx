@@ -91,8 +91,8 @@ export default function PaymentInfo({ checkoutType, values }) {
     return parseInt(process.env.SHIPPING_FEE || 0);
   };
 
-  const currentShipping = checkoutType === 'physical-product' ? calculateShipping() : 0;
-  const displayTotal = total + (currentShipping - shipping); // Adjust for actual shipping
+  const currentShipping = checkoutType === 'physical-product' ? calculateShipping() : shipping;
+  const displayTotal = total + currentShipping; // Adjust for actual shipping
 
   return (
     <Card sx={{ mb: 2 }}>

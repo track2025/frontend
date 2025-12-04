@@ -411,8 +411,8 @@ const CheckoutMain = () => {
     )
     : 0;
 
-  const calculatedAmount = totalWithDiscount || (total + (shippingFee - checkout.shipping));
-  console.log("shippingFee, calculatedAmount", calculatedAmount);
+  const calculatedAmount = totalWithDiscount || (total + shippingFee);
+  console.log("shippingFee, calculatedAmount", shippingFee, total, calculatedAmount);
 
   if (isTrustPaymentCallback && !showCheckoutInterface) {
     return (
