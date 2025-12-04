@@ -10,7 +10,7 @@ import { IoIosArrowForward } from 'react-icons/io';
 const FALLBACK_BANNERS = [
   {
     id: 1,
-    image: '/images/home-banner.jpg',
+    image: '/images/hero-banner-placeholder.jpeg',
     title: 'Every box is a',
     highlight: 'new adventure',
     description: 'Discover amazing products curated just for you',
