@@ -6,6 +6,8 @@ import { getProducts } from 'src/services';
 export const dynamic = "force-dynamic"
 
 
+export const dynamic = "force-dynamic"
+
 // ✅ Dynamic SEO generator
 export async function generateMetadata() {
   const title = 'Motorsport Photography & Race Track Vehicle Photos | Lap Snaps';

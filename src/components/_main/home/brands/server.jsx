@@ -3,6 +3,7 @@ import Link from 'next/link';
 import Image from 'src/components/blurImage';
 // mui
 import { Typography, Box, Stack, Card, Grid, CardActionArea } from '@mui/material';
+export const dynamic = "force-dynamic"
 
 export default function BrandsServer({ brands }) {
   return (
