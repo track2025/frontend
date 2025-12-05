@@ -92,12 +92,12 @@ export default function OrderList({ isLoading, row, isUser, isVendor, sn }) {
         </Box>
       </TableCell>
 
-      <TableCell>{isLoading ? <Skeleton variant="text" /> : row?.shop[0]?.username}</TableCell>
+      <TableCell>{isLoading ? <Skeleton variant="text" /> : row?.shop?.[0]?.username}</TableCell>
       <TableCell>
-      <div>
+        <div>
           <p>{isLoading ? <Skeleton variant="text" /> : row?.user.firstName + ' ' + row?.user.lastName}</p>
-        <p style={{marginTop: -5}}>{row?.user.email}</p>
-      </div>
+          <p style={{ marginTop: -5 }}>{row?.user.email}</p>
+        </div>
       </TableCell>
 
       {/* <TableCell>{isLoading ? <Skeleton variant="text" /> : row?.user.email} </TableCell> */}
