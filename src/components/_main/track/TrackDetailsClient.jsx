@@ -36,6 +36,8 @@ import { useTheme } from '@mui/material/styles';
 import SortBar3 from '../products/sortbar3';
 
 export default function TrackDetailsClient({ track }) {
+  const ITEMS_PER_PAGE_OPTIONS = ['12', '24', '32', '40'];
+  
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage, setItemsPerPage] = useState('12');
   const [isInitialLoad, setIsInitialLoad] = useState(true);
