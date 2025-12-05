@@ -133,8 +133,6 @@ const CheckoutMain = () => {
     setChecked(event.target.checked);
   };
 
-  console.log("Checkout ITems", cart, total);
-
   const [couponCode, setCouponCode] = useState(null);
   const [isProcessing, setProcessingTo] = useState(false);
   const [totalWithDiscount, setTotalWithDiscount] = useState(null);
@@ -412,7 +410,6 @@ const CheckoutMain = () => {
     : 0;
 
   const calculatedAmount = totalWithDiscount || (total + shippingFee);
-  console.log("shippingFee, calculatedAmount", shippingFee, total, calculatedAmount);
 
   if (isTrustPaymentCallback && !showCheckoutInterface) {
     return (
@@ -436,6 +433,8 @@ const CheckoutMain = () => {
       </>
     );
   }
+
+
 
 
   return (
@@ -462,6 +461,7 @@ const CheckoutMain = () => {
                 setTotal={(v) => setTotalWithDiscount(v)}
                 checkoutType={checkoutType}
                 values={values}
+                shipping={shippingFee}
               />
               <TrustPaymentMethodCard
                 value={paymentMethod}
