@@ -3,6 +3,8 @@ import { Box, Container } from '@mui/material';
 import ProductList from 'src/components/_main/products';
 import CollectionBanner from 'src/components/_main/banner/CollectionBanner';
 import { getProducts } from 'src/services';
+export const dynamic = "force-dynamic"
+
 
 // ✅ Dynamic SEO generator
 export async function generateMetadata() {
