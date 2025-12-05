@@ -23,16 +23,39 @@ import { LuFileInput } from 'react-icons/lu';
 // api
 import * as api from 'src/services';
 import { useQuery } from 'react-query';
+import TimeFilter from './timeFilter';
 
 Dashboard.propTypes = {
   isVendor: PropTypes.bool
 };
 export default function Dashboard({ isVendor }) {
-    const [timeFilter, setTimeFilter] = useState('TODAY');
 
 
 
-  const queryString = `timeFilter=${timeFilter || ''}`;
+    const [filterState, setFilterState] = useState({
+    timeFilter: 'TODAY',
+    dateRange: {
+      startDate: null,
+      endDate: null
+    }
+  })
+
+  const handleFilterChange = (newFilter) => {
+    // newFilter = { timeFilter, dateRange }
+    setFilterState(newFilter)
+  }
+
+
+
+
+  
+    // const [timeFilter, setTimeFilter] = useState('TODAY');
+
+    console.log('filterState.dateRange::::',filterState.dateRange)
+
+
+
+  const queryString = `startDate=${filterState.dateRange.startDate}&endDate=${filterState.dateRange.endDate}`;
 
 const fetcher = isVendor
   ? api.vendorDashboardAnalytics
@@ -71,11 +94,14 @@ const { data: dashboard, isLoading } = useQuery(
   const totalPendingOrders = data?.totalPendingOrders;
   const totalReturnOrders = data?.totalReturnOrders;
 
-  console.log('sales_report dashboard data:::', sales_report);
+  // console.log('sales_report dashboard data:::', sales_report);
 
-  const handleTimeFilterChange = (newFilter) => {
-    setTimeFilter(newFilter);
-  };
+  // const handleTimeFilterChange = (newFilter) => {
+  //   setTimeFilter(newFilter);
+  // };
+
+
+
 
   return (
     <Box>
@@ -183,7 +209,12 @@ const { data: dashboard, isLoading } = useQuery(
         )} */}
 
         {/* Filters */}
-        <Box sx={{ display: 'flex', gap: 1, flexWrap: 'wrap', alignItems: 'center', mb: 3, mt: 2 }}>
+           <TimeFilter
+        timeFilter={filterState.timeFilter}
+        dateRange={filterState.dateRange}
+        onChange={handleFilterChange}
+      />
+        {/* <Box sx={{ display: 'flex', gap: 1, flexWrap: 'wrap', alignItems: 'center', mb: 3, mt: 2 }}>
           {['TODAY', 'ALL'].map((period) => (
             <Chip
               key={period}
@@ -240,15 +271,15 @@ const { data: dashboard, isLoading } = useQuery(
               ))}
             </Select>
           </FormControl>
-        </Box>
+        </Box> */}
 
-        <Grid item xs={12} md={7} lg={7} className="col-xs-12 mb-3 col-md-7 col-lg-7">
+        <Grid item xs={12} md={12} lg={12} className="mb-3 w-100">
           <SaleChart data={sales_report} isLoading={isLoading} className="h-100" />
         </Grid>
 
-        <Grid item xs={12} md={5} lg={5} className="col-xs-12 mb-3 col-md-5 col-lg-5 ">
+        {/* <Grid item xs={12} md={5} lg={5} className="col-xs-12 mb-3 col-md-5 col-lg-5 ">
           <OrderChart data={orders_report} isLoading={isLoading} />
-        </Grid>
+        </Grid> */}
 
         <Grid item xs={12} md={4} lg={4} className="col-xs-12 mb-3 col-md-4 col-lg-4">
           <BestSelling data={bestSellingProducts} loading={isLoading} isVendor={isVendor} />
