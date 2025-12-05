@@ -82,7 +82,7 @@ export default function ProductListing({ category, subCategory, shop, compaign }
         rate
       )
   );
-
+console.log("collection ::", data)
   const isMobile = useMediaQuery('(max-width:900px)');
 
   return (
