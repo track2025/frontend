@@ -35,6 +35,18 @@ export default function RootLayout({ children }) {
           //   console.error('[Trust Payments] Failed to load st.js:', e);
           // }}
         />
+
+        {/* Google Analytics */}
+        <Script src="https://www.googletagmanager.com/gtag/js?id=G-QQMT8N4Q1N" strategy="afterInteractive" />
+        <Script id="google-analytics" strategy="afterInteractive">
+          {`
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+
+            gtag('config', 'G-QQMT8N4Q1N');
+          `}
+        </Script>
       </head>
       <body>
         <NextTopLoader
