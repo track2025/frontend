@@ -37,7 +37,7 @@ import SortBar3 from '../products/sortbar3';
 
 export default function TrackDetailsClient({ track }) {
   const ITEMS_PER_PAGE_OPTIONS = ['12', '24', '32', '40'];
-  
+
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage, setItemsPerPage] = useState('12');
   const [isInitialLoad, setIsInitialLoad] = useState(true);
@@ -177,7 +177,15 @@ export default function TrackDetailsClient({ track }) {
     queryParams.append('location', track.name);
     queryParams.append('page', currentPage.toString());
     queryParams.append('limit', itemsPerPage.toString());
-    queryParams.append('date', '1');
+    // queryParams.append('date', '1');
+
+    if (dateSortFromUrl) {
+      queryParams.append('date', dateSortFromUrl);
+    }
+
+    if (priceFromUrl) {
+      queryParams.append('price', priceFromUrl);
+    }
 
     if (searchQuery.trim()) {
       queryParams.append('search', searchQuery.trim());
@@ -203,13 +211,13 @@ export default function TrackDetailsClient({ track }) {
   };
 
   // Create query key
-  const queryKey = `track-products-${slug}-${rate}-${currentPage}-${itemsPerPage}-${searchQuery}-${makeFromUrl}-${modelFromUrl}-${dateFromUrl}`;
+  const queryKey = `track-products-${slug}-${rate}-${currentPage}-${itemsPerPage}-${searchQuery}-${makeFromUrl}-${modelFromUrl}-${dateFromUrl}-${dateSortFromUrl}`;
+  const queryString = buildQueryParams();
 
   // Fetch products
-  const { data: productsData, isLoading: productsLoading } = useQuery(
+  const { data: productsData, isLoading: productsLoading, refetch } = useQuery(
     queryKey,
     () => {
-      const queryString = buildQueryParams();
       return getProducts(`?${queryString}`);
     },
     {
@@ -219,6 +227,13 @@ export default function TrackDetailsClient({ track }) {
       keepPreviousData: true
     }
   );
+
+  useEffect(() => {
+  refetch();   // refetch API anytime search params change
+}, [searchParams.toString()]);
+
+  console.log('======>>>', queryString);
+  console.log('Product response', productsData);
 
   // Fetch events
   const { data: eventsData, isLoading: eventsLoading } = useQuery(

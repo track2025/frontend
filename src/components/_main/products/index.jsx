@@ -82,7 +82,20 @@ export default function ProductListing({ category, subCategory, shop, compaign }
         rate
       )
   );
-console.log("collection ::", data)
+  console.log('collection ::', data);
+
+  let x_ = category
+    ? 'getProductsByCategory'
+    : subCategory
+      ? 'getProductsBySubCategory'
+      : shop
+        ? 'getProductsByShop'
+        : compaign
+          ? 'getProductsByCompaign'
+          : 'getProducts';
+
+  console.log('Looginfxxxx', x_);
+
   const isMobile = useMediaQuery('(max-width:900px)');
 
   return (
