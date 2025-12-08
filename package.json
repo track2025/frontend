@@ -37,6 +37,7 @@
     "axios": "^1.6.7",
     "bcrypt": "^5.1.1",
     "bootstrap": "^5.3.7",
+    "bootstrap-daterangepicker": "^3.1.0",
     "browser-image-compression": "^2.0.2",
     "change-case": "^5.2.0",
     "cloudinary": "^1.41.0",

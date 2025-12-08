@@ -24,9 +24,9 @@ function isExpired(expirationDate) {
   return currentDateTime >= new Date(expirationDate);
 }
 
-export default function PaymentInfo({ setCouponCode, setTotal, checkoutType, values }) {
+export default function PaymentInfo({ setCouponCode, setTotal, checkoutType, values, shipping }) {
   const { product } = useSelector((state) => state);
-  const { total, shipping, subtotal } = product.checkout;
+  const { total, subtotal } = product.checkout;
   const [code, setCode] = useState('');
   const cCurrency = useCurrencyConvert();
   const fCurrency = useCurrencyFormatter();
@@ -76,6 +76,10 @@ export default function PaymentInfo({ setCouponCode, setTotal, checkoutType, val
       toast.error('Enter valid coupon code.');
     }
   };
+
+  console.log("Debugging : ", total, shipping);
+
+
   return (
     <Card sx={{ mb: 2 }}>
       <CardContent sx={{ py: 2 }}>

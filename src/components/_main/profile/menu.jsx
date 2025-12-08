@@ -25,6 +25,7 @@ import { IoIosHeartEmpty } from 'react-icons/io';
 import { MdLogin } from 'react-icons/md';
 import { FaRegUserCircle } from 'react-icons/fa';
 import { MdOutlineTrackChanges, MdEvent, MdArticle } from 'react-icons/md';
+import { FaRegFileAlt } from "react-icons/fa";
 
 import {
   IoImagesOutline,
@@ -200,6 +201,7 @@ export default function Menu() {
         </ListItem>
 
         <Divider />
+       
         <ListItem disablePadding>
           <ListItemButton
             component={Link}
@@ -210,6 +212,20 @@ export default function Menu() {
               <IoDocumentTextOutline size={20} />
             </ListItemIcon>
             <ListItemText primary="Terms and Conditions" />
+          </ListItemButton>
+        </ListItem>
+
+
+        <ListItem disablePadding>
+          <ListItemButton
+            component={Link}
+            href="/return-policy"
+            sx={{ py: 2 }}
+          >
+            <ListItemIcon>
+              <FaRegFileAlt size={20}/>
+            </ListItemIcon>
+            <ListItemText primary="Return & Refund Policy" />
           </ListItemButton>
         </ListItem>
 
