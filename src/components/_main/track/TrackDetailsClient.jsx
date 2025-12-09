@@ -25,8 +25,6 @@ import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import EventIcon from '@mui/icons-material/Event';
 import CalendarTodayIcon from '@mui/icons-material/CalendarToday';
 import NavigateNextIcon from '@mui/icons-material/NavigateNext';
-import LocationOnIcon from '@mui/icons-material/LocationOn';
-import SpeedIcon from '@mui/icons-material/Speed';
 import { getProducts } from 'src/services';
 import { getTrackEventsByTrackSlug } from 'src/services/tracks';
 import ProductList from '../../_main/products/productList';
@@ -97,6 +95,7 @@ export default function TrackDetailsClient({ track }) {
   const hasActiveFilters = useMemo(() => {
     const filterParams = [searchFromUrl, makeFromUrl, modelFromUrl, dateFromUrl, locationFromUrl];
     const sortParams = [topFromUrl, nameFromUrl, dateSortFromUrl, priceFromUrl];
+    const hasPageParam = pageFromUrl && parseInt(pageFromUrl, 10) > 1;
 
     const hasFilterParams = filterParams.some((param) => param && param.trim() !== '');
     const hasSortParams = sortParams.some((param) => {
@@ -104,7 +103,7 @@ export default function TrackDetailsClient({ track }) {
       return true;
     });
 
-    return hasFilterParams || hasSortParams;
+    return hasFilterParams || hasSortParams || hasPageParam;
   }, [
     searchFromUrl,
     makeFromUrl,
@@ -114,7 +113,8 @@ export default function TrackDetailsClient({ track }) {
     topFromUrl,
     nameFromUrl,
     dateSortFromUrl,
-    priceFromUrl
+    priceFromUrl,
+    pageFromUrl
   ]);
 
   // Update current page and items per page from URL
@@ -151,23 +151,23 @@ export default function TrackDetailsClient({ track }) {
   // Scroll to products section when filters change
   useEffect(() => {
     if (
-      !isInitialLoad &&
       hasActiveFilters &&
-      productsSectionRef.current &&
-      currentFiltersString !== previousFiltersRef.current
+      productsSectionRef.current
     ) {
-      const timer = setTimeout(() => {
-        if (productsSectionRef.current) {
-          productsSectionRef.current.scrollIntoView({
-            behavior: 'smooth',
-            block: 'start',
-            inline: 'nearest'
-          });
-        }
-      }, 100);
+      if (isInitialLoad || currentFiltersString !== previousFiltersRef.current) {
+        const timer = setTimeout(() => {
+          if (productsSectionRef.current) {
+            productsSectionRef.current.scrollIntoView({
+              behavior: 'smooth',
+              block: 'start',
+              inline: 'nearest'
+            });
+          }
+        }, 100);
 
-      previousFiltersRef.current = currentFiltersString;
-      return () => clearTimeout(timer);
+        previousFiltersRef.current = currentFiltersString;
+        return () => clearTimeout(timer);
+      }
     }
   }, [hasActiveFilters, currentFiltersString, isInitialLoad]);
 
@@ -327,210 +327,6 @@ export default function TrackDetailsClient({ track }) {
   return (
     <>
       <Box sx={{ minHeight: '100vh' }}>
-        {/* Banner Section */}
-        <Box
-          sx={{
-            position: 'relative',
-            height: { xs: 300, sm: 400, md: 500 },
-            overflow: 'hidden',
-            mt: 0
-          }}
-        >
-          <Box
-            sx={{
-              position: 'absolute',
-              top: {
-                xs: '-10px', // mobile
-                sm: 10, // tablet
-                md: 10 // desktop
-              },
-              left: 0,
-              zIndex: 100
-            }}
-          >
-            <Container maxWidth="xl" sx={{ pt: 3 }}>
-              <Breadcrumbs separator={<NavigateNextIcon fontSize="small" />} aria-label="breadcrumb">
-                <MuiLink underline="hover" color="#bbb" href="/" sx={{ cursor: 'pointer' }}>
-                  Home
-                </MuiLink>
-                <MuiLink underline="hover" color="#bbb" href="/tracks" sx={{ cursor: 'pointer' }}>
-                  Tracks
-                </MuiLink>
-                <Typography color="#fff">{trackName}</Typography>
-              </Breadcrumbs>
-            </Container>
-          </Box>
-
-          {/* Banner Image with Next.js Image component */}
-          <Box
-            sx={{
-              position: 'absolute',
-              top: 0,
-              left: 0,
-              width: '100%',
-              height: '100%'
-            }}
-          >
-            <Box
-              component="img"
-              src={bannerImage}
-              alt={`${trackName} - ${trackCity}, ${trackCountry}`}
-              sx={{
-                width: '100%',
-                height: '100%',
-                objectFit: 'cover',
-                opacity: 0.8
-              }}
-              onError={(e) => {
-                console.log('Banner image failed to load, using fallback');
-                e.target.src = defaultBannerUrl;
-              }}
-              onLoad={(e) => {
-                console.log('Banner image loaded successfully');
-              }}
-            />
-          </Box>
-
-          <Box
-            sx={{
-              position: 'absolute',
-              inset: 0,
-              background: 'linear-gradient(135deg, rgba(0,0,0,0.4) 0%, rgba(0,0,0,0.6) 50%, rgba(0,0,0,0.8) 100%)'
-            }}
-          />
-          <Box
-            sx={{
-              position: 'absolute',
-              inset: 0,
-              display: 'flex',
-              flexDirection: 'column',
-              alignItems: 'center',
-              justifyContent: 'center',
-              textAlign: 'center',
-              px: 2
-            }}
-          >
-            {/* Logo */}
-            {logoImage && (
-              <Box
-                sx={{
-                  width: { xs: 50, sm: 120, md: 140 },
-                  height: { xs: 50, sm: 120, md: 140 },
-                  margin: '0 auto 20px',
-                  bgcolor: 'white',
-                  borderRadius: '50%',
-                  p: 1,
-                  boxShadow: '0 20px 40px rgba(0,0,0,0.3)',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  overflow: 'hidden'
-                }}
-              >
-                <Box
-                  component="img"
-                  src={logoImage}
-                  alt={`${trackName} logo`}
-                  sx={{
-                    width: '100%',
-                    height: '100%',
-                    objectFit: 'contain'
-                  }}
-                  onError={(e) => {
-                    console.log('Logo image failed to load, hiding logo');
-                    e.target.style.display = 'none';
-                    e.target.parentElement.style.display = 'none';
-                  }}
-                  onLoad={(e) => {
-                    console.log('Logo image loaded successfully');
-                  }}
-                />
-              </Box>
-            )}
-
-            {/* Rest of the banner content remains the same */}
-            <Typography
-              variant="h1"
-              sx={{
-                color: 'white',
-                fontWeight: 800,
-                fontSize: { xs: '20px', sm: '2.5rem', md: '3rem' },
-                textShadow: '0 2px 11px rgba(0,0,0,0.5)',
-                mb: 1
-              }}
-            >
-              {trackName}
-            </Typography>
-
-            {/* Location and Track Info */}
-            <Box sx={{ display: 'flex', alignItems: 'center', gap: 2, flexWrap: 'wrap', justifyContent: 'center' }}>
-              <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5, justifyContent: 'center' }}>
-                <LocationOnIcon
-                  sx={{
-                    color: 'white',
-                    fontSize: {
-                      xs: '13px',
-                      sm: '0.95rem',
-                      md: '1.1rem'
-                    }
-                  }}
-                />
-                <Typography
-                  sx={{
-                    color: 'white',
-                    fontSize: {
-                      xs: '13px',
-                      sm: '0.95rem',
-                      md: '1.1rem'
-                    },
-                    textAlign: 'center'
-                  }}
-                >
-                  {trackCity}, {trackCountry}
-                </Typography>
-              </Box>
-              <Box
-                sx={{
-                  display: 'flex',
-                  alignItems: { xs: 'flex-start', sm: 'center', md: 'center' },
-                  gap: 0.5,
-                  width: {
-                    xs: '80%',
-                    sm: '90%',
-                    md: '90%'
-                  },
-                  justifyContent: 'center'
-                }}
-              >
-                <SpeedIcon
-                  sx={{
-                    color: 'white',
-                    fontSize: {
-                      xs: '13px',
-                      sm: '0.95rem',
-                      md: '1.1rem'
-                    },
-                    marginTop: { xs: '3px', sm: '0', md: '0' }
-                  }}
-                />
-                <Typography
-                  sx={{
-                    color: 'white',
-                    fontSize: {
-                      xs: '13px',
-                      sm: '0.95rem',
-                      md: '1.1rem'
-                    },
-                    textAlign: 'center'
-                  }}
-                >
-                  {trackLength} • {trackCorners} Corners
-                </Typography>
-              </Box>
-            </Box>
-          </Box>
-        </Box>
-
         {/* Main Content */}
         <Container maxWidth="xl" sx={{ py: { xs: 7, md: 6 }, px: { xs: 4, md: 7 } }}>
           {/* Description */}

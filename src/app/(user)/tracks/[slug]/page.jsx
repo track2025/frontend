@@ -1,6 +1,7 @@
 import { notFound } from 'next/navigation';
 import { getTrackBySlug } from 'src/services/tracks';
 import TrackDetailsClient from 'src/components/_main/track/TrackDetailsClient';
+import TrackBanner from 'src/components/_main/track/TrackBanner';
 // import TrackDetailsServer from 'src/components/_main/track/TrackDetailsServer';
 import { getProducts } from 'src/services';
 import { getTrackEventsByTrackSlug } from 'src/services/tracks';
@@ -293,6 +294,7 @@ export default async function TrackDetailsPage({ params }) {
           />
         )}
 
+        <TrackBanner track={track} />
         <TrackDetailsClient track={track} />
       </>
     );
