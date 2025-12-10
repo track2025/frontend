@@ -1,10 +1,30 @@
 import { notFound } from 'next/navigation';
-import { getTrackBySlug } from 'src/services/tracks';
+import { getTrackBySlug, getTracks } from 'src/services/tracks';
 import TrackDetailsClient from 'src/components/_main/track/TrackDetailsClient';
 import TrackBanner from 'src/components/_main/track/TrackBanner';
 // import TrackDetailsServer from 'src/components/_main/track/TrackDetailsServer';
 import { getProducts } from 'src/services';
 import { getTrackEventsByTrackSlug } from 'src/services/tracks';
+
+// Enable dynamic rendering for tracks not in generateStaticParams
+export const dynamic = 'force-static';
+export const dynamicParams = true;
+
+// Generate static pages for all tracks at build time
+export async function generateStaticParams() {
+  try {
+    const response = await getTracks({ limit: 100, page: 1 });
+    const tracks = response?.data || [];
+    
+    return tracks.map((track) => ({
+      slug: track.slug,
+    }));
+  } catch (error) {
+    console.error('Error generating static params for tracks:', error);
+    return [];
+  }
+}
+
 
 export async function generateMetadata({ params }) {
   const { slug } = params;
