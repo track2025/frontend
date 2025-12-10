@@ -6,8 +6,8 @@
     "dev": "next dev --turbo",
     "build": "next build",
     "start": "next start -p 3001",
-    "prod": "next build && next start",
-    "prepare": "husky"
+    "prod": "next build && next start"
+
   },
   "dependencies": {
     "@babel/eslint-parser": "^7.23.10",
