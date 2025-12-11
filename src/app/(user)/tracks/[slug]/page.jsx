@@ -6,9 +6,14 @@ import TrackBanner from 'src/components/_main/track/TrackBanner';
 import { getProducts } from 'src/services';
 import { getTrackEventsByTrackSlug } from 'src/services/tracks';
 
-// Enable dynamic rendering for tracks not in generateStaticParams
+// Force static rendering - prevents bailout to client-side rendering
 export const dynamic = 'force-static';
+
+// Enable dynamic rendering for tracks not in generateStaticParams
 export const dynamicParams = true;
+
+// Revalidate every hour to keep content fresh
+export const revalidate = 3600;
 
 // Generate static pages for all tracks at build time
 export async function generateStaticParams() {
@@ -290,7 +295,7 @@ export default async function TrackDetailsPage({ params }) {
     };
 
     return (
-      <>
+      <div>
         {/* Track Schema */}
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }} />
 
@@ -316,9 +321,21 @@ export default async function TrackDetailsPage({ params }) {
           />
         )}
 
+        {/* SEO H1 - Server-rendered for search engines, visually hidden for users */}
+        <h1 style={{
+          position: 'absolute',
+          left: '-10000px',
+          top: 'auto',
+          width: '1px',
+          height: '1px',
+          overflow: 'hidden'
+        }}>
+          {track.name} - {track.city}, {track.country} | Race Track Details
+        </h1>
+
         <TrackBanner track={track} />
         <TrackDetailsClient track={track} />
-      </>
+      </div>
     );
   } catch (error) {
     console.error('Error fetching track:', error);

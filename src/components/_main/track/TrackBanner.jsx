@@ -51,7 +51,6 @@ export default function TrackBanner({ track }) {
         </Container>
       </Box>
 
-      {/* Banner Image */}
       <Box
         sx={{
           position: 'absolute',
@@ -61,11 +60,10 @@ export default function TrackBanner({ track }) {
           height: '100%'
         }}
       >
-        <Box
-          component="img"
+        <img
           src={bannerImage}
           alt={`${trackName} - ${trackCity}, ${trackCountry}`}
-          sx={{
+          style={{
             width: '100%',
             height: '100%',
             objectFit: 'cover',
@@ -93,7 +91,6 @@ export default function TrackBanner({ track }) {
           px: 2
         }}
       >
-        {/* Logo */}
         {logoImage && (
           <Box
             sx={{
@@ -110,11 +107,10 @@ export default function TrackBanner({ track }) {
               overflow: 'hidden'
             }}
           >
-            <Box
-              component="img"
+            <img
               src={logoImage}
               alt={`${trackName} logo`}
-              sx={{
+              style={{
                 width: '100%',
                 height: '100%',
                 objectFit: 'contain'
@@ -123,18 +119,18 @@ export default function TrackBanner({ track }) {
           </Box>
         )}
 
-        <Typography
-          variant="h1"
-          sx={{
+        <h1
+          style={{
             color: 'white',
             fontWeight: 800,
-            fontSize: { xs: '20px', sm: '2.5rem', md: '3rem' },
+            fontSize: '3rem',
             textShadow: '0 2px 11px rgba(0,0,0,0.5)',
-            mb: 1
+            marginBottom: '8px',
+            margin: 0
           }}
         >
           {trackName}
-        </Typography>
+        </h1>
 
         {/* Location and Track Info */}
         <Box sx={{ display: 'flex', alignItems: 'center', gap: 2, flexWrap: 'wrap', justifyContent: 'center' }}>

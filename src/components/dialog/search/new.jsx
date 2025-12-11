@@ -1,3 +1,4 @@
+'use client';
 import * as React from 'react';
 // icons
 import { IoSearchOutline } from 'react-icons/io5';

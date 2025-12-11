@@ -1,9 +1,8 @@
-'use client';
 import React from 'react';
 import NextLink from 'next/link';
 
 // mui
-import { alpha, useTheme } from '@mui/material/styles';
+import { alpha } from '@mui/material/styles';
 import { Typography, Container, Stack, Box, IconButton, Grid, Link, Fab, Divider } from '@mui/material';
 
 // components
@@ -73,11 +72,10 @@ const MAIN_LINKS = [
 ];
 
 export default function Footer() {
-  const theme = useTheme();
   return (
     <Box
       sx={{
-        bgcolor: (theme) => alpha(theme.palette.info.light, 0.1),
+        bgcolor: 'background.paper',
         py: 4,
         mt: 7,
         overflow: 'hidden',
@@ -106,7 +104,7 @@ export default function Footer() {
                     <IconButton
                       sx={{
                         svg: {
-                          color: theme.palette.primary.main
+                          color: (theme) => theme.palette.primary.main
                         }
                       }}
                     >
@@ -119,7 +117,7 @@ export default function Footer() {
                       href={`${item.linkPath}`}
                       sx={{
                         ':hover': {
-                          color: theme.palette.primary.main
+                          color: 'primary.main'
                         }
                       }}
                     >
@@ -157,7 +155,7 @@ export default function Footer() {
                       color: 'text.secondary',
                       transition: '0.3s ease-in-out',
                       ':hover': {
-                        color: theme.palette.primary.main,
+                        color: 'primary.main',
                         transform: 'translateX(10px)'
                       }
                     }}
@@ -172,7 +170,7 @@ export default function Footer() {
                       color: 'text.secondary',
                       transition: '0.3s ease-in-out',
                       ':hover': {
-                        color: theme.palette.primary.main,
+                        color: 'primary.main',
                         transform: 'translateX(10px)'
                       }
                     }}
@@ -187,7 +185,7 @@ export default function Footer() {
                       color: 'text.secondary',
                       transition: '0.3s ease-in-out',
                       ':hover': {
-                        color: theme.palette.primary.main,
+                        color: 'primary.main',
                         transform: 'translateX(10px)'
                       }
                     }}
@@ -202,7 +200,7 @@ export default function Footer() {
                       color: 'text.secondary',
                       transition: '0.3s ease-in-out',
                       ':hover': {
-                        color: theme.palette.primary.main,
+                        color: 'primary.main',
                         transform: 'translateX(10px)'
                       }
                     }}
@@ -217,7 +215,7 @@ export default function Footer() {
                       color: 'text.secondary',
                       transition: '0.3s ease-in-out',
                       ':hover': {
-                        color: theme.palette.primary.main,
+                        color: 'primary.main',
                         transform: 'translateX(10px)'
                       }
                     }}
