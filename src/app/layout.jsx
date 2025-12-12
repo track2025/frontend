@@ -48,7 +48,7 @@ export default function RootLayout({ children }) {
           `}
         </Script>
       </head>
-      <body suppressHydrationWarning>
+      <body>
         <NextTopLoader
           color="#EE1E50"
           initialPosition={0.08}

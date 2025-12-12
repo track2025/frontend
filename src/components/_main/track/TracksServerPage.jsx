@@ -15,6 +15,7 @@ export default function TracksServerPage({ tracks, pagination, searchTerm }) {
             fontWeight: 800,
             textAlign: "center",
             mb: 1,
+            color: "text.primary",
           }}
         >
           All Race Tracks on LapSnaps
@@ -25,7 +26,7 @@ export default function TracksServerPage({ tracks, pagination, searchTerm }) {
           sx={{
             fontSize: { xs: "1rem", sm: "1.1rem", md: "1.2rem" },
             fontWeight: 400,
-            color: "#666",
+            color: "text.secondary",
             textAlign: "center",
             mb: 3,
             maxWidth: "800px",
@@ -38,7 +39,7 @@ export default function TracksServerPage({ tracks, pagination, searchTerm }) {
         <Typography
           variant="body2"
           sx={{
-            color: "#666",
+            color: "text.secondary",
             textAlign: "center",
             width: "100%",
             mb: 2,
@@ -58,10 +59,10 @@ export default function TracksServerPage({ tracks, pagination, searchTerm }) {
           ) : (
             <Grid item xs={12}>
               <Box sx={{ textAlign: "center", py: 8 }}>
-                <Typography variant="h5" sx={{ color: "#666", mb: 2 }}>
+                <Typography variant="h5" sx={{ color: "text.secondary", mb: 2 }}>
                   {searchTerm ? "No tracks found matching your search" : "No tracks found"}
                 </Typography>
-                <Typography variant="body1" sx={{ color: "#999" }}>
+                <Typography variant="body1" sx={{ color: "text.disabled" }}>
                   {searchTerm ? "Try adjusting your search terms" : "Check back later for new tracks!"}
                 </Typography>
               </Box>

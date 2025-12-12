@@ -20,7 +20,7 @@ const slice = createSlice({
       state.themeMode = action.payload;
       // Save to cookie for public routes
       if (typeof document !== 'undefined') {
-        document.cookie = `themeMode=${action.payload}; path=/; max-age=31536000`; // 1 year
+        document.cookie = `themeMode=${action.payload}; path=/; max-age=31536000; SameSite=Lax`; // 1 year
       }
     },
     toggleSidebar(state, action) {

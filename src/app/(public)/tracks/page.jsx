@@ -209,7 +209,6 @@ import { Suspense } from 'react'
 import { getTracks } from 'src/services/tracks'
 import TracksServerPage from 'src/components/_main/track/TracksServerPage'
 import { CircularProgress, Box } from '@mui/material'
-import TracksServerWrapper from 'src/components/_main/track/tracksServerwrapper'
 
 export const metadata = {
   title: 'Car, Bike & Kart Race Tracks Worldwide | LapSnaps',
@@ -405,8 +404,7 @@ export default async function TracksPage({ searchParams }) {
           </Box>
         }
       >
-        {/* <TracksServerPage tracks={tracks} pagination={pagination} searchTerm={search} /> */}
-        <TracksServerWrapper tracks={tracks} pagination={pagination} searchTerm={search} />
+        <TracksServerPage tracks={tracks} pagination={pagination} searchTerm={search} />
       </Suspense>
     </>
   )

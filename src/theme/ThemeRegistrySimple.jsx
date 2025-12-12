@@ -24,25 +24,26 @@ ThemeRegistrySimple.propTypes = {
 };
 
 export default function ThemeRegistrySimple({ children }) {
-  // Get initial theme from cookies (works on server and client)
-  const getInitialTheme = () => {
-    if (typeof document === 'undefined') return 'light';
-    const themeCookie = document.cookie.split('; ').find(row => row.startsWith('themeMode='));
-    return themeCookie ? themeCookie.split('=')[1] : 'light';
-  };
-  
-  // Initialize state with cookie value to prevent hydration mismatch
-  const [themeMode, setThemeMode] = React.useState(() => getInitialTheme());
+  const [themeMode, setThemeMode] = React.useState('light');
+  const [isClient, setIsClient] = React.useState(false);
   const isRTL = false;
   
-  // Listen for theme changes from other components
   React.useEffect(() => {
+    setIsClient(true);
+    
+    const themeCookie = document.cookie.split('; ').find(row => row.startsWith('themeMode='));
+    const cookieTheme = themeCookie ? themeCookie.split('=')[1] : null;
+    
+    if (cookieTheme) {
+      setThemeMode(cookieTheme);
+    } else {
+      document.cookie = 'themeMode=light; path=/; max-age=31536000; SameSite=Lax';
+    }
+    
     const handleThemeChange = () => {
-      if (typeof document !== 'undefined') {
-        const themeCookie = document.cookie.split('; ').find(row => row.startsWith('themeMode='));
-        const newTheme = themeCookie ? themeCookie.split('=')[1] : 'light';
-        setThemeMode(newTheme);
-      }
+      const themeCookie = document.cookie.split('; ').find(row => row.startsWith('themeMode='));
+      const newTheme = themeCookie ? themeCookie.split('=')[1] : 'light';
+      setThemeMode(newTheme);
     };
     
     window.addEventListener('themeChanged', handleThemeChange);
@@ -76,11 +77,13 @@ export default function ThemeRegistrySimple({ children }) {
   );
 
   return (
-    <CacheProvider value={cache}>
-      <ThemeProvider theme={theme}>
-        <CssBaseline />
-        <div suppressHydrationWarning>{children}</div>
-      </ThemeProvider>
-    </CacheProvider>
+    <div suppressHydrationWarning>
+      <CacheProvider value={cache}>
+        <ThemeProvider theme={theme}>
+          {isClient && <CssBaseline enableColorScheme />}
+          {children}
+        </ThemeProvider>
+      </CacheProvider>
+    </div>
   );
 }
