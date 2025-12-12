@@ -1,8 +1,8 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { useRouter } from 'next-nprogress-bar';
 import PropTypes from 'prop-types';
 // redux
-import { useDispatch } from 'react-redux';
+import { useDispatch, ReactReduxContext } from 'react-redux';
 import { setLogout } from 'src/redux/slices/user';
 import { resetWishlist } from 'src/redux/slices/wishlist';
 // mui
@@ -24,24 +24,32 @@ import RootStyled from './styled';
 import { deleteCookies } from 'src/hooks/cookies';
 
 UserList.propTypes = {
-  openUser: PropTypes.bool.isRequired,
-  user: PropTypes.object.isRequired,
-  setOpen: PropTypes.func.isRequired
+  openUser: PropTypes.bool,
+  user: PropTypes.object,
+  setOpen: PropTypes.func
 };
 
-export default function UserList({ ...props }) {
+export default function UserList(props) {
   const { openUser, user, setOpen } = props;
   const router = useRouter();
-  const dispatch = useDispatch();
+  
+  // Check if Redux is available
+  const reduxContext = useContext(ReactReduxContext);
+  const dispatch = reduxContext ? useDispatch() : null;
 
   const onLogout = () => {
     deleteCookies('token');
-    dispatch(setLogout());
-    dispatch(resetWishlist());
-    setOpen(false);
-    setTimeout(() => {
-      location.href = '/auth/login';
-    }, 1000);
+    deleteCookies('userRole');
+    router.push('/auth/login');
+    
+    // Only dispatch if Redux is available
+    if (dispatch) {
+      dispatch(setLogout());
+    } else {
+      // On public routes, just clear cookies
+      document.cookie = 'userData=; path=/; max-age=0';
+      document.cookie = 'isAuthenticated=; path=/; max-age=0';
+    }
   };
 
   return (

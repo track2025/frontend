@@ -344,10 +344,21 @@
 // }
 import { notFound } from "next/navigation"
 import { getTrackBySlug, getTracks } from "src/services/tracks"
-import TrackDetailsClient from "src/components/_main/track/TrackDetailsClient"
+import dynamicImport from 'next/dynamic'
 import TrackBanner from "src/components/_main/track/TrackBanner"
+import TrackDescription from "src/components/_main/track/TrackDescription"
 // import TrackDetailsServer from 'src/components/_main/track/TrackDetailsServer';
 import { getProducts } from "src/services"
+
+// Dynamically import with ssr: false to prevent hydration mismatch
+const TrackDetailsClientPublic = dynamicImport(
+  () => import('src/components/_main/track/TrackDetailsClientPublic'),
+  { ssr: false, loading: () => (
+    <div style={{ minHeight: '50vh', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+      <div>Loading...</div>
+    </div>
+  )}
+);
 import { getTrackEventsByTrackSlug } from "src/services/tracks"
 
 // Force static rendering - prevents bailout to client-side rendering
@@ -662,21 +673,9 @@ export default async function TrackDetailsPage({ params }) {
           />
         )}
 
-        <h1
-          style={{
-            position: "absolute",
-            left: "-9999px",
-            top: "auto",
-            width: "1px",
-            height: "1px",
-            overflow: "hidden",
-          }}
-        >
-          {track.name} - Race Track in {track.city}, {track.country}
-        </h1>
-
         <TrackBanner track={track} />
-        <TrackDetailsClient track={track} />
+        <TrackDescription track={track} />
+        <TrackDetailsClientPublic track={track} />
       </div>
     )
   } catch (error) {

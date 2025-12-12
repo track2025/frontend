@@ -18,7 +18,6 @@ import { FaAngleDown } from 'react-icons/fa6';
 import MenuDesktopPopover from 'src/components/popover/menuDesktop';
 
 // api
-import { useQuery } from 'react-query';
 import * as api from 'src/services';
 
 // ----------------------------------------------------------------------
@@ -154,10 +153,29 @@ function MenuDesktopItem({ ...props }) {
   );
 }
 
-export default function MenuDesktop({ ...props }) {
+export default function MenuDesktop(props) {
   const { isOffset, navConfig, isLeft } = props;
 
-  const { data, isLoading } = useQuery(['get-categories-all'], () => api.getAllCategories());
+  // Replace useQuery with useState + useEffect
+  const [data, setData] = useState(null);
+  const [isLoading, setIsLoading] = useState(true);
+  
+  useEffect(() => {
+    const fetchCategories = async () => {
+      setIsLoading(true);
+      try {
+        const response = await api.getAllCategories();
+        setData(response);
+      } catch (error) {
+        console.error('Error fetching categories:', error);
+        setData(null);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+    
+    fetchCategories();
+  }, []);
 
   const { pathname } = useRouter();
 

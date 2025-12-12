@@ -1,32 +1,43 @@
-import React from 'react';
+'use client';
+import React, { useContext } from 'react';
+import { useRouter } from 'next-nprogress-bar';
 // redux
-import { useDispatch } from 'react-redux';
+import { useDispatch, ReactReduxContext } from 'react-redux';
 import { setLogout } from 'src/redux/slices/user';
-import { resetWishlist } from 'src/redux/slices/wishlist';
 // mui
-import {  Button } from '@mui/material';
+import { LoadingButton } from '@mui/lab';
+// hooks
+import { deleteCookies } from 'src/hooks/cookies';
 // icons
 import { LuLogOut } from 'react-icons/lu';
 
-import { deleteCookies } from 'src/hooks/cookies';
-
 
 export default function LogoutButton() {
-  const dispatch = useDispatch();
+  const router = useRouter();
+  
+  // Check if Redux is available
+  const reduxContext = useContext(ReactReduxContext);
+  const dispatch = reduxContext ? useDispatch() : null;
 
   const onLogout = () => {
     deleteCookies('token');
-    dispatch(setLogout());
-    dispatch(resetWishlist());
-    //setOpen(false);
-    setTimeout(() => {
-      location.href = '/';
-    }, 1000);
+    deleteCookies('userRole');
+    
+    // Only dispatch if Redux is available
+    if (dispatch) {
+      dispatch(setLogout());
+    } else {
+      // On public routes, just clear cookies
+      document.cookie = 'userData=; path=/; max-age=0';
+      document.cookie = 'isAuthenticated=; path=/; max-age=0';
+    }
+    
+    router.push('/auth/login');
   };
 
   return (
-        <Button onClick={onLogout} variant="outlined" color="inherit" startIcon={<LuLogOut />} fullWidth>
+        <LoadingButton onClick={onLogout} variant="outlined" color="inherit" startIcon={<LuLogOut />} fullWidth>
           Logout
-        </Button>
+        </LoadingButton>
   );
 }

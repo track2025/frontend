@@ -1,8 +1,8 @@
 'use client';
-import { useState, useRef } from 'react';
+import { useState, useRef, useContext } from 'react';
 import PropTypes from 'prop-types';
 import { useMutation } from 'react-query';
-import { useSelector } from 'react-redux';
+import { useSelector, ReactReduxContext } from 'react-redux';
 import Link from 'next/link';
 import { useRouter } from 'next-nprogress-bar';
 import { toast } from 'react-hot-toast';
@@ -50,8 +50,7 @@ function isVideo(url) {
   return /\.(mp4|webm|ogg|mov)$/i.test(url);
 }
 
-export default function ShopProductCard({ ...props }) {
-  const { product, loading } = props;
+export default function ShopProductCard({ product = {}, loading = false, ...props }) {
   const cCurrency = useCurrencyConvert();
   const fCurrency = useCurrencyFormatter();
 
@@ -59,27 +58,34 @@ export default function ShopProductCard({ ...props }) {
   const [openActions, setOpenActions] = useState(false);
   const theme = useTheme();
   const router = useRouter();
-  const dispatch = useDispatch();
+  
+  // Check if Redux is available
+  const reduxContext = useContext(ReactReduxContext);
+  const dispatch = reduxContext ? useDispatch() : null;
 
   const videoRef = useRef(null);
-  const { wishlist } = useSelector(({ wishlist }) => wishlist);
-  const { products: compareProducts } = useSelector(({ compare }) => compare);
-  const { isAuthenticated } = useSelector(({ user }) => user);
+  
+  // Only use Redux selectors if context exists
+  const wishlist = reduxContext ? useSelector(({ wishlist }) => wishlist.wishlist) : [];
+  const compareProducts = reduxContext ? useSelector(({ compare }) => compare.products) : [];
+  const isAuthenticated = reduxContext ? useSelector(({ user }) => user.isAuthenticated) : false;
+  
   const isTablet = useMediaQuery('(max-width:900px)');
   const [isLoading, setLoading] = useState(false);
 
-  const { mutate } = useMutation(api.updateWishlist, {
+  // Only use mutations if Redux is available (not on public routes)
+  const { mutate } = reduxContext ? useMutation(api.updateWishlist, {
     onSuccess: (data) => {
       toast.success(data.message);
       setLoading(false);
-      dispatch(setWishlist(data.data));
+      if (dispatch) dispatch(setWishlist(data.data));
     },
     onError: (err) => {
       setLoading(false);
       const message = JSON.stringify(err.response.data.message);
       toast.error(message ? JSON.parse(message) : 'Something went wrong');
     }
-  });
+  }) : { mutate: () => {} }; // Provide dummy mutate function for public routes
 
   const { name, slug, image, _id, averageRating, priceSale, dateCaptured, location } = !loading && product;
 
@@ -124,12 +130,14 @@ export default function ShopProductCard({ ...props }) {
   };
   const onAddCompare = async (event) => {
     event.stopPropagation();
+    if (!dispatch) return;
     toast.success('Added to compare list');
     dispatch(addCompareProduct(product));
   };
 
   const onRemoveCompare = async (event) => {
     event.stopPropagation();
+    if (!dispatch) return;
     toast.success('Removed from compare list');
     dispatch(removeCompareProduct(_id));
   };
@@ -281,7 +289,8 @@ export default function ShopProductCard({ ...props }) {
         </Stack> */}
       </Stack>
 
-      <ProductDetailsDialog product={product} open={open} onClose={() => setOpen(false)} />
+      {/* Only show dialog on routes with QueryClient (user routes) */}
+      {reduxContext && <ProductDetailsDialog product={product} open={open} onClose={() => setOpen(false)} />}
     </Card>
   );
 }
@@ -291,7 +300,4 @@ ShopProductCard.propTypes = {
   loading: PropTypes.bool
 };
 
-ShopProductCard.defaultProps = {
-  product: {},
-  loading: false
-};
+

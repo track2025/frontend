@@ -36,6 +36,9 @@ const slice = createSlice({
       state.checkout.billing = billing;
       state.checkout.subtotal = subtotal;
       state.checkout.total = subtotal;
+      
+      // Sync cart to cookies
+      document.cookie = `cart=${encodeURIComponent(JSON.stringify(cart))}; path=/; max-age=604800`; // 7 days
     },
 
 
@@ -67,6 +70,9 @@ const slice = createSlice({
       }
 
       state.checkout.cart = uniqBy([...state.checkout.cart, updatedProduct], 'sku');
+      
+      // Sync cart to cookies
+      document.cookie = `cart=${encodeURIComponent(JSON.stringify(state.checkout.cart))}; path=/; max-age=604800`;
     },
 
     addCart(state, action) {
@@ -99,6 +105,9 @@ const slice = createSlice({
       }
 
       state.checkout.cart = uniqBy([...state.checkout.cart, updatedProduct], 'sku');
+      
+      // Sync cart to cookies
+      document.cookie = `cart=${encodeURIComponent(JSON.stringify(state.checkout.cart))}; path=/; max-age=604800`;
     },
 
     clearCart(state, action) {
@@ -108,11 +117,17 @@ const slice = createSlice({
       // For physical
       const updatePhysicalCart = filter(state.checkout.cart, (item) => item.sku !== action.payload);
       state.checkout.cart = updatePhysicalCart;
+      
+      // Sync cart to cookies
+      document.cookie = `cart=${encodeURIComponent(JSON.stringify(state.checkout.cart))}; path=/; max-age=604800`;
     },
     deleteCart(state, action) {
       const updateCart = filter(state.checkout.cart, (item) => item.sku !== action.payload);
 
       state.checkout.cart = updateCart;
+      
+      // Sync cart to cookies
+      document.cookie = `cart=${encodeURIComponent(JSON.stringify(state.checkout.cart))}; path=/; max-age=604800`;
     },
 
     resetCart(state) {
@@ -122,6 +137,9 @@ const slice = createSlice({
       state.checkout.subtotal = 0;
       state.checkout.discount = 0;
       state.checkout.billing = null;
+      
+      // Clear cart cookie
+      document.cookie = 'cart=; path=/; max-age=0';
     },
 
     increaseQuantity(state, action) {
@@ -137,6 +155,9 @@ const slice = createSlice({
       });
 
       state.checkout.cart = updateCart;
+      
+      // Sync cart to cookies
+      document.cookie = `cart=${encodeURIComponent(JSON.stringify(state.checkout.cart))}; path=/; max-age=604800`;
     },
 
     decreaseQuantity(state, action) {
@@ -152,6 +173,9 @@ const slice = createSlice({
       });
 
       state.checkout.cart = updateCart;
+      
+      // Sync cart to cookies
+      document.cookie = `cart=${encodeURIComponent(JSON.stringify(state.checkout.cart))}; path=/; max-age=604800`;
     },
 
     createBilling(state, action) {

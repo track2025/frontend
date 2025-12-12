@@ -1,5 +1,5 @@
 'use client';
-import React from 'react';
+import React, { useContext } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useRouter } from 'next-nprogress-bar';
@@ -13,14 +13,32 @@ import { PATH_PAGE } from 'src/routes/paths';
 import { UserList } from 'src/components/lists';
 import BlurImageAvatar from 'src/components/avatar';
 // redux
-import { useSelector } from 'react-redux';
+import { useSelector, ReactReduxContext } from 'react-redux';
+import { useSettingsFromCookies } from 'src/hooks/useSettingsFromCookies';
 
 function getKeyByValue(object, value) {
   return Object.keys(object).find((key) => object[key] === value);
 }
 
 export default function UserSelect({ isAdmin }) {
-  const { user, isAuthenticated } = useSelector(({ user }) => user);
+  // Check if Redux is available
+  const reduxContext = useContext(ReactReduxContext);
+  
+  // Get user data from Redux or cookies
+  let user = null;
+  let isAuthenticated = false;
+  
+  if (reduxContext) {
+    const reduxUser = useSelector(({ user }) => user);
+    user = reduxUser.user;
+    isAuthenticated = reduxUser.isAuthenticated;
+  } else {
+    // Public route - get from cookies
+    const cookieSettings = useSettingsFromCookies();
+    user = cookieSettings.user;
+    isAuthenticated = cookieSettings.isAuthenticated;
+  }
+  
   const router = useRouter();
   const pathname = usePathname();
   const isAuthPath = getKeyByValue(PATH_PAGE.auth, pathname);

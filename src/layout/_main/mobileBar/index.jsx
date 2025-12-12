@@ -4,7 +4,8 @@ import * as React from 'react';
 import { sum } from 'lodash';
 import { usePathname } from 'next/navigation';
 import { useRouter } from 'next-nprogress-bar';
-import { useSelector } from 'react-redux';
+import { useSelector, ReactReduxContext } from 'react-redux';
+import { useSettingsFromCookies } from 'src/hooks/useSettingsFromCookies';
 
 // mui
 import { Box, Badge, Button } from '@mui/material';
@@ -82,8 +83,33 @@ export default function MobileBar() {
   const { mobile_menu } = config;
   const { push } = useRouter();
   const pathname = usePathname();
-  const { product, user } = useSelector((state) => state);
-  const { checkout } = useSelector(({ product }) => product);
+  
+  // Check if Redux is available
+  const reduxContext = React.useContext(ReactReduxContext);
+  
+  // Get settings from cookies (works on both server and client)
+  const cookieSettings = useSettingsFromCookies();
+  
+  // Get data from Redux or cookies
+  let checkout = { cart: [] };
+  let user = null;
+  let isAuthenticated = false;
+  let product = null;
+  
+  if (reduxContext) {
+    const productState = useSelector(({ product }) => product);
+    const userState = useSelector(({ user }) => user);
+    product = productState; // Store full product state for isActiveIndex
+    checkout = productState.checkout;
+    user = userState.user;
+    isAuthenticated = userState.isAuthenticated;
+  } else {
+    // Public route - get from cookies via hook (SSR-safe)
+    checkout = { cart: cookieSettings.cart || [] };
+    user = cookieSettings.user;
+    isAuthenticated = cookieSettings.isAuthenticated;
+  }
+  
   const [index, setIndex] = React.useState(0);
   const [state, setState] = React.useState({
     product: null,
@@ -96,13 +122,13 @@ export default function MobileBar() {
     push(href);
     setIndex(i);
   };
-
+  
+  // Stabilize checkout object reference using useMemo
+  const stableCheckout = React.useMemo(() => checkout, [JSON.stringify(checkout.cart)]);
+  
   React.useEffect(() => {
     const isActiveIndex = () => {
-      setState({
-        product,
-        user
-      });
+      // Don't update state - not needed
       const index =
         pathname.includes('/auth') || pathname.includes('/profile')
           ? 3
@@ -110,17 +136,18 @@ export default function MobileBar() {
             ? 4
             : pathname.includes('/cart')
               ? 2
-              : pathname.includes('/race-track/collection')
+              : pathname.includes('/products') || pathname.includes('/product')
                 ? 1
                 : 0;
-      return index;
+
+      setIndex(index);
     };
-    setIndex(isActiveIndex());
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [pathname]);
+    isActiveIndex();
+  }, [pathname]); // Only re-run when pathname changes
+
   React.useEffect(() => {
-    setCart(checkout.cart);
-  }, [checkout]);
+    setCart(stableCheckout.cart);
+  }, [stableCheckout]); // Use stable reference
 
   return (
     <RootStyled>

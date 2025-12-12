@@ -1,5 +1,6 @@
 'use client';
-import { useSelector } from 'react-redux';
+import { useContext } from 'react';
+import { useSelector, ReactReduxContext } from 'react-redux';
 import { Stack } from '@mui/material';
 import dynamic from 'next/dynamic';
 
@@ -12,19 +13,27 @@ const CartWidget = dynamic(() => import('src/components/cartWidget'), {
   )
 });
 
-const LanguageSelect = dynamic(() => import('src/components/languageSelect'), {
-  ssr: false
-});
+const LanguageSelect = dynamic(() => import('src/components/languageSelect'));
 
 const SettingMode = dynamic(() => import('src/components/settings/themeModeSetting'));
 
 export default function NavbarClient() {
-  const { checkout } = useSelector(({ product }) => product);
+  // Check if Redux is available
+  const reduxContext = useContext(ReactReduxContext);
+  
+  // Get checkout data from Redux or use empty object for public routes
+  let checkout = { cart: [] };
+  
+  if (reduxContext) {
+    const productState = useSelector(({ product }) => product);
+    checkout = productState.checkout;
+  }
 
   return (
     <Stack gap={2} direction="row" alignItems="center">
       <LanguageSelect />
-      <SettingMode />
+      {/* Only show SettingMode on Redux routes */}
+      {reduxContext && <SettingMode />}
       <CartWidget checkout={checkout} />
     </Stack>
   );

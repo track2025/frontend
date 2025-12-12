@@ -14,9 +14,9 @@ export default function ProductList({ ...props }) {
     <Box my={3}>
       <Grid container className="row" spacing={isMobile ? 1 : 0}>
         {!isLoading && products?.length < 1 && <NoDataFound />}
-        {(isLoading ? Array.from(new Array(8)) : products)?.map((product) => (
-          <div className="col-lg-3 col-md-4 ">
-            <Grid key={Math.random()} item className="col-12" sx={{ transition: 'all 0.3s ease-in-out' }}>
+        {(isLoading ? Array.from(new Array(8)) : products)?.map((product, index) => (
+          <div className="col-lg-3 col-md-4 " key={product?._id || `skeleton-${index}`}>
+            <Grid item className="col-12" sx={{ transition: 'all 0.3s ease-in-out' }}>
               <ProductCard product={product} loading={isLoading} isMobile={isMobile} className="" />
             </Grid>
           </div>

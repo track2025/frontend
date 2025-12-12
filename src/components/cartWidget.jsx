@@ -1,6 +1,7 @@
+import { useContext } from 'react';
 import PropTypes from 'prop-types';
 import { sum } from 'lodash';
-import { useSelector } from 'react-redux';
+import { useSelector, ReactReduxContext } from 'react-redux';
 import { useRouter } from 'next-nprogress-bar';
 
 // mui
@@ -12,9 +13,31 @@ import { useCurrencyConvert } from 'src/hooks/convertCurrency';
 import { useCurrencyFormatter } from 'src/hooks/formatCurrency';
 
 export default function CartWidget() {
-  const {
-    checkout: { cart }
-  } = useSelector(({ product }) => product);
+  // Check if Redux is available
+  const reduxContext = useContext(ReactReduxContext);
+  
+  // Get cart from Redux or cookies
+  let cart = [];
+  
+  if (reduxContext) {
+    const productState = useSelector(({ product }) => product);
+    cart = productState.checkout?.cart || [];
+  } else {
+    // Public route - try to get from cookies
+    if (typeof document !== 'undefined') {
+      try {
+        const cartCookie = document.cookie
+          .split('; ')
+          .find(row => row.startsWith('cart='));
+        if (cartCookie) {
+          const cartData = JSON.parse(decodeURIComponent(cartCookie.split('=')[1]));
+          cart = cartData || [];
+        }
+      } catch (error) {
+        console.error('Error reading cart from cookies:', error);
+      }
+    }
+  }
   
   const router = useRouter();
   const totalItems = sum(cart?.map((item) => item.quantity));

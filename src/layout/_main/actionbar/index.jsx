@@ -12,6 +12,7 @@ import config from 'src/layout/_main/config.json';
 export default function Navbar() {
   const { menu } = config;
 
+  // ActionBar is currently not used in this application
   // return (
   //   <>
   //     <AppBar

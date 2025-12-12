@@ -1,6 +1,7 @@
 import * as React from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch, useSelector, ReactReduxContext } from 'react-redux';
 import { handleChangeCurrency } from 'src/redux/slices/settings';
+import { useSettingsFromCookies } from 'src/hooks/useSettingsFromCookies';
 import { useEffect, useRef } from 'react';
 
 // mui
@@ -25,7 +26,7 @@ import { FaExchangeAlt } from 'react-icons/fa';
 
 // api
 import * as api from 'src/services';
-import { useQuery } from 'react-query';
+// Removed useQuery import - using useState/useEffect instead
 import getLocation from 'src/utils/geolocation';
 
 // Comprehensive currency to country code mapping
@@ -114,10 +115,62 @@ const currencyToCountryMap = {
 };
 
 export default function LanguageSelect() {
-  const dispatch = useDispatch();
-  const { currency } = useSelector(({ settings }) => settings);
+  // Check if Redux is available
+  const reduxContext = React.useContext(ReactReduxContext);
+  
+  // Always call hooks (React rules)
+  const reduxSettings = reduxContext ? useSelector(({ settings }) => settings) : null;
+  const dispatch = reduxContext ? useDispatch() : null;
+  
+  // Get currency from Redux or cookies with state for reactivity
+  const getCurrencyFromCookies = () => {
+    if (typeof document === 'undefined') return 'USD';
+    const currencyCookie = document.cookie.split('; ').find(row => row.startsWith('currency='));
+    return currencyCookie ? currencyCookie.split('=')[1] : 'USD';
+  };
+  
+  const [currency, setCurrency] = React.useState('USD');
+  
+  React.useEffect(() => {
+    if (reduxSettings) {
+      // Redux route - get from Redux
+      setCurrency(reduxSettings.currency);
+    } else {
+      // Public route - get from cookies
+      setCurrency(getCurrencyFromCookies());
+      
+      // Listen for currency changes
+      const handleCurrencyChange = () => {
+        setCurrency(getCurrencyFromCookies());
+      };
+      
+      window.addEventListener('currencyChanged', handleCurrencyChange);
+      return () => window.removeEventListener('currencyChanged', handleCurrencyChange);
+    }
+  }, [reduxSettings]);
+  
   const [open, setOpen] = React.useState(false);
-  const { data, isLoading } = useQuery(['get-currencies'], () => api.getCurrencies());
+  
+  // Replace useQuery with useState + useEffect for dual-mode support
+  const [data, setData] = React.useState(null);
+  const [isLoading, setIsLoading] = React.useState(true);
+  
+  React.useEffect(() => {
+    const fetchCurrencies = async () => {
+      setIsLoading(true);
+      try {
+        const response = await api.getCurrencies();
+        setData(response);
+      } catch (error) {
+        console.error('Error fetching currencies:', error);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+    
+    fetchCurrencies();
+  }, []);
+  
   const handleClickOpen = () => {
     setOpen(true);
   };
@@ -174,22 +227,39 @@ export default function LanguageSelect() {
       const detectAndSetCurrency = async () => {
         try {
           const currency = await autoChangeCurrency();
-          dispatch(
-            handleChangeCurrency({
-              currency: currency.code,
-              rate: currency.rate || 1,
-              selectedCountry: currency.countryCode
-            })
-          );
+          
+          if (dispatch) {
+            // Redux route - use dispatch
+            dispatch(
+              handleChangeCurrency({
+                currency: currency.code,
+                rate: currency.rate || 1,
+                selectedCountry: currency.countryCode
+              })
+            );
+          } else {
+            // Public route - save to cookies
+            document.cookie = `currency=${currency.code}; path=/; max-age=31536000`;
+            document.cookie = `rate=${currency.rate || 1}; path=/; max-age=31536000`;
+            document.cookie = `selectedCountry=${currency.countryCode}; path=/; max-age=31536000`;
+          }
         } catch (error) {
           const usdCurrency = enhancedCurrencies?.find((cur) => cur.code === 'USD');
-          dispatch(
-            handleChangeCurrency({
-              currency: 'USD',
-              rate: usdCurrency?.rate || 1,
-              selectedCountry: usdCurrency?.countryCode
-            })
-          );
+          
+          if (dispatch) {
+            dispatch(
+              handleChangeCurrency({
+                currency: 'USD',
+                rate: usdCurrency?.rate || 1,
+                selectedCountry: usdCurrency?.countryCode
+              })
+            );
+          } else {
+            // Public route - save to cookies
+            document.cookie = `currency=USD; path=/; max-age=31536000`;
+            document.cookie = `rate=${usdCurrency?.rate || 1}; path=/; max-age=31536000`;
+            document.cookie = `selectedCountry=${usdCurrency?.countryCode}; path=/; max-age=31536000`;
+          }
         } finally {
           hasRunRef.current = true;
         }
@@ -249,13 +319,25 @@ export default function LanguageSelect() {
                 <Button
                   onClick={() => {
                     if (!cur) return;
-                    dispatch(
-                      handleChangeCurrency({
-                        currency: cur.code,
-                        rate: cur.rate,
-                        selectedCountry: cur.countryCode
-                      })
-                    );
+                    
+                    if (dispatch) {
+                      // Redux route - use dispatch (already saves to cookie)
+                      dispatch(
+                        handleChangeCurrency({
+                          currency: cur.code,
+                          rate: cur.rate,
+                          selectedCountry: cur.countryCode
+                        })
+                      );
+                    } else {
+                      // Public route - save directly to cookies
+                      document.cookie = `currency=${cur.code}; path=/; max-age=31536000`;
+                      document.cookie = `rate=${cur.rate}; path=/; max-age=31536000`;
+                      document.cookie = `selectedCountry=${cur.countryCode}; path=/; max-age=31536000`;
+                      // Emit event to notify components
+                      window.dispatchEvent(new Event('currencyChanged'));
+                    }
+                    
                     handleClose();
                   }}
                   fullWidth

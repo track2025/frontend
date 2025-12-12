@@ -3,6 +3,9 @@ import React from 'react';
 // mui
 import { Toolbar } from '@mui/material';
 
+// providers
+import Providers from 'src/providers';
+
 // components
 import Navbar from 'src/layout/_main/navbar';
 import Footer from 'src/layout/_main/footer';
@@ -27,13 +30,13 @@ export const metadata = {
 
 export default async function RootLayout({ children }) {
   return (
-    <>
+    <Providers>
       <Topbar />
       <Navbar />
       <ActionBar />
       {children}
       <Toolbar sx={{ display: { xs: 'block', md: 'none' } }} />
       <Footer />
-    </>
+    </Providers>
   );
 }
