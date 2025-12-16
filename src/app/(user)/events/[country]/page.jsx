@@ -218,21 +218,26 @@ export default async function CountryEventsPage({ params }) {
     const today = new Date();
     today.setHours(0, 0, 0, 0);
 
-    const countryEvents = eventsData
+    // Get country info from ALL events for this country (not just upcoming ones)
+    // This ensures we always have the correct country name even if all events are in the past
+    const allCountryEvents = eventsData.filter((event) => event.countrySlug === country);
+    
+    const countryInfo = allCountryEvents[0] || {
+      country: country.charAt(0).toUpperCase() + country.slice(1).replace(/-/g, ' '),
+      countrySlug: country,
+      countryCode: country.toUpperCase()
+    };
+
+    // Now filter for upcoming events only
+    const countryEvents = allCountryEvents
       .filter((event) => {
         const eventDate = new Date(event.date);
         eventDate.setHours(0, 0, 0, 0);
-        return event.countrySlug === country && eventDate >= today;
+        return eventDate >= today;
       })
       .sort((a, b) => new Date(a.date) - new Date(b.date));
 
     // console.log('SSSS::', countryEvents);
-
-    const countryInfo = countryEvents[0] || {
-      country: 'this country',
-      countrySlug: country,
-      countryCode: country.toUpperCase()
-    };
 
     // Create individual event schemas for better structured data
     const eventSchemas = countryEvents.map((event, index) => {
@@ -323,9 +328,9 @@ export default async function CountryEventsPage({ params }) {
 
         <CountryEventsServer countryEvents={countryEvents} countryInfo={countryInfo} countrySlug={country} />
 
-        <div style={{ display: 'none' }}>
+        {/* <div style={{ display: 'none' }}>
           <CountryEventsClient countryEvents={countryEvents} countryInfo={countryInfo} countrySlug={country} />
-        </div>
+        </div> */}
       </>
     );
   } catch (error) {
