@@ -84,7 +84,7 @@ export default async function sitemap() {
     {
       url: `${BASE_URL}/race-track/collection`,
       lastModified: new Date(),
-      changeFrequency: 'weekly',
+      changeFrequency: 'daily',
       priority: 0.8
     },
     {
@@ -96,7 +96,7 @@ export default async function sitemap() {
     {
       url: `${BASE_URL}/tracks`,
       lastModified: new Date(),
-      changeFrequency: 'monthly',
+      changeFrequency: 'weekly',
       priority: 0.7
     },
     {
@@ -122,23 +122,23 @@ export default async function sitemap() {
     ...tracks.map((track) => ({
       url: `${BASE_URL}/tracks/${track.slug}`,
       lastModified: track.updatedAt || new Date(),
-      changeFrequency: 'monthly',
-      priority: 0.6
+      changeFrequency: 'daily',
+      priority: 0.9
     })),
 
     // Dynamic photographers
     ...photographers.map((photographer) => ({
       url: `${BASE_URL}/photographers/${photographer.slug}`,
       lastModified: photographer.updatedAt || new Date(),
-      changeFrequency: 'weekly',
-      priority: 0.6
+      changeFrequency: 'daily',
+      priority: 0.8
     })),
 
     // Dynamic products (digital photos) - CORRECT URL FORMAT
     ...products.map((product) => ({
       url: `${BASE_URL}${generateProductUrl(product)}`,
       lastModified: product.updatedAt || new Date(),
-      changeFrequency: 'monthly',
+      changeFrequency: 'weekly',
       priority: 0.5
     })),
 
@@ -162,7 +162,7 @@ export default async function sitemap() {
     ...blogs.map((blog) => ({
       url: `${BASE_URL}/blogs/${blog.slug}`,
       lastModified: blog.updatedAt || blog.publishedDate || new Date(),
-      changeFrequency: 'monthly',
+      changeFrequency: 'daily',
       priority: 0.5
     }))
   ];
