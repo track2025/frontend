@@ -148,14 +148,14 @@ export default async function BlogsPage({ searchParams }) {
 
       <BlogsServerPage blogPosts={blogPosts} pagination={pagination} searchTerm={search} />
 
-      <div style={{ display: 'none' }}>
+      {/* <div style={{ display: 'none' }}>
         <BlogsClientPage
           initialBlogPosts={blogPosts}
           initialPagination={pagination}
           initialError={error}
           initialSearch={search}
         />
-      </div>
+      </div> */}
     </>
   );
 }

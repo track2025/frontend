@@ -95,7 +95,8 @@ export default function BlogPostServer({ post }) {
               fontSize: { xs: '1.5rem', sm: '1.8rem', md: '2.2rem' },
               fontWeight: 800,
               mb: 3,
-              lineHeight: 1.2
+              lineHeight: 1.2,
+              color: 'text.primary'
             }}
           >
             {post.title}
@@ -119,21 +120,21 @@ export default function BlogPostServer({ post }) {
                 alt={post.author?.toUpperCase() || 'Author'}
                 sx={{ width: 40, height: 40 }}
               />
-              <Typography variant="h3" sx={{ fontWeight: 600, fontSize: { xs: '15px', md: '15px' } }}>
+              <Typography variant="h3" sx={{ fontWeight: 600, fontSize: { xs: '15px', md: '15px' }, color: 'text.primary' }}>
                 {post.author}
               </Typography>
             </Box>
 
             {post.publishedDate && (
               <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5 }}>
-                <CalendarTodayIcon sx={{ fontSize: 16 }} />
-                <Typography variant="body2">{formatDate(post.publishedDate)}</Typography>
+                <CalendarTodayIcon sx={{ fontSize: 16, color: 'text.secondary' }} />
+                <Typography variant="body2" sx={{ color: 'text.secondary' }}>{formatDate(post.publishedDate)}</Typography>
               </Box>
             )}
 
             <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5 }}>
-              <AccessTimeIcon sx={{ fontSize: 16 }} />
-              <Typography variant="body2">{readTime?.display}</Typography>
+              <AccessTimeIcon sx={{ fontSize: 16, color: 'text.secondary' }} />
+              <Typography variant="body2" sx={{ color: 'text.secondary' }}>{readTime?.display}</Typography>
             </Box>
           </Box>
 
@@ -151,26 +152,43 @@ export default function BlogPostServer({ post }) {
                 fontWeight: 800,
                 mt: 4,
                 mb: 3,
-                lineHeight: 1.2
+                lineHeight: 1.2,
+                color: 'text.primary'
               },
               '& h2': {
                 fontSize: { xs: '1.5rem', md: '1.75rem' },
                 fontWeight: 700,
                 mt: 4,
                 mb: 2,
-                lineHeight: 1.3
+                lineHeight: 1.3,
+                color: 'text.primary'
               },
               '& h3': {
                 fontSize: { xs: '1.25rem', md: '1.5rem' },
                 fontWeight: 600,
                 mt: 3,
                 mb: 1.5,
-                lineHeight: 1.3
+                lineHeight: 1.3,
+                color: 'text.primary'
+              },
+              '& h4, & h5, & h6': {
+                color: 'text.primary'
               },
               '& p': {
                 fontSize: '1.05rem',
                 lineHeight: 1.8,
-                mb: 2.5
+                mb: 2.5,
+                color: 'text.primary'
+              },
+              '& li': {
+                color: 'text.primary'
+              },
+              '& blockquote': {
+                color: 'text.secondary',
+                borderLeftColor: 'divider'
+              },
+              '& code': {
+                color: 'text.primary'
               },
               '& img': {
                 maxWidth: '100%',
@@ -182,9 +200,9 @@ export default function BlogPostServer({ post }) {
               '& a': {
                 textDecoration: 'underline',
                 fontWeight: 600,
-                color: '#000',
+                color: 'text.primary',
                 '&:hover': {
-                  color: '#EE1E50',
+                  color: 'primary.main',
                   textDecoration: 'underline'
                 }
               }

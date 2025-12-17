@@ -152,9 +152,9 @@ export default async function BlogPostPage({ params }) {
         />
 
         <BlogPostServer post={post} />
-        <div style={{ display: 'none' }}>
+        {/* <div style={{ display: 'none' }}>
           <BlogPostClient post={response.data} />
-        </div>
+        </div> */}
       </>
     );
   } catch (error) {

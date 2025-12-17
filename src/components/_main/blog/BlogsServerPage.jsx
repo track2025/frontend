@@ -18,6 +18,7 @@ export default function BlogsServerPage({ blogPosts, pagination, searchTerm }) {
             fontWeight: 800,
             textAlign: "center",
             mb: 2,
+            color: "text.primary",
           }}
         >
           LapSnaps Blog – Motorsport Photography & Track-Day Insights
@@ -28,6 +29,7 @@ export default function BlogsServerPage({ blogPosts, pagination, searchTerm }) {
           sx={{
             fontSize: { xs: "1rem", sm: "1.1rem", md: "1.2rem" },
             fontWeight: 400,
+            color: "text.secondary",
             textAlign: "center",
             mb: 6,
             maxWidth: "800px",
@@ -43,7 +45,7 @@ export default function BlogsServerPage({ blogPosts, pagination, searchTerm }) {
           <Typography
             variant="body2"
             sx={{
-              color: "#666",
+              color: "text.secondary",
               textAlign: "center",
               mb: 3,
             }}
@@ -64,10 +66,10 @@ export default function BlogsServerPage({ blogPosts, pagination, searchTerm }) {
           ) : (
             <Grid item size={12}>
               <Box sx={{ textAlign: "center", py: 8 }}>
-                <Typography variant="h5" sx={{ color: "#666", mb: 2 }}>
+                <Typography variant="h5" sx={{ color: "text.secondary", mb: 2 }}>
                   {searchTerm ? "No blog posts found matching your search" : "No blog posts found"}
                 </Typography>
-                <Typography variant="body1" sx={{ color: "#999" }}>
+                <Typography variant="body1" sx={{ color: "text.disabled" }}>
                   {searchTerm ? "Try adjusting your search terms" : "Check back later for new content!"}
                 </Typography>
               </Box>
@@ -75,7 +77,9 @@ export default function BlogsServerPage({ blogPosts, pagination, searchTerm }) {
           )}
         </Grid>
 
-        <BlogPaginationWithNavigation pagination={pagination} searchTerm={searchTerm} />
+        <Box sx={{ mt: 6 }}>
+          <BlogPaginationWithNavigation pagination={pagination} searchTerm={searchTerm} />
+        </Box>
       </Container>
     </Box>
   )

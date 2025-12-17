@@ -18,29 +18,9 @@ const TrackDetailsClientPublic = dynamicImport(
 );
 import { getTrackEventsByTrackSlug } from "src/services/tracks"
 
-// Force static rendering - prevents bailout to client-side rendering
-export const dynamic = "force-static"
-
-// Enable dynamic rendering for tracks not in generateStaticParams
-export const dynamicParams = true
-
-// Revalidate every hour to keep content fresh
-export const revalidate = 3600
-
-// Generate static pages for all tracks at build time
-export async function generateStaticParams() {
-  try {
-    const response = await getTracks({ limit: 100, page: 1 })
-    const tracks = response?.data || []
-
-    return tracks.map((track) => ({
-      slug: track.slug,
-    }))
-  } catch (error) {
-    console.error("Error generating static params for tracks:", error)
-    return []
-  }
-}
+// Use dynamic rendering - no caching, always fresh data
+// New tracks are immediately available without any delay
+export const dynamic = "force-dynamic"
 
 export async function generateMetadata({ params }) {
   const { slug } = params
