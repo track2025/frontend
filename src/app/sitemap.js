@@ -96,7 +96,7 @@ export default async function sitemap() {
     {
       url: `${BASE_URL}/tracks`,
       lastModified: new Date(),
-      changeFrequency: 'monthly',
+      changeFrequency: 'weekly',
       priority: 0.7
     },
     {

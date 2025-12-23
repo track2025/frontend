@@ -43,6 +43,20 @@ export async function generateMetadata({ params }) {
     return `${yyyy}-${mm}-${dd}`;
   };
 
+  // Helper: Slugify (matches sitemap.js)
+  const slugify = (text) => {
+    if (!text) return 'race-track';
+    return text
+      .toString()
+      .trim()
+      .toLowerCase()
+      .replace(/\s+/g, '-')
+      .replace(/[^\w\-]+/g, '')
+      .replace(/\-\-+/g, '-')
+      .replace(/^-+/, '')
+      .replace(/-+$/, '');
+  };
+
   // Helper: Title Case
   const toTitleCase = (str) => {
     if (!str) return '';
@@ -56,6 +70,11 @@ export async function generateMetadata({ params }) {
   const brandName = response?.shop?.name || response?.brand || 'Lap Snaps';
   const location = toTitleCase(response?.location);
   const dateCaptured = response?.dateCaptured ? formatDate(response.dateCaptured) : '';
+
+  // Construct pretty URL matching sitemap format: /event/{location}/{date}/pictures/{slug}
+  const locationSlug = slugify(response?.location);
+  const dateSlug = formatDate(response.dateCaptured);
+  const prettyUrl = `https://lapsnaps.com/event/${locationSlug}/${dateSlug}/pictures/${params.slug}`;
 
   const title = `${location} Race Track Events on ${dateCaptured} - ${productName} – ${brandName}`;
   const description = `High-quality photo of ${productName} captured at ${location} on ${dateCaptured} by ${brandName}.`;
@@ -74,7 +93,7 @@ export async function generateMetadata({ params }) {
     },
     offers: {
       '@type': 'Offer',
-      url: `https://lapsnaps.com/product/${params.slug}`,
+      url: prettyUrl,
       priceCurrency: 'USD',
       price: response?.price || 0,
       availability: response?.inStock ? 'https://schema.org/InStock' : 'https://schema.org/OutOfStock',
@@ -99,7 +118,7 @@ export async function generateMetadata({ params }) {
     openGraph: {
       title,
       description,
-      url: `https://lapsnaps.com/product/${params.slug}`,
+      url: prettyUrl,
       type: 'website',
       images: response?.images?.map((img) => img.url) || []
     },
@@ -110,7 +129,7 @@ export async function generateMetadata({ params }) {
       images: response?.images?.map((img) => img.url) || []
     },
     alternates: {
-      canonical: `https://lapsnaps.com/product/${params.slug}`
+      canonical: prettyUrl
     }
   };
 }
@@ -129,6 +148,33 @@ export default async function ProductDetail({ params: { slug } }) {
     return date.toLocaleDateString('en-US', options);
   }
 
+  // Construct pretty URL matching sitemap format
+  const slugify = (text) => {
+    if (!text) return 'race-track';
+    return text
+      .toString()
+      .trim()
+      .toLowerCase()
+      .replace(/\s+/g, '-')
+      .replace(/[^\w\-]+/g, '')
+      .replace(/\-\-+/g, '-')
+      .replace(/^-+/, '')
+      .replace(/-+$/, '');
+  };
+
+  const formatDate = (dateStr) => {
+    if (!dateStr) return '2025';
+    const date = new Date(dateStr);
+    const yyyy = date.getFullYear();
+    const mm = String(date.getMonth() + 1).padStart(2, '0');
+    const dd = String(date.getDate()).padStart(2, '0');
+    return `${yyyy}-${mm}-${dd}`;
+  };
+
+  const locationSlug = slugify(data?.location);
+  const dateSlug = formatDate(data?.dateCaptured);
+  const prettyUrl = `https://lapsnaps.com/event/${locationSlug}/${dateSlug}/pictures/${slug}`;
+
   const structuredData = {
     '@context': 'https://schema.org',
     '@type': 'Product',
@@ -141,7 +187,7 @@ export default async function ProductDetail({ params: { slug } }) {
     },
     offers: {
       '@type': 'Offer',
-      url: `https://lapsnaps.com/product/${slug}`,
+      url: prettyUrl,
       priceCurrency: 'USD',
       price: data?.price || 0,
       availability: data?.inStock ? 'https://schema.org/InStock' : 'https://schema.org/OutOfStock'
