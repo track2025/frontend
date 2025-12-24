@@ -9,12 +9,19 @@ import OTPMain from 'src/components/_main/auth/otp';
 
 // Meta information
 export const metadata = {
-  title: 'Verify Your Email with Lap Snaps | Confirm Your Account for Secure Shopping',
+  title: 'Verify Email | Lap Snaps - Confirm Your Account',
   description:
-    'Complete the email verification process at Lap Snaps to ensure a secure and personalized shopping experience. Confirm your account and gain access to exclusive features. Shop confidently with a verified email. Verify now!',
+    'Complete email verification to access your Lap Snaps account and start purchasing professional motorsport photography.',
   applicationName: 'Lap Snaps',
   authors: 'Lap Snaps',
-  keywords: 'ecommerce, Lap Snaps, Commerce, VerifyEmail Lap Snaps, VerifyEmail Page Lap Snaps'
+  keywords: 'verify email, Lap Snaps, account confirmation',
+  robots: {
+    index: false,
+    follow: true
+  },
+  alternates: {
+    canonical: 'https://lapsnaps.com/auth/verify-otp'
+  }
 };
 export default async function VerifyOTP() {
   return (

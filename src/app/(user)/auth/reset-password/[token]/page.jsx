@@ -7,6 +7,20 @@ import GuestGuard from 'src/guards/guest';
 import { Container, Typography, Card } from '@mui/material';
 // component
 import ResetPasswordMain from 'src/components/_main/auth/resetPassword';
+
+// Meta information
+export const metadata = {
+  title: 'Reset Password | Lap Snaps - Create Your New Password',
+  description: 'Reset your password and regain access to your Lap Snaps account.',
+  robots: {
+    index: false,
+    follow: true
+  },
+  alternates: {
+    canonical: 'https://lapsnaps.com/auth/reset-password'
+  }
+};
+
 export default function ResetPassword({ params }) {
   const { token } = params;
   return (
