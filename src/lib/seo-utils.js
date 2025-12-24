@@ -1,5 +1,7 @@
 // SEO Utility Functions for Lap Snaps
 
+import { generateProductUrl } from '../utils/productUrl';
+
 /**
  * Generate structured data for race track events
  */
@@ -50,7 +52,7 @@ export function generateProductStructuredData(product) {
       price: product.priceSale || product.price,
       priceCurrency: "GBP",
       availability: "https://schema.org/InStock",
-      url: `https://lapsnaps.com/product/${product.slug}`,
+      url: `https://lapsnaps.com${generateProductUrl(product)}`,
     },
     aggregateRating: product.totalRating
       ? {

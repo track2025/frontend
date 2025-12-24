@@ -1,4 +1,5 @@
 import { Suspense } from 'react';
+import { notFound } from 'next/navigation';
 
 // mui
 import { Box, Container, Stack, Grid } from '@mui/material';
@@ -25,14 +26,23 @@ export async function generateStaticParams() {
 }
 
 export async function generateMetadata({ params }) {
-  const { data: response } = await api.getProductDetails(params.slug);
-
-  if (!response) {
+  // Validate slug
+  if (!params.slug || params.slug === 'undefined' || params.slug === 'null') {
     return {
       title: 'Product Not Found | Lap Snaps',
       description: 'The requested product could not be found.'
     };
   }
+
+  try {
+    const { data: response } = await api.getProductDetails(params.slug);
+
+    if (!response) {
+      return {
+        title: 'Product Not Found | Lap Snaps',
+        description: 'The requested product could not be found.'
+      };
+    }
 
   // Helper: format date YYYY-MM-DD
   const formatDate = (dateStr) => {
@@ -132,10 +142,28 @@ export async function generateMetadata({ params }) {
       canonical: prettyUrl
     }
   };
+  } catch (error) {
+    // API returned 404 or other error
+    return {
+      title: 'Product Not Found | Lap Snaps',
+      description: 'The requested product could not be found.'
+    };
+  }
 }
 
 export default async function ProductDetail({ params: { slug } }) {
-  const response = await api.getProductDetails(slug);
+  // Validate slug - return 404 for invalid slugs
+  if (!slug || slug === 'undefined' || slug === 'null') {
+    notFound();
+  }
+
+  try {
+    const response = await api.getProductDetails(slug);
+
+    // If product doesn't exist or data is missing, return 404
+    if (!response || !response.data) {
+      notFound();
+    }
 
   const { data, totalRating, totalReviews, brand, category, shopDetails, location, dateCaptured, name } = response;
   function formatShortDate(isoDate) {
@@ -244,4 +272,8 @@ export default async function ProductDetail({ params: { slug } }) {
       </Box>
     </>
   );
+  } catch (error) {
+    // API returned 404 or other error - show 404 page
+    notFound();
+  }
 }
