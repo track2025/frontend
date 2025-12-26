@@ -7,12 +7,19 @@ import RegisterMain from 'src/components/_main/auth/register';
 
 // Meta information
 export const metadata = {
-  title: 'Create Your Lap Snaps Account | Join Us for Exclusive Deals and Seamless Shopping',
+  title: 'Create Account | Lap Snaps - Join Our Motorsport Photography Community',
   description:
-    'Register with Lap Snaps today to unlock a world of exclusive deals, personalized recommendations, and secure transactions. Join our community for a seamless shopping experience. Sign up now and elevate your online shopping journey!',
+    'Sign up for Lap Snaps to purchase professional race track photography, follow your favorite photographers, and build your motorsport photo collection.',
   applicationName: 'Lap Snaps',
   authors: 'Lap Snaps',
-  keywords: 'ecommerce, Lap Snaps, Commerce, Register Lap Snaps, RegisterFrom Lap Snaps'
+  keywords: 'register, Lap Snaps, motorsport photography, race track photos, create account',
+  robots: {
+    index: false,
+    follow: true
+  },
+  alternates: {
+    canonical: 'https://lapsnaps.com/auth/register'
+  }
 };
 
 export default async function Register() {

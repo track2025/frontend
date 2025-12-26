@@ -8,12 +8,19 @@ import LoginMain from 'src/components/_main/auth/login';
 
 // Meta information
 export const metadata = {
-  title: 'Login to Lap Snaps | Your Gateway to Seamless Shopping and Secure Transactions',
+  title: 'Login | Lap Snaps - Access Your Race Track Photography Account',
   description:
-    'Log in to Lap Snaps for secure access to your account. Enjoy seamless shopping, personalized experiences, and hassle-free transactions. Your trusted portal to a world of convenience awaits. Login now!',
+    'Log in to Lap Snaps to access your motorsport photography collection, purchase race track photos, and manage your account.',
   applicationName: 'Lap Snaps',
   authors: 'Lap Snaps',
-  keywords: 'ecommerce, Lap Snaps, Commerce, Login Lap Snaps, LoginFrom Lap Snaps'
+  keywords: 'login, Lap Snaps, motorsport photography, race track photos, account access',
+  robots: {
+    index: false,
+    follow: true
+  },
+  alternates: {
+    canonical: 'https://lapsnaps.com/auth/login'
+  }
 };
 
 export default async function Login() {

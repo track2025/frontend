@@ -87,6 +87,7 @@
 // mui
 import { Box, Container, Typography, Stack, Chip, Paper } from '@mui/material';
 import { HiOutlineLocationMarker } from 'react-icons/hi';
+import { notFound } from 'next/navigation';
 
 // components
 import ShopDetailCover from 'src/components/_admin/shops/shopDetailCover';
@@ -108,31 +109,55 @@ export async function generateStaticParams() {
 }
 
 export async function generateMetadata({ params }) {
-  const { data: response } = await api.getShopBySlug(params.shop);
+  // Validate shop slug
+  if (!params.shop || params.shop === 'undefined' || params.shop === 'null') {
+    return {
+      title: 'Photographer Not Found | Lap Snaps',
+      description: 'The requested photographer could not be found.'
+    };
+  }
 
-  return {
-    title: `${response?.title || 'Photographer'} - Professional Motorsport Photography | Lap Snaps`,
-    description:
-      response?.description ||
-      `Browse stunning motorsport photography by ${response?.title}. High-quality race track and vehicle photos.`,
-    keywords: `${response?.title}, motorsport photographer, race track photography, vehicle photos, ${response?.location || ''}`,
-    openGraph: {
-      title: `${response?.title} - Professional Motorsport Photography`,
-      description: response?.description,
-      images: [response?.logo?.url || response?.cover?.url],
-      url: `https://lapsnaps.com/photographers/${params.shop}`,
-      type: 'profile'
-    },
-    twitter: {
-      card: 'summary_large_image',
-      title: `${response?.title} - Professional Motorsport Photography`,
-      description: response?.description,
-      images: [response?.logo?.url || response?.cover?.url]
-    },
-    alternates: {
-      canonical: `https://lapsnaps.com/photographers/${params.shop}`
+  try {
+    const { data: response } = await api.getShopBySlug(params.shop);
+
+    // Return default metadata if photographer doesn't exist
+    if (!response) {
+      return {
+        title: 'Photographer Not Found | Lap Snaps',
+        description: 'The requested photographer could not be found.'
+      };
     }
-  };
+
+    return {
+      title: `${response?.title || 'Photographer'} - Professional Motorsport Photography | Lap Snaps`,
+      description:
+        response?.description ||
+        `Browse stunning motorsport photography by ${response?.title}. High-quality race track and vehicle photos.`,
+      keywords: `${response?.title}, motorsport photographer, race track photography, vehicle photos, ${response?.location || ''}`,
+      openGraph: {
+        title: `${response?.title} - Professional Motorsport Photography`,
+        description: response?.description,
+        images: [response?.logo?.url || response?.cover?.url],
+        url: `https://lapsnaps.com/photographers/${params.shop}`,
+        type: 'profile'
+      },
+      twitter: {
+        card: 'summary_large_image',
+        title: `${response?.title} - Professional Motorsport Photography`,
+        description: response?.description,
+        images: [response?.logo?.url || response?.cover?.url]
+      },
+      alternates: {
+        canonical: `https://lapsnaps.com/photographers/${params.shop}`
+      }
+    };
+  } catch (error) {
+    // API returned 404 or other error
+    return {
+      title: 'Photographer Not Found | Lap Snaps',
+      description: 'The requested photographer could not be found.'
+    };
+  }
 }
 
 // Helper functions for product URL generation
@@ -166,11 +191,27 @@ const generateProductUrl = (product) => {
 
 export default async function Listing({ params }) {
   const { shop } = params;
-  const { data: shopData } = await api.getShopTitle(shop);
+
+  // Validate shop slug - return 404 for invalid slugs
+  if (!shop || shop === 'undefined' || shop === 'null') {
+    notFound();
+  }
+
+  try {
+    const { data: shopData } = await api.getShopTitle(shop);
+
+    // If photographer doesn't exist or data is missing, return 404
+    if (!shopData) {
+      notFound();
+    }
 
   // Fetch photographer's products
   const productsResponse = await api.getProductsByShop('', shop, null);
   const products = productsResponse?.data || [];
+  } catch (error) {
+    // API returned 404 or other error - show 404 page
+    notFound();
+  }
 
   // Person schema for the photographer
   const personStructuredData = {

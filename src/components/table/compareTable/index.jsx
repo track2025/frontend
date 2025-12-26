@@ -35,6 +35,9 @@ import { useCurrencyFormatter } from 'src/hooks/formatCurrency';
 // components
 import NoDataFoundIllustration from 'src/illustrations/dataNotFound';
 
+// utils
+import { generateProductUrl } from 'src/utils/productUrl';
+
 const StyledTableRow = styled(TableRow)(({ theme }) => ({
   '&:nth-of-type(odd)': {
     backgroundColor: theme.palette.action.hover,
@@ -78,7 +81,7 @@ const CompareTable = () => {
                 key={product._id}
                 align="left"
                 sx={{ minWidth: 292, maxWidth: 292, cursor: 'pointer' }}
-                onClick={() => router.push('/product/' + product.slug)}
+                onClick={() => router.push(generateProductUrl(product))}
               >
                 <Stack sx={{ position: 'relative' }}>
                   <IconButton

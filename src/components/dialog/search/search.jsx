@@ -30,6 +30,8 @@ import { useCurrencyConvert } from 'src/hooks/convertCurrency';
 import { useCurrencyFormatter } from 'src/hooks/formatCurrency';
 // api
 import * as api from 'src/services';
+// utils
+import { generateProductUrl } from 'src/utils/productUrl';
 
 Search.propTypes = {
   onClose: PropTypes.func.isRequired,
@@ -81,7 +83,8 @@ export default function Search({ ...props }) {
       }
     } else {
       !mobile && onClose(prop);
-      router.push(`/product/${prop}`);
+      // Use pretty URL format instead of /product/
+      router.push(generateProductUrl(prop));
     }
   };
   const onKeyDown = (e) => {
