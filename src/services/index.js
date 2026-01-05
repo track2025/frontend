@@ -695,8 +695,8 @@ export const getShopBySlug = async (shop) => {
   return data;
 };
 export const getShopTitle = async (shop) => {
-  const { data } = await http.get(`/shop-title/${shop}`);
-  return data;
+  const response = await http.get(`/shop-title/${shop}`);
+  return response?.data?.data;
 };
 
 export const getSubCategoryTitle = async (subcategory) => {
@@ -867,7 +867,6 @@ export const getPhysicalSubCategoriesByCategory = async (categorySlug) => {
   const { data } = await http.get(`/admin/physical-sub-categories/category/${categorySlug}`);
   return data;
 };
-
 
 /*
 =============================

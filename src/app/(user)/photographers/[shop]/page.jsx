@@ -191,6 +191,8 @@ const generateProductUrl = (product) => {
 
 export default async function Listing({ params }) {
   const { shop } = params;
+  let shopData;
+  let products;
 
   // Validate shop slug - return 404 for invalid slugs
   if (!shop || shop === 'undefined' || shop === 'null') {
@@ -198,16 +200,16 @@ export default async function Listing({ params }) {
   }
 
   try {
-    const { data: shopData } = await api.getShopTitle(shop);
-
+    shopData = await api.getShopTitle(shop);
     // If photographer doesn't exist or data is missing, return 404
     if (!shopData) {
       notFound();
     }
 
-  // Fetch photographer's products
-  const productsResponse = await api.getProductsByShop('', shop, null);
-  const products = productsResponse?.data || [];
+    // Fetch photographer's products
+    const productsResponse = await api.getProductsByShop('', shop, null);
+    products = productsResponse?.data || [];
+    console.log('responded2', products);
   } catch (error) {
     // API returned 404 or other error - show 404 page
     notFound();
@@ -297,8 +299,7 @@ export default async function Listing({ params }) {
     ]
   };
 
-
-  console.log('shopData::::::::', shopData)
+  console.log('shopData::::::::', shopData);
 
   return (
     <>
