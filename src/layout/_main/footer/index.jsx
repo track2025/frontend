@@ -80,7 +80,6 @@ export default function Footer() {
         mt: 7,
         overflow: 'hidden',
         position: 'relative',
-
         display: {
           md: 'block',
           xs: 'none'
@@ -96,50 +95,18 @@ export default function Footer() {
               </Link>
 
               <Typography variant="body1" color="text.secondary">
-                Your Car's <br /> Perfect Shot
+                Your Car&apos;s <br /> Perfect Shot
               </Typography>
-              {/* <Stack>
-                {ADDRESS.map((item, idx) => (
-                  <Box sx={{ display: 'flex', gap: 2 }} key={idx}>
-                    <IconButton
-                      sx={{
-                        svg: {
-                          color: (theme) => theme.palette.primary.main
-                        }
-                      }}
-                    >
-                      {item.icon}
-                    </IconButton>
-                    <Typography
-                      variant="body1"
-                      color="text.secondary"
-                      component={NextLink}
-                      href={`${item.linkPath}`}
-                      sx={{
-                        ':hover': {
-                          color: 'primary.main'
-                        }
-                      }}
-                    >
-                      {item?.name}
-                    </Typography>
-                  </Box>
-                ))}
-              </Stack> */}
             </Stack>
           </Grid>
+
           {MAIN_LINKS.map((item, idx) => (
-            <Grid
-              item
-              md={4}
-              xs={12}
-              flexGrow={1} // Add flexGrow
-              key={idx}
-            >
+            <Grid item md={4} xs={12} flexGrow={1} key={idx}>
               <Stack spacing={3}>
                 <Typography variant="h4" color="text.primary">
                   {item.heading}
                 </Typography>
+
                 <Box
                   sx={{
                     display: 'flex',
@@ -148,7 +115,7 @@ export default function Footer() {
                   }}
                 >
                   <Link
-                    href={`${item.listLink1}`}
+                    href={item.listLink1}
                     component={NextLink}
                     underline="none"
                     sx={{
@@ -162,8 +129,9 @@ export default function Footer() {
                   >
                     {item.listText1}
                   </Link>
+
                   <Link
-                    href={`${item.listLink2}`}
+                    href={item.listLink2}
                     component={NextLink}
                     underline="none"
                     sx={{
@@ -177,8 +145,9 @@ export default function Footer() {
                   >
                     {item.listText2}
                   </Link>
+
                   <Link
-                    href={`${item.listLink3}`}
+                    href={item.listLink3}
                     component={NextLink}
                     underline="none"
                     sx={{
@@ -192,44 +161,52 @@ export default function Footer() {
                   >
                     {item.listText3}
                   </Link>
-                  <Link
-                    href={`${item.listLink4}`}
-                    component={NextLink}
-                    underline="none"
-                    sx={{
-                      color: 'text.secondary',
-                      transition: '0.3s ease-in-out',
-                      ':hover': {
-                        color: 'primary.main',
-                        transform: 'translateX(10px)'
-                      }
-                    }}
-                  >
-                    {item.listText4}
-                  </Link>
-                  <Link
-                    href={`${item.listLink5}`}
-                    component={NextLink}
-                    underline="none"
-                    sx={{
-                      color: 'text.secondary',
-                      transition: '0.3s ease-in-out',
-                      ':hover': {
-                        color: 'primary.main',
-                        transform: 'translateX(10px)'
-                      }
-                    }}
-                  >
-                    {item.listText5}
-                  </Link>
+
+                  {item.listLink4 && item.listText4 && (
+                    <Link
+                      href={item.listLink4}
+                      component={NextLink}
+                      underline="none"
+                      sx={{
+                        color: 'text.secondary',
+                        transition: '0.3s ease-in-out',
+                        ':hover': {
+                          color: 'primary.main',
+                          transform: 'translateX(10px)'
+                        }
+                      }}
+                    >
+                      {item.listText4}
+                    </Link>
+                  )}
+
+                  {item.listLink5 && item.listText5 && (
+                    <Link
+                      href={item.listLink5}
+                      component={NextLink}
+                      underline="none"
+                      sx={{
+                        color: 'text.secondary',
+                        transition: '0.3s ease-in-out',
+                        ':hover': {
+                          color: 'primary.main',
+                          transform: 'translateX(10px)'
+                        }
+                      }}
+                    >
+                      {item.listText5}
+                    </Link>
+                  )}
                 </Box>
               </Stack>
             </Grid>
           ))}
         </Grid>
+
         <Divider sx={{ my: 3 }} />
+
         <Typography variant="body1" color="text.primary" textAlign="center">
-          © 2025 Lap Snaps. All rights reserved
+          © 2026 Lap Snaps. All rights reserved
         </Typography>
       </Container>
     </Box>

@@ -144,7 +144,7 @@ export default async function sitemap() {
 
     // Dynamic physical products
     ...physicalProducts.map((product) => ({
-      url: `${BASE_URL}/track-products/${product.slug}`,
+      url: `${BASE_URL}/track-product/${product.slug}`,
       lastModified: product.updatedAt || new Date(),
       changeFrequency: 'weekly',
       priority: 0.5

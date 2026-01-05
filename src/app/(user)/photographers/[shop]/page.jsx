@@ -209,7 +209,6 @@ export default async function Listing({ params }) {
     // Fetch photographer's products
     const productsResponse = await api.getProductsByShop('', shop, null);
     products = productsResponse?.data || [];
-    console.log('responded2', products);
   } catch (error) {
     // API returned 404 or other error - show 404 page
     notFound();

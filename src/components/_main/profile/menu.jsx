@@ -25,17 +25,16 @@ import { IoIosHeartEmpty } from 'react-icons/io';
 import { MdLogin } from 'react-icons/md';
 import { FaRegUserCircle } from 'react-icons/fa';
 import { MdOutlineTrackChanges, MdEvent, MdArticle } from 'react-icons/md';
-import { FaRegFileAlt } from "react-icons/fa";
+import { FaRegFileAlt } from 'react-icons/fa';
 
 import {
   IoImagesOutline,
   IoPersonOutline,
   IoShieldCheckmarkOutline,
   IoDocumentTextOutline,
-  IoCameraOutline,
+  IoCameraOutline
 } from 'react-icons/io5';
-import { IoIosCall } from "react-icons/io";
-
+import { IoIosCall } from 'react-icons/io';
 
 // redux
 import { setThemeMode } from 'src/redux/slices/settings';
@@ -77,11 +76,7 @@ export default function Menu() {
         </ListItem>
         <Divider />
         <ListItem disablePadding>
-          <ListItemButton
-            component={Link}
-            href="/"
-            sx={{ py: 2 }}
-          >
+          <ListItemButton component={Link} href="/" sx={{ py: 2 }}>
             <ListItemIcon>
               <AiOutlineHome size={20} />
             </ListItemIcon>
@@ -90,11 +85,7 @@ export default function Menu() {
         </ListItem>
         <Divider />
         <ListItem disablePadding>
-          <ListItemButton
-            component={Link}
-            href="/photographers"
-            sx={{ py: 2 }}
-          >
+          <ListItemButton component={Link} href="/photographers" sx={{ py: 2 }}>
             <ListItemIcon>
               <IoCameraOutline size={20} />
             </ListItemIcon>
@@ -104,11 +95,7 @@ export default function Menu() {
 
         <Divider />
         <ListItem disablePadding>
-          <ListItemButton
-            component={Link}
-            href="/tracks"
-            sx={{ py: 2 }}
-          >
+          <ListItemButton component={Link} href="/tracks" sx={{ py: 2 }}>
             <ListItemIcon>
               <MdOutlineTrackChanges size={20} />
             </ListItemIcon>
@@ -118,11 +105,7 @@ export default function Menu() {
 
         <Divider />
         <ListItem disablePadding>
-          <ListItemButton
-            component={Link}
-            href="/events"
-            sx={{ py: 2 }}
-          >
+          <ListItemButton component={Link} href="/events" sx={{ py: 2 }}>
             <ListItemIcon>
               <MdEvent size={20} />
             </ListItemIcon>
@@ -132,11 +115,7 @@ export default function Menu() {
 
         <Divider />
         <ListItem disablePadding>
-          <ListItemButton
-            component={Link}
-            href="/blogs"
-            sx={{ py: 2 }}
-          >
+          <ListItemButton component={Link} href="/blogs" sx={{ py: 2 }}>
             <ListItemIcon>
               <MdArticle size={20} />
             </ListItemIcon>
@@ -146,11 +125,7 @@ export default function Menu() {
 
         <Divider />
         <ListItem disablePadding>
-          <ListItemButton
-            component={Link}
-            href="/track-products?top=1"
-            sx={{ py: 2 }}
-          >
+          <ListItemButton component={Link} href="/track-products?top=1" sx={{ py: 2 }}>
             <ListItemIcon>
               <IoImagesOutline size={20} />
             </ListItemIcon>
@@ -160,11 +135,7 @@ export default function Menu() {
 
         <Divider />
         <ListItem disablePadding>
-          <ListItemButton
-            component={Link}
-            href="/about"
-            sx={{ py: 2 }}
-          >
+          <ListItemButton component={Link} href="/about" sx={{ py: 2 }}>
             <ListItemIcon>
               <IoPersonOutline size={20} />
             </ListItemIcon>
@@ -174,11 +145,7 @@ export default function Menu() {
 
         <Divider />
         <ListItem disablePadding>
-          <ListItemButton
-            component={Link}
-            href="/contact"
-            sx={{ py: 2 }}
-          >
+          <ListItemButton component={Link} href="/contact" sx={{ py: 2 }}>
             <ListItemIcon>
               <IoIosCall size={20} />
             </ListItemIcon>
@@ -188,11 +155,7 @@ export default function Menu() {
 
         <Divider />
         <ListItem disablePadding>
-          <ListItemButton
-            component={Link}
-            href="/privacy-policy"
-            sx={{ py: 2 }}
-          >
+          <ListItemButton component={Link} href="/privacy-policy" sx={{ py: 2 }}>
             <ListItemIcon>
               <IoShieldCheckmarkOutline size={20} />
             </ListItemIcon>
@@ -201,13 +164,9 @@ export default function Menu() {
         </ListItem>
 
         <Divider />
-       
+
         <ListItem disablePadding>
-          <ListItemButton
-            component={Link}
-            href="/terms-and-conditions"
-            sx={{ py: 2 }}
-          >
+          <ListItemButton component={Link} href="/terms-and-conditions" sx={{ py: 2 }}>
             <ListItemIcon>
               <IoDocumentTextOutline size={20} />
             </ListItemIcon>
@@ -215,15 +174,10 @@ export default function Menu() {
           </ListItemButton>
         </ListItem>
 
-
         <ListItem disablePadding>
-          <ListItemButton
-            component={Link}
-            href="/return-policy"
-            sx={{ py: 2 }}
-          >
+          <ListItemButton component={Link} href="/return-policy" sx={{ py: 2 }}>
             <ListItemIcon>
-              <FaRegFileAlt size={20}/>
+              <FaRegFileAlt size={20} />
             </ListItemIcon>
             <ListItemText primary="Return & Refund Policy" />
           </ListItemButton>
